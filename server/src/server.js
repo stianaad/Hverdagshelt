@@ -12,7 +12,7 @@ app.get('/api/hello', (req, res) => {
     res.send({ express: 'Hellehheheheess' });
 });
 
-app.listen(8080);
+app.listen(3000);
 
 
 
