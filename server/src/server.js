@@ -1,4 +1,3 @@
-//@flow
 var express = require("express");
 var bodyParser = require("body-parser");
 var app = express();
@@ -13,7 +12,7 @@ app.get('/api/hello', (req, res) => {
     res.send({ express: 'Hellehheheheess' });
 });
 
-app.listen(8080);
+app.listen(3000);
 
 
 
