@@ -15,3 +15,5 @@ Stian Ådnanes
 Rune Vedøy
 
 William Andersson
+
+Jonathan Cash Midttun
