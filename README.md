@@ -13,3 +13,5 @@ Bjørnar Østtveit
 Stian Ådnanes
 
 Rune Vedøy
+
+William Andersson
