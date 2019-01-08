@@ -11,3 +11,5 @@ Sara Hjelle
 Bjørnar Østtveit
 
 Stian Ådnanes
+
+Rune Vedøy
