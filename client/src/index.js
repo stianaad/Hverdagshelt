@@ -1,12 +1,36 @@
-import React from 'react';
+// @flow
+/* eslint eqeqeq: "off" */
+
+
+import * as React from 'react';
+import { Component,sharedComponentData } from 'react-simplified';
+import { HashRouter, Route, NavLink, Redirect,Switch } from 'react-router-dom';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import Popup from 'reactjs-popup';
+import { sakService} from './services';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import createHashHistory from 'history/createHashHistory';
+const history = createHashHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+class Menu extends Component {
+  tekst = "";
+
+  render( ){
+    return(
+      <div>
+        <p>heheheh</p>
+      
+      </div>
+    )
+  }
+}
+const root = document.getElementById('root');
+if (root)
+  ReactDOM.render(
+    <HashRouter>
+      <div>
+          <Route path="/nyheter" component={Menu} />
+      </div>
+    </HashRouter>,
+    root
+  );
