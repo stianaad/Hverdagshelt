@@ -18,7 +18,7 @@ class Menu extends Component {
   render( ){
     return(
       <div>
-        <p>heheheh</p>
+        <p>hehehehe</p>
       
       </div>
     )
