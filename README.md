@@ -9,3 +9,5 @@ Sara Hjelle
 Øivind Haugerøy Larsson
 
 Bjørnar Østtveit
+
+Stian Ådnanes
