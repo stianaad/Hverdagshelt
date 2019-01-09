@@ -18,7 +18,7 @@ var pool = mysql.createPool({
 
 let brukerDao = new BrukerDao(pool);
 
-router.post('/lagNyBruker', (req, res) => {
+router.post('/api/lagNyBruker', (req, res) => {
   console.log('Fikk POST-request fra klienten');
   passord(req.body.passord).hash((error, hash) => {
     if (error) {
