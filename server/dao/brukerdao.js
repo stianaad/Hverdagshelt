@@ -1,6 +1,6 @@
-const Dao = require("./dao.js");
+import Dao from "./dao.js";
 
-module.exports = class brukerdao extends Dao {
+module.exports = class BrukerDao extends Dao {
     lagNyBruker(json, callback){
         const tabell = [json.epost,json.passord,json.kommune_id];
         super.query(
