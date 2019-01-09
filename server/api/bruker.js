@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 var mysql = require('mysql');
 var bodyParser = require('body-parser');
-const brukerdao = require('../dao/brukerdao.js');
+import BrukerDao from '../dao/brukerdao.js';
 import passord from 'password-hash-and-salt';
 import { callbackify } from 'util';
 
@@ -16,7 +16,7 @@ var pool = mysql.createPool({
   multipleStatements: true,
 });
 
-let brukerDao = new brukerdao(pool);
+let brukerDao = new BrukerDao(pool);
 
 router.post('/lagNyBruker', (req, res) => {
   console.log('Fikk POST-request fra klienten');
