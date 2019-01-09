@@ -1,22 +1,24 @@
-var passord = require('password-hash-and-salt');
+import passord from 'password-hash-and-salt';
 
-var bruker = [];
+export function nyttPassord(nyttP) {
+    passord(nyttP).hash((error,hash) => {
+        if(error){
+            throw new Error('Nåke gjekk galt');
+        }
+        console.log(hash);
+        nyHash = hash;
+    })
+    return nyHash;
+}
 
-passord('mysecret').hash((error,hash) => {
-    if(error){
-        throw new Error('Nåke gjekk galt');
-    }
-    bruker.hash = hash;
-    console.log(bruker.hash);
-    console.log("test");
-
-    passord('mysecret').verifyAgainst(bruker.hash, (error,verified) => {
+const sjekkPassord = (passord) => {
+    passord('mysecret').verifyAgainst(passord, (error,verified) => {
         if(error)
-            throw new Error('Nåke gjekk galt!');
+            throw new Error('Noe gikk galt!');
         if(!verified) {
-            console.log("feil");
+            return false;
         } else {
-            console.log("The secret is...");
+            return true;
         }
     })
-})
+}
