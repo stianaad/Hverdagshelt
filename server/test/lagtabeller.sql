@@ -27,8 +27,7 @@ CREATE TABLE kommuner (
 CREATE TABLE bruker (
     bruker_id INT(11) NOT NULL AUTO_INCREMENT,
     epost VARCHAR(255) NOT NULL,
-    passord TEXT NOT NULL,
-    salt TEXT NOT NULL,
+    passord TEXT(270) NOT NULL,
     kommune_id INT(11),
     PRIMARY KEY (bruker_id),
     FOREIGN KEY (kommune_id) references kommuner(kommune_id)
