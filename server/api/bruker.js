@@ -3,6 +3,7 @@ const router = express.Router();
 var mysql = require("mysql");
 var bodyParser = require("body-parser");
 const brukerdao = require("../dao/brukerdao.js");
+import passord from 'password-hash-and-salt';
 
 var pool = mysql.createPool({
     connectionLimit: 5,
@@ -16,13 +17,21 @@ var pool = mysql.createPool({
 
 let brukerDao = new brukerdao(pool);
 
-router.post("/test", (req, res) => {
+router.post("/lagNyBruker", (req, res) => {
   console.log("Fikk POST-request fra klienten");
-  brukerDao.lagNyBruker(req.body, (status, data) => {
-    res.status(status);
-    res.json(data);
-    console.log(data.insertId);
-  });
+  passord(req.body.passord).hash((error,hash) => {
+    if(error){
+        throw new Error('Noe gikk galt');
+    }
+    console.log(req.body.passord);
+    console.log(hash);
+    req.body.passord = hash;
+    brukerDao.lagNyBruker(req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+        console.log("Den nye IDen er:",data.insertId);
+      });
+  })
 });
 
 module.exports = router;
