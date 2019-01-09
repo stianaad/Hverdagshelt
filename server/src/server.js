@@ -6,7 +6,7 @@ app.use(bodyParser.json()); // for å tolke JSON
 const public_path = path.join(__dirname, '/../../client/public');
 
 app.use(express.static(public_path));
-const bruker = require('../api/bruker.js');
+const bruker = require('./api/bruker.js');
 app.use('/bruker', bruker);
 
 app.get('*', (req, res) => {
