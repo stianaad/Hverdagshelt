@@ -6,6 +6,101 @@ import { Component } from 'react-simplified';
 import { NavLink } from 'react-router-dom';
 import L from 'leaflet';
 
+class Feil {
+  feil_id = null;
+  kommune_id = null;
+  kommune_navn = null;
+  kategori_id = null;
+  kategori_navn = null;
+  status_id = null;
+  status_navn = null;
+  overskrift = null;
+  beskrivelse = null;
+  bilde = null;
+  lengdegrad = null;
+  breddegrad = null;
+
+  constructor(feil_id, kommune_id, kommune_navn, kategori_id, kategori_navn,
+              overskrift, beskrivelse, status_id, status_navn, bilde, lengdegrad,
+              breddegrad) {
+    this.feil_id = feil_id;
+    this.kommune_id = kommune_id;
+    this.kommune_navn = kommune_navn;
+    this.kategori_id = kategori_id;
+    this.kategori_navn = kategori_navn;
+    this.status_id = status_id;
+    this.status_navn = status_navn;
+    this.overskrift = overskrift;
+    this.beskrivelse = beskrivelse;
+    this.bilde = bilde;
+    this.lengdegrad = lengdegrad;
+    this.breddegrad = breddegrad;
+  }
+}
+
+export class Marker {
+  marker = L.marker();
+  hoverPopup = L.popup().setContent('<p>Hover popup</p>');
+  clickPopup = L.popup().setContent('<p>Click popup</p>');
+
+  constructor(overskrift, beskrivelse, bildeurl, status, tid, kategori, breddegrad, lengdegrad) {
+    let iconName = status == 0 ? null : status == 1 ? "warningicon" : status == 2 ? "processingicon" : "successicon";
+    this.marker.setLatLng(L.latLng(breddegrad, lengdegrad));
+    if (status != 0) {
+      this.marker.setIcon(new L.Icon({
+        iconUrl: iconName+'.png',
+        iconSize: [30, 30]
+      }));
+    }
+    this.hoverPopup.setContent('<h3>'+kategori+'</h3>');
+    this.clickPopup.setContent('<h3>'+overskrift+'</h3><br><p>'+beskrivelse+'</p>');
+    this.marker.on('mouseover', (e) => {this.marker.bindPopup(this.hoverPopup).openPopup()});
+    this.marker.on('mouseout', (e) => {this.marker.closePopup().unbindPopup();});
+    this.marker.on('click', (e) => {
+      this.marker.closePopup().unbindPopup();
+      this.marker.removeEventListener('mouseout');
+      this.marker.bindPopup(this.clickPopup).openPopup();
+    });
+    this.marker.on('popupclose', (e) => {
+      this.marker.on('mouseout', (e) => {this.marker.closePopup().unbindPopup();})
+    })
+  }
+}
+
+export class MarkerMap extends Component {
+
+  componentDidMount() {
+    let m = this.props.markers;
+    let coords, map;
+    fetch("https://nominatim.openstreetmap.org/?format=json&q="+this.props.center+"&limit=1", {
+      method: "GET"
+    })
+    .then(res => res.json())
+    .then(json => {
+      this.coords = [json[0].boundingbox[0], json[0].boundingbox[2], json[0].boundingbox[1], json[0].boundingbox[3]].map(el => parseFloat(el));
+      this.coords = [[this.coords[0], this.coords[1]], [this.coords[2], this.coords[3]]];
+      this.map = L.map(this.props.id, {
+        layers: [
+          L.tileLayer('https://maps.tilehosting.com/styles/streets/{z}/{x}/{y}.png?key=c1RIxTIz5D0YrAY6C81A', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          })
+        ]
+      })
+      .fitBounds(this.coords).setZoom(11);
+      //this.props.markers[0].marker.addTo(this.map);
+      for (let i = 0; i < m.length; i++) {
+        m[i].marker.addTo(this.map);
+      }
+    });
+  }
+
+  render() {
+    return (
+      <div style={{width:this.props.width+"px", height:this.props.height+"px"}} id={this.props.id}></div>
+    )
+  }
+}
+
 export class PositionMap extends Component {
   clicked(e) {
     if (this.marker == undefined) {
@@ -35,7 +130,8 @@ export class PositionMap extends Component {
           })
         ]
       })
-      .on('click', this.clicked).fitBounds(this.coords).setZoom(11);
+      .on('click', this.clicked)
+      .fitBounds(this.coords).setZoom(11);
     });
   }
 
