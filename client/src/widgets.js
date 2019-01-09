@@ -16,7 +16,6 @@ export class PositionMap extends Component {
     else {
       this.marker.setLatLng(e.latlng);
     }
-    console.log(this.marker.getLatLng());
     this.props.position(this.marker.getLatLng());
   }
 

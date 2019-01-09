@@ -22,11 +22,11 @@ class Menu extends Component {
   render(){
     return(
       <div>
-      <div>
-        <p>hehehehe</p>
-        <PositionMap height="500" width="500" id="map" position={this.positionCallback} center="oslo"></PositionMap>
-      </div>
-      <p>{this.position.lat+", "+this.position.lng}</p>
+        <div>
+          <p>hehehehe</p>
+          <PositionMap height="500" width="500" id="map" position={this.positionCallback} center="oslo"></PositionMap>
+        </div>
+        <p>{this.position.lat+", "+this.position.lng}</p>
       </div>
     )
   }
