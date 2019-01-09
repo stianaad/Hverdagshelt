@@ -99,6 +99,14 @@ CREATE TABLE feil (
     FOREIGN KEY (status_id) REFERENCES status(status_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE feilbilder (
+    bilde_id INT(11) NOT NULL AUTO_INCREMENT,
+    feil_id INT(11) NOT NULL,
+    url VARCHAR(255) NOT NULL,
+    PRIMARY KEY (bilde_id),
+    FOREIGN KEY (feil_id) REFERENCES feil(feil_id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 CREATE TABLE status (
     status_id INT(1) Not NULL,
     status VARCHAR(255) NOT NULL,

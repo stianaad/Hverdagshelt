@@ -9,6 +9,9 @@ app.use(express.static(public_path));
 const bruker = require('./api/bruker.js');
 app.use('/bruker', bruker);
 
+const feil = require('./api/feil.js');
+app.use('/feil', feil);
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '../../../client/public/index.html'));
 });
