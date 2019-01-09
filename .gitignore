@@ -25,5 +25,3 @@ yarn-error.log*
 .idea/
 client/public/bundle.js
 .vscode/
-client/package.json
-server/package.json
