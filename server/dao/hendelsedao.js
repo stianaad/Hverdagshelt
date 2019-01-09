@@ -1,6 +1,15 @@
 import Dao from './dao.js';
 
 module.exports = class HendelseDao extends Dao {
+  hentAlleHendelser(callback) {
+    super.query('SELECT * FROM hendelse', null, callback);
+  }
+
+  hentEnHendelse(json, callback) {
+    var id = json.hendelse_id;
+    super.query('SELECT * FROM hendelse WHERE hendelse_id = ?', [id], callback);
+  }
+
   lagNyHendelse(json, callback) {
     var hendelse = [
       json.overskrift,
@@ -12,7 +21,7 @@ module.exports = class HendelseDao extends Dao {
       json.breddegrad,
     ];
     super.query(
-      'INTO hendelse (overskrift, bruker_id, beskrivelse, sted, bilde, lengdegrad, breddegrad) VALUES (?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO hendelse (overskrift, bruker_id, beskrivelse, sted, bilde, lengdegrad, breddegrad) VALUES (?, ?, ?, ?, ?, ?, ?)',
       hendelse,
       callback
     );
