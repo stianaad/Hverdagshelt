@@ -18,6 +18,7 @@
     "axios": "^0.18.0",
     "js-base64": "^2.4.9",
     "react": "^16.6.1",
+    "react-bootstrap": "^0.32.4",
     "react-grid-system": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-simplified": "^1.5.2",
@@ -32,9 +33,11 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.4",
+    "css-loader": "^2.1.0",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.6.0",
     "jest": "^23.6.0",
+    "style-loader": "^0.23.1",
     "webpack": "^4.21.0",
     "webpack-cli": "^3.2.1"
   }
