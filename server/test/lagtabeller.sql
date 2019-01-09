@@ -78,6 +78,7 @@ CREATE TABLE feil (
     feil_id INT(11) NOT NULL AUTO_INCREMENT,
     kommune_id INT(11) NOT NULL,
     kategori_id INT(11) NOT NULL,
+    status_id INT(1) NOT NULL DEFAULT 1,
     overskrift VARCHAR(255) NOT NULL,
     beskrivelse TEXT NOT NULL,
     bilde VARCHAR(255) NOT NULL,
@@ -85,12 +86,14 @@ CREATE TABLE feil (
     breddegrad DOUBLE NOT NULL,
     PRIMARY KEY (feil_id),
     FOREIGN KEY (kommune_id) REFERENCES kommuner(kommune_id),
-    FOREIGN KEY (kategori_id) REFERENCES kategori(kategori_id)
+    FOREIGN KEY (kategori_id) REFERENCES kategori(kategori_id),
+    FOREIGN KEY (status_id) REFERENCES status(status_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE status (
+    status_id INT(1) Not NULL,
     status VARCHAR(255) NOT NULL,
-    PRIMARY KEY (status)
+    PRIMARY KEY (status_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
@@ -98,12 +101,12 @@ CREATE TABLE oppdatering (
     feil_id INT(11) NOT NULL,
     tid TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
     kommentar TEXT,
-    status VARCHAR(255) NOT NULL,
+    status_id INT(1) NOT NULL,
     bruker_id INT(11),
     PRIMARY KEY (feil_id, tid),
     FOREIGN KEY (feil_id) REFERENCES feil(feil_id),
     FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id),
-    FOREIGN KEY (status) REFERENCES status(status)
+    FOREIGN KEY (status_id) REFERENCES status(status_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE hendelser(
