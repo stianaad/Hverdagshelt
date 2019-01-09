@@ -11,7 +11,6 @@ import {
 } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import Popup from 'reactjs-popup';
-import {sakService} from './services';
 
 import createBrowserHistory from 'history/createBrowserHistory';
 const history = createBrowserHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
