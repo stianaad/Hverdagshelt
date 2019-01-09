@@ -105,13 +105,8 @@ export class Alert extends Component {
 /*
 /**
  * Renders an information card using Bootstrap classes
-<<<<<<< HEAD
- */
-export class Card extends Component<{ title: React.Node, exact?: boolean, link: string, to: string, children?: React.Node }> {
-=======
  
 export class Card extends Component<{ title: React.Node,exact?: boolean,link: string,to: string, children?: React.Node }> {
->>>>>>> master
   render() {
     return (
       <div className="card">
