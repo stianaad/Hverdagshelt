@@ -22,7 +22,6 @@
     "js-base64": "^2.4.9",
     "mysql": "^2.16.0",
     "mysql2": "^1.6.1",
-    "nodemailer": "^5.1.0",
     "password-hash-and-salt": "^0.1.4",
     "reload": "^2.3.1",
     "sequelize": "^4.41.0"
@@ -36,7 +35,6 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^23.6.0",
     "cross-env": "^5.2.0",
-    "css-loader": "^2.1.0",
     "jest": "^23.6.0",
     "nodemon": "^1.18.4"
   }
