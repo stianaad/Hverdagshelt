@@ -6,7 +6,7 @@ import { Component,sharedComponentData } from 'react-simplified';
 import { HashRouter, Route, NavLink, Redirect,Switch } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import Popup from 'reactjs-popup';
-import { sakService} from './services';
+import { generellServices} from './generellServices';
 import {RodKnapp} from './widgets';
 
 import createHashHistory from 'history/createHashHistory';
@@ -15,6 +15,7 @@ const history = createHashHistory(); // Use history.push(...) to programmaticall
 
 class Forside extends Component{
   sok = '';
+  kommuner = [];
   render() {
     return(
       <div>
@@ -35,11 +36,13 @@ class Forside extends Component{
             <div className='centered'>
                 <h6 className='tekst'>Kommuniser direkte med din kommune </h6>
                 <section class="main">
-            <form class="search" method="post" action="index.html" >
+            <form className="search" method="post" action="index.html" >
               <input type="text" name="q" placeholder="Søk..." value={this.sok} />
-              <ul class="results list-group" >
-                <li><a href="index.html">Search Result #1<br /><span>Description...</span></a></li>
-                <li><a href="index.html">Search Result #2<br /><span>Description...</span></a></li>
+              <ul className="results scroll" >
+              <li><a href="index.html">Search Result #1<br /><span>Description...</span></a></li>
+                {this.kommuner.map(kommune => (
+                  <li>{kommune.kommune_navn}</li>
+                ))}
               </ul>
             </form>
           </section>
@@ -53,8 +56,14 @@ class Forside extends Component{
     )
   }
 
-  test() {
-
+  mounted(){
+    generellServices.
+      hentAlleKommuner()
+      .then(
+        kommuner => {
+          this.kommuner = kommuner;
+          console.log(kommuner.length);
+        });
   }
 
 }

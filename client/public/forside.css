@@ -14,6 +14,12 @@
     font-size: 3vw;
 }
 
+.scroll {
+    height: 150px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
 /* * Copyright (c) 2012 Thibaut Courouble
  * Licensed under the MIT License
    ================================================== */
