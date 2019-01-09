@@ -12,7 +12,7 @@ module.exports = class HendelseDao extends Dao {
       json.breddegrad,
     ];
     super.query(
-      'INTO hendelse (overskrift, bruker_id, beskrivelse, sted, bilde, lengdegrad, breddegrad) VALUES (?, ?, DEFAULT, ?, ?, ?, ?, ?)',
+      'INTO hendelse (overskrift, bruker_id, beskrivelse, sted, bilde, lengdegrad, breddegrad) VALUES (?, ?, ?, ?, ?, ?, ?)',
       hendelse,
       callback
     );
