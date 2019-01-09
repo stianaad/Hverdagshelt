@@ -25,6 +25,14 @@ router.get('/hentAlleKommuner', (req, res) => {
         res.json(data);
       });
   });
+
+router.get("/filtrer/:sok", (req,res) => { 
+    console.log("/filtrer/:sok fikk get request fra klienten");
+    generelldao.filtrerKommuner(req.params.sok, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});  
   
 
 module.exports = router;

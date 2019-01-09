@@ -15,7 +15,36 @@ const history = createHashHistory(); // Use history.push(...) to programmaticall
 
 class Forside extends Component{
   sok = '';
-  kommuner = [];
+  alleKommuner =[];
+  sokteKommuner = [];
+
+  handterSok(e) {
+    this.sok = e.target.value;
+    console.log(this.sok);
+    if(this.sok.length>0){
+    generellServices
+      .filtrerKommuner(this.sok)
+      .then(kommuner => {
+        this.sokteKommuner = kommuner;
+      })
+    } else {
+      this.sokteKommuner = this.alleKommuner;
+    }
+
+    /*if (this.sok.innhold.length >0) {
+      sakService
+          .filtrerNyhetssaker(this.sok.innhold)
+          .then(sak => (this.delt.nyhetssaker = sak))
+          .catch();
+    }
+      
+    else{
+        sakService
+          .getAlleNyhetssaker()
+          .then(nyeste => (this.delt.nyhetssaker = nyeste))
+          .catch();
+    }*/ 
+  }
   render() {
     return(
       <div>
@@ -37,11 +66,15 @@ class Forside extends Component{
                 <h6 className='tekst'>Kommuniser direkte med din kommune </h6>
                 <section class="main">
             <form className="search" method="post" action="index.html" >
-              <input type="text" name="q" placeholder="Søk..." value={this.sok} />
+              <input type="text" name="q" placeholder="Søk..." onChange = {this.handterSok} />
               <ul className="results scroll" >
               <li><a href="index.html">Search Result #1<br /><span>Description...</span></a></li>
-                {this.kommuner.map(kommune => (
-                  <li>{kommune.kommune_navn}</li>
+                {this.sokteKommuner.map(kommune => (
+                  <NavLink activeStyle={{ color: 'darkblue' }} to={"/"}>
+                  <li className='text-dark' key={kommune.kommune_id} onClick={() => test}>
+                    {kommune.kommune_navn}
+                  </li>
+                </NavLink>
                 ))}
               </ul>
             </form>
@@ -55,13 +88,17 @@ class Forside extends Component{
       </div>
     )
   }
+  test() {
+    console.log("hehehheeh");
+  }
 
   mounted(){
     generellServices.
       hentAlleKommuner()
       .then(
         kommuner => {
-          this.kommuner = kommuner;
+          this.sokteKommuner = kommuner;
+          this.alleKommuner = kommuner;
           console.log(kommuner.length);
         });
   }

@@ -8,4 +8,13 @@ module.exports = class Generelldao extends Dao {
             callback
         );
     }
+    filtrerKommuner(kommune_navn,callback ){
+        console.log(kommune_navn);
+        super.query(
+          "SELECT * FROM kommuner WHERE kommune_navn LIKE ?",
+          [kommune_navn+'%'],
+          callback
+        )
+      }
 }
+

@@ -11,6 +11,10 @@ class GenerellServices {
   hentAlleKommuner(){
     return axios.get('/api/generell/hentAlleKommuner');
   }
+
+  filtrerKommuner(sokeord){
+    return axios.get('/api/generell/filtrer/'+sokeord);
+  }
 }
 
 export let generellServices = new GenerellServices();
