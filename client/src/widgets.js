@@ -50,8 +50,9 @@ export class PositionMap extends Component {
 /**
  * Renders alert messages using Bootstrap classes.
  */
+
 export class Alert extends Component {
-  alerts: { text: React.Node, type: string }[] = [];
+  alerts = [];
 
   render() {
     return (
@@ -73,39 +74,44 @@ export class Alert extends Component {
     );
   }
 
-  static success(text: React.Node) {
+  static success(text) {
     // To avoid 'Cannot update during an existing state transition' errors, run after current event through setTimeout
     setTimeout(() => {
       for (let instance of Alert.instances()) instance.alerts.push({ text: text, type: 'success' });
     });
   }
 
-  static info(text: React.Node) {
+  static info(text) {
     // To avoid 'Cannot update during an existing state transition' errors, run after current event through setTimeout
     setTimeout(() => {
       for (let instance of Alert.instances()) instance.alerts.push({ text: text, type: 'info' });
     });
   }
 
-  static warning(text: React.Node) {
+  static warning(text) {
     // To avoid 'Cannot update during an existing state transition' errors, run after current event through setTimeout
     setTimeout(() => {
       for (let instance of Alert.instances()) instance.alerts.push({ text: text, type: 'warning' });
     });
   }
 
-  static danger(text: React.Node) {
+  static danger(text) {
     // To avoid 'Cannot update during an existing state transition' errors, run after current event through setTimeout
     setTimeout(() => {
       for (let instance of Alert.instances()) instance.alerts.push({ text: text, type: 'danger' });
     });
   }
 }
-
+/*
 /**
  * Renders an information card using Bootstrap classes
+<<<<<<< HEAD
  */
 export class Card extends Component<{ title: React.Node, exact?: boolean, link: string, to: string, children?: React.Node }> {
+=======
+ 
+export class Card extends Component<{ title: React.Node,exact?: boolean,link: string,to: string, children?: React.Node }> {
+>>>>>>> master
   render() {
     return (
       <div className="card">
@@ -135,7 +141,7 @@ class ListGroupItem extends Component<{ to?: string, children: React.Node }> {
 
 /**
  * Renders a list group using Bootstrap classes
- */
+ 
 export class ListGroup extends Component<{
   children: React.Element<typeof ListGroupItem> | (React.Element<typeof ListGroupItem> | null)[] | null
 }> {
@@ -191,7 +197,7 @@ export class ContainerFluid extends Component<{ children: React.Node }> {
 
 /**
  * Renders a row using Bootstrap classes
- */
+ 
 export class Row extends Component<{ children: React.Node, styles?: Object }> {
   render() {
     return <div className={"row"} style={this.props.styles}>{this.props.children}</div>;
@@ -200,7 +206,7 @@ export class Row extends Component<{ children: React.Node, styles?: Object }> {
 
 /**
  * Renders a column with specified width using Bootstrap classes
- */
+ 
 export class Column extends Component<{ bredde: number, children?: React.Node }> {
   render() {
     return <div className={'col-sm-' + this.props.bredde}>{this.props.children}</div>;
@@ -242,7 +248,7 @@ class NavBarLinkRight extends Component<{ to: string, exact?: boolean, children?
 
 /**
  * Renders a navigation bar using Bootstrap classes
- */
+ 
 export class NavBar extends Component<{ children: React.Element<typeof NavBarBrand | typeof NavBarLinkLeft | typeof NavBarLinkRight>[] }> {
   static Brand = NavBarBrand;
   static LinkLeft = NavBarLinkLeft;
@@ -319,3 +325,4 @@ export class Input extends Component<{ tittelInput: string, children: React.Node
     )
   }
 }
+*/
