@@ -1,12 +1,12 @@
 import axios from 'axios';
-axios.interceptors.response.use(response => response.data);
+axios.interceptors.response.use((response) => response.data);
 
 export class Test {
   tekst;
 }
 
 class SakService {
-  getNyheter(){
+  getNyheter() {
     return axios.get('/api/hello');
   }
 }
