@@ -15,12 +15,19 @@ const history = createHashHistory(); // Use history.push(...) to programmaticall
 
 class Menu extends Component {
   tekst = "";
+  position = [0, 0];
 
-  render( ){
+  positionCallback(latlng) {
+    this.position = latlng;
+  }
+  render(){
     return(
       <div>
+      <div>
         <p>hehehehe</p>
-        <PositionMap id="map"></PositionMap>
+        <PositionMap height="500" width="500" id="map" position={this.positionCallback} center="oslo"></PositionMap>
+      </div>
+      <p>{this.position.lat+", "+this.position.lng}</p>
       </div>
     )
   }

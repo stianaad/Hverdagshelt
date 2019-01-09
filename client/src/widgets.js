@@ -8,24 +8,41 @@ import L from 'leaflet';
 
 export class PositionMap extends Component {
   clicked(e) {
-    
+    if (this.marker == undefined) {
+      this.marker = L.marker(e.latlng, {
+        draggable: true
+      }).addTo(this.map);
+    }
+    else {
+      this.marker.setLatLng(e.latlng);
+    }
+    console.log(this.marker.getLatLng());
+    this.props.position(this.marker.getLatLng());
   }
 
   componentDidMount() {
-    this.map = L.map(this.props.id, {
-      center: [63.430287, 10.393466],
-      zoom: 13,
-      layers: [
-        L.tileLayer('https://maps.tilehosting.com/styles/streets/{z}/{x}/{y}.png?key=c1RIxTIz5D0YrAY6C81A', {
-          attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        }),
-      ]
+    let coords, map;
+    fetch("https://nominatim.openstreetmap.org/?format=json&q="+this.props.center+"&limit=1", {
+      method: "GET"
+    })
+    .then(res => res.json())
+    .then(json => {
+      this.coords = [json[0].boundingbox[0], json[0].boundingbox[2], json[0].boundingbox[1], json[0].boundingbox[3]].map(el => parseFloat(el));
+      this.coords = [[this.coords[0], this.coords[1]], [this.coords[2], this.coords[3]]];
+      this.map = L.map(this.props.id, {
+        layers: [
+          L.tileLayer('https://maps.tilehosting.com/styles/streets/{z}/{x}/{y}.png?key=c1RIxTIz5D0YrAY6C81A', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          })
+        ]
+      })
+      .on('click', this.clicked).fitBounds(this.coords).setZoom(11);
     });
   }
 
   render() {
     return (
-      <div style={{width:"500px", height:"500px"}} id={this.props.id}></div>
+      <div style={{width:this.props.width+"px", height:this.props.height+"px"}} id={this.props.id}></div>
     )
   }
 }
