@@ -4,6 +4,31 @@
 import * as React from 'react';
 import { Component } from 'react-simplified';
 import { NavLink } from 'react-router-dom';
+import L from 'leaflet';
+
+export class PositionMap extends Component {
+  clicked(e) {
+    
+  }
+
+  componentDidMount() {
+    this.map = L.map(this.props.id, {
+      center: [63.430287, 10.393466],
+      zoom: 13,
+      layers: [
+        L.tileLayer('https://maps.tilehosting.com/styles/streets/{z}/{x}/{y}.png?key=c1RIxTIz5D0YrAY6C81A', {
+          attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        }),
+      ]
+    });
+  }
+
+  render() {
+    return (
+      <div style={{width:"500px", height:"500px"}} id={this.props.id}></div>
+    )
+  }
+}
 
 /**
  * Renders alert messages using Bootstrap classes.
@@ -63,12 +88,12 @@ export class Alert extends Component {
 /**
  * Renders an information card using Bootstrap classes
  */
-export class Card extends Component<{ title: React.Node,exact?: boolean,link: string,to: string, children?: React.Node }> {
+export class Card extends Component<{ title: React.Node, exact?: boolean, link: string, to: string, children?: React.Node }> {
   render() {
     return (
       <div className="card">
-        <NavLink style={{color: "black"}} exact={this.props.exact} to={this.props.to}>
-          <img src={this.props.link} className={"card-img-top img-fluid"}/>
+        <NavLink style={{ color: "black" }} exact={this.props.exact} to={this.props.to}>
+          <img src={this.props.link} className={"card-img-top img-fluid"} />
           <div className="card-body">
             <h5 className="card-title text-center">{this.props.title}</h5>
             <div className="card-text"><i>{this.props.children}</i></div>
@@ -86,8 +111,8 @@ class ListGroupItem extends Component<{ to?: string, children: React.Node }> {
         {this.props.children}
       </NavLink>
     ) : (
-      <li className="list-group-item">{this.props.children}</li>
-    );
+        <li className="list-group-item">{this.props.children}</li>
+      );
   }
 }
 
@@ -106,7 +131,7 @@ export class ListGroup extends Component<{
 
 class ListGroupItemInline extends Component<{ to: string, style?: Object, children: React.Node }> {
   render() {
-    return(
+    return (
       <NavLink className="list-inline-item mt-2 mr-5 ml-5" style={this.props.style} activeClassName="active" to={this.props.to}>
         {this.props.children}
       </NavLink>
@@ -124,11 +149,11 @@ export class ListGroupInline extends Component<{
   }
 }
 
-export class CheckBox extends Component<{checkBoxNavn: string, forandring: Object,disable?: boolean}> {
-  render(){
-    return(
+export class CheckBox extends Component<{ checkBoxNavn: string, forandring: Object, disable?: boolean }> {
+  render() {
+    return (
       <div className={"form-check form-check-inline"}>
-        <input className="form-check-input" type="checkbox" id={this.props.checkBoxNavn} disabled={this.props.disable} onChange={this.props.forandring}  value={this.props.checkBoxNavn}/>
+        <input className="form-check-input" type="checkbox" id={this.props.checkBoxNavn} disabled={this.props.disable} onChange={this.props.forandring} value={this.props.checkBoxNavn} />
         <label className="form-check-label" >{this.props.checkBoxNavn}</label>
       </div>
     )
@@ -141,7 +166,7 @@ export class Overskrift extends Component<{ children: React.Node }> {
   }
 }
 
-export class ContainerFluid extends Component<{children: React.Node }> {
+export class ContainerFluid extends Component<{ children: React.Node }> {
   render() {
     return <div className={"container-fluid"}>{this.props.children}</div>;
   }
@@ -169,7 +194,7 @@ class NavBarBrand extends Component<{ children?: React.Node }> {
   render() {
     if (!this.props.children) return null;
     return (
-      <NavLink className="navbar-brand" style={{ font: "400 100px/1.5  Pacifico,Helvetica, sans-serif",textShadow: "3px 3px 0px rgba(0,0,0,0.1), 7px 7px 0px rgba(0,0,0,0.05)", fontSize: "40px"}} activeClassName="active" exact to="/nyheter">
+      <NavLink className="navbar-brand" style={{ font: "400 100px/1.5  Pacifico,Helvetica, sans-serif", textShadow: "3px 3px 0px rgba(0,0,0,0.1), 7px 7px 0px rgba(0,0,0,0.05)", fontSize: "40px" }} activeClassName="active" exact to="/nyheter">
         {this.props.children}
       </NavLink>
     );
@@ -180,7 +205,7 @@ class NavBarLinkLeft extends Component<{ to: string, exact?: boolean, children?:
   render() {
     if (!this.props.children) return null;
     return (
-      <NavLink className="nav-link " style={{ fontSize: "20px"}} activeClassName="active" exact={this.props.exact} to={this.props.to}>
+      <NavLink className="nav-link " style={{ fontSize: "20px" }} activeClassName="active" exact={this.props.exact} to={this.props.to}>
         {this.props.children}
       </NavLink>
     );
@@ -191,7 +216,7 @@ class NavBarLinkRight extends Component<{ to: string, exact?: boolean, children?
   render() {
     if (!this.props.children) return null;
     return (
-      <NavLink className="nav-link " style={{ fontSize: "20px"}} activeClassName="active" exact={this.props.exact} to={this.props.to}>
+      <NavLink className="nav-link " style={{ fontSize: "20px" }} activeClassName="active" exact={this.props.exact} to={this.props.to}>
         {this.props.children}
       </NavLink>
     );
@@ -228,18 +253,18 @@ export class NavBar extends Component<{ children: React.Element<typeof NavBarBra
   }
 }
 
-export class Oppsett extends Component<{sideBredde: number,sideTekst?: React.Node, midtBredde: number, children: React.Node}>{
-  render(){
-    return(
+export class Oppsett extends Component<{ sideBredde: number, sideTekst?: React.Node, midtBredde: number, children: React.Node }>{
+  render() {
+    return (
       <ContainerFluid>
         <Row>
           <Column bredde={this.props.sideBredde}>
             <div className="text-center">
-            {this.props.sideTekst}
+              {this.props.sideTekst}
             </div>
           </Column>
           <Column bredde={this.props.midtBredde}>
-              {this.props.children}
+            {this.props.children}
           </Column>
           <Column bredde={this.props.sideBredde}>
             <div className="text-center">
@@ -265,9 +290,9 @@ class ButtonSuccess extends Component<{
   }
 }
 
-export class Input extends Component<{tittelInput: string,children: React.Node}>{
+export class Input extends Component<{ tittelInput: string, children: React.Node }>{
   render() {
-    return(
+    return (
       <div className="input-group mb-3 ">
         <div className="input-group-prepend">
           <span className="input-group-text">{this.props.tittelInput}</span>

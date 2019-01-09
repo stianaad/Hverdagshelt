@@ -8,6 +8,7 @@ import { HashRouter, Route, NavLink, Redirect,Switch } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import Popup from 'reactjs-popup';
 import { sakService} from './services';
+import { PositionMap } from './widgets'
 
 import createHashHistory from 'history/createHashHistory';
 const history = createHashHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
@@ -19,7 +20,7 @@ class Menu extends Component {
     return(
       <div>
         <p>hehehehe</p>
-      
+        <PositionMap id="map"></PositionMap>
       </div>
     )
   }
