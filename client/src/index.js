@@ -5,7 +5,6 @@ import { BrowserRouter, Route, NavLink, Redirect,Switch } from 'react-router-dom
 import ReactDOM from 'react-dom';
 import {BildeTest} from './bildetest';
 import Popup from 'reactjs-popup';
-import {sakService} from './services';
 import {Registrering} from './Komponenter/Registrering/registrering';
 import {generellServices} from './generellServices';
 import {RodKnapp} from './widgets';
