@@ -81,7 +81,7 @@ class Forside extends Component {
           />
           <div className="centered">
             <h6 className="tekst">Kommuniser direkte med din kommune </h6>
-            <section class="main">
+            <section className="main">
               <form className="search" method="post" action="index.html">
                 <input
                   type="text"
