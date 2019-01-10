@@ -1,20 +1,11 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-var mysql = require('mysql');
-var bodyParser = require('body-parser');
+import mysql from 'mysql';
+import bodyParser from 'body-parser';
 import BrukerDao from '../dao/brukerdao.js';
 import passord from 'password-hash-and-salt';
 import {callbackify} from 'util';
-
-var pool = mysql.createPool({
-  connectionLimit: 5,
-  host: 'mysql.stud.iie.ntnu.no',
-  user: 'jonathm',
-  password: 'tFSnz90b',
-  database: 'jonathm',
-  debug: false,
-  multipleStatements: true,
-});
+import pool from '../../test/poolsetup';
 
 let brukerDao = new BrukerDao(pool);
 

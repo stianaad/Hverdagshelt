@@ -3,16 +3,7 @@ import mysql from 'mysql2';
 import FeilDao from '../../dao/feildao';
 import run from '../runsqlfile.js';
 import Feil, Oppdatering from '../../../client/src/services/feilService';
-
-var pool = mysql.createPool({
-  connectionLimit: 5,
-  host: 'mysql.stud.iie.ntnu.no',
-  user: 'jonathm',
-  password: 'tFSnz90b',
-  database: 'jonathm',
-  debug: false,
-  multipleStatements: true,
-});
+import pool from '../poolsetup';
 
 let feilDao = new FeilDao(pool);
 
