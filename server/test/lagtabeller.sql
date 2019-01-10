@@ -1,8 +1,9 @@
 DROP TABLE IF EXISTS hendelser;
 DROP TABLE IF EXISTS oppdatering;
-DROP TABLE IF EXISTS status;
 DROP TABLE IF EXISTS feil;
-DROP TABLE IF EXISTS kategori;
+DROP TABLE IF EXISTS status;
+DROP TABLE IF EXISTS subkategori;
+DROP TABLE IF EXISTS hovedkategori;
 DROP TABLE IF EXISTS admin;
 DROP TABLE IF EXISTS bedrift;
 DROP TABLE IF EXISTS ansatt;
@@ -68,17 +69,24 @@ CREATE TABLE admin (
     FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE kategori (
-    kategori_id INT(11) NOT NULL AUTO_INCREMENT,
-    hoved VARCHAR(255) NOT NULL,
+CREATE TABLE hovedkategori (
+    hovedkategori_id INT(11) NOT NULL AUTO_INCREMENT,
     kategori VARCHAR(255) NOT NULL,
-    PRIMARY KEY (kategori_id)
+    PRIMARY KEY (hovedkategori_id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE subkategori (
+    subkategori_id INT(11) NOT NULL AUTO_INCREMENT,
+    kategori VARCHAR(255) NOT NULL,
+    hovedkategori_id INT(11) NOT NULL,
+    FOREIGN KEY (hovedkategori_id) REFERENCES hovedkategori(hovedkategori_id),
+    PRIMARY KEY (subkategori_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE feil (
     feil_id INT(11) NOT NULL AUTO_INCREMENT,
     kommune_id INT(11) NOT NULL,
-    kategori_id INT(11) NOT NULL,
+    subkategori_id INT(11) NOT NULL,
     status_id INT(1) NOT NULL DEFAULT 1,
     overskrift VARCHAR(255) NOT NULL,
     beskrivelse TEXT NOT NULL,
@@ -87,7 +95,7 @@ CREATE TABLE feil (
     breddegrad DOUBLE NOT NULL,
     PRIMARY KEY (feil_id),
     FOREIGN KEY (kommune_id) REFERENCES kommuner(kommune_id),
-    FOREIGN KEY (kategori_id) REFERENCES kategori(kategori_id),
+    FOREIGN KEY (subkategori_id) REFERENCES subkategori(subkategori_id),
     FOREIGN KEY (status_id) REFERENCES status(status_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
