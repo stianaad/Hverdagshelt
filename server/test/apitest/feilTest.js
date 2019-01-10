@@ -2,7 +2,7 @@ import mysql from 'mysql2';
 
 import FeilDao from '../../dao/feildao';
 import run from '../runsqlfile.js';
-import Feil from '../../../client/src/services/feilService';
+import Feil, Oppdatering from '../../../client/src/services/feilService';
 
 var pool = mysql.createPool({
   connectionLimit: 5,
@@ -17,14 +17,23 @@ var pool = mysql.createPool({
 let feilDao = new FeilDao(pool);
 
 const testFeil1 = new Feil({
-    kommune_id: 1,
-    kategori_id: 1,
-    status_id: 1, 
-    beskrivelse: 'Jeg er kul', 
-    bilde: 'https://i.imgur.com/6zidUsq.jpg',
-    lengdegrad: 1,
-    breddegrad: 1
-  });
+  kommune_id: 1,
+  kategori_id: 1,
+  status_id: 1, 
+  beskrivelse: 'Jeg er kul', 
+  bilde: 'https://i.imgur.com/6zidUsq.jpg',
+  lengdegrad: 1,
+  breddegrad: 1
+});
+
+const testOppdatering1 = new Oppdatering({
+  feil_id: 1,
+  tid: '1998-11-20 19:39:45',
+  kommentar: 'Hei, skjer',
+  status_id: 1,
+  bruker_id: 1
+});
+
 
 beforeAll(done => {
   run('../lagtabeller.sql', pool, () => {
@@ -81,4 +90,63 @@ test('Slett feil', done => {
     done();
   }
   feilDao.slettFeil({feil_id: 1}, callback);
+});
+
+test('Opprett ny oppdatering', done => {
+  function callback(status, data){
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.affectedRows).toBeGreaterThanOrEqual(1);
+    done();
+  }
+  feilDao.lagOppdatering(testOppdatering1, callback);
+});
+
+test('hentAlleOppdateringerPaaFeil', done => {
+  function callback(status, data){
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.length).toBeGreaterThanOrEqual(1);
+    //expect(data[1].status_id).toBe(1);
+    done();
+  }
+  feilDao.hentAlleOppdateringerPaaFeil({feil_id: 1}, callback);
+});
+
+test('Hent en status', done => {
+  function callback(status, data){
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.length).toBe(1);
+    //expect(data[1].status).toBe('Under behandling');
+    done();
+  }
+  feilDao.hentEnStatus({status_id: 1}, callback);
+});
+
+test('Hent alle statuser', done => {
+  function callback(status, data){
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.length).toBeGreaterThanOrEqual(1);
+    //expect(data[1].status).toBe('Under behandling');
+    done();
+  }
+  feilDao.hentAlleStatuser(callback);
+});
+
+test('Hent alle hovedkategorier', done => {
+  function callback(status, data){
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.length).toBeGreaterThanOrEqual(1);
+    //expect(data[1].status).toBe('Vegarbeid');
+    done();
+  }
+  feilDao.hentAlleHovedkategorier(callback);
 });
