@@ -5,7 +5,7 @@ import bodyParser from 'body-parser';
 import BrukerDao from '../dao/brukerdao.js';
 import passord from 'password-hash-and-salt';
 import {callbackify} from 'util';
-import pool from '../../test/poolsetup';
+import {pool} from '../../test/poolsetup';
 
 let brukerDao = new BrukerDao(pool);
 
