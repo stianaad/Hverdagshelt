@@ -62,7 +62,7 @@ router.post('/api/lagNyFeil', upload.array('bilder', 10), (req, res) => {
 
   let a = {
     kommune_id: req.body.kommune_id,
-    kategori_id: req.body.kategori_id,
+    subkategori_id: req.body.subkategori_id,
     overskrift: req.body.overskrift,
     beskrivelse: req.body.beskrivelse,
     lengdegrad: req.body.lengdegrad,
@@ -76,10 +76,12 @@ router.post('/api/lagNyFeil', upload.array('bilder', 10), (req, res) => {
       bildeOpplasting.lastOpp(req.files, (bilder) => {
         feilDao.leggTilBilder(feil_id, bilder, (status, data) => {
           res.status(status);
+          res.send();
         });
       });
     } else {
       res.status(status);
+      res.send();
     }
   });
 });
