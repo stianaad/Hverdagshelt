@@ -1,22 +1,42 @@
 import axios from 'axios';
 axios.interceptors.response.use((response) => response.data);
 
+export let feilService = new FeilService();
+
 export class Feil {
-  kommune_id;
-  kategori_id;
-  status_id;
-  beskrivelse;
-  bilde;
-  lengdegrad;
-  breddegrad;
+  constructor(
+    kommune_id,
+    kategori_id,
+    status_id,
+    beskrivelse,
+    bilde,
+    lengdegrad,
+    breddegrad
+  ) {
+    this.kommune_id = kommune_id;
+    this.kategori_id = kategori_id;
+    this.status_id = status_id;
+    this.beskrivelse = beskrivelse; 
+    this.bilde = bilde;
+    this.lengdegrad = lengdegrad; 
+    this.breddegrad = breddegrad; 
+  }
 }
 
 export class Oppdatering {
-  feil_id;
-  tid;
-  kommentar;
-  status_id;
-  bruker_id;
+  constructor(
+  feil_id,
+  tid,
+  kommentar,
+  status_id,
+  bruker_id
+  ) {
+    this.feil_id = feil_id;
+    this.tid = tid;
+    this.kommentar = kommentar;
+    this.status_id = status_id;
+    this.bruker_id = bruker_id;
+  }
 }
 
 class FeilService {

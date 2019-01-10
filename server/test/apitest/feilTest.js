@@ -3,32 +3,22 @@ import mysql from 'mysql2';
 import FeilDao from '../../dao/feildao';
 import run from '../runsqlfile.js';
 import Feil, Oppdatering from '../../../client/src/services/feilService';
-import pool from '../poolsetup';
+import {pool} from '../poolsetup';
 
 let feilDao = new FeilDao(pool);
 
-const testFeil1 = new Feil({
-  kommune_id: 1,
-  kategori_id: 1,
-  status_id: 1, 
-  beskrivelse: 'Jeg er kul', 
-  bilde: 'https://i.imgur.com/6zidUsq.jpg',
-  lengdegrad: 1,
-  breddegrad: 1
-});
+const testFeil1 = new Feil(
+  1, 1, 1, 'Jeg er kul', 'https://i.imgur.com/6zidUsq.jpg', 1, 1);
 
-const testOppdatering1 = new Oppdatering({
-  feil_id: 1,
-  tid: '1998-11-20 19:39:45',
-  kommentar: 'Hei, skjer',
-  status_id: 1,
-  bruker_id: 1
-});
+const testOppdatering1 = new Oppdatering( 
+  1, '1998-11-20 19:39:45', 'Hei, skjer', 1, 1 );
 
 
 beforeAll(done => {
   run('../lagtabeller.sql', pool, () => {
-    run('dao/fylkekommunedata.sql',pool,done);
+    run('../fylkekommunedata.sql',pool, () => {
+      run('../generelltestdata.sql', pool, done);
+    });
   });
 });
 
