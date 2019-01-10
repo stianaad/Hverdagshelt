@@ -71,13 +71,13 @@ CREATE TABLE admin (
 
 CREATE TABLE hovedkategori (
     hovedkategori_id INT(11) NOT NULL AUTO_INCREMENT,
-    kategori VARCHAR(255) NOT NULL,
+    kategorinavn VARCHAR(255) NOT NULL,
     PRIMARY KEY (hovedkategori_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE subkategori (
     subkategori_id INT(11) NOT NULL AUTO_INCREMENT,
-    kategori VARCHAR(255) NOT NULL,
+    kategorinavn VARCHAR(255) NOT NULL,
     hovedkategori_id INT(11) NOT NULL,
     PRIMARY KEY (subkategori_id),
     FOREIGN KEY (hovedkategori_id) REFERENCES hovedkategori(hovedkategori_id)
@@ -114,7 +114,7 @@ CREATE TABLE feilbilder (
 
 CREATE TABLE oppdatering (
     feil_id INT(11) NOT NULL,
-    tid TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+    tid TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     kommentar TEXT,
     status_id INT(1) NOT NULL,
     bruker_id INT(11),
