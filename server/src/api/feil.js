@@ -65,19 +65,15 @@ router.post('/api/lagNyFeil', upload.array('bilder', 10), (req, res) => {
     kategori_id: req.body.kategori_id,
     overskrift: req.body.overskrift,
     beskrivelse: req.body.beskrivelse,
-    bilde: req.body.bilde,
     lengdegrad: req.body.lengdegrad,
     breddegrad: req.body.breddegrad,
   };
 
-  if (req.body.files) console.log(req.body.files.length);
-  else console.log(0);
-
   feilDao.lagNyFeil(a, (status, data) => {
     console.log('Opprettet en ny feil');
     let feil_id = data.insertId;
-    if (req.body.files && req.body.files.length > 0) {
-      bildeOpplasting.lastOpp(req.body.files, (bilder) => {
+    if (req.files && req.files.length > 0) {
+      bildeOpplasting.lastOpp(req.files, (bilder) => {
         feilDao.leggTilBilder(feil_id, bilder, (status, data) => {
           res.status(status);
         });
@@ -95,7 +91,6 @@ router.post('/api/oppdaterFeil', (req, res) => {
   let a = {
     kategori_id: req.body.kategori_id,
     beskrivelse: req.body.beskrivelse,
-    bilde: req.body.bilde,
     lengdegrad: req.body.lengdegrad,
     breddegrad: req.body.breddegrad,
     feil_id: req.body.feil_id,

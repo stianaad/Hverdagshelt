@@ -27,12 +27,11 @@ module.exports = class FeilDao extends Dao {
       json.kategori_id,
       json.overskrift,
       json.beskrivelse,
-      json.bilde,
       json.lengdegrad,
       json.breddegrad,
     ];
     super.query(
-      'INSERT INTO feil (kommune_id, kategori_id, overskrift, beskrivelse, bilde, lengdegrad, breddegrad) VALUES (?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO feil (kommune_id, kategori_id, overskrift, beskrivelse, lengdegrad, breddegrad) VALUES (?, ?, ?, ?, ?, ?)',
       feil,
       callback
     );
@@ -59,13 +58,12 @@ module.exports = class FeilDao extends Dao {
       json.subkategori_id,
       json.status_id,
       json.beskrivelse,
-      json.bilde,
       json.lengdegrad,
       json.breddegrad,
       json.feil_id,
     ];
     super.query(
-      'UPDATE feil SET subkategori_id = ?, SET status_id = ?, SET beskrivelse = ?, SET bilde = ?, SET lengdegrad = ?, SET breddegrad = ? WHERE feil_id = ?',
+      'UPDATE feil SET subkategori_id = ?, SET status_id = ?, SET beskrivelse = ?, SET lengdegrad = ?, SET breddegrad = ? WHERE feil_id = ?',
       feil,
       callback
     );

@@ -90,7 +90,6 @@ CREATE TABLE feil (
     status_id INT(1) NOT NULL DEFAULT 1,
     overskrift VARCHAR(255) NOT NULL,
     beskrivelse TEXT NOT NULL,
-    bilde VARCHAR(255) NOT NULL,
     lengdegrad DOUBLE NOT NULL,
     breddegrad DOUBLE NOT NULL,
     PRIMARY KEY (feil_id),

@@ -30,7 +30,6 @@ export class BildeTest extends Component {
 
     let fileSelect = document.querySelector('#ph');
     let files = fileSelect.files;
-    console.log(files.length);
     for (let i = 0; i < files.length; i++) {
       let file = files[i];
       if (!file.type.match('image.*')) {
