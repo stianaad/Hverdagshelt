@@ -9,15 +9,17 @@ import {
   Switch,
 } from 'react-router-dom';
 import ReactDOM from 'react-dom';
+import {BildeTest} from './bildetest';
 import Popup from 'reactjs-popup';
 import {sakService} from './services';
 import {Registrering} from './Komponenter/Registrering/registrering';
 import {generellServices} from './generellServices';
 import {RodKnapp} from './widgets';
 
-import createHashHistory from 'history/createHashHistory';
+import createBrowserHistory from 'history/createBrowserHistory';
+const history = createBrowserHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
+
 import {relative} from 'path';
-const history = createHashHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
 
 class Forside extends Component {
   sok = '';
@@ -232,10 +234,6 @@ export class Registrering extends Component {
       }*/
   }
 }
-import {BildeTest} from './bildetest';
-
-import createBrowserHistory from 'history/createBrowserHistory';
-const history = createBrowserHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
 
 class Menu extends Component {
   tekst = '';
