@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
 import path from 'path';
-var mysql = require('mysql');
+import mysql from 'mysql');
 
 var bodyParser = require('body-parser');
 var multer = require('multer');

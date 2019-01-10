@@ -2,7 +2,6 @@ import axios from 'axios';
 axios.interceptors.response.use((response) => response.data);
 
 export class Feil {
-  feil_id;
   kommune_id;
   kategori_id;
   status_id;
