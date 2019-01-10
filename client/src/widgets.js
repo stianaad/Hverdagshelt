@@ -5,6 +5,7 @@ import * as React from 'react';
 import { Component } from 'react-simplified';
 import { NavLink } from 'react-router-dom';
 import L from 'leaflet';
+import ReactDOMServer from 'react-dom/server';
 
 class Feil {
   feil_id = null;
@@ -37,6 +38,25 @@ class Feil {
     this.breddegrad = breddegrad;
   }
 }
+class PopupContent extends Component {
+  render() {
+    return (
+      <div>
+        <h4>{this.props.overskrift}</h4>
+        <p style={{margin:'0'}}>
+          <span style={{marginRight: '20px', color:'grey', fontStyle:'italic'}}>{this.props.kategori}</span>
+          <span style={{color:'grey', fontStyle:'italic'}}>{this.props.tid}</span>
+          <span style={{float:'right'}}>{this.props.statusText}</span>
+        </p>
+        <p style={{display:'inline-block', maxWidth:'260px'}}>{this.props.beskrivelse}</p>
+        {!(this.props.bildeurl == undefined || this.bildeurl == "") &&
+          <img style={{display:'inline-block',maxWidth:'250px', maxHeight:'220px', margin:'0 0 0 20px', verticalAlign:'text-bottom'}} src={this.props.bildeurl}></img>
+        }
+      </div>
+    )
+  }
+}
+
 /**
  * Marker for kart, må legges til i en MarkerMap. Sendes vanligvis til karter og den legger det til automatisk.
  * @example
@@ -45,7 +65,7 @@ class Feil {
  */
 export class Marker {
   marker = L.marker();
-  hoverPopup = L.popup().setContent('<p>Hover popup</p>');
+  hoverPopup = L.popup({maxWidth: 800}).setContent('<p>Hover popup</p>');
   clickPopup = L.popup().setContent('<p>Click popup</p>');
   /**
    * 
@@ -60,6 +80,10 @@ export class Marker {
    */
   constructor(overskrift, beskrivelse, bildeurl, status, tid, kategori, breddegrad, lengdegrad) {
     let iconName = status == 0 ? null : status == 1 ? "warningicon" : status == 2 ? "processingicon" : "successicon";
+    let statusText = status == 0 ? "" : status == 1 ? <span style={{color:'red', fontStyle:'italic'}}>Mottat</span> : 
+                     status == 2 ? <span style={{color:'orange', fontStyle:'italic'}}>Under behandling</span> :
+                                   <span style={{color:'green', fontStyle:'italic'}}>Arbeid utført</span>;
+
     this.marker.setLatLng(L.latLng(breddegrad, lengdegrad));
     if (status != 0) {
       this.marker.setIcon(new L.Icon({
@@ -67,14 +91,15 @@ export class Marker {
         iconSize: [30, 30]
       }));
     }
-    this.hoverPopup.setContent('<h3>'+kategori+'</h3>');
-    this.clickPopup.setContent('<h3>'+overskrift+'</h3><br><p>'+beskrivelse+'</p>');
+    this.hoverPopup.setContent('<h4>'+kategori+'</h4>');
+    this.clickPopup.setContent(ReactDOMServer.renderToString(<PopupContent tid={tid} overskrift={overskrift} statusText={statusText} beskrivelse={beskrivelse} bildeurl={bildeurl} kategori={kategori}></PopupContent>));
+
     this.marker.on('mouseover', (e) => {this.marker.bindPopup(this.hoverPopup).openPopup()});
     this.marker.on('mouseout', (e) => {this.marker.closePopup().unbindPopup();});
     this.marker.on('click', (e) => {
       this.marker.closePopup().unbindPopup();
       this.marker.removeEventListener('mouseout');
-      this.marker.bindPopup(this.clickPopup).openPopup();
+      this.marker.bindPopup(this.clickPopup, {maxWidth: 800}).openPopup();
     });
     this.marker.on('popupclose', (e) => {
       this.marker.on('mouseout', (e) => {this.marker.closePopup().unbindPopup();})
@@ -136,6 +161,26 @@ export class MarkerMap extends Component {
  * <PositionMap width="1000" height="500" id="posmap" center="Oslo" position={posFunksjon}/>
  */
 export class PositionMap extends Component {
+  map = null;
+  marker = null;
+  locateMe() {
+    let pos = {...this.map.getCenter()};
+    let check = () => {
+      if (pos.lat == this.map.getCenter().lat) {
+        setTimeout(check, 100);
+      } else {
+        this.marker.setLatLng(this.map.getCenter());
+      }
+    }
+    this.map.locate({setView:true, maxZoom:14});
+    if (this.marker == undefined) {
+      this.marker = L.marker(L.latLng(0,0), {
+        draggable: true
+      }).addTo(this.map);
+    }
+    check();
+  }
+
   clicked(e) {
     if (this.marker == undefined) {
       this.marker = L.marker(e.latlng, {
@@ -171,7 +216,10 @@ export class PositionMap extends Component {
 
   render() {
     return (
-      <div style={{width:this.props.width+"px", height:this.props.height+"px"}} id={this.props.id}></div>
+      <div style={{width:this.props.width+"px", height:this.props.height+"px", position:'relative'}}>
+        <div style={{width:"100%", height:"100%"}} id={this.props.id}></div>
+        <button style={{position:'absolute', top:'10px',right:'10px', zIndex:'10000', height:'35px'}} type="button" onClick={this.locateMe}>Locate Me</button>
+      </div>
     )
   }
 }

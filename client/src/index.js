@@ -82,7 +82,7 @@ class Forside extends Component {
           />
           <div className="centered">
             <h6 className="tekst">Kommuniser direkte med din kommune </h6>
-            <section class="main">
+            <section className="main">
               <form className="search" method="post" action="index.html">
                 <input
                   type="text"
@@ -132,112 +132,21 @@ class Forside extends Component {
     });
   }
 }
-export class Registrering extends Component {
-  render() {
-    return (
-      <form>
-        <div className="row">
-          <div class="col">
-            <div className="form-group">
-              <label>Fornavn:</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Fornavn"
-              />
-            </div>
-          </div>
-          <div className="col">
-            <div className="form-group">
-              <label>Etternavn:</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Etternavn"
-              />
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <div class="col">
-            <div className="form-group">
-              <label>E-post:</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="E-post"
-              />
-            </div>
-          </div>
-          <div className="col">
-            <div className="nedtrekksmeny">
-              <button
-                onClick="visKommuner"
-                className="dropdown-toggle"
-                data-toggle="dropdown"
-              >
-                Kommune
-              </button>
-              <div id="nedtrekk" className="dropdown-menu">
-                <input
-                  type="text"
-                  placeholder="Søk..."
-                  id="sokInp"
-                  onKeyUp="filtrer"
-                  className="dropdown-item"
-                />
-                <label className="dropdown-item">Trondheim</label>
-                <label className="dropdown-item">Lier</label>
-                <label className="dropdown-item">Oslo</label>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <div class="col">
-            <div className="form-group">
-              <label>Passord:</label>
-              <input type="password" className="form-control" />
-            </div>
-          </div>
-          <div className="col">
-            <div className="form-group">
-              <label>Bekreft passord:</label>
-              <input type="password" className="form-control" />
-            </div>
-          </div>
-        </div>
-      </form>
-    );
-  }
-
-  handterInput(e) {
-    this.sok.innhold = e.target.value;
-    console.log(this.sok.innhold);
-    /*if (this.sok.innhold.length >0) {
-        sakService
-            .filtrerNyhetssaker(this.sok.innhold)
-            .then(sak => (this.delt.nyhetssaker = sak))
-            .catch();
-      }
-        
-      else{
-          sakService
-            .getAlleNyhetssaker()
-            .then(nyeste => (this.delt.nyhetssaker = nyeste))
-            .catch();
-      }*/
-  }
-}
-
+//<MarkerMap width="1000" height="500" id="map" center="Oslo" markers={this.markers}></MarkerMap>
 class Menu extends Component {
   tekst = "";
-  
+  markers = [new Marker("Det er et problem her", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+  'https://bjornost.tihlde.org/hverdagshelt/135d6d0f44a6ba73e3782c243663b90a', 1, "10/12/2018, 10:53", "Veiarbeid", 59.911599, 10.743839),
+  new Marker("Det er et problem her", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+  'https://bjornost.tihlde.org/hverdagshelt/ac78b6d904ceb783e9da802a5c84ea7b', 2, "10/12/2018, 10:53", "Veiarbeid", 59.913777, 10.722702)];
+  posisjon(pos) {
+    console.log(pos);
+  }
   render(){
     return(
       <div>
         <p>hehehehe</p>
-        <Registrering />
+        <PositionMap width="1000" height="500" id="posmap" center="Oslo" position={this.posisjon}></PositionMap>
       </div>
     )
   }
@@ -249,7 +158,7 @@ if (root)
       <div>
         <Route path="/nyheter" component={Menu} />
         <Route path="/registrering" component={Registrering} />
-        <Route path="/" component={Forside} />
+        <Route exact path="/" component={Forside} />
         <Route path="/bildetest" component={BildeTest} />
       </div>
     </BrowserRouter>,
