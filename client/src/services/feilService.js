@@ -11,6 +11,14 @@ export class Feil {
   breddegrad;
 }
 
+export class Oppdatering {
+  feil_id;
+  tid;
+  kommentar;
+  status_id;
+  bruker_id;
+}
+
 class FeilService {
 
   hentAlleFeil() {
