@@ -4,6 +4,14 @@ axios.interceptors.response.use((response) => response.data);
 export let feilService = new FeilService();
 
 export class Feil {
+  kommune_id;
+  kategori_id;
+  status_id;
+  beskrivelse;
+  bilde;
+  lengdegrad;
+  breddegrad;
+  
   constructor(
     kommune_id,
     kategori_id,
@@ -24,6 +32,12 @@ export class Feil {
 }
 
 export class Oppdatering {
+  feil_id;
+  tid;
+  kommentar;
+  status_id;
+  bruker_id;
+  
   constructor(
   feil_id,
   tid,
