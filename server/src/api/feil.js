@@ -70,6 +70,9 @@ router.post('/api/lagNyFeil', upload.array('bilder', 10), (req, res) => {
     breddegrad: req.body.breddegrad,
   };
 
+  if (req.body.files) console.log(req.body.files.length);
+  else console.log(0);
+
   feilDao.lagNyFeil(a, (status, data) => {
     console.log('Opprettet en ny feil');
     let feil_id = data.insertId;

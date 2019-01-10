@@ -12,7 +12,7 @@ import {
 import ReactDOM from 'react-dom';
 import Popup from 'reactjs-popup';
 
-import bildeTest from './bildetest';
+import {BildeTest} from './bildetest';
 
 import createBrowserHistory from 'history/createBrowserHistory';
 const history = createBrowserHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
@@ -34,7 +34,7 @@ if (root)
     <BrowserRouter>
       <div>
         <Route path="/nyheter" component={Menu} />
-        <Route path="/bildetest" component={bildeTest} />
+        <Route path="/bildetest" component={BildeTest} />
       </div>
     </BrowserRouter>,
     root
