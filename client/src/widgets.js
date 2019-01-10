@@ -1,9 +1,8 @@
-
 /* eslint eqeqeq: "off" */
 
 import * as React from 'react';
-import { Component } from 'react-simplified';
-import { NavLink } from 'react-router-dom';
+import {Component} from 'react-simplified';
+import {NavLink} from 'react-router-dom';
 
 /**
  * Renders alert messages using Bootstrap classes.
@@ -35,28 +34,32 @@ export class Alert extends Component {
   static success(text) {
     // To avoid 'Cannot update during an existing state transition' errors, run after current event through setTimeout
     setTimeout(() => {
-      for (let instance of Alert.instances()) instance.alerts.push({ text: text, type: 'success' });
+      for (let instance of Alert.instances())
+        instance.alerts.push({text: text, type: 'success'});
     });
   }
 
   static info(text) {
     // To avoid 'Cannot update during an existing state transition' errors, run after current event through setTimeout
     setTimeout(() => {
-      for (let instance of Alert.instances()) instance.alerts.push({ text: text, type: 'info' });
+      for (let instance of Alert.instances())
+        instance.alerts.push({text: text, type: 'info'});
     });
   }
 
   static warning(text) {
     // To avoid 'Cannot update during an existing state transition' errors, run after current event through setTimeout
     setTimeout(() => {
-      for (let instance of Alert.instances()) instance.alerts.push({ text: text, type: 'warning' });
+      for (let instance of Alert.instances())
+        instance.alerts.push({text: text, type: 'warning'});
     });
   }
 
   static danger(text) {
     // To avoid 'Cannot update during an existing state transition' errors, run after current event through setTimeout
     setTimeout(() => {
-      for (let instance of Alert.instances()) instance.alerts.push({ text: text, type: 'danger' });
+      for (let instance of Alert.instances())
+        instance.alerts.push({text: text, type: 'danger'});
     });
   }
 }

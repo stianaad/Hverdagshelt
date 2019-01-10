@@ -1,17 +1,28 @@
 /* eslint eqeqeq: "off" */
 
-
 import * as React from 'react';
-import { Component,sharedComponentData } from 'react-simplified';
-import { HashRouter, Route, NavLink, Redirect,Switch } from 'react-router-dom';
+import {Component, sharedComponentData} from 'react-simplified';
+import {
+  BrowserRouter,
+  Route,
+  NavLink,
+  Redirect,
+  Switch,
+} from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import Popup from 'reactjs-popup';
+<<<<<<< HEAD
 import { generellServices} from './generellServices';
 import {RodKnapp} from './widgets';
 
 import createHashHistory from 'history/createHashHistory';
 import { relative } from 'path';
 const history = createHashHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
+=======
+
+import createBrowserHistory from 'history/createBrowserHistory';
+const history = createBrowserHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
+>>>>>>> master
 
 class Forside extends Component{
   sok = '';
@@ -179,24 +190,27 @@ export class Registrering extends Component{
 }
 
 class Menu extends Component {
-  tekst = "";
+  tekst = '';
 
-  render( ){
-    return(
+  render() {
+    return (
       <div>
         <p>hehehehe</p>
-      
       </div>
-    )
+    );
   }
 }
 const root = document.getElementById('root');
 if (root)
   ReactDOM.render(
-    <HashRouter>
+    <BrowserRouter>
       <div>
+<<<<<<< HEAD
           <Route path="/" component={Forside} />
+=======
+        <Route path="/nyheter" component={Menu} />
+>>>>>>> master
       </div>
-    </HashRouter>,
+    </BrowserRouter>,
     root
   );
