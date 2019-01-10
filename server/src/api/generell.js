@@ -1,18 +1,9 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-var mysql = require('mysql');
-var bodyParser = require('body-parser');
-const Generelldao = require('../dao/generelldao.js');
-
-var pool = mysql.createPool({
-  connectionLimit: 5,
-  host: 'mysql.stud.iie.ntnu.no',
-  user: 'jonathm',
-  password: 'tFSnz90b',
-  database: 'jonathm',
-  debug: false,
-  multipleStatements: true,
-});
+import mysql from 'mysql';
+import bodyParser from 'body-parser';
+import Generelldao from '../dao/generelldao.js';
+import pool from '../../test/poolsetup';
 
 let generelldao = new Generelldao(pool);
 
