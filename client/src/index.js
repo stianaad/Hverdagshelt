@@ -15,6 +15,7 @@ import createBrowserHistory from 'history/createBrowserHistory';
 const history = createBrowserHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
 
 import {relative} from 'path';
+import { KommuneVelger } from './Moduler/KommuneVelger/kommuneVelger';
 
 class Forside extends Component {
   sok = '';
@@ -150,6 +151,7 @@ if (root)
   ReactDOM.render(
     <BrowserRouter>
       <div>
+        <Route exact path="/kommunevalgtest" component={KommuneVelger} />
         <Route exact path="/meld-feil" component={MeldFeil} />
         <Route exact path="/nyheter" component={Menu} />
         <Route exact path="/registrering" component={Registrering} />
