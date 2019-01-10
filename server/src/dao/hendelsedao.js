@@ -27,6 +27,22 @@ module.exports = class HendelseDao extends Dao {
     );
   }
 
+  oppdaterHendelse(json, callback) {
+    var hendelse = [
+      json.overskrift,
+      json.beskrivelse,
+      json.bilde,
+      json.lengdegrad,
+      json.breddegrad,
+      json.hendelse_id,
+    ];
+    super.query(
+      'UPDATE feil SET overskrift = ?, SET beskrivelse = ?, SET bilde = ?, SET lengdegrad = ?, SET breddegrad = ? WHERE kategori_id = ?',
+      hendelse,
+      callback
+    );
+  }
+
   slettHendelse(json, callback) {
     var id = json.hendelse_id;
     super.query('DELETE FROM hendelse WHERE hendelse_id = ?', [id], callback);
