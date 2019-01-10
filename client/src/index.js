@@ -75,11 +75,12 @@ class Forside extends Component {
           </button>
         </div>
         <div className="bilde">
-          <img
+          {/*<img
             className="img-fluid w-100 "
             src="lofoten.jpg"
             alt="bilde av Lofoten"
-          />
+          />*/}
+          <video src="/norge.mp4" autoPlay loop></video>
           <div className="centered">
             <h6 className="tekst">Kommuniser direkte med din kommune </h6>
             <section className="main">
