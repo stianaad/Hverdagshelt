@@ -9,7 +9,7 @@ module.exports = class Generelldao extends Dao {
     );
   }
   filtrerKommuner(kommune_navn, callback) {
-    console.log(kommune_navn);
+    //console.log(kommune_navn);
     super.query(
       'SELECT * FROM kommuner WHERE kommune_navn LIKE ?',
       [kommune_navn + '%'],
