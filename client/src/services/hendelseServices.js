@@ -2,15 +2,27 @@ import axios from 'axios';
 axios.interceptors.response.use((response) => response.data);
 
 export class Hendelse {
-  hendelse_id;
-  overskrift;
-  tid;
-  beskrivelse;
-  sted;
-  bilde;
-  lengdegrad;
-  breddegrad;
-  bruker_id;
+  constructor(
+    hendelse_id,
+    overskrift,
+    tid,
+    beskrivelse,
+    sted,
+    bilde,
+    lengdegrad,
+    breddegrad,
+    bruker_id
+  ) {
+    this.hendelse_id = hendelse_id;
+    this.overskrift = overskrift; 
+    this.tid = tid; 
+    this.beskrivelse = beskrivelse; 
+    this.sted = sted; 
+    this.bilde = bilde;
+    this.lengdegrad = lengdegrad;
+    this.breddegrad = breddegrad;
+    this.bruker_id = bruker_id;
+  }
 }
 
 class HendelseService {
