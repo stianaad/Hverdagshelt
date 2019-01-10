@@ -90,13 +90,20 @@ CREATE TABLE feil (
     status_id INT(1) NOT NULL DEFAULT 1,
     overskrift VARCHAR(255) NOT NULL,
     beskrivelse TEXT NOT NULL,
-    bilde VARCHAR(255) NOT NULL,
     lengdegrad DOUBLE NOT NULL,
     breddegrad DOUBLE NOT NULL,
     PRIMARY KEY (feil_id),
     FOREIGN KEY (kommune_id) REFERENCES kommuner(kommune_id),
     FOREIGN KEY (subkategori_id) REFERENCES subkategori(subkategori_id),
     FOREIGN KEY (status_id) REFERENCES status(status_id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE feilbilder (
+    bilde_id INT(11) NOT NULL AUTO_INCREMENT,
+    feil_id INT(11) NOT NULL,
+    url VARCHAR(255) NOT NULL,
+    PRIMARY KEY (bilde_id),
+    FOREIGN KEY (feil_id) REFERENCES feil(feil_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE status (

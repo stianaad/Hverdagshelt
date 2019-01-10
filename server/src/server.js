@@ -11,6 +11,9 @@ app.use('/bruker', bruker);
 const generell = require('./api/generell.js');
 app.use('/api/generell', generell);
 
+const feil = require('./api/feil.js');
+app.use(feil);
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '../../../client/public/index.html'));
 });

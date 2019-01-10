@@ -232,6 +232,10 @@ export class Registrering extends Component {
       }*/
   }
 }
+import {BildeTest} from './bildetest';
+
+import createBrowserHistory from 'history/createBrowserHistory';
+const history = createBrowserHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
 
 class Menu extends Component {
   tekst = '';
@@ -253,6 +257,7 @@ if (root)
         <Route path="/nyheter" component={Menu} />
         <Route path="/registrering" component={Registrering} />
         <Route path="/" component={Forside} />
+        <Route path="/bildetest" component={BildeTest} />
       </div>
     </BrowserRouter>,
     root
