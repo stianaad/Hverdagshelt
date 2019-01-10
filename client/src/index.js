@@ -141,7 +141,6 @@ class Menu extends Component {
     return(
       <div>
         <p>hehehehe</p>
-        <Registrering />
       </div>
     )
   }
