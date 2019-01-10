@@ -41,13 +41,13 @@ router.post('/api/lagNyHendelse', (req, res) => {
   console.log('Fikk POST-request fra klienten');
 
   let a = {
-    'overskrift': req.body.overskrift,
-    'bruker_id': req.body.bruker_id,
-    'beskrivelse': req.body.beskrivelse,
-    'sted': req.body.sted,
-    'bilde': req.body.bilde,
-    'lengdegrad': req.body.lengdegrad,
-    'breddegrad': req.body.breddegrad,
+    overskrift: req.body.overskrift,
+    bruker_id: req.body.bruker_id,
+    beskrivelse: req.body.beskrivelse,
+    sted: req.body.sted,
+    bilde: req.body.bilde,
+    lengdegrad: req.body.lengdegrad,
+    breddegrad: req.body.breddegrad,
   };
 
   feilDao.lagNyHendelse(a, (status, data) => {

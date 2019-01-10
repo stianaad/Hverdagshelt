@@ -64,12 +64,14 @@ export class Alert extends Component {
   }
 }
 
-
-
 export class RodKnapp extends Component {
   render() {
     return (
-      <button type="button" className="btn btn-danger" onClick={this.props.onClick}>
+      <button
+        type="button"
+        className="btn btn-danger"
+        onClick={this.props.onClick}
+      >
         {this.props.children}
       </button>
     );
