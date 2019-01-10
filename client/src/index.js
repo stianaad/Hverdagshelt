@@ -10,7 +10,6 @@ import {
 } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import Popup from 'reactjs-popup';
-import {sakService} from './services';
 import {Registrering} from './Komponenter/Registrering/registrering';
 import {generellServices} from './generellServices';
 import {RodKnapp} from './widgets';
@@ -135,103 +134,6 @@ class Forside extends Component {
     });
   }
 }
-export class Registrering extends Component {
-  render() {
-    return (
-      <form>
-        <div className="row">
-          <div class="col">
-            <div className="form-group">
-              <label>Fornavn:</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Fornavn"
-              />
-            </div>
-          </div>
-          <div className="col">
-            <div className="form-group">
-              <label>Etternavn:</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Etternavn"
-              />
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <div class="col">
-            <div className="form-group">
-              <label>E-post:</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="E-post"
-              />
-            </div>
-          </div>
-          <div className="col">
-            <div className="nedtrekksmeny">
-              <button
-                onClick="visKommuner"
-                className="dropdown-toggle"
-                data-toggle="dropdown"
-              >
-                Kommune
-              </button>
-              <div id="nedtrekk" className="dropdown-menu">
-                <input
-                  type="text"
-                  placeholder="Søk..."
-                  id="sokInp"
-                  onKeyUp="filtrer"
-                  className="dropdown-item"
-                />
-                <label className="dropdown-item">Trondheim</label>
-                <label className="dropdown-item">Lier</label>
-                <label className="dropdown-item">Oslo</label>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <div class="col">
-            <div className="form-group">
-              <label>Passord:</label>
-              <input type="password" className="form-control" />
-            </div>
-          </div>
-          <div className="col">
-            <div className="form-group">
-              <label>Bekreft passord:</label>
-              <input type="password" className="form-control" />
-            </div>
-          </div>
-        </div>
-      </form>
-    );
-  }
-
-  handterInput(e) {
-    this.sok.innhold = e.target.value;
-    console.log(this.sok.innhold);
-    /*if (this.sok.innhold.length >0) {
-        sakService
-            .filtrerNyhetssaker(this.sok.innhold)
-            .then(sak => (this.delt.nyhetssaker = sak))
-            .catch();
-      }
-        
-      else{
-          sakService
-            .getAlleNyhetssaker()
-            .then(nyeste => (this.delt.nyhetssaker = nyeste))
-            .catch();
-      }*/
-  }
-}
 
 class Menu extends Component {
   tekst = '';
@@ -240,7 +142,6 @@ class Menu extends Component {
     return (
       <div>
         <p>hehehehe</p>
-        <Registrering />
       </div>
     );
   }

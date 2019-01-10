@@ -1,29 +1,6 @@
-/*Knappen som åpner nedtrekksmenyen*/
-.nedknapp {
-  padding: 16px;
-  border: none;
-  cursor: pointer;
-}
-
-.nedknapp:hover,
-.nedknapp:focus {
-  background-color: blue;
-}
-
-#sokInp:focus {
-  outline: 3px solid #ddd;
-}
-
-.nedtrekksmeny {
-  position: relative;
-  display: inline-block;
-}
-
-.nedtrekk-innhold {
-  display: none;
-  position: absolute;
-  background-color: #f6f6f6;
-  min-width: 230px;
-  border: 1px solid #ddd;
-  z-index: 1;
+.container {
+  width: 70%;
+  margin: 0 auto;
+  padding-top: 10px;
+  background-color: white;
 }
