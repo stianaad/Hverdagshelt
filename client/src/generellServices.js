@@ -1,5 +1,5 @@
 import axios from 'axios';
-axios.interceptors.response.use(response => response.data);
+axios.interceptors.response.use((response) => response.data);
 
 export class Kommuner {
   kommune_id;
@@ -8,12 +8,12 @@ export class Kommuner {
 }
 
 class GenerellServices {
-  hentAlleKommuner(){
+  hentAlleKommuner() {
     return axios.get('/api/generell/hentAlleKommuner');
   }
 
-  filtrerKommuner(sokeord){
-    return axios.get('/api/generell/filtrer/'+sokeord);
+  filtrerKommuner(sokeord) {
+    return axios.get('/api/generell/filtrer/' + sokeord);
   }
 }
 

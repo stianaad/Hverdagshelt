@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS hendelser;
 DROP TABLE IF EXISTS oppdatering;
+DROP TABLE IF EXISTS feilbilder;
 DROP TABLE IF EXISTS feil;
 DROP TABLE IF EXISTS status;
 DROP TABLE IF EXISTS subkategori;
@@ -28,8 +29,7 @@ CREATE TABLE kommuner (
 CREATE TABLE bruker (
     bruker_id INT(11) NOT NULL AUTO_INCREMENT,
     epost VARCHAR(255) NOT NULL,
-    passord TEXT NOT NULL,
-    salt TEXT NOT NULL,
+    passord TEXT(270) NOT NULL,
     kommune_id INT(11),
     PRIMARY KEY (bruker_id),
     FOREIGN KEY (kommune_id) references kommuner(kommune_id)
@@ -79,8 +79,14 @@ CREATE TABLE subkategori (
     subkategori_id INT(11) NOT NULL AUTO_INCREMENT,
     kategori VARCHAR(255) NOT NULL,
     hovedkategori_id INT(11) NOT NULL,
-    FOREIGN KEY (hovedkategori_id) REFERENCES hovedkategori(hovedkategori_id),
-    PRIMARY KEY (subkategori_id)
+    PRIMARY KEY (subkategori_id),
+    FOREIGN KEY (hovedkategori_id) REFERENCES hovedkategori(hovedkategori_id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE status (
+    status_id INT(1) NOT NULL,
+    status VARCHAR(255) NOT NULL,
+    PRIMARY KEY (status_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE feil (
@@ -90,7 +96,6 @@ CREATE TABLE feil (
     status_id INT(1) NOT NULL DEFAULT 1,
     overskrift VARCHAR(255) NOT NULL,
     beskrivelse TEXT NOT NULL,
-    bilde VARCHAR(255) NOT NULL,
     lengdegrad DOUBLE NOT NULL,
     breddegrad DOUBLE NOT NULL,
     PRIMARY KEY (feil_id),
@@ -99,12 +104,13 @@ CREATE TABLE feil (
     FOREIGN KEY (status_id) REFERENCES status(status_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE status (
-    status_id INT(1) Not NULL,
-    status VARCHAR(255) NOT NULL,
-    PRIMARY KEY (status_id)
+CREATE TABLE feilbilder (
+    bilde_id INT(11) NOT NULL AUTO_INCREMENT,
+    feil_id INT(11) NOT NULL,
+    url VARCHAR(255) NOT NULL,
+    PRIMARY KEY (bilde_id),
+    FOREIGN KEY (feil_id) REFERENCES feil(feil_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 
 CREATE TABLE oppdatering (
     feil_id INT(11) NOT NULL,
