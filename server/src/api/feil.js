@@ -1,9 +1,13 @@
 const express = require('express');
 const router = express.Router();
+import path from 'path';
 var mysql = require('mysql');
-var bodyParser = require('body-parser');
-import FeilDao from '../dao/feildao.js';
 
+var bodyParser = require('body-parser');
+var multer = require('multer');
+var upload = multer({dest: path.join(__dirname, '/../../temp')});
+import FeilDao from '../dao/feildao.js';
+import BildeOpplasting from '../opplasting/bildeopplasting.js';
 router.use(bodyParser.json());
 
 var pool = mysql.createPool({
@@ -17,6 +21,7 @@ var pool = mysql.createPool({
 });
 
 let feilDao = new FeilDao(pool);
+let bildeOpplasting = new BildeOpplasting();
 
 router.get('/api/hentAlleFeil', (req, res) => {
   console.log('Fikk GET-request fra klienten');
@@ -50,13 +55,15 @@ router.get('/api/hentFeilStatus', (req, res) => {
   });
 });
 
-router.post('/api/lagNyFeil', (req, res) => {
-  if (!(req.body instanceof Object)) return res.sendStatus(400);
+//Dette endepunktet krever multipart/form-data istedet for json for å håndtere bildeopplasting
+router.post('/api/lagNyFeil', upload.array('bilder', 10), (req, res) => {
+  //if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk POST-request fra klienten');
 
   let a = {
     kommune_id: req.body.kommune_id,
     kategori_id: req.body.kategori_id,
+    overskrift: req.body.overskrift,
     beskrivelse: req.body.beskrivelse,
     bilde: req.body.bilde,
     lengdegrad: req.body.lengdegrad,
@@ -65,7 +72,16 @@ router.post('/api/lagNyFeil', (req, res) => {
 
   feilDao.lagNyFeil(a, (status, data) => {
     console.log('Opprettet en ny feil');
-    res.status(status);
+    let feil_id = data.insertId;
+    if (req.body.files && req.body.files.length > 0) {
+      bildeOpplasting.lastOpp(req.body.files, (bilder) => {
+        feilDao.leggTilBilder(feil_id, bilder, (status, data) => {
+          res.status(status);
+        });
+      });
+    } else {
+      res.status(status);
+    }
   });
 });
 

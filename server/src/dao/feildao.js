@@ -24,17 +24,34 @@ module.exports = class FeilDao extends Dao {
   lagNyFeil(json, callback) {
     var feil = [
       json.kommune_id,
-      json.subkategori_id,
+      json.kategori_id,
+      json.overskrift,
       json.beskrivelse,
       json.bilde,
       json.lengdegrad,
       json.breddegrad,
     ];
     super.query(
-      'INSERT INTO feil (kommune_id, subkategori_id, beskrivelse, bilde, lengdegrad, breddegrad) VALUES (?, ?, ?, ?, ?, ?)',
+      'INSERT INTO feil (kommune_id, kategori_id, overskrift, beskrivelse, bilde, lengdegrad, breddegrad) VALUES (?, ?, ?, ?, ?, ?, ?)',
       feil,
       callback
     );
+  }
+
+  leggTilBilder(feil_id, bilder, callback) {
+    if (bilder.length > 0) {
+      let query = 'INSERT INTO feilbilder (bilde_id, feil_id, url) VALUES';
+      let params = [];
+      for (let i = 0; i < bilder.length; i++) {
+        query += ' (DEFAULT, ?, ?),';
+        params.push(feil_id);
+        params.push(bilder[i]);
+      }
+      query = query.slice(0, -1);
+      query += ';';
+
+      super.query(query, params, callback);
+    }
   }
 
   oppdaterFeil(json, callback) {
