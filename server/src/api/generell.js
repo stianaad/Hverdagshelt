@@ -3,7 +3,7 @@ const router = express.Router();
 import mysql from 'mysql';
 import bodyParser from 'body-parser';
 import Generelldao from '../dao/generelldao.js';
-import pool from '../../test/poolsetup';
+import {pool} from '../../test/poolsetup.js';
 
 let generelldao = new Generelldao(pool);
 
