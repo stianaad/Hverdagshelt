@@ -28,8 +28,7 @@ CREATE TABLE kommuner (
 CREATE TABLE bruker (
     bruker_id INT(11) NOT NULL AUTO_INCREMENT,
     epost VARCHAR(255) NOT NULL,
-    passord TEXT NOT NULL,
-    salt TEXT NOT NULL,
+    passord TEXT(270) NOT NULL,
     kommune_id INT(11),
     PRIMARY KEY (bruker_id),
     FOREIGN KEY (kommune_id) references kommuner(kommune_id)
@@ -107,9 +106,8 @@ CREATE TABLE feilbilder (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE status (
-    status_id INT(1) Not NULL,
     status VARCHAR(255) NOT NULL,
-    PRIMARY KEY (status_id)
+    PRIMARY KEY (status)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
@@ -117,12 +115,12 @@ CREATE TABLE oppdatering (
     feil_id INT(11) NOT NULL,
     tid TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
     kommentar TEXT,
-    status_id INT(1) NOT NULL,
+    status VARCHAR(255) NOT NULL,
     bruker_id INT(11),
     PRIMARY KEY (feil_id, tid),
     FOREIGN KEY (feil_id) REFERENCES feil(feil_id),
     FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id),
-    FOREIGN KEY (status_id) REFERENCES status(status_id)
+    FOREIGN KEY (status) REFERENCES status(status)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE hendelser(

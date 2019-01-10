@@ -1,13 +1,7 @@
 /* eslint eqeqeq: "off" */
 import * as React from 'react';
-import {Component, sharedComponentData} from 'react-simplified';
-import {
-  BrowserRouter,
-  Route,
-  NavLink,
-  Redirect,
-  Switch,
-} from 'react-router-dom';
+import { Component,sharedComponentData } from 'react-simplified';
+import { BrowserRouter, Route, NavLink, Redirect,Switch } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import {BildeTest} from './bildetest';
 import Popup from 'reactjs-popup';
@@ -15,6 +9,7 @@ import {sakService} from './services';
 import {Registrering} from './Komponenter/Registrering/registrering';
 import {generellServices} from './generellServices';
 import {RodKnapp} from './widgets';
+import { PositionMap, Marker, MarkerMap } from './widgets'
 
 import createBrowserHistory from 'history/createBrowserHistory';
 const history = createBrowserHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
@@ -236,15 +231,15 @@ export class Registrering extends Component {
 }
 
 class Menu extends Component {
-  tekst = '';
-
-  render() {
-    return (
+  tekst = "";
+  
+  render(){
+    return(
       <div>
         <p>hehehehe</p>
         <Registrering />
       </div>
-    );
+    )
   }
 }
 const root = document.getElementById('root');

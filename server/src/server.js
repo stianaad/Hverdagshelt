@@ -1,5 +1,5 @@
-var express = require('express');
-var bodyParser = require('body-parser');
+var express = require("express");
+var bodyParser = require("body-parser");
 var app = express();
 import path from 'path';
 app.use(bodyParser.json()); // for å tolke JSON
@@ -15,7 +15,11 @@ const feil = require('./api/feil.js');
 app.use(feil);
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '../../../client/public/index.html'));
-});
+    res.sendFile(path.join(__dirname+"../../../client/public/index.html"));
+  });
 
 app.listen(3000);
+
+
+
+
