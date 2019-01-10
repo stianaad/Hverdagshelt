@@ -1,22 +1,20 @@
 /* eslint eqeqeq: "off" */
 import * as React from 'react';
-import {Component, sharedComponentData} from 'react-simplified';
-import {
-  BrowserRouter,
-  Route,
-  NavLink,
-  Redirect,
-  Switch,
-} from 'react-router-dom';
+import { Component,sharedComponentData } from 'react-simplified';
+import { BrowserRouter, Route, NavLink, Redirect,Switch } from 'react-router-dom';
 import ReactDOM from 'react-dom';
+import {BildeTest} from './bildetest';
+import {MeldFeil} from './Komponenter/MeldFeil/meldFeil'
 import Popup from 'reactjs-popup';
 import {Registrering} from './Komponenter/Registrering/registrering';
 import {generellServices} from './generellServices';
 import {RodKnapp} from './widgets';
+import { PositionMap, Marker, MarkerMap } from './widgets'
 
-import createHashHistory from 'history/createHashHistory';
+import createBrowserHistory from 'history/createBrowserHistory';
+const history = createBrowserHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
+
 import {relative} from 'path';
-const history = createHashHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
 
 class Forside extends Component {
   sok = '';
@@ -84,7 +82,7 @@ class Forside extends Component {
           />
           <div className="centered">
             <h6 className="tekst">Kommuniser direkte med din kommune </h6>
-            <section class="main">
+            <section className="main">
               <form className="search" method="post" action="index.html">
                 <input
                   type="text"
@@ -136,14 +134,14 @@ class Forside extends Component {
 }
 
 class Menu extends Component {
-  tekst = '';
-
-  render() {
-    return (
+  tekst = "";
+  
+  render(){
+    return(
       <div>
         <p>hehehehe</p>
       </div>
-    );
+    )
   }
 }
 const root = document.getElementById('root');
@@ -151,9 +149,11 @@ if (root)
   ReactDOM.render(
     <BrowserRouter>
       <div>
-        <Route path="/nyheter" component={Menu} />
-        <Route path="/registrering" component={Registrering} />
-        <Route path="/" component={Forside} />
+        <Route exact path="/meld-feil" component={MeldFeil} />
+        <Route exact path="/nyheter" component={Menu} />
+        <Route exact path="/registrering" component={Registrering} />
+        <Route exact path="/" component={Forside} />
+        <Route exact path="/bildetest" component={BildeTest} />
       </div>
     </BrowserRouter>,
     root
