@@ -42,7 +42,7 @@ test('hent alle feil', done => {
       'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
     );
     expect(data.length).toBeGreaterThan(1);
-    //expect(data[0].title).toBe('ENDA MER MASSIV OVERSKRIFT');
+    expect(data[1].title).toBe('Overskrift2');
     done();
   }
   feilDao.hentAlleFeil(callback);
@@ -54,7 +54,7 @@ test('hent en feil', done => {
       'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
     );
     expect(data.length).toBe(1);
-    //expect(data[0].title).toBe('ENDA MER MASSIV OVERSKRIFT');
+    expect(data.overskrift).toBe('Overskrift1');
     //sjekk at feilen er som den burde være^
     done();
   }
