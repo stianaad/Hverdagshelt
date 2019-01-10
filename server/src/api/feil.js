@@ -187,3 +187,23 @@ router.get('/api/hentAlleStatuser', (req, res) => {
     console.log('/hentAlleStatuser lengde:' + data.length);
   });
 });
+
+router.get('/api/hentAlleHovedkategorier', (req, res) => {
+  console.log('Fikk GET-request fra klienten');
+
+  feilDao.hentAlleHovedkategorier((status, data) => {
+    res.status(status);
+    res.json(data);
+    console.log('/hentAlleHovedkategorier lengde:' + data.length);
+  });
+});
+
+router.get('/api/hentAlleSubKategorierPaaHovedkategori', (req, res) => {
+  console.log('Fikk GET-request fra klienten');
+
+  feilDao.hentAlleSubKategorierPaaHovedkategori(req.params.hovedkategori_id, (status, data) => {
+    res.status(status);
+    res.json(data);
+    console.log('/hentAlleSubKategorierPaaHovedkategori lengde:' + data.length);
+  });
+});
