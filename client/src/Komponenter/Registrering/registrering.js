@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
+import {Privat, brukerService} from '../../services/brukerService';
 
 export class Registrering extends Component {
   fornavn = '';
@@ -9,6 +10,7 @@ export class Registrering extends Component {
   bekreftPass = '';
   passAdvarsel = '';
   advarsel = '';
+  kommune = '';
 
   render() {
     return (
@@ -98,8 +100,19 @@ export class Registrering extends Component {
     }
 
     if (this.bekreftPass === this.passord && this.passord.length >= 8) {
-      this.advarsel = '';
-    } else {
+        this.advarsel = '';
+
+        bruker = new Privat(this.epost, this.passord, 1, this.fornavn, this.etternavn); 
+        
+        brukerService
+            .lagNyBruker(bruker)
+            .then(history.push('/'))
+            .catch((error) => Alert.danger(error.message));
+
+
+    } 
+    
+    else {
       this.advarsel = 'Passord stemmer ikke';
     }
   }
