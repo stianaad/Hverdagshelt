@@ -4,6 +4,7 @@ import { Component,sharedComponentData } from 'react-simplified';
 import { BrowserRouter, Route, NavLink, Redirect,Switch } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import {BildeTest} from './bildetest';
+import {MeldFeil} from './Komponenter/MeldFeil/meldFeil'
 import Popup from 'reactjs-popup';
 import {sakService} from './services';
 import {Registrering} from './Komponenter/Registrering/registrering';
@@ -150,10 +151,11 @@ if (root)
   ReactDOM.render(
     <BrowserRouter>
       <div>
-        <Route path="/nyheter" component={Menu} />
-        <Route path="/registrering" component={Registrering} />
-        <Route path="/" component={Forside} />
-        <Route path="/bildetest" component={BildeTest} />
+        <Route exact path="/meld-feil" component={MeldFeil} />
+        <Route exact path="/nyheter" component={Menu} />
+        <Route exact path="/registrering" component={Registrering} />
+        <Route exact path="/" component={Forside} />
+        <Route exact path="/bildetest" component={BildeTest} />
       </div>
     </BrowserRouter>,
     root
