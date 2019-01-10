@@ -99,8 +99,8 @@ test('hentAlleOppdateringerPaaFeil', done => {
     console.log(
       'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
     );
-    expect(data.length).toBeGreaterThanOrEqual(1);
-    //expect(data[1].status_id).toBe(1);
+    expect(data.length).toBeGreaterThanOrEqual(4);
+    expect(data[1].bruker_id).toBe(5);
     done();
   }
   feilDao.hentAlleOppdateringerPaaFeil({feil_id: 1}, callback);
@@ -112,7 +112,7 @@ test('Hent en status', done => {
       'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
     );
     expect(data.length).toBe(1);
-    //expect(data[1].status).toBe('Under behandling');
+    expect(data.status).toBe('Under behandling');
     done();
   }
   feilDao.hentEnStatus({status_id: 1}, callback);
@@ -123,8 +123,8 @@ test('Hent alle statuser', done => {
     console.log(
       'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
     );
-    expect(data.length).toBeGreaterThanOrEqual(1);
-    //expect(data[1].status).toBe('Under behandling');
+    expect(data.length).toBeGreaterThanOrEqual(3);
+    expect(data[2].status).toBe('Ferdig');
     done();
   }
   feilDao.hentAlleStatuser(callback);
@@ -135,8 +135,8 @@ test('Hent alle hovedkategorier', done => {
     console.log(
       'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
     );
-    expect(data.length).toBeGreaterThanOrEqual(1);
-    //expect(data[1].status).toBe('Vegarbeid');
+    expect(data.length).toBeGreaterThanOrEqual(4);
+    expect(data[1].status).toBe('Hovedkategori2');
     done();
   }
   feilDao.hentAlleHovedkategorier(callback);
