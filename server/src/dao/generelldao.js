@@ -1,4 +1,4 @@
-const Dao = require('./dao.js');
+import Dao from './dao.js';
 
 module.exports = class Generelldao extends Dao {
   hentAlleKommuner(callback) {
