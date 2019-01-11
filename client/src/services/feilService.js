@@ -11,9 +11,7 @@ export class Feil {
   bilde;
   lengdegrad;
   breddegrad;
-<<<<<<< HEAD
   kategorinavn;
-=======
   
   constructor(
     kommune_id,
@@ -54,7 +52,6 @@ export class Oppdatering {
     this.status_id = status_id;
     this.bruker_id = bruker_id;
   }
->>>>>>> master
 }
 
 class FeilService {
