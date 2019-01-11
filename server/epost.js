@@ -5,8 +5,11 @@ const avsender = 'HverdagsHeltTeam07@gmail.com';
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'HverdagsHeltTeam07@gmail.com',
-    pass: 'HverdagsHeltTeam07SuperSecret'
+    user: "r.vedoy@gmail.com",
+    pass: "Bon23Bon"
+    
+   // user: 'HverdagsHeltTeam07@gmail.com',
+    //pass: 'HverdagsHeltTeam07SuperSecret'
   }
 });
 
@@ -135,6 +138,60 @@ module.exports = class epost {
         console.log(info);
       }
     });
+  }
+
+  //E-post med link til å lage nytt passord pga glemt passord
+  glemtPassord(brukerMail, link){
+
+    let subject = "Glemt passord";
+
+    let html = '<div style="margin-left:36px"><p>Nytt passord:</p><p>'+"Bruk denne linken for å resette ditt passord: " + link + '</p></div>'
+    + '<div style="float:left;margin-top:45px"><img src="http://gdurl.com/BbIX" width="280"/></div>'
+    + '<div style="margin-left:15px;margin-top:80px"><p>E-post: contact@HverdagsHelt.no</p>'
+    + '<p>tlf: +47 00 00 00 00</p><p>Prosjekt HverdagsHelt</p></div>';
+
+    let mailOptions = {
+      from: avsender,
+      to: brukerMail,
+      subject: subject,
+      html:html
+    };
+
+    transporter.sendMail(mailOptions, function(err, info){
+      if(err){
+        console.log(err);
+      } else {
+        console.log(info);
+      }
+    });
+
+  }
+
+  // Resatt passord
+  resattPassord(brukerMail, link){
+
+    let subject = "Passordet er resatt";
+
+    let html = '<div style="margin-left:36px"><p>Nytt passord:</p><p>'+ "Gå hit for å logge inn igjen" + link + '</p></div>'
+    + '<div style="float:left;margin-top:45px"><img src="http://gdurl.com/BbIX" width="280"/></div>'
+    + '<div style="margin-left:15px;margin-top:80px"><p>E-post: contact@HverdagsHelt.no</p>'
+    + '<p>tlf: +47 00 00 00 00</p><p>Prosjekt HverdagsHelt</p></div>';
+
+    let mailOptions = {
+      from: avsender,
+      to: brukerMail,
+      subject: subject,
+      html:html
+    };
+
+    transporter.sendMail(mailOptions, function(err, info){
+      if(err){
+        console.log(err);
+      } else {
+        console.log(info);
+      }
+    });
+
   }
 
   //Sender ut hendelse til alle i området
