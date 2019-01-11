@@ -1,4 +1,5 @@
 module.exports = class Dao {
+  
   constructor(pool) {
     // Dependency Injection
     this.pool = pool;
@@ -19,7 +20,7 @@ module.exports = class Dao {
             callback(500, {error: 'error querying'});
           } else {
             console.log('dao: returning rows');
-            console.log('rows: ' + JSON.stringify(rows));
+            //console.log('rows: ' + JSON.stringify(rows));
             callback(200, rows);
           }
         });

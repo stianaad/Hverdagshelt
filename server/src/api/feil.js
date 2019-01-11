@@ -2,23 +2,13 @@ import express from 'express';
 const router = express.Router();
 import path from 'path';
 import mysql from 'mysql';
-
-var bodyParser = require('body-parser');
-var multer = require('multer');
+import bodyParser from 'body-parser';
+import multer from 'multer';
 var upload = multer({dest: path.join(__dirname, '/../../temp')});
 import FeilDao from '../dao/feildao.js';
 import BildeOpplasting from '../opplasting/bildeopplasting.js';
 router.use(bodyParser.json());
-
-var pool = mysql.createPool({
-  connectionLimit: 5,
-  host: 'mysql.stud.iie.ntnu.no',
-  user: 'jonathm',
-  password: 'tFSnz90b',
-  database: 'jonathm',
-  debug: false,
-  multipleStatements: true,
-});
+import pool from '../../test/poolsetup';
 
 let feilDao = new FeilDao(pool);
 let bildeOpplasting = new BildeOpplasting();
@@ -62,7 +52,7 @@ router.post('/api/lagNyFeil', upload.array('bilder', 10), (req, res) => {
 
   let a = {
     kommune_id: req.body.kommune_id,
-    kategori_id: req.body.kategori_id,
+    subkategori_id: req.body.subkategori_id,
     overskrift: req.body.overskrift,
     beskrivelse: req.body.beskrivelse,
     lengdegrad: req.body.lengdegrad,
@@ -76,10 +66,12 @@ router.post('/api/lagNyFeil', upload.array('bilder', 10), (req, res) => {
       bildeOpplasting.lastOpp(req.files, (bilder) => {
         feilDao.leggTilBilder(feil_id, bilder, (status, data) => {
           res.status(status);
+          res.send();
         });
       });
     } else {
       res.status(status);
+      res.send();
     }
   });
 });
