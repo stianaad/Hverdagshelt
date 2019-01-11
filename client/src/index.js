@@ -4,6 +4,7 @@ import { Component,sharedComponentData } from 'react-simplified';
 import { BrowserRouter, Route, NavLink, Redirect,Switch } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import {BildeTest} from './bildetest';
+import {MeldFeil} from './Komponenter/MeldFeil/meldFeil'
 import Popup from 'reactjs-popup';
 import {Registrering} from './Komponenter/Registrering/registrering';
 import {generellServices} from './services/generellServices';
@@ -16,6 +17,7 @@ import createBrowserHistory from 'history/createBrowserHistory';
 const history = createBrowserHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
 
 import {relative} from 'path';
+import { KommuneVelger } from './Moduler/KommuneVelger/kommuneVelger';
 
 
 
@@ -84,6 +86,7 @@ class Forside extends Component {
             src="lofoten.jpg"
             alt="bilde av Lofoten"
           />
+          {/*<video src="/norge.mp4" autoPlay loop></video>*/}
           <div className="centered">
             <h6 className="tekst">Kommuniser direkte med din kommune </h6>
             <section className="main">
@@ -458,7 +461,6 @@ class Menu extends Component {
     return(
       <div>
         <p>hehehehe</p>
-        <Registrering />
       </div>
     )
   }
@@ -468,11 +470,13 @@ if (root)
   ReactDOM.render(
     <BrowserRouter>
       <div>
-        <Route path="/nyheter" component={Menu} />
-        <Route path="/registrering" component={Registrering} />
-        <Route exact path="/" component={Forside} />
         <Route exact path="/hovedside/:kommune" component={Hovedside} />
-        <Route path="/bildetest" component={BildeTest} />
+        <Route exact path="/kommunevalgtest" component={KommuneVelger} />
+        <Route exact path="/meld-feil" component={MeldFeil} />
+        <Route exact path="/nyheter" component={Menu} />
+        <Route exact path="/registrering" component={Registrering} />
+        <Route exact path="/" component={Forside} />
+        <Route exact path="/bildetest" component={BildeTest} />
       </div>
     </BrowserRouter>,
     root

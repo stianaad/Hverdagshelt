@@ -1,5 +1,5 @@
-var client = require('ssh2-sftp-client');
-var fs = require('fs');
+import client from 'ssh2-sftp-client';
+import fs from 'fs';
 const EKSTERN_URL = 'https://bjornost.tihlde.org/hverdagshelt/';
 
 module.exports = class BildeOpplasting {

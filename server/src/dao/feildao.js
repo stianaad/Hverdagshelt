@@ -24,14 +24,14 @@ module.exports = class FeilDao extends Dao {
   lagNyFeil(json, callback) {
     var feil = [
       json.kommune_id,
-      json.kategori_id,
+      json.subkategori_id,
       json.overskrift,
       json.beskrivelse,
       json.lengdegrad,
       json.breddegrad,
     ];
     super.query(
-      'INSERT INTO feil (kommune_id, kategori_id, overskrift, beskrivelse, lengdegrad, breddegrad) VALUES (?, ?, ?, ?, ?, ?)',
+      'INSERT INTO feil (kommune_id, subkategori_id, overskrift, beskrivelse, lengdegrad, breddegrad) VALUES (?, ?, ?, ?, ?, ?)',
       feil,
       callback
     );
