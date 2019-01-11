@@ -144,10 +144,21 @@ router.get('/api/hentAlleKategorier', (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk GET-request fra klienten');
 
-  feilDao.hentAlleKategorier((status, data) => {
+  feilDao.hentAlleHovedkategorier((status, data) => {
     res.status(status);
     res.json(data);
     console.log('/hentAlleKategorier lengde: ' + data.length);
+  });
+});
+
+router.get('/api/filtrerKategori/:kategori_id', (req, res) => {
+  if (!(req.body instanceof Object)) return res.sendStatus(400);
+  console.log('Fikk GET-request fra klienten');
+
+  feilDao.hentFeilFiltrertKategori(req.params.kategori_id,(status, data) => {
+    res.status(status);
+    res.json(data);
+    console.log('/hent feil filtrert på kategori lengde: ' + data.length);
   });
 });
 
