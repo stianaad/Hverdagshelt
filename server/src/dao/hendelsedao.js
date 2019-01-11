@@ -2,12 +2,12 @@ import Dao from './dao.js';
 
 module.exports = class HendelseDao extends Dao {
   hentAlleHendelser(callback) {
-    super.query('SELECT * FROM hendelse', null, callback);
+    super.query("SELECT hendelse_id,overskrift,DATE_FORMAT(tid, '%Y-%m-%d %H:%i') AS tid,beskrivelse, sted,bilde, lengdegrad, breddegrad  FROM hendelser", null, callback);
   }
 
   hentEnHendelse(json, callback) {
     var id = json.hendelse_id;
-    super.query('SELECT * FROM hendelse WHERE hendelse_id = ?', [id], callback);
+    super.query('SELECT * FROM hendelser WHERE hendelse_id = ?', [id], callback);
   }
 
   lagNyHendelse(json, callback) {
@@ -21,7 +21,7 @@ module.exports = class HendelseDao extends Dao {
       json.breddegrad,
     ];
     super.query(
-      'INSERT INTO hendelse (overskrift, bruker_id, beskrivelse, sted, bilde, lengdegrad, breddegrad) VALUES (?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO hendelser (overskrift, bruker_id, beskrivelse, sted, bilde, lengdegrad, breddegrad) VALUES (?, ?, ?, ?, ?, ?, ?)',
       hendelse,
       callback
     );
@@ -45,6 +45,6 @@ module.exports = class HendelseDao extends Dao {
 
   slettHendelse(json, callback) {
     var id = json.hendelse_id;
-    super.query('DELETE FROM hendelse WHERE hendelse_id = ?', [id], callback);
+    super.query('DELETE FROM hendelser WHERE hendelse_id = ?', [id], callback);
   }
 };

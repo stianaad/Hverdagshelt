@@ -29,6 +29,10 @@ class GenerellServices {
   hentFeilFiltrertKategori(kategori_id) { // hørre ikkje til her (feilservice)
     return axios.get('/api/filtrerKategori/'+kategori_id);
   }
+
+  hentAlleHendelser() { // hører til i (hendelseservice)
+    return axios.get('/api/hentAlleHendelser');
+  }
 }
 
 export let generellServices = new GenerellServices();

@@ -65,3 +65,4 @@ router.post('/api/slettHendelse', (req, res) => {
     res.status(status);
   });
 });
+module.exports = router;
