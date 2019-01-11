@@ -1,4 +1,4 @@
-var passord = require('password-hash-and-salt');
+import passord from 'password-hash-and-salt';
 
 var bruker = [];
 

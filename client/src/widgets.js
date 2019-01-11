@@ -1,8 +1,180 @@
+
 /* eslint eqeqeq: "off" */
 
 import * as React from 'react';
-import {Component} from 'react-simplified';
-import {NavLink} from 'react-router-dom';
+import { Component } from 'react-simplified';
+import { NavLink } from 'react-router-dom';
+import L from 'leaflet';
+
+class Feil {
+  feil_id = null;
+  kommune_id = null;
+  kommune_navn = null;
+  kategori_id = null;
+  kategori_navn = null;
+  status_id = null;
+  status_navn = null;
+  overskrift = null;
+  beskrivelse = null;
+  bilde = null;
+  lengdegrad = null;
+  breddegrad = null;
+
+  constructor(feil_id, kommune_id, kommune_navn, kategori_id, kategori_navn,
+              overskrift, beskrivelse, status_id, status_navn, bilde, lengdegrad,
+              breddegrad) {
+    this.feil_id = feil_id;
+    this.kommune_id = kommune_id;
+    this.kommune_navn = kommune_navn;
+    this.kategori_id = kategori_id;
+    this.kategori_navn = kategori_navn;
+    this.status_id = status_id;
+    this.status_navn = status_navn;
+    this.overskrift = overskrift;
+    this.beskrivelse = beskrivelse;
+    this.bilde = bilde;
+    this.lengdegrad = lengdegrad;
+    this.breddegrad = breddegrad;
+  }
+}
+/**
+ * Marker for kart, må legges til i en MarkerMap. Sendes vanligvis til karter og den legger det til automatisk.
+ * @example
+ * let myMarker = new Marker("tittel", "beskrivelse", 1, "10/21/30", "kategori", 59.456, 10.712);
+ * myMarker.addTo(map);
+ */
+export class Marker {
+  marker = L.marker();
+  hoverPopup = L.popup().setContent('<p>Hover popup</p>');
+  clickPopup = L.popup().setContent('<p>Click popup</p>');
+  /**
+   * 
+   * @param {string} overskrift 
+   * @param {string} beskrivelse 
+   * @param {string} bildeurl 
+   * @param {integer} status 
+   * @param {string} tid 
+   * @param {string} kategori 
+   * @param {double} breddegrad 
+   * @param {double} lengdegrad 
+   */
+  constructor(overskrift, beskrivelse, bildeurl, status, tid, kategori, breddegrad, lengdegrad) {
+    let iconName = status == 0 ? null : status == 1 ? "warningicon" : status == 2 ? "processingicon" : "successicon";
+    this.marker.setLatLng(L.latLng(breddegrad, lengdegrad));
+    if (status != 0) {
+      this.marker.setIcon(new L.Icon({
+        iconUrl: iconName+'.png',
+        iconSize: [30, 30]
+      }));
+    }
+    this.hoverPopup.setContent('<h3>'+kategori+'</h3>');
+    this.clickPopup.setContent('<h3>'+overskrift+'</h3><br><p>'+beskrivelse+'</p>');
+    this.marker.on('mouseover', (e) => {this.marker.bindPopup(this.hoverPopup).openPopup()});
+    this.marker.on('mouseout', (e) => {this.marker.closePopup().unbindPopup();});
+    this.marker.on('click', (e) => {
+      this.marker.closePopup().unbindPopup();
+      this.marker.removeEventListener('mouseout');
+      this.marker.bindPopup(this.clickPopup).openPopup();
+    });
+    this.marker.on('popupclose', (e) => {
+      this.marker.on('mouseout', (e) => {this.marker.closePopup().unbindPopup();})
+    })
+  }
+
+  addTo(map) {
+    this.marker.addTo(map);
+  }
+}
+
+/**
+ * Kart for å vise feil. Feil ikoner kan trykkes på for å se videre informasjon. Bredde, høyde, id, markers, og stedsnavn sendes som props.
+ * Må spesifisere props.center for å sentrere kartet på det gitte stedsnavnet.
+ * @example
+ * let myMarkers = [new Marker(), new Marker, new Marker()];
+ * <MarkerMap width="1000" height="500" id="map3" markers={myMarkers} center="Trondheim,Trøndelag"/>
+ */
+export class MarkerMap extends Component {
+  componentDidMount() {
+    let m = this.props.markers;
+    let coords, map;
+
+    fetch("https://nominatim.openstreetmap.org/?format=json&q="+this.props.center+"&limit=1", {
+      method: "GET"
+    })
+    .then(res => res.json())
+    .then(json => {
+      this.coords = [json[0].boundingbox[0], json[0].boundingbox[2], json[0].boundingbox[1], json[0].boundingbox[3]].map(el => parseFloat(el));
+      this.coords = [[this.coords[0], this.coords[1]], [this.coords[2], this.coords[3]]];
+
+      this.map = L.map(this.props.id, {
+        layers: [
+          L.tileLayer('https://maps.tilehosting.com/styles/streets/{z}/{x}/{y}.png?key=c1RIxTIz5D0YrAY6C81A', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          })
+        ]
+      })
+      .fitBounds(this.coords).setZoom(11);
+      
+      for (let i = 0; i < m.length; i++) {
+        m[i].marker.addTo(this.map);
+      }
+    });
+  }
+
+  render() {
+    return (
+      <div style={{width:this.props.width+"px", height:this.props.height+"px"}} id={this.props.id}></div>
+    )
+  }
+}
+
+/**
+ * Kart for å velge posisjon for en hendelse/feil. Bredde, høyde, id, stedsnavn, og en callback funksjon for å sende posisjon, sendes som props.
+ * @example 
+ * let pos = [0, 0]; // [breddegrad, lengdegrad]
+ * let posFunkjson = (posisjon) => pos = posisjon;
+ * <PositionMap width="1000" height="500" id="posmap" center="Oslo" position={posFunksjon}/>
+ */
+export class PositionMap extends Component {
+  clicked(e) {
+    if (this.marker == undefined) {
+      this.marker = L.marker(e.latlng, {
+        draggable: true
+      }).addTo(this.map);
+    }
+    else {
+      this.marker.setLatLng(e.latlng);
+    }
+    this.props.position(this.marker.getLatLng());
+  }
+
+  componentDidMount() {
+    let coords, map;
+    fetch("https://nominatim.openstreetmap.org/?format=json&q="+this.props.center+"&limit=1", {
+      method: "GET"
+    })
+    .then(res => res.json())
+    .then(json => {
+      this.coords = [json[0].boundingbox[0], json[0].boundingbox[2], json[0].boundingbox[1], json[0].boundingbox[3]].map(el => parseFloat(el));
+      this.coords = [[this.coords[0], this.coords[1]], [this.coords[2], this.coords[3]]];
+      this.map = L.map(this.props.id, {
+        layers: [
+          L.tileLayer('https://maps.tilehosting.com/styles/streets/{z}/{x}/{y}.png?key=c1RIxTIz5D0YrAY6C81A', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          })
+        ]
+      })
+      .on('click', this.clicked)
+      .fitBounds(this.coords).setZoom(11);
+    });
+  }
+
+  render() {
+    return (
+      <div style={{width:this.props.width+"px", height:this.props.height+"px"}} id={this.props.id}></div>
+    )
+  }
+}
 
 /**
  * Renders alert messages using Bootstrap classes.
@@ -34,32 +206,28 @@ export class Alert extends Component {
   static success(text) {
     // To avoid 'Cannot update during an existing state transition' errors, run after current event through setTimeout
     setTimeout(() => {
-      for (let instance of Alert.instances())
-        instance.alerts.push({text: text, type: 'success'});
+      for (let instance of Alert.instances()) instance.alerts.push({ text: text, type: 'success' });
     });
   }
 
   static info(text) {
     // To avoid 'Cannot update during an existing state transition' errors, run after current event through setTimeout
     setTimeout(() => {
-      for (let instance of Alert.instances())
-        instance.alerts.push({text: text, type: 'info'});
+      for (let instance of Alert.instances()) instance.alerts.push({ text: text, type: 'info' });
     });
   }
 
   static warning(text) {
     // To avoid 'Cannot update during an existing state transition' errors, run after current event through setTimeout
     setTimeout(() => {
-      for (let instance of Alert.instances())
-        instance.alerts.push({text: text, type: 'warning'});
+      for (let instance of Alert.instances()) instance.alerts.push({ text: text, type: 'warning' });
     });
   }
 
   static danger(text) {
     // To avoid 'Cannot update during an existing state transition' errors, run after current event through setTimeout
     setTimeout(() => {
-      for (let instance of Alert.instances())
-        instance.alerts.push({text: text, type: 'danger'});
+      for (let instance of Alert.instances()) instance.alerts.push({ text: text, type: 'danger' });
     });
   }
 }
@@ -86,8 +254,8 @@ export class Card extends Component<{ title: React.Node,exact?: boolean,link: st
   render() {
     return (
       <div className="card">
-        <NavLink style={{color: "black"}} exact={this.props.exact} to={this.props.to}>
-          <img src={this.props.link} className={"card-img-top img-fluid"}/>
+        <NavLink style={{ color: "black" }} exact={this.props.exact} to={this.props.to}>
+          <img src={this.props.link} className={"card-img-top img-fluid"} />
           <div className="card-body">
             <h5 className="card-title text-center">{this.props.title}</h5>
             <div className="card-text"><i>{this.props.children}</i></div>
@@ -105,8 +273,8 @@ class ListGroupItem extends Component<{ to?: string, children: React.Node }> {
         {this.props.children}
       </NavLink>
     ) : (
-      <li className="list-group-item">{this.props.children}</li>
-    );
+        <li className="list-group-item">{this.props.children}</li>
+      );
   }
 }
 
@@ -125,7 +293,7 @@ export class ListGroup extends Component<{
 
 class ListGroupItemInline extends Component<{ to: string, style?: Object, children: React.Node }> {
   render() {
-    return(
+    return (
       <NavLink className="list-inline-item mt-2 mr-5 ml-5" style={this.props.style} activeClassName="active" to={this.props.to}>
         {this.props.children}
       </NavLink>
@@ -143,11 +311,11 @@ export class ListGroupInline extends Component<{
   }
 }
 
-export class CheckBox extends Component<{checkBoxNavn: string, forandring: Object,disable?: boolean}> {
-  render(){
-    return(
+export class CheckBox extends Component<{ checkBoxNavn: string, forandring: Object, disable?: boolean }> {
+  render() {
+    return (
       <div className={"form-check form-check-inline"}>
-        <input className="form-check-input" type="checkbox" id={this.props.checkBoxNavn} disabled={this.props.disable} onChange={this.props.forandring}  value={this.props.checkBoxNavn}/>
+        <input className="form-check-input" type="checkbox" id={this.props.checkBoxNavn} disabled={this.props.disable} onChange={this.props.forandring} value={this.props.checkBoxNavn} />
         <label className="form-check-label" >{this.props.checkBoxNavn}</label>
       </div>
     )
@@ -160,7 +328,7 @@ export class Overskrift extends Component<{ children: React.Node }> {
   }
 }
 
-export class ContainerFluid extends Component<{children: React.Node }> {
+export class ContainerFluid extends Component<{ children: React.Node }> {
   render() {
     return <div className={"container-fluid"}>{this.props.children}</div>;
   }
@@ -188,7 +356,7 @@ class NavBarBrand extends Component<{ children?: React.Node }> {
   render() {
     if (!this.props.children) return null;
     return (
-      <NavLink className="navbar-brand" style={{ font: "400 100px/1.5  Pacifico,Helvetica, sans-serif",textShadow: "3px 3px 0px rgba(0,0,0,0.1), 7px 7px 0px rgba(0,0,0,0.05)", fontSize: "40px"}} activeClassName="active" exact to="/nyheter">
+      <NavLink className="navbar-brand" style={{ font: "400 100px/1.5  Pacifico,Helvetica, sans-serif", textShadow: "3px 3px 0px rgba(0,0,0,0.1), 7px 7px 0px rgba(0,0,0,0.05)", fontSize: "40px" }} activeClassName="active" exact to="/nyheter">
         {this.props.children}
       </NavLink>
     );
@@ -199,7 +367,7 @@ class NavBarLinkLeft extends Component<{ to: string, exact?: boolean, children?:
   render() {
     if (!this.props.children) return null;
     return (
-      <NavLink className="nav-link " style={{ fontSize: "20px"}} activeClassName="active" exact={this.props.exact} to={this.props.to}>
+      <NavLink className="nav-link " style={{ fontSize: "20px" }} activeClassName="active" exact={this.props.exact} to={this.props.to}>
         {this.props.children}
       </NavLink>
     );
@@ -210,7 +378,7 @@ class NavBarLinkRight extends Component<{ to: string, exact?: boolean, children?
   render() {
     if (!this.props.children) return null;
     return (
-      <NavLink className="nav-link " style={{ fontSize: "20px"}} activeClassName="active" exact={this.props.exact} to={this.props.to}>
+      <NavLink className="nav-link " style={{ fontSize: "20px" }} activeClassName="active" exact={this.props.exact} to={this.props.to}>
         {this.props.children}
       </NavLink>
     );
@@ -247,18 +415,18 @@ export class NavBar extends Component<{ children: React.Element<typeof NavBarBra
   }
 }
 
-export class Oppsett extends Component<{sideBredde: number,sideTekst?: React.Node, midtBredde: number, children: React.Node}>{
-  render(){
-    return(
+export class Oppsett extends Component<{ sideBredde: number, sideTekst?: React.Node, midtBredde: number, children: React.Node }>{
+  render() {
+    return (
       <ContainerFluid>
         <Row>
           <Column bredde={this.props.sideBredde}>
             <div className="text-center">
-            {this.props.sideTekst}
+              {this.props.sideTekst}
             </div>
           </Column>
           <Column bredde={this.props.midtBredde}>
-              {this.props.children}
+            {this.props.children}
           </Column>
           <Column bredde={this.props.sideBredde}>
             <div className="text-center">
@@ -284,9 +452,9 @@ class ButtonSuccess extends Component<{
   }
 }
 
-export class Input extends Component<{tittelInput: string,children: React.Node}>{
+export class Input extends Component<{ tittelInput: string, children: React.Node }>{
   render() {
-    return(
+    return (
       <div className="input-group mb-3 ">
         <div className="input-group-prepend">
           <span className="input-group-text">{this.props.tittelInput}</span>

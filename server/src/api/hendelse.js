@@ -1,18 +1,9 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-var mysql = require('mysql');
-var bodyParser = require('body-parser');
+import mysql from 'mysql';
+import bodyParser from 'body-parser';
 import HendelseDao from '../dao/hendelsedao.js';
-
-var pool = mysql.createPool({
-  connectionLimit: 5,
-  host: 'mysql.stud.iie.ntnu.no',
-  user: 'jonathm',
-  password: 'tFSnz90b',
-  database: 'jonathm',
-  debug: false,
-  multipleStatements: true,
-});
+import pool from '../../test/poolsetup';
 
 let hendelseDao = new HendelseDao(pool);
 

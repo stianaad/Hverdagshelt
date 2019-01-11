@@ -1,23 +1,21 @@
 /* eslint eqeqeq: "off" */
 import * as React from 'react';
-import {Component, sharedComponentData} from 'react-simplified';
-import {
-  BrowserRouter,
-  Route,
-  NavLink,
-  Redirect,
-  Switch,
-} from 'react-router-dom';
+import { Component,sharedComponentData } from 'react-simplified';
+import { BrowserRouter, Route, NavLink, Redirect,Switch } from 'react-router-dom';
 import ReactDOM from 'react-dom';
+import {BildeTest} from './bildetest';
+import {MeldFeil} from './Komponenter/MeldFeil/meldFeil'
 import Popup from 'reactjs-popup';
-import {sakService} from './services';
 import {Registrering} from './Komponenter/Registrering/registrering';
 import {generellServices} from './generellServices';
 import {RodKnapp} from './widgets';
+import { PositionMap, Marker, MarkerMap } from './widgets'
 
-import createHashHistory from 'history/createHashHistory';
+import createBrowserHistory from 'history/createBrowserHistory';
+const history = createBrowserHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
+
 import {relative} from 'path';
-const history = createHashHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
+import { KommuneVelger } from './Moduler/KommuneVelger/kommuneVelger';
 
 class Forside extends Component {
   sok = '';
@@ -83,9 +81,10 @@ class Forside extends Component {
             src="lofoten.jpg"
             alt="bilde av Lofoten"
           />
+          {/*<video src="/norge.mp4" autoPlay loop></video>*/}
           <div className="centered">
             <h6 className="tekst">Kommuniser direkte med din kommune </h6>
-            <section class="main">
+            <section className="main">
               <form className="search" method="post" action="index.html">
                 <input
                   type="text"
@@ -135,114 +134,16 @@ class Forside extends Component {
     });
   }
 }
-export class Registrering extends Component {
-  render() {
-    return (
-      <form>
-        <div className="row">
-          <div class="col">
-            <div className="form-group">
-              <label>Fornavn:</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Fornavn"
-              />
-            </div>
-          </div>
-          <div className="col">
-            <div className="form-group">
-              <label>Etternavn:</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Etternavn"
-              />
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <div class="col">
-            <div className="form-group">
-              <label>E-post:</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="E-post"
-              />
-            </div>
-          </div>
-          <div className="col">
-            <div className="nedtrekksmeny">
-              <button
-                onClick="visKommuner"
-                className="dropdown-toggle"
-                data-toggle="dropdown"
-              >
-                Kommune
-              </button>
-              <div id="nedtrekk" className="dropdown-menu">
-                <input
-                  type="text"
-                  placeholder="Søk..."
-                  id="sokInp"
-                  onKeyUp="filtrer"
-                  className="dropdown-item"
-                />
-                <label className="dropdown-item">Trondheim</label>
-                <label className="dropdown-item">Lier</label>
-                <label className="dropdown-item">Oslo</label>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <div class="col">
-            <div className="form-group">
-              <label>Passord:</label>
-              <input type="password" className="form-control" />
-            </div>
-          </div>
-          <div className="col">
-            <div className="form-group">
-              <label>Bekreft passord:</label>
-              <input type="password" className="form-control" />
-            </div>
-          </div>
-        </div>
-      </form>
-    );
-  }
-
-  handterInput(e) {
-    this.sok.innhold = e.target.value;
-    console.log(this.sok.innhold);
-    /*if (this.sok.innhold.length >0) {
-        sakService
-            .filtrerNyhetssaker(this.sok.innhold)
-            .then(sak => (this.delt.nyhetssaker = sak))
-            .catch();
-      }
-        
-      else{
-          sakService
-            .getAlleNyhetssaker()
-            .then(nyeste => (this.delt.nyhetssaker = nyeste))
-            .catch();
-      }*/
-  }
-}
 
 class Menu extends Component {
-  tekst = '';
-
-  render() {
-    return (
+  tekst = "";
+  
+  render(){
+    return(
       <div>
         <p>hehehehe</p>
-        <Registrering />
       </div>
-    );
+    )
   }
 }
 const root = document.getElementById('root');
@@ -250,9 +151,12 @@ if (root)
   ReactDOM.render(
     <BrowserRouter>
       <div>
-        <Route path="/nyheter" component={Menu} />
-        <Route path="/registrering" component={Registrering} />
-        <Route path="/" component={Forside} />
+        <Route exact path="/kommunevalgtest" component={KommuneVelger} />
+        <Route exact path="/meld-feil" component={MeldFeil} />
+        <Route exact path="/nyheter" component={Menu} />
+        <Route exact path="/registrering" component={Registrering} />
+        <Route exact path="/" component={Forside} />
+        <Route exact path="/bildetest" component={BildeTest} />
       </div>
     </BrowserRouter>,
     root
