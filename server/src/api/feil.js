@@ -8,7 +8,7 @@ var upload = multer({dest: path.join(__dirname, '/../../temp')});
 import FeilDao from '../dao/feildao.js';
 import BildeOpplasting from '../opplasting/bildeopplasting.js';
 router.use(bodyParser.json());
-import pool from '../../test/poolsetup';
+import {pool} from '../../test/poolsetup';
 
 let feilDao = new FeilDao(pool);
 let bildeOpplasting = new BildeOpplasting();
