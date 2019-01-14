@@ -72,7 +72,7 @@ router.post('/api/slettHendelse', (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk POST-request fra klienten');
 
-  var a = {hendelse_id = req.body.hendelse_id}
+  var a = {hendelse_id: req.body.hendelse_id}
 
   feilDao.slettHendelse(a, (status, data) => {
     console.log('Slettet en hendelse');
