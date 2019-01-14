@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
-import {Card, Feed} from 'semantic-ui-react';
+import {Card, Feed, Modal} from 'semantic-ui-react';
 
 export class FeedEvent extends Component{
     render(){
@@ -16,6 +16,16 @@ export class FeedEvent extends Component{
                     </Feed.Content>
                 </Feed.Event>
             </Feed>
+        );
+    }
+}
+
+export class Modal extends Component{
+    render(){
+        return(
+            <Modal>
+                
+            </Modal>
         );
     }
 }
