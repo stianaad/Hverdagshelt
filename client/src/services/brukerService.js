@@ -10,6 +10,10 @@ class BrukerService {
   endrePassord(nyInformasjon) {
     return axios.post('/api/lagNyBruker', nyInformasjon);
   }
+
+  loggInn(informasjon) {
+    return axios.post('/bruker/sjekkPassord', informasjon);
+  }
   
 }
 
