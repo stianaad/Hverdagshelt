@@ -8,6 +8,13 @@
    padding: 3%;
 }
 
+.bildeGrid{
+   display: grid;
+   grid-template-columns: 1fr 1fr 1fr;
+   width: 200px;
+   height: 200px;
+}
+
 nav ul{
     height:450px;
     width:100%;

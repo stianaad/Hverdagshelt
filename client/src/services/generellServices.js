@@ -33,6 +33,10 @@ class GenerellServices {
   hentAlleHendelser() { // hører til i (hendelseservice)
     return axios.get('/api/hentAlleHendelser');
   }
+
+  hentBilderTilFeil(feil_id){
+    return axios.get('/api/hentBilder/'+feil_id);
+  }
 }
 
 export let generellServices = new GenerellServices();

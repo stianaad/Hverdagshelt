@@ -34,6 +34,18 @@ router.get('/api/hentEnFeil', (req, res) => {
   });
 });
 
+router.get('/api/hentBilder/:feil_id', (req, res) => {
+  console.log('Fikk GET-request fra klienten');
+
+  feilDao.hentBilderTilFeil(req.params.feil_id, (status, data) => {
+    res.status(status);
+    res.json(data);
+    console.log('/hentBilderTilFeil/:feil_id resultat:' + data);
+  });
+});
+
+
+
 router.get('/api/hentFeilStatus', (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk GET-request fra klienten');
