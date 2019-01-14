@@ -36,7 +36,6 @@ export class KommuneInput extends Component {
         if (this.kommuner_filtrert.length > 0) {
             this.listesyn = false;
             this.verdi = this.kommuner_filtrert[index].kommune_id;
-            console.log(this.verdi);
             this.valgt_index = index;
             this.sok = this.kommuner_filtrert[index].kommune_navn;
         }
@@ -80,7 +79,6 @@ export class KommuneInput extends Component {
 
     oppdaterSok(e) {
         this.verdi = null;
-        console.log(this.verdi);
         this.sok = e.target.value;
         
         this.kommuner_filtrert = [];
@@ -96,7 +94,6 @@ export class KommuneInput extends Component {
                     this.kommuner_filtrert.push(this.kommuner[i]);
                     if (this.kommuner[i].kommune_navn.toLowerCase() == this.sok.toLowerCase()) {
                         this.verdi = this.kommuner[i].kommune_id;
-                        console.log(this.verdi);
                     }
                 }
             }
