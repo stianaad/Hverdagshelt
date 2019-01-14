@@ -43,3 +43,7 @@ nav ul{
     ::-webkit-scrollbar-thumb:hover {
     background: #000000;  
     }
+
+h6 {
+  text-shadow: 3px 3px 5px #000000;
+}
