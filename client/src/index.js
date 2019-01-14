@@ -378,12 +378,15 @@ class Hovedside extends Component {
       let res1 = await generellServices.hentAlleFeil();
       this.alleFeil = await res1.data;
       this.aktiveFeil = await res1.data;
+      await console.log(res1.data);
 
       let res2 = await generellServices.hentAlleKategorier();
       this.alleKategorier = await res2.data;
+      await console.log(res2.data);
       
       let res3 = await generellServices.hentAlleHendelser();
       this.alleHendelser = await res3.data;
+      await console.log(res3.data);
       
   }
 }

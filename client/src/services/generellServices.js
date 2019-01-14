@@ -21,7 +21,7 @@ class GenerellServices {
   }
 
   hentAlleKategorier() { // hørre ikkje til her (feilservice)
-    return api.get('/api/hentAlleKategorier');
+    return api.get('/api/hentAlleHovedkategorier');
   }
 
   hentFeilFiltrertKategori(kategori_id) { // hørre ikkje til her (feilservice)
