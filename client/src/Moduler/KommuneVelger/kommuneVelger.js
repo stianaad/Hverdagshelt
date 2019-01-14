@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react-simplified';
-import { generellServices } from '../../generellServices';
+import { generellServices } from '../../services/generellServices';
 
 export class KommuneVelger extends Component {
     sok = "";

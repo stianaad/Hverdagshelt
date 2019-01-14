@@ -4,7 +4,7 @@ import Dao from './dao.js';
 
 module.exports = class FeilDao extends Dao {
   hentAlleFeil(callback) {
-    super.query('SELECT * FROM feil', null, callback);
+    super.query('SELECT feil.*,hovedkategori.kategorinavn FROM feil, subkategori,hovedkategori WHERE feil.subkategori_id=subkategori.subkategori_id AND subkategori.hovedkategori_id=hovedkategori.hovedkategori_id', null, callback);
   }
 
   hentEnFeil(json, callback) {
@@ -131,6 +131,12 @@ module.exports = class FeilDao extends Dao {
   hentAlleHovedkategorier(callback) {
     super.query('SELECT * FROM hovedkategori', null, callback);
   }
+
+  hentFeilFiltrertKategori(kategori_id,callback) {
+    super.query('SELECT feil.*,hovedkategori.hovedkategori_id,hovedkategori.kategorinavn FROM feil, subkategori,hovedkategori WHERE feil.subkategori_id=subkategori.subkategori_id AND subkategori.hovedkategori_id=hovedkategori.hovedkategori_id AND hovedkategori.hovedkategori_id=?',
+     [kategori_id], callback);
+  }
+
 
   hentAlleSubKategorierPaaHovedkategori(json, callback) {
     var hovedkategori_id = json.hovedkategori_id;
