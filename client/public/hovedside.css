@@ -8,6 +8,13 @@
    padding: 3%;
 }
 
+.bildeGrid{
+   display: grid;
+   grid-template-columns: 1fr 1fr 1fr;
+   width: 200px;
+   height: 200px;
+}
+
 nav ul{
     height:450px;
     width:100%;
@@ -43,3 +50,7 @@ nav ul{
     ::-webkit-scrollbar-thumb:hover {
     background: #000000;  
     }
+
+.tekst {
+  text-shadow: 3px 3px 5px #000000;
+}

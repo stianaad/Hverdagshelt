@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
-//import {Privat} from '../../services/brukerService';
+//import {Privat, brukerService} from '../../services/brukerService';
 
 export class Registrering extends Component {
   fornavn = '';

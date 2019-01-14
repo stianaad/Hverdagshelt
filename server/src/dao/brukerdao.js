@@ -7,7 +7,7 @@ module.exports = class BrukerDao extends Dao {
   }
 
   hentBruker(json, callback) {
-    const epost = [json.epost];
+    let epost = [json.epost];
     console.log(epost);
     super.query('SELECT * FROM bruker WHERE epost=?', epost, callback);
   }

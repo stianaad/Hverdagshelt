@@ -10,16 +10,6 @@ import Epost from '../../epost.js';
 import jwt from 'jsonwebtoken';
 import async from 'async';
 
-var pool = mysql.createPool({
-  connectionLimit: 5,
-  host: 'mysql.stud.iie.ntnu.no',
-  user: 'jonathm',
-  password: 'tFSnz90b',
-  database: 'jonathm',
-  debug: false,
-  multipleStatements: true,
-});
-
 let brukerDao = new BrukerDao(pool);
 let glemt = new Epost();
 
@@ -86,17 +76,20 @@ router.post('/api/lagNyBruker', (req, res) => {
 * deretter verifiseres passorded som er skrevet inn mot det i databasen.
 */
 
-router.get("/sjekkPassord",(req,res)=>{
+router.post("/sjekkPassord",(req,res)=>{
   console.log("Sjekk passord");
 	passord(req.body.passord).hash((error,hash) => {
 		if(error){
 			throw new Error('Noge gjekk galt');
     }
-    
-    brukerDao.hentBruker(req.body,(status,data)=>{
+    let info = {epost: req.body.epost, passord: hash};
+    brukerDao.hentBruker(info,(status,data)=>{
       res.status(status);
-      res.json(data);
-      verifiserePassord(req.body.passord,data[0].passord);
+      if (data.length > 0) {
+        verifiserePassord(hash,data[0].passord);
+      } else {
+        res.json({res:"feil"});
+      }
     });
   });
 });
