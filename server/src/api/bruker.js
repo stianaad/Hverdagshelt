@@ -115,7 +115,7 @@ router.get("/glemt-passord",(req,res)=>{
 
     if(data[0].epost === req.body.epost){
       let tTilBruker= token();
-      let link = 'http://localhost:3000/reset-passord/' + tTilBruker;
+      let link = 'http://localhost:3000/resett-passord/' + tTilBruker;
       glemt.glemtPassord("r.vedoy@gmail.com",link);
     }else{
         throw new Error("Fant ikke bruker");

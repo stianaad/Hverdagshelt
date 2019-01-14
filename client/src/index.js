@@ -13,6 +13,8 @@ import { PositionMap, Marker, MarkerMap } from './Moduler/kart/map';
 //import {Hovedside} from './Komponenter/hovedside/hovedside';
 
 import {GlemtPassord} from "../src/Komponenter/GlemtPassord/glemtPassord";
+import {ResettPassord} from "../src/Komponenter/GlemtPassord/resettPassord";
+
 
 import createBrowserHistory from 'history/createBrowserHistory';
 const history = createBrowserHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
@@ -59,7 +61,7 @@ class Forside extends Component {
         <div>
           <img
             className="img-fluid w-50 "
-            src="Hverdagshelt.png"
+            src="FremsideHelt.png"
             alt="Hverdagshelt logo"
           />
           <button
@@ -465,6 +467,7 @@ if (root)
         <Route exact path="/" component={Forside} />
         <Route exact path="/bildetest" component={BildeTest} />
         <Route exact path="/glemt-passord" component={GlemtPassord}/>
+        <Route exact path="/resett-passord" component={ResettPassord}/>
       </div>
     </BrowserRouter>,
     root

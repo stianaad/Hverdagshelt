@@ -16,7 +16,7 @@ export class GlemtPassord extends Component{
             <form className>
               <div className="row">
                 <div className="col">
-                
+
                   <div className="form-group row">
                   <label className="control-label m-2"> Epost:</label>
                     <div className="col-sm-10">
@@ -27,10 +27,12 @@ export class GlemtPassord extends Component{
                           onChange = {(e)=>(this.epost = e.target.value)}
                           required ={true}
                         />
-                        <small className="form-text text-muted">Skriv inn din mail under for å få tilsendt link til å resette ditt passord</small>
+                        <small className="form-text text-muted">Skriv inn din mail for å få tilsendt link til å resette ditt passord.</small>
                       </div>
                     </div>
-                    <button className="btn btn-success border border-dark">
+                    <button 
+                    className="btn btn-success border border-dark"
+                    onClick={this.lagre}>
                       Send mail
                     </button>
                   </div>
