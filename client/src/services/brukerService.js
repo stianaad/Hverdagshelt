@@ -57,7 +57,7 @@ export class Ansatt extends Bruker {
   }
 }
 
-export class Bedrift extends Bruker () {
+export class Bedrift extends Bruker {
   constructor(
     epost,
     passord,
@@ -73,7 +73,7 @@ export class Bedrift extends Bruker () {
   }
 }
 
-export class Admin extends Bruker () {
+export class Admin extends Bruker {
   constructor(
     epost,
     passord,
