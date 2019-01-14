@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
-import {Privat, brukerService} from '../../services/brukerService';
+//import {Privat} from '../../services/brukerService';
 
 export class Registrering extends Component {
   fornavn = '';
@@ -82,8 +82,34 @@ export class Registrering extends Component {
               </div>
             </div>
           </div>
-          <div className="row">
-            <button onClick={this.lagre}>Test</button>
+          <div className="valg">
+            <p>Hva ønsker du å bli varslet om i din kommune?</p>
+            <br></br>
+            <div className="form-check">
+                <input className="form-check-input" type="checkbox" value="" id="defaultCheck1"/>
+                <label className="form-check-label" for="defaultCheck1">
+                    Planlagt strømbrudd
+                </label>
+            </div>
+            <div className="form-check">
+                <input className="form-check-input" type="checkbox" value="" id="defaultCheck2"/>
+                <label className="form-check-label" for="defaultCheck3">
+                    Planlagt vann- og avløpsarbeid
+                </label>
+            </div>
+            <div className="form-check">
+                <input className="form-check-input" type="checkbox" value="" id="defaultCheck3"/>
+                <label className="form-check-label" for="defaultCheck3">
+                    Konserter
+                </label>
+            </div>
+            <br/>
+            <p>Du kan endre varselinnstillinger på MinSide senere.</p>
+          </div>
+          <br></br>
+          <div className="row knappDiv">
+            <button type="submit" className="btn btn-primary" onClick={this.lagre}>Registrer deg</button>
+            <button type="cancel" className="btn btn-secondary">Avbryt</button>
           </div>
         </form>
       </div>
@@ -102,7 +128,7 @@ export class Registrering extends Component {
     if (this.bekreftPass === this.passord && this.passord.length >= 8) {
         this.advarsel = '';
 
-        bruker = new Privat(this.epost, this.passord, 1, this.fornavn, this.etternavn); 
+        //bruker = new Privat(this.epost, this.passord, 1, this.fornavn, this.etternavn); 
         
         /*brukerService
             .lagNyBruker(bruker)

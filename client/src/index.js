@@ -7,6 +7,7 @@ import {BildeTest} from './bildetest';
 import {MeldFeil} from './Komponenter/MeldFeil/meldFeil'
 import Popup from 'reactjs-popup';
 import {Registrering} from './Komponenter/Registrering/registrering';
+import {MineOppgaver} from './Komponenter/Ansatt/mineOppgaver';
 import {generellServices} from './services/generellServices';
 import {RodKnapp} from './widgets';
 import { PositionMap, Marker, MarkerMap } from './widgets'
@@ -132,11 +133,11 @@ class Forside extends Component {
   }
 
   mounted() {
-    generellServices.hentAlleKommuner().then((kommuner) => {
+    /*generellServices.hentAlleKommuner().then((kommuner) => {
       this.sokteKommuner = kommuner;
       this.alleKommuner = kommuner;
       console.log(kommuner.length);
-    });
+    });*/
   }
 }
 
@@ -174,12 +175,12 @@ class Hovedside extends Component {
       this.aktiveFeil = this.alleFeil;
       console.log("FEEEIl",this.alleFeil);
     } else {
-    generellServices
+    /*generellServices
       .hentFeilFiltrertKategori(verdi)
       .then(aktiveFeil => {
         this.aktiveFeil = aktiveFeil;
         console.log(aktiveFeil.length);
-      })
+      })*/
     }
   }
   /*hentKommuner(){
@@ -400,7 +401,7 @@ class Hovedside extends Component {
   }
 
   mounted(){
-      generellServices
+      /*generellServices
           .hentAlleFeil()
           .then(alleFeil => {
               this.alleFeil = alleFeil;
@@ -420,7 +421,7 @@ class Hovedside extends Component {
           .then(alleHendelser => {
             this.alleHendelser = alleHendelser;
             console.log(alleHendelser);
-          })
+          })*/
   }
 }
 
@@ -477,6 +478,7 @@ if (root)
         <Route exact path="/registrering" component={Registrering} />
         <Route exact path="/" component={Forside} />
         <Route exact path="/bildetest" component={BildeTest} />
+        <Route exact path="/mineoppgaver" component={MineOppgaver}/>
       </div>
     </BrowserRouter>,
     root
