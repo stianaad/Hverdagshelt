@@ -2,9 +2,9 @@ import mysql from 'mysql';
 
 export var pool = mysql.createPool({
     connectionLimit: 5,
-    host: '10.24.75.138',
+    host: 'mysql.stud.iie.ntnu.no',
     user: 'bjornost',
-    password: '-.,jegheter12345',
+    password: 'bjornost',
     database: 'bjornost',
     debug: false,
     multipleStatements: true,
