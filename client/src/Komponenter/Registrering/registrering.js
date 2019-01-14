@@ -104,12 +104,10 @@ export class Registrering extends Component {
 
         bruker = new Privat(this.epost, this.passord, 1, this.fornavn, this.etternavn); 
         
-        brukerService
+        /*brukerService
             .lagNyBruker(bruker)
             .then(history.push('/'))
-            .catch((error) => Alert.danger(error.message));
-
-
+            .catch((error) => Alert.danger(error.message));*/
     } 
     
     else {
