@@ -3,7 +3,7 @@ const router = express.Router();
 import mysql from 'mysql';
 import bodyParser from 'body-parser';
 import HendelseDao from '../dao/hendelsedao.js';
-import pool from '../../test/poolsetup';
+import {pool} from '../../test/poolsetup';
 
 let hendelseDao = new HendelseDao(pool);
 

@@ -1,5 +1,4 @@
-import axios from 'axios';
-axios.interceptors.response.use((response) => response.data);
+import api from './api';
 
 module.exports = class Feil {
 
@@ -42,63 +41,63 @@ export class Oppdatering {
 class FeilService {
 
   hentAlleFeil() {
-    return axios.get('/api/hentAlleFeil');
+    return api.get('/api/hentAlleFeil');
   }
 
   hentEnFeil(feil_id) {
-    return axios.get('/api/hentEnFeil', feil_id);
+    return api.get('/api/hentEnFeil', feil_id);
   }
 
   hentFeilFraStatus(status_id) {
-    return axios.get('/api/hentFeilStatus', status_id);
+    return api.get('/api/hentFeilStatus', status_id);
   }
 
   lagNyFeil(nyFeil) {
-    return axios.post('/api/lagNyFeil', nyFeil);
+    return api.post('/api/lagNyFeil', nyFeil);
   }
 
   oppdaterFeil(oppdatertFeil) {
-    return axios.post('/api/oppdaterFeil', oppdatertFeil);
+    return api.post('/api/oppdaterFeil', oppdatertFeil);
   }
 
   settNyStatusTilFeil(input) {
-    return axios.post('/api/endreStatusFeil', input);
+    return api.post('/api/endreStatusFeil', input);
   }
 
   slettFeil(feil_id) {
-    return axios.post('/api/slettFeil', feil_id);
+    return api.post('/api/slettFeil', feil_id);
   }
 
   hentEnKategori(kat_id) {
-    return axios.get('/api/hentEnKategori', kat_id);
+    return api.get('/api/hentEnKategori', kat_id);
   }
 
   hentAlleKategorier() {
-    return axios.get('/api/hentAlleKategorier');
+    return api.get('/api/hentAlleKategorier');
   }
 
   nyOppdatering(nyOpp) {
-    return axios.post('/api/lagOppdatering', nyOpp);
+    return api.post('/api/lagOppdatering', nyOpp);
   }
 
   hentAlleOppdateringerPaaFeil(feil_id) {
-    return axios.get('/api/hentAlleOppdateringerPaaFeil', feil_id);
+    return api.get('/api/hentAlleOppdateringerPaaFeil', feil_id);
   }
 
   hentEnStatus(status_id) {
-    return axios.get('/api/hentEnStatus', status_id);
+    return api.get('/api/hentEnStatus', status_id);
   }
 
   hentAlleStatuser() {
-    return axios.get('/api/hentAlleStatuser');
+    return api.get('/api/hentAlleStatuser');
   }
 
   hentAlleHovedkategorier() {
-    return axios.get('/api/hentAlleHovedkategorier');
+    return api.get('/api/hentAlleHovedkategorier');
   }
 
   hentAlleSubkategorierPaaHovedkategori(hk_id) {
-    return axios.get('/api/hentAlleSubKategorierPaaHovedkategori', hk_id)
+    return api.get('/api/hentAlleSubKategorierPaaHovedkategori', hk_id)
   }
 }
 

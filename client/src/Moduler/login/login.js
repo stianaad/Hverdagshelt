@@ -34,10 +34,9 @@ export class Login extends Component {
     this.data[e.target.name] = e.target.value;
   }
 
-  login() {
-    brukerService.loggInn(this.data).then((res) => {
-      alert(res);
-    });
+  async login() {
+    let res = await brukerService.loggInn(this.data);
+    await alert(res.data);
   }
 
 }

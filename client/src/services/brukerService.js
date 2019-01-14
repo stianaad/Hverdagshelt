@@ -1,18 +1,17 @@
-import axios from 'axios';
-axios.interceptors.response.use((response) => response.data);
+import api from './api';
 
 class BrukerService {
 
   lagNyBruker(nyBruker) {
-    return axios.post('/api/lagNyBruker', nyBruker);
+    return api.post('/api/lagNyBruker', nyBruker);
   }
 
   endrePassord(nyInformasjon) {
-    return axios.post('/api/lagNyBruker', nyInformasjon);
+    return api.post('/api/lagNyBruker', nyInformasjon);
   }
 
   loggInn(informasjon) {
-    return axios.post('/sjekkPassord', informasjon);
+    return api.post('/sjekkPassord', informasjon);
   }
   
 }

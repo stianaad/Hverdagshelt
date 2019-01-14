@@ -31,11 +31,10 @@ export class KommuneVelger extends Component {
         );
     }
 
-    mounted() {
+    async mounted() {
         this.in.current.addEventListener('keydown', (e) => {this.inputup(e)});
-        generellServices.hentAlleKommuner().then((res) => {
-            this.kommuner = res;
-        });
+        let res = await generellServices.hentAlleKommuner();
+        this.kommuner = await res.data;
     }
 
     inputup (e) {
