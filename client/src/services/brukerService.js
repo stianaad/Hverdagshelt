@@ -61,12 +61,8 @@ module.exports = class Ansatt extends Bruker {
   }
 }
 
-<<<<<<< HEAD
 
 export class Bedrift extends Bruker  {
-=======
-module.exports = class Bedrift extends Bruker () {
->>>>>>> a253fa4d738c1f1b15527d0df31a3c775f5e9bf4
   constructor(
     epost,
     passord,
@@ -82,11 +78,7 @@ module.exports = class Bedrift extends Bruker () {
   }
 }
 
-<<<<<<< HEAD
 export class Admin extends Bruker  {
-=======
-module.exports = class Admin extends Bruker () {
->>>>>>> a253fa4d738c1f1b15527d0df31a3c775f5e9bf4
   constructor(
     epost,
     passord,
