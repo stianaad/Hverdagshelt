@@ -18,7 +18,7 @@ class BrukerService {
 }
 
 export let brukerService = new BrukerService();
-
+/*
 class Bruker {
   bruker_id;
   constructor(
@@ -89,4 +89,4 @@ module.exports = class Admin extends Bruker () {
     this.telefon = telefon;
     this.navn = navn;
   }
-}
+*/
