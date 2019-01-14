@@ -9,7 +9,7 @@ import Popup from 'reactjs-popup';
 import {Registrering} from './Komponenter/Registrering/registrering';
 import {generellServices} from './services/generellServices';
 import {RodKnapp} from './widgets';
-//import {Login} from './Moduler/login/login'
+import {Login} from './Moduler/login/login'
 import { PositionMap, Marker, MarkerMap, markerTabell } from './Moduler/kart/map';
 //import {Hovedside} from './Komponenter/hovedside/hovedside';
 
