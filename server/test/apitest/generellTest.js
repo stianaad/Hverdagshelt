@@ -29,7 +29,7 @@ let feildao = new FeilDao(pool);
 
 beforeAll(done => {
   runsqlfile('lagtabeller.sql', pool, () => {
-    runsqlfile('fylkekommunedata.sql',pool, () => {
+    runsqlfile('fylkekommunedata.sql', pool, () => {
       runsqlfile('datatest.sql', pool, done);
     });
   });
