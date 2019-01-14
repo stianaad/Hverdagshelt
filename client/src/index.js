@@ -154,7 +154,7 @@ class Hovedside extends Component {
     beskrivelse: ''
   }
 
-  merInfo(feil){
+  async merInfo(feil){
       this.visFeil = true;
       console.log(feil.feil_id);
       console.log(feil.overskrift);
@@ -162,11 +162,8 @@ class Hovedside extends Component {
       this.feil.beskrivelse = feil.beskrivelse;
       console.log(feil.status);
       console.log(feil.tid);
-      generellServices
-        .hentBilderTilFeil(feil.feil_id)
-        .then(bilder => {
-          this.bilderTilFeil = bilder;
-        })
+      let res = await generellServices.hentBilderTilFeil(feil.feil_id);
+      this.bilderTilFeil = await res.data;
   }
 
   visEnHendelse(overskrift){
@@ -245,7 +242,7 @@ class Hovedside extends Component {
                                 I dag</li>
                               {this.aktiveFeil.map(feil => (
                                 <li className="kanter lister" key={feil.feil_id}>
-                                <NavLink to={'/hovedside/'+this.props.match.params.kommune} 
+                                <p
                                 onClick={() => this.merInfo({
                                   feil_id: feil.feil_id,overskrift: feil.overskrift,beskrivelse: feil.beskrivelse,tid: feil.tid,status:feil.status})}>
                                     {feil.overskrift}
@@ -256,7 +253,7 @@ class Hovedside extends Component {
                                     <br/>
                                     <i>{feil.kategorinavn}</i>
                                     <span className='float-right'>{feil.tid}</span>
-                                </NavLink>
+                                </p>
                                 </li>
                               ))}
                           </ul>
@@ -341,12 +338,12 @@ class Hovedside extends Component {
                                   I dag</li>
                                 {this.alleHendelser.map(tabell => (
                                   <li className="kanter lister">
-                                  <NavLink to={'/hovedside/'+this.props.match.params.kommune} onClick = {() => {this.visHendelser = true;this.visEnHendelse(tabell.overskrift)}}>
+                                  <p onClick = {() => {this.visHendelser = true;this.visEnHendelse(tabell.overskrift)}}>
                                       {tabell.overskrift}
                                       <br/>
                                       <i>konsert</i>
                                       <span className='float-right'>{tabell.tid}</span>
-                                  </NavLink>
+                                  </p>
                                   </li>
                                 ))}
                             </ul>

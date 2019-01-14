@@ -33,7 +33,7 @@ class GenerellServices {
   }
 
   hentBilderTilFeil(feil_id){
-    return axios.get('/api/hentBilder/'+feil_id);
+    return api.get('/api/hentBilder/'+feil_id);
   }
 }
 
