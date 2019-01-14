@@ -26,7 +26,7 @@ let feilDao = new FeilDao(pool);
 beforeAll(done => {
   runsqlfile('lagtabeller.sql', pool, () => {
     runsqlfile('fylkekommunedata.sql',pool, () => {
-      runsqlfile('generelltestdata.sql', pool, done);
+      runsqlfile('datatest.sql', pool, done);
     });
   });
 });
@@ -71,7 +71,7 @@ test('Lag ny feil', done => {
   }
   feilDao.lagNyFeil(testFeil1, callback);
 });
-*/
+
 
 test('Slett feil', done => {
   function callback(status, data){
@@ -84,7 +84,7 @@ test('Slett feil', done => {
   feilDao.slettFeil({feil_id: 1}, callback);
 });
 
-/*
+
 test('Opprett ny oppdatering', done => {
   function callback(status, data){
     console.log(
