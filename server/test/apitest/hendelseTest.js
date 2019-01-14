@@ -1,16 +1,25 @@
 import mysql from 'mysql2';
 
-import HendelseDao from '../../dao/hendelsedao';
-import run from '../runsqlfile.js';
-import Hendelse from '../../../client/src/services/hendelseService';
-import {pool} from '../poolsetup';
+import HendelseDao from '../../src/dao/hendelsedao.js';
+import runsqlfile from '../runsqlfile.js';
+//import {Hendelse} from '../../../client/src/services/hendelseService';
+
+var pool = mysql.createPool({
+    connectionLimit: 1,
+    host: 'mysql',
+    user: 'root',
+    password: '123',
+    database: 'oivindhl',
+    debug: false,
+    multipleStatements: true
+});
 
 let hendelseDao = new HendelseDao(pool);
 
 beforeAll(done => {
-  run('../lagtabeller.sql', pool, () => {
-    run('../fylkekommunedata.sql',pool, () => {
-        run('../generelltestdata.sql', pool, done);
+  runsqlfile('lagtabeller.sql', pool, () => {
+    runsqlfile('fylkekommunedata.sql',pool, () => {
+        runsqlfile('generelltestdata.sql', pool, done);
     });
   });
 });
