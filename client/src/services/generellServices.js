@@ -1,6 +1,4 @@
-import axios from 'axios';
-axios.interceptors.response.use((response) => response.data);
-//import API from './api.js';
+import api from './api';
 
 export class Kommuner {
   kommune_id;
@@ -11,27 +9,27 @@ export class Kommuner {
 class GenerellServices {
   
   hentAlleKommuner() {
-    return axios.get('/api/hentAlleKommuner');
+    return api.get('/api/hentAlleKommuner');
   }
 
   filtrerKommuner(sokeord) {
-    return axios.get('/api/filtrer/' + sokeord);
+    return api.get('/api/filtrer/' + sokeord);
   }
 
   hentAlleFeil() { // denne skal egentlig ikkje ligge her (feilservice)
-    return axios.get('/api/hentAlleFeil');
+    return api.get('/api/hentAlleFeil');
   }
 
   hentAlleKategorier() { // hørre ikkje til her (feilservice)
-    return axios.get('/api/hentAlleKategorier');
+    return api.get('/api/hentAlleHovedkategorier');
   }
 
   hentFeilFiltrertKategori(kategori_id) { // hørre ikkje til her (feilservice)
-    return axios.get('/api/filtrerKategori/'+kategori_id);
+    return api.get('/api/filtrerKategori/'+kategori_id);
   }
 
   hentAlleHendelser() { // hører til i (hendelseservice)
-    return axios.get('/api/hentAlleHendelser');
+    return api.get('/api/hentAlleHendelser');
   }
 
   hentBilderTilFeil(feil_id){

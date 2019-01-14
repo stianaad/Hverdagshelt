@@ -9,7 +9,7 @@ import Popup from 'reactjs-popup';
 import {Registrering} from './Komponenter/Registrering/registrering';
 import {generellServices} from './services/generellServices';
 import {RodKnapp} from './widgets';
-//import {Login} from './Moduler/login/login'
+import {Login} from './Moduler/login/login'
 import { PositionMap, Marker, MarkerMap, markerTabell } from './Moduler/kart/map';
 //import {Hovedside} from './Komponenter/hovedside/hovedside';
 
@@ -62,8 +62,7 @@ class Forside extends Component {
             src="FremsideHelt.png"
             alt="Hverdagshelt logo"
           />
-          {//<div className="float-right mt-5 mr-3"> <Login /></div>
-          }
+          <div className="float-right mt-5 mr-3"> <Login /></div>
           <button
             type="button"
             className="btn btn-danger float-right mt-5 mr-3 border border-dark"
@@ -129,13 +128,13 @@ class Forside extends Component {
     console.log('hehehheeh');
   }
 
-  mounted() {
+  /*mounted() {
     generellServices.hentAlleKommuner().then((kommuner) => {
       this.sokteKommuner = kommuner;
       this.alleKommuner = kommuner;
       console.log(kommuner.length);
     });
-  }
+  }*/
 }
 
 class Hovedside extends Component {
@@ -416,30 +415,20 @@ class Hovedside extends Component {
       console.log("hei");
   }
 
-  componentWillMount(){
-      generellServices
-          .hentAlleFeil()
-          .then(alleFeil => {
-              this.alleFeil = alleFeil;
-              this.aktiveFeil = alleFeil;
-              console.log(this.alleFeil[0].beskrivelse);
-              this.markers = markerTabell(this.alleFeil);
-              console.log(this.markers);
-          });
+  async mounted(){
+      let res1 = await generellServices.hentAlleFeil();
+      this.alleFeil = await res1.data;
+      this.aktiveFeil = await res1.data;
+      await console.log(res1.data);
+
+      let res2 = await generellServices.hentAlleKategorier();
+      this.alleKategorier = await res2.data;
+      await console.log(res2.data);
       
-          generellServices
-          .hentAlleKategorier()
-          .then(alleKategorier => {
-            this.alleKategorier = alleKategorier;
-            console.log(alleKategorier.length);
-          })
+      let res3 = await generellServices.hentAlleHendelser();
+      this.alleHendelser = await res3.data;
+      await console.log(res3.data);
       
-      generellServices
-          .hentAlleHendelser()
-          .then(alleHendelser => {
-            this.alleHendelser = alleHendelser;
-            console.log(alleHendelser);
-          })
   }
 }
 
@@ -522,8 +511,7 @@ if (root)
         <Route exact path="/registrering" component={Registrering} />
         <Route exact path="/" component={Forside} />
         <Route exact path="/bildetest" component={BildeTest} />
-        {//<Route exact path="/login" component={Login} />
-        }
+        <Route exact path="/login" component={Login} />
       </div>
     </Router>,
     root
