@@ -12,7 +12,7 @@ class BrukerService {
   }
 
   loggInn(informasjon) {
-    return axios.post('/bruker/sjekkPassord', informasjon);
+    return axios.post('/sjekkPassord', informasjon);
   }
   
 }

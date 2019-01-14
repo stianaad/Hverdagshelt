@@ -9,7 +9,7 @@ import Popup from 'reactjs-popup';
 import {Registrering} from './Komponenter/Registrering/registrering';
 import {generellServices} from './services/generellServices';
 import {RodKnapp} from './widgets';
-import {Login} from './Moduler/login/login'
+//import {Login} from './Moduler/login/login'
 import { PositionMap, Marker, MarkerMap } from './Moduler/kart/map';
 //import {Hovedside} from './Komponenter/hovedside/hovedside';
 
@@ -62,7 +62,8 @@ class Forside extends Component {
             src="FremsideHelt.png"
             alt="Hverdagshelt logo"
           />
-          <div className="float-right mt-5 mr-3"> <Login /></div>
+          {//<div className="float-right mt-5 mr-3"> <Login /></div>
+          }
           <button
             type="button"
             className="btn btn-danger float-right mt-5 mr-3 border border-dark"
@@ -459,7 +460,8 @@ if (root)
         <Route exact path="/registrering" component={Registrering} />
         <Route exact path="/" component={Forside} />
         <Route exact path="/bildetest" component={BildeTest} />
-        <Route exact path="/login" component={Login} />
+        {//<Route exact path="/login" component={Login} />
+        }
       </div>
     </Router>,
     root

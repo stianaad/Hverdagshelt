@@ -9,9 +9,9 @@ app.use(express.static(public_path));
 
 
 import bruker from './api/bruker.js';
-app.use('/bruker', bruker);
+app.use(bruker);
 import generell from './api/generell.js';
-app.use('/api/generell', generell);
+app.use(generell);
 import feil from './api/feil.js';
 app.use(feil);
 
