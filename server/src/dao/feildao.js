@@ -4,7 +4,7 @@ import Dao from './dao.js';
 
 module.exports = class FeilDao extends Dao {
   hentAlleFeil(callback) {
-    super.query('SELECT feil.*,hovedkategori.kategorinavn FROM feil, subkategori,hovedkategori WHERE feil.subkategori_id=subkategori.subkategori_id AND subkategori.hovedkategori_id=hovedkategori.hovedkategori_id', null, callback);
+    super.query("SELECT feil.*, hovedkategori.kategorinavn,status.status, DATE_FORMAT(f.tid, '%Y-%m-%d %H:%i') AS tid FROM feil INNER JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id INNER JOIN hovedkategori ON subkategori.hovedkategori_id = hovedkategori.hovedkategori_id INNER JOIN (SELECT feil_id, min(tid) as tid from oppdatering group by feil_id) as f ON feil.feil_id = f.feil_id INNER JOIN (SELECT feil_id, ANY_VALUE(status_id) as status_id, max(tid) as tid from oppdatering group by feil_id) as s ON feil.feil_id = s.feil_id INNER JOIN status ON status.status_id = s.status_id", null, callback);
   }
 
   hentEnFeil(json, callback) {
@@ -28,7 +28,7 @@ module.exports = class FeilDao extends Dao {
       json.overskrift,
       json.beskrivelse,
       json.lengdegrad,
-      json.breddegrad,
+      json.breddegrad
     ];
     super.query(
       'INSERT INTO feil (kommune_id, subkategori_id, overskrift, beskrivelse, lengdegrad, breddegrad) VALUES (?, ?, ?, ?, ?, ?)',
@@ -53,6 +53,14 @@ module.exports = class FeilDao extends Dao {
     }
   }
 
+  hentBilderTilFeil(feil_id,callback){
+    super.query(
+      "SELECT * FROM feilbilder WHERE feil_id=?",
+      [feil_id],
+      callback
+    )
+  }
+
   oppdaterFeil(json, callback) {
     var feil = [
       json.subkategori_id,
@@ -60,7 +68,7 @@ module.exports = class FeilDao extends Dao {
       json.beskrivelse,
       json.lengdegrad,
       json.breddegrad,
-      json.feil_id,
+      json.feil_id
     ];
     super.query(
       'UPDATE feil SET subkategori_id = ?, SET status_id = ?, SET beskrivelse = ?, SET lengdegrad = ?, SET breddegrad = ? WHERE feil_id = ?',
@@ -88,7 +96,7 @@ module.exports = class FeilDao extends Dao {
       json.feil_id,
       json.kommentar,
       json.status_id,
-      json.bruker_id,
+      json.bruker_id
     ];
     super.query(
       'INSERT INTO oppdatering (feil_id, kommentar, status_id, bruker_id) VALUES (?, ?, ?, ?)',
@@ -133,7 +141,7 @@ module.exports = class FeilDao extends Dao {
   }
 
   hentFeilFiltrertKategori(kategori_id,callback) {
-    super.query('SELECT feil.*,hovedkategori.hovedkategori_id,hovedkategori.kategorinavn FROM feil, subkategori,hovedkategori WHERE feil.subkategori_id=subkategori.subkategori_id AND subkategori.hovedkategori_id=hovedkategori.hovedkategori_id AND hovedkategori.hovedkategori_id=?',
+    super.query('SELECT feil.*,hovedkategori.hovedkategori_id,hovedkategori.kategorinavn AS kategorinavn FROM feil, subkategori,hovedkategori WHERE feil.subkategori_id=subkategori.subkategori_id AND subkategori.hovedkategori_id=hovedkategori.hovedkategori_id AND hovedkategori.hovedkategori_id=?',
      [kategori_id], callback);
   }
 

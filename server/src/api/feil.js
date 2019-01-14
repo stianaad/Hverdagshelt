@@ -34,6 +34,18 @@ router.get('/api/hentEnFeil', (req, res) => {
   });
 });
 
+router.get('/api/hentBilder/:feil_id', (req, res) => {
+  console.log('Fikk GET-request fra klienten');
+
+  feilDao.hentBilderTilFeil(req.params.feil_id, (status, data) => {
+    res.status(status);
+    res.json(data);
+    console.log('/hentBilderTilFeil/:feil_id resultat:' + data);
+  });
+});
+
+
+
 router.get('/api/hentFeilStatus', (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk GET-request fra klienten');
@@ -56,7 +68,7 @@ router.post('/api/lagNyFeil', upload.array('bilder', 10), (req, res) => {
     overskrift: req.body.overskrift,
     beskrivelse: req.body.beskrivelse,
     lengdegrad: req.body.lengdegrad,
-    breddegrad: req.body.breddegrad,
+    breddegrad: req.body.breddegrad
   };
 
   feilDao.lagNyFeil(a, (status, data) => {
@@ -81,11 +93,12 @@ router.post('/api/oppdaterFeil', (req, res) => {
   console.log('Fikk POST-request fra klienten');
 
   let a = {
-    kategori_id: req.body.kategori_id,
+    subkategori_id: req.body.subkategori_id,
+    status_id: req.body.status_id,
     beskrivelse: req.body.beskrivelse,
     lengdegrad: req.body.lengdegrad,
     breddegrad: req.body.breddegrad,
-    feil_id: req.body.feil_id,
+    feil_id: req.body.feil_id
   };
 
   feilDao.oppdaterFeil(a, (status, data) => {
@@ -100,12 +113,12 @@ router.post('/api/endreStatusFeil', (req, res) => {
 
   let a = {
     status_id: req.body.status_id,
-    feil_id: req.body.feil_id,
+    feil_id: req.body.feil_id
   };
 
   feilDao.endreStatusFeil(a, (status, data) => {
     console.log(
-      'Oppdatert en feil med ny status, feil_id = ' + req.body.feil_id
+      'Oppdatert en feil med ny status, feil_id = ' + a.feil_id
     );
     res.status(status);
   });
@@ -115,12 +128,15 @@ router.post('/api/slettFeil', (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk POST-request fra klienten');
 
-  feilDao.slettFeil(req.body.feil_id, (status, data) => {
+  let a = {feil_id: req.params.feil_id};
+
+  feilDao.slettFeil(a, (status, data) => {
     console.log('Slettet en feil');
     res.status(status);
   });
 });
 
+/*
 router.get('/api/hentEnKategori', (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk GET-request fra klienten');
@@ -131,15 +147,16 @@ router.get('/api/hentEnKategori', (req, res) => {
     console.log('/hentEnKategori gir: ' + data);
   });
 });
+*/
 
-router.get('/api/hentAlleKategorier', (req, res) => {
+router.get('/api/hentAlleHovedkategorier', (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk GET-request fra klienten');
 
   feilDao.hentAlleHovedkategorier((status, data) => {
     res.status(status);
     res.json(data);
-    console.log('/hentAlleKategorier lengde: ' + data.length);
+    console.log('/hentAlleHovedkategorier lengde: ' + data.length);
   });
 });
 
@@ -162,7 +179,7 @@ router.post('/api/lagOppdatering', (req, res) => {
     feil_id: req.body.feil_id,
     kommentar: req.body.kommentar,
     status_id: req.body.status_id,
-    bruker_id: req.body.bruker_id,
+    bruker_id: req.body.bruker_id
   };
 
   feilDao.lagOppdatering(a, (status, data) => {

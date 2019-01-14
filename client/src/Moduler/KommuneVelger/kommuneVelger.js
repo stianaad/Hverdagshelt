@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Component } from 'react-simplified';
 import { generellServices } from '../../services/generellServices';
+import { Link } from 'react-router-dom';
 
 export class KommuneVelger extends Component {
     sok = "";
@@ -9,41 +10,59 @@ export class KommuneVelger extends Component {
     kommuner_filtrert = [];
     valgt_index = 0;
     in;
+    boks;
     
     constructor(props) {
         super(props);
         this.in = React.createRef();
+        this.boks = React.createRef();
     }
 
     render() {
         return(
             <div className="komBoks">
                 <input ref={this.in} className="komSok form-control" value={this.sok} onChange={this.oppdaterSok} type="text"></input>
-                <ul className="komListe" style={{display: this.listesyn ? "block" : "none"}}>
+                <ul ref={this.boks} className="komListe" style={{display: this.listesyn ? "block" : "none"}}>
                     {this.kommuner_filtrert.map((kommune, i) => (
-                        <li key={kommune.kommune_id} className={(i==this.valgt_index) ? "komElement komValgt" : "komElement"}><a href={"/"+kommune.kommune_navn.toLowerCase()}>{kommune.kommune_navn}</a></li>
+                        <li key={kommune.kommune_id} className={(i==this.valgt_index) ? "komElement komValgt" : "komElement"}><Link to={"/hovedside/"+kommune.kommune_navn.toLowerCase()}>{kommune.kommune_navn}</Link></li>
                     ))}
                 </ul>
             </div>
         );
     }
 
-    mounted() {
+    async mounted() {
         this.in.current.addEventListener('keydown', (e) => {this.inputup(e)});
-        generellServices.hentAlleKommuner().then((res) => {
-            this.kommuner = res;
-        });
+        let res = await generellServices.hentAlleKommuner();
+        this.kommuner = await res.data;
     }
 
     inputup (e) {
-        if (e.key == "Enter") { 
-            this.props.history.push("/"+this.kommuner_filtrert[this.valgt_index].kommune_navn.toLowerCase());
+        if (e.key == "Enter") {
+            this.props.history.push("/hovedside/"+this.kommuner_filtrert[this.valgt_index].kommune_navn.toLowerCase());
         } else if (e.key == "ArrowDown") { //NED
+            e.preventDefault();
             this.valgt_index++;
             if (this.valgt_index > this.kommuner_filtrert.length-1) this.valgt_index = this.kommuner_filtrert.length-1;
+            
+            let liste = this.boks.current;
+            let valgt = liste.children[this.valgt_index];
+            
+            if (valgt.offsetTop + valgt.offsetHeight > liste.scrollTop+liste.clientHeight) {
+                liste.scrollTo(0,valgt.offsetTop + valgt.offsetHeight-liste.clientHeight)
+            }
+
         } else if (e.key == "ArrowUp") { //OPP
+            e.preventDefault();
             this.valgt_index--;
             if (this.valgt_index < 0) this.valgt_index = 0;
+
+            let liste = this.boks.current;
+            let valgt = liste.children[this.valgt_index];
+
+            if (valgt.offsetTop < liste.scrollTop) {
+                liste.scrollTo(0,valgt.offsetTop)
+            }
         }
         
     }

@@ -1,16 +1,25 @@
 import mysql from 'mysql2';
 
-import BrukerDao from '../../dao/brukerdao';
-import run from '../runsqlfile.js';
-import Ansatt, Admin, Bedrift, Privat from '../../../client/src/services/feilService';
-import {pool} from '../poolsetup';
+import BrukerDao from '../../src/dao/brukerdao';
+import runsqlfile from '../runsqlfile.js';
+//import {Ansatt, Admin, Bedrift, Privat} from '../../../client/src/services/feilService';
+
+var pool = mysql.createPool({
+  connectionLimit: 1,
+  host: 'mysql',
+  user: 'root',
+  password: '123',
+  database: 'oivindhl',
+  debug: false,
+  multipleStatements: true
+});
 
 let brukerDao = new BrukerDao(pool);
 
 beforeAll(done => {
-  run('../lagtabeller.sql', pool, () => {
-    run('../fylkekommunedata.sql',pool, () => {
-        run('../generelltestdata.sql', pool, done);
+  runsqlfile('lagtabeller.sql', pool, () => {
+    runsqlfile('fylkekommunedata.sql',pool, () => {
+      runsqlfile('generelltestdata.sql', pool, done);
     });
   });
 });
