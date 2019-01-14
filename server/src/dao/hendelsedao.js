@@ -18,7 +18,7 @@ module.exports = class HendelseDao extends Dao {
       json.sted,
       json.bilde,
       json.lengdegrad,
-      json.breddegrad,
+      json.breddegrad
     ];
     super.query(
       'INSERT INTO hendelser (overskrift, bruker_id, beskrivelse, sted, bilde, lengdegrad, breddegrad) VALUES (?, ?, ?, ?, ?, ?, ?)',
@@ -34,7 +34,7 @@ module.exports = class HendelseDao extends Dao {
       json.bilde,
       json.lengdegrad,
       json.breddegrad,
-      json.hendelse_id,
+      json.hendelse_id
     ];
     super.query(
       'UPDATE feil SET overskrift = ?, SET beskrivelse = ?, SET bilde = ?, SET lengdegrad = ?, SET breddegrad = ? WHERE kategori_id = ?',

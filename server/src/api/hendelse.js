@@ -40,7 +40,7 @@ router.post('/api/lagNyHendelse', (req, res) => {
     sted: req.body.sted,
     bilde: req.body.bilde,
     lengdegrad: req.body.lengdegrad,
-    breddegrad: req.body.breddegrad,
+    breddegrad: req.body.breddegrad
   };
 
   feilDao.lagNyHendelse(a, (status, data) => {
@@ -59,7 +59,7 @@ router.post('/api/oppdaterHendelse', (req, res) => {
     bilde: req.body.bilde,
     lengdegrad: req.body.lengdegrad,
     breddegrad: req.body.breddegrad,
-    hendelse_id: req.body.hendelse_id,
+    hendelse_id: req.body.hendelse_id
   };
 
   feilDao.oppdaterHendelse(a, (status, data) => {

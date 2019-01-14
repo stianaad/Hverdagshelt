@@ -56,7 +56,7 @@ router.post('/api/lagNyFeil', upload.array('bilder', 10), (req, res) => {
     overskrift: req.body.overskrift,
     beskrivelse: req.body.beskrivelse,
     lengdegrad: req.body.lengdegrad,
-    breddegrad: req.body.breddegrad,
+    breddegrad: req.body.breddegrad
   };
 
   feilDao.lagNyFeil(a, (status, data) => {
@@ -86,7 +86,7 @@ router.post('/api/oppdaterFeil', (req, res) => {
     beskrivelse: req.body.beskrivelse,
     lengdegrad: req.body.lengdegrad,
     breddegrad: req.body.breddegrad,
-    feil_id: req.body.feil_id,
+    feil_id: req.body.feil_id
   };
 
   feilDao.oppdaterFeil(a, (status, data) => {
@@ -101,7 +101,7 @@ router.post('/api/endreStatusFeil', (req, res) => {
 
   let a = {
     status_id: req.body.status_id,
-    feil_id: req.body.feil_id,
+    feil_id: req.body.feil_id
   };
 
   feilDao.endreStatusFeil(a, (status, data) => {
@@ -167,7 +167,7 @@ router.post('/api/lagOppdatering', (req, res) => {
     feil_id: req.body.feil_id,
     kommentar: req.body.kommentar,
     status_id: req.body.status_id,
-    bruker_id: req.body.bruker_id,
+    bruker_id: req.body.bruker_id
   };
 
   feilDao.lagOppdatering(a, (status, data) => {
