@@ -148,6 +148,7 @@ class Hovedside extends Component {
   visHendelser = false;
   bilderTilFeil = [];
   statusIkon = '';
+  markers = [];
 
   feil= {
     overskrift: '',
@@ -202,6 +203,10 @@ class Hovedside extends Component {
           })
           onClick={() => {this.hentKommuner()}}
   }*/
+
+  flyttKart(lengdegrad,breddegrad){
+    this.kart.flyttKart(lengdegrad,breddegrad);
+  }
 
   endreStatusIkon(status){
     if(status === "Ikke godkjent"){
@@ -279,7 +284,7 @@ class Hovedside extends Component {
                                </div>
                               <div className="col-sm-4">
                               <h6>Posisjon</h6>
-                              <PositionMap width="100%" height="300px" id="posmap" center="Oslo" position={this.posFunksjon}/>
+                              <MarkerMap width="100%" height="300px" id="posmap" center="Oslo" markers={markerTabell(this.alleFeil)} onRef={ref => (this.kart1 = ref)} />
                               </div>
                               <div className="col-sm-4">
                               <h6>Oppdateringer:</h6>
@@ -322,7 +327,7 @@ class Hovedside extends Component {
                       Meld inn feil
                       </button>
                       <div className="mt-5">
-                      <PositionMap width="100%" height="300px" id="posmap" center="Oslo" position={this.posFunksjon}/>
+                      <MarkerMap width="100%" height="300px" id="test" center="Oslo" markers={this.markers} onRef={ref => (this.kart = ref)}/>
                       </div>
                       </div>
                       <div className="col-sm-6">
@@ -411,13 +416,15 @@ class Hovedside extends Component {
       console.log("hei");
   }
 
-  mounted(){
+  componentWillMount(){
       generellServices
           .hentAlleFeil()
           .then(alleFeil => {
               this.alleFeil = alleFeil;
               this.aktiveFeil = alleFeil;
               console.log(this.alleFeil[0].beskrivelse);
+              this.markers = markerTabell(this.alleFeil);
+              console.log(this.markers);
           });
       
           generellServices

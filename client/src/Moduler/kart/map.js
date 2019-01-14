@@ -4,7 +4,12 @@ import L from 'leaflet';
 import ReactDOMServer from 'react-dom/server';
 
 export function markerTabell(feiltabell) {
-    return feiltabell.map(feil => new Marker(feil));
+  let tabell = [];
+    for(let i = 0;i < feiltabell.length; i++){
+      tabell[i] = new Marker(feiltabell[i]);
+    }
+    //console.log(tabell);
+    return tabell;
 }
 
 class PopupContent extends Component {
@@ -92,10 +97,11 @@ export class Marker {
 export class MarkerMap extends Component {
     map = null;
 
-    componentDidMount() {
+    mounted() {
         this.props.onRef(this);
 
         let m = this.props.markers;
+        console.log("hehe",this.props.markers);
         let coords, map;
 
         fetch("https://nominatim.openstreetmap.org/?format=json&q=" + this.props.center + "&limit=1", {
@@ -116,7 +122,7 @@ export class MarkerMap extends Component {
                 });
                 this.map.fitBounds(this.coords).setZoom(11);
                 //this.map.setView(L.latLng(this.props.bredde, this.props.lengde), 11);
-
+                
                 for (let i = 0; i < m.length; i++) {
                     m[i].marker.addTo(this.map);
                 }
