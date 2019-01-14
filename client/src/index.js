@@ -19,6 +19,7 @@ const history = createBrowserHistory(); // Use history.push(...) to programmatic
 
 import {relative} from 'path';
 import { KommuneVelger } from './Moduler/KommuneVelger/kommuneVelger';
+import { KommuneInput } from './Moduler/kommuneInput/kommuneInput';
 
 
 
@@ -509,6 +510,7 @@ if (root)
         <Route exact path="/" component={Forside} />
         <Route exact path="/bildetest" component={BildeTest} />
         <Route exact path="/login" component={Login} />
+        <Route exact path="/kinput" component={KommuneInput} />
       </div>
     </Router>,
     root
