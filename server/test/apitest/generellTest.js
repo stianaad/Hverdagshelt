@@ -86,20 +86,7 @@ test('Lag ny feil', done => {
   }
   feildao.lagNyFeil(testFeil1, callback);
 });
-*/
 
-test('Slett feil', done => {
-  function callback(status, data){
-    console.log(
-      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
-    );
-    expect(data.affectedRows).toBeGreaterThanOrEqual(1);
-    done();
-  }
-  feildao.slettFeil({feil_id: 1}, callback);
-});
-
-/*
 test('Opprett ny oppdatering', done => {
   function callback(status, data){
     console.log(
