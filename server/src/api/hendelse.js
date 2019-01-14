@@ -20,7 +20,9 @@ router.get('/api/hentAlleHendelser', (req, res) => {
 router.get('/api/hentEnHendelse', (req, res) => {
   console.log('Fikk GET-request fra klienten');
 
-  hendelseDao.hentEnHendelse(req.body.hendelse_id, (status, data) => {
+  var a = {hendelse_id: req.body.hendelse_id}
+
+  hendelseDao.hentEnHendelse(a ,(status, data) => {
     res.status(status);
     res.json(data);
     console.log('/hentEnHendelse gir:' + data);
@@ -47,11 +49,32 @@ router.post('/api/lagNyHendelse', (req, res) => {
   });
 });
 
+router.post('/api/oppdaterHendelse', (req, res) => {
+  if (!(req.body instanceof Object)) return res.sendStatus(400);
+  console.log('Fikk POST-request fra klienten');
+
+  let a = {
+    overskrift: req.body.overskrift,
+    beskrivelse: req.body.beskrivelse,
+    bilde: req.body.bilde,
+    lengdegrad: req.body.lengdegrad,
+    breddegrad: req.body.breddegrad,
+    hendelse_id: req.body.hendelse_id,
+  };
+
+  feilDao.oppdaterHendelse(a, (status, data) => {
+    console.log('Opprettet en ny hendelse');
+    res.status(status);
+  });
+});
+
 router.post('/api/slettHendelse', (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk POST-request fra klienten');
 
-  feilDao.slettHendelse(req.body.hendelse_id, (status, data) => {
+  var a = {hendelse_id = req.body.hendelse_id}
+
+  feilDao.slettHendelse(a, (status, data) => {
     console.log('Slettet en hendelse');
     res.status(status);
   });
