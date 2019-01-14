@@ -32,6 +32,7 @@ export class KommuneVelger extends Component {
         this.in.current.addEventListener('keydown', (e) => {this.inputup(e)});
         generellServices.hentAlleKommuner().then((res) => {
             this.kommuner = res;
+            console.log(res);
         });
     }
 
