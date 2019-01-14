@@ -1,7 +1,7 @@
 /* eslint eqeqeq: "off" */
 import * as React from 'react';
 import { Component,sharedComponentData } from 'react-simplified';
-import { BrowserRouter, Route, NavLink, Redirect,Switch } from 'react-router-dom';
+import { Router, Route, NavLink, Redirect,Switch } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import {BildeTest} from './bildetest';
 import {MeldFeil} from './Komponenter/MeldFeil/meldFeil'
@@ -454,7 +454,7 @@ class Menu extends Component {
 const root = document.getElementById('root');
 if (root)
   ReactDOM.render(
-    <BrowserRouter>
+    <Router history={history}>
       <div>
         <Route exact path="/hovedside/:kommune" component={Hovedside} />
         <Route exact path="/kommunevalgtest" component={KommuneVelger} />
@@ -464,6 +464,6 @@ if (root)
         <Route exact path="/" component={Forside} />
         <Route exact path="/bildetest" component={BildeTest} />
       </div>
-    </BrowserRouter>,
+    </Router>,
     root
   );
