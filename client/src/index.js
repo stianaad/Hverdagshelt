@@ -90,7 +90,7 @@ class Forside extends Component {
           <div className="centered">
             <h6 className="tekst">Kommuniser direkte med din kommune </h6>
             <section className="main">
-              <form className="search" method="post" action="index.html">
+              {/*<form className="search" method="post" action="index.html">
                 <input
                   type="text"
                   name="q"
@@ -116,8 +116,9 @@ class Forside extends Component {
                       </li>
                     </NavLink>
                   ))}
-                </ul>
-              </form>
+                  </ul>
+              </form>*/}
+              <KommuneVelger />
             </section>
           </div>
         </div>
