@@ -12,6 +12,7 @@ import {RodKnapp} from './widgets';
 import { PositionMap, Marker, MarkerMap } from './Moduler/kart/map';
 //import {Hovedside} from './Komponenter/hovedside/hovedside';
 
+import {GlemtPassord} from "../src/Komponenter/GlemtPassord/glemtPassord";
 
 import createBrowserHistory from 'history/createBrowserHistory';
 const history = createBrowserHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
@@ -463,6 +464,7 @@ if (root)
         <Route exact path="/registrering" component={Registrering} />
         <Route exact path="/" component={Forside} />
         <Route exact path="/bildetest" component={BildeTest} />
+        <Route exact path="/glemt-passord" component={GlemtPassord}/>
       </div>
     </BrowserRouter>,
     root

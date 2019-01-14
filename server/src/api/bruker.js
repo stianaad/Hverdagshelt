@@ -10,6 +10,8 @@ import Epost from '../../epost.js';
 import jwt from 'jsonwebtoken';
 import async from 'async';
 
+
+
 let brukerDao = new BrukerDao(pool);
 let glemt = new Epost();
 
@@ -106,7 +108,7 @@ router.put("/endrePassord",(req, res)=>{
   });
 });
 
-router.get("/glemtPassord",(req,res)=>{
+router.get("/glemt-passord",(req,res)=>{
   brukerDao.hentBruker(req.body,(status,data)=>{
     res.status(status);
     res.json(data);
@@ -121,7 +123,7 @@ router.get("/glemtPassord",(req,res)=>{
   })
 });
 
-router.get("/resetPassord/:token", (req,res)=>{
+router.get("/reset-passord/:token", (req,res)=>{
   console.log("Reset passord");
   let naaTid = Date.now().valueOf()/1000;
   let dekodet = jwt.decode(req.params.token);
