@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS hendelser;
+DROP TABLE IF EXISTS hendelseskategori;
 DROP TABLE IF EXISTS oppdatering;
 DROP TABLE IF EXISTS feilbilder;
 DROP TABLE IF EXISTS feil;
@@ -10,6 +11,21 @@ DROP TABLE IF EXISTS bedrift;
 DROP TABLE IF EXISTS ansatt;
 DROP TABLE IF EXISTS privat;
 DROP TABLE IF EXISTS bruker;
+DROP TABLE IF EXISTS kommuner;
+DROP TABLE IF EXISTS fylker;
+
+CREATE TABLE fylker (
+    fylke_navn VARCHAR(255) NOT NULL,
+    PRIMARY KEY (fylke_navn)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE kommuner (
+    kommune_id INT(11) NOT NULL AUTO_INCREMENT,
+    kommune_navn VARCHAR(255) NOT NULL,
+    fylke_navn VARCHAR(255) NOT NULL,
+    PRIMARY KEY (kommune_id),
+    FOREIGN KEY (fylke_navn) REFERENCES fylker(fylke_navn)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE bruker (
     bruker_id INT(11) NOT NULL AUTO_INCREMENT,
@@ -78,7 +94,6 @@ CREATE TABLE feil (
     feil_id INT(11) NOT NULL AUTO_INCREMENT,
     kommune_id INT(11) NOT NULL,
     subkategori_id INT(11) NOT NULL,
-    status_id INT(1) NOT NULL DEFAULT 1,
     overskrift VARCHAR(255) NOT NULL,
     beskrivelse TEXT NOT NULL,
     lengdegrad DOUBLE NOT NULL,
@@ -86,7 +101,6 @@ CREATE TABLE feil (
     PRIMARY KEY (feil_id),
     FOREIGN KEY (kommune_id) REFERENCES kommuner(kommune_id),
     FOREIGN KEY (subkategori_id) REFERENCES subkategori(subkategori_id),
-    FOREIGN KEY (status_id) REFERENCES status(status_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE feilbilder (
@@ -101,7 +115,7 @@ CREATE TABLE oppdatering (
     feil_id INT(11) NOT NULL,
     tid TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     kommentar TEXT,
-    status_id INT(1) NOT NULL,
+    status_id INT(1) NOT NULL DEFAULT 1,
     bruker_id INT(11),
     PRIMARY KEY (feil_id, tid),
     FOREIGN KEY (feil_id) REFERENCES feil(feil_id),
@@ -109,18 +123,26 @@ CREATE TABLE oppdatering (
     FOREIGN KEY (status_id) REFERENCES status(status_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE hendelseskategori(
+  hendelseskategori_id INT(11) NOT NULL AUTO_INCREMENT,
+  kategorinavn VARCHAR(255) NOT NULL,
+  PRIMARY KEY (hendelseskategori_id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 CREATE TABLE hendelser(
-    hendelse_id INT(11) NOT NULL AUTO_INCREMENT,
-    bruker_id INT(11) NOT NULL,
-    overskrift VARCHAR(255) NOT NULL,
-    tid TIMESTAMP NOT NULL,
-    beskrivelse TEXT,
-    sted VARCHAR(255) NOT NULL,
-    bilde VARCHAR(255),
-    lengdegrad DOUBLE,
-    breddegrad DOUBLE,
-    PRIMARY KEY (hendelse_id),
-    FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id)
+  hendelse_id INT(11) NOT NULL AUTO_INCREMENT,
+  bruker_id INT(11) NOT NULL,
+  hendelseskategori_id INT(11) NOT NULL,
+  overskrift VARCHAR(255) NOT NULL,
+  tid TIMESTAMP NOT NULL,
+  beskrivelse TEXT,
+  sted VARCHAR(255) NOT NULL,
+  bilde VARCHAR(255),
+  lengdegrad DOUBLE,
+  breddegrad DOUBLE,
+  PRIMARY KEY (hendelse_id),
+  FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id),
+  FOREIGN KEY (hendelseskategori_id) REFERENCES hendelseskategori(hendelseskategori_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO bruker (epost, passord, kommune_id) VALUES
@@ -172,13 +194,13 @@ INSERT INTO status (status_id, status) VALUES
   (2, 'Under behandling'),
   (3, 'Ferdig');
 
-INSERT INTO feil (kommune_id, subkategori_id, status_id, overskrift, beskrivelse, lengdegrad, breddegrad) VALUES
-  (1, 1, 1, 'Overskrift1', 'Beskrivelse1', 0.1, 0.0),
-  (20, 2, 1, 'Overskrift2', 'Beskrivelse2', 0.0, 0.2),
-  (30, 2, 2, 'Overskrift3', 'Beskrivelse3', 0.3, 0.3),
-  (40, 4, 3, 'Overskrift4', 'Beskrivelse4', 0.4, 4.0),
-  (50, 3, 3, 'Overskrift5', 'Beskrivelse5', 5.0, 5.0),
-  (60, 6, 3, 'Overskrift6', 'Beskrivelse6', 60.0, 6.0);
+INSERT INTO feil (kommune_id, subkategori_id, overskrift, beskrivelse, lengdegrad, breddegrad) VALUES
+  (1, 1, 'Overskrift1', 'Beskrivelse1', 0.1, 0.0),
+  (20, 2, 'Overskrift2', 'Beskrivelse2', 0.0, 0.2),
+  (30, 2, 'Overskrift3', 'Beskrivelse3', 0.3, 0.3),
+  (40, 4, 'Overskrift4', 'Beskrivelse4', 0.4, 4.0),
+  (50, 3, 'Overskrift5', 'Beskrivelse5', 5.0, 5.0),
+  (60, 6, 'Overskrift6', 'Beskrivelse6', 60.0, 6.0);
 
 INSERT INTO feilbilder (feil_id, url) VALUES 
   (1, 'https://bjornost.tihlde.org/hverdagshelt/b25b28c741e520d695615dee3ac2dc4a'),
@@ -188,11 +210,15 @@ INSERT INTO feilbilder (feil_id, url) VALUES
   (5, 'https://bjornost.tihlde.org/hverdagshelt/19af4f8c745a62973e2cd615eaf329fa');
 
 INSERT INTO oppdatering (feil_id, kommentar, status_id, bruker_id) VALUES
-  (1, 'Kommentar1', 2, 5),
+  (1, 'Kommentar1', 1, 5),
   (2, 'Kommentar2', 2, 5),
   (3, 'Kommentar3', 3, 6),
   (4, 'Kommentar4', 3, 6);
 
-INSERT INTO hendelser (bruker_id, overskrift, tid, beskrivelse, sted, bilde, lengdegrad, breddegrad) VALUES
-  (5, 'Overskrift1', ('2019-08-07'), 'Beskrivelse1', 'Sted1', 'https://bjornost.tihlde.org/hverdagshelt/135d6d0f44a6ba73e3782c243663b90a', 0.0, 0.0),
-  (6, 'Overskrift2', ('2019-12-20'), 'Beskrivelse2', 'Sted2', 'https://bjornost.tihlde.org/hverdagshelt/19af4f8c745a62973e2cd615eaf329fa', 1.0, 0.1);
+INSERT INTO hendelseskategori (kategorinavn) VALUES 
+  ('HendelseKat1'),
+  ('HendelseKat2');
+
+INSERT INTO hendelser (bruker_id, hendelseskategori_id, overskrift, tid, beskrivelse, sted, bilde, lengdegrad, breddegrad) VALUES
+  (5, 1, 'Overskrift1', ('2019-08-07'), 'Beskrivelse1', 'Sted1', 'https://bjornost.tihlde.org/hverdagshelt/135d6d0f44a6ba73e3782c243663b90a', 0.0, 0.0),
+  (6, 2, 'Overskrift2', ('2019-12-20'), 'Beskrivelse2', 'Sted2', 'https://bjornost.tihlde.org/hverdagshelt/19af4f8c745a62973e2cd615eaf329fa', 1.0, 0.1);

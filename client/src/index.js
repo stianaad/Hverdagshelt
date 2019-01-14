@@ -9,7 +9,7 @@ import Popup from 'reactjs-popup';
 import {Registrering} from './Komponenter/Registrering/registrering';
 import {generellServices} from './services/generellServices';
 import {RodKnapp} from './widgets';
-import { PositionMap, Marker, MarkerMap } from './widgets'
+import { PositionMap, Marker, MarkerMap } from './Moduler/kart/map';
 //import {Hovedside} from './Komponenter/hovedside/hovedside';
 
 
@@ -90,7 +90,7 @@ class Forside extends Component {
           <div className="centered">
             <h6 className="tekst">Kommuniser direkte med din kommune </h6>
             <section className="main">
-              <form className="search" method="post" action="index.html">
+              {/*<form className="search" method="post" action="index.html">
                 <input
                   type="text"
                   name="q"
@@ -116,8 +116,9 @@ class Forside extends Component {
                       </li>
                     </NavLink>
                   ))}
-                </ul>
-              </form>
+                  </ul>
+              </form>*/}
+              <KommuneVelger />
             </section>
           </div>
         </div>
@@ -434,11 +435,18 @@ class Tabell extends Component{
 
 class Menu extends Component {
   tekst = "";
-  
+  markers = [new Marker("Det er et problem her", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+  'https://bjornost.tihlde.org/hverdagshelt/135d6d0f44a6ba73e3782c243663b90a', 1, "10/12/2018, 10:53", "Veiarbeid", 59.911599, 10.743839),
+  new Marker("Det er et problem her", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+  'https://bjornost.tihlde.org/hverdagshelt/ac78b6d904ceb783e9da802a5c84ea7b', 2, "10/12/2018, 10:53", "Veiarbeid", 59.913777, 10.722702)];
+  posisjon(pos) {
+    console.log(pos);
+  }
   render(){
     return(
       <div>
         <p>hehehehe</p>
+        <PositionMap width="100%" height="500px" id="posmap" center="Oslo" position={this.posisjon}></PositionMap>
       </div>
     )
   }
