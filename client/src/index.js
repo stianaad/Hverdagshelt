@@ -58,7 +58,7 @@ class Forside extends Component {
         <div>
           <img
             className="img-fluid w-50 "
-            src="Hverdagshelt.png"
+            src="FremsideHelt.png"
             alt="Hverdagshelt logo"
           />
           <button
