@@ -1,0 +1,42 @@
+.komSok {
+    
+}
+
+.komBoks {
+    position:relative;
+}
+
+.komListe {
+    position: absolute;
+    width:100%;
+    list-style: none;
+    padding:0;
+    max-height: 300px;
+    overflow-y: auto;
+    border-bottom: 1px solid #999;
+    border-left: 1px solid #999;
+    border-right: 1px solid #999;
+}
+
+.komElement a {
+    background: #fff;
+    color:#000;
+    text-decoration: none;
+    display: inline-block;
+    width:100%;
+    font-size:18px;
+    padding:15px;
+    cursor: pointer;
+    transition: background 0.25s;
+}
+
+.komValgt a {
+    background: #eee;
+}
+
+.komElement:hover a {
+    text-decoration: none;
+    color:#000;
+    background: #eee;
+    transition: background 0.25s;
+}
