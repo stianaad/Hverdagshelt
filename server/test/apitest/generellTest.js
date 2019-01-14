@@ -86,7 +86,7 @@ test('Lag ny feil', done => {
   }
   feildao.lagNyFeil(testFeil1, callback);
 });
-
+*/
 
 test('Slett feil', done => {
   function callback(status, data){
@@ -99,7 +99,7 @@ test('Slett feil', done => {
   feildao.slettFeil({feil_id: 1}, callback);
 });
 
-
+/*
 test('Opprett ny oppdatering', done => {
   function callback(status, data){
     console.log(
@@ -117,7 +117,7 @@ test('hentAlleOppdateringerPaaFeil', done => {
     console.log(
       'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
     );
-    expect(data.length).toBeGreaterThanOrEqual(4);
+    expect(data.length).toBe(1);
     expect(data[1].bruker_id).toBe(5);
     done();
   }
@@ -133,7 +133,7 @@ test('Hent en status', done => {
     expect(data.status).toBe('Under behandling');
     done();
   }
-  feildao.hentEnStatus({status_id: 1}, callback);
+  feildao.hentEnStatus({status_id: 2}, callback);
 });
 
 test('Hent alle statuser', done => {
