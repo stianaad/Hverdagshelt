@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react-simplified';
-import { PositionMap } from '../../widgets';
+import { PositionMap } from '../../Moduler/kart/map';
 
 export class MeldFeil extends Component {
 

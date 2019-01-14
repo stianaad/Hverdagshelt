@@ -1,3 +1,8 @@
+import * as React from 'react';
+import { Component } from 'react-simplified';
+import L from 'leaflet';
+import ReactDOMServer from 'react-dom/server';
+
 class PopupContent extends Component {
     render() {
       return (
