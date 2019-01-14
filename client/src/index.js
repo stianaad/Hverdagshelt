@@ -1,7 +1,7 @@
 /* eslint eqeqeq: "off" */
 import * as React from 'react';
 import { Component,sharedComponentData } from 'react-simplified';
-import { BrowserRouter, Route, NavLink, Redirect,Switch } from 'react-router-dom';
+import { Router, Route, NavLink, Redirect,Switch } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import {BildeTest} from './bildetest';
 import {MeldFeil} from './Komponenter/MeldFeil/meldFeil'
@@ -9,6 +9,7 @@ import Popup from 'reactjs-popup';
 import {Registrering} from './Komponenter/Registrering/registrering';
 import {generellServices} from './services/generellServices';
 import {RodKnapp} from './widgets';
+//import {Login} from './Moduler/login/login'
 import { PositionMap, Marker, MarkerMap } from './Moduler/kart/map';
 //import {Hovedside} from './Komponenter/hovedside/hovedside';
 
@@ -61,12 +62,8 @@ class Forside extends Component {
             src="FremsideHelt.png"
             alt="Hverdagshelt logo"
           />
-          <button
-            type="button"
-            className="btn btn-secondary float-right mt-5 mr-3 border border-dark"
-          >
-            Logg inn
-          </button>
+          {//<div className="float-right mt-5 mr-3"> <Login /></div>
+          }
           <button
             type="button"
             className="btn btn-danger float-right mt-5 mr-3 border border-dark"
@@ -490,7 +487,7 @@ class Menu extends Component {
 const root = document.getElementById('root');
 if (root)
   ReactDOM.render(
-    <BrowserRouter>
+    <Router history={history}>
       <div>
         <Route exact path="/hovedside/:kommune" component={Hovedside} />
         <Route exact path="/kommunevalgtest" component={KommuneVelger} />
@@ -499,7 +496,9 @@ if (root)
         <Route exact path="/registrering" component={Registrering} />
         <Route exact path="/" component={Forside} />
         <Route exact path="/bildetest" component={BildeTest} />
+        {//<Route exact path="/login" component={Login} />
+        }
       </div>
-    </BrowserRouter>,
+    </Router>,
     root
   );

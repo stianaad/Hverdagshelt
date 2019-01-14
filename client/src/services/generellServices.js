@@ -11,11 +11,11 @@ export class Kommuner {
 class GenerellServices {
   
   hentAlleKommuner() {
-    return axios.get('/api/generell/hentAlleKommuner');
+    return axios.get('/api/hentAlleKommuner');
   }
 
   filtrerKommuner(sokeord) {
-    return axios.get('/api/generell/filtrer/' + sokeord);
+    return axios.get('/api/filtrer/' + sokeord);
   }
 
   hentAlleFeil() { // denne skal egentlig ikkje ligge her (feilservice)

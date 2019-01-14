@@ -1,16 +1,7 @@
 import axios from 'axios';
 axios.interceptors.response.use((response) => response.data);
 
-export class Hendelse {
-  hendelse_id;
-  overskrift;
-  tid;
-  beskrivelse;
-  sted;
-  bilde;
-  lengdegrad;
-  breddegrad;
-  bruker_id;
+module.exports = class Hendelse {
   
   constructor(
     overskrift,
