@@ -100,7 +100,7 @@ CREATE TABLE feil (
     breddegrad DOUBLE NOT NULL,
     PRIMARY KEY (feil_id),
     FOREIGN KEY (kommune_id) REFERENCES kommuner(kommune_id),
-    FOREIGN KEY (subkategori_id) REFERENCES subkategori(subkategori_id),
+    FOREIGN KEY (subkategori_id) REFERENCES subkategori(subkategori_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE feilbilder (
