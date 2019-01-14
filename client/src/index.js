@@ -9,7 +9,7 @@ import Popup from 'reactjs-popup';
 import {Registrering} from './Komponenter/Registrering/registrering';
 import {generellServices} from './services/generellServices';
 import {RodKnapp} from './widgets';
-import { PositionMap, Marker, MarkerMap } from './widgets'
+import { PositionMap, Marker, MarkerMap } from './Moduler/kart/map';
 //import {Hovedside} from './Komponenter/hovedside/hovedside';
 
 
@@ -467,7 +467,7 @@ class Menu extends Component {
     return(
       <div>
         <p>hehehehe</p>
-        <PositionMap width="1000" height="500" id="posmap" center="Oslo" position={this.posisjon}></PositionMap>
+        <PositionMap width="100%" height="500px" id="posmap" center="Oslo" position={this.posisjon}></PositionMap>
       </div>
     )
   }
