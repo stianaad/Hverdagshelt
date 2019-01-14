@@ -68,7 +68,7 @@ class PopupContent extends Component {
       });
       this.marker.on('popupclose', (e) => {
         this.marker.on('mouseout', (e) => {this.marker.closePopup().unbindPopup();})
-      })
+      });
     }
   
     addTo(map) {
@@ -97,6 +97,7 @@ class PopupContent extends Component {
         this.coords = [[this.coords[0], this.coords[1]], [this.coords[2], this.coords[3]]];
   
         this.map = L.map(this.props.id, {
+          dragging: !L.Browser.mobile,
           layers: [
             L.tileLayer('https://maps.tilehosting.com/styles/streets/{z}/{x}/{y}.png?key=c1RIxTIz5D0YrAY6C81A', {
               attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -128,28 +129,22 @@ class PopupContent extends Component {
   export class PositionMap extends Component {
     map = null;
     marker = null;
+
     locateMe() {
-      let pos = {...this.map.getCenter()};
-      let check = () => {
-        if (pos.lat == this.map.getCenter().lat) {
-          setTimeout(check, 100);
-        } else {
-          this.marker.setLatLng(this.map.getCenter());
-        }
-      }
       this.map.locate({setView:true, maxZoom:14});
-      if (this.marker == undefined) {
-        this.marker = L.marker(L.latLng(0,0), {
-          draggable: true
-        }).addTo(this.map);
-      }
-      check();
+      this.map.on('locationfound', () => {
+        if (this.marker == undefined) {
+            this.marker = L.marker(this.map.getCenter(), {
+              draggable: !L.Browser.mobile
+            }).addTo(this.map);
+          }
+      });
     }
   
     clicked(e) {
       if (this.marker == undefined) {
         this.marker = L.marker(e.latlng, {
-          draggable: true
+          draggable: !L.Browser.mobile
         }).addTo(this.map);
       }
       else {
@@ -168,6 +163,9 @@ class PopupContent extends Component {
         this.coords = [json[0].boundingbox[0], json[0].boundingbox[2], json[0].boundingbox[1], json[0].boundingbox[3]].map(el => parseFloat(el));
         this.coords = [[this.coords[0], this.coords[1]], [this.coords[2], this.coords[3]]];
         this.map = L.map(this.props.id, {
+          tap: false,
+          scrollWheelZoom: !L.Browser.mobile,
+          dragging: !L.Browser.mobile,
           layers: [
             L.tileLayer('https://maps.tilehosting.com/styles/streets/{z}/{x}/{y}.png?key=c1RIxTIz5D0YrAY6C81A', {
               attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -175,7 +173,13 @@ class PopupContent extends Component {
           ]
         })
         .on('click', this.clicked)
-        .fitBounds(this.coords).setZoom(11);
+        .fitBounds(this.coords)
+        .setZoom(11);
+
+        if (L.Browser.mobile) {
+            this.map.on('focus', () => this.map.scrollWheelZoom.enable())
+                    .on('blur', () => this.map.scrollWheelZoom.disable());
+        }
       });
     }
   
@@ -183,7 +187,7 @@ class PopupContent extends Component {
       return (
         <div style={{width:this.props.width, height:this.props.height, position:'relative'}}>
           <div style={{width:"100%", height:"100%"}} id={this.props.id}></div>
-          <button style={{position:'absolute', top:'10px',right:'10px', zIndex:'10000', height:'35px'}} type="button" onClick={this.locateMe}>Locate Me</button>
+          <button style={{position:'absolute', top:'10px',right:'10px', zIndex:'100000', height:'35px', cursor:'pointer'}} type="button" onClick={this.locateMe} onTouchStart={this.locateMe}>Finn Meg</button>
         </div>
       )
     }
