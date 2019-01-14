@@ -108,7 +108,7 @@ module.exports = class FeilDao extends Dao {
   hentAlleOppdateringerPaaFeil(json, callback) {
     var feil_id = json.feil_id;
     super.query(
-      'SELECT * WHERE oppdatering WHERE feil_id = ?',
+      'SELECT * FROM oppdatering WHERE feil_id = ?',
       [feil_id],
       callback
     );
