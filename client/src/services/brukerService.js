@@ -28,7 +28,7 @@ class Bruker {
   }
 }
 
-export class Privat extends Bruker {
+module.exports = class Privat extends Bruker {
   constructor(
     epost,
     passord,
@@ -42,7 +42,7 @@ export class Privat extends Bruker {
   }
 }
 
-export class Ansatt extends Bruker {
+module.exports = class Ansatt extends Bruker {
   constructor(
     epost,
     passord,
@@ -57,7 +57,7 @@ export class Ansatt extends Bruker {
   }
 }
 
-export class Bedrift extends Bruker {
+module.exports = class Bedrift extends Bruker () {
   constructor(
     epost,
     passord,
@@ -73,7 +73,7 @@ export class Bedrift extends Bruker {
   }
 }
 
-export class Admin extends Bruker {
+module.exports = class Admin extends Bruker () {
   constructor(
     epost,
     passord,

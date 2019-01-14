@@ -3,7 +3,11 @@ import fs from 'fs';
 
 module.exports = function run(filename, pool, done) {
     console.log("runsqlfile: reading file " + filename);
-    let sql = fs.readFileSync(filename, "utf8");
+    let sql = fs.readFileSync(
+    __dirname + '/' + filename,
+    'utf8'
+  );
+
     pool.getConnection((err, connection) => {
         if (err) {
             console.log("runsqlfile: error connecting");
