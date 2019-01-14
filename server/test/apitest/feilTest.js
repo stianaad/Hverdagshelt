@@ -12,13 +12,13 @@ const testOppdatering1 = new Oppdatering(
 
 */
 var pool = mysql.createPool({
-    connectionLimit: 1,
-    host: 'mysql',
-    user: 'root',
-    password: '123',
-    database: 'oivindhl',
-    debug: false,
-    multipleStatements: true
+  connectionLimit: 1,
+  host: 'mysql',
+  user: 'root',
+  password: '123',
+  database: 'oivindhl',
+  debug: false,
+  multipleStatements: true
 });
 
 let feilDao = new FeilDao(pool);
