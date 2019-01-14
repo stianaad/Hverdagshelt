@@ -118,7 +118,7 @@ class Forside extends Component {
                   ))}
                   </ul>
               </form>*/}
-              <KommuneVelger />
+              <KommuneVelger history={history}/>
             </section>
           </div>
         </div>

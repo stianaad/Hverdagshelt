@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
-import {Privat, brukerService} from '../../services/brukerService';
+//import {Privat, brukerService} from '../../services/brukerService';
 
 export class Registrering extends Component {
   fornavn = '';
@@ -102,7 +102,7 @@ export class Registrering extends Component {
     if (this.bekreftPass === this.passord && this.passord.length >= 8) {
         this.advarsel = '';
 
-        bruker = new Privat(this.epost, this.passord, 1, this.fornavn, this.etternavn); 
+        //bruker = new Privat(this.epost, this.passord, 1, this.fornavn, this.etternavn); 
         
         /*brukerService
             .lagNyBruker(bruker)
