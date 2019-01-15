@@ -2,7 +2,11 @@ import * as React from 'react';
 import { Component,sharedComponentData } from 'react-simplified';
 import { HashRouter, Route, NavLink, Redirect,Switch } from 'react-router-dom';
 import {generellServices} from '../../services/generellServices';
-import { PositionMap, Marker, MarkerMap, markerTabell } from '../../Moduler/kart/map';
+import {feilService} from '../../services/feilService';
+import {hendelseService} from '../../services/hendelseService';
+import { PositionMap, Marker, MarkerMap, markerTabell,ShowMarkerMap } from '../../Moduler/kart/map';
+import {Card, Feed, Grid, Button, Header, Icon, Image, Modal} from 'semantic-ui-react';
+import {FeedEvent,FeedHendelse, Filtrer, Info} from '../../Moduler/cardfeed'
 
 export class Hovedside extends Component {
     visFeil = false;
@@ -35,13 +39,10 @@ export class Hovedside extends Component {
         this.visFeil = true;
         console.log(feil.feil_id);
         console.log(feil.overskrift);
-        this.feil.overskrift = feil.overskrift;
-        this.feil.beskrivelse = feil.beskrivelse;
-        this.feil.status = feil.status;
-        this.feil.tid = feil.tid;
+        this.feil = {...feil};
         console.log(feil.status);
         console.log(feil.tid.substr(11,16));
-        let res = await generellServices.hentBilderTilFeil(feil.feil_id);
+        let res = await feilService.hentBilderTilFeil(feil.feil_id);
         this.bilderTilFeil = await res.data;
         this.endreStatusIkon(feil.status);
     }
@@ -108,18 +109,40 @@ export class Hovedside extends Component {
                     <div className="col-sm-4 ">
                         <div className="ml-3">
                             <h5>Nylige feil og mangler
-                            <select
+                            </h5>
+                            <br/>
+                            <Card fluid="true">
+                              <Card.Content>
+                                <Card.Header>
+                                  
+                                  Nylige feil og mangler
+                                  <select
                               onChange={this.filter}
-                              className="form-control float-right" 
-                              style={{width: 120}}>
+                              className="form-control right floated meta" 
+                              style={{height: 30, width: 120}}>
                               <option hidden> Filter </option>
                               <option value="0"> Alle kategorier </option>
                               {this.alleKategorier.map(kategori => (
                                 <option value={kategori.kategorinavn} key={kategori.kategorinavn}> {kategori.kategorinavn}</option>
                               ))}
                             </select>
-                            </h5>
-                            <br/>
+                                                                       
+                                </Card.Header>
+                              </Card.Content>
+                              <Card.Content>
+                                <Feed>
+                                {this.aktiveFeil.map(feil => (
+                                    <FeedEvent onClick={() => this.merInfo(feil)}
+                                        status ={feil.status}
+                                        tid={feil.tid}
+                                        kategori ={feil.kategorinavn}>
+                                        {feil.overskrift}
+                                    </FeedEvent>
+                                ))}
+                                </Feed>
+                              </Card.Content>
+                            </Card>
+                            {/*
                             <div className="kanter">
                             <nav>
                             <ul className="list-group">
@@ -143,7 +166,8 @@ export class Hovedside extends Component {
                                 ))}
                             </ul>
                             </nav>
-                            </div>
+                            </div>*/
+                                  }
                         </div>
                     </div>
                     <div className='col-sm-8'>
@@ -166,7 +190,7 @@ export class Hovedside extends Component {
                                  </div>
                                 <div className="col-sm-4">
                                 <h6>Posisjon</h6>
-                                <MarkerMap width="100%" height="300px" id="posmap" center="Oslo" markers={markerTabell(this.alleFeil)} onRef={ref => (this.kart1 = ref)} />
+                                <ShowMarkerMap width="100%" height="300px" id="posmap" feil={this.feil} markers={markerTabell(this.alleFeil)} onRef={ref => (this.kart1 = ref)} />
                                 </div>
                                 <div className="col-sm-4">
                                 <h6>Oppdateringer:</h6>
@@ -213,6 +237,33 @@ export class Hovedside extends Component {
                         </div>
                         </div>
                         <div className="col-sm-6">
+                        <h5>Kommende hendelser</h5>
+                        <div className="mr-3 mt-5">
+                        <Card fluid="true">
+                              <Card.Content>
+                                <Card.Header>
+                                  <Grid>
+                                      <Grid.Column width={12}>Kommende hendelser</Grid.Column>                
+                                      <Grid.Column width={4}>
+                                      </Grid.Column>
+                                  </Grid>
+                                </Card.Header>
+                              </Card.Content>
+                              <Card.Content>
+                                <Feed>
+                                {this.alleHendelser.map(hendelse => (
+                                    <FeedHendelse onClick={() => {this.visHendelser = true;this.visEnHendelse(hendelse)}}
+                                        //status ={feil.status}
+                                        tid={hendelse.tid}
+                                        kategori ={hendelse.kategorinavn}>
+                                        {hendelse.overskrift}
+                                    </FeedHendelse>
+                                ))}
+                                </Feed>
+                              </Card.Content>
+                            </Card>
+                            </div>
+                        {/*
                         <div className="ml-3">
                           <h5>Kommende hendelser
                           </h5>
@@ -235,8 +286,8 @@ export class Hovedside extends Component {
                               </ul>
                             </nav>
                           </div>
-                      </div>
-                        </div>
+                                  </div>*/}
+                                  </div>
                     </div>)}
                     </div>
                 </div>) : (
@@ -265,28 +316,31 @@ export class Hovedside extends Component {
                       </div>
                     </div>
                     <div className="col-sm-4">
-                    <div className="ml-3">
-                          <h5>Kommende hendelser
-                          </h5>
-                          <br/>
-                          <div className="kanter">
-                            <nav>
-                              <ul className="list-group">
-                                  <li className="kanter lister">
-                                    I dag</li>
-                                  {this.alleHendelser.map(tabell => (
-                                    <li className="kanter lister">
-                                    <p onClick = {() => {this.visHendelser = true;this.visEnHendelse({overskrift: tabell.overskrift,beskrivelse: tabell.beskrivelse,tid: tabell.tid,bilde: tabell.bilde,sted: tabell.sted})}}>
-                                        {tabell.overskrift}
-                                        <br/>
-                                        <i>konsert</i>
-                                        <span className='float-right'>{tabell.tid}</span>
-                                    </p>
-                                    </li>
-                                  ))}
-                              </ul>
-                            </nav>
-                          </div>
+                    <h5>Kommende hendelser</h5>
+                    <div className="mr-3 mt-5">
+                    <Card fluid="true">
+                              <Card.Content>
+                                <Card.Header>
+                                  <Grid>
+                                      <Grid.Column width={12}>Kommende hendelser</Grid.Column>                
+                                      <Grid.Column width={4}>
+                                      </Grid.Column>
+                                  </Grid>
+                                </Card.Header>
+                              </Card.Content>
+                              <Card.Content>
+                                <Feed>
+                                {this.alleHendelser.map(hendelse => (
+                                    <FeedHendelse key={hendelse.hendelse_id}onClick={() => {this.visHendelser = true;this.visEnHendelse(hendelse)}}
+                                        tid={hendelse.tid}
+                                        kategori ={hendelse.kategorinavn}>
+                                        {hendelse.overskrift}
+                                    </FeedHendelse>
+                                ))}
+                                </Feed>
+                              </Card.Content>
+                            </Card>
+                          
                           </div>
                     </div>
                   </div>
@@ -297,21 +351,20 @@ export class Hovedside extends Component {
     posFunksjon(){
         console.log("hei");
     }
-  
+
     async mounted(){
-        let res1 = await generellServices.hentAlleFeil();
+        let res1 = await feilService.hentAlleFeil();
         this.alleFeil = await res1.data;
         this.aktiveFeil = await res1.data;
         await console.log(res1.data);
   
-        let res2 = await generellServices.hentAlleKategorier();
+        let res2 = await feilService.hentAlleHovedkategorier();
         this.alleKategorier = await res2.data;
         await console.log(res2.data);
         
-        let res3 = await generellServices.hentAlleHendelser();
+        let res3 = await hendelseService.hentAlleHendelser();
         this.alleHendelser = await res3.data;
         await console.log(res3.data);
-        
     }
   }
   

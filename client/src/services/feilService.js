@@ -11,7 +11,7 @@ class FeilService {
   }
 
   hentBilderTilFeil(feil_id) {
-    return api.get('/api/feil/:feil_id/bilder', feil_id);
+    return api.get('/api/feil/'+feil_id+'/bilder');
   }
 
   lagNyFeil(nyFeil) {

@@ -12,6 +12,18 @@ class BrukerService {
     return api.post('/api/brukere/privat', nyPrivatBruker);
   } 
 
+  lagNyAnsattBruker(nyAnsattBruker) {
+    return api.post('/api/brukere/ansatt', nyAnsattBruker);
+  } 
+
+  lagNyBedriftBruker(nyBedriftBruker) {
+    return api.post('/api/brukere/bedrift', nyBedriftBruker);
+  } 
+
+  lagNyAdminBruker(nyAdminBruker) {
+    return api.post('/api/brukere/admin', nyAdminBruker);
+  } 
+
   endrePassord(nyInformasjon) {
     console.log('endre');
     return api.post('/api/resett-passord', nyInformasjon);

@@ -104,6 +104,30 @@ router.post('/api/brukere/privat', (req, res) => {
   });
 });
 
+router.post('/api/brukere/ansatt', (req, res) => {
+  console.log('/brukere/ansatt fikk post request fra klienten');
+  let info = {epost: req.body.epost, passord: req.body.passord, kommune_id: req.body.kommune_id, fornavn: req.body.fornavn, etternavn: req.body.etternavn, telefon: req.body.telefon}
+  brukerDao.lagNyPrivatBruker(info, (status, data) => {
+    res.status(status);
+  });
+});
+
+router.post('/api/brukere/bedrift', (req, res) => {
+  console.log('/brukere/bedrift fikk post request fra klienten');
+  let info = {epost: req.body.epost, passord: req.body.passord, kommune_id: req.body.kommune_id, orgnr: req.body.orgnr, navn: req.body.navn, telefon: req.body.telefon}
+  brukerDao.lagNyPrivatBruker(info, (status, data) => {
+    res.status(status);
+  });
+});
+
+router.post('/api/brukere/admin', (req, res) => {
+  console.log('/brukere/admin fikk post request fra klienten');
+  let info = {epost: req.body.epost, passord: req.body.passord, kommune_id: req.body.kommune_id, telefon: req.body.telefon, navn: req.body.navn}
+  brukerDao.lagNyPrivatBruker(info, (status, data) => {
+    res.status(status);
+  });
+});
+
 router.put("/brukere/:bruker_id/nyttpassord",(req, res)=>{
   passord(req.body.passord).hash((error, hash) => {
     if (error) {
