@@ -42,16 +42,6 @@ const hashPassord = (inputPassord) => {
 
 // Verifisere passord
 
-<<<<<<< HEAD
-const verifiserePassord = (inputPassord,eksisterendePassord)=>{
-  return passord(inputPassord).verifyAgainst(eksisterendePassord, (error,verified) => {
-    if(error)
-      throw new Error('Noe gikk galt!');
-    if(!verified) {
-      console.log("Feil passord");
-    } else {
-      console.log("Godkjent")
-=======
 const verifiserePassord = (inputPassord, eksisterendePassord) => {
   return passord(inputPassord).verifyAgainst(
     eksisterendePassord,
@@ -62,7 +52,6 @@ const verifiserePassord = (inputPassord, eksisterendePassord) => {
       } else {
         console.log('Sjekk ok!');
       }
->>>>>>> master
     }
   );
 };
@@ -86,7 +75,6 @@ router.post('/api/brukere', (req, res) => {
   });
 });
 
-<<<<<<< HEAD
 /* 
 * Hasher først passordet, deretter kalles dao for å hente hash i database,
 * deretter verifiseres passorded som er skrevet inn mot det i databasen.
@@ -97,18 +85,6 @@ router.post("/sjekkPassord",(req,res)=>{
 	passord(req.body.passord).hash((error,hash) => {
 		if(error){
 			throw new Error('Noge gjekk galt');
-=======
-/*
- * Hasher først passordet, deretter kalles dao for å hente hash i database,
- * deretter verifiseres passorded som er skrevet inn mot det i databasen.
- */
-
-router.post('/sjekkPassord', (req, res) => {
-  console.log('Sjekk passord');
-  passord(req.body.passord).hash((error, hash) => {
-    if (error) {
-      throw new Error('Noge gjekk galt');
->>>>>>> master
     }
     let info = {epost: req.body.epost, passord: hash};
     brukerDao.hentBruker(info, (status, data) => {
