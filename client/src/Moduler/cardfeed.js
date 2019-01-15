@@ -113,7 +113,7 @@ export class Info extends Component{
                 <Grid columns={3} divided>
                     <Grid.Row stretched> 
                         <Grid.Column>
-                            <Segment>Beskrivelse</Segment>
+                            <p>{this.props.children}</p>
                         </Grid.Column>
                         <Grid.Column>
                             <Segment>Kart</Segment>
@@ -133,7 +133,7 @@ export class Filtrer extends Component{
     render(){
         return(
             <div>
-                <select onChange={this.props.onChange}>
+                <select onChange={this.props.onChange} style={{height: 30, width: 120}} className="rigth floated form-control">
                     <option hidden>
                         Filtrer
                     </option>
