@@ -49,7 +49,6 @@ afterAll(() => {
   pool.end();
 });
 
-
 test('legg til ny privatbruker', done => {
   function callback(status, data) {
     console.log(
@@ -61,6 +60,16 @@ test('legg til ny privatbruker', done => {
   brukerdao.lagNyPrivatBruker(privatBruker1, callback);
 });
 
+test('lag ny bruker', done => {
+  function callback(status, data) {
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  brukerdao.lagNyBruker({epost: 'epost11@hotmail.com', passord: 'passord23495', kommune_id: 9}, callback);
+});
 
 test('hent brukerid', done => {
   function callback(status, data) {
