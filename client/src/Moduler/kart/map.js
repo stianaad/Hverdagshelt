@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { Component } from 'react-simplified';
 import L from 'leaflet';
+import * as React from 'react';
 import ReactDOMServer from 'react-dom/server';
+import { Component } from 'react-simplified';
 
 export function markerTabell(feiltabell) {
   let tabell = [];
@@ -61,7 +61,7 @@ export class Marker {
         this.marker.setLatLng(L.latLng(feil.breddegrad, feil.lengdegrad));
         if (feil.status != 0) {
             this.marker.setIcon(new L.Icon({
-                iconUrl: iconName + '.png',
+                iconUrl: '/'+iconName + '.png',
                 iconSize: [30, 30]
             }));
         }
@@ -83,6 +83,34 @@ export class Marker {
     addTo(map) {
         this.marker.addTo(map);
     }
+
+    updateMarker(feil) {
+        let iconName = feil.status == 0 ? null : feil.status == "Ikke godkjent" ? "warningicon" : feil.status == "Under behandling" ? "processingicon" : "successicon";
+        let statusText = feil.status == 0 ? "" : feil.status == "Ikke godkjent" ? <span style={{ color: 'red', fontStyle: 'italic' }}>Ikke godkjent</span> :
+            feil.status == "Under behandling" ? <span style={{ color: 'orange', fontStyle: 'italic' }}>Under behandling</span> :
+                <span style={{ color: 'green', fontStyle: 'italic' }}>Arbeid utført</span>;
+
+        this.marker.setLatLng(L.latLng(feil.breddegrad, feil.lengdegrad));
+        if (feil.status != 0) {
+            this.marker.setIcon(new L.Icon({
+                iconUrl: '/'+iconName + '.png',
+                iconSize: [30, 30]
+            }));
+        }
+        this.hoverPopup.setContent('<h4>' + feil.kategorinavn + '</h4>');
+        this.clickPopup.setContent(ReactDOMServer.renderToString(<PopupContent tid={feil.tid} overskrift={feil.overskrift} statusText={statusText} beskrivelse={feil.beskrivelse} bildeurl={""} kategori={feil.kategorinavn}></PopupContent>));
+
+        this.marker.on('mouseover', (e) => { this.marker.bindPopup(this.hoverPopup).openPopup() });
+        this.marker.on('mouseout', (e) => { this.marker.closePopup().unbindPopup(); });
+        this.marker.on('click', (e) => {
+            this.marker.closePopup().unbindPopup();
+            this.marker.removeEventListener('mouseout');
+            this.marker.bindPopup(this.clickPopup, { maxWidth: 800 }).openPopup();
+        });
+        this.marker.on('popupclose', (e) => {
+            this.marker.on('mouseout', (e) => { this.marker.closePopup().unbindPopup(); })
+        });
+    }
 }
 
 /**
@@ -97,7 +125,7 @@ export class Marker {
 export class MarkerMap extends Component {
     map = null;
 
-    mounted() {
+    componentDidMount() {
         this.props.onRef(this);
 
         let m = this.props.markers;
@@ -137,11 +165,77 @@ export class MarkerMap extends Component {
         this.props.onRef(null)
     }
 
+    componentWillReceiveProps() {
+        console.log("yo");
+    }
+
     flyttKart(bredde, lengde) {
         this.map.setView(L.latLng(bredde, lengde), 15);
     }
 
     render() {
+        return (
+            <div style={{ width: this.props.width, height: this.props.height }} id={this.props.id}></div>
+        )
+    }
+}
+
+/**
+ * Trenger id, width, height, og feil obkjekt
+ */
+export class ShowMarkerMap extends Component {
+    map = null;
+    f = this.props.feil;
+    m = null;
+
+    componentDidMount() {
+        console.log(this.f);
+        this.map = L.map(this.props.id, {
+            center: L.latLng(this.f.breddegrad, this.f.lengdegrad),
+            zoom: 13,
+            dragging: !L.Browser.mobile,
+            layers: [
+                L.tileLayer('https://maps.tilehosting.com/styles/streets/{z}/{x}/{y}.png?key=c1RIxTIz5D0YrAY6C81A', {
+                    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                })
+            ]
+        });
+
+        this.m = new Marker(this.f);
+        this.m.marker.addTo(this.map);
+    }
+
+    updateMap(newFeil) {
+        console.log(this.f);
+        this.map = L.map(this.props.id, {
+            center: L.latLng(this.f.breddegrad, this.f.lengdegrad),
+            zoom: 13,
+            dragging: !L.Browser.mobile,
+            layers: [
+                L.tileLayer('https://maps.tilehosting.com/styles/streets/{z}/{x}/{y}.png?key=c1RIxTIz5D0YrAY6C81A', {
+                    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                })
+            ]
+        });
+
+        this.m = new Marker(this.f);
+        this.m.marker.addTo(this.map);
+    }
+
+    shouldComponentUpdate(next) {
+        let center = this.map.getCenter();
+        if (center.lat != next.feil.breddegrad && center.lng != next.feil.lengdegrad) {
+            this.map.setView(L.latLng(next.feil.breddegrad, next.feil.lengdegrad));
+            this.m.updateMarker(next.feil);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    render() {
+        console.log("render");
         return (
             <div style={{ width: this.props.width, height: this.props.height }} id={this.props.id}></div>
         )

@@ -3,7 +3,7 @@ import { Component } from 'react-simplified';
 import { generellServices } from '../../services/generellServices';
 import { Link } from 'react-router-dom';
 
-export class KommuneVelger extends Component {
+export class KommuneInput extends Component {
     sok = "";
     listesyn = false;
     kommuner = [];
@@ -11,6 +11,7 @@ export class KommuneVelger extends Component {
     valgt_index = 0;
     in;
     boks;
+    verdi = null;
     
     constructor(props) {
         super(props);
@@ -21,14 +22,23 @@ export class KommuneVelger extends Component {
     render() {
         return(
             <div className="komBoks">
-                <input ref={this.in} style={this.listesyn ? {borderBottomLeftRadius:"0px", borderBottomRightRadius:"0px"} : {}} className="form-control input-lg komSok" value={this.sok} placeholder="Finn din kommune.." onChange={this.oppdaterSok} type="text"></input>
+                <input ref={this.in} onFocus={() => {if (this.sok.length > 0) this.listesyn = true;}} onBlur={() => {setTimeout(() => {this.listesyn = false;},100)}} className="komSok2 form-control" placeholder="Søk.." value={this.sok} onChange={this.oppdaterSok} type="text"></input>
                 <ul ref={this.boks} className="komListe" style={{display: this.listesyn ? "block" : "none"}}>
                     {this.kommuner_filtrert.map((kommune, i) => (
-                        <li key={kommune.kommune_id} className={(i==this.valgt_index) ? "komElement komValgt" : "komElement"}><Link to={"/hovedside/"+kommune.kommune_navn.toLowerCase()}>{kommune.kommune_navn}</Link></li>
+                        <li onClick={() => this.velg(i)} key={kommune.kommune_id} className={(i==this.valgt_index) ? "komV komValgt" : "komV"}>{kommune.kommune_navn}</li>
                     ))}
                 </ul>
             </div>
         );
+    }
+
+    velg(index) {
+        if (this.kommuner_filtrert.length > 0) {
+            this.listesyn = false;
+            this.verdi = this.kommuner_filtrert[index].kommune_id;
+            this.valgt_index = index;
+            this.sok = this.kommuner_filtrert[index].kommune_navn;
+        }
     }
 
     async mounted() {
@@ -39,7 +49,7 @@ export class KommuneVelger extends Component {
 
     inputup (e) {
         if (e.key == "Enter") {
-            this.props.history.push("/hovedside/"+this.kommuner_filtrert[this.valgt_index].kommune_navn.toLowerCase());
+            this.velg(this.valgt_index);
         } else if (e.key == "ArrowDown") { //NED
             e.preventDefault();
             this.valgt_index++;
@@ -68,10 +78,11 @@ export class KommuneVelger extends Component {
     }
 
     oppdaterSok(e) {
+        this.verdi = null;
         this.sok = e.target.value;
-
+        
+        this.kommuner_filtrert = [];
         if (this.sok.length > 0) {
-            this.kommuner_filtrert = [];
             for (let i = 0; i < this.kommuner.length; i++) {
                 let match = true;
                 for (let j = 0; j < this.sok.length; j++) {
@@ -79,7 +90,12 @@ export class KommuneVelger extends Component {
                         match = false;
                     }
                 }
-                if (match) this.kommuner_filtrert.push(this.kommuner[i]);
+                if (match) {
+                    this.kommuner_filtrert.push(this.kommuner[i]);
+                    if (this.kommuner[i].kommune_navn.toLowerCase() == this.sok.toLowerCase()) {
+                        this.verdi = this.kommuner[i].kommune_id;
+                    }
+                }
             }
 
             if (this.valgt_index < 0) this.valgt_index = 0;

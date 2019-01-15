@@ -11,8 +11,12 @@ import {MineOppgaver} from './Komponenter/Ansatt/mineOppgaver';
 import {generellServices} from './services/generellServices';
 import {RodKnapp} from './widgets';
 import {Login} from './Moduler/login/login'
+import {Forside} from './Komponenter/Forside/forside';
 import { PositionMap, Marker, MarkerMap, markerTabell } from './Moduler/kart/map';
 import {Hovedside} from './Komponenter/hovedside/hovedside';
+
+import {GlemtPassord} from "../src/Komponenter/GlemtPassord/glemtPassord";
+import {ResettPassord} from "../src/Komponenter/GlemtPassord/resettPassord";
 
 
 import createBrowserHistory from 'history/createBrowserHistory';
@@ -20,123 +24,8 @@ const history = createBrowserHistory(); // Use history.push(...) to programmatic
 
 import {relative} from 'path';
 import { KommuneVelger } from './Moduler/KommuneVelger/kommuneVelger';
+import { KommuneInput } from './Moduler/kommuneInput/kommuneInput';
 
-
-
-class Forside extends Component {
-  sok = '';
-  alleKommuner = [];
-  sokteKommuner = [];
-
-
-  handterSok(e) {
-    this.sok = e.target.value;
-    console.log(this.sok);
-    if (this.sok.length > 0) {
-      generellServices.filtrerKommuner(this.sok).then((kommuner) => {
-        this.sokteKommuner = kommuner;
-      });
-    } else {
-      this.sokteKommuner = this.alleKommuner;
-    }
-
-    /*if (this.sok.innhold.length >0) {
-      sakService
-          .filtrerNyhetssaker(this.sok.innhold)
-          .then(sak => (this.delt.nyhetssaker = sak))
-          .catch();
-    }
-      
-    else{
-        sakService
-          .getAlleNyhetssaker()
-          .then(nyeste => (this.delt.nyhetssaker = nyeste))
-          .catch();
-    }*/
-  }
-  render() {
-    return (
-      <div>
-        <div>
-          <img
-            className="img-fluid w-50 "
-            src="FremsideHelt.png"
-            alt="Hverdagshelt logo"
-          />
-          <div className="float-right mt-5 mr-3"> <Login /></div>
-          <button
-            type="button"
-            className="btn btn-danger float-right mt-5 mr-3 border border-dark"
-          >
-            Meld inn feil
-          </button>
-          <button
-            type="button"
-            className="btn btn-light float-right mt-5 mr-3 border border-dark"
-          >
-            Hendelser
-          </button>
-        </div>
-        <div className="bilde">
-          <img
-            className="img-fluid w-100 "
-            src="lofoten.jpg"
-            alt="bilde av Lofoten"
-          />
-          {/*<video src="/norge.mp4" autoPlay loop></video>*/}
-          <div className="centered">
-            <h6 className="tekst">Kommuniser direkte med din kommune </h6>
-            <section className="main">
-              {/*<form className="search" method="post" action="index.html">
-                <input
-                  type="text"
-                  name="q"
-                  placeholder="Søk..."
-                  onChange={this.handterSok}
-                />
-                <ul className="results scroll">
-                  <li>
-                    <a href="index.html">
-                      Search Result #1
-                      <br />
-                      <span>Description...</span>
-                    </a>
-                  </li>
-                  {this.sokteKommuner.map((kommune) => (
-                    <NavLink activeStyle={{color: 'darkblue'}} to={'/'}>
-                      <li
-                        className="text-dark"
-                        key={kommune.kommune_id}
-                        onClick={() => test}
-                      >
-                        {kommune.kommune_navn}
-                      </li>
-                    </NavLink>
-                  ))}
-                  </ul>
-              </form>*/}
-              <KommuneVelger history={history}/>
-            </section>
-          </div>
-        </div>
-        <footer>
-          <div className="m-5" />
-        </footer>
-      </div>
-    );
-  }
-  test() {
-    console.log('hehehheeh');
-  }
-
-  /*mounted() {
-    generellServices.hentAlleKommuner().then((kommuner) => {
-      this.sokteKommuner = kommuner;
-      this.alleKommuner = kommuner;
-      console.log(kommuner.length);
-    });
-  }*/
-}
 
 class Tabell extends Component{
   render() {
@@ -206,6 +95,34 @@ class Menu extends Component {
     )
   }
 }
+
+class komtest extends Component {
+  kominput;
+
+constructor(props) {
+  super(props);
+  this.kominput = React.createRef();
+}
+
+  render() {
+    return (
+      <>
+        <div style={{width:"300px"}}>
+          <KommuneInput ref={this.kominput} />
+          {this.komm}
+        </div>
+        <button onClick={this.test}>test</button>
+      </>
+    );
+  }
+
+  test() {
+    alert(this.kominput.current.verdi);
+  }
+
+}
+
+
 const root = document.getElementById('root');
 if (root)
   ReactDOM.render(
@@ -216,10 +133,15 @@ if (root)
         <Route exact path="/meld-feil" component={MeldFeil} />
         <Route exact path="/nyheter" component={Menu} />
         <Route exact path="/registrering" component={Registrering} />
-        <Route exact path="/" component={Forside} />
+        <Route exact path="/" component={Forside} history={history}/>
         <Route exact path="/bildetest" component={BildeTest} />
+        <Route exact path="/glemt-passord" component={GlemtPassord}/>
+        <Route exact path="/resett-passord/:token" component={ResettPassord}/>
+        {//<Route exact path="/login" component={Login} />
+        }
         <Route exact path="/mineoppgaver" component={MineOppgaver}/>
         <Route exact path="/login" component={Login} />
+        <Route exact path="/kinput" component={komtest} />
       </div>
     </Router>,
     root

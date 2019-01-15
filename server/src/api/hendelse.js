@@ -7,7 +7,7 @@ import {pool} from '../../test/poolsetup';
 
 let hendelseDao = new HendelseDao(pool);
 
-router.get('/api/hentAlleHendelser', (req, res) => {
+router.get('/api/hendelser', (req, res) => {
   console.log('Fikk GET-request fra klienten');
 
   hendelseDao.hentAlleHendelser((status, data) => {
@@ -17,7 +17,7 @@ router.get('/api/hentAlleHendelser', (req, res) => {
   });
 });
 
-router.get('/api/hentEnHendelse', (req, res) => {
+router.get('/api/hendelser/:hendelse_id', (req, res) => {
   console.log('Fikk GET-request fra klienten');
 
   var a = {hendelse_id: req.body.hendelse_id}
@@ -29,7 +29,7 @@ router.get('/api/hentEnHendelse', (req, res) => {
   });
 });
 
-router.post('/api/lagNyHendelse', (req, res) => {
+router.post('/api/hendelser/:hendelse_id', (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk POST-request fra klienten');
 
@@ -43,13 +43,13 @@ router.post('/api/lagNyHendelse', (req, res) => {
     breddegrad: req.body.breddegrad
   };
 
-  feilDao.lagNyHendelse(a, (status, data) => {
+  hendelseDao.lagNyHendelse(a, (status, data) => {
     console.log('Opprettet en ny hendelse');
     res.status(status);
   });
 });
 
-router.post('/api/oppdaterHendelse', (req, res) => {
+router.put('/api/hendelser/:hendelse_id', (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk POST-request fra klienten');
 
@@ -62,19 +62,19 @@ router.post('/api/oppdaterHendelse', (req, res) => {
     hendelse_id: req.body.hendelse_id
   };
 
-  feilDao.oppdaterHendelse(a, (status, data) => {
+  hendelseDao.oppdaterHendelse(a, (status, data) => {
     console.log('Opprettet en ny hendelse');
     res.status(status);
   });
 });
 
-router.post('/api/slettHendelse', (req, res) => {
+router.delete('/api/hendelser/:hendelse_id', (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk POST-request fra klienten');
 
   var a = {hendelse_id: req.body.hendelse_id}
 
-  feilDao.slettHendelse(a, (status, data) => {
+  hendelseDao.slettHendelse(a, (status, data) => {
     console.log('Slettet en hendelse');
     res.status(status);
   });

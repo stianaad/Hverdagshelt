@@ -2,7 +2,7 @@ import Dao from './dao.js';
 
 module.exports = class HendelseDao extends Dao {
   hentAlleHendelser(callback) {
-    super.query("SELECT hendelse_id,overskrift,DATE_FORMAT(tid, '%Y-%m-%d %H:%i') AS tid,beskrivelse,sted,bilde, lengdegrad, breddegrad  FROM hendelser", null, callback);
+    super.query("SELECT hendelse_id,overskrift,DATE_FORMAT(tid, '%Y-%m-%d %H:%i') AS tid,beskrivelse,sted,bilde, lengdegrad, breddegrad,kategorinavn FROM hendelser,hendelseskategori WHERE hendelser.hendelseskategori_id = hendelseskategori.hendelseskategori_id", null, callback);
   }
 
   hentEnHendelse(json, callback) {

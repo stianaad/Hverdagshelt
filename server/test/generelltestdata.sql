@@ -182,9 +182,9 @@ INSERT INTO status (status_id, status) VALUES
   (3, 'Ferdig');
 
 INSERT INTO feil (kommune_id, subkategori_id, overskrift, beskrivelse, lengdegrad, breddegrad) VALUES
-  (1, 1, 'Overskrift1', 'Beskrivelse1', 0.1, 0.0),
-  (20, 2, 'Overskrift2', 'Beskrivelse2', 0.0, 0.2),
-  (30, 2, 'Overskrift3', 'Beskrivelse3', 0.3, 0.3),
+  (1, 1, 'Overskrift1', 'Beskrivelse1', 10.754814, 59.908996),
+  (20, 2, 'Overskrift2', 'Beskrivelse2', 10.772108, 59.912396),
+  (30, 2, 'Overskrift3', 'Beskrivelse3', 10.745930, 59.914396),
   (40, 4, 'Overskrift4', 'Beskrivelse4', 0.4, 4.0),
   (50, 3, 'Overskrift5', 'Beskrivelse5', 5.0, 5.0),
   (60, 6, 'Overskrift6', 'Beskrivelse6', 60.0, 6.0);
