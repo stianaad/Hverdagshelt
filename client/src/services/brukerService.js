@@ -3,7 +3,7 @@ import api from './api';
 class BrukerService {
 
   lagNyBruker(nyBruker) {
-    return api.post('/api/lagNyBruker', nyBruker);
+    return api.post('/api/brukere', nyBruker);
   }
 
   endrePassord(nyInformasjon) {

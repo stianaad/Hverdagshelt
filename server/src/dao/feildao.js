@@ -12,15 +12,6 @@ module.exports = class FeilDao extends Dao {
     super.query('SELECT * FROM feil WHERE feil_id = ?', [feil_id], callback);
   }
 
-  hentFeilStatus(json, callback) {
-    var status_id = json.status_id;
-    super.query(
-      'SELECT * from feil WHERE status_id = ?',
-      [status_id],
-      callback
-    );
-  }
-
   lagNyFeil(json, callback) {
     var feil = [
       json.kommune_id,
@@ -76,15 +67,6 @@ module.exports = class FeilDao extends Dao {
       callback
     );
   }
-
-  /*endreStatusFeil(json, callback) {
-    var idArray = [json.status_id, json.feil_id];
-    super.query(
-      'UPDATE feil SET status_id = ? WHERE feil_id = ?',
-      idArray,
-      callback
-    );
-  }*/
 
   slettFeil(json, callback) {
     var feil_id = json.feil_id;
@@ -144,7 +126,6 @@ module.exports = class FeilDao extends Dao {
     super.query('SELECT feil.*,hovedkategori.hovedkategori_id,hovedkategori.kategorinavn AS kategorinavn FROM feil, subkategori,hovedkategori WHERE feil.subkategori_id=subkategori.subkategori_id AND subkategori.hovedkategori_id=hovedkategori.hovedkategori_id AND hovedkategori.hovedkategori_id=?',
      [kategori_id], callback);
   }
-
 
   hentAlleSubKategorierPaaHovedkategori(json, callback) {
     var hovedkategori_id = json.hovedkategori_id;
