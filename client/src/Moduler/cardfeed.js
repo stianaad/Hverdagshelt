@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
-import {Card, Feed, Modal} from 'semantic-ui-react';
+import {Card, Feed, Modal, Grid, GridColumn, Segment} from 'semantic-ui-react';
 
 export class FeedEvent extends Component{
     render(){
@@ -13,7 +13,8 @@ export class FeedEvent extends Component{
                         <Feed.Summary>
                             <a onClick={this.props.onClick}>{this.props.children}</a>
                         </Feed.Summary>
-                    </Feed.Content>
+                        <span><i>kategori</i></span>
+                    </Feed.Content> 
                 </Feed.Event>
             </Feed>
         );
@@ -24,23 +25,20 @@ export class Info extends Component{
     render(){
         return(
             <div>
-                <h1>Strømbrudd hos stian</h1>
-                <br/>
-                <p>06.01.2018</p>
-                <div>
-                    <div className="a">
-                        <p>Masse tekst</p>
-                    </div>
-                    <div className="b">
-                        <p>Kart</p>
-                    </div>
-                    <div className="c">
-                        <p>Oppdateringer</p>
-                    </div>
-                    <div className="d">
-                        <p>Bilder</p>
-                    </div>
-                </div>
+                <Grid columns={3} divided>
+                    <Grid.Row stretched> 
+                        <Grid.Column>
+                            <Segment>Beskrivelse</Segment>
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Segment>Kart</Segment>
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Segment>Oppdatering</Segment>
+                            <Segment>Bilder</Segment>
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
             </div>
         );
     }
