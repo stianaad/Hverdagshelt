@@ -22,7 +22,7 @@ export class KommuneInput extends Component {
     render() {
         return(
             <div className="komBoks">
-                <input ref={this.in} onFocus={() => {if (this.sok.length > 0) this.listesyn = true;}} onBlur={() => {setTimeout(() => {this.listesyn = false;},100)}} className="komSok form-control" placeholder="Søk.." value={this.sok} onChange={this.oppdaterSok} type="text"></input>
+                <input ref={this.in} onFocus={() => {if (this.sok.length > 0) this.listesyn = true;}} onBlur={() => {setTimeout(() => {this.listesyn = false;},100)}} className="komSok2 form-control" placeholder="Søk.." value={this.sok} onChange={this.oppdaterSok} type="text"></input>
                 <ul ref={this.boks} className="komListe" style={{display: this.listesyn ? "block" : "none"}}>
                     {this.kommuner_filtrert.map((kommune, i) => (
                         <li onClick={() => this.velg(i)} key={kommune.kommune_id} className={(i==this.valgt_index) ? "komV komValgt" : "komV"}>{kommune.kommune_navn}</li>

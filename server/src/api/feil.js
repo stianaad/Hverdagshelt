@@ -27,7 +27,7 @@ router.get('/api/feil/:feil_id', (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk GET-request fra klienten');
 
-  let a = {feil_id: req.body.feil_id}
+  let a = {feil_id: req.body.feil_id};
 
   feilDao.hentEnFeil(a, (status, data) => {
     res.status(status);
@@ -57,7 +57,7 @@ router.post('/api/feil', upload.array('bilder', 10), (req, res) => {
     overskrift: req.body.overskrift,
     beskrivelse: req.body.beskrivelse,
     lengdegrad: req.body.lengdegrad,
-    breddegrad: req.body.breddegrad
+    breddegrad: req.body.breddegrad,
   };
 
   feilDao.lagNyFeil(a, (status, data) => {
@@ -87,7 +87,7 @@ router.put('/api/feil/:feil_id', (req, res) => {
     beskrivelse: req.body.beskrivelse,
     lengdegrad: req.body.lengdegrad,
     breddegrad: req.body.breddegrad,
-    feil_id: req.body.feil_id
+    feil_id: req.body.feil_id,
   };
 
   feilDao.oppdaterFeil(a, (status, data) => {
@@ -123,7 +123,7 @@ router.get('/api/feil/:kategori_id', (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk GET-request fra klienten');
 
-  feilDao.hentFeilFiltrertKategori(req.params.kategori_id,(status, data) => {
+  feilDao.hentFeilFiltrertKategori(req.params.kategori_id, (status, data) => {
     res.status(status);
     res.json(data);
     console.log('/hent feil filtrert på kategori lengde: ' + data.length);
@@ -138,7 +138,7 @@ router.post('/api/feil/:feil_id/oppdateringer', (req, res) => {
     feil_id: req.body.feil_id,
     kommentar: req.body.kommentar,
     status_id: req.body.status_id,
-    bruker_id: req.body.bruker_id
+    bruker_id: req.body.bruker_id,
   };
 
   feilDao.lagOppdatering(a, (status, data) => {
@@ -193,18 +193,19 @@ router.get('/api/hovedkategorier', (req, res) => {
   });
 });
 
-router.get('/api/hovedkategorier/:hovedkategori_id/subkategorier', (req, res) => {
-  console.log('Fikk GET-request fra klienten');
+router.get(
+  '/api/hovedkategorier/:hovedkategori_id/subkategorier',
+  (req, res) => {
+    console.log('Fikk GET-request fra klienten');
 
-  feilDao.hentAlleSubKategorierPaaHovedkategori(
-    req.params.hovedkategori_id,
-    (status, data) => {
-      res.status(status);
-      res.json(data);
-      console.log(
-        'subkategorier under hovedkategori lengde:' + data.length
-      );
-    }
-  );
-});
+    feilDao.hentAlleSubKategorierPaaHovedkategori(
+      req.params.hovedkategori_id,
+      (status, data) => {
+        res.status(status);
+        res.json(data);
+        console.log('subkategorier under hovedkategori lengde:' + data.length);
+      }
+    );
+  }
+);
 module.exports = router;
