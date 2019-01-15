@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
+//import {brukerService} from '../../services/brukerService';
 
 export class GlemtPassord extends Component{
 
@@ -24,19 +25,23 @@ export class GlemtPassord extends Component{
                           type = "text"
                           className="form-control"
                           placeholder = "Epost"
+                          id = "epost"
                           onChange = {(e)=>(this.epost = e.target.value)}
                           required ={true}
                         />
                         <small className="form-text text-muted">Skriv inn din mail for å få tilsendt link til å resette ditt passord.</small>
                       </div>
                     </div>
-                    <button 
-                    className="btn btn-success border border-dark"
-                    onClick={this.lagre}>
-                      Send mail
-                    </button>
+
                   </div>
                 </div>
+
+                <button 
+                    className="btn btn-success border border-dark"
+                    type="button"
+                    onClick={()=> {this.lagre()}}>
+                      Send mail
+                    </button>
             </form>
             </div>
           </div>
@@ -46,7 +51,11 @@ export class GlemtPassord extends Component{
     }
 
     lagre(){
-
+      console.log('Send epost')
+      let epost = this.epost;
+      console.log(epost);
+      brukerService.glemtPassord(epost)
+      .catch((error: Error) => Alert.danger(error.message))
     }
 
 

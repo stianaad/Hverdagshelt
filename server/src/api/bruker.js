@@ -112,10 +112,11 @@ router.put("/endrePassord",(req, res)=>{
 });
 
 router.get("/glemt-passord",(req,res)=>{
+
   brukerDao.hentBruker(req.body,(status,data)=>{
     res.status(status);
     res.json(data);
-
+    console.log('hele veien baby');
     if(data[0].epost === req.body.epost){
       let tTilBruker= token();
       let link = 'http://localhost:3000/resett-passord/' + tTilBruker;

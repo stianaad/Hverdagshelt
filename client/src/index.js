@@ -471,7 +471,7 @@ if (root)
         <Route exact path="/" component={Forside} />
         <Route exact path="/bildetest" component={BildeTest} />
         <Route exact path="/glemt-passord" component={GlemtPassord}/>
-        <Route exact path="/resett-passord" component={ResettPassord}/>
+        <Route exact path="/resett-passord/:token" component={ResettPassord}/>
         {//<Route exact path="/login" component={Login} />
         }
         <Route exact path="/login" component={Login} />

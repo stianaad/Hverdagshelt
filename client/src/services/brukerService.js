@@ -1,23 +1,5 @@
 import api from './api';
 
-class BrukerService {
-
-  lagNyBruker(nyBruker) {
-    return api.post('/api/lagNyBruker', nyBruker);
-  }
-
-  endrePassord(nyInformasjon) {
-    return api.post('/api/lagNyBruker', nyInformasjon);
-  }
-
-  loggInn(informasjon) {
-    return api.post('/sjekkPassord', informasjon);
-  }
-  
-}
-
-export let brukerService = new BrukerService();
-/*
 class Bruker {
   bruker_id;
   constructor(
@@ -31,7 +13,7 @@ class Bruker {
   }
 }
 
-module.exports = class Privat extends Bruker {
+export class Privat extends Bruker {
   constructor(
     epost,
     passord,
@@ -45,7 +27,7 @@ module.exports = class Privat extends Bruker {
   }
 }
 
-module.exports = class Ansatt extends Bruker {
+export class Ansatt extends Bruker {
   constructor(
     epost,
     passord,
@@ -89,4 +71,30 @@ export class Admin extends Bruker  {
     this.telefon = telefon;
     this.navn = navn;
   }
-*/
+}
+
+class BrukerService {
+
+  lagNyBruker(nyBruker) {
+    console.log('lage');
+    return api.post('/api/lagNyBruker', nyBruker);
+  }
+
+  endrePassord(nyInformasjon) {
+    console.log('endre');
+    return api.post('/api/resett-passord', nyInformasjon);
+  }
+
+  loggInn(informasjon) {
+    console.log('asdad');
+    return api.post('/api/sjekkPassord', informasjon);
+  }
+
+  glemtPassord(input){
+    console.log('brukerservice');
+    return api.get('/api/glemt-passord',input);
+  }
+  
+}
+
+export let brukerService = new BrukerService();

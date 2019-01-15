@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
+import {brukerService} from '../../services/brukerService';
 
 
 export class ResettPassord extends Component{
@@ -57,7 +58,7 @@ export class ResettPassord extends Component{
                     
                     <button 
                     className="btn btn-success border border-dark"
-                    type="submit" 
+                    type="button" 
                     onClick={this.lagre}>
                       Resett passord
                     </button>
@@ -75,13 +76,11 @@ export class ResettPassord extends Component{
 
     lagre(){
         console.log('lala');
-        let passord = document.getElementById("passord1").value;
-        let bekreft = document.getElementById("passord2").value;
-        if(passord !== bekreft){
+        if(this.passord !== this.bekreftPassord){
             alert('Passordene er ikke like');
             return false;
         }else{
-            return true;
+            brukerService.endrePassord(this.passord);
         }
     }
 
