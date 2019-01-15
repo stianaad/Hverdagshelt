@@ -4,7 +4,7 @@ import { HashRouter, Route, NavLink, Redirect,Switch } from 'react-router-dom';
 import {generellServices} from '../../services/generellServices';
 import {feilService} from '../../services/feilService';
 import {hendelseService} from '../../services/hendelseService';
-import { PositionMap, Marker, MarkerMap, markerTabell } from '../../Moduler/kart/map';
+import { PositionMap, Marker, MarkerMap, markerTabell,ShowMarkerMap } from '../../Moduler/kart/map';
 import {Card, Feed, Grid, Button, Header, Icon, Image, Modal} from 'semantic-ui-react';
 import {FeedEvent,FeedHendelse, Filtrer, Info} from '../../Moduler/cardfeed'
 
@@ -39,13 +39,10 @@ export class Hovedside extends Component {
         this.visFeil = true;
         console.log(feil.feil_id);
         console.log(feil.overskrift);
-        this.feil.overskrift = feil.overskrift;
-        this.feil.beskrivelse = feil.beskrivelse;
-        this.feil.status = feil.status;
-        this.feil.tid = feil.tid;
+        this.feil = {...feil};
         console.log(feil.status);
         console.log(feil.tid.substr(11,16));
-        let res = await generellServices.hentBilderTilFeil(feil.feil_id);
+        let res = await feilService.hentBilderTilFeil(feil.feil_id);
         this.bilderTilFeil = await res.data;
         this.endreStatusIkon(feil.status);
     }
@@ -193,7 +190,7 @@ export class Hovedside extends Component {
                                  </div>
                                 <div className="col-sm-4">
                                 <h6>Posisjon</h6>
-                                <MarkerMap width="100%" height="300px" id="posmap" center="Oslo" markers={markerTabell(this.alleFeil)} onRef={ref => (this.kart1 = ref)} />
+                                <ShowMarkerMap width="100%" height="300px" id="posmap" feil={this.feil} markers={markerTabell(this.alleFeil)} onRef={ref => (this.kart1 = ref)} />
                                 </div>
                                 <div className="col-sm-4">
                                 <h6>Oppdateringer:</h6>
@@ -368,7 +365,6 @@ export class Hovedside extends Component {
         let res3 = await hendelseService.hentAlleHendelser();
         this.alleHendelser = await res3.data;
         await console.log(res3.data);
-        
     }
   }
   
