@@ -7,7 +7,7 @@ import {pool} from '../../test/poolsetup.js';
 
 let generelldao = new Generelldao(pool);
 
-router.get('/hentAlleKommuner', (req, res) => {
+router.get('/api/hentAlleKommuner', (req, res) => {
   console.log('Fikk get-request fra klienten');
   generelldao.hentAlleKommuner((status, data) => {
     res.status(status);
@@ -15,7 +15,7 @@ router.get('/hentAlleKommuner', (req, res) => {
   });
 });
 
-router.get('/filtrer/:sok', (req, res) => {
+router.get('/api/filtrer/:sok', (req, res) => {
   console.log('/filtrer/:sok fikk get request fra klienten');
   generelldao.filtrerKommuner(req.params.sok, (status, data) => {
     res.status(status);

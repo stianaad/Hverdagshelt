@@ -5,7 +5,11 @@ import * as React from 'react';
 import { Component } from 'react-simplified';
 import { NavLink } from 'react-router-dom';
 import L from 'leaflet';
+<<<<<<< HEAD
 import { FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
+=======
+import ReactDOMServer from 'react-dom/server';
+>>>>>>> ae679ee1e3230df7fc9bdf5485b9348b98320175
 
 class Feil {
   feil_id = null;
@@ -38,6 +42,7 @@ class Feil {
     this.breddegrad = breddegrad;
   }
 }
+<<<<<<< HEAD
 /**
  * Marker for kart, må legges til i en MarkerMap. Sendes vanligvis til karter og den legger det til automatisk.
  * @example
@@ -176,6 +181,8 @@ export class PositionMap extends Component {
     )
   }
 }
+=======
+>>>>>>> ae679ee1e3230df7fc9bdf5485b9348b98320175
 
 /**
  * Renders alert messages using Bootstrap classes.

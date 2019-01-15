@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Component } from 'react-simplified';
-import { PositionMap, Droppboks, GronnKnapp } from '../../widgets';
+import { Droppboks, GronnKnapp } from '../../widgets';
 import { KommuneVelger } from '../../Moduler/KommuneVelger/KommuneVelger';
+import { PositionMap } from '../../Moduler/kart/map';
 
 class kategori{
   id;
@@ -20,11 +21,14 @@ let kat = [
   new kategori(1, "Hull"), new kategori(2, "Strømbrudd")
 ];
 
+/* legg til subkategori og overskrift */
+
 export class MeldFeil extends Component {
 
     data = {
         kommune_id: 1,
         kategori_id: 1,
+        subkategori_id: 1,
         beskrivelse: "",
         lengdegrad: 0,
         breddegrad: 0
@@ -60,6 +64,7 @@ export class MeldFeil extends Component {
               </div>
               <div id="posblokk">
                 <label id="poslbl" htmlFor="pos">Posisjon:</label>
+                <button onClick={this.velgMinPosisjon}>Velg min nåverende posisjon</button>
                 <PositionMap id="posmap" center="Trondheim" position={this.posFunksjon} />
               </div>
               <div id="sjekkboks">

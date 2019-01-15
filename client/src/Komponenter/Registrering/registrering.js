@@ -1,5 +1,7 @@
 import * as React from 'react';
-import {Component} from 'react-simplified';
+import { Component } from 'react-simplified';
+import { brukerService } from '../../services/brukerService';
+import { Privat } from '../../objekter.js';
 
 export class Registrering extends Component {
   fornavn = '';
@@ -9,6 +11,7 @@ export class Registrering extends Component {
   bekreftPass = '';
   passAdvarsel = '';
   advarsel = '';
+  kommune = 0;
 
   render() {
     return (
@@ -22,7 +25,7 @@ export class Registrering extends Component {
                   type="text"
                   className="form-control"
                   placeholder="Fornavn"
-                  onChange={(e) => (this.fornavn = e.target.value)}
+                  onChange={e => (this.fornavn = e.target.value)}
                   required={true}
                 />
               </div>
@@ -34,7 +37,7 @@ export class Registrering extends Component {
                   type="text"
                   className="form-control"
                   placeholder="Etternavn"
-                  onChange={(e) => (this.etternavn = e.target.value)}
+                  onChange={e => (this.etternavn = e.target.value)}
                   required={true}
                 />
               </div>
@@ -48,7 +51,7 @@ export class Registrering extends Component {
                   type="text"
                   className="form-control"
                   placeholder="E-post"
-                  onChange={(e) => (this.epost = e.target.value)}
+                  onChange={e => (this.epost = e.target.value)}
                   required={true}
                 />
               </div>
@@ -61,7 +64,7 @@ export class Registrering extends Component {
                 <input
                   type="password"
                   className="form-control"
-                  onChange={(e) => (this.passord = e.target.value)}
+                  onChange={e => (this.passord = e.target.value)}
                   required={true}
                 />
                 <label>{this.passAdvarsel}</label>
@@ -74,14 +77,44 @@ export class Registrering extends Component {
                   type="password"
                   className="form-control"
                   required={true}
-                  onChange={(e) => (this.bekreftPass = e.target.value)}
+                  onChange={e => (this.bekreftPass = e.target.value)}
                 />
                 <label id="passordSjekk">{this.advarsel}</label>
               </div>
             </div>
           </div>
-          <div className="row">
-            <button onClick={this.lagre}>Test</button>
+          <div className="valg">
+            <p>Hva ønsker du å bli varslet om i din kommune?</p>
+            <br />
+            <div className="form-check">
+              <input className="form-check-input" type="checkbox" value="" id="defaultCheck1" />
+              <label className="form-check-label" htmlFor="defaultCheck1">
+                Planlagt strømbrudd
+              </label>
+            </div>
+            <div className="form-check">
+              <input className="form-check-input" type="checkbox" value="" id="defaultCheck2" />
+              <label className="form-check-label" htmlFor="defaultCheck3">
+                Planlagt vann- og avløpsarbeid
+              </label>
+            </div>
+            <div className="form-check">
+              <input className="form-check-input" type="checkbox" value="" id="defaultCheck3" />
+              <label className="form-check-label" htmlFor="defaultCheck3">
+                Konserter
+              </label>
+            </div>
+            <br />
+            <p>Du kan endre varselinnstillinger på MinSide senere.</p>
+          </div>
+          <br />
+          <div className="row knappDiv">
+            <button type="submit" className="btn btn-primary" onClick={this.lagre}>
+              Registrer deg
+            </button>
+            <button type="cancel" className="btn btn-secondary">
+              Avbryt
+            </button>
           </div>
         </form>
       </div>
@@ -94,35 +127,23 @@ export class Registrering extends Component {
     console.log(this.bekreftPass);
 
     if (this.passord.length < 8) {
-      this.passAdvarsel = 'Passord må være minst 8 karakterer';
+      this.passAdvarsel = 'Passord må være minst 8 tegn';
     }
 
     if (this.bekreftPass === this.passord && this.passord.length >= 8) {
       this.advarsel = '';
+      bruker = new Privat(this.epost, this.passord, 1, this.fornavn, this.etternavn);
+
+      brukerService
+        .lagNyBruker(bruker)
+        .then(history.push('/'))
+        .catch(error => Alert.danger(error.message));
     } else {
       this.advarsel = 'Passord stemmer ikke';
     }
   }
 
-  visKommuner() {
+  /*visKommuner() {
     document.getElementById('nedtrekk').classList.toggle('show');
-  }
-
-  handterInput(e) {
-    this.sok.innhold = e.target.value;
-    console.log(this.sok.innhold);
-    /*if (this.sok.innhold.length >0) {
-          sakService
-              .filtrerNyhetssaker(this.sok.innhold)
-              .then(sak => (this.delt.nyhetssaker = sak))
-              .catch();
-        }
-          
-        else{
-            sakService
-              .getAlleNyhetssaker()
-              .then(nyeste => (this.delt.nyhetssaker = nyeste))
-              .catch();
-        }*/
-  }
+  }*/
 }

@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS hendelser;
+DROP TABLE IF EXISTS hendelseskategori;
 DROP TABLE IF EXISTS oppdatering;
 DROP TABLE IF EXISTS feilbilder;
 DROP TABLE IF EXISTS feil;
@@ -93,15 +94,13 @@ CREATE TABLE feil (
     feil_id INT(11) NOT NULL AUTO_INCREMENT,
     kommune_id INT(11) NOT NULL,
     subkategori_id INT(11) NOT NULL,
-    status_id INT(1) NOT NULL DEFAULT 1,
     overskrift VARCHAR(255) NOT NULL,
     beskrivelse TEXT NOT NULL,
     lengdegrad DOUBLE NOT NULL,
     breddegrad DOUBLE NOT NULL,
     PRIMARY KEY (feil_id),
     FOREIGN KEY (kommune_id) REFERENCES kommuner(kommune_id),
-    FOREIGN KEY (subkategori_id) REFERENCES subkategori(subkategori_id),
-    FOREIGN KEY (status_id) REFERENCES status(status_id)
+    FOREIGN KEY (subkategori_id) REFERENCES subkategori(subkategori_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE feilbilder (
@@ -116,7 +115,7 @@ CREATE TABLE oppdatering (
     feil_id INT(11) NOT NULL,
     tid TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     kommentar TEXT,
-    status_id INT(1) NOT NULL,
+    status_id INT(1) NOT NULL DEFAULT 1,
     bruker_id INT(11),
     PRIMARY KEY (feil_id, tid),
     FOREIGN KEY (feil_id) REFERENCES feil(feil_id),
@@ -124,9 +123,17 @@ CREATE TABLE oppdatering (
     FOREIGN KEY (status_id) REFERENCES status(status_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE hendelseskategori(
+  hendelseskategori_id INT(11) NOT NULL AUTO_INCREMENT,
+  kategorinavn VARCHAR(255) NOT NULL,
+  PRIMARY KEY (hendelseskategori_id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 CREATE TABLE hendelser(
     hendelse_id INT(11) NOT NULL AUTO_INCREMENT,
     bruker_id INT(11) NOT NULL,
+    hendelseskategori_id INT(11) NOT NULL,
+    kommune_id INT(11) NOT NULL,
     overskrift VARCHAR(255) NOT NULL,
     tid TIMESTAMP NOT NULL,
     beskrivelse TEXT,
@@ -135,5 +142,7 @@ CREATE TABLE hendelser(
     lengdegrad DOUBLE,
     breddegrad DOUBLE,
     PRIMARY KEY (hendelse_id),
-    FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id)
+    FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id),
+    FOREIGN KEY (hendelseskategori_id) REFERENCES hendelseskategori(hendelseskategori_id),
+    FOREIGN KEY (kommune_id) REFERENCES kommuner(kommune_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
