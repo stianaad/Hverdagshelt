@@ -58,14 +58,7 @@ const verifiserePassord = (inputPassord,eksisterendePassord)=>{
  * Endepunkt
  */
 
-router.get('/api/hentbrukere',(req,res)=>{
-  brukerDao.hentBrukere((status,data)=>{
-    res.status(status);
-    res.json(data);
-  });
-})
-
-router.post('/api/lagNyBruker', (req, res) => {
+router.post('/api/brukere', (req, res) => {
   console.log('Fikk POST-request fra klienten');
   passord(req.body.passord).hash((error, hash) => {
     if (error) {
@@ -103,8 +96,15 @@ router.post("/sjekkPassord",(req,res)=>{
   });
 });
 
+router.post('/api/brukere/privat', (req, res) => {
+  console.log('/brukere/privat fikk post request fra klienten');
+  let info = {epost: req.body.epost, passord: req.body.passord, kommune_id: req.body.kommune_id, fornavn: req.body.fornavn, etternavn: req.body.etternavn}
+  brukerDao.lagNyPrivatBruker(info, (status, data) => {
+    res.status(status);
+  });
+});
 
-router.put("/endrePassord",(req, res)=>{
+router.put("/brukere/:bruker_id/nyttpassord",(req, res)=>{
   passord(req.body.passord).hash((error, hash) => {
     if (error) {
       throw new Error('Noe gikk galt');
@@ -118,7 +118,7 @@ router.put("/endrePassord",(req, res)=>{
   });
 });
 
-router.get("/api/glemt-passord",(req,res)=>{
+router.get("/brukere/:bruker_id/nyttpassord",(req,res)=>{
   brukerDao.hentBruker(req.body,(status,data)=>{
     res.status(status);
     res.json(data);
@@ -133,7 +133,9 @@ router.get("/api/glemt-passord",(req,res)=>{
   })
 });
 
-router.get("/reset-passord/:token", (req,res)=>{
+
+
+router.get("/resetPassord/:token", (req,res)=>{
   console.log("Reset passord");
   let naaTid = Date.now().valueOf()/1000;
   let dekodet = jwt.decode(req.params.token);

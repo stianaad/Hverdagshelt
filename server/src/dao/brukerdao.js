@@ -6,6 +6,65 @@ module.exports = class BrukerDao extends Dao {
     super.query('INSERT INTO bruker VALUES(DEFAULT,?,?,?)', tabell, callback);
   }
 
+  finnBrukerid(json, callback) {
+    let epost = [json.epost];
+    super.query('SELECT bruker_id FROM bruker WHERE epost=?', epost);
+  }
+
+  lagNyPrivatBruker(json, callback) {
+    lagNyBruker(json, (status, data) => {
+      finnBrukerid(json, (status, data) => {
+        super.query('INSERT INTO privat VALUES(?,?,?)', 
+                    [res.json(data),
+                    json.fornavn, 
+                    json.etternavn],
+                    callback
+          );
+      });
+    });
+  }
+
+  lagNyAnsattBruker(json, callback) {
+    lagNyBruker(json, (status, data) => {
+      finnBrukerid(json, (status, data) => {
+        super.query('INSERT INTO ansatt VALUES(?,?,?,?)', 
+                    [res.json(data),
+                    json.fornavn, 
+                    json.etternavn,
+                    json.telefon],
+                    callback
+          );
+      });
+    });
+  }
+
+  lagNyBedriftBruker(json, callback) {
+    lagNyBruker(json, (status, data) => {
+      finnBrukerid(json, (status, data) => {
+        super.query('INSERT INTO bedrift VALUES(?,?,?)', 
+                    [res.json(data),
+                    json.orgnr, 
+                    json.navn,
+                    json.telefon],
+                    callback
+          );
+      });
+    });
+  }
+
+  lagNyAdminBruker(json, callback) {
+    lagNyBruker(json, (status, data) => {
+      finnBrukerid(json, (status, data) => {
+        super.query('INSERT INTO admin VALUES(?,?,?)', 
+                    [res.json(data),
+                    json.telefon, 
+                    json.navn],
+                    callback
+          );
+      });
+    });
+  }
+
   hentBruker(json, callback) {
     let tabell = [json.epost];
     console.log(tabell + "bruker dao");

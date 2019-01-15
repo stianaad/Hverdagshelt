@@ -23,6 +23,7 @@ const history = createBrowserHistory(); // Use history.push(...) to programmatic
 
 import {relative} from 'path';
 import { KommuneVelger } from './Moduler/KommuneVelger/kommuneVelger';
+import { KommuneInput } from './Moduler/kommuneInput/kommuneInput';
 
 
 
@@ -209,6 +210,34 @@ class Menu extends Component {
     )
   }
 }
+
+class komtest extends Component {
+  kominput;
+
+constructor(props) {
+  super(props);
+  this.kominput = React.createRef();
+}
+
+  render() {
+    return (
+      <>
+        <div style={{width:"300px"}}>
+          <KommuneInput ref={this.kominput} />
+          {this.komm}
+        </div>
+        <button onClick={this.test}>test</button>
+      </>
+    );
+  }
+
+  test() {
+    alert(this.kominput.current.verdi);
+  }
+
+}
+
+
 const root = document.getElementById('root');
 if (root)
   ReactDOM.render(
@@ -227,6 +256,7 @@ if (root)
         }
         <Route exact path="/mineoppgaver" component={MineOppgaver}/>
         <Route exact path="/login" component={Login} />
+        <Route exact path="/kinput" component={komtest} />
       </div>
     </Router>,
     root

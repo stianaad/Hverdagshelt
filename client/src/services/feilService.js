@@ -3,63 +3,57 @@ import api from './api';
 class FeilService {
 
   hentAlleFeil() {
-    return api.get('/api/hentAlleFeil');
+    return api.get('/api/feil');
   }
 
   hentEnFeil(feil_id) {
-    return api.get('/api/hentEnFeil', feil_id);
+    return api.get('/api/feil/:feil_id', feil_id);
   }
 
-  hentFeilFraStatus(status_id) {
-    return api.get('/api/hentFeilStatus', status_id);
+  hentBilderTilFeil(feil_id) {
+    return api.get('/api/feil/:feil_id/bilder', feil_id);
   }
 
   lagNyFeil(nyFeil) {
-    return api.post('/api/lagNyFeil', nyFeil);
+    return api.post('/api/feil', nyFeil);
   }
 
   oppdaterFeil(oppdatertFeil) {
-    return api.post('/api/oppdaterFeil', oppdatertFeil);
-  }
-
-  settNyStatusTilFeil(input) {
-    return api.post('/api/endreStatusFeil', input);
+    return api.put('/api/feil/:feil_id', oppdatertFeil);
   }
 
   slettFeil(feil_id) {
-    return api.post('/api/slettFeil', feil_id);
+    return api.delete('/api/feil/:feil_id', feil_id);
   }
 
-  hentEnKategori(kat_id) {
-    return api.get('/api/hentEnKategori', kat_id);
+  hentFeilFiltrertKategori(hk_id) {
+    return api.get('/api/feil/:kategori_id', hk_id);
   }
 
-  hentAlleKategorier() {
-    return api.get('/api/hentAlleKategorier');
-  }
 
-  nyOppdatering(nyOpp) {
-    return api.post('/api/lagOppdatering', nyOpp);
+  lagOppdatering(nyOpp) {
+    return api.post('/api/feil/:feil_id/oppdateringer', nyOpp);
   }
 
   hentAlleOppdateringerPaaFeil(feil_id) {
-    return api.get('/api/hentAlleOppdateringerPaaFeil', feil_id);
+    return api.get('/api/feil/:feil_id/oppdatering', feil_id);
   }
 
   hentEnStatus(status_id) {
-    return api.get('/api/hentEnStatus', status_id);
+    return api.get('/api/statuser/:status_id', status_id);
   }
 
   hentAlleStatuser() {
-    return api.get('/api/hentAlleStatuser');
+    return api.get('/api/statuser');
   }
 
+
   hentAlleHovedkategorier() {
-    return api.get('/api/hentAlleHovedkategorier');
+    return api.get('/api/hovedkategorier');
   }
 
   hentAlleSubkategorierPaaHovedkategori(hk_id) {
-    return api.get('/api/hentAlleSubKategorierPaaHovedkategori', hk_id)
+    return api.get('/api/hovedkategorier/:hovedkategori_id/subkategorier', hk_id)
   }
 }
 

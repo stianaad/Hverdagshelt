@@ -5,7 +5,12 @@ class BrukerService {
   lagNyBruker(nyBruker) {
     console.log('lage');
     return api.post('/api/lagNyBruker', nyBruker);
+    return api.post('/api/brukere', nyBruker);
   }
+
+  lagNyPrivatBruker(nyPrivatBruker) {
+    return api.post('/api/brukere/privat', nyPrivatBruker);
+  } 
 
   endrePassord(nyInformasjon) {
     console.log('endre');
@@ -28,5 +33,7 @@ class BrukerService {
   }
 }
 
+  
+}
 export let brukerService = new BrukerService();
 
