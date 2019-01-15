@@ -94,6 +94,13 @@ router.post("/sjekkPassord",(req,res)=>{
   });
 });
 
+router.post('/api/brukere/privat', (req, res) => {
+  console.log('/brukere/privat fikk post request fra klienten');
+  let info = {epost: req.body.epost, passord: req.body.passord, kommune_id: req.body.kommune_id, fornavn: req.body.fornavn, etternavn: req.body.etternavn}
+  brukerDao.lagNyPrivatBruker(info, (status, data) => {
+    res.status(status);
+  });
+});
 
 router.put("/brukere/:bruker_id/nyttpassord",(req, res)=>{
   passord(req.body.passord).hash((error, hash) => {
@@ -123,6 +130,8 @@ router.get("/brukere/:bruker_id/nyttpassord",(req,res)=>{
     }
   })
 });
+
+
 
 router.get("/resetPassord/:token", (req,res)=>{
   console.log("Reset passord");

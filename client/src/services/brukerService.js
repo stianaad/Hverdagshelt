@@ -6,6 +6,10 @@ class BrukerService {
     return api.post('/api/brukere', nyBruker);
   }
 
+  lagNyPrivatBruker(nyPrivatBruker) {
+    return api.post('/api/brukere/privat', nyPrivatBruker);
+  } 
+
   endrePassord(nyInformasjon) {
     return api.post('/api/lagNyBruker', nyInformasjon);
   }
