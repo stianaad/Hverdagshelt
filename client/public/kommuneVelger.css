@@ -1,5 +1,7 @@
+
+
 .komBoks {
-    position:relative;
+    position: relative;
 }
 
 .komListe {
@@ -22,6 +24,21 @@
 .komElement:hover a {
     text-decoration: none;
     color: #000;
+}
+
+.komV {
+    background: #fff;
+    display: inline-block;
+    width:100%;
+    font-size:14px;
+    padding:5px;
+    cursor: pointer;
+    transition: background 0.25s;
+}
+
+.komV:hover {
+    background: #eee;
+    transition: background 0.25s;
 }
 
 .komElement {
