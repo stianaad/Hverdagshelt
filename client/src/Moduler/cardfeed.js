@@ -20,12 +20,28 @@ export class FeedEvent extends Component{
     }
 }
 
-export class Modal extends Component{
+export class Info extends Component{
     render(){
         return(
-            <Modal>
-                
-            </Modal>
+            <div>
+                <h1>Strømbrudd hos stian</h1>
+                <br/>
+                <p>06.01.2018</p>
+                <div>
+                    <div className="a">
+                        <p>Masse tekst</p>
+                    </div>
+                    <div className="b">
+                        <p>Kart</p>
+                    </div>
+                    <div className="c">
+                        <p>Oppdateringer</p>
+                    </div>
+                    <div className="d">
+                        <p>Bilder</p>
+                    </div>
+                </div>
+            </div>
         );
     }
 }

@@ -60,3 +60,26 @@
     transform-origin: center !important;
     transition: all ease .5s;
   }
+
+  .infoGrid{
+      display: grid; 
+      grid-template-areas: "a b c" "a b d"; 
+  }
+
+.a{
+    grid-area: a; 
+}
+
+.b{
+    grid-area: b; 
+}
+
+.c{
+    grid-area: c; 
+}
+
+.d{
+    grid-area: d; 
+}
+
+  
