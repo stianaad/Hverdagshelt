@@ -1,9 +1,7 @@
-.komSok {
-    
-}
+
 
 .komBoks {
-    position:relative;
+    position: relative;
 }
 
 .komListe {
@@ -19,9 +17,32 @@
 }
 
 .komElement a {
-    background: #fff;
-    color:#000;
     text-decoration: none;
+    color: #000;
+}
+
+.komElement:hover a {
+    text-decoration: none;
+    color: #000;
+}
+
+.komV {
+    background: #fff;
+    display: inline-block;
+    width:100%;
+    font-size:14px;
+    padding:5px;
+    cursor: pointer;
+    transition: background 0.25s;
+}
+
+.komV:hover {
+    background: #eee;
+    transition: background 0.25s;
+}
+
+.komElement {
+    background: #fff;
     display: inline-block;
     width:100%;
     font-size:18px;
@@ -30,13 +51,12 @@
     transition: background 0.25s;
 }
 
-.komValgt a {
+.komValgt {
     background: #eee;
 }
 
-.komElement:hover a {
-    text-decoration: none;
-    color:#000;
+.komElement:hover {
     background: #eee;
     transition: background 0.25s;
 }
+
