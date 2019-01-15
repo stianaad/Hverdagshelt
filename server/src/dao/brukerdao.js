@@ -12,8 +12,9 @@ module.exports = class BrukerDao extends Dao {
   }
 
   lagNyPrivatBruker(json, callback) {
-    this.lagNyBruker(json, (status, data) => {
-      this.finnBrukerid(json, (status, data) => {
+    let self = this;
+    self.lagNyBruker(json, (status, data) => {
+      self.finnBrukerid(json, (status, data) => {
         super.query('INSERT INTO privat VALUES(?,?,?)', 
                     [res.json(data),
                     json.fornavn, 
