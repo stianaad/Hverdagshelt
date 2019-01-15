@@ -49,7 +49,7 @@ const verifiserePassord = (inputPassord,eksisterendePassord)=>{
     if(!verified) {
       console.log("Feil passord");
     } else {
-      console.log("Sjekk ok!")
+      console.log("Godkjent")
     }
   });
 }
@@ -77,7 +77,7 @@ router.post('/api/brukere', (req, res) => {
 * Hasher først passordet, deretter kalles dao for å hente hash i database,
 * deretter verifiseres passorded som er skrevet inn mot det i databasen.
 */
-
+/*
 router.post("/sjekkPassord",(req,res)=>{
   console.log("Sjekk passord");
 	passord(req.body.passord).hash((error,hash) => {
@@ -94,7 +94,31 @@ router.post("/sjekkPassord",(req,res)=>{
       }
     });
   });
-});
+});*/
+
+router.post("/api/sjekkPassord",(req,res) => {
+  /*passord("passord1").hash((error, hash) => {
+    if (error) {
+      throw new Error('Noe gikk galt');
+    }
+    console.log(hash);
+  })*/
+  console.log(req.body.passord);
+  brukerDao.hentBruker(req.body,(status,data) => {
+    //verifiserePassord(req.body.passord,data[0].passord);
+    passord(req.body.passord).verifyAgainst(data[0].passord, (error,verified) => {
+      if(error)
+        throw new Error('Noe gikk galt!');
+      if(!verified) {
+        res.json({"result": false});
+      } else {
+        res.json({"result": true});
+      }
+    });
+    //res.status(status);
+    //res.json(data);
+  })
+})
 
 router.post('/api/brukere/privat', (req, res) => {
   console.log('/brukere/privat fikk post request fra klienten');

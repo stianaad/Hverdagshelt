@@ -35,8 +35,8 @@ export class Login extends Component {
   }
 
   async login() {
-    let res = await brukerService.loggInn(this.data);
-    await alert(res.data);
+    console.log(this.data);
+   let res = await brukerService.loggInn(this.data);
+    await this.props.history.push('/hovedside/trondheim');
   }
-
 }

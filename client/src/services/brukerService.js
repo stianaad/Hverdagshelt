@@ -30,7 +30,7 @@ class BrukerService {
   }
 
   loggInn(informasjon) {
-    console.log('asdad');
+    //console.log(informasjon);
     return api.post('/api/sjekkPassord', informasjon);
   }
 
