@@ -10,6 +10,8 @@ import Epost from '../../epost.js';
 import jwt from 'jsonwebtoken';
 import async from 'async';
 
+
+
 let brukerDao = new BrukerDao(pool);
 let glemt = new Epost();
 
@@ -120,10 +122,10 @@ router.get("/brukere/:bruker_id/nyttpassord",(req,res)=>{
   brukerDao.hentBruker(req.body,(status,data)=>{
     res.status(status);
     res.json(data);
-
+    console.log('hele veien baby');
     if(data[0].epost === req.body.epost){
       let tTilBruker= token();
-      let link = 'http://localhost:3000/reset-passord/' + tTilBruker;
+      let link = 'http://localhost:3000/resett-passord/' + tTilBruker;
       glemt.glemtPassord("r.vedoy@gmail.com",link);
     }else{
         throw new Error("Fant ikke bruker");
