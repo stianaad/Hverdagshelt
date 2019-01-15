@@ -87,7 +87,7 @@ export class KommuneVelger extends Component {
 
             
 
-            this.listesyn = true;
+            this.listesyn = (this.kommuner_filtrert.length > 0);
         } else {
             this.listesyn = false;
         }

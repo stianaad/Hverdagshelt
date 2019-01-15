@@ -132,7 +132,7 @@ if (root)
         <Route exact path="/kommunevalgtest" component={KommuneVelger} />
         <Route exact path="/meld-feil" component={MeldFeil} />
         <Route exact path="/nyheter" component={Menu} />
-        <Route exact path="/registrering" component={Registrering} />
+        <Route exact path="/registrering" component={Registrering} history={history} />
         <Route exact path="/" component={Forside} history={history}/>
         <Route exact path="/bildetest" component={BildeTest} />
         <Route exact path="/glemt-passord" component={GlemtPassord}/>

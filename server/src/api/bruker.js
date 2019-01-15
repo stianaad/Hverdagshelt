@@ -10,26 +10,26 @@ import Epost from '../../epost.js';
 import jwt from 'jsonwebtoken';
 import async from 'async';
 
-
-
 let brukerDao = new BrukerDao(pool);
 let glemt = new Epost();
 
-/* 
-* Generelle metoder brukt i endepunktene
+/*
+ * Generelle metoder brukt i endepunktene
  */
 
- // Metode for å lage et enkelt token med tidskvant på 1 time
-const token = ()=>{
-  return jwt.sign({
-    
-    exp: Math.floor(Date.now() / 1000) + (60 * 60)
-  },'secret');
-}
+// Metode for å lage et enkelt token med tidskvant på 1 time
+const token = () => {
+  return jwt.sign(
+    {
+      exp: Math.floor(Date.now() / 1000) + 60 * 60,
+    },
+    'secret'
+  );
+};
 
 // Hashe passord
 
-const hashPassord = (inputPassord) =>{
+const hashPassord = (inputPassord) => {
   return passord(inputPassord).hash((error, hash) => {
     if (error) {
       throw new Error('Noe gikk galt');
@@ -38,21 +38,23 @@ const hashPassord = (inputPassord) =>{
     console.log(hash);
     inputPassord = hash;
   });
-}
+};
 
 // Verifisere passord
 
-const verifiserePassord = (inputPassord,eksisterendePassord)=>{
-  return passord(inputPassord).verifyAgainst(eksisterendePassord, (error,verified) => {
-    if(error)
-      throw new Error('Noe gikk galt!');
-    if(!verified) {
-      console.log("Feil passord");
-    } else {
-      console.log("Sjekk ok!")
+const verifiserePassord = (inputPassord, eksisterendePassord) => {
+  return passord(inputPassord).verifyAgainst(
+    eksisterendePassord,
+    (error, verified) => {
+      if (error) throw new Error('Noe gikk galt!');
+      if (!verified) {
+        console.log('Feil passord');
+      } else {
+        console.log('Sjekk ok!');
+      }
     }
-  });
-}
+  );
+};
 
 /**
  * Endepunkt
@@ -73,24 +75,24 @@ router.post('/api/brukere', (req, res) => {
   });
 });
 
-/* 
-* Hasher først passordet, deretter kalles dao for å hente hash i database,
-* deretter verifiseres passorded som er skrevet inn mot det i databasen.
-*/
+/*
+ * Hasher først passordet, deretter kalles dao for å hente hash i database,
+ * deretter verifiseres passorded som er skrevet inn mot det i databasen.
+ */
 
-router.post("/sjekkPassord",(req,res)=>{
-  console.log("Sjekk passord");
-	passord(req.body.passord).hash((error,hash) => {
-		if(error){
-			throw new Error('Noge gjekk galt');
+router.post('/sjekkPassord', (req, res) => {
+  console.log('Sjekk passord');
+  passord(req.body.passord).hash((error, hash) => {
+    if (error) {
+      throw new Error('Noge gjekk galt');
     }
     let info = {epost: req.body.epost, passord: hash};
-    brukerDao.hentBruker(info,(status,data)=>{
+    brukerDao.hentBruker(info, (status, data) => {
       res.status(status);
       if (data.length > 0) {
-        verifiserePassord(hash,data[0].passord);
+        verifiserePassord(hash, data[0].passord);
       } else {
-        res.json({res:"feil"});
+        res.json({res: 'feil'});
       }
     });
   });
@@ -98,15 +100,29 @@ router.post("/sjekkPassord",(req,res)=>{
 
 router.post('/api/brukere/privat', (req, res) => {
   console.log('/brukere/privat fikk post request fra klienten');
-  let info = {epost: req.body.epost, passord: req.body.passord, kommune_id: req.body.kommune_id, fornavn: req.body.fornavn, etternavn: req.body.etternavn}
+  let info = {
+    epost: req.body.epost,
+    passord: req.body.passord,
+    kommune_id: req.body.kommune_id,
+    fornavn: req.body.fornavn,
+    etternavn: req.body.etternavn,
+  };
   brukerDao.lagNyPrivatBruker(info, (status, data) => {
     res.status(status);
+    res.json(data);
   });
 });
 
 router.post('/api/brukere/ansatt', (req, res) => {
   console.log('/brukere/ansatt fikk post request fra klienten');
-  let info = {epost: req.body.epost, passord: req.body.passord, kommune_id: req.body.kommune_id, fornavn: req.body.fornavn, etternavn: req.body.etternavn, telefon: req.body.telefon}
+  let info = {
+    epost: req.body.epost,
+    passord: req.body.passord,
+    kommune_id: req.body.kommune_id,
+    fornavn: req.body.fornavn,
+    etternavn: req.body.etternavn,
+    telefon: req.body.telefon,
+  };
   brukerDao.lagNyPrivatBruker(info, (status, data) => {
     res.status(status);
   });
@@ -114,7 +130,14 @@ router.post('/api/brukere/ansatt', (req, res) => {
 
 router.post('/api/brukere/bedrift', (req, res) => {
   console.log('/brukere/bedrift fikk post request fra klienten');
-  let info = {epost: req.body.epost, passord: req.body.passord, kommune_id: req.body.kommune_id, orgnr: req.body.orgnr, navn: req.body.navn, telefon: req.body.telefon}
+  let info = {
+    epost: req.body.epost,
+    passord: req.body.passord,
+    kommune_id: req.body.kommune_id,
+    orgnr: req.body.orgnr,
+    navn: req.body.navn,
+    telefon: req.body.telefon,
+  };
   brukerDao.lagNyPrivatBruker(info, (status, data) => {
     res.status(status);
   });
@@ -122,53 +145,57 @@ router.post('/api/brukere/bedrift', (req, res) => {
 
 router.post('/api/brukere/admin', (req, res) => {
   console.log('/brukere/admin fikk post request fra klienten');
-  let info = {epost: req.body.epost, passord: req.body.passord, kommune_id: req.body.kommune_id, telefon: req.body.telefon, navn: req.body.navn}
+  let info = {
+    epost: req.body.epost,
+    passord: req.body.passord,
+    kommune_id: req.body.kommune_id,
+    telefon: req.body.telefon,
+    navn: req.body.navn,
+  };
   brukerDao.lagNyPrivatBruker(info, (status, data) => {
     res.status(status);
   });
 });
 
-router.put("/brukere/:bruker_id/nyttpassord",(req, res)=>{
+router.put('/brukere/:bruker_id/nyttpassord', (req, res) => {
   passord(req.body.passord).hash((error, hash) => {
     if (error) {
       throw new Error('Noe gikk galt');
     }
     req.body.passord = hash;
-    brukerDao.endrePassord(req.body,(status,data)=>{
+    brukerDao.endrePassord(req.body, (status, data) => {
       res.status(status);
       res.json(data);
     });
-    console.log("Suksess");
+    console.log('Suksess');
   });
 });
 
-router.get("/brukere/:bruker_id/nyttpassord",(req,res)=>{
-  brukerDao.hentBruker(req.body,(status,data)=>{
+router.get('/brukere/:bruker_id/nyttpassord', (req, res) => {
+  brukerDao.hentBruker(req.body, (status, data) => {
     res.status(status);
     res.json(data);
     console.log('hele veien baby');
-    if(data[0].epost === req.body.epost){
-      let tTilBruker= token();
+    if (data[0].epost === req.body.epost) {
+      let tTilBruker = token();
       let link = 'http://localhost:3000/resett-passord/' + tTilBruker;
-      glemt.glemtPassord("r.vedoy@gmail.com",link);
-    }else{
-        throw new Error("Fant ikke bruker");
+      glemt.glemtPassord('r.vedoy@gmail.com', link);
+    } else {
+      throw new Error('Fant ikke bruker');
     }
-  })
+  });
 });
 
-
-
-router.get("/resetPassord/:token", (req,res)=>{
-  console.log("Reset passord");
-  let naaTid = Date.now().valueOf()/1000;
+router.get('/resetPassord/:token', (req, res) => {
+  console.log('Reset passord');
+  let naaTid = Date.now().valueOf() / 1000;
   let dekodet = jwt.decode(req.params.token);
   let tidToken = dekodet.exp;
-  if( naaTid < tidToken){
-    brukerDao.endrePassord(req.body,(status,data)=>{
+  if (naaTid < tidToken) {
+    brukerDao.endrePassord(req.body, (status, data) => {
       res.status(status);
       res.json(data);
-      glemt.resattPassord(req.body.epost,"http://localhost:3000/");
+      glemt.resattPassord(req.body.epost, 'http://localhost:3000/');
     });
   }
 });
