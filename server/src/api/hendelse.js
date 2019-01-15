@@ -34,8 +34,11 @@ router.post('/api/hendelser/:hendelse_id', (req, res) => {
   console.log('Fikk POST-request fra klienten');
 
   let a = {
-    overskrift: req.body.overskrift,
     bruker_id: req.body.bruker_id,
+    hendelseskategori_id: req.body.hendelseskategori_id,
+    kommune_id: req.body.kommune_id,
+    overskrift: req.body.overskrift,
+    tid: req.body.tid,
     beskrivelse: req.body.beskrivelse,
     sted: req.body.sted,
     bilde: req.body.bilde,
@@ -54,7 +57,10 @@ router.put('/api/hendelser/:hendelse_id', (req, res) => {
   console.log('Fikk POST-request fra klienten');
 
   let a = {
+    hendelseskategori_id: req.body.hendelseskategori_id,
+    kommune_id: req.body.kommune_id,
     overskrift: req.body.overskrift,
+    tid: req.body.tid,
     beskrivelse: req.body.beskrivelse,
     bilde: req.body.bilde,
     lengdegrad: req.body.lengdegrad,
@@ -63,7 +69,7 @@ router.put('/api/hendelser/:hendelse_id', (req, res) => {
   };
 
   hendelseDao.oppdaterHendelse(a, (status, data) => {
-    console.log('Opprettet en ny hendelse');
+    console.log('Oppdatert en hendelse');
     res.status(status);
   });
 });

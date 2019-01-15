@@ -37,6 +37,15 @@ let privatBruker1 = {
   etternavn: 'Larsson'
 };
 
+let oppdaterFeil1 = {
+  kommune_id: 1,
+  subkategori_id: 1,
+  overskrift: 'HeiHei',
+  beskrivelse: 'Kjør da pls',
+  lengdegrad: 0.2,
+  breddegrad: 0.3
+};
+
 beforeAll(done => {
   runsqlfile('lagtabeller.sql', pool, () => {
     runsqlfile('fylkekommunedata.sql', pool, () => {
@@ -59,6 +68,18 @@ test('legg til ny privatbruker', done => {
   }
   brukerdao.lagNyPrivatBruker(privatBruker1, callback);
 });
+
+test('oppdater feil', done => {
+  function callback(status, data) {
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  feildao.oppdaterFeil(oppdaterFeil1, callback);
+});
+
 
 
 test('lag ny bruker', done => {
