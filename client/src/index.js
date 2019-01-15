@@ -7,6 +7,7 @@ import {BildeTest} from './bildetest';
 import {MeldFeil} from './Komponenter/MeldFeil/meldFeil'
 import Popup from 'reactjs-popup';
 import {Registrering} from './Komponenter/Registrering/registrering';
+import {MineOppgaver} from './Komponenter/Ansatt/mineOppgaver';
 import {generellServices} from './services/generellServices';
 import {RodKnapp} from './widgets';
 import {Login} from './Moduler/login/login'
@@ -217,6 +218,7 @@ if (root)
         <Route exact path="/registrering" component={Registrering} />
         <Route exact path="/" component={Forside} />
         <Route exact path="/bildetest" component={BildeTest} />
+        <Route exact path="/mineoppgaver" component={MineOppgaver}/>
         <Route exact path="/login" component={Login} />
       </div>
     </Router>,

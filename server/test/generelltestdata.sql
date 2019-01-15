@@ -115,19 +115,21 @@ CREATE TABLE hendelseskategori(
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE hendelser(
-  hendelse_id INT(11) NOT NULL AUTO_INCREMENT,
-  bruker_id INT(11) NOT NULL,
-  hendelseskategori_id INT(11) NOT NULL,
-  overskrift VARCHAR(255) NOT NULL,
-  tid TIMESTAMP NOT NULL,
-  beskrivelse TEXT,
-  sted VARCHAR(255) NOT NULL,
-  bilde VARCHAR(255),
-  lengdegrad DOUBLE,
-  breddegrad DOUBLE,
-  PRIMARY KEY (hendelse_id),
-  FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id),
-  FOREIGN KEY (hendelseskategori_id) REFERENCES hendelseskategori(hendelseskategori_id)
+    hendelse_id INT(11) NOT NULL AUTO_INCREMENT,
+    bruker_id INT(11) NOT NULL,
+    hendelseskategori_id INT(11) NOT NULL,
+    kommune_id INT(11) NOT NULL,
+    overskrift VARCHAR(255) NOT NULL,
+    tid TIMESTAMP NOT NULL,
+    beskrivelse TEXT,
+    sted VARCHAR(255) NOT NULL,
+    bilde VARCHAR(255),
+    lengdegrad DOUBLE,
+    breddegrad DOUBLE,
+    PRIMARY KEY (hendelse_id),
+    FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id),
+    FOREIGN KEY (hendelseskategori_id) REFERENCES hendelseskategori(hendelseskategori_id),
+    FOREIGN KEY (kommune_id) REFERENCES kommuner(kommune_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO bruker (epost, passord, kommune_id) VALUES
@@ -204,6 +206,6 @@ INSERT INTO hendelseskategori (kategorinavn) VALUES
   ('HendelseKat1'),
   ('HendelseKat2');
 
-INSERT INTO hendelser (bruker_id, hendelseskategori_id, overskrift, tid, beskrivelse, sted, bilde, lengdegrad, breddegrad) VALUES
-  (5, 1, 'Overskrift1', ('2019-08-07'), 'Beskrivelse1', 'Sted1', 'https://bjornost.tihlde.org/hverdagshelt/135d6d0f44a6ba73e3782c243663b90a', 0.0, 0.0),
-  (6, 2, 'Overskrift2', ('2019-12-20'), 'Beskrivelse2', 'Sted2', 'https://bjornost.tihlde.org/hverdagshelt/19af4f8c745a62973e2cd615eaf329fa', 1.0, 0.1);
+INSERT INTO hendelser (bruker_id, hendelseskategori_id, kommune_id, overskrift, tid, beskrivelse, sted, bilde, lengdegrad, breddegrad) VALUES
+  (5, 1, 42, 'Overskrift1', ('2019-08-07'), 'Beskrivelse1', 'Sted1', 'https://bjornost.tihlde.org/hverdagshelt/135d6d0f44a6ba73e3782c243663b90a', 0.0, 0.0),
+  (6, 2, 69, 'Overskrift2', ('2019-12-20'), 'Beskrivelse2', 'Sted2', 'https://bjornost.tihlde.org/hverdagshelt/19af4f8c745a62973e2cd615eaf329fa', 1.0, 0.1);
