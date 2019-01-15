@@ -20,6 +20,14 @@ class HendelseService {
   slettHendelse(hendelse) {
     return api.delete('/api/hendelser/:hendelse_id', hendelse);
   }
+
+  filtrerHendelserPaaKategori(hek_id) {
+    return api.get('/api/hendelser/kategorier/:hendelseskategori_id', hek_id);
+  }
+
+  filtrerHendelserPaaKommune(k_id) {
+    return api.get('/api/hendelser/kommuner/:kommune_id', k_id);
+  }
 }
 
 export let hendelseService = new HendelseService();

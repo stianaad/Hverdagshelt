@@ -85,4 +85,29 @@ router.delete('/api/hendelser/:hendelse_id', (req, res) => {
     res.status(status);
   });
 });
+
+router.get('/api/hendelser/kategorier/:hendelseskategori_id', (req, res) => {
+  console.log('Fikk GET-request fra klienten');
+
+  var a = { hendelseskategori_id: req.body.hendelseskategori_id };
+
+  hendelseDao.filtrerHendelserPaaKategori(a, (status, data) => {
+    res.status(status);
+    res.json(data);
+    console.log('/hendelser/:hk_id lengde' + data.length);
+  });
+});
+
+router.get('/api/hendelser/kommuner/:kommune_id', (req, res) => {
+  console.log('Fikk GET-request fra klienten');
+
+  var a = { kommune_id: req.body.kommune_id };
+
+  hendelseDao.filtrerHendelserPaaKommune((status, data) => {
+    res.status(status);
+    res.json(data);
+    console.log('/hendelser/:k_id lengde' + data.length);
+  });
+});
+
 module.exports = router;

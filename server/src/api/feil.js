@@ -82,8 +82,8 @@ router.put('/api/feil/:feil_id', (req, res) => {
   console.log('Fikk POST-request fra klienten');
 
   let a = {
+    kommune_id: req.body.kommune_id,
     subkategori_id: req.body.subkategori_id,
-    status_id: req.body.status_id,
     beskrivelse: req.body.beskrivelse,
     lengdegrad: req.body.lengdegrad,
     breddegrad: req.body.breddegrad,
@@ -206,5 +206,17 @@ router.get('/api/hovedkategorier/:hovedkategori_id/subkategorier', (req, res) =>
       );
     }
   );
+});
+
+router.delete('/api/feil/:feil_id/bilder/:bilde_id', (req, res) => {
+  console.log('Fikk DELETE-request fra klienten');
+
+  let a = {url: req.body.url, feil_id: req.body.feil_id}
+
+  feilDao.slettBildeFraFeil(a, (status, data) => {
+    res.status(status);
+    res.json(data);
+    console.log('Slettet bilde fra feil');
+  });
 });
 module.exports = router;

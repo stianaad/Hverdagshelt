@@ -55,6 +55,10 @@ class FeilService {
   hentAlleSubkategorierPaaHovedkategori(hk_id) {
     return api.get('/api/hovedkategorier/:hovedkategori_id/subkategorier', hk_id)
   }
+
+  slettBildeFraFeil(info) {
+    return api.delete('/api/feil/:feil_id/bilder/:bilde_id', info);
+  }
 }
 
 export let feilService = new FeilService();
