@@ -6,22 +6,28 @@ module.exports = class BrukerDao extends Dao {
     super.query('INSERT INTO bruker VALUES(DEFAULT,?,?,?)', tabell, callback);
   }
 
-  finnBrukerid(json, callback) {
+  finnBruker_id(json, callback) {
     let epost = [json.epost];
-    super.query('SELECT bruker_id FROM bruker WHERE epost=?', epost);
+    super.query('SELECT bruker_id FROM bruker WHERE epost=?', epost, callback);
   }
 
   lagNyPrivatBruker(json, callback) {
     let self = this;
-    self.lagNyBruker(json, (status, data) => {
-      self.finnBrukerid(json, (status, data) => {
-        super.query(
-          'INSERT INTO privat VALUES(?,?,?)',
-          [res.json(data), json.fornavn, json.etternavn],
-          callback
-        );
-      });
+    self.finnBruker_id(json, (status, data) => {
+      if (data[0].length == 0) {
+        self.lagNyBruker(json, (status, data) => {
+          console.log(status);
+          super.query(
+            'INSERT INTO privat VALUES(?,?,?)',
+            [data.insertId, json.fornavn, json.etternavn],
+            callback
+          );
+        });
+      } else {
+        callback(403, {error: 'E-post eksisterer allerede.'});
+      }
     });
+    
   }
 
   lagNyAnsattBruker(json, callback) {
