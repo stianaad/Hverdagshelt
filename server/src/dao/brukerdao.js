@@ -24,6 +24,47 @@ module.exports = class BrukerDao extends Dao {
     });
   }
 
+  lagNyAnsattBruker(json, callback) {
+    lagNyBruker(json, (status, data) => {
+      finnBrukerid(json, (status, data) => {
+        super.query('INSERT INTO ansatt VALUES(?,?,?,?)', 
+                    [res.json(data),
+                    json.fornavn, 
+                    json.etternavn,
+                    json.telefon],
+                    callback
+          );
+      });
+    });
+  }
+
+  lagNyBedriftBruker(json, callback) {
+    lagNyBruker(json, (status, data) => {
+      finnBrukerid(json, (status, data) => {
+        super.query('INSERT INTO bedrift VALUES(?,?,?)', 
+                    [res.json(data),
+                    json.orgnr, 
+                    json.navn,
+                    json.telefon],
+                    callback
+          );
+      });
+    });
+  }
+
+  lagNyAdminBruker(json, callback) {
+    lagNyBruker(json, (status, data) => {
+      finnBrukerid(json, (status, data) => {
+        super.query('INSERT INTO admin VALUES(?,?,?)', 
+                    [res.json(data),
+                    json.telefon, 
+                    json.navn],
+                    callback
+          );
+      });
+    });
+  }
+
   hentBruker(json, callback) {
     let epost = [json.epost];
     console.log(epost);
