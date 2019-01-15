@@ -4,7 +4,6 @@ import Generelldao from '../../src/dao/generelldao.js';
 import BrukerDao from '../../src/dao/brukerdao.js';
 import runsqlfile from '../runsqlfile.js';
 import FeilDao from '../../src/dao/feildao';
-import {localTestPool} from '../poolsetup';
 //import {Hendelse} from '../../../client/src/services/hendelseService';
 
 /*
