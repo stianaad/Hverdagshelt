@@ -33,7 +33,5 @@ class BrukerService {
   }
 }
 
-  
-}
 export let brukerService = new BrukerService();
 
