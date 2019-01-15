@@ -3,6 +3,8 @@ import { Component,sharedComponentData } from 'react-simplified';
 import { HashRouter, Route, NavLink, Redirect,Switch } from 'react-router-dom';
 import {generellServices} from '../../services/generellServices';
 import { PositionMap, Marker, MarkerMap, markerTabell } from '../../Moduler/kart/map';
+import {Card, Feed, Grid, Button, Header, Icon, Image, Modal} from 'semantic-ui-react';
+import {FeedEvent,FeedHendelse, Filtrer, Info} from '../../Moduler/cardfeed'
 
 export class Hovedside extends Component {
     visFeil = false;
@@ -108,18 +110,40 @@ export class Hovedside extends Component {
                     <div className="col-sm-4 ">
                         <div className="ml-3">
                             <h5>Nylige feil og mangler
-                            <select
+                            </h5>
+                            <br/>
+                            <Card fluid="true">
+                              <Card.Content>
+                                <Card.Header>
+                                  
+                                  Nylige feil og mangler
+                                  <select
                               onChange={this.filter}
-                              className="form-control float-right" 
-                              style={{width: 120}}>
+                              className="form-control right floated meta" 
+                              style={{height: 30, width: 120}}>
                               <option hidden> Filter </option>
                               <option value="0"> Alle kategorier </option>
                               {this.alleKategorier.map(kategori => (
                                 <option value={kategori.kategorinavn} key={kategori.kategorinavn}> {kategori.kategorinavn}</option>
                               ))}
                             </select>
-                            </h5>
-                            <br/>
+                                                                       
+                                </Card.Header>
+                              </Card.Content>
+                              <Card.Content>
+                                <Feed>
+                                {this.aktiveFeil.map(feil => (
+                                    <FeedEvent onClick={() => this.merInfo(feil)}
+                                        status ={feil.status}
+                                        tid={feil.tid}
+                                        kategori ={feil.kategorinavn}>
+                                        {feil.overskrift}
+                                    </FeedEvent>
+                                ))}
+                                </Feed>
+                              </Card.Content>
+                            </Card>
+                            {/*
                             <div className="kanter">
                             <nav>
                             <ul className="list-group">
@@ -143,7 +167,8 @@ export class Hovedside extends Component {
                                 ))}
                             </ul>
                             </nav>
-                            </div>
+                            </div>*/
+                                  }
                         </div>
                     </div>
                     <div className='col-sm-8'>
@@ -213,6 +238,33 @@ export class Hovedside extends Component {
                         </div>
                         </div>
                         <div className="col-sm-6">
+                        <h5>Kommende hendelser</h5>
+                        <div className="mr-3 mt-5">
+                        <Card fluid="true">
+                              <Card.Content>
+                                <Card.Header>
+                                  <Grid>
+                                      <Grid.Column width={12}>Kommende hendelser</Grid.Column>                
+                                      <Grid.Column width={4}>
+                                      </Grid.Column>
+                                  </Grid>
+                                </Card.Header>
+                              </Card.Content>
+                              <Card.Content>
+                                <Feed>
+                                {this.alleHendelser.map(hendelse => (
+                                    <FeedHendelse onClick={() => {this.visHendelser = true;this.visEnHendelse(hendelse)}}
+                                        //status ={feil.status}
+                                        tid={hendelse.tid}
+                                        kategori ={hendelse.kategorinavn}>
+                                        {hendelse.overskrift}
+                                    </FeedHendelse>
+                                ))}
+                                </Feed>
+                              </Card.Content>
+                            </Card>
+                            </div>
+                        {/*
                         <div className="ml-3">
                           <h5>Kommende hendelser
                           </h5>
@@ -235,8 +287,8 @@ export class Hovedside extends Component {
                               </ul>
                             </nav>
                           </div>
-                      </div>
-                        </div>
+                                  </div>*/}
+                                  </div>
                     </div>)}
                     </div>
                 </div>) : (
@@ -265,28 +317,31 @@ export class Hovedside extends Component {
                       </div>
                     </div>
                     <div className="col-sm-4">
-                    <div className="ml-3">
-                          <h5>Kommende hendelser
-                          </h5>
-                          <br/>
-                          <div className="kanter">
-                            <nav>
-                              <ul className="list-group">
-                                  <li className="kanter lister">
-                                    I dag</li>
-                                  {this.alleHendelser.map(tabell => (
-                                    <li className="kanter lister">
-                                    <p onClick = {() => {this.visHendelser = true;this.visEnHendelse({overskrift: tabell.overskrift,beskrivelse: tabell.beskrivelse,tid: tabell.tid,bilde: tabell.bilde,sted: tabell.sted})}}>
-                                        {tabell.overskrift}
-                                        <br/>
-                                        <i>konsert</i>
-                                        <span className='float-right'>{tabell.tid}</span>
-                                    </p>
-                                    </li>
-                                  ))}
-                              </ul>
-                            </nav>
-                          </div>
+                    <h5>Kommende hendelser</h5>
+                    <div className="mr-3 mt-5">
+                    <Card fluid="true">
+                              <Card.Content>
+                                <Card.Header>
+                                  <Grid>
+                                      <Grid.Column width={12}>Kommende hendelser</Grid.Column>                
+                                      <Grid.Column width={4}>
+                                      </Grid.Column>
+                                  </Grid>
+                                </Card.Header>
+                              </Card.Content>
+                              <Card.Content>
+                                <Feed>
+                                {this.alleHendelser.map(hendelse => (
+                                    <FeedHendelse key={hendelse.hendelse_id}onClick={() => {this.visHendelser = true;this.visEnHendelse(hendelse)}}
+                                        tid={hendelse.tid}
+                                        kategori ={hendelse.kategorinavn}>
+                                        {hendelse.overskrift}
+                                    </FeedHendelse>
+                                ))}
+                                </Feed>
+                              </Card.Content>
+                            </Card>
+                          
                           </div>
                     </div>
                   </div>
@@ -297,7 +352,7 @@ export class Hovedside extends Component {
     posFunksjon(){
         console.log("hei");
     }
-  
+
     async mounted(){
         let res1 = await generellServices.hentAlleFeil();
         this.alleFeil = await res1.data;
