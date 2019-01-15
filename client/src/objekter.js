@@ -118,7 +118,7 @@ module.exports = class Status {
 module.exports = class Feil {
 
   constructor(
-    feil_id
+    feil_id,
     kommune_id,
     subkategori_id,
     overskrift,
