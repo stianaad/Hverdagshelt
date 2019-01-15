@@ -22,8 +22,6 @@ module.exports = class BrukerDao extends Dao {
           );
       });
     });
-    privatTabell
-    super.query('INSERT INTO privat VALUES(?,?,?)', privatTabell, callback);
   }
 
   hentBruker(json, callback) {
