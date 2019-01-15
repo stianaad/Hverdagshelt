@@ -35,7 +35,7 @@ let privatBruker1 = {
   kommune_id: 1,
   fornavn: 'Øivind',
   etternavn: 'Larsson'
-}
+};
 
 beforeAll(done => {
   runsqlfile('lagtabeller.sql', pool, () => {
@@ -59,6 +59,7 @@ test('legg til ny privatbruker', done => {
   }
   brukerdao.lagNyPrivatBruker(privatBruker1, callback);
 });
+
 
 test('lag ny bruker', done => {
   function callback(status, data) {
