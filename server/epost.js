@@ -5,11 +5,8 @@ const avsender = 'HverdagsHeltTeam07@gmail.com';
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: "r.vedoy@gmail.com",
-    pass: "Bon23Bon"
-    
-   // user: 'HverdagsHeltTeam07@gmail.com',
-    //pass: 'HverdagsHeltTeam07SuperSecret'
+    user: 'HverdagsHeltTeam07@gmail.com',
+    pass: 'HverdagsHeltTeam07SuperSecret'
   }
 });
 
@@ -95,7 +92,7 @@ module.exports = class epost {
   registreringsBekreftelse(brukernavn, mottaker){
 
     let subject = 'Brukerregistrering';
-    let html = '<div style="margin-left:36px"><p>Brukerregistrering fullført</p></div><div style="float:left;margin-top:45px">'
+    let html = '<div style="margin-left:36px"><p>Brukerregistrering fullført, velkommen til Hverdagshelt, ' + brukernavn + '</p></div><div style="float:left;margin-top:45px">'
     + '<img src="http://gdurl.com/BbIX" width="280"/></div><div style="margin-left:15px;margin-top:80px">'
     + '<p>E-post: contact@HverdagsHelt.no</p><p>tlf: +47 00 00 00 00</p><p>Prosjekt HverdagsHelt</p></div>';
 

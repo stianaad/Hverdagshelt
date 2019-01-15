@@ -10,6 +10,8 @@ import Epost from '../../epost.js';
 import jwt from 'jsonwebtoken';
 import async from 'async';
 
+
+
 let brukerDao = new BrukerDao(pool);
 let glemt = new Epost();
 
@@ -56,7 +58,7 @@ const verifiserePassord = (inputPassord,eksisterendePassord)=>{
  * Endepunkt
  */
 
-router.post('/api/lagNyBruker', (req, res) => {
+router.post('/api/brukere', (req, res) => {
   console.log('Fikk POST-request fra klienten');
   passord(req.body.passord).hash((error, hash) => {
     if (error) {
@@ -94,8 +96,39 @@ router.post("/sjekkPassord",(req,res)=>{
   });
 });
 
+router.post('/api/brukere/privat', (req, res) => {
+  console.log('/brukere/privat fikk post request fra klienten');
+  let info = {epost: req.body.epost, passord: req.body.passord, kommune_id: req.body.kommune_id, fornavn: req.body.fornavn, etternavn: req.body.etternavn}
+  brukerDao.lagNyPrivatBruker(info, (status, data) => {
+    res.status(status);
+  });
+});
 
-router.put("/endrePassord",(req, res)=>{
+router.post('/api/brukere/ansatt', (req, res) => {
+  console.log('/brukere/ansatt fikk post request fra klienten');
+  let info = {epost: req.body.epost, passord: req.body.passord, kommune_id: req.body.kommune_id, fornavn: req.body.fornavn, etternavn: req.body.etternavn, telefon: req.body.telefon}
+  brukerDao.lagNyPrivatBruker(info, (status, data) => {
+    res.status(status);
+  });
+});
+
+router.post('/api/brukere/bedrift', (req, res) => {
+  console.log('/brukere/bedrift fikk post request fra klienten');
+  let info = {epost: req.body.epost, passord: req.body.passord, kommune_id: req.body.kommune_id, orgnr: req.body.orgnr, navn: req.body.navn, telefon: req.body.telefon}
+  brukerDao.lagNyPrivatBruker(info, (status, data) => {
+    res.status(status);
+  });
+});
+
+router.post('/api/brukere/admin', (req, res) => {
+  console.log('/brukere/admin fikk post request fra klienten');
+  let info = {epost: req.body.epost, passord: req.body.passord, kommune_id: req.body.kommune_id, telefon: req.body.telefon, navn: req.body.navn}
+  brukerDao.lagNyPrivatBruker(info, (status, data) => {
+    res.status(status);
+  });
+});
+
+router.put("/brukere/:bruker_id/nyttpassord",(req, res)=>{
   passord(req.body.passord).hash((error, hash) => {
     if (error) {
       throw new Error('Noe gikk galt');
@@ -109,20 +142,22 @@ router.put("/endrePassord",(req, res)=>{
   });
 });
 
-router.get("/glemtPassord",(req,res)=>{
+router.get("/brukere/:bruker_id/nyttpassord",(req,res)=>{
   brukerDao.hentBruker(req.body,(status,data)=>{
     res.status(status);
     res.json(data);
-
+    console.log('hele veien baby');
     if(data[0].epost === req.body.epost){
       let tTilBruker= token();
-      let link = 'http://localhost:3000/reset-passord/' + tTilBruker;
+      let link = 'http://localhost:3000/resett-passord/' + tTilBruker;
       glemt.glemtPassord("r.vedoy@gmail.com",link);
     }else{
         throw new Error("Fant ikke bruker");
     }
   })
 });
+
+
 
 router.get("/resetPassord/:token", (req,res)=>{
   console.log("Reset passord");
