@@ -9,9 +9,10 @@ export class Forside extends Component {
       <div>
         <header className="main-header">
           <img
-            src="FremsideHelt.png"
+            src="hhlogo.svg"
             alt="Hverdagshelt logo"
           />
+          <h1>HverdagsHelt</h1>
           <div className="float-right">
             <button
               type="button"
@@ -31,7 +32,9 @@ export class Forside extends Component {
         <div className="main-center">
           <div className="main-content">
             <h6 className="main-title">Kommuniser direkte med din kommune </h6>
-            <KommuneVelger history={this.props.history} />
+            <div className="kommuneWrapper">
+              <KommuneVelger history={this.props.history} />
+            </div>
           </div>
         </div>
         <footer>

@@ -1,30 +1,50 @@
 .main-center {
-  /*width:100%;*/
   background-image: url("/lofoten.jpg");
   height: 100vh;
+  width:100vw;
   display: flex;
   justify-content: center;
+  background-size: cover;
 }
 
 .main-title {
-  font-size: 3vw;
+  font-size: 50px;
   color:#fff;
+  text-shadow: 2px 2px 3px rgba(0,0,0,1);
+}
+
+.main-header h1 {
+  color: rgb(80,187,230);
+  display: inline;
+  margin-left: 20px;
+  font-size: 50px;
 }
 
 .main-content {
-  margin-top: calc(50vh - 230px);
+  margin-top: calc(35vh);
+}
+
+.kommuneWrapper {
+  width: 600px;
+  margin:auto;
+  margin-top:50px;
 }
 
 .main-header {
-  height:100px;
-  padding:20px;
+  height:120px;
+  padding:30px;
   position: absolute;
   width:100%;
 }
 
 .main-header img {
-  height: 80px;
-  margin: -10px;
+  height: 100px;
+  margin-top: -20px;
+  display: inline-block;
+  vertical-align: top;
+  background-color: white;
+  border-radius: 50px;
+  padding: 8px;
 }
 
 .main-header-button {
