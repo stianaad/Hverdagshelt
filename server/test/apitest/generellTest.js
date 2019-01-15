@@ -1,7 +1,7 @@
 import mysql from 'mysql2';
 
 import Generelldao from '../../src/dao/generelldao.js';
-import BrukerDao from '../../src/dao/generelldao.js';
+import BrukerDao from '../../src/dao/brukerdao.js';
 import runsqlfile from '../runsqlfile.js';
 import FeilDao from '../../src/dao/feildao';
 import {localTestPool} from '../poolsetup';
@@ -57,6 +57,17 @@ test('legg til ny privatbruker', done => {
     expect(data.affectedRows).toBe(1);
   }
   brukerdao.lagNyPrivatBruker(privatBruker1, callback);
+  done();
+})
+
+test('hent brukerid', done => {
+  function callback(status, data) {
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.bruker_id).toBe(10);
+  }
+  brukerdao.finnBrukerid({epost: 'epost10@hotmail.com'}, callback);
   done();
 })
 
