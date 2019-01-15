@@ -1,9 +1,9 @@
 //objekter for lagring/oppdatering/oppretting
-module.exports = class Fylke {
+export class Fylke {
   constructor(fylke_navn) { this.fylke_navn = fylke_navn; }
 }
 
-module.exports = class Kommune {
+export class Kommune {
   constructor(
     kommune_id,
     kommune_navn,
@@ -29,7 +29,7 @@ class Bruker {
   }
 }
 
-module.exports = class Privat extends Bruker {
+export class Privat extends Bruker {
   constructor(
     bruker_id,
     epost,
@@ -44,7 +44,7 @@ module.exports = class Privat extends Bruker {
   }
 }
 
-module.exports = class Ansatt extends Bruker {
+export class Ansatt extends Bruker {
   constructor(
     bruker_id,
     epost,
@@ -60,7 +60,7 @@ module.exports = class Ansatt extends Bruker {
   }
 }
 
-module.exports = class Bedrift extends Bruker () {
+export class Bedrift extends Bruker {
   constructor(
     bruker_id,
     epost,
@@ -77,7 +77,7 @@ module.exports = class Bedrift extends Bruker () {
   }
 }
 
-module.exports = class Admin extends Bruker () {
+export class Admin extends Bruker {
   constructor(
     bruker_id,
     epost,
@@ -92,7 +92,7 @@ module.exports = class Admin extends Bruker () {
   }
 }
 
-module.exports = class Hovedkategori {
+export class Hovedkategori {
 
   constructor(hovedkategori_id, kategorinavn) {
     this.hovedkategori_id = hovedkategori_id;
@@ -100,7 +100,7 @@ module.exports = class Hovedkategori {
   }
 }
 
-module.exports = class Subkategori {
+export class Subkategori {
   constructor(subkategori_id, kategorinavn, hovedkategori_id) {
     this.subkategori_id = subkategori_id;
     this.kategorinavn = kategorinavn;
@@ -108,14 +108,14 @@ module.exports = class Subkategori {
   }
 }
 
-module.exports = class Status {
+export class Status {
   constructor(status_id, status) {
     this.status_id = status_id;
     this.status = status;
   }
 }
 
-module.exports = class Feil {
+export class Feil {
 
   constructor(
     feil_id,
@@ -136,7 +136,7 @@ module.exports = class Feil {
   }
 }
 
-module.exports = class Oppdatering {
+export class Oppdatering {
 
   constructor(
   feil_id,
@@ -153,14 +153,14 @@ module.exports = class Oppdatering {
   }
 }
 
-module.exports = class Hendelseskategori {
+export class Hendelseskategori {
   constructor(hendelseskategori_id, kategorinavn) {
     this.hendelseskategori_id = hendelseskategori_id;
     this.kategorinavn = kategorinavn;
   }
 }
 
-module.exports = class Hendelse {
+export class Hendelse {
 
   constructor(
     hendelse_id,

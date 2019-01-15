@@ -14,12 +14,16 @@ import {Login} from './Moduler/login/login'
 import { PositionMap, Marker, MarkerMap, markerTabell } from './Moduler/kart/map';
 import {Hovedside} from './Komponenter/hovedside/hovedside';
 
+import {GlemtPassord} from "../src/Komponenter/GlemtPassord/glemtPassord";
+import {ResettPassord} from "../src/Komponenter/GlemtPassord/resettPassord";
+
 
 import createBrowserHistory from 'history/createBrowserHistory';
 const history = createBrowserHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
 
 import {relative} from 'path';
 import { KommuneVelger } from './Moduler/KommuneVelger/kommuneVelger';
+import { KommuneInput } from './Moduler/kommuneInput/kommuneInput';
 
 
 
@@ -206,6 +210,34 @@ class Menu extends Component {
     )
   }
 }
+
+class komtest extends Component {
+  kominput;
+
+constructor(props) {
+  super(props);
+  this.kominput = React.createRef();
+}
+
+  render() {
+    return (
+      <>
+        <div style={{width:"300px"}}>
+          <KommuneInput ref={this.kominput} />
+          {this.komm}
+        </div>
+        <button onClick={this.test}>test</button>
+      </>
+    );
+  }
+
+  test() {
+    alert(this.kominput.current.verdi);
+  }
+
+}
+
+
 const root = document.getElementById('root');
 if (root)
   ReactDOM.render(
@@ -218,8 +250,13 @@ if (root)
         <Route exact path="/registrering" component={Registrering} />
         <Route exact path="/" component={Forside} />
         <Route exact path="/bildetest" component={BildeTest} />
+        <Route exact path="/glemt-passord" component={GlemtPassord}/>
+        <Route exact path="/resett-passord/:token" component={ResettPassord}/>
+        {//<Route exact path="/login" component={Login} />
+        }
         <Route exact path="/mineoppgaver" component={MineOppgaver}/>
         <Route exact path="/login" component={Login} />
+        <Route exact path="/kinput" component={komtest} />
       </div>
     </Router>,
     root

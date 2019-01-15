@@ -13,7 +13,7 @@ import {pool} from '../../test/poolsetup';
 let feilDao = new FeilDao(pool);
 let bildeOpplasting = new BildeOpplasting();
 
-router.get('/api/hentAlleFeil', (req, res) => {
+router.get('/api/feil', (req, res) => {
   console.log('Fikk GET-request fra klienten');
 
   feilDao.hentAlleFeil((status, data) => {
@@ -23,42 +23,31 @@ router.get('/api/hentAlleFeil', (req, res) => {
   });
 });
 
-router.get('/api/hentEnFeil', (req, res) => {
+router.get('/api/feil/:feil_id', (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk GET-request fra klienten');
 
-  feilDao.hentEnFeil(req.params.feil_id, (status, data) => {
+  let a = {feil_id: req.body.feil_id}
+
+  feilDao.hentEnFeil(a, (status, data) => {
     res.status(status);
     res.json(data);
     console.log('/hentEnFeil resultat:' + data);
   });
 });
 
-router.get('/api/hentBilder/:feil_id', (req, res) => {
+router.get('/api/feil/:feil_id/bilder', (req, res) => {
   console.log('Fikk GET-request fra klienten');
 
   feilDao.hentBilderTilFeil(req.params.feil_id, (status, data) => {
     res.status(status);
     res.json(data);
-    console.log('/hentBilderTilFeil/:feil_id resultat:' + data);
-  });
-});
-
-
-
-router.get('/api/hentFeilStatus', (req, res) => {
-  if (!(req.body instanceof Object)) return res.sendStatus(400);
-  console.log('Fikk GET-request fra klienten');
-
-  feilDao.hentFeilStatus(req.params.status_id, (status, data) => {
-    res.status(status);
-    res.json(data);
-    console.log('/hentFeilStatus lengde:' + data.length);
+    console.log('/feil/:feil_id/bilder resultat:' + data);
   });
 });
 
 //Dette endepunktet krever multipart/form-data istedet for json for å håndtere bildeopplasting
-router.post('/api/lagNyFeil', upload.array('bilder', 10), (req, res) => {
+router.post('/api/feil', upload.array('bilder', 10), (req, res) => {
   //if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk POST-request fra klienten');
 
@@ -88,7 +77,7 @@ router.post('/api/lagNyFeil', upload.array('bilder', 10), (req, res) => {
   });
 });
 
-router.post('/api/oppdaterFeil', (req, res) => {
+router.put('/api/feil/:feil_id', (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk POST-request fra klienten');
 
@@ -107,24 +96,7 @@ router.post('/api/oppdaterFeil', (req, res) => {
   });
 });
 
-router.post('/api/endreStatusFeil', (req, res) => {
-  if (!(req.body instanceof Object)) return res.sendStatus(400);
-  console.log('Fikk POST-request fra klienten');
-
-  let a = {
-    status_id: req.body.status_id,
-    feil_id: req.body.feil_id
-  };
-
-  feilDao.endreStatusFeil(a, (status, data) => {
-    console.log(
-      'Oppdatert en feil med ny status, feil_id = ' + a.feil_id
-    );
-    res.status(status);
-  });
-});
-
-router.post('/api/slettFeil', (req, res) => {
+router.delete('/api/feil/:feil_id', (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk POST-request fra klienten');
 
@@ -136,20 +108,7 @@ router.post('/api/slettFeil', (req, res) => {
   });
 });
 
-/*
-router.get('/api/hentEnKategori', (req, res) => {
-  if (!(req.body instanceof Object)) return res.sendStatus(400);
-  console.log('Fikk GET-request fra klienten');
-
-  feilDao.hentEnKategori(req.params.kategori_id, (status, data) => {
-    res.status(status);
-    res.json(data);
-    console.log('/hentEnKategori gir: ' + data);
-  });
-});
-*/
-
-router.get('/api/hentAlleHovedkategorier', (req, res) => {
+router.get('/api/hovedkategorier', (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk GET-request fra klienten');
 
@@ -160,7 +119,7 @@ router.get('/api/hentAlleHovedkategorier', (req, res) => {
   });
 });
 
-router.get('/api/filtrerKategori/:kategori_id', (req, res) => {
+router.get('/api/feil/:kategori_id', (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk GET-request fra klienten');
 
@@ -171,7 +130,7 @@ router.get('/api/filtrerKategori/:kategori_id', (req, res) => {
   });
 });
 
-router.post('/api/lagOppdatering', (req, res) => {
+router.post('/api/feil/:feil_id/oppdateringer', (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk POST-request fra klienten');
 
@@ -188,7 +147,7 @@ router.post('/api/lagOppdatering', (req, res) => {
   });
 });
 
-router.get('/api/hentAlleOppdateringerPaaFeil', (req, res) => {
+router.get('/api/feil/:feil_id/oppdatering', (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk GET-request fra klienten');
 
@@ -201,7 +160,7 @@ router.get('/api/hentAlleOppdateringerPaaFeil', (req, res) => {
   });
 });
 
-router.get('/api/hentEnStatus', (req, res) => {
+router.get('/api/statuser/:status_id', (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk GET-request fra klienten');
 
@@ -210,31 +169,31 @@ router.get('/api/hentEnStatus', (req, res) => {
   feilDao.hentEnStatus(a, (status, data) => {
     res.status(status);
     res.json(data);
-    console.log('/hentEnStatus gir:' + data);
+    console.log('hent en status gir:' + data);
   });
 });
 
-router.get('/api/hentAlleStatuser', (req, res) => {
+router.get('/api/statuser', (req, res) => {
   console.log('Fikk GET-request fra klienten');
 
   feilDao.hentAlleStatuser((status, data) => {
     res.status(status);
     res.json(data);
-    console.log('/hentAlleStatuser lengde:' + data.length);
+    console.log('statuser lengde:' + data.length);
   });
 });
 
-router.get('/api/hentAlleHovedkategorier', (req, res) => {
+router.get('/api/hovedkategorier', (req, res) => {
   console.log('Fikk GET-request fra klienten');
 
   feilDao.hentAlleHovedkategorier((status, data) => {
     res.status(status);
     res.json(data);
-    console.log('/hentAlleHovedkategorier lengde:' + data.length);
+    console.log('hovedkategorier lengde:' + data.length);
   });
 });
 
-router.get('/api/hentAlleSubKategorierPaaHovedkategori', (req, res) => {
+router.get('/api/hovedkategorier/:hovedkategori_id/subkategorier', (req, res) => {
   console.log('Fikk GET-request fra klienten');
 
   feilDao.hentAlleSubKategorierPaaHovedkategori(
@@ -243,7 +202,7 @@ router.get('/api/hentAlleSubKategorierPaaHovedkategori', (req, res) => {
       res.status(status);
       res.json(data);
       console.log(
-        '/hentAlleSubKategorierPaaHovedkategori lengde:' + data.length
+        'subkategorier under hovedkategori lengde:' + data.length
       );
     }
   );
