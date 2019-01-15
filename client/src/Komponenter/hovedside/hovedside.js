@@ -2,6 +2,8 @@ import * as React from 'react';
 import { Component,sharedComponentData } from 'react-simplified';
 import { HashRouter, Route, NavLink, Redirect,Switch } from 'react-router-dom';
 import {generellServices} from '../../services/generellServices';
+import {feilService} from '../../services/feilService';
+import {hendelseService} from '../../services/hendelseService';
 import { PositionMap, Marker, MarkerMap, markerTabell } from '../../Moduler/kart/map';
 import {Card, Feed, Grid, Button, Header, Icon, Image, Modal} from 'semantic-ui-react';
 import {FeedEvent,FeedHendelse, Filtrer, Info} from '../../Moduler/cardfeed'
@@ -354,16 +356,16 @@ export class Hovedside extends Component {
     }
 
     async mounted(){
-        let res1 = await generellServices.hentAlleFeil();
+        let res1 = await feilService.hentAlleFeil();
         this.alleFeil = await res1.data;
         this.aktiveFeil = await res1.data;
         await console.log(res1.data);
   
-        let res2 = await generellServices.hentAlleKategorier();
+        let res2 = await feilService.hentAlleHovedkategorier();
         this.alleKategorier = await res2.data;
         await console.log(res2.data);
         
-        let res3 = await generellServices.hentAlleHendelser();
+        let res3 = await hendelseService.hentAlleHendelser();
         this.alleHendelser = await res3.data;
         await console.log(res3.data);
         
