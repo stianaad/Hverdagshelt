@@ -16,7 +16,7 @@
 }
 
 .headKomWrapper {
-    width:200px;
+    width:300px;
     display:inline;
     margin: auto 20px;
 }
@@ -27,6 +27,12 @@
     padding:20px;
     height: 100%;
     display:inline-flex;
+}
+
+.pageHeaderButton {
+    margin-left: 15px;
+    height: 60px;
+    font-size: 18px;
 }
 
 .headKomWrapper div input {

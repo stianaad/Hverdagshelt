@@ -10,12 +10,13 @@ export class Header extends Component {
     render() {
         return (
             <header className="pageHeader">
-                <img className="pageHeaderLogo" src="hhlogotight.svg" alt="Hverdagshelt logo" />
+                <Link to="/"><img className="pageHeaderLogo" src="hhlogotight.svg" alt="Hverdagshelt logo" /></Link>
+                <button type="button" className="pageHeaderButton btn btn-light border border-dark mr-4">Hendelser</button>
                 <div className="pageHeaderRight">
                     <div className="headKomWrapper">
                         <KommuneVelger history={this.props.history} />
                     </div>
-                    <img className="profileIcon" src="user.svg" alt="Bruker ikon"></img>
+                    <img className="profileIcon" src="profile.svg" alt="Bruker ikon"></img>
                 </div>
             </header>
         );
