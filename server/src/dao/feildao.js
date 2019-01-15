@@ -58,15 +58,16 @@ module.exports = class FeilDao extends Dao {
 
   oppdaterFeil(json, callback) {
     var feil = [
+      json.kommune_id,
       json.subkategori_id,
-      json.status_id,
+      json.overskrift,
       json.beskrivelse,
       json.lengdegrad,
       json.breddegrad,
       json.feil_id,
     ];
     super.query(
-      'UPDATE feil SET subkategori_id = ?, SET status_id = ?, SET beskrivelse = ?, SET lengdegrad = ?, SET breddegrad = ? WHERE feil_id = ?',
+      'UPDATE feil SET kommune_id = ?, subkategori_id = ?, overskrift = ?, beskrivelse = ?, lengdegrad = ?, breddegrad = ? WHERE feil_id = ?',
       feil,
       callback
     );
@@ -126,12 +127,13 @@ module.exports = class FeilDao extends Dao {
     super.query('SELECT * FROM hovedkategori', null, callback);
   }
 
-  hentFeilFiltrertKategori(kategori_id, callback) {
+  hentFeilFiltrertKategori(json,callback) {
+    var kategori_id = json.kategori_id;
     super.query(
       'SELECT feil.*,hovedkategori.hovedkategori_id,hovedkategori.kategorinavn AS kategorinavn FROM feil, subkategori,hovedkategori WHERE feil.subkategori_id=subkategori.subkategori_id AND subkategori.hovedkategori_id=hovedkategori.hovedkategori_id AND hovedkategori.hovedkategori_id=?',
       [kategori_id],
       callback
-    );
+      );
   }
 
   hentAlleSubKategorierPaaHovedkategori(json, callback) {
@@ -141,6 +143,11 @@ module.exports = class FeilDao extends Dao {
       [hovedkategori_id],
       callback
     );
+  }
+
+  slettBildeFraFeil(json, callback) {
+    var info = [json.url, json.feil_id];
+    super.query('DELETE FROM feil_bilder WHERE url = ? AND feil_id = ?', info, callback);
   }
 };
 
