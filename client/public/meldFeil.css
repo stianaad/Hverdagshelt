@@ -1,0 +1,67 @@
+html, body {
+  height: 100%;
+}
+
+#blokk {
+  height: 100%;
+  width: 40%;
+  margin: auto;
+  overflow: hidden;
+  border-right: solid;
+  border-lefT: solid;
+  padding-left: 0.8%;
+}
+
+#overskrift, #kommuneblokk, #kategoriblokk, #beskblokk, #poslbl, #sjekkboks {
+  margin-top: 15px;
+}
+
+#kommuneblokk, #kategoriblokk, #beskblokk, #bilete {
+  width: 48%;
+  float: left;
+}
+
+#bes {
+  width: 100%;
+  height: 200px;
+}
+
+#kategoriblokk, #bilete {
+  margin-left: 2%;
+}
+
+#bilete {
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+#posblokk {
+  margin-right: 2%;
+}
+
+#posmap {
+  height: 300px;
+  width: 100%;
+}
+
+#sjekkboks {
+  margin-bottom: 45px;
+}
+
+#boksen, #boksenlbl {
+  float: left;
+}
+
+#boksenlbl {
+  margin-top: 3px;
+}
+
+#meldinnknapp {
+  margin-bottom: 20px;
+}
+
+/* Mobilversjon */
+
+@media (max-width: 600px){
+
+}

@@ -1,14 +1,30 @@
 import * as React from 'react';
 import { Component } from 'react-simplified';
-import { PositionMap } from '../../widgets';
+import { PositionMap, Droppboks, GronnKnapp } from '../../widgets';
+import { KommuneVelger } from '../../Moduler/KommuneVelger/KommuneVelger';
+
+class kategori{
+  id;
+  navn;
+
+  constructor(
+    id,
+    navn
+  ){
+    this.id = id;
+    this.navn = navn;
+  }
+}
+
+let kat = [
+  new kategori(1, "Hull"), new kategori(2, "Strømbrudd")
+];
 
 export class MeldFeil extends Component {
 
     data = {
         kommune_id: 1,
         kategori_id: 1,
-        subkategori_id: 1,
-        overskrift: "",
         beskrivelse: "",
         lengdegrad: 0,
         breddegrad: 0
@@ -16,73 +32,62 @@ export class MeldFeil extends Component {
 
     render() {
         return (
-            <div align="center">
-                <h1>Meld inn en feil/mangel</h1>
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <label htmlFor="kom">Kommune:</label>
-                                <br />
-                                <select id="kom" value={this.data.kommune_id} name="kommune_id" onChange={this.endreVerdi}></select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label htmlFor="kat">Kategori:</label>
-                                <br />
-                                <select id="kat" value={this.data.kategori_id} name="kategori_id" onChange={this.endreVerdi}></select>
-                            </td>
-
-                            <td>
-                                <label htmlFor="sub">Subkategori:</label>
-                                <br />
-                                <select id="sub" value={this.data.subkategori_id} name="subkategori_id" onChange={this.endreVerdi}></select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label htmlFor="ove">Overskrift:</label>
-                                <br />
-                                <input type="text" id="ove" value={this.data.overskrift} name="overskrift" onChange={this.endreVerdi} />
-                            </td>
-                            <td>
-                                <label htmlFor="bil">Bilder:</label>
-                                <br />
-                                <input type="file" id="bil" accept="image/*" name="bil" multiple />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colSpan="2">
-                                <label htmlFor="bes">Beskrivelse:</label>
-                                <br />
-                                <textarea type="text" id="bes" value={this.data.beskrivelse} name="beskrivelse" onChange={this.endreVerdi}></textarea>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colSpan="2">
-                                <label htmlFor="pos">Posisjon:</label>
-                                <button onClick={this.velgMinPosisjon}>Velg min nåverende posisjon</button>
-                                <PositionMap id="pos" width="300" height="300" id="posmap" center="Trondheim" position={this.posFunksjon} />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <button onClick={this.send}>Send</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div id="blokk">
+              <div>
+                <h1 id="overskrift" >Meld inn feil</h1>
+              </div>
+              <div>
+                <div id="kommuneblokk">
+                  <label id="kommunelbl" htmlFor="kom">Kommune:</label>
+                  <Droppboks value={kat} inputRef={node => {this.data.kommune_id = node}}/>
+                </div>
+                <div id="kategoriblokk">
+                  <label id="kategorilbl" htmlFor="kat">Kategori:</label>
+                  <Droppboks id="dropp" value={kat} inputRef={node => {this.data.kategori_id = node}}/>
+                </div>
+              </div>
+              <div>
+                <div id="beskblokk">
+                  <label id="beskrivelselbl" htmlFor="bes">Beskrivelse:</label>
+                  <br />
+                  <textarea type="text" id="bes" value={this.data.beskrivelse} name="beskrivelse" onChange={this.endreVerdi}></textarea>
+                </div>
+                  <div id="bilete">
+                    <label id="billbl" htmlFor="bil">Bilder:</label>
+                    <br />
+                    <input type="file" id="bil" accept="image/*" name="bil" multiple />
+                  </div>
+              </div>
+              <div id="posblokk">
+                <label id="poslbl" htmlFor="pos">Posisjon:</label>
+                <PositionMap id="posmap" center="Trondheim" position={this.posFunksjon} />
+              </div>
+              <div id="sjekkboks">
+                <div id="boksen">
+                  <input type="checkbox" name="Abonner" value="Abonner"/>
+                </div>
+                <div id="boksenlbl">
+                  <label>Abonner på denne saken</label>
+                </div>
+              </div>
+              <div id="meldinnknapp">
+                <GronnKnapp onClick={this.testerino}>Meld inn</GronnKnapp>
+              </div>
             </div>
         );
+    }
+
+    testerino(){
+      console.log(
+        this.data.kommune_id + ":" + this.data.kategori_id.value + ":" + this.data.beskrivelse + ":" + this.data.lengdegrad + ":" + this.data.breddegrad
+      );
     }
 
     send() {
         let formData = new FormData();
 
         formData.append("kommune_id", this.data.kommune_id);
-        formData.append("subkategori_id", this.data.subkategori_id);
-        formData.append("overskrift", this.data.overskrift);
+        formData.append("kategori_id", this.data.kategori_id.value);
         formData.append("beskrivelse", this.data.beskrivelse);
         formData.append("lengdegrad", this.data.lengdegrad);
         formData.append("breddegrad", this.data.breddegrad);

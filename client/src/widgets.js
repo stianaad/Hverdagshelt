@@ -5,6 +5,7 @@ import * as React from 'react';
 import { Component } from 'react-simplified';
 import { NavLink } from 'react-router-dom';
 import L from 'leaflet';
+import { FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
 
 class Feil {
   feil_id = null;
@@ -48,15 +49,15 @@ export class Marker {
   hoverPopup = L.popup().setContent('<p>Hover popup</p>');
   clickPopup = L.popup().setContent('<p>Click popup</p>');
   /**
-   * 
-   * @param {string} overskrift 
-   * @param {string} beskrivelse 
-   * @param {string} bildeurl 
-   * @param {integer} status 
-   * @param {string} tid 
-   * @param {string} kategori 
-   * @param {double} breddegrad 
-   * @param {double} lengdegrad 
+   *
+   * @param {string} overskrift
+   * @param {string} beskrivelse
+   * @param {string} bildeurl
+   * @param {integer} status
+   * @param {string} tid
+   * @param {string} kategori
+   * @param {double} breddegrad
+   * @param {double} lengdegrad
    */
   constructor(overskrift, beskrivelse, bildeurl, status, tid, kategori, breddegrad, lengdegrad) {
     let iconName = status == 0 ? null : status == 1 ? "warningicon" : status == 2 ? "processingicon" : "successicon";
@@ -114,7 +115,7 @@ export class MarkerMap extends Component {
         ]
       })
       .fitBounds(this.coords).setZoom(11);
-      
+
       for (let i = 0; i < m.length; i++) {
         m[i].marker.addTo(this.map);
       }
@@ -130,7 +131,7 @@ export class MarkerMap extends Component {
 
 /**
  * Kart for å velge posisjon for en hendelse/feil. Bredde, høyde, id, stedsnavn, og en callback funksjon for å sende posisjon, sendes som props.
- * @example 
+ * @example
  * let pos = [0, 0]; // [breddegrad, lengdegrad]
  * let posFunkjson = (posisjon) => pos = posisjon;
  * <PositionMap width="1000" height="500" id="posmap" center="Oslo" position={posFunksjon}/>
@@ -246,10 +247,40 @@ export class RodKnapp extends Component {
   }
 }
 
+export class GronnKnapp extends Component {
+  render() {
+    return (
+      <button
+        type="button"
+        className="btn btn-success"
+        onClick={this.props.onClick}
+      >
+        {this.props.children}
+      </button>
+    );
+  }
+}
+
+export class Droppboks extends Component <{value: json, inputRef: (node: SyntheticInputEvent<HTMLInputElement>) => mixed}> {
+  render() {
+    return (
+      <div>
+        <FormGroup controlId="formControlsSelect">
+            <FormControl componentClass="select" inputRef={this.props.inputRef}>
+              {this.props.value.map(json => (
+                <option key={json.id} value={json.id}>{json.navn}</option>
+                ))}
+            </FormControl>
+        </FormGroup>
+      </div>
+      );
+  }
+}
+
 /*
 /**
  * Renders an information card using Bootstrap classes
- 
+
 export class Card extends Component<{ title: React.Node,exact?: boolean,link: string,to: string, children?: React.Node }> {
   render() {
     return (
@@ -280,7 +311,7 @@ class ListGroupItem extends Component<{ to?: string, children: React.Node }> {
 
 /**
  * Renders a list group using Bootstrap classes
- 
+
 export class ListGroup extends Component<{
   children: React.Element<typeof ListGroupItem> | (React.Element<typeof ListGroupItem> | null)[] | null
 }> {
@@ -336,7 +367,7 @@ export class ContainerFluid extends Component<{ children: React.Node }> {
 
 /**
  * Renders a row using Bootstrap classes
- 
+
 export class Row extends Component<{ children: React.Node, styles?: Object }> {
   render() {
     return <div className={"row"} style={this.props.styles}>{this.props.children}</div>;
@@ -345,7 +376,7 @@ export class Row extends Component<{ children: React.Node, styles?: Object }> {
 
 /**
  * Renders a column with specified width using Bootstrap classes
- 
+
 export class Column extends Component<{ bredde: number, children?: React.Node }> {
   render() {
     return <div className={'col-sm-' + this.props.bredde}>{this.props.children}</div>;
@@ -387,7 +418,7 @@ class NavBarLinkRight extends Component<{ to: string, exact?: boolean, children?
 
 /**
  * Renders a navigation bar using Bootstrap classes
- 
+
 export class NavBar extends Component<{ children: React.Element<typeof NavBarBrand | typeof NavBarLinkLeft | typeof NavBarLinkRight>[] }> {
   static Brand = NavBarBrand;
   static LinkLeft = NavBarLinkLeft;
