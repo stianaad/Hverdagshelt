@@ -12,6 +12,10 @@ module.exports = class BrukerDao extends Dao {
     super.query('SELECT * FROM bruker WHERE epost=?', tabell, callback);
   }
 
+  hentBrukere(callback){
+    super.query('SELECT * FROM bruker',[],callback);
+  }
+
   endrePassord(json, callback) {
     const tabell = [json.passord, json.epost];
     super.query('UPDATE bruker SET passord=? WHERE epost=?', tabell, callback);

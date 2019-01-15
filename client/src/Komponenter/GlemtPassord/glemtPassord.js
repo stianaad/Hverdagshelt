@@ -1,10 +1,11 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
-//import {brukerService} from '../../services/brukerService';
+import {brukerService} from '../../services/brukerService';
 
 export class GlemtPassord extends Component{
 
   epost ='';
+  eksisterendeEpost=[];
 
     render(){
       return(
@@ -54,8 +55,9 @@ export class GlemtPassord extends Component{
       console.log('Send epost')
       let epost = this.epost;
       console.log(epost);
-      brukerService.glemtPassord(epost)
-      .catch((error: Error) => Alert.danger(error.message))
+      brukerService.hentbrukere()
+      .then(brukerepost =>(this.eksisterendeEpost = brukerepost))
+     // brukerService.glemtPassord(epost).catch((error: Error) => Alert.danger(error.message))
     }
 
 
