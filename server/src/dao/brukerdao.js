@@ -6,6 +6,11 @@ module.exports = class BrukerDao extends Dao {
     super.query('INSERT INTO bruker VALUES(DEFAULT,?,?,?)', tabell, callback);
   }
 
+  lagNyPrivatBruker(json, callback) {
+    const tabell = [json.epost, json.passord, json.kommune_id];
+    super.query('INSERT INTO bruker VALUES(DEFAULT,?,?,?)', tabell, callback);
+  }
+
   hentBruker(json, callback) {
     let epost = [json.epost];
     console.log(epost);

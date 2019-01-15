@@ -56,7 +56,7 @@ const verifiserePassord = (inputPassord,eksisterendePassord)=>{
  * Endepunkt
  */
 
-router.post('/api/lagNyBruker', (req, res) => {
+router.post('/api/brukere', (req, res) => {
   console.log('Fikk POST-request fra klienten');
   passord(req.body.passord).hash((error, hash) => {
     if (error) {
@@ -95,7 +95,7 @@ router.post("/sjekkPassord",(req,res)=>{
 });
 
 
-router.put("/endrePassord",(req, res)=>{
+router.put("/brukere/:bruker_id/nyttpassord",(req, res)=>{
   passord(req.body.passord).hash((error, hash) => {
     if (error) {
       throw new Error('Noe gikk galt');
@@ -109,7 +109,7 @@ router.put("/endrePassord",(req, res)=>{
   });
 });
 
-router.get("/glemtPassord",(req,res)=>{
+router.get("/brukere/:bruker_id/nyttpassord",(req,res)=>{
   brukerDao.hentBruker(req.body,(status,data)=>{
     res.status(status);
     res.json(data);
