@@ -130,17 +130,19 @@ CREATE TABLE hendelseskategori(
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE hendelser(
-  hendelse_id INT(11) NOT NULL AUTO_INCREMENT,
-  bruker_id INT(11) NOT NULL,
-  hendelseskategori_id INT(11) NOT NULL,
-  overskrift VARCHAR(255) NOT NULL,
-  tid TIMESTAMP NOT NULL,
-  beskrivelse TEXT,
-  sted VARCHAR(255) NOT NULL,
-  bilde VARCHAR(255),
-  lengdegrad DOUBLE,
-  breddegrad DOUBLE,
-  PRIMARY KEY (hendelse_id),
-  FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id),
-  FOREIGN KEY (hendelseskategori_id) REFERENCES hendelseskategori(hendelseskategori_id)
+    hendelse_id INT(11) NOT NULL AUTO_INCREMENT,
+    bruker_id INT(11) NOT NULL,
+    hendelseskategori_id INT(11) NOT NULL,
+    kommune_id INT(11) NOT NULL,
+    overskrift VARCHAR(255) NOT NULL,
+    tid TIMESTAMP NOT NULL,
+    beskrivelse TEXT,
+    sted VARCHAR(255) NOT NULL,
+    bilde VARCHAR(255),
+    lengdegrad DOUBLE,
+    breddegrad DOUBLE,
+    PRIMARY KEY (hendelse_id),
+    FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id),
+    FOREIGN KEY (hendelseskategori_id) REFERENCES hendelseskategori(hendelseskategori_id),
+    FOREIGN KEY (kommune_id) REFERENCES kommuner(kommune_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

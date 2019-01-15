@@ -3,4 +3,22 @@
   margin: 0 auto;
   padding-top: 10px;
   background-color: white;
+  
+}
+
+.valg{
+    border: solid; 
+    
+}
+
+.knappDiv{
+    align-content: center;
+    align-self: center;
+    margin-top: 20 px; 
+    text-align: center;
+    vertical-align: middle;
+}
+
+.knappDiv:button{
+    border: solid;
 }

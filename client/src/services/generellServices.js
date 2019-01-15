@@ -1,11 +1,5 @@
 import api from './api';
 
-export class Kommuner {
-  kommune_id;
-  kommune_navn;
-  fylke_navn;
-}
-
 class GenerellServices {
   
   hentAlleKommuner() {
