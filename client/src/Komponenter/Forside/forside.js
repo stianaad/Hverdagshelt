@@ -9,7 +9,7 @@ export class Forside extends Component {
     return (
       <div>
         <header className="main-header">
-          <Link to="/"><img src="hhlogo.svg" alt="Hverdagshelt logo"/></Link>
+          <Link to="/"><img src="/hhlogo.svg" alt="Hverdagshelt logo"/></Link>
           <Link to="/"><h1>HverdagsHelt</h1></Link>
           <div className="float-right">
             <button
