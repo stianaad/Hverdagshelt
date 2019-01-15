@@ -1,7 +1,6 @@
 import api from './api';
 
 class FeilService {
-
   hentAlleFeil() {
     return api.get('/api/feil');
   }
@@ -11,7 +10,7 @@ class FeilService {
   }
 
   hentBilderTilFeil(feil_id) {
-    return api.get('/api/feil/:feil_id/bilder', feil_id);
+    return api.get('/api/feil/' + feil_id + '/bilder');
   }
 
   lagNyFeil(nyFeil) {
@@ -30,7 +29,6 @@ class FeilService {
     return api.get('/api/feil/:kategori_id', hk_id);
   }
 
-
   lagOppdatering(nyOpp) {
     return api.post('/api/feil/:feil_id/oppdateringer', nyOpp);
   }
@@ -47,13 +45,15 @@ class FeilService {
     return api.get('/api/statuser');
   }
 
-
   hentAlleHovedkategorier() {
     return api.get('/api/hovedkategorier');
   }
 
   hentAlleSubkategorierPaaHovedkategori(hk_id) {
-    return api.get('/api/hovedkategorier/:hovedkategori_id/subkategorier', hk_id)
+    return api.get(
+      '/api/hovedkategorier/:hovedkategori_id/subkategorier',
+      hk_id
+    );
   }
 
   slettBildeFraFeil(info) {
