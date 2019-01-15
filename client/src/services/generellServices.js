@@ -1,11 +1,5 @@
 import api from './api';
 
-export class Kommuner {
-  kommune_id;
-  kommune_navn;
-  fylke_navn;
-}
-
 class GenerellServices {
   
   hentAlleKommuner() {
@@ -21,7 +15,7 @@ class GenerellServices {
   }
 
   hentAlleKategorier() { // hørre ikkje til her (feilservice)
-    return api.get('/api/hentAlleKategorier');
+    return api.get('/api/hentAlleHovedkategorier');
   }
 
   hentFeilFiltrertKategori(kategori_id) { // hørre ikkje til her (feilservice)
@@ -30,6 +24,10 @@ class GenerellServices {
 
   hentAlleHendelser() { // hører til i (hendelseservice)
     return api.get('/api/hentAlleHendelser');
+  }
+
+  hentBilderTilFeil(feil_id){
+    return api.get('/api/hentBilder/'+feil_id);
   }
 }
 

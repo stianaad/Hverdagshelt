@@ -90,3 +90,4 @@ export class Admin extends Bruker  {
     this.navn = navn;
   }
 */
+export let brukerService = new BrukerService();
