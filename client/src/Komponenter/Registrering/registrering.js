@@ -10,11 +10,11 @@ export class Registrering extends Component {
     etternavn: '',
     epost: '',
     passord: '',
-    bekreftPass: '',
+    bekreftPass: ''
   };
   passAdvarsel = '';
-  advarsel =  '';
-  kommune = null;
+  advarsel = '';
+  kommune;
 
   constructor(props) {
     super(props);
@@ -150,10 +150,17 @@ export class Registrering extends Component {
 
     if (this.brukerInput.bekreftPass === this.brukerInput.passord && this.brukerInput.passord.length >= 8) {
       this.advarsel = '';
-      let bruker = new Privat(this.epost, this.passord, 1, this.fornavn, this.etternavn);
+      let bruker = new Privat(
+        0,
+        this.brukerInput.epost,
+        this.brukerInput.passord,
+        this.kommune.current.verdi,
+        this.brukerInput.fornavn,
+        this.brukerInput.etternavn
+      );
 
       brukerService
-        .lagNyBruker(bruker)
+        .lagNyPrivatBruker(bruker)
         .then(history.push('/'))
         .catch(error => Alert.danger(error.message));
     } else {

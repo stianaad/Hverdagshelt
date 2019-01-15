@@ -1,7 +1,6 @@
 import api from './api';
 
 class GenerellServices {
-  
   hentAlleKommuner() {
     return api.get('/api/hentAlleKommuner');
   }
@@ -10,24 +9,28 @@ class GenerellServices {
     return api.get('/api/filtrer/' + sokeord);
   }
 
-  hentAlleFeil() { // denne skal egentlig ikkje ligge her (feilservice)
+  hentAlleFeil() {
+    // denne skal egentlig ikkje ligge her (feilservice)
     return api.get('/api/hentAlleFeil');
   }
 
-  hentAlleKategorier() { // hørre ikkje til her (feilservice)
+  hentAlleKategorier() {
+    // hørre ikkje til her (feilservice)
     return api.get('/api/hentAlleHovedkategorier');
   }
 
-  hentFeilFiltrertKategori(kategori_id) { // hørre ikkje til her (feilservice)
-    return api.get('/api/filtrerKategori/'+kategori_id);
+  hentFeilFiltrertKategori(kategori_id) {
+    // hørre ikkje til her (feilservice)
+    return api.get('/api/filtrerKategori/' + kategori_id);
   }
 
-  hentAlleHendelser() { // hører til i (hendelseservice)
+  hentAlleHendelser() {
+    // hører til i (hendelseservice)
     return api.get('/api/hentAlleHendelser');
   }
 
-  hentBilderTilFeil(feil_id){
-    return api.get('/api/hentBilder/'+feil_id);
+  hentBilderTilFeil(feil_id) {
+    return api.get('/api/hentBilder/' + feil_id);
   }
 }
 
