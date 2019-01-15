@@ -56,10 +56,11 @@ test('legg til ny privatbruker', done => {
       'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
     );
     expect(data.affectedRows).toBe(1);
+    done();
   }
   brukerdao.lagNyPrivatBruker(privatBruker1, callback);
-  done();
-})
+});
+
 
 test('hent brukerid', done => {
   function callback(status, data) {
@@ -67,10 +68,10 @@ test('hent brukerid', done => {
       'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
     );
     expect(data.bruker_id).toBe(10);
+    done();
   }
   brukerdao.finnBrukerid({epost: 'epost10@hotmail.com'}, callback);
-  done();
-})
+});
 
 
 test('hent alle kommuner', done => {
@@ -80,9 +81,9 @@ test('hent alle kommuner', done => {
     );
     console.log(data.length);
     expect(data.length).toBeGreaterThan(200);
+    done();
   }
   generelldao.hentAlleKommuner(callback);
-  done();
 });
 
 test('hent alle feil', done => {
