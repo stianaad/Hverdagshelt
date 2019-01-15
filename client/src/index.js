@@ -14,6 +14,9 @@ import {Login} from './Moduler/login/login'
 import { PositionMap, Marker, MarkerMap, markerTabell } from './Moduler/kart/map';
 import {Hovedside} from './Komponenter/hovedside/hovedside';
 
+import {GlemtPassord} from "../src/Komponenter/GlemtPassord/glemtPassord";
+import {ResettPassord} from "../src/Komponenter/GlemtPassord/resettPassord";
+
 
 import createBrowserHistory from 'history/createBrowserHistory';
 const history = createBrowserHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
@@ -247,6 +250,10 @@ if (root)
         <Route exact path="/registrering" component={Registrering} />
         <Route exact path="/" component={Forside} />
         <Route exact path="/bildetest" component={BildeTest} />
+        <Route exact path="/glemt-passord" component={GlemtPassord}/>
+        <Route exact path="/resett-passord/:token" component={ResettPassord}/>
+        {//<Route exact path="/login" component={Login} />
+        }
         <Route exact path="/mineoppgaver" component={MineOppgaver}/>
         <Route exact path="/login" component={Login} />
         <Route exact path="/kinput" component={komtest} />
