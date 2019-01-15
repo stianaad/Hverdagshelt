@@ -98,3 +98,5 @@ class BrukerService {
 }
 
 export let brukerService = new BrukerService();
+*/
+export let brukerService = new BrukerService();

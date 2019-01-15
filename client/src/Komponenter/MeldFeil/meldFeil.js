@@ -63,7 +63,7 @@ export class MeldFeil extends Component {
                             <td colSpan="2">
                                 <label htmlFor="pos">Posisjon:</label>
                                 <button onClick={this.velgMinPosisjon}>Velg min nåverende posisjon</button>
-                                <PositionMap id="pos" width="300" height="300" id="posmap" center="Trondheim" position={this.posFunksjon} />
+                                <PositionMap id="pos" width="300px" height="300px" center="Trondheim" position={this.posFunksjon} />
                             </td>
                         </tr>
                         <tr>
