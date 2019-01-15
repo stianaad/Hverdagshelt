@@ -56,13 +56,14 @@ module.exports = class FeilDao extends Dao {
     var feil = [
       json.kommune_id,
       json.subkategori_id,
+      json.overskrift,
       json.beskrivelse,
       json.lengdegrad,
       json.breddegrad,
       json.feil_id
     ];
     super.query(
-      'UPDATE feil SET subkategori_id = ?, SET status_id = ?, SET beskrivelse = ?, SET lengdegrad = ?, SET breddegrad = ? WHERE feil_id = ?',
+      'UPDATE feil SET kommune_id = ?, SET subkategori_id = ?, SET overskrift = ?, SET beskrivelse = ?, SET lengdegrad = ?, SET breddegrad = ? WHERE feil_id = ?',
       feil,
       callback
     );
