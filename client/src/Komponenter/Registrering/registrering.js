@@ -10,10 +10,10 @@ export class Registrering extends Component {
     etternavn: '',
     epost: '',
     passord: '',
-    bekreftPass: '',
+    bekreftPass: ''
   };
   passAdvarsel = '';
-  advarsel =  '';
+  advarsel = '';
   kommune;
 
   constructor(props) {
@@ -163,7 +163,6 @@ export class Registrering extends Component {
         .lagNyPrivatBruker(bruker)
         .then(history.push('/'))
         .catch(error => Alert.danger(error.message));
-        
     } else {
       this.advarsel = 'Passord stemmer ikke';
     }
