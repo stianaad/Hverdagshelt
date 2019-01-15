@@ -3,8 +3,12 @@ import api from './api';
 class BrukerService {
 
   lagNyBruker(nyBruker) {
-    return api.post('/api/lagNyBruker', nyBruker);
+    return api.post('/api/brukere', nyBruker);
   }
+
+  lagNyPrivatBruker(nyPrivatBruker) {
+    return api.post('/api/brukere/privat', nyPrivatBruker);
+  } 
 
   endrePassord(nyInformasjon) {
     return api.post('/api/lagNyBruker', nyInformasjon);
@@ -15,79 +19,4 @@ class BrukerService {
   }
   
 }
-
-export let brukerService = new BrukerService();
-/*
-class Bruker {
-  bruker_id;
-  constructor(
-    epost,
-    passord,
-    kommune_id
-  ) {
-    this.epost = epost;
-    this.passord = passord;
-    this.kommune_id = kommune_id;
-  }
-}
-
-module.exports = class Privat extends Bruker {
-  constructor(
-    epost,
-    passord,
-    kommune_id,
-    fornavn,
-    etternavn
-  ) {
-    super(epost, passord, kommune_id);
-    this.fornavn = fornavn;
-    this.etternavn = etternavn; 
-  }
-}
-
-module.exports = class Ansatt extends Bruker {
-  constructor(
-    epost,
-    passord,
-    fornavn, 
-    etternavn,
-    telefon
-  ) {
-    super(epost, passord, kommune_id);
-    this.fornavn = fornavn;
-    this.etternavn = etternavn; 
-    this.telefon = telefon;
-  }
-}
-
-
-export class Bedrift extends Bruker  {
-  constructor(
-    epost,
-    passord,
-    kommune_id,
-    orgnr, 
-    navn,
-    telefon
-  ) {
-    super(epost, passord, kommune_id);
-    this.orgnr = orgnr;
-    this.navn = navn; 
-    this.telefon = telefon;
-  }
-}
-
-export class Admin extends Bruker  {
-  constructor(
-    epost,
-    passord,
-    kommune_id,
-    telefon, 
-    navn
-  ) {
-    super(epost, passord, kommune_id);
-    this.telefon = telefon;
-    this.navn = navn;
-  }
-*/
 export let brukerService = new BrukerService();
