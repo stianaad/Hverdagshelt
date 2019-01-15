@@ -26,8 +26,9 @@ module.exports = class BrukerDao extends Dao {
   }
 
   lagNyAnsattBruker(json, callback) {
-    lagNyBruker(json, (status, data) => {
-      finnBrukerid(json, (status, data) => {
+    let self = this;
+    self.lagNyBruker(json, (status, data) => {
+      self.finnBrukerid(json, (status, data) => {
         super.query('INSERT INTO ansatt VALUES(?,?,?,?)', 
                     [res.json(data),
                     json.fornavn, 
@@ -40,8 +41,9 @@ module.exports = class BrukerDao extends Dao {
   }
 
   lagNyBedriftBruker(json, callback) {
-    lagNyBruker(json, (status, data) => {
-      finnBrukerid(json, (status, data) => {
+    let self = this;
+    self.lagNyBruker(json, (status, data) => {
+      self.finnBrukerid(json, (status, data) => {
         super.query('INSERT INTO bedrift VALUES(?,?,?)', 
                     [res.json(data),
                     json.orgnr, 
@@ -54,8 +56,9 @@ module.exports = class BrukerDao extends Dao {
   }
 
   lagNyAdminBruker(json, callback) {
-    lagNyBruker(json, (status, data) => {
-      finnBrukerid(json, (status, data) => {
+    let self = this;
+    self.lagNyBruker(json, (status, data) => {
+      self.finnBrukerid(json, (status, data) => {
         super.query('INSERT INTO admin VALUES(?,?,?)', 
                     [res.json(data),
                     json.telefon, 
