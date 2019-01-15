@@ -2,21 +2,29 @@ import * as React from 'react';
 import { Component } from 'react-simplified';
 import { brukerService } from '../../services/brukerService';
 import { Privat } from '../../objekter.js';
+import { KommuneInput } from '../../Moduler/kommuneInput/kommuneInput';
 
 export class Registrering extends Component {
-  fornavn = '';
-  etternavn = '';
-  epost = '';
-  passord = '';
-  bekreftPass = '';
-  passAdvarsel = '';
-  advarsel = '';
-  kommune = 0;
+
+  brukerInput = {
+    fornavn: '',
+    etternavn: '',
+    epost: '',
+    passord: '',
+    bekreftPass: '',
+    passAdvarsel: '',
+    advarsel: '',
+  }
+  kommune = null;
+
+  constructor(props) {
+    super(props);
+    this.kommune = React.createRef();
+  }
 
   render() {
     return (
       <div className="container">
-        <form>
           <div className="row">
             <div className="col">
               <div className="form-group">
@@ -25,7 +33,9 @@ export class Registrering extends Component {
                   type="text"
                   className="form-control"
                   placeholder="Fornavn"
-                  onChange={e => (this.fornavn = e.target.value)}
+                  value = {this.brukerInput.fornavn}
+                  onChange={this.endreVerdi}
+                  name = "fornavn"
                   required={true}
                 />
               </div>
@@ -37,7 +47,9 @@ export class Registrering extends Component {
                   type="text"
                   className="form-control"
                   placeholder="Etternavn"
-                  onChange={e => (this.etternavn = e.target.value)}
+                  value = {this.brukerInput.etternavn}
+                  onChange={this.endreVerdi}
+                  name = "etternavn"
                   required={true}
                 />
               </div>
@@ -51,9 +63,17 @@ export class Registrering extends Component {
                   type="text"
                   className="form-control"
                   placeholder="E-post"
-                  onChange={e => (this.epost = e.target.value)}
+                  value = {this.brukerInput.epost}
+                  onChange={this.endreVerdi}
+                  name = "epost"
                   required={true}
                 />
+              </div>
+            </div>
+            <div className="col">
+              <div className="form-group">
+                <label>Skriv inn din kommune: </label>
+                <KommuneInput ref = {this.kommune}/>
               </div>
             </div>
           </div>
@@ -64,7 +84,9 @@ export class Registrering extends Component {
                 <input
                   type="password"
                   className="form-control"
-                  onChange={e => (this.passord = e.target.value)}
+                  value = {this.brukerInput.passord}
+                  onChange={this.endreVerdi}
+                  name = "passord"
                   required={true}
                 />
                 <label>{this.passAdvarsel}</label>
@@ -77,7 +99,9 @@ export class Registrering extends Component {
                   type="password"
                   className="form-control"
                   required={true}
-                  onChange={e => (this.bekreftPass = e.target.value)}
+                  value = {this.brukerInput.bekreftPass}
+                  onChange={this.endreVerdi}
+                  name = "bekreftPass"
                 />
                 <label id="passordSjekk">{this.advarsel}</label>
               </div>
@@ -109,23 +133,20 @@ export class Registrering extends Component {
           </div>
           <br />
           <div className="row knappDiv">
-            <button type="submit" className="btn btn-primary" onClick={this.lagre}>
+            <button id = "registrer" className="btn btn-primary" onClick={this.lagre}>
               Registrer deg
             </button>
-            <button type="cancel" className="btn btn-secondary">
+            <button id = "avbryt" className="btn btn-secondary">
               Avbryt
             </button>
           </div>
-        </form>
       </div>
     );
   }
 
   lagre() {
-    console.log(this.fornavn);
-    console.log(this.passord);
-    console.log(this.bekreftPass);
-
+    console.log(this.brukerInput);
+    /*
     if (this.passord.length < 8) {
       this.passAdvarsel = 'Passord må være minst 8 tegn';
     }
@@ -140,10 +161,13 @@ export class Registrering extends Component {
         .catch(error => Alert.danger(error.message));
     } else {
       this.advarsel = 'Passord stemmer ikke';
-    }
+    }*/
   }
 
-  /*visKommuner() {
-    document.getElementById('nedtrekk').classList.toggle('show');
-  }*/
+  endreVerdi(e) {
+    const target = e.target;
+    const value = target.type === 'checkbox' ? (target.checked ? 1 : 0) : target.value;
+    const name = target.name;
+    this.brukerInput[name] = value;
+  }
 }
