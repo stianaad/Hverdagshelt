@@ -49,7 +49,7 @@ afterAll(() => {
   pool.end();
 });
 
-/*
+
 test('legg til ny privatbruker', done => {
   function callback(status, data) {
     console.log(
@@ -71,7 +71,7 @@ test('hent brukerid', done => {
   brukerdao.finnBrukerid({epost: 'epost10@hotmail.com'}, callback);
   done();
 })
-*/
+
 
 test('hent alle kommuner', done => {
   function callback(status, data){
