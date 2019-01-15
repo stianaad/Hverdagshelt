@@ -1,0 +1,40 @@
+.pageHeader {
+    height:100px;
+    width:100%;
+    background-color:#fff;
+    border-bottom: 2px solid #eee;
+}
+
+.pageHeaderLogo {
+    height:100%;
+    padding:10px;
+}
+
+.profileIcon {
+    height:100%;
+    display: inline;
+}
+
+.headKomWrapper {
+    width:200px;
+    display:inline;
+    margin: auto 20px;
+}
+
+.pageHeaderRight {
+
+    float: right;
+    padding:20px;
+    height: 100%;
+    display:inline-flex;
+}
+
+.headKomWrapper div input {
+    font-size: 14px;
+    height: 40px;
+}
+
+.headKomWrapper div ul li a {
+    font-size: 14px;
+    padding: 5px;
+}
