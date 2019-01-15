@@ -32,7 +32,7 @@ let brukerdao = new BrukerDao(pool);
 const privatBruker1 = {
   epost: 'ø@g.com',
   passord: '1234567890',
-  kommune_id: 5,
+  kommune_id: 378,
   fornavn: 'Øivind',
   etternavn: 'Larsson'
 }
