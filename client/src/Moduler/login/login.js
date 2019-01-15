@@ -14,8 +14,8 @@ export class Login extends Component {
   render() {
     return (
       <div className="dropdown">
-        <button type="button" className="btn btn-default navbar-btn" data-toggle="dropdown">
-          Login
+        <button type="button" className="logginnbutton btn btn-light border border-dark" data-toggle="dropdown">
+          Logg inn
         </button>
         <div className="dropdown-menu dropdown-menu-right dropdownbox">
           <div className="form-group">
