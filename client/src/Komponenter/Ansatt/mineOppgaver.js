@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
 import {Card, Feed, Grid, Button, Header, Icon, Image, Modal} from 'semantic-ui-react';
-import {FeedEvent, Filtrer} from '../../Moduler/cardfeed'
+import {FeedEvent, Filtrer, Info} from '../../Moduler/cardfeed'
 
 export class MineOppgaver extends Component{
     render(){
@@ -10,9 +10,7 @@ export class MineOppgaver extends Component{
                 <Modal trigger={<Button>Show Modal</Button>} size="small" centered={true}>
                     <Modal.Header>Header</Modal.Header>
                     <Modal.Content>
-                        <p>
-                            Dette er et avsnitt hvor jeg gjør hva jeg vil!!
-                        </p>
+                        <Info/>
                     </Modal.Content>
                 </Modal>
                 <h1>
