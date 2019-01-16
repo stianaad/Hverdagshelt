@@ -21,7 +21,7 @@ export class KommuneVelger extends Component {
     render() {
         return(
             <div className="komBoks">
-                <input ref={this.in} className="komSok form-control" value={this.sok} onChange={this.oppdaterSok} type="text"></input>
+                <input ref={this.in} style={this.listesyn ? {borderBottomLeftRadius:"0px", borderBottomRightRadius:"0px"} : {}} className="form-control input-lg komSok" value={this.sok} placeholder="Finn din kommune.." onChange={this.oppdaterSok} type="text"></input>
                 <ul ref={this.boks} className="komListe" style={{display: this.listesyn ? "block" : "none"}}>
                     {this.kommuner_filtrert.map((kommune, i) => (
                         <li key={kommune.kommune_id} className={(i==this.valgt_index) ? "komElement komValgt" : "komElement"}><Link to={"/hovedside/"+kommune.kommune_navn.toLowerCase()}>{kommune.kommune_navn}</Link></li>
@@ -87,7 +87,7 @@ export class KommuneVelger extends Component {
 
             
 
-            this.listesyn = true;
+            this.listesyn = (this.kommuner_filtrert.length > 0);
         } else {
             this.listesyn = false;
         }

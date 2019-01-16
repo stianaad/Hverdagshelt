@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Component } from 'react-simplified';
-import { brukerService } from '../../services/brukerService';
-import { Privat } from '../../objekter.js';
-import { KommuneInput } from '../../Moduler/kommuneInput/kommuneInput';
+import {Component} from 'react-simplified';
+import {brukerService} from '../../services/brukerService';
+import {Privat} from '../../objekter.js';
+import {KommuneInput} from '../../Moduler/kommuneInput/kommuneInput';
 
 export class Registrering extends Component {
   brukerInput = {
@@ -13,8 +13,8 @@ export class Registrering extends Component {
     bekreftPass: '',
   };
   passAdvarsel = '';
-  advarsel =  '';
-  kommune = null;
+  advarsel = '';
+  kommune;
 
   constructor(props) {
     super(props);
@@ -106,23 +106,40 @@ export class Registrering extends Component {
             </div>
           </div>
         </div>
+        {/*
+
         <div className="valg">
           <p>Hva ønsker du å bli varslet om i din kommune?</p>
           <br />
           <div className="form-check">
-            <input className="form-check-input" type="checkbox" value="" id="defaultCheck1" />
+            <input
+              className="form-check-input"
+              type="checkbox"
+              value=""
+              id="defaultCheck1"
+            />
             <label className="form-check-label" htmlFor="defaultCheck1">
               Planlagt strømbrudd
             </label>
           </div>
           <div className="form-check">
-            <input className="form-check-input" type="checkbox" value="" id="defaultCheck2" />
+            <input
+              className="form-check-input"
+              type="checkbox"
+              value=""
+              id="defaultCheck2"
+            />
             <label className="form-check-label" htmlFor="defaultCheck3">
               Planlagt vann- og avløpsarbeid
             </label>
           </div>
           <div className="form-check">
-            <input className="form-check-input" type="checkbox" value="" id="defaultCheck3" />
+            <input
+              className="form-check-input"
+              type="checkbox"
+              value=""
+              id="defaultCheck3"
+            />
             <label className="form-check-label" htmlFor="defaultCheck3">
               Konserter
             </label>
@@ -130,9 +147,14 @@ export class Registrering extends Component {
           <br />
           <p>Du kan endre varselinnstillinger på MinSide senere.</p>
         </div>
+        */}
         <br />
         <div className="row knappDiv">
-          <button id="registrer" className="btn btn-primary" onClick={this.lagre}>
+          <button
+            id="registrer"
+            className="btn btn-primary"
+            onClick={this.lagre}
+          >
             Registrer deg
           </button>
           <button id="avbryt" className="btn btn-secondary">
@@ -148,14 +170,24 @@ export class Registrering extends Component {
       this.passAdvarsel = 'Passord må være minst 8 tegn';
     }
 
-    if (this.brukerInput.bekreftPass === this.brukerInput.passord && this.brukerInput.passord.length >= 8) {
+    if (
+      this.brukerInput.bekreftPass === this.brukerInput.passord &&
+      this.brukerInput.passord.length >= 8
+    ) {
       this.advarsel = '';
-      let bruker = new Privat(this.epost, this.passord, 1, this.fornavn, this.etternavn);
+      let bruker = new Privat(
+        0,
+        this.brukerInput.epost,
+        this.brukerInput.passord,
+        this.kommune.current.verdi,
+        this.brukerInput.fornavn,
+        this.brukerInput.etternavn
+      );
 
-      brukerService
-        .lagNyBruker(bruker)
-        .then(history.push('/'))
-        .catch(error => Alert.danger(error.message));
+      brukerService.lagNyPrivatBruker(bruker).then((res) => {
+        console.log(res.status);
+        //this.props.history.push('/');
+      });
     } else {
       this.advarsel = 'Passord stemmer ikke';
     }
@@ -163,7 +195,8 @@ export class Registrering extends Component {
 
   endreVerdi(e) {
     const target = e.target;
-    const value = target.type === 'checkbox' ? (target.checked ? 1 : 0) : target.value;
+    const value =
+      target.type === 'checkbox' ? (target.checked ? 1 : 0) : target.value;
     const name = target.name;
     this.brukerInput[name] = value;
   }
