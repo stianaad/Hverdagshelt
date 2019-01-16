@@ -115,8 +115,8 @@ router.post("/api/sjekkPassord",(req,res) => {
           console.log("false1");
           res.json({"result": false});
         } else {
-          console.log("true");
-          res.json({"result": true});
+          console.log(data[0].bruker_id);
+          res.json({"result": true,"bruker_id": data[0].bruker_id});
         }
       });
     } else{
@@ -215,6 +215,32 @@ router.get('/brukere/:bruker_id/nyttpassord', (req, res) => {
     }
   });
 });
+
+router.get('/api/bruker/minside/:bruker_id',(req,res)=> {
+  console.log('/bruker/minside/:bruker_id fikk get request fra klient')
+  brukerDao.finnFeilTilBruker(req.params.bruker_id,(status,data) => {
+    res.status(status);
+    res.json(data);
+  })
+})
+
+router.get('/api/bruker/finnFolgteFeil/:bruker_id',(req,res)=> {
+  console.log('/api/bruker/finnFolgteFeil/:bruker_id fikk get request fra klient')
+  brukerDao.finnFolgteFeilTilBruker(req.params.bruker_id,(status,data) => {
+    res.status(status);
+    res.json(data);
+  })
+})
+
+router.get('/api/bruker/finnfolgteHendelser/:bruker_id',(req,res)=> {
+  console.log('/api/bruker/finnfolgteHendelser/:bruker_id fikk get request fra klient')
+  brukerDao.finnFolgteHendelserTilBruker(req.params.bruker_id,(status,data) => {
+    res.status(status);
+    res.json(data);
+  })
+})
+
+
 
 router.get('/resetPassord/:token', (req, res) => {
   console.log('Reset passord');
