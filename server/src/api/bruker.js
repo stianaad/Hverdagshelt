@@ -13,19 +13,6 @@ import async from 'async';
 let brukerDao = new BrukerDao(pool);
 let glemt = new Epost();
 
-/*
- * Generelle metoder brukt i endepunktene
- */
-
-// Metode for å lage et enkelt token med tidskvant på 1 time
-const token = () => {
-  return jwt.sign(
-    {
-      exp: Math.floor(Date.now() / 1000) + 60 * 60,
-    },
-    'secret'
-  );
-};
 
 // Hashe passord
 
