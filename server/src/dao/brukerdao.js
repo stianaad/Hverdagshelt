@@ -105,4 +105,12 @@ module.exports = class BrukerDao extends Dao {
     const tabell = [json.passord, json.epost];
     super.query('UPDATE bruker SET passord=? WHERE epost=?', tabell, callback);
   }
+
+  hentBrukerRolle(json, callback) {
+    let a = [json.bruker_id];
+    console.log(a + 'hentBrukerRolle');
+    super.query('SELECT EXISTS( SELECT * FROM admin WHERE bruker_id = ?) AS admin, EXISTS( SELECT * FROM ansatt WHERE bruker_id = ?) AS ansatt, EXISTS( SELECT * FROM bedrift WHERE bruker_id = ?) AS bedrift, EXISTS( SELECT * FROM privat WHERE bruker_id = ?) AS privatbruker',
+    [a, a, a, a],
+    callback);
+  };
 };

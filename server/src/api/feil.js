@@ -53,6 +53,7 @@ router.post('/api/feil', upload.array('bilder', 10), (req, res) => {
 
   let a = {
     kommune_id: req.body.kommune_id,
+    bruker_id: 1,//dette skal serveren finne ut av selv ut i fra token
     subkategori_id: req.body.subkategori_id,
     overskrift: req.body.overskrift,
     beskrivelse: req.body.beskrivelse,
@@ -60,20 +61,28 @@ router.post('/api/feil', upload.array('bilder', 10), (req, res) => {
     breddegrad: req.body.breddegrad,
   };
 
-  feilDao.lagNyFeil(a, (status, data) => {
+  feilDao.lagNyFeil(a, (status1, data) => {
     console.log('Opprettet en ny feil');
     let feil_id = data.insertId;
-    if (req.files && req.files.length > 0) {
-      bildeOpplasting.lastOpp(req.files, (bilder) => {
-        feilDao.leggTilBilder(feil_id, bilder, (status, data) => {
-          res.status(status);
-          res.send();
-        });
-      });
-    } else {
-      res.status(status);
-      res.send();
+    let o = {
+      feil_id: feil_id,
+      kommentar: 'Sak opprettet',
+      status_id: 1,
+      bruker_id: null
     }
+    feilDao.lagOppdatering(o,(status2, data) => {
+      if (req.files && req.files.length > 0) {
+        bildeOpplasting.lastOpp(req.files, (bilder) => {
+          feilDao.leggTilBilder(feil_id, bilder, (status3, data) => {
+            res.status(status3);
+            res.send();
+          });
+        });
+      } else {
+        res.status(status2);
+        res.send();
+      }
+    });
   });
 });
 

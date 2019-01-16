@@ -18,11 +18,7 @@ app.use(hendelse);
 
 import jwt from 'jsonwebtoken';
 import secret from './config.json';
-import {checkToken} from './middleware.js';
-import BrukerDao from './dao/brukerdao';
-import {pool} from '../test/poolsetup';
-
-let brukerdao = new BrukerDao(pool);
+import {checkToken, createToken} from './middleware.js';
 
 app.get('/api', (req, res) => {
   res.json({
@@ -33,28 +29,11 @@ app.get('/api', (req, res) => {
 app.post('/api/posts', checkToken, (req, res) => {
   res.json({
     Message: 'Sugmeg'
-  })
+  });
 });
 
-app.post('/api/login1', (req, res) => {
-  let e = { epost: req.body.epost };
-  brukerdao.hentBruker(e, (status, data) => {
-    brukerdao.hentBrukerRolle(data, (status, data) =>{
-      let rolle = { role: ''};
-
-      if      (data.privatbruker == 1)  { rolle.role = 'privatbruker'; }
-      else if (data.ansatt == 1)        { rolle.role = 'ansatt'; }
-      else if (data.bedrift == 1)       { rolle.role = 'bedrift'; }
-      else                              { rolle.role = 'admin'; }
-
-      jwt.sign({user: user, role: rolle.role}, secret.secret, { expiresIn: '1m' }, (err, token) => {
-        console.log(err);
-        res.json({
-          token: token
-        });
-      });
-    });
-  });
+app.post('/api/login1', createToken, (req, res) => {
+  res.json({ Message: 'login ok', token})
 });
 
 app.get('*', (req, res) => {

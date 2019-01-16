@@ -20,7 +20,6 @@ import {PageHeader} from './Moduler/header/header'
 import {GlemtPassord} from "../src/Komponenter/GlemtPassord/glemtPassord";
 import {ResettPassord} from "../src/Komponenter/GlemtPassord/resettPassord";
 
-
 import createBrowserHistory from 'history/createBrowserHistory';
 const history = createBrowserHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
 
@@ -132,7 +131,7 @@ if (root)
       <div>
         <Route exact path="/hovedside/:kommune" component={Hovedside} history={history}/>
         <Route exact path="/kommunevalgtest" component={KommuneVelger} history={history}/>
-        <Route exact path="/meld-feil" component={MeldFeil} />
+        <Route exact path="/meld-feil" component={MeldFeil} history={history}/>
         <Route exact path="/nyheter" component={Menu} />
         <Route exact path="/registrering" component={Registrering} history={history} />
         <Route exact path="/" component={Forside} history={history}/>
