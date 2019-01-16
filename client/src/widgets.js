@@ -5,11 +5,8 @@ import * as React from 'react';
 import { Component } from 'react-simplified';
 import { NavLink } from 'react-router-dom';
 import L from 'leaflet';
-<<<<<<< HEAD
 import { FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
-=======
 import ReactDOMServer from 'react-dom/server';
->>>>>>> ae679ee1e3230df7fc9bdf5485b9348b98320175
 
 class Feil {
   feil_id = null;
@@ -42,7 +39,7 @@ class Feil {
     this.breddegrad = breddegrad;
   }
 }
-<<<<<<< HEAD
+
 /**
  * Marker for kart, må legges til i en MarkerMap. Sendes vanligvis til karter og den legger det til automatisk.
  * @example
@@ -181,8 +178,6 @@ export class PositionMap extends Component {
     )
   }
 }
-=======
->>>>>>> ae679ee1e3230df7fc9bdf5485b9348b98320175
 
 /**
  * Renders alert messages using Bootstrap classes.
@@ -268,19 +263,66 @@ export class GronnKnapp extends Component {
   }
 }
 
-export class Droppboks extends Component <{value: json, inputRef: (node: SyntheticInputEvent<HTMLInputElement>) => mixed}> {
+export class Droppboks extends Component <{value: json, onChange: onchange, inputRef: (node: SyntheticInputEvent<HTMLInputElement>) => mixed}> {
+  render() {
+    return (
+      <div>
+        <FormGroup controlId="formControlsSelect">
+            <FormControl componentClass="select" onChange={this.props.onChange} inputRef={this.props.inputRef}>
+              {this.props.value.map(json => (
+                <option key={json.hovedkategori_id} value={json.hovedkategori_id}>{json.kategorinavn}</option>
+                ))}
+            </FormControl>
+        </FormGroup>
+      </div>
+      );
+  }
+}
+
+export class Droppbokss extends Component <{value: json, inputRef: (node: SyntheticInputEvent<HTMLInputElement>) => mixed}> {
   render() {
     return (
       <div>
         <FormGroup controlId="formControlsSelect">
             <FormControl componentClass="select" inputRef={this.props.inputRef}>
               {this.props.value.map(json => (
-                <option key={json.id} value={json.id}>{json.navn}</option>
+                <option key={json.subkategori_id} value={json.subkategori_id}>{json.kategorinavn}</option>
                 ))}
             </FormControl>
         </FormGroup>
       </div>
       );
+  }
+}
+
+export class FormInput extends Component<{
+  type: string,
+  label: React.Node,
+  value: mixed,
+  onChange: (event: SyntheticInputEvent<HTMLInputElement>) => mixed,
+  required?: boolean,
+  pattern?: string,
+  placeholder?: string
+}> {
+  render() {
+    return (
+      <div id="radene" className="form-group row">
+        <div id="hode">
+          {this.props.label}
+        </div>
+        <div id="tekstrad" className="col-sm-12">
+          <input
+            className="form-control"
+            type={this.props.type}
+            value={this.props.value}
+            onChange={this.props.onChange}
+            required={this.props.required}
+            placeholder={this.props.placeholder}
+            pattern={this.props.pattern}
+          />
+        </div>
+      </div>
+    );
   }
 }
 

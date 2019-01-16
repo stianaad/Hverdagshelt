@@ -53,7 +53,7 @@ class FeilService {
   }
 
   hentAlleSubkategorierPaaHovedkategori(hk_id) {
-    return api.get('/api/hovedkategorier/:hovedkategori_id/subkategorier', hk_id)
+    return api.get('/api/hovedkategorier/'+hk_id+'/subkategorier')
   }
 }
 
