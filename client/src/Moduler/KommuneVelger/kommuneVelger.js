@@ -40,6 +40,10 @@ export class KommuneVelger extends Component {
     inputup (e) {
         if (e.key == "Enter") {
             this.props.history.push("/hovedside/"+this.kommuner_filtrert[this.valgt_index].kommune_navn.toLowerCase());
+            this.sok = "";
+            this.kommuner_filtrert = [];
+            this.listesyn = false;
+            this.valgt_index = 0;
         } else if (e.key == "ArrowDown") { //NED
             e.preventDefault();
             this.valgt_index++;
