@@ -1,7 +1,9 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
 import {brukerService} from '../../services/brukerService';
+import {PageHeader} from '../../Moduler/header/header';
 import {Privat} from '../../objekter.js';
+
 import {KommuneInput} from '../../Moduler/kommuneInput/kommuneInput';
 
 export class Registrering extends Component {
@@ -23,6 +25,8 @@ export class Registrering extends Component {
 
   render() {
     return (
+      <>
+      <PageHeader history={this.props.history}/>
       <div className="container">
         <div className="row">
           <div className="col">
@@ -162,6 +166,7 @@ export class Registrering extends Component {
           </button>
         </div>
       </div>
+      </>
     );
   }
 

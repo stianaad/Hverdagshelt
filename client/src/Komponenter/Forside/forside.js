@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Login } from '../../Moduler/login/login'
 import { KommuneVelger } from '../../Moduler/KommuneVelger/kommuneVelger';
+import { Link } from 'react-router-dom';
 
 export class Forside extends Component {
 
@@ -8,15 +9,13 @@ export class Forside extends Component {
     return (
       <div>
         <header className="main-header">
-          <img
-            src="hhlogo.svg"
-            alt="Hverdagshelt logo"
-          />
-          <h1>HverdagsHelt</h1>
+          <Link to="/"><img src="/hhlogo.svg" alt="Hverdagshelt logo"/></Link>
+          <Link to="/"><h1>HverdagsHelt</h1></Link>
           <div className="float-right">
             <button
               type="button"
               className="main-header-button btn btn-danger border border-dark mr-4"
+              onClick={() => {this.props.history.push("/meld-feil")}}
             >
               Meld inn feil
           </button>
@@ -26,7 +25,7 @@ export class Forside extends Component {
             >
               Hendelser
           </button>
-          <div className="main-header-buttons d-inline-block"> <Login /></div>
+          <div className="main-header-buttons d-inline-block"> <Login history={this.props.history}/></div>
           </div>
         </header>
         <div className="main-center">

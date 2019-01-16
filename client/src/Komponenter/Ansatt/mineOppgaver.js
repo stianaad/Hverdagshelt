@@ -1,6 +1,11 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
+<<<<<<< HEAD
 import {Card, Feed, Grid, Button, Header, Icon, Image, Modal, Segment, List} from 'semantic-ui-react';
+=======
+import {PageHeader} from '../../Moduler/header/header';
+import {Card, Feed, Grid, Button, Header, Icon, Image, Modal} from 'semantic-ui-react';
+>>>>>>> 8ac9232db5d240b06c3ed24d69da54338e372112
 import {FeedEvent, Filtrer, Info} from '../../Moduler/cardfeed'
 import {feilService} from '../../services/feilService';
 import {markerTabell,ShowMarkerMap } from '../../Moduler/kart/map';
@@ -54,6 +59,8 @@ export class MineOppgaver extends Component{
 
     render(){
         return(
+            <>
+            <PageHeader history={this.props.history}/>
             <div className="container">
                 <Modal open={this.state.open} onClose={this.handleClose} size="small" centered={true} closeIcon>
                     <Modal.Header>
@@ -193,6 +200,7 @@ export class MineOppgaver extends Component{
                     </div>
                 </div>
             </div>
+            </>
         );
     }
 

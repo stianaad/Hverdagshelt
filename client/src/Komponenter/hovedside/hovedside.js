@@ -267,7 +267,7 @@ export class Hovedside extends Component {
                               </ul>
                             </nav>
                           </div>
-                                  </div>*/}
+                      </div>*/}
                   </div>
                 </div>
             </div>
