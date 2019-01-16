@@ -40,12 +40,12 @@ export class FeedEvent extends Component{
                 {(this.props.status !== "Under behandling") ? ((this.props.status === 'Ikke godkjent') ? (<Feed.Label image={"/warningicon.png"}/>)
                                 : (<Feed.Label image={"/successicon.png"}/>)) : (<Feed.Label image={"/processingicon.png"}/>)}
                     <Feed.Content >
-                    <a onClick={this.props.onClick}>
-                        {this.dato(this.props.tid)}
-                        <Feed.Summary>
-                            {this.props.children}
-                        </Feed.Summary>
-                        <span><i>{this.props.kategori}</i></span>
+                        <a onClick={this.props.onClick}>
+                            {this.dato(this.props.tid)}
+                            <Feed.Summary>
+                                {this.props.children}
+                            </Feed.Summary>
+                            <span><i>{this.props.kategori}</i></span>
                         </a>
                     </Feed.Content>
                 </Feed.Event>

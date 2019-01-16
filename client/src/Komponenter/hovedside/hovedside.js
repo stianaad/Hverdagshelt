@@ -121,7 +121,6 @@ export class Hovedside extends Component {
     return (
       <div>
         <h1 className="text-center">{this.props.match.params.kommune} </h1>
-        {!this.visHendelser ? (
           <div className="row mt-5">
             <div className="col-sm-4 ">
               <div className="ml-3">
@@ -193,7 +192,109 @@ export class Hovedside extends Component {
               </div>
             </div>
             <div className="col-sm-8">
-              {this.visFeil ? (
+                <div className="row">
+                  <div className="col-sm-6 text-center">
+                    <button
+                      type="button"
+                      className="btn btn-danger border border-dark"
+                    >
+                      Meld inn feil
+                    </button>
+                    <div className="mt-5">
+                      <MarkerMap
+                        width="100%"
+                        height="300px"
+                        id="test"
+                        center="Oslo"
+                        markers={this.markers}
+                        onRef={(ref) => (this.kart = ref)}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-sm-6">
+                    <h5>Kommende hendelser</h5>
+                    <div className="mr-3 mt-5">
+                      <Card fluid="true">
+                        <Card.Content>
+                          <Card.Header>
+                            <Grid>
+                              <Grid.Column width={12}>
+                                Kommende hendelser
+                              </Grid.Column>
+                              <Grid.Column width={4} />
+                            </Grid>
+                          </Card.Header>
+                        </Card.Content>
+                        <Card.Content>
+                          <Feed>
+                            {this.alleHendelser.map((hendelse) => (
+                              <FeedHendelse
+                                onClick={() => {
+                                  this.visHendelser = true;
+                                  this.visEnHendelse(hendelse);
+                                }}
+                                //status ={feil.status}
+                                tid={hendelse.tid}
+                                kategori={hendelse.kategorinavn}
+                              >
+                                {hendelse.overskrift}
+                              </FeedHendelse>
+                            ))}
+                          </Feed>
+                        </Card.Content>
+                      </Card>
+                    </div>
+                    {/*
+                        <div className="ml-3">
+                          <h5>Kommende hendelser
+                          </h5>
+                          <br/>
+                          <div className="kanter">
+                            <nav>
+                              <ul className="list-group">
+                                  <li className="kanter lister">
+                                    I dag</li>
+                                  {this.alleHendelser.map(tabell => (
+                                    <li className="kanter lister">
+                                    <p onClick = {() => {this.visHendelser = true;this.visEnHendelse({overskrift: tabell.overskrift,beskrivelse: tabell.beskrivelse,tid: tabell.tid,bilde: tabell.bilde,sted: tabell.sted})}}>
+                                        {tabell.overskrift}
+                                        <br/>
+                                        <i>konsert</i>
+                                        <span className='float-right'>{tabell.tid}</span>
+                                    </p>
+                                    </li>
+                                  ))}
+                              </ul>
+                            </nav>
+                          </div>
+                                  </div>*/}
+                  </div>
+                </div>
+            </div>
+          </div>
+      </div>
+    );
+  }
+  posFunksjon() {
+    console.log('hei');
+  }
+
+  async mounted() {
+    let res1 = await feilService.hentAlleFeil();
+    this.alleFeil = await res1.data;
+    this.aktiveFeil = await res1.data;
+    await console.log(res1.data);
+
+    let res2 = await feilService.hentAlleHovedkategorier();
+    this.alleKategorier = await res2.data;
+    await console.log(res2.data);
+
+    let res3 = await hendelseService.hentAlleHendelser();
+    this.alleHendelser = await res3.data;
+    await console.log(res3.data);
+  }
+
+  /*{this.visFeil ? (
                 <div className="mt-5 mr-5">
                   <div className="card">
                     <div className="card-body">
@@ -283,89 +384,8 @@ export class Hovedside extends Component {
                   </div>
                 </div>
               ) : (
-                <div className="row">
-                  <div className="col-sm-6 text-center">
-                    <button
-                      type="button"
-                      className="btn btn-danger border border-dark"
-                    >
-                      Meld inn feil
-                    </button>
-                    <div className="mt-5">
-                      <MarkerMap
-                        width="100%"
-                        height="300px"
-                        id="test"
-                        center="Oslo"
-                        markers={this.markers}
-                        onRef={(ref) => (this.kart = ref)}
-                      />
-                    </div>
-                  </div>
-                  <div className="col-sm-6">
-                    <h5>Kommende hendelser</h5>
-                    <div className="mr-3 mt-5">
-                      <Card fluid="true">
-                        <Card.Content>
-                          <Card.Header>
-                            <Grid>
-                              <Grid.Column width={12}>
-                                Kommende hendelser
-                              </Grid.Column>
-                              <Grid.Column width={4} />
-                            </Grid>
-                          </Card.Header>
-                        </Card.Content>
-                        <Card.Content>
-                          <Feed>
-                            {this.alleHendelser.map((hendelse) => (
-                              <FeedHendelse
-                                onClick={() => {
-                                  this.visHendelser = true;
-                                  this.visEnHendelse(hendelse);
-                                }}
-                                //status ={feil.status}
-                                tid={hendelse.tid}
-                                kategori={hendelse.kategorinavn}
-                              >
-                                {hendelse.overskrift}
-                              </FeedHendelse>
-                            ))}
-                          </Feed>
-                        </Card.Content>
-                      </Card>
-                    </div>
-                    {/*
-                        <div className="ml-3">
-                          <h5>Kommende hendelser
-                          </h5>
-                          <br/>
-                          <div className="kanter">
-                            <nav>
-                              <ul className="list-group">
-                                  <li className="kanter lister">
-                                    I dag</li>
-                                  {this.alleHendelser.map(tabell => (
-                                    <li className="kanter lister">
-                                    <p onClick = {() => {this.visHendelser = true;this.visEnHendelse({overskrift: tabell.overskrift,beskrivelse: tabell.beskrivelse,tid: tabell.tid,bilde: tabell.bilde,sted: tabell.sted})}}>
-                                        {tabell.overskrift}
-                                        <br/>
-                                        <i>konsert</i>
-                                        <span className='float-right'>{tabell.tid}</span>
-                                    </p>
-                                    </li>
-                                  ))}
-                              </ul>
-                            </nav>
-                          </div>
-                                  </div>*/}
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        ) : (
-          <div className="row mt-5">
+  
+  <div className="row mt-5">
             <div className="col-sm-8 ">
               <div className="mt-5 ml-5">
                 <div className="card">
@@ -473,29 +493,7 @@ export class Hovedside extends Component {
                 </Card>
               </div>
             </div>
-          </div>
-        )}
-      </div>
-    );
-  }
-  posFunksjon() {
-    console.log('hei');
-  }
-
-  async mounted() {
-    let res1 = await feilService.hentAlleFeil();
-    this.alleFeil = await res1.data;
-    this.aktiveFeil = await res1.data;
-    await console.log(res1.data);
-
-    let res2 = await feilService.hentAlleHovedkategorier();
-    this.alleKategorier = await res2.data;
-    await console.log(res2.data);
-
-    let res3 = await hendelseService.hentAlleHendelser();
-    this.alleHendelser = await res3.data;
-    await console.log(res3.data);
-  }
+          </div> */
 }
 
 class Tabell extends Component {

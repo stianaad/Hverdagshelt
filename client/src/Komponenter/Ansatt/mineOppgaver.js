@@ -19,6 +19,10 @@ export class MineOppgaver extends Component{
         beskrivelse: ""
     }; 
 
+    classNye = 'hoyde-tabell'; 
+    classUnderB = 'hoyde-tabell'; 
+    classFerdig = 'hoyde-tabell'; 
+
     state = {
         open: false
     }
@@ -51,14 +55,16 @@ export class MineOppgaver extends Component{
     render(){
         return(
             <div className="container">
-                <Modal open={this.state.open} onClose={this.handleClose} size="small" centered={true}>
-                    <Modal.Header>{this.valgtFeil.overskrift}</Modal.Header>
+                <Modal open={this.state.open} onClose={this.handleClose} size="small" centered={true} closeIcon>
+                    <Modal.Header>
+                        {this.valgtFeil.overskrift}
+                    </Modal.Header>
                     <Modal.Content>
                         <div>
                             <Grid columns={3} divided>
                                 <Grid.Row stretched> 
                                     <Grid.Column>
-                                        <p>{this.valgtFeil.beskrivelse}</p>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam porttitor quam eget enim pharetra faucibus. Nam porttitor commodo justo et congue. Aliquam metus ipsum, sodales in molestie nec, porttitor ac justo. Nullam lobortis vel ex at molestie. Duis ultrices at libero commodo consequat. Donec in tellus quis sem imperdiet dignissim. Nunc libero metus, volutpat id facilisis auctor, consequat eu mi. Fusce mauris nunc, blandit et nulla a, tempor venenatis est. Etiam euismod diam id quam laoreet, id elementum nisi elementum.</p>
                                     </Grid.Column>
                                     <Grid.Column>
                                         <ShowMarkerMap width="100%" height="300px" id="posmap" feil={this.valgtFeil} markers={markerTabell(this.alleFeil)}/>
@@ -98,7 +104,14 @@ export class MineOppgaver extends Component{
                                                 </List.Item>
                                             ))}
                                         </List>
-                                        <Segment>Bilder</Segment>
+                                        <Image.Group size='tiny'>
+                                            <Image src="lofoten.jpg" />
+                                            <Image src="lofoten.jpg" />
+                                            <Image src="lofoten.jpg" />
+                                            <Image src="lofoten.jpg" />
+                                            <Image src="lofoten.jpg" />
+                                            <Image src="lofoten.jpg" />
+                                        </Image.Group>
                                     </Grid.Column>
                                 </Grid.Row>
                             </Grid>
@@ -119,7 +132,7 @@ export class MineOppgaver extends Component{
                                             <Filtrer/>
                                         </Card.Header>
                                     </Card.Content>
-                                    <Card.Content>
+                                    <Card.Content className={this.classNye}>
                                         {this.nyefeil.map(feil => (
                                             <FeedEvent onClick={() => this.handleOpen(feil)}
                                                 status ={feil.status}
@@ -141,7 +154,7 @@ export class MineOppgaver extends Component{
                                             <Filtrer/>
                                         </Card.Header>
                                     </Card.Content>
-                                    <Card.Content>
+                                    <Card.Content className={this.classUnderB}>
                                         {this.underBehandling.map(feil => (
                                             <FeedEvent onClick={() => this.handleOpen(feil)}
                                                 status ={feil.status}
@@ -164,7 +177,7 @@ export class MineOppgaver extends Component{
                                         </Card.Header>
                                     </Card.Content>
 
-                                    <Card.Content>
+                                    <Card.Content className={this.classFerdig}>
                                         {this.utførte.map(feil => (
                                                 <FeedEvent onClick={() => this.handleOpen(feil)}
                                                     status ={feil.status}
@@ -183,15 +196,39 @@ export class MineOppgaver extends Component{
         );
     }
 
+    scrollNye(){
+        if(this.nyefeil.length > 1){
+            this.classNye='scroll-tabell';
+        }
+    }
+
+    scrollUnderB(){
+        if(this.underBehandling.length > 1){
+            this.classUnderB='scroll-tabell';
+        }
+    }
+
+    scrollFerdig(){
+        if(this.utførte.length > 1){
+            this.classFerdig='scroll-tabell';
+        }
+    }
+
     async mounted(){
         let feil = await feilService.hentAlleFeil();
         this.alleFeil = await feil.data; 
         await console.log(this.alleFeil);
+
         this.nyefeil = await feil.data.filter(e => (e.status === 'Ikke godkjent'));
+        await this.scrollNye();
         await console.log(this.nyefeil);
+        
         this.underBehandling = await feil.data.filter(e => (e.status === 'Under behandling'));
+        await this.scrollUnderB(); 
         await console.log(this.underBehandling);
+        
         this.utførte = await feil.data.filter(e => (e.status === 'Ferdig')); 
+        await this.scrollFerdig(); 
         await console.log(this.utførte); 
     }
 }
