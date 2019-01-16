@@ -42,7 +42,7 @@ const hashPassord = (inputPassord) => {
 
 // Verifisere passord
 
-const verifiserePassord = (inputPassord, eksisterendePassord) => {
+export const verifiserePassord = (inputPassord, eksisterendePassord) => {
   return passord(inputPassord).verifyAgainst(
     eksisterendePassord,
     (error, verified) => {
