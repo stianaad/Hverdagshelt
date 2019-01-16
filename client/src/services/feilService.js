@@ -50,6 +50,9 @@ class FeilService {
   }
 
   hentAlleSubkategorierPaaHovedkategori(hk_id) {
+<<<<<<< HEAD
+    return api.get('/api/hovedkategorier/'+hk_id+'/subkategorier')
+=======
     return api.get(
       '/api/hovedkategorier/:hovedkategori_id/subkategorier',
       hk_id
@@ -58,6 +61,7 @@ class FeilService {
 
   slettBildeFraFeil(info) {
     return api.delete('/api/feil/:feil_id/bilder/:bilde_id', info);
+>>>>>>> 98226fdf66e52bb6f97886568aa03d3e9adfdaae
   }
 }
 

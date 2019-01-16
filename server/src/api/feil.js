@@ -207,6 +207,9 @@ router.get('/api/hovedkategorier/:hovedkategori_id/subkategorier', (req, res) =>
     }
   );
 });
+<<<<<<< HEAD
+module.exports = router;
+=======
 
 router.delete('/api/feil/:feil_id/bilder/:bilde_id', (req, res) => {
   console.log('Fikk DELETE-request fra klienten');
@@ -220,3 +223,4 @@ router.delete('/api/feil/:feil_id/bilder/:bilde_id', (req, res) => {
   });
 });
 module.exports = router;
+>>>>>>> 98226fdf66e52bb6f97886568aa03d3e9adfdaae

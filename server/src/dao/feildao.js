@@ -137,7 +137,7 @@ module.exports = class FeilDao extends Dao {
   }
 
   hentAlleSubKategorierPaaHovedkategori(json, callback) {
-    var hovedkategori_id = json.hovedkategori_id;
+    var hovedkategori_id = json;
     super.query(
       'SELECT * FROM subkategori WHERE hovedkategori_id = ?',
       [hovedkategori_id],
