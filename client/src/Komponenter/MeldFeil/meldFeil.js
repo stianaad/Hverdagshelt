@@ -4,6 +4,7 @@ import { FormInput, Droppboks, Droppbokss, GronnKnapp } from '../../widgets';
 import { KommuneInput } from '../../Moduler/KommuneInput/KommuneInput';
 import { PositionMap } from '../../Moduler/kart/map';
 import { feilService } from '../../services/feilService';
+import {PageHeader} from '../../Moduler/header/header';
 
 export class MeldFeil extends Component {
   data = {
@@ -33,6 +34,8 @@ export class MeldFeil extends Component {
 
     render() {
         return (
+          <>
+            <PageHeader />
             <div id="blokk">
               <div>
                 <h1 id="overskrift" >Meld inn feil</h1>
@@ -75,7 +78,6 @@ export class MeldFeil extends Component {
               </div>
               <div id="posblokk">
                 <label id="poslbl" htmlFor="pos">Posisjon:</label>
-                <button onClick={this.velgMinPosisjon}>Velg min nåverende posisjon</button>
                 <PositionMap width="100%" height="500px" id="posmap" center="Trondheim" position={this.posFunksjon}/>
               </div>
               <div id="sjekkboks">
@@ -90,6 +92,7 @@ export class MeldFeil extends Component {
                 <GronnKnapp onClick={this.testknapp}>Meld inn</GronnKnapp>
               </div>
             </div>
+            </>
         );
     }
 
@@ -156,14 +159,6 @@ export class MeldFeil extends Component {
     xhr.send(formData);
   }
 
-  velgMinPosisjon() {
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        console.log(pos);
-      },
-      () => alert('Geolokasjon støttes ikke av din nettleser')
-    );
-  }
 
   posFunksjon(pos) {
     this.data.breddegrad = pos.lat;
