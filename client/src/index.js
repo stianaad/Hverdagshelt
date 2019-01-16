@@ -20,7 +20,6 @@ import {PageHeader} from './Moduler/header/header'
 import {GlemtPassord} from "../src/Komponenter/GlemtPassord/glemtPassord";
 import {ResettPassord} from "../src/Komponenter/GlemtPassord/resettPassord";
 
-
 import createBrowserHistory from 'history/createBrowserHistory';
 const history = createBrowserHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
 
