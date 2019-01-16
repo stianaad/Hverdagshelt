@@ -24,11 +24,7 @@ export class Forside extends Component {
             >
               Hendelser
           </button>
-<<<<<<< HEAD
           <div className="main-header-buttons d-inline-block"> <Login history={this.props.history}/></div>
-=======
-            <div className="main-header-buttons d-inline-block"> <Login /></div>
->>>>>>> master
           </div>
         </header>
         <div className="main-center">

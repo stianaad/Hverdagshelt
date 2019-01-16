@@ -14,12 +14,9 @@ import {Login} from './Moduler/login/login'
 import {Forside} from './Komponenter/Forside/forside';
 import { PositionMap, Marker, MarkerMap, markerTabell } from './Moduler/kart/map';
 import {Hovedside} from './Komponenter/hovedside/hovedside';
-<<<<<<< HEAD
 import {Minside} from './Komponenter/MinSide/minside';
-=======
 import {PageHeader} from './Moduler/header/header'
 
->>>>>>> master
 import {GlemtPassord} from "../src/Komponenter/GlemtPassord/glemtPassord";
 import {ResettPassord} from "../src/Komponenter/GlemtPassord/resettPassord";
 

@@ -31,12 +31,8 @@ export class Login extends Component {
           </div>
           
           <button className="myLoginButton" onClick={this.login}>Logg inn</button>
-<<<<<<< HEAD
-          <button style={{float:"right"}} className="myLoginButton" onClick={this.login}>Registrer deg</button>
-=======
           <Link to="/registrering"><button style={{float:"right"}} className="myLoginButton">Registrer deg</button></Link>
           
->>>>>>> master
         </div>
       </div>
     );
