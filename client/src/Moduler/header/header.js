@@ -6,7 +6,7 @@ import { Login } from '../../Moduler/login/login';
 
 
 export class PageHeader extends Component {
-    loggetinn = false;
+    loggetinn = true;
     brukertype = (["privat", "ansatt", "bedrift", "admin"])[2];
 
     render() {
@@ -73,7 +73,7 @@ export class PageHeader extends Component {
                                     <div className="dropdown-item">Logg ut</div>
                                 </div>
                             </div>
-                        ) : (<div>Ansatt</div>)}
+                        ) : (<div>Admin</div>)}
                     </div>
                 </header>
                 <div className="pageHeaderBuffer"></div>
