@@ -107,7 +107,7 @@ export class Minside extends Component {
     }
 
     fjernFeil(){
-        console.log("fjern");
+        
     }
 
     async mounted(){
