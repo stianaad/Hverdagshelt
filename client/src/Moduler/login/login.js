@@ -79,7 +79,7 @@ export class Login extends Component {
 
   sjekkPassord(result){
     if(result){
-      this.props.history.push('/hovedside/trondheim');
+      this.props.history.push('/minside');
     } else {
       console.log(result)
       this.advarsel = "Feil brukernavn eller passord!";

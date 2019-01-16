@@ -20,7 +20,7 @@ export class Minside extends Component {
                 <PageHeader history={this.props.history}/>
                 <h1 className="text-center">Min side</h1>
                 <div className="row ">
-                    <div className="col-sm-4 mt-3 ml-3">
+                    <div className="col mt-3 ml-3">
                     <h2> </h2>
                     <Card fluid="true">
                   <Card.Content>
@@ -79,7 +79,7 @@ export class Minside extends Component {
                   </Card.Content>
                 </Card>
                     </div>
-                    <div className="col-sm-4 mt-3">
+                    <div className="col mt-3">
                     <h2>Hendelser du følger</h2>
                     <Card.Group itemsPerRow={1}>
                         <Card >
@@ -104,7 +104,31 @@ export class Minside extends Component {
                         </Card>
                     </Card.Group>
                     </div>
-                    
+                    <div className="col mt-3">
+                        <h2>Feil/mangler du følger</h2>
+                        <Card.Group itemsPerRow={1}>
+                        <Card >
+                            <Image src="https://www.computerhope.com/jargon/e/error.gif"/>
+                            <Card.Content>
+                                <Card.Header>Feil i sverresgate 10</Card.Header>
+                                <Card.Description><img className="mr-2"
+                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Simple_icon_time.svg/750px-Simple_icon_time.svg.png"
+                            height="20"
+                            width="25"/>2019-01-16 10:50</Card.Description>
+                            </Card.Content>
+                        </Card>
+                        <Card>
+                            <Image src="https://www.skageraknett.no/getfile.php/1311438-1516701566/Nett/Bilder/Str%C3%B8mstans/141210%20Bukkeliodden%2C%20Tj%C3%B8me.%20Trefall%20p%C3%A5%20h%C3%B8yspent%20med%20skjev%20stolpe%204.JPG%20%28optimized_original%29.jpg"/>
+                            <Card.Content>
+                                <Card.Header>Strømbrudd i Trondheim</Card.Header>
+                                <Card.Description><img className="mr-2"
+                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Simple_icon_time.svg/750px-Simple_icon_time.svg.png"
+                            height="20"
+                            width="25"/>2019-01-16 10:50</Card.Description>
+                            </Card.Content>
+                        </Card>
+                    </Card.Group>
+                    </div>
                 </div>
             </div>
         )
