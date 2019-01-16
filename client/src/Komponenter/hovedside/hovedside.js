@@ -239,8 +239,6 @@ export class Hovedside extends Component {
                               height="300px"
                               id="posmap"
                               feil={this.feil}
-                              markers={markerTabell(this.alleFeil)}
-                              onRef={(ref) => (this.kart1 = ref)}
                             />
                           </div>
                           <div className="col-sm-4">
