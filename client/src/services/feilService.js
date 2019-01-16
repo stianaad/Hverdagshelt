@@ -55,6 +55,10 @@ class FeilService {
     );
   }
 
+  hentAlleSubkategorier() {
+    return api.get('/api/hovedkategorier/subkategorier');
+  }
+
   slettBildeFraFeil(info) {
     return api.delete('/api/feil/:feil_id/bilder/:bilde_id', info);
   }
