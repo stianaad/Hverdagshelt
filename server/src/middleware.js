@@ -27,3 +27,5 @@ export let checkToken = (req, res, next) => {
     });
   }
 };
+
+export let finnBrukerId

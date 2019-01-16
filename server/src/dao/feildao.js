@@ -145,6 +145,10 @@ module.exports = class FeilDao extends Dao {
     );
   }
 
+  hentAlleSubkategorier(callback) {
+    super.query('SELECT * FROM subkategori',callback);
+  }
+
   slettBildeFraFeil(json, callback) {
     var info = [json.url, json.feil_id];
     super.query('DELETE FROM feil_bilder WHERE url = ? AND feil_id = ?', info, callback);
