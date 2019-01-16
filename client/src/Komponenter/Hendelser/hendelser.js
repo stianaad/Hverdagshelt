@@ -43,7 +43,7 @@ export class Hendelser extends Component{
             this.hendelser.map(hendelse => (
             <div className="row">
                 <div className="col-sm">
-                <NavLink  activeStyle={{ color: 'darkblue' }} to={'/category/'+ hendelse.category+'/'+hendelse.headline+'/'+hendelse.id}>
+                <NavLink  to={'/category/'+ hendelse.category+'/'+hendelse.headline+'/'+hendelse.id}>
                     <div className="card">
                     <img className ="card-img-top" src={hendelse.bilde} alt={hendelse.beskrivelse}/>
                         <div className="card-body">
@@ -55,7 +55,7 @@ export class Hendelser extends Component{
                 </NavLink>
                 </div>
                 <div className="col-sm">
-                <NavLink  activeStyle={{ color: 'darkblue' }} to={'/category/'+ hendelse.category+'/'+hendelse.headline+'/'+hendelse.id}>
+                <NavLink  to={'/category/'+ hendelse.category+'/'+hendelse.headline+'/'+hendelse.id}>
                     <div className="card">
                     <img className ="card-img-top" src={hendelse.bilde} alt={hendelse.beskrivelse}/>
                         <div className="card-body">
@@ -67,7 +67,7 @@ export class Hendelser extends Component{
                 </NavLink>
                 </div>
                 <div className="col-sm">
-                <NavLink  activeStyle={{ color: 'darkblue' }} to={'/category/'+ hendelse.category+'/'+hendelse.headline+'/'+hendelse.id}>
+                <NavLink  to={'/category/'+ hendelse.category+'/'+hendelse.headline+'/'+hendelse.id}>
                     <div className="card">
                     <img className ="card-img-top" src={hendelse.bilde} alt={hendelse.beskrivelse}/>
                         <div className="card-body">
