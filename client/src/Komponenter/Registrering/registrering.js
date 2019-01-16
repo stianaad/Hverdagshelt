@@ -24,10 +24,10 @@ export class Registrering extends Component {
 
   render() {
     return (
-      <>
+      <div>
       <PageHeader history={this.props.history}/>
       <div className="container">
-        <div className="row">
+        <div className = "row">
           <div className="col">
             <div className="form-group">
               <label>Fornavn:</label>
@@ -41,6 +41,7 @@ export class Registrering extends Component {
                 required={true}
               />
             </div>
+          </div>
             <div className="col">
               <div className="form-group">
                 <label>Etternavn:</label>
@@ -168,9 +169,9 @@ export class Registrering extends Component {
           </div>
         </div>
       </div>
-      </>
     );
   }
+
 
   lagre() {
     if (this.brukerInput.passord.length < 8) {
@@ -190,9 +191,11 @@ export class Registrering extends Component {
         this.brukerInput.fornavn,
         this.brukerInput.etternavn
       );
-      console.log(bruker.epost);
+      //console.log(bruker.epost);
       if (bruker.epost.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-        brukerService.lagNyPrivatBruker(bruker).then((res) => {
+        brukerService.lagNyPrivatBruker(bruker)
+        .then((res) => {
+          console.log(bruker.epost);
           console.log(res.status);
           //this.props.history.push('/');
         });

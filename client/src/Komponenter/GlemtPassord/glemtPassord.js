@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
 import {brukerService} from '../../services/brukerService';
+import {PageHeader} from '../../Moduler/header/header';
 
 export class GlemtPassord extends Component{
 
@@ -9,7 +10,8 @@ export class GlemtPassord extends Component{
 
     render(){
       return(
-      
+        <>
+        <PageHeader history={this.props.history} />
         <div className="container">
         <h1 className="text-center" >Glemt passord</h1>
         <p className="font-weight-bold"></p>
@@ -47,7 +49,7 @@ export class GlemtPassord extends Component{
             </div>
           </div>
         </div>
-
+        </>
       );
     }
 
