@@ -3,9 +3,7 @@ import {Component} from 'react-simplified';
 import {brukerService} from '../../services/brukerService';
 import {PageHeader} from '../../Moduler/header/header';
 import {Privat} from '../../objekter.js';
-
 import {KommuneInput} from '../../Moduler/kommuneInput/kommuneInput';
-import {PageHeader} from '../../Moduler/header/header';
 
 export class Registrering extends Component {
   brukerInput = {
