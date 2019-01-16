@@ -11,6 +11,8 @@ DROP TABLE IF EXISTS bedrift;
 DROP TABLE IF EXISTS ansatt;
 DROP TABLE IF EXISTS privat;
 DROP TABLE IF EXISTS bruker;
+DROP TABLE IF EXISTS feilfolg;
+DROP TABLE IF EXISTS hendfolg;
 DROP TABLE IF EXISTS kommuner;
 DROP TABLE IF EXISTS fylker;
 
@@ -145,4 +147,20 @@ CREATE TABLE hendelser(
     FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id),
     FOREIGN KEY (hendelseskategori_id) REFERENCES hendelseskategori(hendelseskategori_id),
     FOREIGN KEY (kommune_id) REFERENCES kommuner(kommune_id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE feilfolg(
+    feil_id INT(11) NOT NULL,
+    bruker_id INT(11) NOT NULL,
+    PRIMARY KEY (feil_id, bruker_id),
+    FOREIGN KEY (feil_id) REFERENCES feil(feil_id),
+    FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE hendfolg(
+    hendelse_id INT(11) NOT NULL,
+    bruker_id INT(11) NOT NULL,
+    PRIMARY KEY (hendelse_id, bruker_id),
+    FOREIGN KEY (hendelse_id) REFERENCES hendelser(hendelse_id),
+    FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
