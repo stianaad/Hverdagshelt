@@ -146,7 +146,7 @@ module.exports = class FeilDao extends Dao {
   }
 
   hentAlleSubkategorier(callback) {
-    super.query('SELECT * FROM subkategori',callback);
+    super.query('SELECT * FROM subkategori', null, callback);
   }
 
   slettBildeFraFeil(json, callback) {

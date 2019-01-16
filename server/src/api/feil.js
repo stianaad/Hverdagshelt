@@ -211,7 +211,7 @@ router.get('/api/hovedkategorier/:hovedkategori_id/subkategorier', (req, res) =>
 router.get('/api/hovedkategorier/subkategorier', (req, res) => {
   console.log('Fikk GET-request fra klienten');
 
-  feildao.hentAlleSubkategorier( (status, data) => {
+  feilDao.hentAlleSubkategorier( (status, data) => {
     res.status(status);
     res.json(data);
     console.log('Subkategoriene er: ' + data);
@@ -229,4 +229,5 @@ router.delete('/api/feil/:feil_id/bilder/:bilde_id', (req, res) => {
     console.log('Slettet bilde fra feil');
   });
 });
+
 module.exports = router;
