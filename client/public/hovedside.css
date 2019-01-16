@@ -64,3 +64,6 @@ nav ul{
    overflow-y: scroll; 
 }
 
+.leaflet-top{
+   z-index: 700 !important;
+}

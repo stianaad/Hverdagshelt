@@ -305,7 +305,7 @@ export class PositionMap extends Component {
         return (
             <div style={{ width: this.props.width, height: this.props.height, position: 'relative' }}>
                 <div style={{ width: "100%", height: "100%" }} id={this.props.id}></div>
-                <button style={{ position: 'absolute', top: '10px', right: '10px', zIndex: '100000', height: '35px', cursor: 'pointer' }} id="locatebtn" type="button" onClick={this.locateMe} onTouchStart={this.locateMe}>Finn Meg</button>
+                <button style={{ position: 'absolute', top: '10px', right: '10px', zIndex: '900', height: '35px', cursor: 'pointer' }} id="locatebtn" type="button" onClick={this.locateMe} onTouchStart={this.locateMe}>Finn Meg</button>
             </div>
         )
     }
