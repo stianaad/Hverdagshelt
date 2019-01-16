@@ -1,11 +1,7 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
-<<<<<<< HEAD
-import {Card, Feed, Grid, Button, Header, Icon, Image, Modal, Segment, List} from 'semantic-ui-react';
-=======
 import {PageHeader} from '../../Moduler/header/header';
-import {Card, Feed, Grid, Button, Header, Icon, Image, Modal} from 'semantic-ui-react';
->>>>>>> 8ac9232db5d240b06c3ed24d69da54338e372112
+import {Card, Feed, Grid, Button, Header, Icon, Image, Modal, List} from 'semantic-ui-react';
 import {FeedEvent, Filtrer, Info} from '../../Moduler/cardfeed'
 import {feilService} from '../../services/feilService';
 import {markerTabell,ShowMarkerMap } from '../../Moduler/kart/map';
