@@ -14,10 +14,10 @@ export class Login extends Component {
   render() {
     return (
       <div className="dropdown">
-        <button type="button" className="logginnbutton btn btn-light border border-dark" data-toggle="dropdown">
+        <button type="button" className="logginnbutton btn btn-light border border-dark" onClick={this.clickDrop}>
           Logg inn
         </button>
-        <div className="dropdown-menu dropdown-menu-right dropdownbox">
+        <div className="dropdown-menu dropdown-menu-right dropdownbox" id="drops">
           <div className="arrow"></div>
           <div className="arrowborder"></div>
           <div className="form-group">
@@ -34,6 +34,41 @@ export class Login extends Component {
         </div>
       </div>
     );
+  }
+
+  clickDrop(event) {
+    let drop = document.getElementById("drops");
+    if (drop.style.display == "none" || drop.style.display == "") {
+      drop.style.display = "block";
+      this.hideOnClickOutside(drop);
+    }
+    else {
+      drop.style.display = "block";
+    }
+    
+  }
+
+  hideOnClickOutside(element) {
+    const isVisible = elem => !!elem && !!( elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length ); // source (2018-03-11): https://github.com/jquery/jquery/blob/master/src/css/hiddenVisibleSelectors.js 
+    const outsideClickListener = event => {
+        if (!element.contains(event.target)) {
+            if (isVisible(element)) {
+                element.style.display = 'none'
+                removeClickListener()
+            }
+        }
+    }
+
+    const removeClickListener = () => {
+        document.removeEventListener('click', outsideClickListener)
+    }
+    
+    document.addEventListener('click', outsideClickListener)
+  }
+
+  dropDidBlur(event) {
+    let drop = document.getElementById("drops");
+    drop.style.display = "none";
   }
 
   endre(e) {
