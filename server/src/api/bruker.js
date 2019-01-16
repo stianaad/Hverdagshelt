@@ -42,7 +42,7 @@ const hashPassord = (inputPassord) => {
 
 // Verifisere passord
 
-const verifiserePassord = (inputPassord, eksisterendePassord) => {
+export const verifiserePassord = (inputPassord, eksisterendePassord) => {
   return passord(inputPassord).verifyAgainst(
     eksisterendePassord,
     (error, verified) => {
@@ -75,16 +75,16 @@ router.post('/api/brukere', (req, res) => {
   });
 });
 
+/* 
+* Hasher først passordet, deretter kalles dao for å hente hash i database,
+* deretter verifiseres passorded som er skrevet inn mot det i databasen.
+*/
 /*
- * Hasher først passordet, deretter kalles dao for å hente hash i database,
- * deretter verifiseres passorded som er skrevet inn mot det i databasen.
- */
-
-router.post('/sjekkPassord', (req, res) => {
-  console.log('Sjekk passord');
-  passord(req.body.passord).hash((error, hash) => {
-    if (error) {
-      throw new Error('Noge gjekk galt');
+router.post("/sjekkPassord",(req,res)=>{
+  console.log("Sjekk passord");
+	passord(req.body.passord).hash((error,hash) => {
+		if(error){
+			throw new Error('Noge gjekk galt');
     }
     let info = {epost: req.body.epost, passord: hash};
     brukerDao.hentBruker(info, (status, data) => {
@@ -96,7 +96,37 @@ router.post('/sjekkPassord', (req, res) => {
       }
     });
   });
-});
+});*/
+
+router.post("/api/sjekkPassord",(req,res) => {
+  /*passord("passord1").hash((error, hash) => {
+    if (error) {
+      throw new Error('Noe gikk galt');
+    }
+    console.log(hash);
+  })*/
+  brukerDao.hentBruker(req.body,(status,data) => {
+    //verifiserePassord(req.body.passord,data[0].passord);
+    if(data.length >0){
+      passord(req.body.passord).verifyAgainst(data[0].passord, (error,verified) => {
+        if(error)
+          throw new Error('Noe gikk galt!');
+        if(!verified) {
+          console.log("false1");
+          res.json({"result": false});
+        } else {
+          console.log("true");
+          res.json({"result": true});
+        }
+      });
+    } else{
+      console.log("false2");
+      res.json({"result": false});
+    }
+    //res.status(status);
+    //res.json(data);
+  })
+})
 
 router.post('/api/brukere/privat', (req, res) => {
   console.log('/brukere/privat fikk post request fra klienten');

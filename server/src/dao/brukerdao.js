@@ -3,7 +3,7 @@ import Dao from './dao.js';
 module.exports = class BrukerDao extends Dao {
   lagNyBruker(json, callback) {
     const tabell = [json.epost, json.passord, json.kommune_id];
-    super.query('INSERT INTO bruker VALUES(DEFAULT,?,?,?)', tabell, callback);
+    super.query('INSERT INTO bruker (bruker_id, epost, passord, kommune_id) VALUES(DEFAULT,?,?,?)', tabell, callback);
   }
 
   finnBruker_id(json, callback) {
@@ -14,11 +14,11 @@ module.exports = class BrukerDao extends Dao {
   lagNyPrivatBruker(json, callback) {
     let self = this;
     self.finnBruker_id(json, (status, data) => {
-      if (data[0].length == 0) {
+      if (data.length == 0) {
         self.lagNyBruker(json, (status, data) => {
           console.log(status);
           super.query(
-            'INSERT INTO privat VALUES(?,?,?)',
+            'INSERT INTO privat (bruker_id, fornavn, etternavn) VALUES(?,?,?)',
             [data.insertId, json.fornavn, json.etternavn],
             callback
           );

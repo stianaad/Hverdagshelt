@@ -17,6 +17,7 @@
     "@babel/polyfill": "^7.0.0",
     "axios": "^0.18.0",
     "js-base64": "^2.4.9",
+    "jsonwebtoken": "^8.4.0",
     "leaflet": "^1.4.0",
     "react": "^16.6.1",
     "react-bootstrap": "^0.32.4",

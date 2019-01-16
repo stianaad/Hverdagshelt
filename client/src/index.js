@@ -14,6 +14,8 @@ import {Login} from './Moduler/login/login'
 import {Forside} from './Komponenter/Forside/forside';
 import { PositionMap, Marker, MarkerMap, markerTabell } from './Moduler/kart/map';
 import {Hovedside} from './Komponenter/hovedside/hovedside';
+import {Minside} from './Komponenter/MinSide/minside';
+import {PageHeader} from './Moduler/header/header'
 
 import {GlemtPassord} from "../src/Komponenter/GlemtPassord/glemtPassord";
 import {ResettPassord} from "../src/Komponenter/GlemtPassord/resettPassord";
@@ -129,7 +131,7 @@ if (root)
   ReactDOM.render(
     <Router history={history}>
       <div>
-        <Route exact path="/hovedside/:kommune" component={Hovedside} />
+        <Route exact path="/hovedside/:kommune" component={Hovedside} history={history}/>
         <Route exact path="/kommunevalgtest" component={KommuneVelger} />
         <Route exact path="/meld-feil" component={MeldFeil} />
         <Route exact path="/nyheter" component={Menu} />
@@ -137,14 +139,16 @@ if (root)
         <Route exact path="/" component={Forside} history={history}/>
         <Route exact path="/bildetest" component={BildeTest} />
         <Route exact path="/glemt-passord" component={GlemtPassord}/>
+        <Route exact path="/minside" component={Minside} history={history}/>
         <Route exact path="/resett-passord/:token" component={ResettPassord}/>
         {//<Route exact path="/login" component={Login} />
         }
-        <Route exact path="/mineoppgaver" component={MineOppgaver}/>
+        <Route exact path="/mineoppgaver" component={MineOppgaver} history={history}/>
         <Route exact path="/login" component={Login} />
         <Route exact path="/kinput" component={komtest} />
         <Route exact path="/hendelser" component={Hendelser} />
 
+        <Route exact path="/headertest" component={PageHeader} history={history} />
       </div>
     </Router>,
     root
