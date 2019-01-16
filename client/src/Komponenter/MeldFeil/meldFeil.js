@@ -27,7 +27,7 @@ export class MeldFeil extends Component {
   render() {
     return (
       <>
-        <PageHeader />
+        <PageHeader history={this.props.history} />
         <div id="blokk">
           <div>
             <h1 id="overskrift" >Meld inn feil</h1>
