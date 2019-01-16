@@ -49,3 +49,7 @@ nav ul{
 .hovedsideTabeller{
    
 }
+   
+.leaflet-top{
+   z-index: 700 !important;
+}

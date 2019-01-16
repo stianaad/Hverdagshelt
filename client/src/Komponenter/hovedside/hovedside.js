@@ -300,7 +300,7 @@ export class Hovedside extends Component {
                         width="100%"
                         height="300px"
                         id="test"
-                        center="Oslo"
+                        center={this.props.match.params.kommune}
                         markers={this.markers}
                         onRef={(ref) => (this.kart = ref)}
                       />
