@@ -99,15 +99,15 @@
     padding: 5px;
 }
 
-.dropdownbox {
+.pageHeaderRight .dropdownbox:not(.brukerbox) {
     width:340px;
-    top: 57px !important;
+    top: 52px !important;
     padding:20px !important;
-    right:-28px !important;
+    right:-6px !important;
     border-radius: 10px !important;
 }
 
-.pageHeader > .logginnbutton {
+.pageHeaderRight .logginnbutton {
     height: 40px;
     margin-top: 3px;
     font-size: 15px;
