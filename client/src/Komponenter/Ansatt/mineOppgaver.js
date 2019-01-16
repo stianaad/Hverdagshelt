@@ -201,19 +201,19 @@ export class MineOppgaver extends Component{
     }
 
     scrollNye(){
-        if(this.nyefeil.length > 1){
+        if(this.nyefeil.length > 4){
             this.classNye='scroll-tabell';
         }
     }
 
     scrollUnderB(){
-        if(this.underBehandling.length > 1){
+        if(this.underBehandling.length > 4){
             this.classUnderB='scroll-tabell';
         }
     }
 
     scrollFerdig(){
-        if(this.utførte.length > 1){
+        if(this.utførte.length > 4){
             this.classFerdig='scroll-tabell';
         }
     }

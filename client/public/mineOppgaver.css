@@ -85,9 +85,8 @@
 
 .scroll-tabell{
     overflow-y: scroll; 
-    height: 50px; 
+    height: 310px; 
 }  
 
 .hoyde-tabell{
-    height: 50%;
 }
