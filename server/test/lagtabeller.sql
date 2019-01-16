@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS feilfolg;
+DROP TABLE IF EXISTS hendfolg;
 DROP TABLE IF EXISTS hendelser;
 DROP TABLE IF EXISTS hendelseskategori;
 DROP TABLE IF EXISTS oppdatering;
@@ -11,8 +13,6 @@ DROP TABLE IF EXISTS bedrift;
 DROP TABLE IF EXISTS ansatt;
 DROP TABLE IF EXISTS privat;
 DROP TABLE IF EXISTS bruker;
-DROP TABLE IF EXISTS feilfolg;
-DROP TABLE IF EXISTS hendfolg;
 DROP TABLE IF EXISTS kommuner;
 DROP TABLE IF EXISTS fylker;
 
@@ -94,6 +94,7 @@ CREATE TABLE status (
 
 CREATE TABLE feil (
     feil_id INT(11) NOT NULL AUTO_INCREMENT,
+    bruker_id INT(11) NOT NULL,
     kommune_id INT(11) NOT NULL,
     subkategori_id INT(11) NOT NULL,
     overskrift VARCHAR(255) NOT NULL,
@@ -102,6 +103,7 @@ CREATE TABLE feil (
     breddegrad DOUBLE NOT NULL,
     PRIMARY KEY (feil_id),
     FOREIGN KEY (kommune_id) REFERENCES kommuner(kommune_id),
+    FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id),
     FOREIGN KEY (subkategori_id) REFERENCES subkategori(subkategori_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
