@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {PageHeader} from '../../Moduler/header/header';
 import {Component, sharedComponentData} from 'react-simplified';
 import {
     Card,
@@ -16,6 +17,7 @@ export class Minside extends Component {
     render(){
         return(
             <div>
+                <PageHeader history={this.props.history}/>
                 <h1 className="text-center">Min side</h1>
                 <div className="row ">
                     <div className="col-sm-4 mt-3 ml-3">
