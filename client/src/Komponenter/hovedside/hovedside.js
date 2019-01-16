@@ -53,8 +53,8 @@ export class Hovedside extends Component {
     url: '',
   };
 
-  classFeil = '';
-  classHendelser = ''; 
+  classFeil = 'hovedsideTabeller';
+  classHendelser = 'hovedsideTabeller'; 
 
   async merInfo(feil) {
     this.visFeil = true;
@@ -127,20 +127,23 @@ export class Hovedside extends Component {
     return (
       <div>
         <PageHeader history={this.props.history} />
-        <h1 className="text-center text-capitalize display-4">{this.props.match.params.kommune} </h1>
-        <div className="text-center">
-          <button 
-            type="button"
-            className="btn btn-danger border border-dark"
-            onClick={this.meldInnfeil}
-          >
-            Meld inn feil
-          </button>
+        <div className="mt-3">
+          <Grid columns={3}>
+            <Grid.Column/>
+            <Grid.Column>
+              <h1 className="text-center text-capitalize display-4">{this.props.match.params.kommune} </h1>
+            </Grid.Column>
+            <Grid.Column>
+              <div className="text-center mt-3 mr-3">
+                <Button color="red" size="large" floated="right" onClick={this.meldInnfeil}>Meld inn feil</Button>
+              </div>
+            </Grid.Column>
+          </Grid>
         </div>
         {!this.visHendelser ? (
           <div className="row mt-5">
             <div className="col-sm-4">
-              <div className="ml-3">
+              <div className="ml-3 mb-3">
                 <Card fluid>
                   <Card.Content>
                     <Card.Header>
@@ -466,7 +469,7 @@ export class Hovedside extends Component {
   }
 
   scrollFeil(){
-    if(this.aktiveFeil.length > 3){
+    if(this.aktiveFeil.length > 4){
       this.classFeil = 'hovedsideScroll';
     }
   }
@@ -491,8 +494,8 @@ export class Hovedside extends Component {
     this.alleHendelser = await res3.data;
     await console.log(res3.data);
 
-    /*await this.scrollFeil(); 
-    await this.scrollHendelse(); */
+    await this.scrollFeil(); 
+    await this.scrollHendelse(); 
   }
 }
 

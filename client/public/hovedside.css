@@ -31,25 +31,7 @@ nav ul{
    overflow-y:scroll;
 }
 
-/* Scrollbar styles */
-::-webkit-scrollbar {
-    width: 12px;
-    height: 12px;
-    }
-    
-    ::-webkit-scrollbar-track {
-    border: 1px solid black;
-    border-radius: 10px;
-    }
-    
-    ::-webkit-scrollbar-thumb {
-    background: black;  
-    border-radius: 10px;
-    }
-    
-    ::-webkit-scrollbar-thumb:hover {
-    background: #000000;  
-    }
+
 
 .tekst {
   text-shadow: 3px 3px 5px #000000;
@@ -60,7 +42,10 @@ nav ul{
 }
 
 .hovedsideScroll{
-   height: 200px;
+   height: 310px;    
    overflow-y: scroll; 
 }
 
+.hovedsideTabeller{
+   
+}
