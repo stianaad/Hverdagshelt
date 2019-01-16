@@ -146,12 +146,11 @@ export class FeedMinside extends Component{
                         {this.dato(this.props.tid)}
                         <Feed.Summary>
                             {this.props.children}
-
                         </Feed.Summary>
                         <span><i>{this.props.kategori}</i></span>
                         </a>
                     </Feed.Content>
-                    <Feed.Label image={"https://cdn4.iconfinder.com/data/icons/devine_icons/Black/PNG/Folder%20and%20Places/Trash-Recyclebin-Empty-Closed.png"}/>
+                    <Feed.Label onClick={this.props.fjern} image={"https://cdn4.iconfinder.com/data/icons/devine_icons/Black/PNG/Folder%20and%20Places/Trash-Recyclebin-Empty-Closed.png"}/>
                 </Feed.Event>
             </Feed>
         );

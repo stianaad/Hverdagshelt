@@ -77,11 +77,11 @@ export class Login extends Component {
     this.data[e.target.name] = e.target.value;
   }
 
-  sjekkPassord(result){
-    if(result){
-      this.props.history.push('/minside');
+  sjekkPassord(res){
+    if(res.result){
+      this.props.history.push('/minside/'+res.bruker_id);
     } else {
-      console.log(result)
+      console.log(res.result)
       this.advarsel = "Feil brukernavn eller passord!";
     }
   }
@@ -90,6 +90,6 @@ export class Login extends Component {
     console.log(this.data);
    let res = await brukerService.loggInn(this.data);
    //await console.log(res.data.result);
-   await this.sjekkPassord(res.data.result);
+   await this.sjekkPassord(res.data);
   }
 }
