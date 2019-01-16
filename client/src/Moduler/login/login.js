@@ -67,11 +67,6 @@ export class Login extends Component {
     document.addEventListener('click', outsideClickListener)
   }
 
-  dropDidBlur(event) {
-    let drop = document.getElementById("drops");
-    drop.style.display = "none";
-  }
-
   endre(e) {
     this.data[e.target.name] = e.target.value;
   }
