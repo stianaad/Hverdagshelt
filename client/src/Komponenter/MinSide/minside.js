@@ -19,6 +19,7 @@ export class Minside extends Component {
                 <h1 className="text-center">Min side</h1>
                 <div className="row ">
                     <div className="col-sm-4 mt-3 ml-3">
+                    <h2> </h2>
                     <Card fluid="true">
                   <Card.Content>
                     <Card.Header>
@@ -76,21 +77,32 @@ export class Minside extends Component {
                   </Card.Content>
                 </Card>
                     </div>
-                    <div className="col-sm-4">
+                    <div className="col-sm-4 mt-3">
+                    <h2>Hendelser du følger</h2>
                     <Card.Group itemsPerRow={1}>
                         <Card >
                             <Image src="http://www.stavanger-konserthus.no/wp-content/uploads/2015/10/KONSERTER-OG-FORESTILLINGER-1.jpeg"/>
                             <Card.Content>
                                 <Card.Header>Julekonsert på Bømlo</Card.Header>
-                                <Card.Description>2019-01-16 10:50</Card.Description>
+                                <Card.Description><img className="mr-2"
+                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Simple_icon_time.svg/750px-Simple_icon_time.svg.png"
+                            height="20"
+                            width="25"/>2019-01-16 10:50</Card.Description>
                             </Card.Content>
                         </Card>
-                        <Card raised image={ '/images/wireframe/image.png'} />
-                        <Card raised image={ '/images/wireframe/image.png'} />
-                        <Card raised image={ '/images/wireframe/image.png'} />
-                        <Card raised image={ '/images/wireframe/image.png'} />
+                        <Card >
+                            <Image src="http://www.stavanger-konserthus.no/wp-content/uploads/2015/10/KONSERTER-OG-FORESTILLINGER-1.jpeg"/>
+                            <Card.Content>
+                                <Card.Header>Julekonsert på Bømlo</Card.Header>
+                                <Card.Description><img className="mr-2"
+                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Simple_icon_time.svg/750px-Simple_icon_time.svg.png"
+                            height="20"
+                            width="25"/>2019-01-16 10:50</Card.Description>
+                            </Card.Content>
+                        </Card>
                     </Card.Group>
                     </div>
+                    
                 </div>
             </div>
         )
