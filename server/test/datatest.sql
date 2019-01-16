@@ -1,5 +1,5 @@
 INSERT INTO bruker (epost, passord, kommune_id) VALUES
-  ('epost1@hotmail.com', 'passord1', 12),
+  ('epost1@hotmail.com', 'pbkdf2$10000$64c2446101f5fa79b1a0d0bd7f6be19a3e138357c0615f29bed4a7b2daa834e808e3055d2cb1ca2d02c8738e57336381be77b502efacc802f2094568abc069a6$4849f30fe43a9097fc54001f0451679e6c3d65b725e4603e8dd2777ffc40238951df60698d534eacbb472b8a9c8c871966443d620af0ffdbccf3a0ea45ec5342', 12),
   ('epost2@hotmail.com', 'passord2', 24),
   ('epost3@hotmail.com', 'passord3', 333),
   ('epost4@hotmail.com', 'passord4', 351),
@@ -8,8 +8,7 @@ INSERT INTO bruker (epost, passord, kommune_id) VALUES
   ('epost7@hotmail.com', 'passord7', 257),
   ('epost8@hotmail.com', 'passord8', 128),
   ('epost9@hotmail.com', 'passord9', 359),
-  ('epost10@hotmail.com', 'passord10', 150),
-  ('epost1@hotmail.com', 'pbkdf2$10000$64c2446101f5fa79b1a0d0bd7f6be19a3e138357c0615f29bed4a7b2daa834e808e3055d2cb1ca2d02c8738e57336381be77b502efacc802f2094568abc069a6$4849f30fe43a9097fc54001f0451679e6c3d65b725e4603e8dd2777ffc40238951df60698d534eacbb472b8a9c8c871966443d620af0ffdbccf3a0ea45ec5342', 12);
+  ('epost10@hotmail.com', 'passord10', 150);
 
 INSERT INTO privat (bruker_id, fornavn, etternavn) VALUES
   (1, 'ForPrivat1', 'EtterPrivat1'),
