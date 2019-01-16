@@ -71,8 +71,8 @@ export class Minside extends Component {
                     <h2>Hendelser du følger</h2>
                     <Card.Group itemsPerRow={1}>
                         {this.folgteHendelser.map(hendelse => (
-                            <Card >
-                            <Image src={hendelse.bilde}/>
+                            <Card>
+                            <Image src={hendelse.bilde} className="feilCard"/>
                             <Card.Content>
                                 <Card.Header>{hendelse.overskrift}</Card.Header>
                                 <Card.Description><img className="mr-2"
