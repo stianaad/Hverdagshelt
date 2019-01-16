@@ -1,7 +1,9 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
 import {brukerService} from '../../services/brukerService';
+import {PageHeader} from '../../Moduler/header/header';
 import {Privat} from '../../objekter.js';
+
 import {KommuneInput} from '../../Moduler/kommuneInput/kommuneInput';
 import {PageHeader} from '../../Moduler/header/header';
 
@@ -24,24 +26,22 @@ export class Registrering extends Component {
 
   render() {
     return (
-      <div>
-        <PageHeader history={this.props.history} />
-        <h1 className="text-center text-capitalize display-4">Registrering</h1>
-        <div className="container">
-          <div className="row">
-            <div className="col">
-              <div className="form-group">
-                <label>Fornavn:</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Fornavn"
-                  value={this.brukerInput.fornavn}
-                  onChange={this.endreVerdi}
-                  name="fornavn"
-                  required={true}
-                />
-              </div>
+      <>
+      <PageHeader history={this.props.history}/>
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            <div className="form-group">
+              <label>Fornavn:</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Fornavn"
+                value={this.brukerInput.fornavn}
+                onChange={this.endreVerdi}
+                name="fornavn"
+                required={true}
+              />
             </div>
             <div className="col">
               <div className="form-group">
@@ -170,6 +170,7 @@ export class Registrering extends Component {
           </div>
         </div>
       </div>
+      </>
     );
   }
 

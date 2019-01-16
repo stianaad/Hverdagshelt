@@ -130,7 +130,7 @@ if (root)
   ReactDOM.render(
     <Router history={history}>
       <div>
-        <Route exact path="/hovedside/:kommune" component={Hovedside} />
+        <Route exact path="/hovedside/:kommune" component={Hovedside} history={history}/>
         <Route exact path="/kommunevalgtest" component={KommuneVelger} />
         <Route exact path="/meld-feil" component={MeldFeil} />
         <Route exact path="/nyheter" component={Menu} />
@@ -138,11 +138,11 @@ if (root)
         <Route exact path="/" component={Forside} history={history}/>
         <Route exact path="/bildetest" component={BildeTest} />
         <Route exact path="/glemt-passord" component={GlemtPassord}/>
-        <Route exact path="/minside" component={Minside}/>
+        <Route exact path="/minside" component={Minside} history={history}/>
         <Route exact path="/resett-passord/:token" component={ResettPassord}/>
         {//<Route exact path="/login" component={Login} />
         }
-        <Route exact path="/mineoppgaver" component={MineOppgaver}/>
+        <Route exact path="/mineoppgaver" component={MineOppgaver} history={history}/>
         <Route exact path="/login" component={Login} />
         <Route exact path="/kinput" component={komtest} />
         <Route exact path="/headertest" component={PageHeader} history={history} />

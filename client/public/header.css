@@ -1,3 +1,10 @@
+.unselectable {
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+}
+
 .pageHeader {
     height:60px;
     background-color:#fff;
@@ -90,4 +97,47 @@
 .headKomWrapper div ul li a {
     font-size: 14px;
     padding: 5px;
+}
+
+.pageHeaderRight .dropdownbox:not(.brukerbox) {
+    width:340px;
+    top: 52px !important;
+    padding:20px !important;
+    right:-6px !important;
+    border-radius: 10px !important;
+}
+
+.pageHeaderRight .logginnbutton {
+    height: 40px;
+    margin-top: 3px;
+    font-size: 15px;
+    border-radius:30px;
+    padding: 0 20px 0 20px;
+    padding-top: 0 !important;
+}
+
+.brukerbox {
+    width:150px;
+    padding: 10px 0 10px 0 !important;
+    top: 57px !important;
+    right:-10px !important;
+    font-size: 20px;
+    text-align:center;
+}
+
+.brukerbox > .dropdown-item {
+    padding: 10px !important;
+    cursor: pointer;
+}
+
+.brukerbox > .dropdown-item:active {
+    background-color: #d9d9d9;
+}
+
+.brukerbox > .arrow {
+    right: 23px;
+}
+
+.brukerbox > .arrowborder {
+    right: 21px;
 }

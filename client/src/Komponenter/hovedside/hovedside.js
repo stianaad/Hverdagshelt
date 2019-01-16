@@ -287,6 +287,7 @@ export class Hovedside extends Component {
                     <button
                       type="button"
                       className="btn btn-danger border border-dark"
+                      onClick={this.meldInnfeil}
                     >
                       Meld inn feil
                     </button>
@@ -476,6 +477,11 @@ export class Hovedside extends Component {
       </div>
     );
   }
+
+  meldInnfeil(){
+    this.props.history.push("/meld-feil");
+  }
+
   posFunksjon() {
     console.log('hei');
   }
