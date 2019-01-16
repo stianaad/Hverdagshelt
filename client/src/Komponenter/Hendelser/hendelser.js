@@ -13,7 +13,7 @@ export class Hendelser extends Component{
     visHendelser=false;
 
     kategori='';
-    
+
     filterKategori(e) {
         let verdi = e.target.value;
         console.log(verdi);
@@ -64,7 +64,7 @@ export class Hendelser extends Component{
         
             <h1 className="text-center b-5" >Hendelser</h1>
            
-           <div className="row">
+           <div className="row ml-1">
            <h5 className="mt-3">Filtrer på: </h5>
            <select
                 onChange={this.filterKategori}
