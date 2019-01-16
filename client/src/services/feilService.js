@@ -55,6 +55,10 @@ class FeilService {
       hk_id
     );
   }
+
+  slettBildeFraFeil(info) {
+    return api.delete('/api/feil/:feil_id/bilder/:bilde_id', info);
+  }
 }
 
 export let feilService = new FeilService();

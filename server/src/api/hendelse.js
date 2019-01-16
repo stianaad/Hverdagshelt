@@ -34,8 +34,11 @@ router.post('/api/hendelser/:hendelse_id', (req, res) => {
   console.log('Fikk POST-request fra klienten');
 
   let a = {
-    overskrift: req.body.overskrift,
     bruker_id: req.body.bruker_id,
+    hendelseskategori_id: req.body.hendelseskategori_id,
+    kommune_id: req.body.kommune_id,
+    overskrift: req.body.overskrift,
+    tid: req.body.tid,
     beskrivelse: req.body.beskrivelse,
     sted: req.body.sted,
     bilde: req.body.bilde,
@@ -54,7 +57,10 @@ router.put('/api/hendelser/:hendelse_id', (req, res) => {
   console.log('Fikk POST-request fra klienten');
 
   let a = {
+    hendelseskategori_id: req.body.hendelseskategori_id,
+    kommune_id: req.body.kommune_id,
     overskrift: req.body.overskrift,
+    tid: req.body.tid,
     beskrivelse: req.body.beskrivelse,
     bilde: req.body.bilde,
     lengdegrad: req.body.lengdegrad,
@@ -63,7 +69,7 @@ router.put('/api/hendelser/:hendelse_id', (req, res) => {
   };
 
   hendelseDao.oppdaterHendelse(a, (status, data) => {
-    console.log('Opprettet en ny hendelse');
+    console.log('Oppdatert en hendelse');
     res.status(status);
   });
 });
@@ -79,4 +85,29 @@ router.delete('/api/hendelser/:hendelse_id', (req, res) => {
     res.status(status);
   });
 });
+
+router.get('/api/hendelser/kategorier/:hendelseskategori_id', (req, res) => {
+  console.log('Fikk GET-request fra klienten');
+
+  var a = { hendelseskategori_id: req.body.hendelseskategori_id };
+
+  hendelseDao.filtrerHendelserPaaKategori(a, (status, data) => {
+    res.status(status);
+    res.json(data);
+    console.log('/hendelser/:hk_id lengde' + data.length);
+  });
+});
+
+router.get('/api/hendelser/kommuner/:kommune_id', (req, res) => {
+  console.log('Fikk GET-request fra klienten');
+
+  var a = { kommune_id: req.body.kommune_id };
+
+  hendelseDao.filtrerHendelserPaaKommune((status, data) => {
+    res.status(status);
+    res.json(data);
+    console.log('/hendelser/:k_id lengde' + data.length);
+  });
+});
+
 module.exports = router;

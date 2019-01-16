@@ -7,7 +7,7 @@ import {pool} from '../../test/poolsetup.js';
 
 let generelldao = new Generelldao(pool);
 
-router.get('/api/hentAlleKommuner', (req, res) => {
+router.get('/api/kommuner', (req, res) => {
   console.log('Fikk get-request fra klienten');
   generelldao.hentAlleKommuner((status, data) => {
     res.status(status);
