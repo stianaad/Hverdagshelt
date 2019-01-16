@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { Component, sharedComponentData } from 'react-simplified';
 import {brukerService} from '../../services/brukerService';
+import {Link} from 'react-router-dom';
 
 export class Login extends Component {
 
@@ -29,7 +30,7 @@ export class Login extends Component {
           </div>
           
           <button className="myLoginButton" onClick={this.login}>Logg inn</button>
-          <button style={{float:"right"}} className="myLoginButton" onClick={this.login}>Registrer deg</button>
+          <Link to="/registrering"><button style={{float:"right"}} className="myLoginButton">Registrer deg</button></Link>
           
         </div>
       </div>

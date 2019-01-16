@@ -4,6 +4,7 @@ import {HashRouter, Route, NavLink, Redirect, Switch} from 'react-router-dom';
 import {generellServices} from '../../services/generellServices';
 import {feilService} from '../../services/feilService';
 import {hendelseService} from '../../services/hendelseService';
+import {PageHeader} from '../../Moduler/header/header';
 import {
   PositionMap,
   Marker,
@@ -120,7 +121,8 @@ export class Hovedside extends Component {
   render() {
     return (
       <div>
-        <h1 className="text-center">{this.props.match.params.kommune} </h1>
+        <PageHeader history={this.props.history} />
+        <h1 className="text-center text-capitalize display-4">{this.props.match.params.kommune} </h1>
         {!this.visHendelser ? (
           <div className="row mt-5">
             <div className="col-sm-4 ">

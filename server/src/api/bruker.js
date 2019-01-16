@@ -109,6 +109,7 @@ router.post('/api/brukere/privat', (req, res) => {
   };
   brukerDao.lagNyPrivatBruker(info, (status, data) => {
     res.status(status);
+    res.json(data);
   });
 });
 

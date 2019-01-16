@@ -2,7 +2,7 @@ import api from './api';
 
 class GenerellServices {
   hentAlleKommuner() {
-    return api.get('/api/hentAlleKommuner');
+    return api.get('/api/kommuner');
   }
 
   filtrerKommuner(sokeord) {
