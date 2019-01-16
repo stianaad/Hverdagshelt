@@ -125,10 +125,8 @@ export class Hovedside extends Component {
         <h1 className="text-center text-capitalize display-4">{this.props.match.params.kommune} </h1>
         {!this.visHendelser ? (
           <div className="row mt-5">
-            <div className="col-sm-4 ">
+            <div className="col-sm-4">
               <div className="ml-3">
-                <h5>Nylige feil og mangler</h5>
-                <br />
                 <Card fluid="true">
                   <Card.Content>
                     <Card.Header>
@@ -136,8 +134,7 @@ export class Hovedside extends Component {
                       <select
                         onChange={this.filter}
                         className="form-control right floated meta"
-                        style={{height: 30, width: 120}}
-                      >
+                        style={{height: 30, width: 120}}>
                         <option hidden> Filter </option>
                         <option value="0"> Alle kategorier </option>
                         {this.alleKategorier.map((kategori) => (
@@ -305,8 +302,7 @@ export class Hovedside extends Component {
                     </div>
                   </div>
                   <div className="col-sm-6">
-                    <h5>Kommende hendelser</h5>
-                    <div className="mr-3 mt-5">
+                    <div className="mr-3">
                       <Card fluid="true">
                         <Card.Content>
                           <Card.Header>

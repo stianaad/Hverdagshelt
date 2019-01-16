@@ -14,6 +14,7 @@ import {Login} from './Moduler/login/login'
 import {Forside} from './Komponenter/Forside/forside';
 import { PositionMap, Marker, MarkerMap, markerTabell } from './Moduler/kart/map';
 import {Hovedside} from './Komponenter/hovedside/hovedside';
+import {Minside} from './Komponenter/MinSide/minside';
 import {PageHeader} from './Moduler/header/header'
 
 import {GlemtPassord} from "../src/Komponenter/GlemtPassord/glemtPassord";
@@ -137,6 +138,7 @@ if (root)
         <Route exact path="/" component={Forside} history={history}/>
         <Route exact path="/bildetest" component={BildeTest} />
         <Route exact path="/glemt-passord" component={GlemtPassord}/>
+        <Route exact path="/minside" component={Minside}/>
         <Route exact path="/resett-passord/:token" component={ResettPassord}/>
         {//<Route exact path="/login" component={Login} />
         }
