@@ -1,9 +1,9 @@
 import mysql from 'mysql2';
 
 import Generelldao from '../../src/dao/generelldao.js';
+import BrukerDao from '../../src/dao/brukerdao.js';
 import runsqlfile from '../runsqlfile.js';
 import FeilDao from '../../src/dao/feildao';
-import {localTestPool} from '../poolsetup';
 //import {Hendelse} from '../../../client/src/services/hendelseService';
 
 /*
@@ -26,6 +26,24 @@ var pool = mysql.createPool({
 
 let generelldao = new Generelldao(pool);
 let feildao = new FeilDao(pool);
+let brukerdao = new BrukerDao(pool);
+
+let privatBruker1 = {
+  epost: 'ø@g.com',
+  passord: '1234567890',
+  kommune_id: 1,
+  fornavn: 'Øivind',
+  etternavn: 'Larsson'
+};
+
+let oppdaterFeil1 = {
+  kommune_id: 1,
+  subkategori_id: 1,
+  overskrift: 'HeiHei',
+  beskrivelse: 'Kjør da pls',
+  lengdegrad: 0.2,
+  breddegrad: 0.3
+};
 
 beforeAll(done => {
   runsqlfile('lagtabeller.sql', pool, () => {
@@ -39,6 +57,53 @@ afterAll(() => {
   pool.end();
 });
 
+test('legg til ny privatbruker', done => {
+  function callback(status, data) {
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  brukerdao.lagNyPrivatBruker(privatBruker1, callback);
+});
+
+test('oppdater feil', done => {
+  function callback(status, data) {
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  feildao.oppdaterFeil(oppdaterFeil1, callback);
+});
+
+
+
+test('lag ny bruker', done => {
+  function callback(status, data) {
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  brukerdao.lagNyBruker({epost: 'epost11@hotmail.com', passord: 'passord23495', kommune_id: 9}, callback);
+});
+
+test('hent brukerid', done => {
+  function callback(status, data) {
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.bruker_id).toBe(10);
+    done();
+  }
+  brukerdao.finnBrukerid({epost: 'epost10@hotmail.com'}, callback);
+});
+
+
 test('hent alle kommuner', done => {
   function callback(status, data){
     console.log(
@@ -46,9 +111,9 @@ test('hent alle kommuner', done => {
     );
     console.log(data.length);
     expect(data.length).toBeGreaterThan(200);
+    done();
   }
   generelldao.hentAlleKommuner(callback);
-  done();
 });
 
 test('hent alle feil', done => {

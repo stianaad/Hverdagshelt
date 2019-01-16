@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS feilfolg;
+DROP TABLE IF EXISTS hendfolg;
 DROP TABLE IF EXISTS hendelser;
 DROP TABLE IF EXISTS hendelseskategori;
 DROP TABLE IF EXISTS oppdatering;
@@ -92,6 +94,7 @@ CREATE TABLE status (
 
 CREATE TABLE feil (
     feil_id INT(11) NOT NULL AUTO_INCREMENT,
+    bruker_id INT(11) NOT NULL,
     kommune_id INT(11) NOT NULL,
     subkategori_id INT(11) NOT NULL,
     overskrift VARCHAR(255) NOT NULL,
@@ -100,6 +103,7 @@ CREATE TABLE feil (
     breddegrad DOUBLE NOT NULL,
     PRIMARY KEY (feil_id),
     FOREIGN KEY (kommune_id) REFERENCES kommuner(kommune_id),
+    FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id),
     FOREIGN KEY (subkategori_id) REFERENCES subkategori(subkategori_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -145,4 +149,20 @@ CREATE TABLE hendelser(
     FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id),
     FOREIGN KEY (hendelseskategori_id) REFERENCES hendelseskategori(hendelseskategori_id),
     FOREIGN KEY (kommune_id) REFERENCES kommuner(kommune_id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE feilfolg(
+    feil_id INT(11) NOT NULL,
+    bruker_id INT(11) NOT NULL,
+    PRIMARY KEY (feil_id, bruker_id),
+    FOREIGN KEY (feil_id) REFERENCES feil(feil_id),
+    FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE hendfolg(
+    hendelse_id INT(11) NOT NULL,
+    bruker_id INT(11) NOT NULL,
+    PRIMARY KEY (hendelse_id, bruker_id),
+    FOREIGN KEY (hendelse_id) REFERENCES hendelser(hendelse_id),
+    FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

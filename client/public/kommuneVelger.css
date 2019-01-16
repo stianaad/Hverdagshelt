@@ -1,29 +1,25 @@
-
+.komSok {
+    font-size:28px;
+    height: 60px;
+    border-radius:20px;
+}
 
 .komBoks {
     position: relative;
 }
 
 .komListe {
+    text-align: left;
     position: absolute;
     width:100%;
     list-style: none;
     padding:0;
-    max-height: 300px;
+    max-height: 200px;
     overflow-y: auto;
     border-bottom: 1px solid #999;
     border-left: 1px solid #999;
     border-right: 1px solid #999;
-}
-
-.komElement a {
-    text-decoration: none;
-    color: #000;
-}
-
-.komElement:hover a {
-    text-decoration: none;
-    color: #000;
+    z-index: 1000;
 }
 
 .komV {
@@ -41,11 +37,13 @@
     transition: background 0.25s;
 }
 
-.komElement {
+.komElement a {
+    text-decoration: none;
+    color: #000;
     background: #fff;
     display: inline-block;
     width:100%;
-    font-size:18px;
+    font-size:28px;
     padding:15px;
     cursor: pointer;
     transition: background 0.25s;
@@ -55,8 +53,14 @@
     background: #eee;
 }
 
-.komElement:hover {
+.komValgt a {
+    background: #eee;
+}
+
+.komElement a:hover {
     background: #eee;
     transition: background 0.25s;
+    text-decoration: none;
+    color: #000;
 }
 

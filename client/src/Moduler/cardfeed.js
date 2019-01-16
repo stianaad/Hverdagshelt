@@ -1,19 +1,157 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
-import {Card, Feed, Modal} from 'semantic-ui-react';
+import {Card, Feed, Modal, Grid, GridColumn, Segment} from 'semantic-ui-react';
 
 export class FeedEvent extends Component{
+    dato(tid){
+        let innKommendeDato = tid.substr(0,10);
+        let innKommendeKlokkeslett = tid.substr(11,16);
+        let iDag = new Date();
+        let dd = iDag.getDate();
+        let mm = iDag.getMonth()+1; //January is 0!
+        let yyyy = iDag.getFullYear();
+
+        if(dd<10) {
+            dd = '0'+dd
+        } 
+
+        if(mm<10) {
+            mm = '0'+mm
+        } 
+        iDag = yyyy + '-' + mm + '-' + dd;
+        let iGaar = yyyy + '-' + mm + '-' + (dd-1);
+        console.log(tid);
+        if(innKommendeDato===iDag){
+            iDag="I dag "+innKommendeKlokkeslett;
+        } else if(iGaar === innKommendeDato){
+            iDag ="I går "+innKommendeKlokkeslett;
+        } else{
+            iDag= tid;
+        }
+        return(<Feed.Date content={iDag}/>)
+    }
     render(){
+        //this.dato();
+        console.log("hehe");
+        return(
+            <Feed>
+                
+                <Feed.Event>
+                {(this.props.status !== "Under behandling") ? ((this.props.status === 'Ikke godkjent') ? (<Feed.Label image={"/warningicon.png"}/>)
+                                : (<Feed.Label image={"/successicon.png"}/>)) : (<Feed.Label image={"/processingicon.png"}/>)}
+                    <Feed.Content >
+                    <a onClick={this.props.onClick}>
+                        {this.dato(this.props.tid)}
+                        <Feed.Summary>
+                            {this.props.children}
+                        </Feed.Summary>
+                        <span><i>{this.props.kategori}</i></span>
+                        </a>
+                    </Feed.Content>
+                </Feed.Event>
+            </Feed>
+        );
+    }
+}
+
+export class FeedHendelse extends Component{
+    dato(tid){
+        let innKommendeDato = tid.substr(0,10);
+        let innKommendeKlokkeslett = tid.substr(11,16);
+        let iDag = new Date();
+        let dd = iDag.getDate();
+        let mm = iDag.getMonth()+1; //January is 0!
+        let yyyy = iDag.getFullYear();
+
+        if(dd<10) {
+            dd = '0'+dd
+        } 
+
+        if(mm<10) {
+            mm = '0'+mm
+        } 
+        //iDag = yyyy + '-' + mm + '-' + dd;
+        iDag = "2019-08-07";
+        let iGaar = yyyy + '-' + mm + '-' + (dd+1);
+        console.log(tid);
+        if(innKommendeDato===iDag){
+            iDag="I dag "+innKommendeKlokkeslett;
+        } else if(iGaar === innKommendeDato){
+            iDag ="I måren "+innKommendeKlokkeslett;
+        } else{
+            iDag= tid;
+        }
+        return(<Feed.Date content={iDag}/>)
+    }
+    render(){
+        //this.dato();
+        console.log("hehe");
         return(
             <Feed>
                 <Feed.Event>
-                    <Feed.Label image={this.props.image}/>
-                    <Feed.Content >
-                        <Feed.Date content={this.props.content}/>
+                <Feed.Label image={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAMd24HjnhiptW56mpiIDURarm6we9vk_7CQPZyjffGKw9d9wA"}/>
+                <Feed.Content >
+                    <a onClick={this.props.onClick}>
+                        {this.dato(this.props.tid)}
                         <Feed.Summary>
-                            <a onClick={this.props.onClick}>{this.props.children}</a>
+                            {this.props.children}
                         </Feed.Summary>
+                        <span><i>{this.props.kategori}</i></span>
+                        </a>
                     </Feed.Content>
+                </Feed.Event>
+            </Feed>
+        );
+    }
+}
+
+export class FeedMinside extends Component{
+    dato(tid){
+        let innKommendeDato = tid.substr(0,10);
+        let innKommendeKlokkeslett = tid.substr(11,16);
+        let iDag = new Date();
+        let dd = iDag.getDate();
+        let mm = iDag.getMonth()+1; //January is 0!
+        let yyyy = iDag.getFullYear();
+
+        if(dd<10) {
+            dd = '0'+dd
+        } 
+
+        if(mm<10) {
+            mm = '0'+mm
+        } 
+        //iDag = yyyy + '-' + mm + '-' + dd;
+        iDag = yyyy + '-' + mm + '-' + dd;
+        let iGaar = yyyy + '-' + mm + '-' + (dd-1);
+        console.log(tid);
+        if(innKommendeDato===iDag){
+            iDag="I dag "+innKommendeKlokkeslett;
+        } else if(iGaar === innKommendeDato){
+            iDag ="I går "+innKommendeKlokkeslett;
+        } else{
+            iDag= tid;
+        }
+        return(<Feed.Date content={iDag}/>)
+    }
+    render(){
+        //this.dato();
+        console.log("hehe");
+        return(
+            <Feed>
+                <Feed.Event>
+                <Feed.Label image={"/warningicon.png"}/>
+                <Feed.Content >
+                    <a onClick={this.props.onClick}>
+                        {this.dato(this.props.tid)}
+                        <Feed.Summary>
+                            {this.props.children}
+
+                        </Feed.Summary>
+                        <span><i>{this.props.kategori}</i></span>
+                        </a>
+                    </Feed.Content>
+                    <Feed.Label image={"https://cdn4.iconfinder.com/data/icons/devine_icons/Black/PNG/Folder%20and%20Places/Trash-Recyclebin-Empty-Closed.png"}/>
                 </Feed.Event>
             </Feed>
         );
@@ -24,23 +162,20 @@ export class Info extends Component{
     render(){
         return(
             <div>
-                <h1>Strømbrudd hos stian</h1>
-                <br/>
-                <p>06.01.2018</p>
-                <div>
-                    <div className="a">
-                        <p>Masse tekst</p>
-                    </div>
-                    <div className="b">
-                        <p>Kart</p>
-                    </div>
-                    <div className="c">
-                        <p>Oppdateringer</p>
-                    </div>
-                    <div className="d">
-                        <p>Bilder</p>
-                    </div>
-                </div>
+                <Grid columns={3} divided>
+                    <Grid.Row stretched> 
+                        <Grid.Column>
+                            <Segment>Beskrivelse</Segment>
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Segment>Kart</Segment>
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Segment>Oppdatering</Segment>
+                            <Segment>Bilder</Segment>
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
             </div>
         );
     }

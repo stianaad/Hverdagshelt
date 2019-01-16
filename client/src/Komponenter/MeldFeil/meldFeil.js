@@ -6,6 +6,15 @@ import { PositionMap } from '../../Moduler/kart/map';
 import { feilService } from '../../services/feilService';
 
 export class MeldFeil extends Component {
+  data = {
+    kommune_id: 1,
+    kategori_id: 1,
+    subkategori_id: 1,
+    overskrift: '',
+    beskrivelse: '',
+    lengdegrad: 0,
+    breddegrad: 0,
+  };
 
     kategoriene= [];
     subkategoriene = [];
@@ -120,36 +129,46 @@ export class MeldFeil extends Component {
         formData.append("breddegrad", this.data.breddegrad);
         formData.append("avsjekket", this.data.avsjekket);
 
-        let files = document.querySelector('#bil').files;
-        for (let i = 0; i < files.length; i++) {
-            let file = files[i];
-            if (!file.type.match('image.*')) {
-                continue;
-            }
-            formData.append('bilder', file, file.name);
-        }
+    formData.append('kommune_id', this.data.kommune_id);
+    formData.append('subkategori_id', this.data.subkategori_id);
+    formData.append('overskrift', this.data.overskrift);
+    formData.append('beskrivelse', this.data.beskrivelse);
+    formData.append('lengdegrad', this.data.lengdegrad);
+    formData.append('breddegrad', this.data.breddegrad);
 
-        let xhr = new XMLHttpRequest();
-        xhr.open('POST', '/api/lagNyFeil ', true);
-        xhr.onreadystatechange = function () {
-            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                alert("Innmeldingen var vellykket!")
-                document.location = "/min-side";
-            }
-        }
-        xhr.send(formData);
+    let files = document.querySelector('#bil').files;
+    for (let i = 0; i < files.length; i++) {
+      let file = files[i];
+      if (!file.type.match('image.*')) {
+        continue;
+      }
+      formData.append('bilder', file, file.name);
     }
 
-    velgMinPosisjon() {
-        navigator.geolocation.getCurrentPosition((pos) => {
-            console.log(pos);
-        }, () => alert("Geolokasjon støttes ikke av din nettleser"))
-    }
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', '/api/lagNyFeil ', true);
+    xhr.onreadystatechange = function() {
+      if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+        alert('Innmeldingen var vellykket!');
+        document.location = '/min-side';
+      }
+    };
+    xhr.send(formData);
+  }
 
-    posFunksjon(pos) {
-        this.data.breddegrad = pos.lat;
-        this.data.lengdegrad = pos.lng;
-    }
+  velgMinPosisjon() {
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        console.log(pos);
+      },
+      () => alert('Geolokasjon støttes ikke av din nettleser')
+    );
+  }
+
+  posFunksjon(pos) {
+    this.data.breddegrad = pos.lat;
+    this.data.lengdegrad = pos.lng;
+  }
 
     endreVerdi(e) {
         const target = e.target;

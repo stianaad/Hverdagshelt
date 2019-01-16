@@ -1,29 +1,26 @@
-import mysql from 'mysql'
+import mysql from 'mysql';
 import fs from 'fs';
 
 module.exports = function run(filename, pool, done) {
-    console.log("runsqlfile: reading file " + filename);
-    let sql = fs.readFileSync(
-    __dirname + '/' + filename,
-    'utf8'
-  );
+  console.log('runsqlfile: reading file ' + filename);
+  let sql = fs.readFileSync(__dirname + '/' + filename, 'utf8');
 
-    pool.getConnection((err, connection) => {
+  pool.getConnection((err, connection) => {
+    if (err) {
+      console.log('runsqlfile: error connecting');
+      done();
+    } else {
+      console.log('runsqlfile: connected');
+      connection.query(sql, (err, rows) => {
+        connection.release();
         if (err) {
-            console.log("runsqlfile: error connecting");
-            done();
+          console.log(err);
+          done();
         } else {
-            console.log("runsqlfile: connected");
-            connection.query(sql, (err, rows) => {
-                connection.release();
-                if (err) {
-                    console.log(err);
-                    done();
-                } else {
-                    console.log("runsqlfile: run ok");
-                    done();
-                }
-            });
+          console.log('runsqlfile: run ok');
+          done();
         }
-    });
+      });
+    }
+  });
 };
