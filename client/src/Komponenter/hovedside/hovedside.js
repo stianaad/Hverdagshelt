@@ -239,10 +239,10 @@ export class Hovedside extends Component {
                     </Card.Content>
                     <Card.Content extra>
                       <Grid fluid columns={3}>
-                        <GridColumn>
+                        <Grid.Column>
                           <h6>Beskrivelse: </h6>
                           <p>{this.feil.beskrivelse}</p>
-                        </GridColumn>
+                        </Grid.Column>
                         <Grid.Column>
                         <h6>Posisjon</h6>
                             <ShowMarkerMap
