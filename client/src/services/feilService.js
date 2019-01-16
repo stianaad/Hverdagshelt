@@ -50,7 +50,13 @@ class FeilService {
   }
 
   hentAlleSubkategorierPaaHovedkategori(hk_id) {
-    return api.get('/api/hovedkategorier/'+hk_id+'/subkategorier');
+    return api.get(
+      '/api/hovedkategorier/'+hk_id+'/subkategorier'
+    );
+  }
+
+  hentAlleSubkategorier() {
+    return api.get('/api/hovedkategorier/subkategorier');
   }
 
   slettBildeFraFeil(info) {

@@ -19,6 +19,10 @@ app.use(hendelse);
 import jwt from 'jsonwebtoken';
 import secret from './config.json';
 import {checkToken} from './middleware.js';
+import BrukerDao from './dao/brukerdao';
+import {pool} from '../test/poolsetup';
+
+let brukerdao = new BrukerDao(pool);
 
 app.get('/api', (req, res) => {
   res.json({
@@ -33,17 +37,22 @@ app.post('/api/posts', checkToken, (req, res) => {
 });
 
 app.post('/api/login1', (req, res) => {
-  // Mock user
-  const user = {
-    id: 1, 
-    username: 'brad',
-    email: 'brad@gmail.com'
-  }
+  let e = { epost: req.body.epost };
+  brukerdao.hentBruker(e, (status, data) => {
+    brukerdao.hentBrukerRolle(data, (status, data) =>{
+      let rolle = { role: ''};
 
-  jwt.sign({user: user}, secret.secret, { expiresIn: '1m' }, (err, token) => {
-    console.log(err);
-    res.json({
-      token: token
+      if      (data.privatbruker == 1)  { rolle.role = 'privatbruker'; }
+      else if (data.ansatt == 1)        { rolle.role = 'ansatt'; }
+      else if (data.bedrift == 1)       { rolle.role = 'bedrift'; }
+      else                              { rolle.role = 'admin'; }
+
+      jwt.sign({user: user, role: rolle.role}, secret.secret, { expiresIn: '1m' }, (err, token) => {
+        console.log(err);
+        res.json({
+          token: token
+        });
+      });
     });
   });
 });
