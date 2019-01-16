@@ -125,13 +125,6 @@ export class MeldFeil extends Component {
     formData.append("breddegrad", this.data.breddegrad);
     formData.append("avsjekket", this.data.avsjekket);
 
-    formData.append('kommune_id', this.data.kommune_id);
-    formData.append('subkategori_id', this.data.subkategori_id);
-    formData.append('overskrift', this.data.overskrift);
-    formData.append('beskrivelse', this.data.beskrivelse);
-    formData.append('lengdegrad', this.data.lengdegrad);
-    formData.append('breddegrad', this.data.breddegrad);
-
     let files = document.querySelector('#bil').files;
     for (let i = 0; i < files.length; i++) {
       let file = files[i];

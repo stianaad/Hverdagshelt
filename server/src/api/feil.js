@@ -229,4 +229,5 @@ router.delete('/api/feil/:feil_id/bilder/:bilde_id', (req, res) => {
     console.log('Slettet bilde fra feil');
   });
 });
+
 module.exports = router;
