@@ -41,6 +41,13 @@ export class Marker {
     marker = L.marker();
     hoverPopup = L.popup({ maxWidth: 800 }).setContent('<p>Hover popup</p>');
     clickPopup = L.popup().setContent('<p>Click popup</p>');
+    mouseover = (e) => { this.marker.bindPopup(this.hoverPopup).openPopup() };
+    mouseout = (e) => { this.marker.closePopup().unbindPopup(); };
+    markerclick = (e) => {
+        this.marker.closePopup().unbindPopup();
+        this.marker.removeEventListener('mouseout');
+        this.marker.bindPopup(this.clickPopup, { maxWidth: 800 }).openPopup();
+    };
     /**
      * 
      * @param {string} overskrift 
@@ -52,7 +59,8 @@ export class Marker {
      * @param {double} breddegrad 
      * @param {double} lengdegrad 
      */
-    constructor(feil) {
+    constructor(feil, popup) {
+        this.popup = popup;
         let iconName = feil.status == 0 ? null : feil.status == "Ikke godkjent" ? "warningicon" : feil.status == "Under behandling" ? "processingicon" : "successicon";
         let statusText = feil.status == 0 ? "" : feil.status == "Ikke godkjent" ? <span style={{ color: 'red', fontStyle: 'italic' }}>Ikke godkjent</span> :
             feil.status == "Under behandling" ? <span style={{ color: 'orange', fontStyle: 'italic' }}>Under behandling</span> :
@@ -68,16 +76,15 @@ export class Marker {
         this.hoverPopup.setContent('<h4>' + feil.kategorinavn + '</h4>');
         this.clickPopup.setContent(ReactDOMServer.renderToString(<PopupContent tid={feil.tid} overskrift={feil.overskrift} statusText={statusText} beskrivelse={feil.beskrivelse} bildeurl={""} kategori={feil.kategorinavn}></PopupContent>));
 
-        this.marker.on('mouseover', (e) => { this.marker.bindPopup(this.hoverPopup).openPopup() });
-        this.marker.on('mouseout', (e) => { this.marker.closePopup().unbindPopup(); });
-        this.marker.on('click', (e) => {
-            this.marker.closePopup().unbindPopup();
-            this.marker.removeEventListener('mouseout');
-            this.marker.bindPopup(this.clickPopup, { maxWidth: 800 }).openPopup();
-        });
-        this.marker.on('popupclose', (e) => {
-            this.marker.on('mouseout', (e) => { this.marker.closePopup().unbindPopup(); })
-        });
+        if (this.popup) {
+            this.marker.on('mouseover', this.mouseover);
+            this.marker.on('mouseout', this.mouseout);
+            this.marker.on('click', this.markerclick);
+            this.marker.on('popupclose', (e) => {
+                this.marker.on('mouseout', (e) => { this.marker.closePopup().unbindPopup(); })
+            });
+        }
+        
     }
 
     addTo(map) {
@@ -99,17 +106,15 @@ export class Marker {
         }
         this.hoverPopup.setContent('<h4>' + feil.kategorinavn + '</h4>');
         this.clickPopup.setContent(ReactDOMServer.renderToString(<PopupContent tid={feil.tid} overskrift={feil.overskrift} statusText={statusText} beskrivelse={feil.beskrivelse} bildeurl={""} kategori={feil.kategorinavn}></PopupContent>));
-
-        this.marker.on('mouseover', (e) => { this.marker.bindPopup(this.hoverPopup).openPopup() });
-        this.marker.on('mouseout', (e) => { this.marker.closePopup().unbindPopup(); });
-        this.marker.on('click', (e) => {
-            this.marker.closePopup().unbindPopup();
-            this.marker.removeEventListener('mouseout');
-            this.marker.bindPopup(this.clickPopup, { maxWidth: 800 }).openPopup();
-        });
-        this.marker.on('popupclose', (e) => {
-            this.marker.on('mouseout', (e) => { this.marker.closePopup().unbindPopup(); })
-        });
+        
+        if (this.popup) {
+            this.marker.on('mouseover', this.mouseover);
+            this.marker.on('mouseout', this.mouseout);
+            this.marker.on('click', this.markerclick);
+            this.marker.on('popupclose', (e) => {
+                this.marker.on('mouseout', (e) => { this.marker.closePopup().unbindPopup(); })
+            });
+        }
     }
 }
 
@@ -201,7 +206,7 @@ export class ShowMarkerMap extends Component {
             ]
         });
 
-        this.m = new Marker(this.f);
+        this.m = new Marker(this.f, false);
         this.m.marker.addTo(this.map);
     }
 
@@ -218,7 +223,7 @@ export class ShowMarkerMap extends Component {
             ]
         });
 
-        this.m = new Marker(this.f);
+        this.m = new Marker(this.f).removePopup();
         this.m.marker.addTo(this.map);
     }
 

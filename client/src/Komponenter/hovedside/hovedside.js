@@ -297,7 +297,7 @@ export class Hovedside extends Component {
                         width="100%"
                         height="300px"
                         id="test"
-                        center="Oslo"
+                        center={this.props.match.params.kommune}
                         markers={this.markers}
                         onRef={(ref) => (this.kart = ref)}
                       />
@@ -490,6 +490,7 @@ export class Hovedside extends Component {
     let res3 = await hendelseService.hentAlleHendelser();
     this.alleHendelser = await res3.data;
     await console.log(res3.data);
+
 
     /*await this.scrollFeil(); 
     await this.scrollHendelse(); */
