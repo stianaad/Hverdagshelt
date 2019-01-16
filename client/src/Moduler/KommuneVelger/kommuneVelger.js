@@ -24,7 +24,7 @@ export class KommuneVelger extends Component {
                 <input ref={this.in} style={this.listesyn ? {borderBottomLeftRadius:"0px", borderBottomRightRadius:"0px"} : {}} className="form-control input-lg komSok" value={this.sok} placeholder="Finn din kommune.." onChange={this.oppdaterSok} type="text"></input>
                 <ul ref={this.boks} className="komListe" style={{display: this.listesyn ? "block" : "none"}}>
                     {this.kommuner_filtrert.map((kommune, i) => (
-                        <li key={kommune.kommune_id} className={(i==this.valgt_index) ? "komElement komValgt" : "komElement"}><Link to={"/hovedside/"+kommune.kommune_navn.toLowerCase()}>{kommune.kommune_navn}</Link></li>
+                        <li key={kommune.kommune_id} className={(i==this.valgt_index) ? "komElement komValgt" : "komElement"}><Link onClick={this.clear} to={"/hovedside/"+kommune.kommune_navn.toLowerCase()}>{kommune.kommune_navn}</Link></li>
                     ))}
                 </ul>
             </div>
@@ -37,13 +37,17 @@ export class KommuneVelger extends Component {
         this.kommuner = await res.data;
     }
 
+    clear() {
+        this.sok = "";
+        this.kommuner_filtrert = [];
+        this.listesyn = false;
+        this.valgt_index = 0;
+    }
+
     inputup (e) {
         if (e.key == "Enter") {
             this.props.history.push("/hovedside/"+this.kommuner_filtrert[this.valgt_index].kommune_navn.toLowerCase());
-            this.sok = "";
-            this.kommuner_filtrert = [];
-            this.listesyn = false;
-            this.valgt_index = 0;
+            this.clear();
         } else if (e.key == "ArrowDown") { //NED
             e.preventDefault();
             this.valgt_index++;
