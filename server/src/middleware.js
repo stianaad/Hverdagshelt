@@ -95,6 +95,7 @@ function sjekkPassord(json, callback) {
         } else {
           console.log(data[0].bruker_id);
           res.json({"result": true,"bruker_id": data[0].bruker_id});
+          callback;
         }
       });
     } else{
