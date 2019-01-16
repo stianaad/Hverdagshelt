@@ -105,18 +105,24 @@ router.post("/api/sjekkPassord",(req,res) => {
     }
     console.log(hash);
   })*/
-  console.log(req.body.passord);
   brukerDao.hentBruker(req.body,(status,data) => {
     //verifiserePassord(req.body.passord,data[0].passord);
-    passord(req.body.passord).verifyAgainst(data[0].passord, (error,verified) => {
-      if(error)
-        throw new Error('Noe gikk galt!');
-      if(!verified) {
-        res.json({"result": false});
-      } else {
-        res.json({"result": true});
-      }
-    });
+    if(data.length >0){
+      passord(req.body.passord).verifyAgainst(data[0].passord, (error,verified) => {
+        if(error)
+          throw new Error('Noe gikk galt!');
+        if(!verified) {
+          console.log("false1");
+          res.json({"result": false});
+        } else {
+          console.log("true");
+          res.json({"result": true});
+        }
+      });
+    } else{
+      console.log("false2");
+      res.json({"result": false});
+    }
     //res.status(status);
     //res.json(data);
   })

@@ -5,7 +5,7 @@ import { Component, sharedComponentData } from 'react-simplified';
 import {brukerService} from '../../services/brukerService';
 
 export class Login extends Component {
-
+  advarsel = "";
   data = {
     epost: "",
     passord: "",
@@ -26,11 +26,11 @@ export class Login extends Component {
             <label htmlFor="passord">Passord:</label>
             <input type="password" value={this.data.passord} onChange={this.endre} name ="passord" className="form-control" id="passord" placeholder="Passord"></input>
             <p className="glemtLink">Glemt passord?</p>
+            <p>{this.advarsel}</p>
           </div>
           
           <button className="myLoginButton" onClick={this.login}>Logg inn</button>
           <button style={{float:"right"}} className="myLoginButton" onClick={this.login}>Registrer deg</button>
-          
         </div>
       </div>
     );
@@ -40,9 +40,19 @@ export class Login extends Component {
     this.data[e.target.name] = e.target.value;
   }
 
+  sjekkPassord(result){
+    if(result){
+      this.props.history.push('/hovedside/trondheim');
+    } else {
+      console.log(result)
+      this.advarsel = "Feil brukernavn eller passord!";
+    }
+  }
+
   async login() {
     console.log(this.data);
    let res = await brukerService.loggInn(this.data);
-    await this.props.history.push('/hovedside/trondheim');
+   //await console.log(res.data.result);
+   await this.sjekkPassord(res.data.result);
   }
 }
