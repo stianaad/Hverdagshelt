@@ -16,6 +16,7 @@ import {Hovedside} from './Komponenter/hovedside/hovedside';
 
 import {GlemtPassord} from "../src/Komponenter/GlemtPassord/glemtPassord";
 import {ResettPassord} from "../src/Komponenter/GlemtPassord/resettPassord";
+import {Hendelser} from '../src/Komponenter/Hendelser/hendelser';
 
 
 import createBrowserHistory from 'history/createBrowserHistory';
@@ -257,6 +258,8 @@ if (root)
         <Route exact path="/mineoppgaver" component={MineOppgaver}/>
         <Route exact path="/login" component={Login} />
         <Route exact path="/kinput" component={komtest} />
+        <Route exact path="/hendelser" component={Hendelser} />
+
       </div>
     </Router>,
     root
