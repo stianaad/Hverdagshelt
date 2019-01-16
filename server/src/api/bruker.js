@@ -42,7 +42,7 @@ const hashPassord = (inputPassord) => {
 
 // Verifisere passord
 
-const verifiserePassord = (inputPassord, eksisterendePassord) => {
+export const verifiserePassord = (inputPassord, eksisterendePassord) => {
   return passord(inputPassord).verifyAgainst(
     eksisterendePassord,
     (error, verified) => {
@@ -129,17 +129,17 @@ router.post("/api/sjekkPassord",(req,res) => {
 })
 
 router.post('/api/brukere/privat', (req, res) => {
-  console.log('/brukere/privat fikk post request fra klienten');
-  let info = {
-    epost: req.body.epost,
-    passord: req.body.passord,
-    kommune_id: req.body.kommune_id,
-    fornavn: req.body.fornavn,
-    etternavn: req.body.etternavn,
-  };
-  brukerDao.lagNyPrivatBruker(info, (status, data) => {
-    res.status(status);
-    res.json(data);
+  console.log('Fikk POST-request fra klienten');
+  passord(req.body.passord).hash((error, hash) => {
+    if (error) {
+      throw new Error('Noe gikk galt');
+    }
+    req.body.passord = hash;
+    brukerDao.lagNyPrivatBruker(req.body, (status, data) => {
+      res.status(status);
+      res.json(data);
+      console.log('Den nye IDen er:', data.insertId);
+    });
   });
 });
 

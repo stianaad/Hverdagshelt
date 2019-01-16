@@ -1,5 +1,5 @@
 INSERT INTO bruker (epost, passord, kommune_id) VALUES
-  ('epost1@hotmail.com', 'passord1', 12),
+  ('epost1@hotmail.com', 'pbkdf2$10000$64c2446101f5fa79b1a0d0bd7f6be19a3e138357c0615f29bed4a7b2daa834e808e3055d2cb1ca2d02c8738e57336381be77b502efacc802f2094568abc069a6$4849f30fe43a9097fc54001f0451679e6c3d65b725e4603e8dd2777ffc40238951df60698d534eacbb472b8a9c8c871966443d620af0ffdbccf3a0ea45ec5342', 12),
   ('epost2@hotmail.com', 'passord2', 24),
   ('epost3@hotmail.com', 'passord3', 333),
   ('epost4@hotmail.com', 'passord4', 351),
@@ -47,13 +47,13 @@ INSERT INTO status (status_id, status) VALUES
   (2, 'Under behandling'),
   (3, 'Ferdig');
 
-INSERT INTO feil (kommune_id, subkategori_id, overskrift, beskrivelse, lengdegrad, breddegrad) VALUES
-  (1, 1, 'Overskrift1', 'Beskrivelse1', 0.1, 0.0),
-  (20, 2, 'Overskrift2', 'Beskrivelse2', 0.0, 0.2),
-  (30, 2, 'Overskrift3', 'Beskrivelse3', 0.3, 0.3),
-  (40, 4, 'Overskrift4', 'Beskrivelse4', 0.4, 4.0),
-  (50, 3, 'Overskrift5', 'Beskrivelse5', 5.0, 5.0),
-  (60, 6, 'Overskrift6', 'Beskrivelse6', 60.0, 6.0);
+INSERT INTO feil (kommune_id, bruker_id, subkategori_id, overskrift, beskrivelse, lengdegrad, breddegrad) VALUES
+  (1, 1, 1, 'Overskrift1', 'Beskrivelse1', 0.1, 0.0),
+  (20, 2, 2, 'Overskrift2', 'Beskrivelse2', 0.0, 0.2),
+  (30, 2, 3, 'Overskrift3', 'Beskrivelse3', 0.3, 0.3),
+  (40, 4, 4, 'Overskrift4', 'Beskrivelse4', 0.4, 4.0),
+  (50, 3, 1, 'Overskrift5', 'Beskrivelse5', 5.0, 5.0),
+  (60, 6, 2, 'Overskrift6', 'Beskrivelse6', 60.0, 6.0);
 
 INSERT INTO feilbilder (feil_id, url) VALUES 
   (1, 'https://bjornost.tihlde.org/hverdagshelt/b25b28c741e520d695615dee3ac2dc4a'),
@@ -72,6 +72,6 @@ INSERT INTO hendelseskategori (kategorinavn) VALUES
   ('HendelseKat1'),
   ('HendelseKat2');
 
-INSERT INTO hendelser (bruker_id, hendelseskategori_id, overskrift, tid, beskrivelse, sted, bilde, lengdegrad, breddegrad) VALUES
-  (5, 1, 'Overskrift1', ('2019-08-07'), 'Beskrivelse1', 'Sted1', 'https://bjornost.tihlde.org/hverdagshelt/135d6d0f44a6ba73e3782c243663b90a', 0.0, 0.0),
-  (6, 2, 'Overskrift2', ('2019-12-20'), 'Beskrivelse2', 'Sted2', 'https://bjornost.tihlde.org/hverdagshelt/19af4f8c745a62973e2cd615eaf329fa', 1.0, 0.1);
+INSERT INTO hendelser (bruker_id, hendelseskategori_id, kommune_id, overskrift, tid, beskrivelse, sted, bilde, lengdegrad, breddegrad) VALUES
+  (5, 1, 4, 'Overskrift1', ('2019-08-07'), 'Beskrivelse1', 'Sted1', 'https://bjornost.tihlde.org/hverdagshelt/135d6d0f44a6ba73e3782c243663b90a', 0.0, 0.0),
+  (6, 2, 12, 'Overskrift2', ('2019-12-20'), 'Beskrivelse2', 'Sted2', 'https://bjornost.tihlde.org/hverdagshelt/19af4f8c745a62973e2cd615eaf329fa', 1.0, 0.1);

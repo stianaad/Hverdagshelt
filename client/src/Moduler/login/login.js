@@ -26,7 +26,7 @@ export class Login extends Component {
             <input type="text" value={this.data.epost} onChange={this.endre} name="epost" className="form-control" id="epost" placeholder="E-post"></input>
             <label htmlFor="passord">Passord:</label>
             <input type="password" value={this.data.passord} onChange={this.endre} name ="passord" className="form-control" id="passord" placeholder="Passord"></input>
-            <p className="glemtLink">Glemt passord?</p>
+            <Link to="/glemt-passord"><p className="glemtLink">Glemt passord?</p></Link>
             <p>{this.advarsel}</p>
           </div>
           
@@ -66,11 +66,6 @@ export class Login extends Component {
     }
     
     document.addEventListener('click', outsideClickListener)
-  }
-
-  dropDidBlur(event) {
-    let drop = document.getElementById("drops");
-    drop.style.display = "none";
   }
 
   endre(e) {

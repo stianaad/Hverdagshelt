@@ -131,7 +131,7 @@ if (root)
     <Router history={history}>
       <div>
         <Route exact path="/hovedside/:kommune" component={Hovedside} history={history}/>
-        <Route exact path="/kommunevalgtest" component={KommuneVelger} />
+        <Route exact path="/kommunevalgtest" component={KommuneVelger} history={history}/>
         <Route exact path="/meld-feil" component={MeldFeil} />
         <Route exact path="/nyheter" component={Menu} />
         <Route exact path="/registrering" component={Registrering} history={history} />
