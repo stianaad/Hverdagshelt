@@ -40,12 +40,12 @@ export class FeedEvent extends Component{
                 {(this.props.status !== "Under behandling") ? ((this.props.status === 'Ikke godkjent') ? (<Feed.Label image={"/warningicon.png"}/>)
                                 : (<Feed.Label image={"/successicon.png"}/>)) : (<Feed.Label image={"/processingicon.png"}/>)}
                     <Feed.Content >
-                    <a onClick={this.props.onClick}>
-                        {this.dato(this.props.tid)}
-                        <Feed.Summary>
-                            {this.props.children}
-                        </Feed.Summary>
-                        <span><i>{this.props.kategori}</i></span>
+                        <a onClick={this.props.onClick}>
+                            {this.dato(this.props.tid)}
+                            <Feed.Summary>
+                                {this.props.children}
+                            </Feed.Summary>
+                            <span><i>{this.props.kategori}</i></span>
                         </a>
                     </Feed.Content>
                 </Feed.Event>
@@ -164,7 +164,7 @@ export class Info extends Component{
                 <Grid columns={3} divided>
                     <Grid.Row stretched> 
                         <Grid.Column>
-                            <Segment>Beskrivelse</Segment>
+                            <p>{this.props.children}</p>
                         </Grid.Column>
                         <Grid.Column>
                             <Segment>Kart</Segment>
@@ -184,7 +184,7 @@ export class Filtrer extends Component{
     render(){
         return(
             <div>
-                <select onChange={this.props.onChange}>
+                <select onChange={this.props.onChange} style={{height: 30, width: 120}} className="rigth floated form-control">
                     <option hidden>
                         Filtrer
                     </option>
