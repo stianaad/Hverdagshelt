@@ -13,9 +13,28 @@ import generell from './api/generell.js';
 app.use(generell);
 import feil from './api/feil.js';
 app.use(feil);
-
 const hendelse = require('./api/hendelse.js');
 app.use(hendelse);
+
+import jwt from 'jsonwebtoken';
+import secret from './config.json';
+import {checkToken, createToken} from './middleware.js';
+
+app.get('/api', (req, res) => {
+  res.json({
+    message: 'Welcome to the API'
+  });
+});
+
+app.post('/api/posts', checkToken, (req, res) => {
+  res.json({
+    Message: 'Sugmeg'
+  });
+});
+
+app.post('/api/login1', createToken, (req, res) => {
+  res.json({ Message: 'login ok', token})
+});
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '../../../client/public/index.html'));

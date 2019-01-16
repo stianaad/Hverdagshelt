@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
 import {brukerService} from '../../services/brukerService';
-
+import {PageHeader} from '../../Moduler/header/header';
 
 export class ResettPassord extends Component{
 
@@ -10,7 +10,8 @@ export class ResettPassord extends Component{
 
     render(){
       return(
-      
+        <>
+        <PageHeader />
         <div className="container">
         <h1 className="text-center" >Resett passord</h1>
         <p className="font-weight-bold"></p>
@@ -70,7 +71,7 @@ export class ResettPassord extends Component{
             </div>
           </div>
         </div>
-
+        </>
       );
     }
 

@@ -141,7 +141,7 @@ export class Hovedside extends Component {
           <div className="row mt-5">
             <div className="col-sm-4">
               <div className="ml-3">
-                <Card fluid="true">
+                <Card fluid>
                   <Card.Content>
                     <Card.Header>
                       Nylige feil og mangler
@@ -171,6 +171,7 @@ export class Hovedside extends Component {
                           status={feil.status}
                           tid={feil.tid}
                           kategori={feil.kategorinavn}
+                          key={feil.feil_id}
                         >
                           {feil.overskrift}
                         </FeedEvent>
@@ -246,8 +247,6 @@ export class Hovedside extends Component {
                               height="300px"
                               id="posmap"
                               feil={this.feil}
-                              markers={markerTabell(this.alleFeil)}
-                              onRef={(ref) => (this.kart1 = ref)}
                             />
                         </Grid.Column>
                         <Grid.Column>
@@ -306,7 +305,7 @@ export class Hovedside extends Component {
                   </div>
                   <div className="col-sm-6">
                     <div className="mr-3">
-                      <Card fluid="true">
+                      <Card fluid>
                         <Card.Content>
                           <Card.Header>
                             <Grid>
@@ -328,6 +327,7 @@ export class Hovedside extends Component {
                                 //status ={feil.status}
                                 tid={hendelse.tid}
                                 kategori={hendelse.kategorinavn}
+                                key={hendelse.hendelse_id}
                               >
                                 {hendelse.overskrift}
                               </FeedHendelse>
@@ -422,7 +422,7 @@ export class Hovedside extends Component {
                 </div>
             <div className="col-sm-4">
               <div className="mr-3 mt-5">
-                <Card>
+                <Card fluid>
                   <Card.Content>
                     <Card.Header>
                       <Grid>

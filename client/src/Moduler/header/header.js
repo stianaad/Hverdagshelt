@@ -40,9 +40,9 @@ export class PageHeader extends Component {
                         </div>*/
                         <Login></Login>
                         ) : this.brukertype == "privat" ? (
-                            <div className="dropdown">
+                            <div className="dropdown profileButton">
                                 <img className="profileIcon" src="/profile.svg" alt="Bruker ikon" onClick={this.clickDrop}></img>
-                                <div className="dropdown-menu dropdown-menu-right dropdownbox brukerbox" id="drops">
+                                <div style={{width: "170px"}} className="dropdown-menu dropdown-menu-right dropdownbox brukerbox" id="drops">
                                     <div className="arrow"></div>
                                     <div className="arrowborder"></div>
                                     <div className="dropdown-item">Min side</div>
@@ -51,9 +51,9 @@ export class PageHeader extends Component {
                                 </div>
                             </div>
                         ) : this.brukertype == "ansatt" ? (
-                            <div className="dropdown">
+                            <div className="dropdown profileButton">
                                 <img className="profileIcon" src="/profile.svg" alt="Bruker ikon" onClick={this.clickDrop}></img>
-                                <div style={{width: "180px"}} className="dropdown-menu dropdown-menu-right dropdownbox brukerbox" id="drops">
+                                <div style={{width: "190px"}} className="dropdown-menu dropdown-menu-right dropdownbox brukerbox" id="drops">
                                     <div className="arrow"></div>
                                     <div className="arrowborder"></div>
                                     <div className="dropdown-item">Mine oppgaver</div>
@@ -63,9 +63,9 @@ export class PageHeader extends Component {
                                 </div>
                             </div>
                         ) : this.brukertype == "bedrift" ? (
-                            <div className="dropdown">
+                            <div className="dropdown profileButton">
                                 <img className="profileIcon" src="/profile.svg" alt="Bruker ikon" onClick={this.clickDrop}></img>
-                                <div className="dropdown-menu dropdown-menu-right dropdownbox brukerbox" id="drops">
+                                <div style={{width: "180px"}} className="dropdown-menu dropdown-menu-right dropdownbox brukerbox" id="drops">
                                     <div className="arrow"></div>
                                     <div className="arrowborder"></div>
                                     <div className="dropdown-item">Mine oppgaver</div>

@@ -1,0 +1,96 @@
+html, body {
+  height: 100%;
+}
+
+#blokk {
+  height: 100%;
+  width: 40%;
+  margin: auto;
+  overflow: hidden;
+  /*border-right: solid;
+  border-lefT: solid;*/
+  padding-left: 0.8%;
+}
+
+#radene {
+  margin-top: 1px;
+}
+
+#hode {
+  margin-left: 14px;
+}
+
+#tekstrad {
+  margin-top: 6px;
+}
+
+#overskrift, #kommuneblokk, #overskriftblokk, #beskblokk, #poslbl, #sjekkboks, #kategoriblokk, #subkategoriblokk {
+  margin-top: 15px;
+}
+
+#kommuneblokk, #overskriftblokk, #beskblokk, #bilete, #kategoriblokk, #subkategoriblokk {
+  width: 48%;
+  float: left;
+}
+
+#bes {
+  width: 100%;
+  height: 200px;
+}
+
+#overskriftblokk, #bilete, #subkategoriblokk {
+  margin-left: 2%;
+}
+
+#bilete {
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+#posblokk {
+  margin-right: 2%;
+}
+
+#sjekkboks {
+  margin-bottom: 45px;
+}
+
+#boksen, #boksenlbl {
+  float: left;
+}
+
+#boksen {
+  margin-top: 1.5px;
+}
+
+#meldinnknapp {
+  margin-bottom: 20px;
+}
+
+/* Mobilversjon */
+
+@media (max-width: 1000px){
+
+  #overskriftblokk, #kommuneblokk, #kategoriblokk, #subkategoriblokk, #beskblokk, #bilete, #posblokk {
+    float: none;
+    margin: 0;
+    margin-top: 15px;
+    padding: 0;
+    width: 98%;
+  }
+
+  #overskrift, #meldinnknapp {
+    text-align: center;
+  }
+
+  #boksen, #boksenlbl {
+    float: none;
+    text-align: center;
+  }
+
+  #sjekkboks {
+    margin: 0;
+    margin-top: 25px;
+    margin-bottom: 15px;
+  }
+}

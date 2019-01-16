@@ -130,14 +130,14 @@ if (root)
     <Router history={history}>
       <div>
         <Route exact path="/hovedside/:kommune" component={Hovedside} history={history}/>
-        <Route exact path="/kommunevalgtest" component={KommuneVelger} />
+        <Route exact path="/kommunevalgtest" component={KommuneVelger} history={history}/>
         <Route exact path="/meld-feil" component={MeldFeil} />
         <Route exact path="/nyheter" component={Menu} />
         <Route exact path="/registrering" component={Registrering} history={history} />
         <Route exact path="/" component={Forside} history={history}/>
         <Route exact path="/bildetest" component={BildeTest} />
         <Route exact path="/glemt-passord" component={GlemtPassord}/>
-        <Route exact path="/minside" component={Minside} history={history}/>
+        <Route exact path="/minside/:bruker_id" component={Minside} history={history}/>
         <Route exact path="/resett-passord/:token" component={ResettPassord}/>
         {//<Route exact path="/login" component={Login} />
         }

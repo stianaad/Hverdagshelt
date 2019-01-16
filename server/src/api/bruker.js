@@ -42,7 +42,7 @@ const hashPassord = (inputPassord) => {
 
 // Verifisere passord
 
-const verifiserePassord = (inputPassord, eksisterendePassord) => {
+export const verifiserePassord = (inputPassord, eksisterendePassord) => {
   return passord(inputPassord).verifyAgainst(
     eksisterendePassord,
     (error, verified) => {
@@ -115,8 +115,8 @@ router.post("/api/sjekkPassord",(req,res) => {
           console.log("false1");
           res.json({"result": false});
         } else {
-          console.log("true");
-          res.json({"result": true});
+          console.log(data[0].bruker_id);
+          res.json({"result": true,"bruker_id": data[0].bruker_id});
         }
       });
     } else{
@@ -129,17 +129,17 @@ router.post("/api/sjekkPassord",(req,res) => {
 })
 
 router.post('/api/brukere/privat', (req, res) => {
-  console.log('/brukere/privat fikk post request fra klienten');
-  let info = {
-    epost: req.body.epost,
-    passord: req.body.passord,
-    kommune_id: req.body.kommune_id,
-    fornavn: req.body.fornavn,
-    etternavn: req.body.etternavn,
-  };
-  brukerDao.lagNyPrivatBruker(info, (status, data) => {
-    res.status(status);
-    res.json(data);
+  console.log('Fikk POST-request fra klienten');
+  passord(req.body.passord).hash((error, hash) => {
+    if (error) {
+      throw new Error('Noe gikk galt');
+    }
+    req.body.passord = hash;
+    brukerDao.lagNyPrivatBruker(req.body, (status, data) => {
+      res.status(status);
+      res.json(data);
+      console.log('Den nye IDen er:', data.insertId);
+    });
   });
 });
 
@@ -215,6 +215,32 @@ router.get('/brukere/:bruker_id/nyttpassord', (req, res) => {
     }
   });
 });
+
+router.get('/api/bruker/minside/:bruker_id',(req,res)=> {
+  console.log('/bruker/minside/:bruker_id fikk get request fra klient')
+  brukerDao.finnFeilTilBruker(req.params.bruker_id,(status,data) => {
+    res.status(status);
+    res.json(data);
+  })
+})
+
+router.get('/api/bruker/finnFolgteFeil/:bruker_id',(req,res)=> {
+  console.log('/api/bruker/finnFolgteFeil/:bruker_id fikk get request fra klient')
+  brukerDao.finnFolgteFeilTilBruker(req.params.bruker_id,(status,data) => {
+    res.status(status);
+    res.json(data);
+  })
+})
+
+router.get('/api/bruker/finnfolgteHendelser/:bruker_id',(req,res)=> {
+  console.log('/api/bruker/finnfolgteHendelser/:bruker_id fikk get request fra klient')
+  brukerDao.finnFolgteHendelserTilBruker(req.params.bruker_id,(status,data) => {
+    res.status(status);
+    res.json(data);
+  })
+})
+
+
 
 router.get('/resetPassord/:token', (req, res) => {
   console.log('Reset passord');

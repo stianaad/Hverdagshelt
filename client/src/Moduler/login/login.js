@@ -26,7 +26,7 @@ export class Login extends Component {
             <input type="text" value={this.data.epost} onChange={this.endre} name="epost" className="form-control" id="epost" placeholder="E-post"></input>
             <label htmlFor="passord">Passord:</label>
             <input type="password" value={this.data.passord} onChange={this.endre} name ="passord" className="form-control" id="passord" placeholder="Passord"></input>
-            <p className="glemtLink">Glemt passord?</p>
+            <Link to="/glemt-passord"><p className="glemtLink">Glemt passord?</p></Link>
             <p>{this.advarsel}</p>
           </div>
           
@@ -72,11 +72,11 @@ export class Login extends Component {
     this.data[e.target.name] = e.target.value;
   }
 
-  sjekkPassord(result){
-    if(result){
-      this.props.history.push('/hovedside/trondheim');
+  sjekkPassord(res){
+    if(res.result){
+      this.props.history.push('/minside/'+res.bruker_id);
     } else {
-      console.log(result)
+      console.log(res.result)
       this.advarsel = "Feil brukernavn eller passord!";
     }
   }
@@ -85,6 +85,6 @@ export class Login extends Component {
     console.log(this.data);
    let res = await brukerService.loggInn(this.data);
    //await console.log(res.data.result);
-   await this.sjekkPassord(res.data.result);
+   await this.sjekkPassord(res.data);
   }
 }
