@@ -130,7 +130,7 @@ if (root)
   ReactDOM.render(
     <Router history={history}>
       <div>
-        <Route exact path="/hovedside/:kommune" component={Hovedside} />
+        <Route exact path="/hovedside/:kommune" component={Hovedside} history={history}/>
         <Route exact path="/kommunevalgtest" component={KommuneVelger} />
         <Route exact path="/meld-feil" component={MeldFeil} />
         <Route exact path="/nyheter" component={Menu} />
