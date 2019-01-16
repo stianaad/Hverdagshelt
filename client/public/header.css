@@ -26,6 +26,10 @@
     margin-left:10px;
 }
 
+.profileButton {
+    width: 48px;
+}
+
 .profileIcon {
     height:100%;
     display: inline;
