@@ -42,6 +42,18 @@ class BrukerService {
     console.log('hente brukere');
     return api.get('/api/hentbrukere');
   }
+
+  finnFeilTilBruker(bruker_id){
+    return api.get('/api/bruker/minside/'+bruker_id);
+  }
+
+  finnFolgteFeilTilBruker(bruker_id){
+    return api.get('/api/bruker/finnFolgteFeil/'+bruker_id);
+  }
+
+  finnFolgteHendelserTilBruker(bruker_id){
+    return api.get('/api/bruker/finnFolgteHendelser/'+bruker_id);
+  }
 }
 
 export let brukerService = new BrukerService();
