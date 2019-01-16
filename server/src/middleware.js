@@ -2,6 +2,7 @@ let jwt = require('jsonwebtoken');
 const config = require('./config.json');
 import BrukerDao from './dao/brukerdao';
 import {pool} from '../test/poolsetup';
+import secret from './config.json'
 
 let brukerdao = new BrukerDao(pool);
 
@@ -35,22 +36,25 @@ export let checkToken = (req, res, next) => {
 export let createToken = (req, res, next) => {
   console.log('Inne i createToken')
   let elele = { epost: req.body.epost };
+  console.log(elele);
   brukerdao.hentBruker(elele, (status, info) => {
-    console.log(info)
     let aa = { bruker_id: info[0].bruker_id };
     let user = {user: info};
-    console.log(aa);
     brukerdao.hentBrukerRolle(aa, (status, data) =>{
-      console.log(data);
-      console.log(data[3].privatbruker);
-      let rolle = { role: ''};
+      let mordi = {
+        admin: data[0].admin,
+        ansatt: data[0].ansatt,
+        bedrift: data[0].bedrift,
+        privatbruker: data[0].privatbruker
+      };
+      let rolle = {role: ''};
 
-      if      (parseInt(data[3].privatbruker) == 1)  { rolle.role = 'privatbruker'; }
-      else if (parseInt(data[1].ansatt) == 1)        { rolle.role = 'ansatt'; }
-      else if (parseInt(data[2].bedrift) == 1)       { rolle.role = 'bedrift'; }
-      else                              { rolle.role = 'admin'; }
+      if      (mordi.privatbruker == 1)  { rolle.role = 'privatbruker'; }
+      else if (mordi.ansatt == 1)        { rolle.role = 'ansatt'; }
+      else if (mordi.bedrift == 1)       { rolle.role = 'bedrift'; }
+      else                                           { rolle.role = 'admin'; }
 
-      jwt.sign({user: user.user, role: rolle.role}, secret.secret, { expiresIn: '1m' }, (err, token) => {
+      jwt.sign({user: user.user, role: rolle.role}, secret.secret, { expiresIn: '3m' }, (err, token) => {
         console.log(err);
         res.json({
           token: token
