@@ -19,6 +19,7 @@ module.exports = class FeilDao extends Dao {
   lagNyFeil(json, callback) {
     var feil = [
       json.kommune_id,
+      json.bruker_id,
       json.subkategori_id,
       json.overskrift,
       json.beskrivelse,
@@ -26,7 +27,7 @@ module.exports = class FeilDao extends Dao {
       json.breddegrad,
     ];
     super.query(
-      'INSERT INTO feil (kommune_id, subkategori_id, overskrift, beskrivelse, lengdegrad, breddegrad) VALUES (?, ?, ?, ?, ?, ?)',
+      'INSERT INTO feil (kommune_id, bruker_id, subkategori_id, overskrift, beskrivelse, lengdegrad, breddegrad) VALUES (?, ?, ?, ?, ?, ?, ?)',
       feil,
       callback
     );

@@ -81,7 +81,7 @@ export class MeldFeil extends Component {
             </div>
           </div>
           <div id="meldinnknapp">
-            <GronnKnapp onClick={this.testknapp}>Meld inn</GronnKnapp>
+            <GronnKnapp onClick={this.send}>Meld inn</GronnKnapp>
           </div>
         </div>
       </>
@@ -135,11 +135,10 @@ export class MeldFeil extends Component {
     }
 
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', '/api/lagNyFeil ', true);
-    xhr.onreadystatechange = function () {
-      if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-        alert('Innmeldingen var vellykket!');
-        document.location = '/min-side';
+    xhr.open('POST', '/api/feil ', true);
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+        this.props.history.push('/hovedside/trondheim');
       }
     };
     xhr.send(formData);
