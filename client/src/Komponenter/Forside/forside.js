@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Login } from '../../Moduler/login/login'
 import { KommuneVelger } from '../../Moduler/KommuneVelger/kommuneVelger';
 import { Link } from 'react-router-dom';
-
+import { ProfileButton } from '../../Moduler/header/header';
 export class Forside extends Component {
 
   render() {
@@ -26,7 +26,7 @@ export class Forside extends Component {
             >
               Hendelser
           </button>
-          <div className="main-header-buttons d-inline-block"> <Login history={this.props.history}/></div>
+          <div className="main-header-buttons d-inline-block"> <ProfileButton history={this.props.history} location={this.props.location}></ProfileButton></div>
           </div>
         </header>
         <div className="main-center">
