@@ -298,7 +298,7 @@ export class Hovedside extends Component {
                     <div >
                       <MarkerMap
                         width="100%"
-                        height="300px"
+                        height="365px"
                         id="test"
                         center={this.props.match.params.kommune}
                         markers={this.markers}
