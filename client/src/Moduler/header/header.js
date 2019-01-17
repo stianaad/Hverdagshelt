@@ -7,7 +7,7 @@ import { Login } from '../../Moduler/login/login';
 
 export class PageHeader extends Component {
     loggetinn = true;
-    brukertype = (["privat", "ansatt", "bedrift", "admin"])[2];
+    brukertype = (["privat", "ansatt", "bedrift", "admin"])[1];
 
     render() {
         return (
@@ -45,9 +45,9 @@ export class PageHeader extends Component {
                                 <div style={{width: "170px"}} className="dropdown-menu dropdown-menu-right dropdownbox brukerbox" id="drops">
                                     <div className="arrow"></div>
                                     <div className="arrowborder"></div>
-                                    <div className="dropdown-item">Min side</div>
+                                    <Link to="/minside/11"><div className="dropdown-item">Min side</div></Link>
                                     <div className="dropdown-item">Instillinger</div>
-                                    <div className="dropdown-item">Logg ut</div>
+                                    <Link to="/"><div className="dropdown-item">Logg ut</div></Link>
                                 </div>
                             </div>
                         ) : this.brukertype == "ansatt" ? (
@@ -56,10 +56,10 @@ export class PageHeader extends Component {
                                 <div style={{width: "190px"}} className="dropdown-menu dropdown-menu-right dropdownbox brukerbox" id="drops">
                                     <div className="arrow"></div>
                                     <div className="arrowborder"></div>
-                                    <div className="dropdown-item">Mine oppgaver</div>
+                                    <Link to="/mineOppgaver"><div className="dropdown-item">Mine oppgaver</div></Link>
                                     <div className="dropdown-item">Legg til hendelse</div>
                                     <div className="dropdown-item">Instillinger</div>
-                                    <div className="dropdown-item">Logg ut</div>
+                                    <Link to="/"><div className="dropdown-item">Logg ut</div></Link>
                                 </div>
                             </div>
                         ) : this.brukertype == "bedrift" ? (

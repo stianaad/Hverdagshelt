@@ -3,6 +3,8 @@ const config = require('./config.json');
 import BrukerDao from './dao/brukerdao';
 import {pool} from '../test/poolsetup';
 import secret from './config.json'
+import passord from 'password-hash-and-salt';
+import {verifiserePassord} from './api/bruker.js';
 
 let brukerdao = new BrukerDao(pool);
 
@@ -36,30 +38,65 @@ export let checkToken = (req, res, next) => {
 export let createToken = (req, res, next) => {
   console.log('Inne i createToken')
   let elele = { epost: req.body.epost };
-  console.log(elele);
+  let pass = { passord: req.body.passord }
   brukerdao.hentBruker(elele, (status, info) => {
-    let aa = { bruker_id: info[0].bruker_id };
+    let aa = { bruker_id: info[0].bruker_id};
     let user = {user: info};
-    brukerdao.hentBrukerRolle(aa, (status, data) =>{
-      let mordi = {
-        admin: data[0].admin,
-        ansatt: data[0].ansatt,
-        bedrift: data[0].bedrift,
-        privatbruker: data[0].privatbruker
-      };
-      let rolle = {role: ''};
+    console.log(pass.passord);
+    verifiserePassord(pass.passord, info[0].passord, (status, data) => {
+      console.log('Inne i verifisere passord' + data);
+      if(data == 'Feil passord') {
+        console.log('Epost eller passord er ikke riktig');
+      } else {
+        brukerdao.hentBrukerRolle(aa.bruker_id, (status, data) =>{
+          let roller = {
+            admin: data[0].admin,
+            ansatt: data[0].ansatt,
+            bedrift: data[0].bedrift,
+            privatbruker: data[0].privatbruker
+          };
+          let rolle = {role: ''};
 
-      if      (mordi.privatbruker == 1)  { rolle.role = 'privatbruker'; }
-      else if (mordi.ansatt == 1)        { rolle.role = 'ansatt'; }
-      else if (mordi.bedrift == 1)       { rolle.role = 'bedrift'; }
-      else                                           { rolle.role = 'admin'; }
+          if      (roller.privatbruker == 1)  { rolle.role = 'privatbruker'; }
+          else if (roller.ansatt == 1)        { rolle.role = 'ansatt'; }
+          else if (roller.bedrift == 1)       { rolle.role = 'bedrift'; }
+          else                               { rolle.role = 'admin'; }
 
-      jwt.sign({user: user.user, role: rolle.role}, secret.secret, { expiresIn: '3m' }, (err, token) => {
-        console.log(err);
-        res.json({
-          token: token
+          jwt.sign({user: user.user, role: rolle.role}, secret.secret, { expiresIn: '3m' }, (err, token) => {
+            console.log(err);
+            res.json({
+              token: token
+            });
+          });
         });
-      });
+      }
     });
   });
 };
+
+function sjekkPassord(json, callback) {
+  console.log(json);
+  brukerDao.hentBruker(json,(status,data) => {
+    console.log(data[0].passord);
+    console.log(json.passord);
+    if(data.length >0){
+      passord(json.passord).verifyAgainst(data[0].passord, (error,verified) => {
+        if(error)
+          throw new Error('Noe gikk galt!');
+        if(!verified) {
+          console.log("false1");
+          res.json({"result": false});
+        } else {
+          console.log(data[0].bruker_id);
+          res.json({"result": true,"bruker_id": data[0].bruker_id});
+          callback;
+        }
+      });
+    } else{
+      console.log("false2");
+      res.json({"result": false});
+    }
+    //res.status(status);
+    //res.json(data);
+  })
+}

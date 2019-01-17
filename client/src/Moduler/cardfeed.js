@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
-import {Card, Feed, Modal, Grid, GridColumn, Segment} from 'semantic-ui-react';
+import {Card, Feed, Modal, Grid, GridColumn, Segment, Image, Button} from 'semantic-ui-react';
 
 export class FeedEvent extends Component{
     dato(tid){
@@ -207,3 +207,35 @@ export class Filtrer extends Component{
                         </option>
                     ))}*/
 }
+
+//For hendelse siden
+export class Hendelse extends Component{
+    render(){
+        return(
+            <Card>
+            <Image src={this.props.bilde} onClick={this.props.onClick} size='medium'/>
+            <Card.Content>
+            <a onClick={this.props.onClick}>
+              <Card.Header>{this.props.overskrift}</Card.Header>
+              <Card.Meta>
+                <span className='date'>{this.props.sted} {this.props.tid}</span>
+              </Card.Meta>
+              <Card.Description>{this.props.beskrivelse}</Card.Description>
+              </a>
+            </Card.Content>
+            <Card.Content extra>
+             <div className='ui two buttons'>
+             <Button positive>
+                Følg
+             </Button>
+             </div>
+            </Card.Content>
+          </Card>
+        );
+    }
+
+}
+
+
+  
+

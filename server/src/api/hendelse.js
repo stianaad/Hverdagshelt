@@ -110,4 +110,15 @@ router.get('/api/hendelser/kommuner/:kommune_id', (req, res) => {
   });
 });
 
+router.get('/api//hendelser/hovedkategorier', (req, res) => {
+  if (!(req.body instanceof Object)) return res.sendStatus(400);
+  console.log('Fikk GET-request fra klienten');
+
+  hendelseDao.hentAlleHovedkategorier((status, data) => {
+    res.status(status);
+    res.json(data);
+    console.log('/hentAlleHovedkategorier lengde: ' + data.length);
+  });
+});
+
 module.exports = router;
