@@ -190,9 +190,11 @@ export class FeedMinside extends Component{
                             </Grid.Row>
                             <Grid.Row columns="equal">
                             <Grid.Column>
-                                <Button color="green" fluid 
-                                content="Ja"
-                                 onClick={() => {this.props.fjern; this.handleClose()}}/>
+                                <a onClick={() => this.handleClose()}>
+                                    <Button color="green" fluid 
+                                    content="Ja"
+                                    onClick={this.props.fjern}/>
+                                 </a>
                             </Grid.Column>
                             <Grid.Column>
                                 <Button color="red" fluid content="Nei" onClick={() => {this.handleClose()}}/>
