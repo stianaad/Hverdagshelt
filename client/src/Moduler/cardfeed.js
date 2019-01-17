@@ -20,7 +20,7 @@ export class FeedEvent extends Component{
         } 
         iDag = yyyy + '-' + mm + '-' + dd;
         let iGaar = yyyy + '-' + mm + '-' + (dd-1);
-        console.log(tid);
+        //console.log(tid);
         if(innKommendeDato===iDag){
             iDag="I dag "+innKommendeKlokkeslett;
         } else if(iGaar === innKommendeDato){
@@ -32,7 +32,7 @@ export class FeedEvent extends Component{
     }
     render(){
         //this.dato();
-        console.log("hehe");
+        //console.log("hehe");
         return(
             <Feed>
                 
@@ -73,7 +73,7 @@ export class FeedHendelse extends Component{
         //iDag = yyyy + '-' + mm + '-' + dd;
         iDag = "2019-08-07";
         let iGaar = yyyy + '-' + mm + '-' + (dd+1);
-        console.log(tid);
+        //console.log(tid);
         if(innKommendeDato===iDag){
             iDag="I dag "+innKommendeKlokkeslett;
         } else if(iGaar === innKommendeDato){
@@ -85,7 +85,7 @@ export class FeedHendelse extends Component{
     }
     render(){
         //this.dato();
-        console.log("hehe");
+        //console.log("hehe");
         return(
             <Feed>
                 <Feed.Event>
@@ -135,6 +135,10 @@ export class FeedMinside extends Component{
         //iDag = yyyy + '-' + mm + '-' + dd;
         iDag = yyyy + '-' + mm + '-' + dd;
         let iGaar = yyyy + '-' + mm + '-' + (dd-1);
+<<<<<<< HEAD
+=======
+        //console.log(tid);
+>>>>>>> master
         if(innKommendeDato===iDag){
             iDag="I dag "+innKommendeKlokkeslett;
         } else if(iGaar === innKommendeDato){
@@ -158,7 +162,7 @@ export class FeedMinside extends Component{
       }
     render(){
         //this.dato();
-        console.log("hehe");
+        //console.log("hehe");
         return(
             <Feed>
                 <Feed.Event>

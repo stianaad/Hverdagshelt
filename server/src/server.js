@@ -28,11 +28,11 @@ app.get('/api', (req, res) => {
 
 app.post('/api/posts', checkToken, (req, res) => {
   res.json({
-    Message: 'Sugmeg'
+    Message: 'Token ok!'
   });
 });
 
-app.post('/api/login1', createToken, (req, res) => {
+app.post('/api/innlogging', createToken, (req, res) => {
   res.json({ Message: 'login ok', token})
 });
 

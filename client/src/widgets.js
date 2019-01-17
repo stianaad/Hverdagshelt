@@ -263,38 +263,6 @@ export class GronnKnapp extends Component {
   }
 }
 
-export class Droppboks extends Component <{value: json, onChange: onchange, inputRef: (node: SyntheticInputEvent<HTMLInputElement>) => mixed}> {
-  render() {
-    return (
-      <div>
-        <FormGroup controlId="formControlsSelect">
-            <FormControl componentClass="select" onChange={this.props.onChange} inputRef={this.props.inputRef}>
-              {this.props.value.map(json => (
-                <option key={json.hovedkategori_id} value={json.hovedkategori_id}>{json.kategorinavn}</option>
-                ))}
-            </FormControl>
-        </FormGroup>
-      </div>
-      );
-  }
-}
-
-export class Droppbokss extends Component <{value: json, inputRef: (node: SyntheticInputEvent<HTMLInputElement>) => mixed}> {
-  render() {
-    return (
-      <div>
-        <FormGroup controlId="formControlsSelect">
-            <FormControl componentClass="select" inputRef={this.props.inputRef}>
-              {this.props.value.map(json => (
-                <option key={json.subkategori_id} value={json.subkategori_id}>{json.kategorinavn}</option>
-                ))}
-            </FormControl>
-        </FormGroup>
-      </div>
-      );
-  }
-}
-
 export class FormInput extends Component<{
   type: string,
   label: React.Node,

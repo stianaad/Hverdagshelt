@@ -57,7 +57,7 @@ export class MineOppgaver extends Component{
     render(){
         return(
             <>
-            <PageHeader history={this.props.history}/>
+            <PageHeader history={this.props.history} location={this.props.location}/>
             <div className="container">
                 <Modal open={this.state.open} onClose={this.handleClose} size="small" centered={true} dimmer="blurring">
                     {/*<Modal.Header>

@@ -6,14 +6,6 @@ import runsqlfile from '../runsqlfile.js';
 import FeilDao from '../../src/dao/feildao';
 //import {Hendelse} from '../../../client/src/services/hendelseService';
 
-/*
-const testFeil1 = new Feil(
-  1, 1, 1, 'Jeg er kul', 'https://i.imgur.com/6zidUsq.jpg', 1, 1);
-
-const testOppdatering1 = new Oppdatering( 
-  1, '1998-11-20 19:39:45', 'Hei, skjer', 1, 1 );
-*/
-
 var pool = mysql.createPool({
   connectionLimit: 1,
   host: 'mysql',
@@ -28,7 +20,7 @@ let generelldao = new Generelldao(pool);
 let feildao = new FeilDao(pool);
 let brukerdao = new BrukerDao(pool);
 
-let privatBruker1 = {
+let testprivatBruker1 = {
   epost: 'ø@g.com',
   passord: '1234567890',
   kommune_id: 1,
@@ -36,7 +28,15 @@ let privatBruker1 = {
   etternavn: 'Larsson'
 };
 
+let testoppdatering = {
+  feil_id: 2,
+  kommentar: 'testKommentar',
+  status_id: 2,
+  bruker_id: 2
+}
+
 let oppdaterFeil1 = {
+  feil_id: 1,
   kommune_id: 1,
   subkategori_id: 1,
   overskrift: 'HeiHei',
@@ -65,7 +65,7 @@ test('legg til ny privatbruker', done => {
     expect(data.affectedRows).toBe(1);
     done();
   }
-  brukerdao.lagNyPrivatBruker(privatBruker1, callback);
+  brukerdao.lagNyPrivatBruker(testprivatBruker1, callback);
 });
 
 test('oppdater feil', done => {
@@ -78,8 +78,6 @@ test('oppdater feil', done => {
   }
   feildao.oppdaterFeil(oppdaterFeil1, callback);
 });
-
-
 
 test('lag ny bruker', done => {
   function callback(status, data) {
@@ -100,7 +98,7 @@ test('hent brukerid', done => {
     expect(data.bruker_id).toBe(10);
     done();
   }
-  brukerdao.finnBrukerid({epost: 'epost10@hotmail.com'}, callback);
+  brukerdao.finnBruker_id({epost: 'epost10@hotmail.com'}, callback);
 });
 
 
@@ -140,7 +138,6 @@ test('hent en feil', done => {
   feildao.hentEnFeil({feil_id: 1}, callback);
 });
 
-/*
 test('Lag ny feil', done => {
   function callback(status, data){
     console.log(
@@ -149,8 +146,17 @@ test('Lag ny feil', done => {
     expect(data.affectedRows).toBeGreaterThanOrEqual(1);
     done();
   }
-  feildao.lagNyFeil(testFeil1, callback);
+  feildao.lagNyFeil(oppdaterFeil1, callback);
 });
+
+test('slett feil', done => {
+  function callback() {
+    console.log('Test callback: status' + status + ', data: ' + JSON.stringify(data));
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  feildao.slettFeil({feil_id: 1}, callback);
+})
 
 test('Opprett ny oppdatering', done => {
   function callback(status, data){
@@ -160,9 +166,9 @@ test('Opprett ny oppdatering', done => {
     expect(data.affectedRows).toBeGreaterThanOrEqual(1);
     done();
   }
-  feildao.lagOppdatering(testOppdatering1, callback);
+  feildao.lagOppdatering(testoppdatering, callback);
 });
-*/
+
 
 test('hentAlleOppdateringerPaaFeil', done => {
   function callback(status, data){

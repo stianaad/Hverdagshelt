@@ -73,8 +73,15 @@ export class Login extends Component {
   }
 
   sjekkPassord(res){
-    if(res.result){
-      this.props.history.push('/minside/'+res.bruker_id);
+    if(res.result) {
+      let base64Url = res.token.split('.')[1];
+      let base64 = base64Url.replace('-', '+').replace('_', '/');
+      global.payload = JSON.parse(window.atob(base64));
+
+      sessionStorage.setItem("pollett", res.token);
+
+      if (document.location.pathname == "/")  this.props.history.push("/refresh/minside/11");
+      else this.props.history.push("/refresh" + this.props.location.pathname);
     } else {
       console.log(res.result)
       this.advarsel = "Feil brukernavn eller passord!";

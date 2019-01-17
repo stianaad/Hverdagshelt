@@ -131,7 +131,7 @@ export class Hovedside extends Component {
   render() {
     return (
       <div>
-        <PageHeader history={this.props.history} />
+        <PageHeader history={this.props.history} location={this.props.location} />
         <div className="mt-3">
           <Grid columns={3}>
             <Grid.Column/>
@@ -146,7 +146,7 @@ export class Hovedside extends Component {
           </Grid>
         </div>
         {!this.visHendelser ? (
-          <div className="row mt-5">
+          <div className="row mt-4">
             <div className="col-sm-4">
               <div className="ml-3 mb-3">
                 <Card fluid>
@@ -238,7 +238,7 @@ export class Hovedside extends Component {
                         </h1>
                         <h6>Status: {this.feil.status}{' '}
                           <img src={this.statusIkon} width="30" height="30" />
-                          <Button floated='right' color='red'>Abonner</Button>
+                          <Button floated='right' color='red' size="small">Abonner</Button>
                         </h6>
                       </div>
                     </Card.Content>
@@ -252,38 +252,44 @@ export class Hovedside extends Component {
                         <h6>Posisjon</h6>
                             <ShowMarkerMap
                               width="100%"
-                              height="300px"
+                              height="250px"
                               id="posmap"
                               feil={this.feil}
                             />
                         </Grid.Column>
                         <Grid.Column>
-                          <List>
-                            <List.Item>
-                                <List.Content>
-                                    <List.Header>Godkjent</List.Header>
-                                    <List.Description>01.01.18 19:00</List.Description>
-                                </List.Content>
-                            </List.Item>
-                            <List.Item>
-                                <List.Content>
-                                    <List.Header>Godkjent</List.Header>
-                                    <List.Description>01.01.18 19:00</List.Description>
-                                </List.Content>
-                            </List.Item>
-                            <List.Item>
-                                <List.Content>
-                                    <List.Header>Godkjent</List.Header>
-                                    <List.Description>01.01.18 19:00</List.Description>
-                                </List.Content>
-                            </List.Item>
-                            <List.Item>
-                                <List.Content>
-                                    <List.Header>Godkjent</List.Header>
-                                    <List.Description>01.01.18 19:00</List.Description>
-                                </List.Content>
-                            </List.Item>
-                          </List>
+                          <h6>Oppdateringer: </h6>
+                          <div className="oppdateringScroll">
+                            
+                                <List>
+                                  <List.Item>
+                                      <List.Content>
+                                          <List.Header>Godkjent</List.Header>
+                                          <List.Description>01.01.18 19:00</List.Description>
+                                      </List.Content>
+                                  </List.Item>
+                                  <List.Item>
+                                      <List.Content>
+                                          <List.Header>Godkjent</List.Header>
+                                          <List.Description>01.01.18 19:00</List.Description>
+                                      </List.Content>
+                                  </List.Item>
+                                  <List.Item>
+                                      <List.Content>
+                                          <List.Header>Godkjent</List.Header>
+                                          <List.Description>01.01.18 19:00</List.Description>
+                                      </List.Content>
+                                  </List.Item>
+                                  <List.Item>
+                                      <List.Content>
+                                          <List.Header>Godkjent</List.Header>
+                                          <List.Description>01.01.18 19:00</List.Description>
+                                      </List.Content>
+                                  </List.Item>
+                                </List>
+                              
+                          </div>
+                          <br/>
                           <Image.Group size='tiny'>
                               <Image src="/lofoten.jpg" onClick={this.handleOpen}/>
                               <Image src="/lofoten.jpg" onClick={this.handleOpen}/>
@@ -311,7 +317,7 @@ export class Hovedside extends Component {
                         height="365px"
                         id="test"
                         center={this.props.match.params.kommune}
-                        markers={this.markers}
+                        callback={this.callMap}
                         onRef={(ref) => (this.kart = ref)}
                       />
                     </div>
@@ -355,9 +361,9 @@ export class Hovedside extends Component {
             </div>
           </div>
         ) : (
-          <div className="row mt-5">
+          <div className="row mt-4">
             <div className="col-sm-8 ">
-              <div className="ml-5">
+              <div className="ml-5 mb-3">
                 <Card fluid>
                   <Card.Content>
                     <div>
@@ -434,7 +440,7 @@ export class Hovedside extends Component {
                 </div>
                 </div>
             <div className="col-sm-4">
-              <div className="mr-3">
+              <div className="mr-3 mb-3">
                 <Card fluid>
                   <Card.Content>
                     <Card.Header>
@@ -474,8 +480,11 @@ export class Hovedside extends Component {
     this.props.history.push("/meld-feil");
   }
 
-  posFunksjon() {
-    console.log('hei');
+  async callMap() {
+    let res1 = await feilService.hentAlleFeil();
+    await Promise.all([res1]).then(() => {
+      this.kart.addMarkers(res1.data);
+    }) 
   }
 
   scrollFeil(){
@@ -491,21 +500,28 @@ export class Hovedside extends Component {
   }
 
   async mounted() {
-    let res1 = await feilService.hentAlleFeil();
+    /*let res1 = await feilService.hentAlleFeil();
     this.alleFeil = await res1.data;
     this.aktiveFeil = await res1.data;
-    await console.log(res1.data);
 
     let res2 = await feilService.hentAlleHovedkategorier();
     this.alleKategorier = await res2.data;
-    await console.log(res2.data);
 
     let res3 = await hendelseService.hentAlleHendelser();
-    this.alleHendelser = await res3.data;
-    await console.log(res3.data);
+    this.alleHendelser = await res3.data;*/
+    let res1 = await feilService.hentAlleFeil(),
+        res2 = await feilService.hentAlleHovedkategorier(),
+        res3 = await hendelseService.hentAlleHendelser();
+
+    [this.alleFeil, this.aktiveFeil, this.alleKategorier, this.alleHendelser] = await Promise.all([res1.data, res1.data, res2.data, res3.data]);
 
     await this.scrollFeil(); 
-    await this.scrollHendelse(); 
+    await this.scrollHendelse();
+    
+    await Promise.all([res1.data]).then(() => {
+      this.kart.addMarkers(res1.data);
+    });
+
   }
 }
 

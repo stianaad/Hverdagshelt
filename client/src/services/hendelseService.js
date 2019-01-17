@@ -6,7 +6,7 @@ class HendelseService {
   }
 
   hentEnHendelse(hendelse_id) {
-    return api.get('/api/hendelser/:hendelse_id', hendelse_id);
+    return api.get('/api/hendelser/'+ hendelse_id);
   }
 
   oppdaterHendelse(oppdatertHendelse) {
