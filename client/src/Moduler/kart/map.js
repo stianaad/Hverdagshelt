@@ -3,10 +3,10 @@ import * as React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { Component } from 'react-simplified';
 
-export function markerTabell(feiltabell) {
+export function markerTabell(feiltabell, popup) {
   let tabell = [];
     for(let i = 0;i < feiltabell.length; i++){
-      tabell[i] = new Marker(feiltabell[i]);
+      tabell[i] = new Marker(feiltabell[i], popup);
     }
     //console.log(tabell);
     return tabell;
@@ -153,16 +153,15 @@ export class MarkerMap extends Component {
                         })
                     ]
                 });
+                this.map.on("load", () => {
+                    this.props.callback();
+                });
                 this.map.fitBounds(this.coords).setZoom(10);
                 //this.map.setView(L.latLng(this.props.bredde, this.props.lengde), 11);
                 
-                for (let i = 0; i < m.length; i++) {
+                /*for (let i = 0; i < m.length; i++) {
                     m[i].marker.addTo(this.map);
-                }
-
-                let movefunc = (bredde, lengde) => {
-
-                }
+                }*/
             });
     }
 
@@ -172,6 +171,13 @@ export class MarkerMap extends Component {
 
     componentWillReceiveProps() {
         console.log("yo");
+    }
+
+    addMarkers(feil) {
+        let marks = markerTabell(feil, true);
+        for (let m of marks) {
+            m.marker.addTo(this.map);
+        }
     }
 
     flyttKart(bredde, lengde) {

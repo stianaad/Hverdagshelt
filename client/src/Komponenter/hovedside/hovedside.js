@@ -317,7 +317,7 @@ export class Hovedside extends Component {
                         height="365px"
                         id="test"
                         center={this.props.match.params.kommune}
-                        markers={this.markers}
+                        callback={this.callMap}
                         onRef={(ref) => (this.kart = ref)}
                       />
                     </div>
@@ -480,6 +480,13 @@ export class Hovedside extends Component {
     this.props.history.push("/meld-feil");
   }
 
+  async callMap() {
+    let res1 = await feilService.hentAlleFeil();
+    await Promise.all([res1]).then(() => {
+      this.kart.addMarkers(res1.data);
+    }) 
+  }
+
   posFunksjon() {
     console.log('hei');
   }
@@ -512,6 +519,9 @@ export class Hovedside extends Component {
 
     await this.scrollFeil(); 
     await this.scrollHendelse(); 
+    await Promise.all([res1.data, res2.data, res3.data]).then(() => {
+      this.kart.addMarkers(res1.data);
+    });
   }
 }
 
