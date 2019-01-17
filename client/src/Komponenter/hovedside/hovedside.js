@@ -424,7 +424,7 @@ export class Hovedside extends Component {
                 </div>
                 </div>
             <div className="col-sm-4">
-              <div className="mr-3 mt-5">
+              <div className="mr-3">
                 <Card fluid>
                   <Card.Content>
                     <Card.Header>
