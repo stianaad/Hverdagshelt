@@ -80,8 +80,8 @@ export class Login extends Component {
 
       sessionStorage.setItem("pollett", res.token);
 
-      if (this.props.location.pathname == "/")  this.props.history.push("/refresh/minside/11");
-      else this.props.history.push("/refresh" + this.props.location.pathname);
+      if (this.props.location.pathname == "/")  global.sidePush("/minside/11", true);
+      else global.sideRefresh(true);
     } else {
       console.log(res.result)
       this.advarsel = "Feil brukernavn eller passord!";

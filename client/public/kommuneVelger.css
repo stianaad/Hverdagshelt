@@ -37,8 +37,7 @@
     transition: background 0.25s;
 }
 
-.komElement a {
-    text-decoration: none;
+.komElement {
     color: #000;
     background: #fff;
     display: inline-block;
@@ -57,10 +56,9 @@
     background: #eee;
 }
 
-.komElement a:hover {
+.komElement:hover {
     background: #eee;
     transition: background 0.25s;
-    text-decoration: none;
     color: #000;
 }
 

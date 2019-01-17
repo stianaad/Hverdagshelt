@@ -133,19 +133,22 @@ class FireNullFire extends Component {
   }
 }
 
-const Refresh = ({ path = '/' }) => (
-  <Route
-    path={path}
-    component={({ history, location, match }) => {
-      ReactDOM.render(routes(), root);
-      history.replace({
-        ...location,
-        pathname: location.pathname.substring(match.path.length)
-      });
-      return null;
-    }}
-  />
-);
+global.sideRefresh = (hard) => {
+  setTimeout(() => {
+    let path = window.location.pathname;
+    history.push("/refresh");
+    if (hard) ReactDOM.render(routes(), root);
+    history.replace(path);
+  }, 0);
+}
+
+global.sidePush = (path, hard) => {
+  setTimeout(() => {
+    history.push("/refresh");
+    if (hard) ReactDOM.render(routes(), root);
+    history.replace(path);
+  }, 0);
+}
 
 let token = sessionStorage.getItem("pollett");
 if (token) {
@@ -160,7 +163,7 @@ const routes = () => {
       <div>
         <Switch>
           {/*Routes som er tilgjengelige for alle*/}
-          <Refresh path="/refresh" />
+          <Route exact path="/refresh" component={() => {return null;}} />
           <Route exact path="/" component={Forside} history={history} />
           <Route exact path="/hovedside/:kommune" component={Hovedside} history={history} />
           <Route exact path="/resett-passord/:token" component={ResettPassord} />
@@ -173,7 +176,10 @@ const routes = () => {
             //Ikke logget inn
             [
               <Route exact path="/registrering" component={Registrering} history={history} />,
-              <Route exact path="/glemt-passord" component={GlemtPassord} />
+              <Route exact path="/glemt-passord" component={GlemtPassord} />,
+              <Redirect from="/meldfeil" to="/" />,
+              <Redirect from="/minside/:bruker_id"  to="/" />,
+              <Redirect from="/mineoppgaver"  to="/" />
             ]
           ) : global.payload.role == 'privat' ? (
             //Privatbruker routes
@@ -196,7 +202,7 @@ const routes = () => {
             [
               <Route exact path="/meldfeil" component={MeldFeil} history={history} />
             ]
-          ) : null /*Kommer de hit har det skjedd noe rart*/}
+          ) : null}
 
           
           {/*legg test-routes under*/}
@@ -215,8 +221,6 @@ const routes = () => {
     </Router>
   );
 }
-
-console.log(routes());
 
 const root = document.getElementById('root');
 if (root)

@@ -16,8 +16,7 @@ export class ProfileButton extends Component {
     loggut() {
         sessionStorage.removeItem("pollett");
         global.payload = null;
-        this.props.history.push("/refresh"+this.props.location.pathname);
-        //document.location.reload();
+        global.sideRefresh(true);
     }
 
     clickDrop(event) {
