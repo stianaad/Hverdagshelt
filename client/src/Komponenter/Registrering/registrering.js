@@ -197,13 +197,13 @@ export class Registrering extends Component {
         this.brukerInput.fornavn,
         this.brukerInput.etternavn
       );
-      //console.log(bruker.epost);
+      
       if (bruker.epost.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
         brukerService.lagNyPrivatBruker(bruker)
         .then((res) => {
           console.log(bruker.epost);
           console.log(res.status);
-          //this.props.history.push('/');
+          this.props.history.push('/');
         });
       } else {
         this.advarsel = 'Ugyldig e-post';
