@@ -56,6 +56,11 @@ export class Hovedside extends Component {
   classFeil = 'hovedsideTabeller';
   classHendelser = 'hovedsideTabeller'; 
 
+  state = {open: false}
+
+  handleOpen = () => {this.setState({open: true})}
+  handleClose = () => {this.setState({open: false})}
+
   async merInfo(feil) {
     this.visFeil = true;
     console.log(feil.feil_id);
@@ -280,17 +285,22 @@ export class Hovedside extends Component {
                             </List.Item>
                           </List>
                           <Image.Group size='tiny'>
-                              <Image src="/lofoten.jpg" />
-                              <Image src="/lofoten.jpg" />
-                              <Image src="/lofoten.jpg" />
-                              <Image src="/lofoten.jpg" />
-                              <Image src="/lofoten.jpg" />
-                              <Image src="/lofoten.jpg" />
+                              <Image src="/lofoten.jpg" onClick={this.handleOpen}/>
+                              <Image src="/lofoten.jpg" onClick={this.handleOpen}/>
+                              <Image src="/lofoten.jpg" onClick={this.handleOpen}/>
+                              <Image src="/lofoten.jpg" onClick={this.handleOpen}/>
+                              <Image src="/lofoten.jpg" onClick={this.handleOpen}/>
+                              <Image src="/lofoten.jpg" onClick={this.handleOpen}/>
                           </Image.Group>
                         </Grid.Column>
                       </Grid>
                     </Card.Content>
                   </Card>
+                  <Modal open={this.state.open} onClose={this.handleClose}>
+                    <Modal.Content>
+                      <Image src="/lofoten.jpg"/>
+                    </Modal.Content>
+                  </Modal>
                 </div>     
               ) : (
                 <div className="row">
@@ -298,7 +308,7 @@ export class Hovedside extends Component {
                     <div >
                       <MarkerMap
                         width="100%"
-                        height="300px"
+                        height="365px"
                         id="test"
                         center={this.props.match.params.kommune}
                         markers={this.markers}
@@ -424,7 +434,7 @@ export class Hovedside extends Component {
                 </div>
                 </div>
             <div className="col-sm-4">
-              <div className="mr-3 mt-5">
+              <div className="mr-3">
                 <Card fluid>
                   <Card.Content>
                     <Card.Header>

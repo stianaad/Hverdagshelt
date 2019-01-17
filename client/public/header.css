@@ -5,6 +5,10 @@
     user-select: none; /* Standard */
 }
 
+body {
+    background-color: #f9f9f9;
+}
+
 .pageHeader {
     height:60px;
     background-color:#fff;

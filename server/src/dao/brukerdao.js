@@ -3,7 +3,11 @@ import Dao from './dao.js';
 module.exports = class BrukerDao extends Dao {
   lagNyBruker(json, callback) {
     const tabell = [json.epost, json.passord, json.kommune_id];
-    super.query('INSERT INTO bruker (bruker_id, epost, passord, kommune_id) VALUES(DEFAULT,?,?,?)', tabell, callback);
+    if (json.epost.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      super.query('INSERT INTO bruker (bruker_id, epost, passord, kommune_id) VALUES(DEFAULT,?,?,?)', tabell, callback);
+    } else {
+      callback(403, {error: 'Ugyldig e-post.'});
+    }
   }
 
 
@@ -39,11 +43,15 @@ module.exports = class BrukerDao extends Dao {
       if (data.length == 0) {
         self.lagNyBruker(json, (status, data) => {
           console.log(status);
-          super.query(
-            'INSERT INTO privat (bruker_id, fornavn, etternavn) VALUES(?,?,?)',
-            [data.insertId, json.fornavn, json.etternavn],
-            callback
-          );
+          if (status == 200){
+            super.query(
+              'INSERT INTO privat (bruker_id, fornavn, etternavn) VALUES(?,?,?)',
+              [data.insertId, json.fornavn, json.etternavn],
+              callback
+            );
+          } else {
+            callback(403, {error: 'Empty promise.'})
+          }
         });
       } else {
         callback(403, {error: 'E-post eksisterer allerede.'});

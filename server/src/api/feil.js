@@ -106,14 +106,14 @@ router.put('/api/feil/:feil_id', (req, res) => {
 });
 
 router.delete('/api/feil/:feil_id', (req, res) => {
-  if (!(req.body instanceof Object)) return res.sendStatus(400);
-  console.log('Fikk POST-request fra klienten');
+  /*if (!(req.body instanceof Object)) return res.sendStatus(400);
+  console.log('Fikk POST-request fra klienten');*/
 
-  let a = {feil_id: req.params.feil_id};
-
-  feilDao.slettFeil(a, (status, data) => {
+  //let a = {feil_id: req.params.feil_id};
+  feilDao.slettFeil(req.params.feil_id, (status, data) => {
     console.log('Slettet en feil');
     res.status(status);
+    res.json(data);
   });
 });
 

@@ -13,19 +13,6 @@ import async from 'async';
 let brukerDao = new BrukerDao(pool);
 let glemt = new Epost();
 
-/*
- * Generelle metoder brukt i endepunktene
- */
-
-// Metode for å lage et enkelt token med tidskvant på 1 time
-const token = () => {
-  return jwt.sign(
-    {
-      exp: Math.floor(Date.now() / 1000) + 60 * 60,
-    },
-    'secret'
-  );
-};
 
 // Hashe passord
 
@@ -42,8 +29,8 @@ const hashPassord = (inputPassord) => {
 
 // Verifisere passord
 
-export const verifiserePassord = (inputPassord, eksisterendePassord) => {
-  return passord(inputPassord).verifyAgainst(
+export let verifiserePassord = (inputpassord, eksisterendePassord) => {
+  passord(inputpassord).verifyAgainst(
     eksisterendePassord,
     (error, verified) => {
       if (error) throw new Error('Noe gikk galt!');
@@ -56,6 +43,21 @@ export const verifiserePassord = (inputPassord, eksisterendePassord) => {
   );
 };
 
+router.post('/api/test', (req, res) => {
+  console.log('Test kjører');
+  hashPassord(req.body.passord, (status, data) => {
+    console.log(data);
+    verifiserePassord(data, 'pbkdf2$10000$64c2446101f5fa79b1a0d0bd7f6be19a3e138357c0615f29bed4a7b2daa834e808e3055d2cb1ca2d02c8738e57336381be77b502efacc802f2094568abc069a6$4849f30fe43a9097fc54001f0451679e6c3d65b725e4603e8dd2777ffc40238951df60698d534eacbb472b8a9c8c871966443d620af0ffdbccf3a0ea45ec5342', (status, data) => {
+      console.log(data);
+    });
+  });
+});
+
+router.post('/api/test2', (req, res) => {
+  verifiserePassord('passord1', 'pbkdf2$10000$64c2446101f5fa79b1a0d0bd7f6be19a3e138357c0615f29bed4a7b2daa834e808e3055d2cb1ca2d02c8738e57336381be77b502efacc802f2094568abc069a6$4849f30fe43a9097fc54001f0451679e6c3d65b725e4603e8dd2777ffc40238951df60698d534eacbb472b8a9c8c871966443d620af0ffdbccf3a0ea45ec5342', (status, data) => {
+    console.log(data);
+  });
+});
 /**
  * Endepunkt
  */
@@ -105,6 +107,7 @@ router.post("/api/sjekkPassord",(req,res) => {
     }
     console.log(hash);
   })*/
+  console.log(req.body.epost);
   brukerDao.hentBruker(req.body,(status,data) => {
     //verifiserePassord(req.body.passord,data[0].passord);
     if(data.length >0){
