@@ -19,6 +19,7 @@ import {PageHeader} from './Moduler/header/header'
 
 import {GlemtPassord} from "../src/Komponenter/GlemtPassord/glemtPassord";
 import {ResettPassord} from "../src/Komponenter/GlemtPassord/resettPassord";
+import {Hendelser} from '../src/Komponenter/Hendelser/hendelser';
 
 import createBrowserHistory from 'history/createBrowserHistory';
 const history = createBrowserHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
@@ -144,6 +145,8 @@ if (root)
         <Route exact path="/mineoppgaver" component={MineOppgaver} history={history}/>
         <Route exact path="/login" component={Login} />
         <Route exact path="/kinput" component={komtest} />
+        <Route exact path="/hendelser" component={Hendelser} />
+
         <Route exact path="/headertest" component={PageHeader} history={history} />
       </div>
     </Router>,

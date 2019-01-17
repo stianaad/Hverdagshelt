@@ -67,4 +67,8 @@ module.exports = class HendelseDao extends Dao {
     var k_id = json.kommune_id;
     super.query("SELECT hendelse_id, overskrift, DATE_FORMAT(tid, '%Y-%m-%d %H:%i') AS tid, sted, bilde FROM hendelser WHERE kommune_id = ? ORDER BY tid ASC", [k_id], callback)
   }
+
+  hentAlleHovedkategorier(callback) {
+    super.query('SELECT * FROM hovedkategori', null, callback);
+  }
 };
