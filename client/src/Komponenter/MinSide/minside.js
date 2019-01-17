@@ -208,6 +208,9 @@ export class Minside extends Component {
                         ))}
                     </Card.Group>
                     </div>
+                    <div className="col">
+
+                    </div>
                 </div>
             </div>
         )
