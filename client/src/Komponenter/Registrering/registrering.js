@@ -25,24 +25,24 @@ export class Registrering extends Component {
   render() {
     return (
       <div>
-      <PageHeader history={this.props.history}/>
-      <h1 className="text-center text-capitalize display-4">Registrering</h1>
-      <div className="container">
-        <div className = "row">
-          <div className="col">
-            <div className="form-group">
-              <label>Fornavn:</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Fornavn"
-                value={this.brukerInput.fornavn}
-                onChange={this.endreVerdi}
-                name="fornavn"
-                required={true}
-              />
+        <PageHeader history={this.props.history} />
+        <h1 className="text-center text-capitalize display-4">Registrering</h1>
+        <div className="container">
+          <div className="row">
+            <div className="col">
+              <div className="form-group">
+                <label>Fornavn:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Fornavn"
+                  value={this.brukerInput.fornavn}
+                  onChange={this.endreVerdi}
+                  name="fornavn"
+                  required={true}
+                />
+              </div>
             </div>
-          </div>
             <div className="col">
               <div className="form-group">
                 <label>Etternavn:</label>
@@ -164,7 +164,11 @@ export class Registrering extends Component {
             >
               Registrer deg
             </button>
-            <button id="avbryt" onClick={this.reRoute} className="btn btn-secondary">
+            <button
+              id="avbryt"
+              onClick={this.reRoute}
+              className="btn btn-secondary"
+            >
               Avbryt
             </button>
           </div>
@@ -177,7 +181,6 @@ export class Registrering extends Component {
     //Her skal vi sjekke hvor de kom fra, men dette er en temporær løsning
     this.props.history.push('/');
   }
-
 
   lagre() {
     if (this.brukerInput.passord.length < 8) {
@@ -197,13 +200,12 @@ export class Registrering extends Component {
         this.brukerInput.fornavn,
         this.brukerInput.etternavn
       );
-      //console.log(bruker.epost);
+
       if (bruker.epost.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-        brukerService.lagNyPrivatBruker(bruker)
-        .then((res) => {
+        brukerService.lagNyPrivatBruker(bruker).then((res) => {
           console.log(bruker.epost);
           console.log(res.status);
-          //this.props.history.push('/');
+          this.props.history.push('/');
         });
       } else {
         this.advarsel = 'Ugyldig e-post';

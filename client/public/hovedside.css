@@ -53,3 +53,8 @@ nav ul{
 .leaflet-top{
    z-index: 700 !important;
 }
+
+.oppdateringScroll{
+   height: 78px;
+   overflow-y: scroll;
+}
