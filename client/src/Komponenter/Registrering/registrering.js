@@ -164,13 +164,18 @@ export class Registrering extends Component {
             >
               Registrer deg
             </button>
-            <button id="avbryt" className="btn btn-secondary">
+            <button id="avbryt" onClick={this.reRoute} className="btn btn-secondary">
               Avbryt
             </button>
           </div>
         </div>
       </div>
     );
+  }
+
+  reRoute() {
+    //Her skal vi sjekke hvor de kom fra, men dette er en temporær løsning
+    this.props.history.push('/');
   }
 
 
