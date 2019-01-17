@@ -27,6 +27,7 @@ const history = createBrowserHistory(); // Use history.push(...) to programmatic
 import {relative} from 'path';
 import { KommuneVelger } from './Moduler/KommuneVelger/kommuneVelger';
 import { KommuneInput } from './Moduler/kommuneInput/kommuneInput';
+import { enHendelse } from './Komponenter/Hendelser/enHendelse';
 
 
 class Tabell extends Component{
@@ -148,6 +149,7 @@ if (root)
         <Route exact path="/hendelser" component={Hendelser} />
 
         <Route exact path="/headertest" component={PageHeader} history={history} />
+        <Route exact path="/hendelser/:id" component={enHendelse} />
       </div>
     </Router>,
     root
