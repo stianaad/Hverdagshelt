@@ -7,15 +7,6 @@ import { feilService } from '../../services/feilService';
 import {PageHeader} from '../../Moduler/header/header';
 
 export class MeldFeil extends Component {
-  data = {
-    kommune_id: 1,
-    kategori_id: 1,
-    subkategori_id: 1,
-    overskrift: '',
-    beskrivelse: '',
-    lengdegrad: 0,
-    breddegrad: 0,
-  };
 
     kategoriene= [];
     subkategoriene = [];
