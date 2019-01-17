@@ -15,7 +15,7 @@ export class Forside extends Component {
             <button
               type="button"
               className="main-header-button btn btn-danger border border-dark mr-4"
-              onClick={() => {this.props.history.push("/meld-feil")}}
+              onClick={() => {this.props.history.push("/meldfeil")}}
             >
               Meld inn feil
           </button>
