@@ -10,6 +10,7 @@ import {
     Header,
     Icon,
     Image,
+    Popup,
     Modal,
     Input,
     List
@@ -224,8 +225,8 @@ export class Minside extends Component {
 
     async fjernFeil(id){
         console.log(id);
-        let res1 = await feilService.slettFeil(id);
-        await this.finnFeilBruker(this.props.match.params.bruker_id);
+        /*let res1 = await feilService.slettFeil(id);
+        await this.finnFeilBruker(this.props.match.params.bruker_id);*/
     }
 
     async mounted(){
