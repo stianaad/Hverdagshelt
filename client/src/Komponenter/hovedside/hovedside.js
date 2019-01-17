@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Component, sharedComponentData} from 'react-simplified';
-import {HashRouter, Route, NavLink, Redirect, Switch} from 'react-router-dom';
+import {HashRouter, Route, Link, NavLink, Redirect, Switch} from 'react-router-dom';
 import {generellServices} from '../../services/generellServices';
 import {feilService} from '../../services/feilService';
 import {hendelseService} from '../../services/hendelseService';
@@ -140,7 +140,7 @@ export class Hovedside extends Component {
             </Grid.Column>
             <Grid.Column>
               <div className="text-center mt-3 mr-3">
-                <Button color="red" size="large" floated="right" onClick={this.meldInnfeil}>Meld inn feil</Button>
+                <Link to="/meldfeil" ><Button color="red" size="large" floated="right">Meld inn feil</Button></Link>
               </div>
             </Grid.Column>
           </Grid>
@@ -474,10 +474,6 @@ export class Hovedside extends Component {
         )}
       </div>
     );
-  }
-
-  meldInnfeil(){
-    this.props.history.push("/meld-feil");
   }
 
   async callMap() {

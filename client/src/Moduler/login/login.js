@@ -80,7 +80,7 @@ export class Login extends Component {
 
       sessionStorage.setItem("pollett", res.token);
 
-      if (document.location.pathname == "/")  this.props.history.push("/refresh/minside/11");
+      if (this.props.location.pathname == "/")  this.props.history.push("/refresh/minside/11");
       else this.props.history.push("/refresh" + this.props.location.pathname);
     } else {
       console.log(res.result)
