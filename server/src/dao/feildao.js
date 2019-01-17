@@ -74,8 +74,8 @@ module.exports = class FeilDao extends Dao {
     );
   }
 
-  slettFeil(feil_id, callback) {
-    //var feil_id = json.feil_id;
+  slettFeil(json, callback) {
+    var feil_id = json.feil_id;
     super.query('DELETE FROM feil WHERE feil_id = ?', [feil_id], callback);
   }
 
