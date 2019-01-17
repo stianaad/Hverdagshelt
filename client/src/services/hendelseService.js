@@ -28,6 +28,10 @@ class HendelseService {
   filtrerHendelserPaaKommune(k_id) {
     return api.get('/api/hendelser/kommuner/:kommune_id', k_id);
   }
+
+  hentAlleHovedkategorier(){
+    return api.get('/api//hendelser/hovedkategorier');
+  }
 }
 
 export let hendelseService = new HendelseService();
