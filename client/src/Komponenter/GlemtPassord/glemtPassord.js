@@ -11,7 +11,7 @@ export class GlemtPassord extends Component{
     render(){
       return(
         <>
-        <PageHeader history={this.props.history} />
+        <PageHeader history={this.props.history} location={this.props.location} />
         <div className="container">
         <h1 className="text-center" >Glemt passord</h1>
         <p className="font-weight-bold"></p>

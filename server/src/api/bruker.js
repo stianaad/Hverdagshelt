@@ -42,29 +42,6 @@ export let verifiserePassord = (inputpassord, eksisterendePassord) => {
   );
 };
 
-router.post('/api/test', (req, res) => {
-  console.log('Test kjører');
-  hashPassord(req.body.passord, (status, data) => {
-    console.log(data);
-    verifiserePassord(
-      data,
-      'pbkdf2$10000$64c2446101f5fa79b1a0d0bd7f6be19a3e138357c0615f29bed4a7b2daa834e808e3055d2cb1ca2d02c8738e57336381be77b502efacc802f2094568abc069a6$4849f30fe43a9097fc54001f0451679e6c3d65b725e4603e8dd2777ffc40238951df60698d534eacbb472b8a9c8c871966443d620af0ffdbccf3a0ea45ec5342',
-      (status, data) => {
-        console.log(data);
-      }
-    );
-  });
-});
-
-router.post('/api/test2', (req, res) => {
-  verifiserePassord(
-    'passord1',
-    'pbkdf2$10000$64c2446101f5fa79b1a0d0bd7f6be19a3e138357c0615f29bed4a7b2daa834e808e3055d2cb1ca2d02c8738e57336381be77b502efacc802f2094568abc069a6$4849f30fe43a9097fc54001f0451679e6c3d65b725e4603e8dd2777ffc40238951df60698d534eacbb472b8a9c8c871966443d620af0ffdbccf3a0ea45ec5342',
-    (status, data) => {
-      console.log(data);
-    }
-  );
-});
 /**
  * Endepunkt
  */
@@ -106,7 +83,7 @@ router.post("/sjekkPassord",(req,res)=>{
     });
   });
 });*/
-
+//
 router.post('/api/sjekkPassord', (req, res) => {
   /*passord("passord1").hash((error, hash) => {
     if (error) {

@@ -25,7 +25,7 @@ export class Registrering extends Component {
   render() {
     return (
       <div>
-        <PageHeader history={this.props.history} />
+        <PageHeader  history={this.props.history} location={this.props.location}/>
         <h1 className="text-center text-capitalize display-4">Registrering</h1>
         <div className="container">
           <div className="row">

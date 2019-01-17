@@ -27,6 +27,7 @@ const history = createBrowserHistory(); // Use history.push(...) to programmatic
 import {relative} from 'path';
 import { KommuneVelger } from './Moduler/KommuneVelger/kommuneVelger';
 import { KommuneInput } from './Moduler/kommuneInput/kommuneInput';
+import { enHendelse } from './Komponenter/Hendelser/enHendelse';
 
 
 class Tabell extends Component{
@@ -124,12 +125,32 @@ constructor(props) {
 
 }
 
+const Refresh = ({ path = '/' }) => (
+  <Route
+      path={path}
+      component={({ history, location, match }) => {
+          history.replace({
+              ...location,
+              pathname:location.pathname.substring(match.path.length)
+          });
+          return null;
+      }}
+  />
+);
+
+let token = sessionStorage.getItem("pollett");
+if (token) {
+  let base64Url = token.split('.')[1];
+  let base64 = base64Url.replace('-', '+').replace('_', '/');
+  global.payload = JSON.parse(window.atob(base64));
+}
 
 const root = document.getElementById('root');
 if (root)
   ReactDOM.render(
     <Router history={history}>
       <div>
+        <Refresh path="/refresh" />
         <Route exact path="/hovedside/:kommune" component={Hovedside} history={history}/>
         <Route exact path="/kommunevalgtest" component={KommuneVelger} history={history}/>
         <Route exact path="/meld-feil" component={MeldFeil} history={history}/>
@@ -148,6 +169,7 @@ if (root)
         <Route exact path="/hendelser" component={Hendelser} />
 
         <Route exact path="/headertest" component={PageHeader} history={history} />
+        <Route exact path="/hendelser/:id" component={enHendelse} />
       </div>
     </Router>,
     root

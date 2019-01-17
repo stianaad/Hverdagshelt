@@ -32,7 +32,7 @@ app.post('/api/posts', checkToken, (req, res) => {
   });
 });
 
-app.post('/api/login1', createToken, (req, res) => {
+app.post('/api/innlogging', createToken, (req, res) => {
   res.json({ Message: 'login ok', token})
 });
 

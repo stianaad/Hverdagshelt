@@ -11,7 +11,7 @@ export class ResettPassord extends Component{
     render(){
       return(
         <>
-        <PageHeader />
+        <PageHeader history={this.props.history} location={this.props.location} />
         <div className="container">
         <h1 className="text-center" >Resett passord</h1>
         <p className="font-weight-bold"></p>

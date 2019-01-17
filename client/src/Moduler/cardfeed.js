@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
-import {Card, Feed, Modal, Grid, GridColumn, Segment, Image, Button} from 'semantic-ui-react';
+import {Card, Feed, Modal, Grid, GridColumn, Segment, Image, Button,Popup, Header} from 'semantic-ui-react';
 
 export class FeedEvent extends Component{
     dato(tid){
@@ -20,7 +20,7 @@ export class FeedEvent extends Component{
         } 
         iDag = yyyy + '-' + mm + '-' + dd;
         let iGaar = yyyy + '-' + mm + '-' + (dd-1);
-        console.log(tid);
+        //console.log(tid);
         if(innKommendeDato===iDag){
             iDag="I dag "+innKommendeKlokkeslett;
         } else if(iGaar === innKommendeDato){
@@ -32,7 +32,7 @@ export class FeedEvent extends Component{
     }
     render(){
         //this.dato();
-        console.log("hehe");
+        //console.log("hehe");
         return(
             <Feed>
                 
@@ -73,7 +73,7 @@ export class FeedHendelse extends Component{
         //iDag = yyyy + '-' + mm + '-' + dd;
         iDag = "2019-08-07";
         let iGaar = yyyy + '-' + mm + '-' + (dd+1);
-        console.log(tid);
+        //console.log(tid);
         if(innKommendeDato===iDag){
             iDag="I dag "+innKommendeKlokkeslett;
         } else if(iGaar === innKommendeDato){
@@ -85,7 +85,7 @@ export class FeedHendelse extends Component{
     }
     render(){
         //this.dato();
-        console.log("hehe");
+        //console.log("hehe");
         return(
             <Feed>
                 <Feed.Event>
@@ -106,6 +106,17 @@ export class FeedHendelse extends Component{
 }
 
 export class FeedMinside extends Component{
+    isOpen= false;
+    
+    handleOpen = () => {
+        this.isOpen = true ;
+      }
+    
+      handleClose = () => {
+        this.isOpen = false;
+      }
+    
+
     dato(tid){
         let innKommendeDato = tid.substr(0,10);
         let innKommendeKlokkeslett = tid.substr(11,16);
@@ -124,7 +135,7 @@ export class FeedMinside extends Component{
         //iDag = yyyy + '-' + mm + '-' + dd;
         iDag = yyyy + '-' + mm + '-' + dd;
         let iGaar = yyyy + '-' + mm + '-' + (dd-1);
-        console.log(tid);
+        //console.log(tid);
         if(innKommendeDato===iDag){
             iDag="I dag "+innKommendeKlokkeslett;
         } else if(iGaar === innKommendeDato){
@@ -134,9 +145,21 @@ export class FeedMinside extends Component{
         }
         return(<Feed.Date content={iDag}/>)
     }
+
+    handleOpen = () => {
+        if (!this.isOpen){
+            this.isOpen = true ;
+        }
+      }
+    
+      handleClose = () => {
+          if(this.isOpen){
+            this.isOpen = false;
+          }
+      }
     render(){
         //this.dato();
-        console.log("hehe");
+        //console.log("hehe");
         return(
             <Feed>
                 <Feed.Event>
@@ -150,9 +173,33 @@ export class FeedMinside extends Component{
                         <span><i>{this.props.kategori}</i></span>
                         </a>
                     </Feed.Content>
-                    <Feed.Label onClick={this.props.fjern} >
+                    <Feed.Label>
                     <a>
-                    <img src="https://cdn4.iconfinder.com/data/icons/devine_icons/Black/PNG/Folder%20and%20Places/Trash-Recyclebin-Empty-Closed.png" width="30" height="30"/>
+                    <Popup
+                        trigger={<img src="https://cdn4.iconfinder.com/data/icons/devine_icons/Black/PNG/Folder%20and%20Places/Trash-Recyclebin-Empty-Closed.png" width="30" height="30"/>}
+                        on='click'
+                        open={this.isOpen}
+                        onOpen={this.handleOpen}
+                        onClose={this.handleClose}
+                        position='bottom left'>
+                        <Grid centered>
+                            <Grid.Row columns={1}>
+                                <Grid.Column>
+                                    <Header as="h3">Er du sikker på at du vil slette denne feilen?</Header>
+                                </Grid.Column>
+                            </Grid.Row>
+                            <Grid.Row columns="equal">
+                            <Grid.Column>
+                                <Button color="green" fluid 
+                                content="Ja"
+                                 onClick={() => {this.props.fjern; this.handleClose()}}/>
+                            </Grid.Column>
+                            <Grid.Column>
+                                <Button color="red" fluid content="Nei" onClick={() => {this.handleClose()}}/>
+                            </Grid.Column>
+                            </Grid.Row>
+                        </Grid>
+                    </Popup>
                     </a>
                     </Feed.Label>
                 </Feed.Event>
