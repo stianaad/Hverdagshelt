@@ -96,7 +96,7 @@ test('hent brukerid', done => {
     console.log(
       'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
     );
-    expect(data.bruker_id).toBe(10);
+    expect(data[0].bruker_id).toBe(10);
     done();
   }
   brukerdao.finnBruker_id({epost: 'epost10@hotmail.com'}, callback);
@@ -151,7 +151,7 @@ test('Lag ny feil', done => {
 });
 
 test('slett feil', done => {
-  function callback() {
+  function callback(status, data) {
     console.log('Test callback: status' + status + ', data: ' + JSON.stringify(data));
     expect(data.affectedRows).toBe(1);
     done();
