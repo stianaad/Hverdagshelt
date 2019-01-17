@@ -155,7 +155,7 @@ export class MeldFeil extends Component {
     xhr.open('POST', '/api/feil ', true);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-        this.props.history.push('/hovedside/trondheim');
+        this.props.history.push('/');
       }
     };
     xhr.send(formData);
