@@ -36,7 +36,7 @@ let testoppdatering = {
 }
 
 let oppdaterFeil1 = {
-  feil_id: 1
+  feil_id: 1,
   kommune_id: 1,
   subkategori_id: 1,
   overskrift: 'HeiHei',
