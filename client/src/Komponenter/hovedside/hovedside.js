@@ -258,32 +258,38 @@ export class Hovedside extends Component {
                             />
                         </Grid.Column>
                         <Grid.Column>
-                          <List>
-                            <List.Item>
-                                <List.Content>
-                                    <List.Header>Godkjent</List.Header>
-                                    <List.Description>01.01.18 19:00</List.Description>
-                                </List.Content>
-                            </List.Item>
-                            <List.Item>
-                                <List.Content>
-                                    <List.Header>Godkjent</List.Header>
-                                    <List.Description>01.01.18 19:00</List.Description>
-                                </List.Content>
-                            </List.Item>
-                            <List.Item>
-                                <List.Content>
-                                    <List.Header>Godkjent</List.Header>
-                                    <List.Description>01.01.18 19:00</List.Description>
-                                </List.Content>
-                            </List.Item>
-                            <List.Item>
-                                <List.Content>
-                                    <List.Header>Godkjent</List.Header>
-                                    <List.Description>01.01.18 19:00</List.Description>
-                                </List.Content>
-                            </List.Item>
-                          </List>
+                          <h6>Oppdateringer: </h6>
+                          <div className="oppdateringScroll">
+                            
+                                <List>
+                                  <List.Item>
+                                      <List.Content>
+                                          <List.Header>Godkjent</List.Header>
+                                          <List.Description>01.01.18 19:00</List.Description>
+                                      </List.Content>
+                                  </List.Item>
+                                  <List.Item>
+                                      <List.Content>
+                                          <List.Header>Godkjent</List.Header>
+                                          <List.Description>01.01.18 19:00</List.Description>
+                                      </List.Content>
+                                  </List.Item>
+                                  <List.Item>
+                                      <List.Content>
+                                          <List.Header>Godkjent</List.Header>
+                                          <List.Description>01.01.18 19:00</List.Description>
+                                      </List.Content>
+                                  </List.Item>
+                                  <List.Item>
+                                      <List.Content>
+                                          <List.Header>Godkjent</List.Header>
+                                          <List.Description>01.01.18 19:00</List.Description>
+                                      </List.Content>
+                                  </List.Item>
+                                </List>
+                              
+                          </div>
+                          <br/>
                           <Image.Group size='tiny'>
                               <Image src="/lofoten.jpg" onClick={this.handleOpen}/>
                               <Image src="/lofoten.jpg" onClick={this.handleOpen}/>
