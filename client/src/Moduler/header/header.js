@@ -6,8 +6,8 @@ import { Login } from '../../Moduler/login/login';
 
 
 export class PageHeader extends Component {
-    loggetinn = true;
-    brukertype = (["privat", "ansatt", "bedrift", "admin"])[2];
+    loggetinn = false;
+    brukertype = null;
 
     render() {
         return (
@@ -38,16 +38,16 @@ export class PageHeader extends Component {
                             
                             </div>
                         </div>*/
-                        <Login></Login>
+                        <Login history={this.props.history} />
                         ) : this.brukertype == "privat" ? (
                             <div className="dropdown profileButton">
                                 <img className="profileIcon" src="/profile.svg" alt="Bruker ikon" onClick={this.clickDrop}></img>
                                 <div style={{width: "170px"}} className="dropdown-menu dropdown-menu-right dropdownbox brukerbox" id="drops">
                                     <div className="arrow"></div>
                                     <div className="arrowborder"></div>
-                                    <div className="dropdown-item">Min side</div>
+                                    <Link to="/minside/11"><div className="dropdown-item">Min side</div></Link>
                                     <div className="dropdown-item">Instillinger</div>
-                                    <div className="dropdown-item">Logg ut</div>
+                                    <div onClick={this.loggut} className="dropdown-item">Logg ut</div>
                                 </div>
                             </div>
                         ) : this.brukertype == "ansatt" ? (
@@ -56,10 +56,10 @@ export class PageHeader extends Component {
                                 <div style={{width: "190px"}} className="dropdown-menu dropdown-menu-right dropdownbox brukerbox" id="drops">
                                     <div className="arrow"></div>
                                     <div className="arrowborder"></div>
-                                    <div className="dropdown-item">Mine oppgaver</div>
+                                    <Link to="/mineOppgaver"><div className="dropdown-item">Mine oppgaver</div></Link>
                                     <div className="dropdown-item">Legg til hendelse</div>
                                     <div className="dropdown-item">Instillinger</div>
-                                    <div className="dropdown-item">Logg ut</div>
+                                    <div onClick={this.loggut} className="dropdown-item">Logg ut</div>
                                 </div>
                             </div>
                         ) : this.brukertype == "bedrift" ? (
@@ -70,7 +70,7 @@ export class PageHeader extends Component {
                                     <div className="arrowborder"></div>
                                     <div className="dropdown-item">Mine oppgaver</div>
                                     <div className="dropdown-item">Instillinger</div>
-                                    <div className="dropdown-item">Logg ut</div>
+                                    <div onClick={this.loggut} className="dropdown-item">Logg ut</div>
                                 </div>
                             </div>
                         ) : (<div>Admin</div>)}
@@ -79,6 +79,21 @@ export class PageHeader extends Component {
                 <div className="pageHeaderBuffer"></div>
             </>
         );
+    }
+
+    loggut() {
+        sessionStorage.removeItem("pollett");
+        document.location = ('/');
+    }
+
+    mounted() {
+        if (global.payload) {
+            this.loggetinn = true;
+            this.brukertype = global.payload.role;
+        } else {
+            this.loggetinn = false;
+            this.brukertype = null;
+        }
     }
 
     clickDrop(event) {

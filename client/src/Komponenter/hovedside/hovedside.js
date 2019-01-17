@@ -56,6 +56,11 @@ export class Hovedside extends Component {
   classFeil = 'hovedsideTabeller';
   classHendelser = 'hovedsideTabeller'; 
 
+  state = {open: false}
+
+  handleOpen = () => {this.setState({open: true})}
+  handleClose = () => {this.setState({open: false})}
+
   async merInfo(feil) {
     this.visFeil = true;
     console.log(feil.feil_id);
@@ -141,7 +146,7 @@ export class Hovedside extends Component {
           </Grid>
         </div>
         {!this.visHendelser ? (
-          <div className="row mt-5">
+          <div className="row mt-4">
             <div className="col-sm-4">
               <div className="ml-3 mb-3">
                 <Card fluid>
@@ -233,7 +238,7 @@ export class Hovedside extends Component {
                         </h1>
                         <h6>Status: {this.feil.status}{' '}
                           <img src={this.statusIkon} width="30" height="30" />
-                          <Button floated='right' color='red'>Abonner</Button>
+                          <Button floated='right' color='red' size="small">Abonner</Button>
                         </h6>
                       </div>
                     </Card.Content>
@@ -247,50 +252,61 @@ export class Hovedside extends Component {
                         <h6>Posisjon</h6>
                             <ShowMarkerMap
                               width="100%"
-                              height="300px"
+                              height="250px"
                               id="posmap"
                               feil={this.feil}
                             />
                         </Grid.Column>
                         <Grid.Column>
-                          <List>
-                            <List.Item>
-                                <List.Content>
-                                    <List.Header>Godkjent</List.Header>
-                                    <List.Description>01.01.18 19:00</List.Description>
-                                </List.Content>
-                            </List.Item>
-                            <List.Item>
-                                <List.Content>
-                                    <List.Header>Godkjent</List.Header>
-                                    <List.Description>01.01.18 19:00</List.Description>
-                                </List.Content>
-                            </List.Item>
-                            <List.Item>
-                                <List.Content>
-                                    <List.Header>Godkjent</List.Header>
-                                    <List.Description>01.01.18 19:00</List.Description>
-                                </List.Content>
-                            </List.Item>
-                            <List.Item>
-                                <List.Content>
-                                    <List.Header>Godkjent</List.Header>
-                                    <List.Description>01.01.18 19:00</List.Description>
-                                </List.Content>
-                            </List.Item>
-                          </List>
+                          <h6>Oppdateringer: </h6>
+                          <div className="oppdateringScroll">
+                            
+                                <List>
+                                  <List.Item>
+                                      <List.Content>
+                                          <List.Header>Godkjent</List.Header>
+                                          <List.Description>01.01.18 19:00</List.Description>
+                                      </List.Content>
+                                  </List.Item>
+                                  <List.Item>
+                                      <List.Content>
+                                          <List.Header>Godkjent</List.Header>
+                                          <List.Description>01.01.18 19:00</List.Description>
+                                      </List.Content>
+                                  </List.Item>
+                                  <List.Item>
+                                      <List.Content>
+                                          <List.Header>Godkjent</List.Header>
+                                          <List.Description>01.01.18 19:00</List.Description>
+                                      </List.Content>
+                                  </List.Item>
+                                  <List.Item>
+                                      <List.Content>
+                                          <List.Header>Godkjent</List.Header>
+                                          <List.Description>01.01.18 19:00</List.Description>
+                                      </List.Content>
+                                  </List.Item>
+                                </List>
+                              
+                          </div>
+                          <br/>
                           <Image.Group size='tiny'>
-                              <Image src="/lofoten.jpg" />
-                              <Image src="/lofoten.jpg" />
-                              <Image src="/lofoten.jpg" />
-                              <Image src="/lofoten.jpg" />
-                              <Image src="/lofoten.jpg" />
-                              <Image src="/lofoten.jpg" />
+                              <Image src="/lofoten.jpg" onClick={this.handleOpen}/>
+                              <Image src="/lofoten.jpg" onClick={this.handleOpen}/>
+                              <Image src="/lofoten.jpg" onClick={this.handleOpen}/>
+                              <Image src="/lofoten.jpg" onClick={this.handleOpen}/>
+                              <Image src="/lofoten.jpg" onClick={this.handleOpen}/>
+                              <Image src="/lofoten.jpg" onClick={this.handleOpen}/>
                           </Image.Group>
                         </Grid.Column>
                       </Grid>
                     </Card.Content>
                   </Card>
+                  <Modal open={this.state.open} onClose={this.handleClose}>
+                    <Modal.Content>
+                      <Image src="/lofoten.jpg"/>
+                    </Modal.Content>
+                  </Modal>
                 </div>     
               ) : (
                 <div className="row">
@@ -298,7 +314,7 @@ export class Hovedside extends Component {
                     <div >
                       <MarkerMap
                         width="100%"
-                        height="300px"
+                        height="365px"
                         id="test"
                         center={this.props.match.params.kommune}
                         markers={this.markers}
@@ -345,9 +361,9 @@ export class Hovedside extends Component {
             </div>
           </div>
         ) : (
-          <div className="row mt-5">
+          <div className="row mt-4">
             <div className="col-sm-8 ">
-              <div className="ml-5">
+              <div className="ml-5 mb-3">
                 <Card fluid>
                   <Card.Content>
                     <div>
@@ -424,7 +440,7 @@ export class Hovedside extends Component {
                 </div>
                 </div>
             <div className="col-sm-4">
-              <div className="mr-3">
+              <div className="mr-3 mb-3">
                 <Card fluid>
                   <Card.Content>
                     <Card.Header>

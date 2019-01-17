@@ -125,6 +125,12 @@ constructor(props) {
 
 }
 
+let token = sessionStorage.getItem("pollett");
+if (token) {
+  let base64Url = token.split('.')[1];
+  let base64 = base64Url.replace('-', '+').replace('_', '/');
+  global.payload = JSON.parse(window.atob(base64));
+}
 
 const root = document.getElementById('root');
 if (root)

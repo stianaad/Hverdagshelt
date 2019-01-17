@@ -150,7 +150,11 @@ export class FeedMinside extends Component{
                         <span><i>{this.props.kategori}</i></span>
                         </a>
                     </Feed.Content>
-                    <Feed.Label onClick={this.props.fjern} image={"https://cdn4.iconfinder.com/data/icons/devine_icons/Black/PNG/Folder%20and%20Places/Trash-Recyclebin-Empty-Closed.png"}/>
+                    <Feed.Label onClick={this.props.fjern} >
+                    <a>
+                    <img src="https://cdn4.iconfinder.com/data/icons/devine_icons/Black/PNG/Folder%20and%20Places/Trash-Recyclebin-Empty-Closed.png" width="30" height="30"/>
+                    </a>
+                    </Feed.Label>
                 </Feed.Event>
             </Feed>
         );

@@ -22,7 +22,7 @@ class FeilService {
   }
 
   slettFeil(feil_id) {
-    return api.delete('/api/feil/:feil_id', feil_id);
+    return api.delete('/api/feil/'+feil_id);
   }
 
   hentFeilFiltrertKategori(hk_id) {

@@ -13,20 +13,6 @@ import async from 'async';
 let brukerDao = new BrukerDao(pool);
 let glemt = new Epost();
 
-/*
- * Generelle metoder brukt i endepunktene
- */
-
-// Metode for å lage et enkelt token med tidskvant på 1 time
-const token = () => {
-  return jwt.sign(
-    {
-      exp: Math.floor(Date.now() / 1000) + 60 * 60,
-    },
-    'secret'
-  );
-};
-
 // Hashe passord
 
 const hashPassord = (inputPassord) => {
@@ -42,8 +28,8 @@ const hashPassord = (inputPassord) => {
 
 // Verifisere passord
 
-export const verifiserePassord = (inputPassord, eksisterendePassord) => {
-  return passord(inputPassord).verifyAgainst(
+export let verifiserePassord = (inputpassord, eksisterendePassord) => {
+  passord(inputpassord).verifyAgainst(
     eksisterendePassord,
     (error, verified) => {
       if (error) throw new Error('Noe gikk galt!');
@@ -56,6 +42,29 @@ export const verifiserePassord = (inputPassord, eksisterendePassord) => {
   );
 };
 
+router.post('/api/test', (req, res) => {
+  console.log('Test kjører');
+  hashPassord(req.body.passord, (status, data) => {
+    console.log(data);
+    verifiserePassord(
+      data,
+      'pbkdf2$10000$64c2446101f5fa79b1a0d0bd7f6be19a3e138357c0615f29bed4a7b2daa834e808e3055d2cb1ca2d02c8738e57336381be77b502efacc802f2094568abc069a6$4849f30fe43a9097fc54001f0451679e6c3d65b725e4603e8dd2777ffc40238951df60698d534eacbb472b8a9c8c871966443d620af0ffdbccf3a0ea45ec5342',
+      (status, data) => {
+        console.log(data);
+      }
+    );
+  });
+});
+
+router.post('/api/test2', (req, res) => {
+  verifiserePassord(
+    'passord1',
+    'pbkdf2$10000$64c2446101f5fa79b1a0d0bd7f6be19a3e138357c0615f29bed4a7b2daa834e808e3055d2cb1ca2d02c8738e57336381be77b502efacc802f2094568abc069a6$4849f30fe43a9097fc54001f0451679e6c3d65b725e4603e8dd2777ffc40238951df60698d534eacbb472b8a9c8c871966443d620af0ffdbccf3a0ea45ec5342',
+    (status, data) => {
+      console.log(data);
+    }
+  );
+});
 /**
  * Endepunkt
  */
@@ -75,10 +84,10 @@ router.post('/api/brukere', (req, res) => {
   });
 });
 
-/* 
-* Hasher først passordet, deretter kalles dao for å hente hash i database,
-* deretter verifiseres passorded som er skrevet inn mot det i databasen.
-*/
+/*
+ * Hasher først passordet, deretter kalles dao for å hente hash i database,
+ * deretter verifiseres passorded som er skrevet inn mot det i databasen.
+ */
 /*
 router.post("/sjekkPassord",(req,res)=>{
   console.log("Sjekk passord");
@@ -98,35 +107,38 @@ router.post("/sjekkPassord",(req,res)=>{
   });
 });*/
 
-router.post("/api/sjekkPassord",(req,res) => {
+router.post('/api/sjekkPassord', (req, res) => {
   /*passord("passord1").hash((error, hash) => {
     if (error) {
       throw new Error('Noe gikk galt');
     }
     console.log(hash);
   })*/
-  brukerDao.hentBruker(req.body,(status,data) => {
+  console.log(req.body.epost);
+  brukerDao.hentBruker(req.body, (status, data) => {
     //verifiserePassord(req.body.passord,data[0].passord);
-    if(data.length >0){
-      passord(req.body.passord).verifyAgainst(data[0].passord, (error,verified) => {
-        if(error)
-          throw new Error('Noe gikk galt!');
-        if(!verified) {
-          console.log("false1");
-          res.json({"result": false});
-        } else {
-          console.log(data[0].bruker_id);
-          res.json({"result": true,"bruker_id": data[0].bruker_id});
+    if (data.length > 0) {
+      passord(req.body.passord).verifyAgainst(
+        data[0].passord,
+        (error, verified) => {
+          if (error) throw new Error('Noe gikk galt!');
+          if (!verified) {
+            console.log('false1');
+            res.json({result: false});
+          } else {
+            console.log(data[0].bruker_id);
+            res.json({result: true, bruker_id: data[0].bruker_id});
+          }
         }
-      });
-    } else{
-      console.log("false2");
-      res.json({"result": false});
+      );
+    } else {
+      console.log('false2');
+      res.json({result: false});
     }
     //res.status(status);
     //res.json(data);
-  })
-})
+  });
+});
 
 router.post('/api/brukere/privat', (req, res) => {
   console.log('Fikk POST-request fra klienten');
@@ -216,31 +228,36 @@ router.get('/brukere/:bruker_id/nyttpassord', (req, res) => {
   });
 });
 
-router.get('/api/bruker/minside/:bruker_id',(req,res)=> {
-  console.log('/bruker/minside/:bruker_id fikk get request fra klient')
-  brukerDao.finnFeilTilBruker(req.params.bruker_id,(status,data) => {
+router.get('/api/bruker/minside/:bruker_id', (req, res) => {
+  console.log('/bruker/minside/:bruker_id fikk get request fra klient');
+  brukerDao.finnFeilTilBruker(req.params.bruker_id, (status, data) => {
     res.status(status);
     res.json(data);
-  })
-})
+  });
+});
 
-router.get('/api/bruker/finnFolgteFeil/:bruker_id',(req,res)=> {
-  console.log('/api/bruker/finnFolgteFeil/:bruker_id fikk get request fra klient')
-  brukerDao.finnFolgteFeilTilBruker(req.params.bruker_id,(status,data) => {
+router.get('/api/bruker/finnFolgteFeil/:bruker_id', (req, res) => {
+  console.log(
+    '/api/bruker/finnFolgteFeil/:bruker_id fikk get request fra klient'
+  );
+  brukerDao.finnFolgteFeilTilBruker(req.params.bruker_id, (status, data) => {
     res.status(status);
     res.json(data);
-  })
-})
+  });
+});
 
-router.get('/api/bruker/finnfolgteHendelser/:bruker_id',(req,res)=> {
-  console.log('/api/bruker/finnfolgteHendelser/:bruker_id fikk get request fra klient')
-  brukerDao.finnFolgteHendelserTilBruker(req.params.bruker_id,(status,data) => {
-    res.status(status);
-    res.json(data);
-  })
-})
-
-
+router.get('/api/bruker/finnfolgteHendelser/:bruker_id', (req, res) => {
+  console.log(
+    '/api/bruker/finnfolgteHendelser/:bruker_id fikk get request fra klient'
+  );
+  brukerDao.finnFolgteHendelserTilBruker(
+    req.params.bruker_id,
+    (status, data) => {
+      res.status(status);
+      res.json(data);
+    }
+  );
+});
 
 router.get('/resetPassord/:token', (req, res) => {
   console.log('Reset passord');

@@ -73,8 +73,10 @@ export class Login extends Component {
   }
 
   sjekkPassord(res){
-    if(res.result){
-      this.props.history.push('/minside/'+res.bruker_id);
+    if(res.result) {
+      sessionStorage.removeItem("pollett");
+      sessionStorage.setItem("pollett", res.token);
+      document.location = ('/minside/11');
     } else {
       console.log(res.result)
       this.advarsel = "Feil brukernavn eller passord!";

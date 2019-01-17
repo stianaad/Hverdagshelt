@@ -153,7 +153,7 @@ export class MarkerMap extends Component {
                         })
                     ]
                 });
-                this.map.fitBounds(this.coords).setZoom(11);
+                this.map.fitBounds(this.coords).setZoom(10);
                 //this.map.setView(L.latLng(this.props.bredde, this.props.lengde), 11);
                 
                 for (let i = 0; i < m.length; i++) {

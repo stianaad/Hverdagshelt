@@ -34,8 +34,8 @@ export class MineOppgaver extends Component{
         this.valgtFeil = {...feil};
         this.opneFeil(feil);
         console.log(this.valgtFeil);
-        this.setState({ open: true })
-        console.log(this.state);
+        this.setState({ open: true });
+        console.log(this.state)
     }
 
     async opneFeil(feil){
