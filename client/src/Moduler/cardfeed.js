@@ -135,10 +135,7 @@ export class FeedMinside extends Component{
         //iDag = yyyy + '-' + mm + '-' + dd;
         iDag = yyyy + '-' + mm + '-' + dd;
         let iGaar = yyyy + '-' + mm + '-' + (dd-1);
-<<<<<<< HEAD
-=======
         //console.log(tid);
->>>>>>> master
         if(innKommendeDato===iDag){
             iDag="I dag "+innKommendeKlokkeslett;
         } else if(iGaar === innKommendeDato){
