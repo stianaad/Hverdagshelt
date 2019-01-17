@@ -63,7 +63,7 @@ export let createToken = (req, res, next) => {
             else if (roller.bedrift == 1)       { rolle.role = 'bedrift'; }
             else                               { rolle.role = 'admin'; }
 
-            jwt.sign({user: user.user, role: rolle.role}, secret.secret, { expiresIn: '3m' }, (err, token) => {
+            jwt.sign({user: user.user, role: rolle.role}, secret.secret, { expiresIn: '1d' }, (err, token) => {
               console.log(err);
               res.json({
                 "result": true,
