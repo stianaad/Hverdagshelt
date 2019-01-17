@@ -134,7 +134,7 @@ export class MarkerMap extends Component {
         this.props.onRef(this);
 
         let m = this.props.markers;
-        console.log("hehe",this.props.markers);
+        
         let coords, map;
 
         fetch("https://nominatim.openstreetmap.org/?format=json&q=" + this.props.center + "&limit=1", {
@@ -167,10 +167,6 @@ export class MarkerMap extends Component {
 
     componentWillUnmount() {
         this.props.onRef(null)
-    }
-
-    componentWillReceiveProps() {
-        console.log("yo");
     }
 
     addMarkers(feil) {
