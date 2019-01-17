@@ -36,20 +36,19 @@ export let checkToken = (req, res, next) => {
 
 export let createToken = (req, res, next) => {
   console.log('Inne i createToken');
-  let elele = { epost: req.body.epost };
-  let pass = { passord: req.body.passord }
-  brukerdao.hentBruker(elele, (status, info) => {
+  brukerdao.hentBruker(req.body, (status, info) => {
     let aa = { bruker_id: info[0].bruker_id};
-    let user = {user: info};
-    let bb = { passord: info[0].passord };
-    console.log(bb.passord);
-    passord(pass.passord).verifyAgainst(bb.passord, (error, verified) => {
+    let user = {bruker_id: info[0].bruker_id,
+                epost: info[0].epost,
+                kommune_id: info[0].kommune_id};
+    
+    passord(req.body.passord).verifyAgainst(info[0].passord, (error, verified) => {
         if (error) {
           throw new Error('Error på verifisering');
         }
 
         if (verified) {
-          brukerdao.hentBrukerRolle(aa.bruker_id, (status, data) =>{
+          brukerdao.hentBrukerRolle(aa, (status, data) =>{
             let roller = {
               admin: data[0].admin,
               ansatt: data[0].ansatt,
@@ -58,12 +57,12 @@ export let createToken = (req, res, next) => {
             };
             let rolle = {role: ''};
 
-            if      (roller.privatbruker == 1)  { rolle.role = 'privatbruker'; }
+            if      (roller.privatbruker == 1)  { rolle.role = 'privat'; }
             else if (roller.ansatt == 1)        { rolle.role = 'ansatt'; }
             else if (roller.bedrift == 1)       { rolle.role = 'bedrift'; }
             else                               { rolle.role = 'admin'; }
-
-            jwt.sign({user: user.user, role: rolle.role}, secret.secret, { expiresIn: '3m' }, (err, token) => {
+            console.log(rolle.role);
+            jwt.sign({user: user, role: rolle.role}, secret.secret, { expiresIn: '3m' }, (err, token) => {
               console.log(err);
               res.json({
                 "result": true,
