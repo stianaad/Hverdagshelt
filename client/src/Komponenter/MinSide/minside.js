@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {PageHeader} from '../../Moduler/header/header';
 import {Component, sharedComponentData} from 'react-simplified';
+import {feilService} from '../../services/feilService';
 import {
     Card,
     Feed,
@@ -58,7 +59,7 @@ export class Minside extends Component {
                             status={feil.status}
                             tid={feil.tid}
                             kategori={feil.kategorinavn}
-                            fjern={() => this.fjernFeil()}
+                            fjern={() => this.fjernFeil(feil.feil_id)}
                           >
                             {feil.overskrift}
                           </FeedMinside>
@@ -109,14 +110,20 @@ export class Minside extends Component {
         )
     }
 
-    fjernFeil(){
-        
+    async finnFeilBruker(id){
+        let res1 = await brukerService.finnFeilTilBruker(id);
+        this.rapporterteFeil = await res1.data;
+        await console.log(res1.data);
+    }
+
+    async fjernFeil(id){
+        console.log(id);
+        let res1 = await feilService.slettFeil(id);
+        await this.finnFeilBruker(this.props.match.params.bruker_id);
     }
 
     async mounted(){
-        let res1 = await brukerService.finnFeilTilBruker(this.props.match.params.bruker_id);
-        this.rapporterteFeil = await res1.data;
-        await console.log(res1.data);
+        await this.finnFeilBruker(this.props.match.params.bruker_id);
 
         let res2 = await brukerService.finnFolgteFeilTilBruker(this.props.match.params.bruker_id);
         this.folgteFeil = await res2.data;
