@@ -12,15 +12,21 @@ import {
     Modal,
   } from 'semantic-ui-react';
   import {FeedEvent, FeedHendelse, Filtrer, Info, FeedMinside} from '../../Moduler/cardfeed';
+import { brukerService } from '../../services/brukerService';
 
 export class Minside extends Component {
+    rapporterteFeil = [];
+    folgteFeil = [];
+    folgteHendelser = [];
+
+
     render(){
         return(
             <div>
                 <PageHeader history={this.props.history}/>
                 <h1 className="text-center">Min side</h1>
                 <div className="row ">
-                    <div className="col-sm-4 mt-3 ml-3">
+                    <div className="col mt-3 ml-3">
                     <h2> </h2>
                     <Card fluid="true">
                   <Card.Content>
@@ -47,66 +53,74 @@ export class Minside extends Component {
                   </Card.Content>
                   <Card.Content>
                     <Feed>
-                        <FeedMinside
-                          status="Under behandling"
-                          tid={"2019-01-16 20:50"}
-                          kategori={"Strømbrudd"}
-                        >
-                          {"Strømbrudd hjemme hos Stian"}
-                        </FeedMinside>
-                        <FeedMinside
-                          status="Ferdig"
-                          tid={"2019-01-15 10:50"}
-                          kategori={"Vegproblem"}
-                        >
-                          {"Hull i vegen ved sverres gate"}
-                        </FeedMinside>
-                        <FeedMinside
-                          status="Under behandling"
-                          tid={"2019-01-16 20:50"}
-                          kategori={"Strømbrudd"}
-                        >
-                          {"Strømbrudd hjemme hos Stian"}
-                        </FeedMinside>
-                        <FeedMinside
-                          status="Ferdig"
-                          tid={"2019-01-15 10:50"}
-                          kategori={"Vegproblem"}
-                        >
-                          {"Hull i vegen ved sverres gate"}
-                        </FeedMinside>
+                        {this.rapporterteFeil.map( feil => (
+                            <FeedMinside
+                            status={feil.status}
+                            tid={feil.tid}
+                            kategori={feil.kategorinavn}
+                            fjern={() => this.fjernFeil()}
+                          >
+                            {feil.overskrift}
+                          </FeedMinside>
+                        ))}
                     </Feed>
                   </Card.Content>
                 </Card>
                     </div>
-                    <div className="col-sm-4 mt-3">
+                    <div className="col mt-3">
                     <h2>Hendelser du følger</h2>
                     <Card.Group itemsPerRow={1}>
-                        <Card >
-                            <Image src="http://www.stavanger-konserthus.no/wp-content/uploads/2015/10/KONSERTER-OG-FORESTILLINGER-1.jpeg"/>
+                        {this.folgteHendelser.map(hendelse => (
+                            <Card>
+                            <Image src={hendelse.bilde} className="feilCard"/>
                             <Card.Content>
-                                <Card.Header>Julekonsert på Bømlo</Card.Header>
+                                <Card.Header>{hendelse.overskrift}</Card.Header>
                                 <Card.Description><img className="mr-2"
                             src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Simple_icon_time.svg/750px-Simple_icon_time.svg.png"
                             height="20"
-                            width="25"/>2019-01-16 10:50</Card.Description>
+                            width="25"/>{hendelse.tid}</Card.Description>
                             </Card.Content>
                         </Card>
-                        <Card >
-                            <Image src="http://www.stavanger-konserthus.no/wp-content/uploads/2015/10/KONSERTER-OG-FORESTILLINGER-1.jpeg"/>
-                            <Card.Content>
-                                <Card.Header>Julekonsert på Bømlo</Card.Header>
-                                <Card.Description><img className="mr-2"
-                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Simple_icon_time.svg/750px-Simple_icon_time.svg.png"
-                            height="20"
-                            width="25"/>2019-01-16 10:50</Card.Description>
-                            </Card.Content>
-                        </Card>
+                        ))}
                     </Card.Group>
                     </div>
-                    
+                    <div className="col mt-3">
+                        <h2>Feil/mangler du følger</h2>
+                        <Card.Group itemsPerRow={1}>
+                        {this.folgteFeil.map(feil => (
+                            <Card >
+                                <Image src={feil.url} className="feilCard"/>
+                                <Card.Content>
+                                    <Card.Header>{feil.overskrift}</Card.Header>
+                                    <Card.Description><img className="mr-2"
+                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Simple_icon_time.svg/750px-Simple_icon_time.svg.png"
+                                height="20"
+                                width="25"/>{feil.tid}</Card.Description>
+                                </Card.Content>
+                            </Card>
+                        ))}
+                    </Card.Group>
+                    </div>
                 </div>
             </div>
         )
+    }
+
+    fjernFeil(){
+        
+    }
+
+    async mounted(){
+        let res1 = await brukerService.finnFeilTilBruker(this.props.match.params.bruker_id);
+        this.rapporterteFeil = await res1.data;
+        await console.log(res1.data);
+
+        let res2 = await brukerService.finnFolgteFeilTilBruker(this.props.match.params.bruker_id);
+        this.folgteFeil = await res2.data;
+        await console.log(res2.data);
+
+        let res3 = await brukerService.finnFolgteHendelserTilBruker(this.props.match.params.bruker_id);
+        this.folgteHendelser = await res3.data;
+        await console.log(res3.data);
     }
 }

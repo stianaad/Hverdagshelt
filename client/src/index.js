@@ -21,7 +21,6 @@ import {GlemtPassord} from "../src/Komponenter/GlemtPassord/glemtPassord";
 import {ResettPassord} from "../src/Komponenter/GlemtPassord/resettPassord";
 import {Hendelser} from '../src/Komponenter/Hendelser/hendelser';
 
-
 import createBrowserHistory from 'history/createBrowserHistory';
 const history = createBrowserHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
 
@@ -132,14 +131,14 @@ if (root)
     <Router history={history}>
       <div>
         <Route exact path="/hovedside/:kommune" component={Hovedside} history={history}/>
-        <Route exact path="/kommunevalgtest" component={KommuneVelger} />
-        <Route exact path="/meld-feil" component={MeldFeil} />
+        <Route exact path="/kommunevalgtest" component={KommuneVelger} history={history}/>
+        <Route exact path="/meld-feil" component={MeldFeil} history={history}/>
         <Route exact path="/nyheter" component={Menu} />
         <Route exact path="/registrering" component={Registrering} history={history} />
         <Route exact path="/" component={Forside} history={history}/>
         <Route exact path="/bildetest" component={BildeTest} />
         <Route exact path="/glemt-passord" component={GlemtPassord}/>
-        <Route exact path="/minside" component={Minside} history={history}/>
+        <Route exact path="/minside/:bruker_id" component={Minside} history={history}/>
         <Route exact path="/resett-passord/:token" component={ResettPassord}/>
         {//<Route exact path="/login" component={Login} />
         }

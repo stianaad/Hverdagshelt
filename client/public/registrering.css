@@ -23,6 +23,10 @@
     border: solid;
 }
 
+#registrer {
+  margin-right: 5px;
+}
+
 #passordSjekk {
   color:red;
 }
