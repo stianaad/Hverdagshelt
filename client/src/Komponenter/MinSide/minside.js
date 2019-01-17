@@ -42,7 +42,7 @@ export class Minside extends Component {
     render(){
         return(
             <div>
-                <PageHeader history={this.props.history}/>
+                <PageHeader history={this.props.history} location={this.props.location}/>
                 <Modal open={this.state.open} onClose={this.handleClose} size="small" centered={true} dimmer="blurring">
                     {/*<Modal.Header>
                         {this.valgtFeil.overskrift}

@@ -125,6 +125,19 @@ constructor(props) {
 
 }
 
+const Refresh = ({ path = '/' }) => (
+  <Route
+      path={path}
+      component={({ history, location, match }) => {
+          history.replace({
+              ...location,
+              pathname:location.pathname.substring(match.path.length)
+          });
+          return null;
+      }}
+  />
+);
+
 let token = sessionStorage.getItem("pollett");
 if (token) {
   let base64Url = token.split('.')[1];
@@ -137,6 +150,7 @@ if (root)
   ReactDOM.render(
     <Router history={history}>
       <div>
+        <Refresh path="/refresh" />
         <Route exact path="/hovedside/:kommune" component={Hovedside} history={history}/>
         <Route exact path="/kommunevalgtest" component={KommuneVelger} history={history}/>
         <Route exact path="/meld-feil" component={MeldFeil} history={history}/>

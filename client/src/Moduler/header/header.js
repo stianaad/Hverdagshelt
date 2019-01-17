@@ -38,7 +38,7 @@ export class PageHeader extends Component {
                             
                             </div>
                         </div>*/
-                        <Login history={this.props.history} />
+                        <Login history={this.props.history} location={this.props.location}/>
                         ) : this.brukertype == "privat" ? (
                             <div className="dropdown profileButton">
                                 <img className="profileIcon" src="/profile.svg" alt="Bruker ikon" onClick={this.clickDrop}></img>
@@ -83,7 +83,9 @@ export class PageHeader extends Component {
 
     loggut() {
         sessionStorage.removeItem("pollett");
-        document.location = ('/');
+        global.payload = null;
+        this.props.history.push("/refresh"+this.props.location.pathname);
+        //document.location.reload();
     }
 
     mounted() {

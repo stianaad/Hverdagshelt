@@ -131,7 +131,7 @@ export class Hovedside extends Component {
   render() {
     return (
       <div>
-        <PageHeader history={this.props.history} />
+        <PageHeader history={this.props.history} location={this.props.location} />
         <div className="mt-3">
           <Grid columns={3}>
             <Grid.Column/>
@@ -487,10 +487,6 @@ export class Hovedside extends Component {
     }) 
   }
 
-  posFunksjon() {
-    console.log('hei');
-  }
-
   scrollFeil(){
     if(this.aktiveFeil.length > 4){
       this.classFeil = 'hovedsideScroll';
@@ -504,24 +500,28 @@ export class Hovedside extends Component {
   }
 
   async mounted() {
-    let res1 = await feilService.hentAlleFeil();
+    /*let res1 = await feilService.hentAlleFeil();
     this.alleFeil = await res1.data;
     this.aktiveFeil = await res1.data;
-    await console.log(res1.data);
 
     let res2 = await feilService.hentAlleHovedkategorier();
     this.alleKategorier = await res2.data;
-    await console.log(res2.data);
 
     let res3 = await hendelseService.hentAlleHendelser();
-    this.alleHendelser = await res3.data;
-    await console.log(res3.data);
+    this.alleHendelser = await res3.data;*/
+    let res1 = await feilService.hentAlleFeil(),
+        res2 = await feilService.hentAlleHovedkategorier(),
+        res3 = await hendelseService.hentAlleHendelser();
+
+    [this.alleFeil, this.aktiveFeil, this.alleKategorier, this.alleHendelser] = await Promise.all([res1.data, res1.data, res2.data, res3.data]);
 
     await this.scrollFeil(); 
-    await this.scrollHendelse(); 
-    await Promise.all([res1.data, res2.data, res3.data]).then(() => {
+    await this.scrollHendelse();
+    
+    await Promise.all([res1.data]).then(() => {
       this.kart.addMarkers(res1.data);
     });
+
   }
 }
 
