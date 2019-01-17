@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
-import {Card, Feed, Modal, Grid, GridColumn, Segment, Image, Button} from 'semantic-ui-react';
+import {Card, Feed, Modal, Grid, GridColumn, Segment, Image, Button,Popup} from 'semantic-ui-react';
 
 export class FeedEvent extends Component{
     dato(tid){
@@ -106,6 +106,17 @@ export class FeedHendelse extends Component{
 }
 
 export class FeedMinside extends Component{
+    isOpen= false;
+    
+    handleOpen = () => {
+        this.isOpen= true ;
+      }
+    
+      handleClose = () => {
+        this.isOpen =false;
+      }
+    
+
     dato(tid){
         let innKommendeDato = tid.substr(0,10);
         let innKommendeKlokkeslett = tid.substr(11,16);
@@ -150,9 +161,26 @@ export class FeedMinside extends Component{
                         <span><i>{this.props.kategori}</i></span>
                         </a>
                     </Feed.Content>
-                    <Feed.Label onClick={this.props.fjern} >
+                    <Feed.Label>
                     <a>
-                    <img src="https://cdn4.iconfinder.com/data/icons/devine_icons/Black/PNG/Folder%20and%20Places/Trash-Recyclebin-Empty-Closed.png" width="30" height="30"/>
+                    <Popup
+                        trigger={<img src="https://cdn4.iconfinder.com/data/icons/devine_icons/Black/PNG/Folder%20and%20Places/Trash-Recyclebin-Empty-Closed.png" width="30" height="30"/>}
+                        content={<Button color='green' content='Confirm the launch' />}
+                        on='click'
+                        open={this.isOpen}
+                        onOpen={this.handleOpen}
+                        position='right'>
+                        <Grid divided columns='equal'>
+                            <Grid.Column>
+                                <Button color="green" fluid 
+                                content={<a onClick={this.handleClose}>Ja</a>}
+                                 onClick={this.props.fjern}/>
+                            </Grid.Column>
+                            <Grid.Column>
+                                <Button color="red" fluid content="Nei"/>
+                            </Grid.Column>
+                            </Grid>
+                    </Popup>
                     </a>
                     </Feed.Label>
                 </Feed.Event>

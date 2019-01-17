@@ -10,6 +10,7 @@ import {
     Header,
     Icon,
     Image,
+    Popup,
     Modal,
   } from 'semantic-ui-react';
   import {FeedEvent, FeedHendelse, Filtrer, Info, FeedMinside} from '../../Moduler/cardfeed';
@@ -118,8 +119,8 @@ export class Minside extends Component {
 
     async fjernFeil(id){
         console.log(id);
-        let res1 = await feilService.slettFeil(id);
-        await this.finnFeilBruker(this.props.match.params.bruker_id);
+        /*let res1 = await feilService.slettFeil(id);
+        await this.finnFeilBruker(this.props.match.params.bruker_id);*/
     }
 
     async mounted(){
