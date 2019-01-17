@@ -137,6 +137,7 @@ const Refresh = ({ path = '/' }) => (
   <Route
     path={path}
     component={({ history, location, match }) => {
+      ReactDOM.render(routes(), root);
       history.replace({
         ...location,
         pathname: location.pathname.substring(match.path.length)
@@ -153,9 +154,8 @@ if (token) {
   global.payload = JSON.parse(window.atob(base64));
 }
 
-const root = document.getElementById('root');
-if (root)
-  ReactDOM.render(
+const routes = () => {
+  return (
     <Router history={history}>
       <div>
         <Switch>
@@ -171,34 +171,34 @@ if (root)
           {/*Under ligger spesielle routes*/}
           {global.payload == null ? (
             //Ikke logget inn
-            <>
-              <Route exact path="/registrering" component={Registrering} history={history} />
+            [
+              <Route exact path="/registrering" component={Registrering} history={history} />,
               <Route exact path="/glemt-passord" component={GlemtPassord} />
-            </>
+            ]
           ) : global.payload.role == 'privat' ? (
             //Privatbruker routes
-            <>
-              <Route exact path="/meldfeil" component={MeldFeil} history={history} />
+            [
+              <Route exact path="/meldfeil" component={MeldFeil} history={history} />,
               <Route exact path="/minside/:bruker_id" component={Minside} history={history} />
-            </>
+            ]
           ) : global.payload.role == 'ansatt' ? (
             //Ansatt routes
-            <>
+            [
               <Route exact path="/mineoppgaver" component={MineOppgaver} history={history} />
-            </>
+            ]
           ) : global.payload.role == 'bedrift' ? (
             //Bedrift routes
-            <>
+            [
 
-            </>
+            ]
           ) : global.payload.role == 'admin' ? (
             //Admin routes
-            <>
+            [
               <Route exact path="/meldfeil" component={MeldFeil} history={history} />
-            </>
-          ) : <></> /*Kommer de hit har det skjedd noe rart*/}
+            ]
+          ) : null /*Kommer de hit har det skjedd noe rart*/}
 
-
+          
           {/*legg test-routes under*/}
           <Route exact path="/kommunevalgtest" component={KommuneVelger} history={history} />
           <Route exact path="/kinput" component={komtest} />
@@ -212,6 +212,15 @@ if (root)
           <Route component={FireNullFire} />
         </Switch>
       </div>
-    </Router>,
+    </Router>
+  );
+}
+
+console.log(routes());
+
+const root = document.getElementById('root');
+if (root)
+  ReactDOM.render(
+    routes(),
     root
   );
