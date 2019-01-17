@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Component } from 'react-simplified';
-import { FormInput, Droppboks, Droppbokss, GronnKnapp } from '../../widgets';
+import { FormGroup, FormControl} from 'react-bootstrap';
+import { FormInput, GronnKnapp } from '../../widgets';
 import { KommuneInput } from '../../Moduler/KommuneInput/KommuneInput';
 import { PositionMap } from '../../Moduler/kart/map';
 import { feilService } from '../../services/feilService';
@@ -8,22 +9,6 @@ import { PageHeader } from '../../Moduler/header/header';
 
 export class MeldFeil extends Component {
 
-<<<<<<< HEAD
-    kategoriene= [];
-    subkategoriene = [];
-    kominput = React.createRef();
-
-    data = {
-        overskrift: "",
-        kommune_id: 1,
-        kategori_id: 1,
-        subkategori_id: 1,
-        beskrivelse: "",
-        lengdegrad: 0,
-        breddegrad: 0,
-        avsjekket: 0
-    }
-=======
   kategoriene = [];
   subkategoriene = [];
   subkatfiltrert = [];
@@ -39,7 +24,6 @@ export class MeldFeil extends Component {
     breddegrad: 0,
     avsjekket: 0
   }
->>>>>>> 6b7fc4a0cb4ba43b3b5e10d86c51d7b77fb4ba6b
 
   render() {
     return (
@@ -66,11 +50,27 @@ export class MeldFeil extends Component {
           <div>
             <div id="kategoriblokk">
               <label id="kategorilbl" htmlFor="kat">Kategori:</label>
-              <Droppboks id="dropp" onChange={this.handleChange} value={this.kategoriene} inputRef={node => { this.data.kategori_id = node }} />
+              <div>
+                <FormGroup controlId="formControlsSelect">
+                    <FormControl componentClass="select" onChange={this.handleChange} inputRef={node => {this.data.kategori_id = node}}>
+                      {this.kategoriene.map(katego=> (
+                        <option key={katego.hovedkategori_id} value={katego.hovedkategori_id}>{katego.kategorinavn}</option>
+                        ))}
+                    </FormControl>
+                </FormGroup>
+              </div>
             </div>
             <div id="subkategoriblokk">
               <label id="subkategorilbl" htmlFor="kat">Underkategori:</label>
-              <Droppbokss id="subdropp" value={this.subkatfiltrert} inputRef={node => { this.data.subkategori_id = node }} />
+              <div>
+                <FormGroup controlId="formControlsSelect">
+                    <FormControl componentClass="select" inputRef={node => {this.data.subkategori_id = node}}>
+                      {this.subkatfiltrert.map(subkatego=> (
+                        <option key={subkatego.subkategori_id} value={subkatego.subkategori_id}>{subkatego.kategorinavn}</option>
+                        ))}
+                    </FormControl>
+                </FormGroup>
+              </div>
             </div>
           </div>
           <div>
@@ -111,7 +111,7 @@ export class MeldFeil extends Component {
     let skat = await feilService.hentAlleSubkategorier();
     this.subkategoriene = await skat.data;
     this.subkatfiltrert = await skat.data.filter((kat) => 1 == kat.hovedkategori_id);
-    
+
   }
 
   async handleChange(e) {
