@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
-import {Card, Feed, Modal, Grid, GridColumn, Segment, Image, Button,Popup} from 'semantic-ui-react';
+import {Card, Feed, Modal, Grid, GridColumn, Segment, Image, Button,Popup, Header} from 'semantic-ui-react';
 
 export class FeedEvent extends Component{
     dato(tid){
@@ -109,11 +109,11 @@ export class FeedMinside extends Component{
     isOpen= false;
     
     handleOpen = () => {
-        this.isOpen= true ;
+        this.isOpen = true ;
       }
     
       handleClose = () => {
-        this.isOpen =false;
+        this.isOpen = false;
       }
     
 
@@ -135,7 +135,6 @@ export class FeedMinside extends Component{
         //iDag = yyyy + '-' + mm + '-' + dd;
         iDag = yyyy + '-' + mm + '-' + dd;
         let iGaar = yyyy + '-' + mm + '-' + (dd-1);
-        console.log(tid);
         if(innKommendeDato===iDag){
             iDag="I dag "+innKommendeKlokkeslett;
         } else if(iGaar === innKommendeDato){
@@ -145,6 +144,18 @@ export class FeedMinside extends Component{
         }
         return(<Feed.Date content={iDag}/>)
     }
+
+    handleOpen = () => {
+        if (!this.isOpen){
+            this.isOpen = true ;
+        }
+      }
+    
+      handleClose = () => {
+          if(this.isOpen){
+            this.isOpen = false;
+          }
+      }
     render(){
         //this.dato();
         console.log("hehe");
@@ -165,21 +176,28 @@ export class FeedMinside extends Component{
                     <a>
                     <Popup
                         trigger={<img src="https://cdn4.iconfinder.com/data/icons/devine_icons/Black/PNG/Folder%20and%20Places/Trash-Recyclebin-Empty-Closed.png" width="30" height="30"/>}
-                        content={<Button color='green' content='Confirm the launch' />}
                         on='click'
                         open={this.isOpen}
                         onOpen={this.handleOpen}
-                        position='right'>
-                        <Grid divided columns='equal'>
+                        onClose={this.handleClose}
+                        position='bottom left'>
+                        <Grid centered>
+                            <Grid.Row columns={1}>
+                                <Grid.Column>
+                                    <Header as="h3">Er du sikker på at du vil slette denne feilen?</Header>
+                                </Grid.Column>
+                            </Grid.Row>
+                            <Grid.Row columns="equal">
                             <Grid.Column>
                                 <Button color="green" fluid 
-                                content={<a onClick={this.handleClose}>Ja</a>}
-                                 onClick={this.props.fjern}/>
+                                content="Ja"
+                                 onClick={() => {this.props.fjern; this.handleClose()}}/>
                             </Grid.Column>
                             <Grid.Column>
-                                <Button color="red" fluid content="Nei"/>
+                                <Button color="red" fluid content="Nei" onClick={() => {this.handleClose()}}/>
                             </Grid.Column>
-                            </Grid>
+                            </Grid.Row>
+                        </Grid>
                     </Popup>
                     </a>
                     </Feed.Label>
