@@ -1,10 +1,11 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
 import {PageHeader} from '../../Moduler/header/header';
-import {Card, Feed, Grid, Button, Header, Icon, Image, Modal, List} from 'semantic-ui-react';
+import {Card, Feed, Grid, Button, Header, Icon, Input, Image, Modal, List, CardContent} from 'semantic-ui-react';
 import {FeedEvent, Filtrer, Info} from '../../Moduler/cardfeed'
 import {feilService} from '../../services/feilService';
 import {markerTabell,ShowMarkerMap } from '../../Moduler/kart/map';
+import {NavLink} from 'react-router-dom';
 
 export class MineOppgaver extends Component{
     nyefeil = []; 
@@ -58,21 +59,51 @@ export class MineOppgaver extends Component{
             <>
             <PageHeader history={this.props.history}/>
             <div className="container">
-                <Modal open={this.state.open} onClose={this.handleClose} size="small" centered={true} closeIcon>
-                    <Modal.Header>
+                <Modal open={this.state.open} onClose={this.handleClose} size="small" centered={true} dimmer="blurring">
+                    {/*<Modal.Header>
                         {this.valgtFeil.overskrift}
-                    </Modal.Header>
+                    </Modal.Header>*/}
                     <Modal.Content>
                         <div>
-                            <Grid columns={3} divided>
-                                <Grid.Row stretched> 
-                                    <Grid.Column>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam porttitor quam eget enim pharetra faucibus. Nam porttitor commodo justo et congue. Aliquam metus ipsum, sodales in molestie nec, porttitor ac justo. Nullam lobortis vel ex at molestie. Duis ultrices at libero commodo consequat. Donec in tellus quis sem imperdiet dignissim. Nunc libero metus, volutpat id facilisis auctor, consequat eu mi. Fusce mauris nunc, blandit et nulla a, tempor venenatis est. Etiam euismod diam id quam laoreet, id elementum nisi elementum.</p>
-                                    </Grid.Column>
-                                    <Grid.Column>
-                                        <ShowMarkerMap width="100%" height="300px" id="posmap" feil={this.valgtFeil} markers={markerTabell(this.alleFeil)}/>
-                                    </Grid.Column>
-                                    <Grid.Column>
+                            <Card fluid>
+                                <Card.Content>
+                                    <div>
+                                        <h1>
+                                            {this.valgtFeil.overskrift}
+                                            <NavLink
+                                                to={'/mineOppgaver/'}
+                                                onClick={this.handleClose}
+                                            >
+                                                <img
+                                                className="float-right"
+                                                src="https://image.freepik.com/free-icon/x_318-27992.jpg"
+                                                width="20"
+                                                height="20"
+                                                />
+                                            </NavLink>
+                                        </h1>
+                                        <h6>Status: {this.valgtFeil.status}{' '}
+                                            <img src='/warningicon.png' width="30" height="30" />
+                                        </h6>
+                                    </div>
+                                </Card.Content>
+                                <Card.Content extra>
+                                    <Grid fluid columns={3}>
+                                        <Grid.Column>
+                                            <h6>Beskrivelse</h6>
+                                            <Input>{this.valgtFeil.beskrivelse}</Input>
+
+                                        </Grid.Column>
+                                        <Grid.Column>
+                                            <h6>Posisjon</h6>
+                                            <ShowMarkerMap
+                                                width="100%"
+                                                height="300px"
+                                                id="posmap"
+                                                feil={this.valgtFeil}
+                                            />
+                                        </Grid.Column>
+                                        <Grid.Column>
                                         <List>
                                             <List.Item>
                                                 <List.Content>
@@ -98,26 +129,22 @@ export class MineOppgaver extends Component{
                                                     <List.Description>01.01.18 19:00</List.Description>
                                                 </List.Content>
                                             </List.Item>
-                                            {this.oppdateringer.map(oppdatering => (
-                                                <List.Item>
-                                                    <List.Content>
-                                                        <List.Header>{oppdatering.kommentar}</List.Header>
-                                                        <List.Description>{oppdatering.tid}</List.Description>
-                                                    </List.Content>
-                                                </List.Item>
-                                            ))}
                                         </List>
                                         <Image.Group size='tiny'>
-                                            <Image src="lofoten.jpg" />
-                                            <Image src="lofoten.jpg" />
-                                            <Image src="lofoten.jpg" />
-                                            <Image src="lofoten.jpg" />
-                                            <Image src="lofoten.jpg" />
-                                            <Image src="lofoten.jpg" />
+                                            <Image src="/lofoten.jpg" />
+                                            <Image src="/lofoten.jpg" />
+                                            <Image src="/lofoten.jpg" />
+                                            <Image src="/lofoten.jpg" />
+                                            <Image src="/lofoten.jpg" />
+                                            <Image src="/lofoten.jpg" />
                                         </Image.Group>
-                                    </Grid.Column>
-                                </Grid.Row>
-                            </Grid>
+                                        </Grid.Column>
+                                    </Grid>
+                                </Card.Content>
+                            </Card>
+                        </div>
+                        <div>
+                            
                         </div>
                     </Modal.Content>
                 </Modal>
@@ -236,3 +263,58 @@ export class MineOppgaver extends Component{
         await console.log(this.utførte); 
     }
 }
+
+/*<Grid columns={3} divided fluid>
+                                <Grid.Row> 
+                                    <Grid.Column>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam porttitor quam eget enim pharetra faucibus. Nam porttitor commodo justo et congue. Aliquam metus ipsum, sodales in molestie nec, porttitor ac justo. Nullam lobortis vel ex at molestie. Duis ultrices at libero commodo consequat. Donec in tellus quis sem imperdiet dignissim. Nunc libero metus, volutpat id facilisis auctor, consequat eu mi. Fusce mauris nunc, blandit et nulla a, tempor venenatis est. Etiam euismod diam id quam laoreet, id elementum nisi elementum.</p>
+                                    </Grid.Column>
+                                    <Grid.Column>
+                                        <ShowMarkerMap width="100%" height="300px" id="posmap" feil={this.valgtFeil} markers={markerTabell(this.alleFeil)}/>
+                                    </Grid.Column>
+                                    <Grid.Column>
+                                        <List>
+                                            <List.Item>
+                                                <List.Content>
+                                                    <List.Header>Godkjent</List.Header>
+                                                    <List.Description>01.01.18 19:00</List.Description>
+                                                </List.Content>
+                                            </List.Item>
+                                            <List.Item>
+                                                <List.Content>
+                                                    <List.Header>Godkjent</List.Header>
+                                                    <List.Description>01.01.18 19:00</List.Description>
+                                                </List.Content>
+                                            </List.Item>
+                                            <List.Item>
+                                                <List.Content>
+                                                    <List.Header>Godkjent</List.Header>
+                                                    <List.Description>01.01.18 19:00</List.Description>
+                                                </List.Content>
+                                            </List.Item>
+                                            <List.Item>
+                                                <List.Content>
+                                                    <List.Header>Godkjent</List.Header>
+                                                    <List.Description>01.01.18 19:00</List.Description>
+                                                </List.Content>
+                                            </List.Item>
+                                            {this.oppdateringer.map(oppdatering => (
+                                                <List.Item>
+                                                    <List.Content>
+                                                        <List.Header>{oppdatering.kommentar}</List.Header>
+                                                        <List.Description>{oppdatering.tid}</List.Description>
+                                                    </List.Content>
+                                                </List.Item>
+                                            ))}
+                                        </List>
+                                        <Image.Group size='tiny'>
+                                            <Image src="lofoten.jpg" />
+                                            <Image src="lofoten.jpg" />
+                                            <Image src="lofoten.jpg" />
+                                            <Image src="lofoten.jpg" />
+                                            <Image src="lofoten.jpg" />
+                                            <Image src="lofoten.jpg" />
+                                        </Image.Group>
+                                    </Grid.Column>
+                                </Grid.Row>
+                            </Grid>*/

@@ -239,10 +239,10 @@ export class Hovedside extends Component {
                     </Card.Content>
                     <Card.Content extra>
                       <Grid fluid columns={3}>
-                        <GridColumn>
+                        <Grid.Column>
                           <h6>Beskrivelse: </h6>
                           <p>{this.feil.beskrivelse}</p>
-                        </GridColumn>
+                        </Grid.Column>
                         <Grid.Column>
                         <h6>Posisjon</h6>
                             <ShowMarkerMap
@@ -424,7 +424,7 @@ export class Hovedside extends Component {
                 </div>
                 </div>
             <div className="col-sm-4">
-              <div className="mr-3 mt-5">
+              <div className="mr-3">
                 <Card fluid>
                   <Card.Content>
                     <Card.Header>

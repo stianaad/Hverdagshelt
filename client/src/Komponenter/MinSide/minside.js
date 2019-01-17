@@ -71,8 +71,8 @@ export class Minside extends Component {
                     <h2>Hendelser du følger</h2>
                     <Card.Group itemsPerRow={1}>
                         {this.folgteHendelser.map(hendelse => (
-                            <Card >
-                            <Image src={hendelse.bilde}/>
+                            <Card>
+                            <Image src={hendelse.bilde} className="feilCard"/>
                             <Card.Content>
                                 <Card.Header>{hendelse.overskrift}</Card.Header>
                                 <Card.Description><img className="mr-2"
@@ -101,13 +101,16 @@ export class Minside extends Component {
                         ))}
                     </Card.Group>
                     </div>
+                    <div className="col">
+
+                    </div>
                 </div>
             </div>
         )
     }
 
     fjernFeil(){
-        console.log("fjern");
+        
     }
 
     async mounted(){
