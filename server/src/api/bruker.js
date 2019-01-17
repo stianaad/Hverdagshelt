@@ -106,7 +106,7 @@ router.post("/sjekkPassord",(req,res)=>{
     });
   });
 });*/
-
+//
 router.post('/api/sjekkPassord', (req, res) => {
   /*passord("passord1").hash((error, hash) => {
     if (error) {
