@@ -20,7 +20,8 @@ router.get('/api/hendelser', (req, res) => {
 router.get('/api/hendelser/:hendelse_id', (req, res) => {
   console.log('Fikk GET-request fra klienten');
 
-  var a = {hendelse_id: req.body.hendelse_id};
+  var a = {hendelse_id: req.params.hendelse_id};
+  console.log(a);
 
   hendelseDao.hentEnHendelse(a, (status, data) => {
     res.status(status);

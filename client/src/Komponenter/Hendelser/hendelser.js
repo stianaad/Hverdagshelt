@@ -125,6 +125,7 @@ export class Hendelser extends Component{
            
             <Card.Group itemsPerRow={3}>
               {this.aktiveHendelser.map(hendelse => (
+                  <a href="/hendelser/1">
                 <Hendelse
                     onClick={this.visEnHendelse}
                     bilde = {hendelse.bilde}
@@ -133,6 +134,7 @@ export class Hendelser extends Component{
                     tid = {hendelse.tid}
                     beskrivelse = {hendelse.beskrivelse}
                 />
+                </a>
                     ))}
             </Card.Group>
             
