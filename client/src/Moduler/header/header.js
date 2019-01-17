@@ -40,7 +40,7 @@ export class PageHeader extends Component {
                         </div>*/
                         <Login></Login>
                         ) : this.brukertype == "privat" ? (
-                            <div className="dropdown">
+                            <div className="dropdown profileButton">
                                 <img className="profileIcon" src="/profile.svg" alt="Bruker ikon" onClick={this.clickDrop}></img>
                                 <div style={{width: "170px"}} className="dropdown-menu dropdown-menu-right dropdownbox brukerbox" id="drops">
                                     <div className="arrow"></div>
@@ -51,7 +51,7 @@ export class PageHeader extends Component {
                                 </div>
                             </div>
                         ) : this.brukertype == "ansatt" ? (
-                            <div className="dropdown">
+                            <div className="dropdown profileButton">
                                 <img className="profileIcon" src="/profile.svg" alt="Bruker ikon" onClick={this.clickDrop}></img>
                                 <div style={{width: "190px"}} className="dropdown-menu dropdown-menu-right dropdownbox brukerbox" id="drops">
                                     <div className="arrow"></div>
@@ -63,7 +63,7 @@ export class PageHeader extends Component {
                                 </div>
                             </div>
                         ) : this.brukertype == "bedrift" ? (
-                            <div className="dropdown">
+                            <div className="dropdown profileButton">
                                 <img className="profileIcon" src="/profile.svg" alt="Bruker ikon" onClick={this.clickDrop}></img>
                                 <div style={{width: "180px"}} className="dropdown-menu dropdown-menu-right dropdownbox brukerbox" id="drops">
                                     <div className="arrow"></div>

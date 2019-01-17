@@ -59,6 +59,9 @@
     height: 500px;  
     transform-origin: center !important;
     transition: all ease .5s;
+    position: relative;
+    justify-content: center;
+    
   }
 
   .infoGrid{
@@ -82,4 +85,11 @@
     grid-area: d; 
 }
 
-  
+.scroll-tabell{
+    overflow-y: scroll; 
+    height: 310px; 
+}  
+
+.hoyde-tabell{
+    height: 310px;
+}
