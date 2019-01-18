@@ -244,4 +244,4 @@ const genenererEpostPollett = (epost, callback) => {
     console.log(err);
     callback(token);
   });
-}
+}}

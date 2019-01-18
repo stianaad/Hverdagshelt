@@ -288,7 +288,7 @@ const routes = () => {
             //Ansatt routes
             [
               <Route exact path="/mineoppgaver" component={MineOppgaver} history={history} />,
-              <Route exact path="/registrerBedrift" component={RegistrerBedrift} history={history} />
+              <Route exact path="/registrerBedrift" component={RegistrerBedrift} history={history} />,
               <Route exact path="/ansattside" component={AnsattSide} history={history}/>
             ]
           ) : global.payload.role == 'bedrift' ? (
