@@ -62,6 +62,35 @@ class FeilService {
   slettBildeFraFeil(info) {
     return api.delete('/api/feil/:feil_id/bilder/:bilde_id', info);
   }
+
+  hentNyeFeilTilBedrift(){
+    let token = sessionStorage.getItem("pollett");
+    if (token) {
+      return api.get('/api/feil/bedrift', {headers: {"x-access-token": "Bearer "+token}});
+    } else {
+      console.log("oeifjeoif")
+      return [];
+    }
+  }
+
+  hentUnderBehandlingFeilTilBedrift(){
+    let token = sessionStorage.getItem("pollett");
+    if (token) {
+    return api.get('api/feil/bedrift/underBehandling', {headers: {"x-access-token": "Bearer "+token}});
+    } else {
+      console.log("foeifj")
+      return [];
+    }
+  }
+
+  oppdaterStatusFeilTilBedrift(jobbSoknadObjekt){
+    let token = sessionStorage.getItem("pollett");
+    if (token) {
+    return api.put('/api/feil/bedrift/oppdater',jobbSoknadObjekt, {headers: {"x-access-token": "Bearer "+token}});
+    } else {
+      return [];
+    }
+  }
 }
 
 export let feilService = new FeilService();
