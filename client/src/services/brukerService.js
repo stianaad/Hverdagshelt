@@ -43,16 +43,31 @@ class BrukerService {
     return api.get('/api/hentbrukere');
   }
 
-  finnFeilTilBruker(bruker_id){
-    return api.get('/api/bruker/minside/'+bruker_id);
+  finnFeilTilBruker(){
+    let token = sessionStorage.getItem("pollett");
+    if (token) {
+      return api.get('/api/bruker/minside', {headers: {"x-access-token": "Bearer "+token}});
+    } else {
+      return [];
+    }
   }
 
-  finnFolgteFeilTilBruker(bruker_id){
-    return api.get('/api/bruker/finnFolgteFeil/'+bruker_id);
+  finnFolgteFeilTilBruker(){
+    let token = sessionStorage.getItem("pollett");
+    if (token) {
+    return api.get('/api/bruker/finnFolgteFeil', {headers: {"x-access-token": "Bearer "+token}});
+  } else {
+    return [];
+  }
   }
 
-  finnFolgteHendelserTilBruker(bruker_id){
-    return api.get('/api/bruker/finnFolgteHendelser/'+bruker_id);
+  finnFolgteHendelserTilBruker(){
+    let token = sessionStorage.getItem("pollett");
+    if (token) {
+    return api.get('/api/bruker/finnFolgteHendelser', {headers: {"x-access-token": "Bearer "+token}});
+  } else {
+    return [];
+  }
   }
 }
 

@@ -4,12 +4,13 @@ import mysql from 'mysql';
 import bodyParser from 'body-parser';
 import BrukerDao from '../dao/brukerdao.js';
 import passord from 'password-hash-and-salt';
-import {callbackify} from 'util';
-import {pool} from '../../test/poolsetup';
+import { callbackify } from 'util';
+import { pool } from '../../test/poolsetup';
 import Epost from '../../epost.js';
 import jwt from 'jsonwebtoken';
 import async from 'async';
 import mdw from '../middleware.js';
+import { checkToken } from '../middleware';
 
 let brukerDao = new BrukerDao(pool);
 let glemt = new Epost();
@@ -26,7 +27,7 @@ const hashPassord = (inputPassord) => {
     inputPassord = hash;
   });
 };
- 
+
 // Verifisere passord
 
 export let verifiserePassord = (inputpassord, eksisterendePassord) => {
@@ -102,16 +103,16 @@ router.post('/api/sjekkPassord', (req, res) => {
           if (error) throw new Error('Noe gikk galt!');
           if (!verified) {
             console.log('false1');
-            res.json({result: false});
+            res.json({ result: false });
           } else {
             console.log(data[0].bruker_id);
-            res.json({result: true, bruker_id: data[0].bruker_id});
+            res.json({ result: true, bruker_id: data[0].bruker_id });
           }
         }
       );
     } else {
       console.log('false2');
-      res.json({result: false});
+      res.json({ result: false });
     }
     //res.status(status);
     //res.json(data);
@@ -206,35 +207,56 @@ router.post('/brukere/:bruker_id/glemtpassord', (req, res) => {
   });
 });
 
-router.get('/api/bruker/minside/:bruker_id', (req, res) => {
-  console.log('/bruker/minside/:bruker_id fikk get request fra klient');
-  brukerDao.finnFeilTilBruker(req.params.bruker_id, (status, data) => {
-    res.status(status);
-    res.json(data);
-  });
-});
-
-router.get('/api/bruker/finnFolgteFeil/:bruker_id', (req, res) => {
-  console.log(
-    '/api/bruker/finnFolgteFeil/:bruker_id fikk get request fra klient'
-  );
-  brukerDao.finnFolgteFeilTilBruker(req.params.bruker_id, (status, data) => {
-    res.status(status);
-    res.json(data);
-  });
-});
-
-router.get('/api/bruker/finnfolgteHendelser/:bruker_id', (req, res) => {
-  console.log(
-    '/api/bruker/finnfolgteHendelser/:bruker_id fikk get request fra klient'
-  );
-  brukerDao.finnFolgteHendelserTilBruker(
-    req.params.bruker_id,
-    (status, data) => {
+router.get('/api/bruker/minside', checkToken, (req, res) => {
+  console.log('/bruker/minside fikk get request fra klient');
+  let role = req.decoded.role;
+  let bruker_id = req.decoded.user.bruker_id;
+  if (role == 'privat') {
+    brukerDao.finnFeilTilBruker(bruker_id, (status, data) => {
       res.status(status);
       res.json(data);
-    }
+    });
+  } else {
+    res.status(403);
+    res.json({ result: false })
+  }
+});
+
+router.get('/api/bruker/finnFolgteFeil', checkToken, (req, res) => {
+  console.log(
+    '/api/bruker/finnFolgteFeil fikk get request fra klient'
   );
+  let role = req.decoded.role;
+  let bruker_id = req.decoded.user.bruker_id;
+  if (role == 'privat') {
+    brukerDao.finnFolgteFeilTilBruker(bruker_id, (status, data) => {
+      res.status(status);
+      res.json(data);
+    });
+  } else {
+    res.status(403);
+    res.json({ result: false })
+  }
+});
+
+router.get('/api/bruker/finnfolgteHendelser', checkToken, (req, res) => {
+  console.log(
+    '/api/bruker/finnfolgteHendelser fikk get request fra klient'
+  );
+  let role = req.decoded.role;
+  let bruker_id = req.decoded.user.bruker_id;
+  if (role == 'privat') {
+    brukerDao.finnFolgteHendelserTilBruker(
+      bruker_id,
+      (status, data) => {
+        res.status(status);
+        res.json(data);
+      }
+    )
+  } else {
+    res.status(403);
+    res.json({ result: false })
+  }
 });
 
 router.get('/resetPassord/:token', (req, res) => {

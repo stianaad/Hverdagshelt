@@ -77,10 +77,11 @@ export class Login extends Component {
       let base64Url = res.token.split('.')[1];
       let base64 = base64Url.replace('-', '+').replace('_', '/');
       global.payload = JSON.parse(window.atob(base64));
-
+      console.log(res.token);
       sessionStorage.setItem("pollett", res.token);
+      console.log(sessionStorage.getItem("pollett"))
 
-      if (this.props.location.pathname == "/")  global.sidePush("/minside/11", true);
+      if (this.props.location.pathname == "/")  global.sidePush("/minside", true);
       else global.sideRefresh(true);
     } else {
       console.log(res.result)
