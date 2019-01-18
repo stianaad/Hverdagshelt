@@ -64,27 +64,6 @@
     
   }
 
-  .infoGrid{
-      display: grid; 
-      grid-template-areas: "a b c" "a b d"; 
-  }
-
-.a{
-    grid-area: a; 
-}
-
-.b{
-    grid-area: b; 
-}
-
-.c{
-    grid-area: c; 
-}
-
-.d{
-    grid-area: d; 
-}
-
 .scroll-tabell{
     overflow-y: scroll; 
     height: 310px; 
@@ -92,4 +71,14 @@
 
 .hoyde-tabell{
     height: 310px;
+}
+
+.ansattMenyContainer{
+    background-color: white;
+    height: 100%;
+}
+
+.ansattScroll{
+    overflow-y: scroll; 
+    height: 350px; 
 }

@@ -8,6 +8,7 @@ import {MeldFeil} from './Komponenter/MeldFeil/meldFeil'
 import Popup from 'reactjs-popup';
 import {Registrering} from './Komponenter/Registrering/registrering';
 import {MineOppgaver} from './Komponenter/Ansatt/mineOppgaver';
+import {AnsattSide} from './Komponenter/Ansatt/kommuneansatt';
 import {generellServices} from './services/generellServices';
 import {RodKnapp} from './widgets';
 import {Login} from './Moduler/login/login'
@@ -170,6 +171,8 @@ if (root)
 
         <Route exact path="/headertest" component={PageHeader} history={history} />
         <Route exact path="/hendelser/:id" component={enHendelse} />
+
+        <Route exact path="/kommuneansatt" component={AnsattSide}/>
       </div>
     </Router>,
     root
