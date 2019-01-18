@@ -65,7 +65,7 @@ class BrukerService {
   finnFolgteFeilTilBruker(){
     let token = sessionStorage.getItem("pollett");
     if (token) {
-    return api.get('/api/bruker/finnFolgteFeil', {headers: {"x-access-token": "Bearer "+token}});
+    return api.get('/api/bruker/feil', {headers: {"x-access-token": "Bearer "+token}});
   } else {
     return [];
   }
@@ -74,7 +74,7 @@ class BrukerService {
   finnFolgteHendelserTilBruker(){
     let token = sessionStorage.getItem("pollett");
     if (token) {
-    return api.get('/api/bruker/finnFolgteHendelser', {headers: {"x-access-token": "Bearer "+token}});
+    return api.get('/api/bruker/hendelser', {headers: {"x-access-token": "Bearer "+token}});
   } else {
     return [];
   }
