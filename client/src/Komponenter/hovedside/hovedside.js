@@ -117,7 +117,7 @@ export class Hovedside extends Component {
     return (
       <div>
         <PageHeader history={this.props.history} location={this.props.location} />
-        <div className="mt-3">
+        <div className="mt-3 hovedTittel">
           <Grid columns={3}>
             <Grid.Column />
             <Grid.Column>

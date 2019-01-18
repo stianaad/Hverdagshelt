@@ -1,8 +1,8 @@
 .dropdownbox {
     width:360px;
-    top: 69px !important;
+    top: 69px;
     padding:20px !important;
-    right:0px !important;
+    right:0px;
     border-radius: 10px !important;
 }
 
