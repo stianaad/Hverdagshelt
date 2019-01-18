@@ -6,7 +6,7 @@ import BrukerDao from '../dao/brukerdao.js';
 import passord from 'password-hash-and-salt';
 import {callbackify} from 'util';
 import {pool} from '../../test/poolsetup';
-import Epost from '../../epost.js';
+import Epost from '../epost.js';
 import jwt from 'jsonwebtoken';
 import secret from '../config.json';
 import async from 'async';

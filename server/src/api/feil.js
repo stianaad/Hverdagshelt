@@ -94,9 +94,7 @@ router.put('/api/feil/:feil_id', checkToken, (req, res) => {
   let rolle = req.decoded.role;
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk POST-request fra klienten');
-
-  if (rolle == 'admin' || rolle == 'bedrift' || rolle == 'ansatt') {
-    let a = {
+  let a = {
       kommune_id: req.body.kommune_id,
       subkategori_id: req.body.subkategori_id,
       beskrivelse: req.body.beskrivelse,
@@ -104,6 +102,8 @@ router.put('/api/feil/:feil_id', checkToken, (req, res) => {
       breddegrad: req.body.breddegrad,
       feil_id: req.body.feil_id,
     };
+
+  if (rolle == 'admin' || rolle == 'bedrift' || rolle == 'ansatt') {
 
     feilDao.oppdaterFeil(a, (status, data) => {
       console.log('Oppdatert feil med id =' + req.body.feil_id);
