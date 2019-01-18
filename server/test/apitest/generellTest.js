@@ -95,7 +95,7 @@ test('legg til ny privatbruker', done => {
   }
   brukerdao.lagNyPrivatBruker(testprivatBruker, callback);
 });
-/*
+
 test('legg til ny ansattbruker', done => {
   function callback(status, data) {
     console.log(
@@ -128,7 +128,7 @@ test('legg til ny adminbruker', done => {
   }
   brukerdao.lagNyPrivatBruker(testAdminbruker, callback);
 });
-*/
+
 test('oppdater feil', done => {
   function callback(status, data) {
     console.log(
