@@ -273,6 +273,15 @@ router.get('/resetPassord/:token', (req, res) => {
   }
 });
 
+router.put('/api/bruker') {
+  
+  oppdaterSpesifisertBruker(json, (status, data) => {
+    res.status(status);
+    res.json(data);
+    console.log('/hentEnFeil resultat:' + data);
+  });
+}
+
 module.exports = router;
 
 function makeid() {
