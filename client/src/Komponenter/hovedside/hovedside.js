@@ -22,7 +22,6 @@ export class Hovedside extends Component {
   bilderTilFeil = [];
   statusIkon = '';
   markers = [];
-  abonnerteFeil = [];
 
   feil = {
     overskrift: '',
@@ -54,9 +53,6 @@ export class Hovedside extends Component {
   async merInfo(feil) {
     this.visFeil = true;
     this.feil = {...feil};
-    console.log(this.abonnerteFeil);
-    this.feil.abonnert =  (this.abonnerteFeil.filter((a) => a.feil_id == feil.feil_id).length > 0);
-    console.log(this.feil);
     let res = await feilService.hentBilderTilFeil(feil.feil_id);
     this.bilderTilFeil = await res.data;
     this.endreStatusIkon(feil.status);
@@ -453,18 +449,6 @@ export class Hovedside extends Component {
     );
   }
 
-  async abonnerfeil(feil_id) {
-    if (this.feil.abonnert) {
-      feilService.ikkeAbonner(feil_id);
-      this.feil.abonnert = false;
-    } else {
-      feilService.abonner(feil_id);
-      this.feil.abonnert = true;
-    }
-    let res = await brukerService.finnFolgteFeilTilBruker();
-    this.abonnerteFeil = await res.data;
-  }
-
   async callMap() {
     let res1 = await feilService.hentAlleFeil();
     await Promise.all([res1]).then(() => {
@@ -496,15 +480,13 @@ export class Hovedside extends Component {
     this.alleHendelser = await res3.data;*/
     let res1 = await feilService.hentAlleFeil(),
       res2 = await feilService.hentAlleHovedkategorier(),
-      res3 = await hendelseService.hentAlleHendelser(),
-      res4 = await brukerService.finnFolgteFeilTilBruker();
+      res3 = await hendelseService.hentAlleHendelser();
 
-    [this.alleFeil, this.aktiveFeil, this.alleKategorier, this.alleHendelser, this.abonnerteFeil] = await Promise.all([
+    [this.alleFeil, this.aktiveFeil, this.alleKategorier, this.alleHendelser] = await Promise.all([
       res1.data,
       res1.data,
       res2.data,
       res3.data,
-      res4.data,
     ]);
 
     await this.scrollFeil();
