@@ -1,11 +1,10 @@
-
 /* eslint eqeqeq: "off" */
 
 import * as React from 'react';
-import { Component } from 'react-simplified';
-import { NavLink } from 'react-router-dom';
+import {Component} from 'react-simplified';
+import {NavLink} from 'react-router-dom';
 import L from 'leaflet';
-import { FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
+import {FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
 import ReactDOMServer from 'react-dom/server';
 
 class Feil {
@@ -22,9 +21,20 @@ class Feil {
   lengdegrad = null;
   breddegrad = null;
 
-  constructor(feil_id, kommune_id, kommune_navn, kategori_id, kategori_navn,
-              overskrift, beskrivelse, status_id, status_navn, bilde, lengdegrad,
-              breddegrad) {
+  constructor(
+    feil_id,
+    kommune_id,
+    kommune_navn,
+    kategori_id,
+    kategori_navn,
+    overskrift,
+    beskrivelse,
+    status_id,
+    status_navn,
+    bilde,
+    lengdegrad,
+    breddegrad
+  ) {
     this.feil_id = feil_id;
     this.kommune_id = kommune_id;
     this.kommune_navn = kommune_navn;
@@ -62,26 +72,34 @@ export class Marker {
    * @param {double} lengdegrad
    */
   constructor(overskrift, beskrivelse, bildeurl, status, tid, kategori, breddegrad, lengdegrad) {
-    let iconName = status == 0 ? null : status == 1 ? "warningicon" : status == 2 ? "processingicon" : "successicon";
+    let iconName = status == 0 ? null : status == 1 ? 'warningicon' : status == 2 ? 'processingicon' : 'successicon';
     this.marker.setLatLng(L.latLng(breddegrad, lengdegrad));
     if (status != 0) {
-      this.marker.setIcon(new L.Icon({
-        iconUrl: iconName+'.png',
-        iconSize: [30, 30]
-      }));
+      this.marker.setIcon(
+        new L.Icon({
+          iconUrl: iconName + '.png',
+          iconSize: [30, 30],
+        })
+      );
     }
-    this.hoverPopup.setContent('<h3>'+kategori+'</h3>');
-    this.clickPopup.setContent('<h3>'+overskrift+'</h3><br><p>'+beskrivelse+'</p>');
-    this.marker.on('mouseover', (e) => {this.marker.bindPopup(this.hoverPopup).openPopup()});
-    this.marker.on('mouseout', (e) => {this.marker.closePopup().unbindPopup();});
+    this.hoverPopup.setContent('<h3>' + kategori + '</h3>');
+    this.clickPopup.setContent('<h3>' + overskrift + '</h3><br><p>' + beskrivelse + '</p>');
+    this.marker.on('mouseover', (e) => {
+      this.marker.bindPopup(this.hoverPopup).openPopup();
+    });
+    this.marker.on('mouseout', (e) => {
+      this.marker.closePopup().unbindPopup();
+    });
     this.marker.on('click', (e) => {
       this.marker.closePopup().unbindPopup();
       this.marker.removeEventListener('mouseout');
       this.marker.bindPopup(this.clickPopup).openPopup();
     });
     this.marker.on('popupclose', (e) => {
-      this.marker.on('mouseout', (e) => {this.marker.closePopup().unbindPopup();})
-    })
+      this.marker.on('mouseout', (e) => {
+        this.marker.closePopup().unbindPopup();
+      });
+    });
   }
 
   addTo(map) {
@@ -101,33 +119,37 @@ export class MarkerMap extends Component {
     let m = this.props.markers;
     let coords, map;
 
-    fetch("https://nominatim.openstreetmap.org/?format=json&q="+this.props.center+"&limit=1", {
-      method: "GET"
+    fetch('https://nominatim.openstreetmap.org/?format=json&q=' + this.props.center + '&limit=1', {
+      method: 'GET',
     })
-    .then(res => res.json())
-    .then(json => {
-      this.coords = [json[0].boundingbox[0], json[0].boundingbox[2], json[0].boundingbox[1], json[0].boundingbox[3]].map(el => parseFloat(el));
-      this.coords = [[this.coords[0], this.coords[1]], [this.coords[2], this.coords[3]]];
+      .then((res) => res.json())
+      .then((json) => {
+        this.coords = [
+          json[0].boundingbox[0],
+          json[0].boundingbox[2],
+          json[0].boundingbox[1],
+          json[0].boundingbox[3],
+        ].map((el) => parseFloat(el));
+        this.coords = [[this.coords[0], this.coords[1]], [this.coords[2], this.coords[3]]];
 
-      this.map = L.map(this.props.id, {
-        layers: [
-          L.tileLayer('https://maps.tilehosting.com/styles/streets/{z}/{x}/{y}.png?key=c1RIxTIz5D0YrAY6C81A', {
-            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          })
-        ]
-      })
-      .fitBounds(this.coords).setZoom(11);
+        this.map = L.map(this.props.id, {
+          layers: [
+            L.tileLayer('https://maps.tilehosting.com/styles/streets/{z}/{x}/{y}.png?key=c1RIxTIz5D0YrAY6C81A', {
+              attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+            }),
+          ],
+        })
+          .fitBounds(this.coords)
+          .setZoom(11);
 
-      for (let i = 0; i < m.length; i++) {
-        m[i].marker.addTo(this.map);
-      }
-    });
+        for (let i = 0; i < m.length; i++) {
+          m[i].marker.addTo(this.map);
+        }
+      });
   }
 
   render() {
-    return (
-      <div style={{width:this.props.width+"px", height:this.props.height+"px"}} id={this.props.id}></div>
-    )
+    return <div style={{width: this.props.width + 'px', height: this.props.height + 'px'}} id={this.props.id} />;
   }
 }
 
@@ -142,10 +164,9 @@ export class PositionMap extends Component {
   clicked(e) {
     if (this.marker == undefined) {
       this.marker = L.marker(e.latlng, {
-        draggable: true
+        draggable: true,
       }).addTo(this.map);
-    }
-    else {
+    } else {
       this.marker.setLatLng(e.latlng);
     }
     this.props.position(this.marker.getLatLng());
@@ -153,29 +174,33 @@ export class PositionMap extends Component {
 
   componentDidMount() {
     let coords, map;
-    fetch("https://nominatim.openstreetmap.org/?format=json&q="+this.props.center+"&limit=1", {
-      method: "GET"
+    fetch('https://nominatim.openstreetmap.org/?format=json&q=' + this.props.center + '&limit=1', {
+      method: 'GET',
     })
-    .then(res => res.json())
-    .then(json => {
-      this.coords = [json[0].boundingbox[0], json[0].boundingbox[2], json[0].boundingbox[1], json[0].boundingbox[3]].map(el => parseFloat(el));
-      this.coords = [[this.coords[0], this.coords[1]], [this.coords[2], this.coords[3]]];
-      this.map = L.map(this.props.id, {
-        layers: [
-          L.tileLayer('https://maps.tilehosting.com/styles/streets/{z}/{x}/{y}.png?key=c1RIxTIz5D0YrAY6C81A', {
-            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          })
-        ]
-      })
-      .on('click', this.clicked)
-      .fitBounds(this.coords).setZoom(11);
-    });
+      .then((res) => res.json())
+      .then((json) => {
+        this.coords = [
+          json[0].boundingbox[0],
+          json[0].boundingbox[2],
+          json[0].boundingbox[1],
+          json[0].boundingbox[3],
+        ].map((el) => parseFloat(el));
+        this.coords = [[this.coords[0], this.coords[1]], [this.coords[2], this.coords[3]]];
+        this.map = L.map(this.props.id, {
+          layers: [
+            L.tileLayer('https://maps.tilehosting.com/styles/streets/{z}/{x}/{y}.png?key=c1RIxTIz5D0YrAY6C81A', {
+              attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+            }),
+          ],
+        })
+          .on('click', this.clicked)
+          .fitBounds(this.coords)
+          .setZoom(11);
+      });
   }
 
   render() {
-    return (
-      <div style={{width:this.props.width+"px", height:this.props.height+"px"}} id={this.props.id}></div>
-    )
+    return <div style={{width: this.props.width + 'px', height: this.props.height + 'px'}} id={this.props.id} />;
   }
 }
 
@@ -209,28 +234,28 @@ export class Alert extends Component {
   static success(text) {
     // To avoid 'Cannot update during an existing state transition' errors, run after current event through setTimeout
     setTimeout(() => {
-      for (let instance of Alert.instances()) instance.alerts.push({ text: text, type: 'success' });
+      for (let instance of Alert.instances()) instance.alerts.push({text: text, type: 'success'});
     });
   }
 
   static info(text) {
     // To avoid 'Cannot update during an existing state transition' errors, run after current event through setTimeout
     setTimeout(() => {
-      for (let instance of Alert.instances()) instance.alerts.push({ text: text, type: 'info' });
+      for (let instance of Alert.instances()) instance.alerts.push({text: text, type: 'info'});
     });
   }
 
   static warning(text) {
     // To avoid 'Cannot update during an existing state transition' errors, run after current event through setTimeout
     setTimeout(() => {
-      for (let instance of Alert.instances()) instance.alerts.push({ text: text, type: 'warning' });
+      for (let instance of Alert.instances()) instance.alerts.push({text: text, type: 'warning'});
     });
   }
 
   static danger(text) {
     // To avoid 'Cannot update during an existing state transition' errors, run after current event through setTimeout
     setTimeout(() => {
-      for (let instance of Alert.instances()) instance.alerts.push({ text: text, type: 'danger' });
+      for (let instance of Alert.instances()) instance.alerts.push({text: text, type: 'danger'});
     });
   }
 }
@@ -238,11 +263,7 @@ export class Alert extends Component {
 export class RodKnapp extends Component {
   render() {
     return (
-      <button
-        type="button"
-        className="btn btn-danger"
-        onClick={this.props.onClick}
-      >
+      <button type="button" className="btn btn-danger" onClick={this.props.onClick}>
         {this.props.children}
       </button>
     );
@@ -252,11 +273,7 @@ export class RodKnapp extends Component {
 export class GronnKnapp extends Component {
   render() {
     return (
-      <button
-        type="button"
-        className="btn btn-success"
-        onClick={this.props.onClick}
-      >
+      <button type="button" className="btn btn-success" onClick={this.props.onClick}>
         {this.props.children}
       </button>
     );
@@ -270,14 +287,12 @@ export class FormInput extends Component<{
   onChange: (event: SyntheticInputEvent<HTMLInputElement>) => mixed,
   required?: boolean,
   pattern?: string,
-  placeholder?: string
+  placeholder?: string,
 }> {
   render() {
     return (
       <div id="radene" className="form-group row">
-        <div id="hode">
-          {this.props.label}
-        </div>
+        <div id="hode">{this.props.label}</div>
         <div id="tekstrad" className="col-sm-12">
           <input
             className="form-control"

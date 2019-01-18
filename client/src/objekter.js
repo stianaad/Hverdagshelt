@@ -1,14 +1,12 @@
 //objekter for lagring/oppdatering/oppretting
 export class Fylke {
-  constructor(fylke_navn) { this.fylke_navn = fylke_navn; }
+  constructor(fylke_navn) {
+    this.fylke_navn = fylke_navn;
+  }
 }
 
 export class Kommune {
-  constructor(
-    kommune_id,
-    kommune_navn,
-    fylke_navn
-  ) {
+  constructor(kommune_id, kommune_navn, fylke_navn) {
     this.kommune_id = kommune_id;
     this.kommune_navn = kommune_navn;
     this.fylke_navn = fylke_navn;
@@ -16,12 +14,7 @@ export class Kommune {
 }
 
 class Bruker {
-  constructor(
-    bruker_id,
-    epost,
-    passord,
-    kommune_id
-  ) {
+  constructor(bruker_id, epost, passord, kommune_id) {
     this.bruker_id = bruker_id;
     this.epost = epost;
     this.passord = passord;
@@ -30,62 +23,33 @@ class Bruker {
 }
 
 export class Privat extends Bruker {
-  constructor(
-    bruker_id,
-    epost,
-    passord,
-    kommune_id,
-    fornavn,
-    etternavn
-  ) {
+  constructor(bruker_id, epost, passord, kommune_id, fornavn, etternavn) {
     super(bruker_id, epost, passord, kommune_id);
     this.fornavn = fornavn;
-    this.etternavn = etternavn; 
+    this.etternavn = etternavn;
   }
 }
 
 export class Ansatt extends Bruker {
-  constructor(
-    bruker_id,
-    epost,
-    passord,
-    fornavn, 
-    etternavn,
-    telefon
-  ) {
+  constructor(bruker_id, epost, passord, fornavn, etternavn, telefon) {
     super(bruker_id, epost, passord, kommune_id);
     this.fornavn = fornavn;
-    this.etternavn = etternavn; 
+    this.etternavn = etternavn;
     this.telefon = telefon;
   }
 }
 
 export class Bedrift extends Bruker {
-  constructor(
-    bruker_id,
-    epost,
-    passord,
-    kommune_id,
-    orgnr, 
-    navn,
-    telefon
-  ) {
+  constructor(bruker_id, epost, passord, kommune_id, orgnr, navn, telefon) {
     super(bruker_id, epost, passord, kommune_id);
     this.orgnr = orgnr;
-    this.navn = navn; 
+    this.navn = navn;
     this.telefon = telefon;
   }
 }
 
 export class Admin extends Bruker {
-  constructor(
-    bruker_id,
-    epost,
-    passord,
-    kommune_id,
-    telefon, 
-    navn
-  ) {
+  constructor(bruker_id, epost, passord, kommune_id, telefon, navn) {
     super(bruker_id, epost, passord, kommune_id);
     this.telefon = telefon;
     this.navn = navn;
@@ -93,7 +57,6 @@ export class Admin extends Bruker {
 }
 
 export class Hovedkategori {
-
   constructor(hovedkategori_id, kategorinavn) {
     this.hovedkategori_id = hovedkategori_id;
     this.kategorinavn = kategorinavn;
@@ -116,35 +79,19 @@ export class Status {
 }
 
 export class Feil {
-
-  constructor(
-    feil_id,
-    kommune_id,
-    subkategori_id,
-    overskrift,
-    beskrivelse,
-    lengdegrad,
-    breddegrad
-  ) {
+  constructor(feil_id, kommune_id, subkategori_id, overskrift, beskrivelse, lengdegrad, breddegrad) {
     this.feil_id = feil_id;
     this.kommune_id = kommune_id;
     this.subkategori_id = subkategori_id;
     this.overskrift = overskrift;
-    this.beskrivelse = beskrivelse; 
-    this.lengdegrad = lengdegrad; 
-    this.breddegrad = breddegrad; 
+    this.beskrivelse = beskrivelse;
+    this.lengdegrad = lengdegrad;
+    this.breddegrad = breddegrad;
   }
 }
 
 export class Oppdatering {
-
-  constructor(
-  feil_id,
-  tid,
-  kommentar,
-  status_id,
-  bruker_id
-  ) {
+  constructor(feil_id, tid, kommentar, status_id, bruker_id) {
     this.feil_id = feil_id;
     this.tid = tid;
     this.kommentar = kommentar;
@@ -161,7 +108,6 @@ export class Hendelseskategori {
 }
 
 export class Hendelse {
-
   constructor(
     hendelse_id,
     bruker_id,
@@ -186,4 +132,3 @@ export class Hendelse {
     this.breddegrad = breddegrad;
   }
 }
-

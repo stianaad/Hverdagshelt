@@ -4,14 +4,14 @@ import mysql from 'mysql';
 import bodyParser from 'body-parser';
 import BrukerDao from '../dao/brukerdao.js';
 import passord from 'password-hash-and-salt';
-import { callbackify } from 'util';
-import { pool } from '../../test/poolsetup';
+import {callbackify} from 'util';
+import {pool} from '../../test/poolsetup';
 import Epost from '../../epost.js';
 import jwt from 'jsonwebtoken';
 import secret from '../config.json';
 import async from 'async';
 import mdw from '../middleware.js';
-import { checkToken } from '../middleware';
+import {checkToken} from '../middleware';
 
 let brukerDao = new BrukerDao(pool);
 let epostTjener = new Epost();
@@ -52,7 +52,7 @@ router.post('/api/brukere/privat', (req, res) => {
 router.post('/api/brukere/ansatt', checkToken, (req, res) => {
   let rolle = req.decoded.role;
   console.log('Fikk POST-request fra klienten');
-  if(rolle == 'admin') {
+  if (rolle == 'admin') {
     passord(req.body.passord).hash((error, hash) => {
       if (error) {
         throw new Error('Noe gikk galt');
@@ -66,7 +66,7 @@ router.post('/api/brukere/ansatt', checkToken, (req, res) => {
     });
   } else {
     res.status(403);
-    res.json({ result: false });
+    res.json({result: false});
   }
 });
 
@@ -74,7 +74,7 @@ router.post('/api/brukere/bedrift', checkToken, (req, res) => {
   console.log('Fikk POST-request fra klienten');
   let rolle = req.decoded.role;
 
-  if(rolle== 'admin' || rolle == 'ansatt'){
+  if (rolle == 'admin' || rolle == 'ansatt') {
     passord(req.body.passord).hash((error, hash) => {
       if (error) {
         throw new Error('Noe gikk galt');
@@ -88,7 +88,7 @@ router.post('/api/brukere/bedrift', checkToken, (req, res) => {
     });
   } else {
     res.status(403);
-    res.json({ result: false });
+    res.json({result: false});
   }
 });
 
@@ -96,7 +96,7 @@ router.post('/api/brukere/admin', checkToken, (req, res) => {
   console.log('Fikk POST-request fra klienten');
   let rolle = req.decoded.role;
 
-  if(rolle == 'admin') {
+  if (rolle == 'admin') {
     passord(req.body.passord).hash((error, hash) => {
       if (error) {
         throw new Error('Noe gikk galt');
@@ -110,7 +110,7 @@ router.post('/api/brukere/admin', checkToken, (req, res) => {
     });
   } else {
     res.status(403);
-    res.json({ result: false })
+    res.json({result: false});
   }
 });
 
@@ -156,14 +156,12 @@ router.get('/api/bruker/minside', checkToken, (req, res) => {
     });
   } else {
     res.status(403);
-    res.json({ result: false })
+    res.json({result: false});
   }
 });
 
 router.get('/api/bruker/feil', checkToken, (req, res) => {
-  console.log(
-    '/api/bruker/feil fikk get request fra klient'
-  );
+  console.log('/api/bruker/feil fikk get request fra klient');
   let role = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
   if (role == 'privat') {
@@ -173,27 +171,22 @@ router.get('/api/bruker/feil', checkToken, (req, res) => {
     });
   } else {
     res.status(403);
-    res.json({ result: false })
+    res.json({result: false});
   }
 });
 
 router.get('/api/bruker/hendelser', checkToken, (req, res) => {
-  console.log(
-    '/api/bruker/hendelser fikk get request fra klient'
-  );
+  console.log('/api/bruker/hendelser fikk get request fra klient');
   let role = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
   if (role == 'privat') {
-    brukerDao.finnFolgteHendelserTilBruker(
-      bruker_id,
-      (status, data) => {
-        res.status(status);
-        res.json(data);
-      }
-    )
+    brukerDao.finnFolgteHendelserTilBruker(bruker_id, (status, data) => {
+      res.status(status);
+      res.json(data);
+    });
   } else {
     res.status(403);
-    res.json({ result: false })
+    res.json({result: false});
   }
 });
 
@@ -233,15 +226,16 @@ router.get('/api/bedrifter', (req, res) => {
 module.exports = router;
 
 function makeid() {
-  var text = "";
-  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  var text = '';
+  var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-module.exports = router;
+  module.exports = router;
 
-const genenererEpostPollett = (epost, callback) => {
-  console.log(secret.secret);
-  jwt.sign({user: {epost: epost}}, secret.secret, { expiresIn: 900 }, (err, token) => {
-    console.log(err);
-    callback(token);
-  });
-}}
+  const genenererEpostPollett = (epost, callback) => {
+    console.log(secret.secret);
+    jwt.sign({user: {epost: epost}}, secret.secret, {expiresIn: 900}, (err, token) => {
+      console.log(err);
+      callback(token);
+    });
+  };
+}

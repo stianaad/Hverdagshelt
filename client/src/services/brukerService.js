@@ -25,17 +25,17 @@ class BrukerService {
 
   endrePassord(nyInformasjon) {
     console.log('endre');
-    let token = sessionStorage.getItem("pollett");
+    let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.post('/api/brukere/nyttpassord', nyInformasjon, {headers: {"x-access-token": "Bearer "+token}});
-  } else {
-    return [];
-  }
+      return api.post('/api/brukere/nyttpassord', nyInformasjon, {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return [];
+    }
   }
 
   resettPassord(nyInformasjon, token) {
     console.log('reset');
-    return api.post('/api/brukere/nyttpassord', nyInformasjon, {headers: {"x-access-token": "Bearer "+token}});
+    return api.post('/api/brukere/nyttpassord', nyInformasjon, {headers: {'x-access-token': 'Bearer ' + token}});
   }
 
   loggInn(informasjon) {
@@ -53,34 +53,34 @@ class BrukerService {
     return api.get('/api/hentbrukere');
   }
 
-  finnFeilTilBruker(){
-    let token = sessionStorage.getItem("pollett");
+  finnFeilTilBruker() {
+    let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.get('/api/bruker/minside', {headers: {"x-access-token": "Bearer "+token}});
+      return api.get('/api/bruker/minside', {headers: {'x-access-token': 'Bearer ' + token}});
     } else {
       return [];
     }
   }
 
-  finnFolgteFeilTilBruker(){
-    let token = sessionStorage.getItem("pollett");
+  finnFolgteFeilTilBruker() {
+    let token = sessionStorage.getItem('pollett');
     if (token) {
-    return api.get('/api/bruker/feil', {headers: {"x-access-token": "Bearer "+token}});
-  } else {
-    return [];
-  }
+      return api.get('/api/bruker/feil', {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return [];
+    }
   }
 
-  finnFolgteHendelserTilBruker(){
-    let token = sessionStorage.getItem("pollett");
+  finnFolgteHendelserTilBruker() {
+    let token = sessionStorage.getItem('pollett');
     if (token) {
-    return api.get('/api/bruker/hendelser', {headers: {"x-access-token": "Bearer "+token}});
-  } else {
-    return [];
-  }
+      return api.get('/api/bruker/hendelser', {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return [];
+    }
   }
 
-  hentBedrifter(){
+  hentBedrifter() {
     return api.get('/api/bedrifter');
   }
 }

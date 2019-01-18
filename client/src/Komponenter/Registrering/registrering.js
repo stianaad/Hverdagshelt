@@ -25,7 +25,7 @@ export class Registrering extends Component {
   render() {
     return (
       <div>
-        <PageHeader  history={this.props.history} location={this.props.location}/>
+        <PageHeader history={this.props.history} location={this.props.location} />
         <h1 className="text-center text-capitalize display-4">Registrering</h1>
         <div className="container">
           <div className="row">
@@ -157,18 +157,10 @@ export class Registrering extends Component {
         */}
           <br />
           <div className="row knappDiv">
-            <button
-              id="registrer"
-              className="btn btn-primary"
-              onClick={this.lagre}
-            >
+            <button id="registrer" className="btn btn-primary" onClick={this.lagre}>
               Registrer deg
             </button>
-            <button
-              id="avbryt"
-              onClick={this.reRoute}
-              className="btn btn-secondary"
-            >
+            <button id="avbryt" onClick={this.reRoute} className="btn btn-secondary">
               Avbryt
             </button>
           </div>
@@ -194,12 +186,12 @@ export class Registrering extends Component {
       this.brukerInput.etternavn
     );
 
-    if (!bruker.kommune_id){
-      this.advarsel = "Vennligst oppgi gyldig kommune"
+    if (!bruker.kommune_id) {
+      this.advarsel = 'Vennligst oppgi gyldig kommune';
       gyldig = false;
     }
 
-    if (bruker.fornavn === "" || bruker.etternavn === ""){
+    if (bruker.fornavn === '' || bruker.etternavn === '') {
       this.advarsel = 'Fyll ut begge navnboksene';
       gyldig = false;
     }
@@ -221,14 +213,13 @@ export class Registrering extends Component {
     if (gyldig) {
       brukerService.lagNyPrivatBruker(bruker).then((res) => {
         this.props.history.push('/');
-      })
+      });
     }
   }
 
   endreVerdi(e) {
     const target = e.target;
-    const value =
-      target.type === 'checkbox' ? (target.checked ? 1 : 0) : target.value;
+    const value = target.type === 'checkbox' ? (target.checked ? 1 : 0) : target.value;
     const name = target.name;
     this.brukerInput[name] = value;
   }

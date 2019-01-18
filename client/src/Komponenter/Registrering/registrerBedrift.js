@@ -26,14 +26,9 @@ export class RegistrerBedrift extends Component {
   render() {
     return (
       <div>
-        <PageHeader
-          history={this.props.history}
-          location={this.props.location}
-        />
+        <PageHeader history={this.props.history} location={this.props.location} />
         <div className="container">
-          <h2 className="text-center text-capitalize display-4">
-            Registrer en bedrift
-          </h2>
+          <h2 className="text-center text-capitalize display-4">Registrer en bedrift</h2>
           <div>
             <div className="row">
               <div className="col">
@@ -135,18 +130,10 @@ export class RegistrerBedrift extends Component {
               </div>
             </div>
             <div className="row knappDiv">
-              <button
-                id="registrer"
-                className="btn btn-primary"
-                onClick={this.lagre}
-              >
+              <button id="registrer" className="btn btn-primary" onClick={this.lagre}>
                 Registrer deg
               </button>
-              <button
-                id="avbryt"
-                onClick={this.reRoute}
-                className="btn btn-secondary"
-              >
+              <button id="avbryt" onClick={this.reRoute} className="btn btn-secondary">
                 Avbryt
               </button>
             </div>
@@ -175,7 +162,7 @@ export class RegistrerBedrift extends Component {
     );
 
     if (!bedrift.kommune_id) {
-      this.advarsel = 'Vennligst oppgi gyldig kommune';;
+      this.advarsel = 'Vennligst oppgi gyldig kommune';
       gyldig = false;
     }
 
@@ -217,8 +204,7 @@ export class RegistrerBedrift extends Component {
 
   endreVerdi(e) {
     const target = e.target;
-    const value =
-      target.type === 'checkbox' ? (target.checked ? 1 : 0) : target.value;
+    const value = target.type === 'checkbox' ? (target.checked ? 1 : 0) : target.value;
     const name = target.name;
     this.bedriftInput[name] = value;
   }

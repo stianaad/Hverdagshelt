@@ -26,13 +26,12 @@ import {Bedrift} from '../src/Komponenter/Bedrift/bedrift';
 import createBrowserHistory from 'history/createBrowserHistory';
 const history = createBrowserHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
 
-import { relative } from 'path';
-import { KommuneVelger } from './Moduler/KommuneVelger/kommuneVelger';
-import { KommuneInput } from './Moduler/kommuneInput/kommuneInput';
-import { enHendelse } from './Komponenter/Hendelser/enHendelse';
+import {relative} from 'path';
+import {KommuneVelger} from './Moduler/KommuneVelger/kommuneVelger';
+import {KommuneInput} from './Moduler/kommuneInput/kommuneInput';
+import {enHendelse} from './Komponenter/Hendelser/enHendelse';
 
 import {AnsattSide} from './Komponenter/Ansatt/kommuneansatt';
-
 
 class Tabell extends Component {
   render() {
@@ -75,8 +74,7 @@ class Menu extends Component {
       overskrift: 'Det er et problem her',
       beskrivelse:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-      bildeurl:
-        'https://bjornost.tihlde.org/hverdagshelt/135d6d0f44a6ba73e3782c243663b90a',
+      bildeurl: 'https://bjornost.tihlde.org/hverdagshelt/135d6d0f44a6ba73e3782c243663b90a',
       status: 'Ikke godkjent',
       tid: '10/12/2018, 10:53',
       hovedkategori: 'Veiarbeid',
@@ -176,8 +174,7 @@ class FireNullFire extends Component {
             fontSize: '40px',
           }}
         >
-          404 Ingen mulighet for{' '}
-          <span style={{color: 'green'}}>kommune-kasjon</span> på denne siden
+          404 Ingen mulighet for <span style={{color: 'green'}}>kommune-kasjon</span> på denne siden
         </h3>
         <div
           style={{
@@ -254,79 +251,53 @@ const routes = () => {
             }}
           />
           <Route exact path="/" component={Forside} history={history} />
-          <Route
-            exact
-            path="/hovedside/:kommune"
-            component={Hovedside}
-            history={history}
-          />
-          <Route
-            exact
-            path="/resett-passord/:token"
-            component={ResettPassord}
-          />
+          <Route exact path="/hovedside/:kommune" component={Hovedside} history={history} />
+          <Route exact path="/resett-passord/:token" component={ResettPassord} />
           <Route exact path="/hendelser" component={Hendelser} />
           <Route exact path="/hendelser/:id" component={enHendelse} />
 
           {/*Under ligger spesielle routes*/}
-          {global.payload == null ? (
-            //Ikke logget inn
-            [
-              <Route exact path="/registrering" component={Registrering} history={history} />,
-              <Route exact path="/glemt-passord" component={GlemtPassord} />,
-              <Redirect from="/meldfeil" to="/" />,
-              <Redirect from="/minside"  to="/" />,
-              <Redirect from="/mineoppgaver"  to="/" />
-            ]
-          ) : global.payload.role == 'privat' ? (
-            //Privatbruker routes
-            [
-              <Route exact path="/meldfeil" component={MeldFeil} history={history} />,
-              <Route exact path="/minside" component={Minside} history={history} />
-            ]
-          ) : global.payload.role == 'ansatt' ? (
-            //Ansatt routes
-            [
-              <Route exact path="/mineoppgaver" component={MineOppgaver} history={history} />,
-              <Route exact path="/registrerBedrift" component={RegistrerBedrift} history={history} />,
-              <Route exact path="/ansattside" component={AnsattSide} history={history}/>
-            ]
-          ) : global.payload.role == 'bedrift' ? (
-            //Bedrift routes
-            [
-              <Route exact path="/mineoppgaver" component={Bedrift} history={history} />
-            ]
-          ) : global.payload.role == 'admin' ? (
-            //Admin routes
-            [
-              <Route exact path="/meldfeil" component={MeldFeil} history={history} />
-            ]
-          ) : null}
+          {global.payload == null
+            ? //Ikke logget inn
+              [
+                <Route exact path="/registrering" component={Registrering} history={history} />,
+                <Route exact path="/glemt-passord" component={GlemtPassord} />,
+                <Redirect from="/meldfeil" to="/" />,
+                <Redirect from="/minside" to="/" />,
+                <Redirect from="/mineoppgaver" to="/" />,
+              ]
+            : global.payload.role == 'privat'
+            ? //Privatbruker routes
+              [
+                <Route exact path="/meldfeil" component={MeldFeil} history={history} />,
+                <Route exact path="/minside" component={Minside} history={history} />,
+              ]
+            : global.payload.role == 'ansatt'
+            ? //Ansatt routes
+              [
+                <Route exact path="/mineoppgaver" component={MineOppgaver} history={history} />,
+                <Route exact path="/registrerBedrift" component={RegistrerBedrift} history={history} />,
+                <Route exact path="/ansattside" component={AnsattSide} history={history} />,
+              ]
+            : global.payload.role == 'bedrift'
+            ? //Bedrift routes
+              [<Route exact path="/mineoppgaver" component={Bedrift} history={history} />]
+            : global.payload.role == 'admin'
+            ? //Admin routes
+              [<Route exact path="/meldfeil" component={MeldFeil} history={history} />]
+            : null}
 
-          
           {/*legg test-routes under*/}
-          <Route
-            exact
-            path="/kommunevalgtest"
-            component={KommuneVelger}
-            history={history}
-          />
+          <Route exact path="/kommunevalgtest" component={KommuneVelger} history={history} />
           <Route exact path="/kinput" component={komtest} />
           <Route exact path="/bildetest" component={BildeTest} />
           <Route exact path="/nyheter" component={Menu} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/headertest" component={PageHeader} history={history} />
-          <Route exact path="/ansattest" component={AnsattSide} history={history}/>
+          <Route exact path="/ansattest" component={AnsattSide} history={history} />
 
-
-          <Route
-            exact
-            path="/headertest"
-            component={PageHeader}
-            history={history}
-          />
+          <Route exact path="/headertest" component={PageHeader} history={history} />
           <Route exact path="/bedriftsoppgaver" component={Bedrift} history={history} />
-
 
           {/*Siden eksisterer ikke/ingen tilgang*/}
           <Route component={FireNullFire} />

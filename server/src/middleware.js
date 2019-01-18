@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import BrukerDao from './dao/brukerdao';
-import { pool } from '../test/poolsetup';
-import secret from './config.json'
+import {pool} from '../test/poolsetup';
+import secret from './config.json';
 import passord from 'password-hash-and-salt';
 
 let brukerdao = new BrukerDao(pool);
@@ -19,7 +19,7 @@ export let checkToken = (req, res, next) => {
         res.status(403);
         return res.json({
           success: false,
-          message: 'Token is not valid'
+          message: 'Token is not valid',
         });
       } else {
         req.decoded = decoded;
@@ -30,7 +30,7 @@ export let checkToken = (req, res, next) => {
     res.status(403);
     return res.json({
       success: false,
-      message: 'Auth token is not supplied'
+      message: 'Auth token is not supplied',
     });
   }
 };
@@ -39,11 +39,11 @@ export let createToken = (req, res, next) => {
   console.log('Inne i createToken');
   brukerdao.hentBruker(req.body, (status, info) => {
     if (info.length > 0) {
-      let aa = { bruker_id: info[0].bruker_id };
+      let aa = {bruker_id: info[0].bruker_id};
       let user = {
         bruker_id: info[0].bruker_id,
         epost: info[0].epost,
-        kommune_id: info[0].kommune_id
+        kommune_id: info[0].kommune_id,
       };
 
       passord(req.body.passord).verifyAgainst(info[0].passord, (error, verified) => {
@@ -57,32 +57,37 @@ export let createToken = (req, res, next) => {
               admin: data[0].admin,
               ansatt: data[0].ansatt,
               bedrift: data[0].bedrift,
-              privatbruker: data[0].privatbruker
+              privatbruker: data[0].privatbruker,
             };
-            let rolle = { role: '' };
+            let rolle = {role: ''};
 
-            if (roller.privatbruker == 1) { rolle.role = 'privat'; }
-            else if (roller.ansatt == 1) { rolle.role = 'ansatt'; }
-            else if (roller.bedrift == 1) { rolle.role = 'bedrift'; }
-            else { rolle.role = 'admin'; }
+            if (roller.privatbruker == 1) {
+              rolle.role = 'privat';
+            } else if (roller.ansatt == 1) {
+              rolle.role = 'ansatt';
+            } else if (roller.bedrift == 1) {
+              rolle.role = 'bedrift';
+            } else {
+              rolle.role = 'admin';
+            }
             console.log(rolle.role);
-            jwt.sign({ user: user, role: rolle.role }, secret.secret, { expiresIn: '1d' }, (err, token) => {
+            jwt.sign({user: user, role: rolle.role}, secret.secret, {expiresIn: '1d'}, (err, token) => {
               console.log(err);
               res.json({
-                "result": true,
-                "token": token
+                result: true,
+                token: token,
               });
             });
           });
         } else {
-          res.json({ "result": false });
+          res.json({result: false});
         }
       });
     } else {
-      res.json({ "result": false });
+      res.json({result: false});
     }
   });
-}
+};
 
 function sjekkPassord(json, callback) {
   console.log(json);
@@ -91,22 +96,21 @@ function sjekkPassord(json, callback) {
     console.log(json.passord);
     if (data.length > 0) {
       passord(json.passord).verifyAgainst(data[0].passord, (error, verified) => {
-        if (error)
-          throw new Error('Noe gikk galt!');
+        if (error) throw new Error('Noe gikk galt!');
         if (!verified) {
-          console.log("false1");
-          res.json({ "result": false });
+          console.log('false1');
+          res.json({result: false});
         } else {
           console.log(data[0].bruker_id);
-          res.json({ "result": true, "bruker_id": data[0].bruker_id });
+          res.json({result: true, bruker_id: data[0].bruker_id});
           callback;
         }
       });
     } else {
-      console.log("false2");
-      res.json({ "result": false });
+      console.log('false2');
+      res.json({result: false});
     }
     //res.status(status);
     //res.json(data);
-  })
+  });
 }
