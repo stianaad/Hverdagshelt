@@ -84,6 +84,7 @@ afterAll(() => {
   pool.end();
 });
 
+/*
 test('legg til ny privatbruker', done => {
   function callback(status, data) {
     console.log(
@@ -94,7 +95,7 @@ test('legg til ny privatbruker', done => {
   }
   brukerdao.lagNyPrivatBruker(testprivatBruker1, callback);
 });
-
+*/
 test('legg til ny ansattbruker', done => {
   function callback(status, data) {
     console.log(

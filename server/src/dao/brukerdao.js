@@ -1,6 +1,7 @@
 import Dao from './dao.js';
 
 module.exports = class BrukerDao extends Dao {
+  //testes
   lagNyBruker(json, callback) {
     const tabell = [json.epost, json.passord, json.kommune_id];
     if (json.epost.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
@@ -14,6 +15,7 @@ module.exports = class BrukerDao extends Dao {
     }
   }
 
+  //testes
   finnBruker_id(json, callback) {
     let epost = [json.epost];
     super.query('SELECT bruker_id FROM bruker WHERE epost=?', epost, callback);
@@ -43,6 +45,7 @@ module.exports = class BrukerDao extends Dao {
     );
   }
 
+  //testes
   lagNyPrivatBruker(json, callback) {
     let self = this;
     self.finnBruker_id(json, (status, data) => {
@@ -65,6 +68,7 @@ module.exports = class BrukerDao extends Dao {
     });
   }
 
+  //testes
   lagNyAnsattBruker(json, callback) {
     let self = this;
     self.lagNyBruker(json, (status, data) => {
@@ -78,6 +82,7 @@ module.exports = class BrukerDao extends Dao {
     });
   }
 
+  //testes
   lagNyBedriftBruker(json, callback) {
     let self = this;
     self.lagNyBruker(json, (status, data) => {
@@ -90,7 +95,7 @@ module.exports = class BrukerDao extends Dao {
       });
     });
   }
-
+  //testes
   lagNyAdminBruker(json, callback) {
     let self = this;
     self.lagNyBruker(json, (status, data) => {
@@ -103,7 +108,7 @@ module.exports = class BrukerDao extends Dao {
       });
     });
   }
-
+  
   hentBruker(json, callback) {
     let tabell = [json.epost];
     console.log(tabell + 'bruker dao');
