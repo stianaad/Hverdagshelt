@@ -146,7 +146,7 @@ export class Hovedside extends Component {
           </Grid>
         </div>
         {!this.visHendelser ? (
-          <div style={{height:"100%"}}>
+          <div>
           <div className="row mt-4">
             <div className="col-sm-4">
               <div className="ml-3 mb-3">
@@ -243,8 +243,8 @@ export class Hovedside extends Component {
                         </h6>
                       </div>
                     </Card.Content>
-                    <Card.Content extra>
-                      <Grid fluid columns={3}>
+                    <Card.Content extra style={{height: "calc(100vh - 410px)", overflowY:"scroll"}}>
+                      <Grid fluid columns={3} style={{height:"100%"}}>
                         <Grid.Column>
                           <h6>Beskrivelse: </h6>
                           <p>{this.feil.beskrivelse}</p>
@@ -253,7 +253,7 @@ export class Hovedside extends Component {
                         <h6>Posisjon</h6>
                             <ShowMarkerMap
                               width="100%"
-                              height="250px"
+                              height="100%"
                               id="posmap"
                               feil={this.feil}
                             />
