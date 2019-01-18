@@ -201,7 +201,7 @@ export class Bedrift extends Component{
                                                 status ={"Under behandling"}
                                                 tid={feil.tid}
                                                 visRedigering="true"
-                                                knapp = {this.knapp}
+                                                knapp = {this.oppdater}
                                                 feil_id={feil.feil_id}
                                                 kategori ={feil.kategorinavn}>
                                                 {feil.overskrift}
@@ -249,10 +249,10 @@ export class Bedrift extends Component{
     async godtaJobb(feil_id){
         console.log(feil_id);
         this.handleClose();
-        let res = await feilService.oppdaterStatusFeilTilBedrift({"bruker_id": 7,"feil_id":feil_id,"status":3});
+        let res = await feilService.oppdaterStatusFeilTilBedrift({"feil_id":feil_id,"status":3});
         console.log(res.data);
-        await this.hentNyeFeil(7);
-        await this.hentUnderBehandlingFeil(7);
+        await this.hentNyeFeil();
+        await this.hentUnderBehandlingFeil();
     }
 
     avslaJobb(feil_id){
@@ -278,28 +278,28 @@ export class Bedrift extends Component{
         }
     }
 
-    async hentNyeFeil(id){
-        let hentNyeFeilTilBedrift = await feilService.hentNyeFeilTilBedrift(id);
+    async hentNyeFeil(){
+        let hentNyeFeilTilBedrift = await feilService.hentNyeFeilTilBedrift();
         this.nyefeil = await hentNyeFeilTilBedrift.data;
         await this.scrollNye();
-        //await console.log(this.nyefeil);
+        await console.log("heiehi");
+        await console.log(this.nyefeil);
     }
 
-    async hentUnderBehandlingFeil(id){
-        let underBehandling = await feilService.hentUnderBehandlingFeilTilBedrift(id);
+    async hentUnderBehandlingFeil(){
+        let underBehandling = await feilService.hentUnderBehandlingFeilTilBedrift();
         this.underBehandling = await underBehandling.data;
         await this.scrollUnderB();
         //await console.log(this.nyefeil);
     }
 
     async mounted(){
-        let feil = await feilService.hentAlleFeil();
+        /*let feil = await feilService.hentAlleFeil();
         this.alleFeil = await feil.data; 
-        await console.log(this.alleFeil);
+        await console.log(this.alleFeil);*/
 
-        await this.hentNyeFeil(7);
-        
-        await this.hentUnderBehandlingFeil(7);
+        await this.hentNyeFeil();
+        await this.hentUnderBehandlingFeil();
         
         /*this.utførte = await feil.data.filter(e => (e.status === 'Ferdig')); 
         await this.scrollFerdig(); 

@@ -9,6 +9,7 @@ import FeilDao from '../dao/feildao.js';
 import BildeOpplasting from '../opplasting/bildeopplasting.js';
 router.use(bodyParser.json());
 import {pool} from '../../test/poolsetup';
+import {checkToken} from '../middleware';
 
 let feilDao = new FeilDao(pool);
 let bildeOpplasting = new BildeOpplasting();
@@ -239,22 +240,36 @@ router.delete('/api/feil/:feil_id/bilder/:bilde_id', (req, res) => {
   });
 });
 
-router.get('/api/feil/bedrift/:bruker_id', (req, res) => {
+router.get('/api/feil/bedrift', checkToken, (req, res) => {
   console.log('Fikk GET-request fra klienten');
-
-  feilDao.hentNyeFeilTilBedrift(req.params.bruker_id, (status, data) => {
-    res.status(status);
-    res.json(data);
-  });
+  let role = req.decoded.role;
+  let bruker_id = req.decoded.user.bruker_id;
+  console.log(bruker_id)
+  if (role == 'bedrift') {
+    feilDao.hentNyeFeilTilBedrift(bruker_id, (status, data) => {
+      res.status(status);
+      res.json(data);
+    });
+  } else {
+    res.status(403);
+    res.json({ result: false })
+  }
 });
 
-router.get('/api/feil/bedrift/underBehandling/:bruker_id', (req, res) => {
+router.get('/api/feil/bedrift/underBehandling', checkToken, (req, res) => {
   console.log('Fikk GET-request fra klienten');
-
-  feilDao.hentUnderBehandlingFeilTilBedrift(req.params.bruker_id, (status, data) => {
-    res.status(status);
-    res.json(data);
-  });
+  let role = req.decoded.role;
+  let bruker_id = req.decoded.user.bruker_id;
+  console.log(bruker_id);
+  if (role == 'bedrift') {
+    feilDao.hentUnderBehandlingFeilTilBedrift(bruker_id, (status, data) => {
+      res.status(status);
+      res.json(data);
+    });
+  } else {
+    res.status(403);
+    res.json({ result: false })
+  }
 });
 
 router.put('/api/feil/bedrift/oppdater', (req, res) => {

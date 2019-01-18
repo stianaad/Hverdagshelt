@@ -63,16 +63,33 @@ class FeilService {
     return api.delete('/api/feil/:feil_id/bilder/:bilde_id', info);
   }
 
-  hentNyeFeilTilBedrift(bruker_id){
-    return api.get('/api/feil/bedrift/'+bruker_id);
+  hentNyeFeilTilBedrift(){
+    let token = sessionStorage.getItem("pollett");
+    if (token) {
+      return api.get('/api/feil/bedrift', {headers: {"x-access-token": "Bearer "+token}});
+    } else {
+      console.log("oeifjeoif")
+      return [];
+    }
   }
 
-  hentUnderBehandlingFeilTilBedrift(bruker_id){
-    return api.get('api/feil/bedrift/underBehandling/'+bruker_id);
+  hentUnderBehandlingFeilTilBedrift(){
+    let token = sessionStorage.getItem("pollett");
+    if (token) {
+    return api.get('api/feil/bedrift/underBehandling', {headers: {"x-access-token": "Bearer "+token}});
+    } else {
+      console.log("foeifj")
+      return [];
+    }
   }
 
   oppdaterStatusFeilTilBedrift(jobbSoknadObjekt){
-    return api.put('/api/feil/bedrift/oppdater',jobbSoknadObjekt);
+    let token = sessionStorage.getItem("pollett");
+    if (token) {
+    return api.put('/api/feil/bedrift/oppdater',jobbSoknadObjekt, {headers: {"x-access-token": "Bearer "+token}});
+    } else {
+      return [];
+    }
   }
 }
 
