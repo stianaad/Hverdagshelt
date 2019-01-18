@@ -1,6 +1,6 @@
 import Dao from './dao.js';
 
-// .... av 9 testes
+// 5 av 9 testes
 module.exports = class HendelseDao extends Dao {
   //testes
   hentAlleHendelser(callback) {

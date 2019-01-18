@@ -155,7 +155,7 @@ CREATE TABLE feilfolg(
     feil_id INT(11) NOT NULL,
     bruker_id INT(11) NOT NULL,
     PRIMARY KEY (feil_id, bruker_id),
-    FOREIGN KEY (feil_id) REFERENCES feil(feil_id),ON DELETE CASCADE
+    FOREIGN KEY (feil_id) REFERENCES feil(feil_id) ON DELETE CASCADE,
     FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
