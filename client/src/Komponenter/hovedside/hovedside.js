@@ -150,7 +150,7 @@ export class Hovedside extends Component {
           <div className="row mt-4">
             <div className="col-sm-4">
               <div className="ml-3 mb-3">
-                <Card fluid>
+                <Card fluid style={{height:"calc(100vh - 300px)"}}>
                   <Card.Content>
                     <Card.Header>
                       Nylige feil og mangler
@@ -243,9 +243,9 @@ export class Hovedside extends Component {
                         </h6>
                       </div>
                     </Card.Content>
-                    <Card.Content extra style={{height: "calc(100vh - 410px)", overflowY:"scroll"}}>
+                    <Card.Content extra style={{height: "calc(100vh - 415px)"}}>
                       <Grid fluid columns={3} style={{height:"100%"}}>
-                        <Grid.Column>
+                        <Grid.Column style={{overflowY:"auto"}}>
                           <h6>Beskrivelse: </h6>
                           <p>{this.feil.beskrivelse}</p>
                         </Grid.Column>
