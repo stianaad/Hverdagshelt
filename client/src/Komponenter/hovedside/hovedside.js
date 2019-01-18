@@ -146,6 +146,7 @@ export class Hovedside extends Component {
           </Grid>
         </div>
         {!this.visHendelser ? (
+          <div style={{height:"100%"}}>
           <div className="row mt-4">
             <div className="col-sm-4">
               <div className="ml-3 mb-3">
@@ -314,7 +315,7 @@ export class Hovedside extends Component {
                     <div >
                       <MarkerMap
                         width="100%"
-                        height="365px"
+                        height="calc(100vh - 300px)"
                         id="test"
                         center={this.props.match.params.kommune}
                         callback={this.callMap}
@@ -359,6 +360,7 @@ export class Hovedside extends Component {
                 </div>
               )}
             </div>
+          </div>
           </div>
         ) : (
           <div className="row mt-4">
