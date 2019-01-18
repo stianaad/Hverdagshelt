@@ -34,7 +34,7 @@ let testBedriftbruker = {
   epost: 'testbedrift@test.com',
   passord: 'qwertyui',
   kommune_id: 22,
-  orgnr: 987654321,
+  orgnr: 989684183,
   navn: 'testBedrift',
   telefon: 10203040,
 };
