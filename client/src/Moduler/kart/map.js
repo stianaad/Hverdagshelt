@@ -22,7 +22,7 @@ class PopupContent extends Component {
                     <span style={{ color: 'grey', fontStyle: 'italic' }}>{this.props.tid}</span>
                     <span style={{ float: 'right' }}>{this.props.statusText}</span>
                 </p>
-                <p style={{ display: 'inline-block', maxWidth: '260px' }}>{this.props.beskrivelse}</p>
+                <p style={{ display: 'inline-block', maxWidth: '260px' }}>{this.props.beskrivelse.length > 300 ? this.props.beskrivelse.slice(0,300)+"... (Les mer via menyen)" : this.props.beskrivelse}</p>
                 {!(this.props.bildeurl == undefined || this.bildeurl == "") &&
                     <img style={{ display: 'inline-block', maxWidth: '250px', maxHeight: '220px', margin: '0 0 0 20px', verticalAlign: 'text-bottom' }} src={this.props.bildeurl}></img>
                 }
