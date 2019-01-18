@@ -196,39 +196,39 @@ module.exports = class BrukerDao extends Dao {
       this.oppdaterBruker(json, (status, data) => {
         console.log('oppdaterer privat');
         super.query('UPDATE privat SET fornavn = ?, etternavn = ? WHERE bruker_id = ?',
-        [json.fornavn, json.etternavn, json.bruker_id],
+        [json.fornavn, json.etternavn, rolle.bruker_id],
         callback);
       });
     } else if (rolle == 'bedrift') {
       console.log('oppdaterer bruker');
-      this.oppdaterBruker(json, (status, data) => {
+      this.oppdaterBruker(json, rolle, (status, data) => {
         console.log('oppdaterer bedrift');
         super.query('UPDATE bedrift SET orgnr = ?, navn = ?, telefon = ? WHERE bruker_id = ?',
-        [json.orgnr, json.navn, json.telefon, json.bruker_id],
+        [json.orgnr, json.navn, json.telefon, rolle.bruker_id],
         callback);
       });
     } else if (rolle == 'ansatt') {
       console.log('oppdaterer bruker');
-      this.oppdaterBruker(json, (status, data) => {
+      this.oppdaterBruker(json, rolle, (status, data) => {
         console.log('oppdaterer ansatt');
         super.query('UPDATE ansatt SET fornavn = ?, etternavn = ?, telefon = ? WHERE bruker_id = ?',
-        [json.fornavn, json.etternavn, json.telefon, json.bruker_id],
+        [json.fornavn, json.etternavn, json.telefon, rolle.bruker_id],
         callback);
       });
     } else { 
       console.log('oppdaterer bruker');
-      this.oppdaterBruker(json, (status, data) => {
+      this.oppdaterBruker(json, rolle, (status, data) => {
         console.log('oppdaterer admin');
         super.query('UPDATE admin SET telefon = ?, navn = ? WHERE bruker_id = ?',
-        [json.telefon, json.navn, json.bruker_id],
+        [json.telefon, json.navn, rolle.bruker_id],
         callback);
       });
     }
   }
 
-  oppdaterBruker(json, callback) {
+  oppdaterBruker(json, rolle, callback) {
     super.query('UPDATE bruker SET epost = ?, kommune_id = ? WHERE bruker_id = ?',
-    [json.epost, json.kommune_id, json.bruker_id], 
+    [json.epost, json.kommune_id, rolle.bruker_id], 
     callback);
   }
  };
