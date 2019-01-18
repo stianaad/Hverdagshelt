@@ -84,6 +84,7 @@ afterAll(() => {
   pool.end();
 });
 
+//BRUKERTESTER
 
 test('legg til ny privatbruker', done => {
   function callback(status, data) {
@@ -129,17 +130,6 @@ test('legg til ny adminbruker', done => {
   brukerdao.lagNyAdminBruker(testAdminbruker, callback);
 });
 
-test('oppdater feil', done => {
-  function callback(status, data) {
-    console.log(
-      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
-    );
-    expect(data.affectedRows).toBe(1);
-    done();
-  }
-  feildao.oppdaterFeil(oppdaterFeil1, callback);
-});
-
 test('lag ny bruker', done => {
   function callback(status, data) {
     console.log(
@@ -160,6 +150,30 @@ test('hent brukerid', done => {
     done();
   }
   brukerdao.finnBruker_id({epost: 'epost10@hotmail.com'}, callback);
+});
+
+test('endre passord', done => {
+  function callback(status, data) {
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  brukerdao.endrePassord({epost: 'epost2@hotmail.com', passord: 'veldighemmelig'}, callback);
+});
+
+//FEILTESTER
+
+test('oppdater feil', done => {
+  function callback(status, data) {
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  feildao.oppdaterFeil(oppdaterFeil1, callback);
 });
 
 test('hent alle kommuner', done => {
@@ -209,7 +223,7 @@ test('Lag ny feil', done => {
   feildao.lagNyFeil(oppdaterFeil1, callback);
 });
 
-/*
+/* trenger on delete cascade
 test('slett feil', done => {
   function callback(status, data) {
     console.log('Test callback: status' + status + ', data: ' + JSON.stringify(data));
@@ -220,7 +234,7 @@ test('slett feil', done => {
 })
 */
 
-/*
+/* fucker opp pga tiden er primarykey, får duplicate
 test('Opprett ny oppdatering', done => {
   function callback(status, data){
     console.log(

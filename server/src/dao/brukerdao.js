@@ -1,5 +1,6 @@
 import Dao from './dao.js';
 
+//  7/13 funksjoner testes
 module.exports = class BrukerDao extends Dao {
   //testes
   lagNyBruker(json, callback) {
@@ -45,7 +46,7 @@ module.exports = class BrukerDao extends Dao {
     );
   }
 
-  //testes --
+  //testes
   lagNyPrivatBruker(json, callback) {
     let self = this;
     self.finnBruker_id(json, (status, data) => {
@@ -113,6 +114,7 @@ module.exports = class BrukerDao extends Dao {
       }
     });
   }
+
   //testes
   lagNyAdminBruker(json, callback) {
     let self = this;
@@ -146,6 +148,7 @@ module.exports = class BrukerDao extends Dao {
     super.query('SELECT * FROM bruker', [], callback);
   }
 
+  //testes
   endrePassord(json, callback) {
     const tabell = [json.passord, json.epost];
     super.query('UPDATE bruker SET passord=? WHERE epost=?', tabell, callback);
