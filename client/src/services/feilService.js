@@ -87,6 +87,16 @@ class FeilService {
     }
   }
 
+  hentFerdigeFeilTilBedrift() {
+    let token = sessionStorage.getItem('pollett');
+    if (token) {
+      return api.get('api/feil/bedrift/ferdig', {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      console.log('foeifj');
+      return [];
+    }
+  }
+
   oppdaterStatusFeilTilBedrift(jobbSoknadObjekt) {
     let token = sessionStorage.getItem('pollett');
     if (token) {

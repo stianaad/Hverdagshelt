@@ -287,6 +287,24 @@ router.get('/api/feil/bedrift/underBehandling', checkToken, (req, res) => {
   }
 });
 
+router.get('/api/feil/bedrift/ferdig', checkToken, (req, res) => {
+  console.log('Fikk GET-request fra klienten');
+  let role = req.decoded.role;
+  let bruker_id = req.decoded.user.bruker_id;
+  console.log(bruker_id);
+  if (role == 'bedrift') {
+    feilDao.hentFerdigeFeilTilBedrift(bruker_id, (status, data) => {
+      res.status(status);
+      res.json(data);
+    });
+  } else {
+    res.status(403);
+    res.json({result: false});
+  }
+});
+
+
+
 router.put('/api/bedrift/oppdater/feil/godta',checkToken, (req, res) => {
   console.log('Fikk PUT-request fra klienten');
   let role = req.decoded.role;
