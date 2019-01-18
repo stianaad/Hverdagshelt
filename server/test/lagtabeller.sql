@@ -61,7 +61,7 @@ CREATE TABLE bedrift (
     navn VARCHAR(255) NOT NULL,
     telefon VARCHAR(20) NOT NULL,
     PRIMARY KEY (bruker_id),
-    FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id)
+    FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id) 
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE admin (
@@ -112,7 +112,7 @@ CREATE TABLE feilbilder (
     feil_id INT(11) NOT NULL,
     url VARCHAR(255) NOT NULL,
     PRIMARY KEY (bilde_id),
-    FOREIGN KEY (feil_id) REFERENCES feil(feil_id)
+    FOREIGN KEY (feil_id) REFERENCES feil(feil_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE oppdatering (
@@ -122,9 +122,9 @@ CREATE TABLE oppdatering (
     status_id INT(1) NOT NULL DEFAULT 1,
     bruker_id INT(11),
     PRIMARY KEY (feil_id, tid),
-    FOREIGN KEY (feil_id) REFERENCES feil(feil_id),
-    FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id),
-    FOREIGN KEY (status_id) REFERENCES status(status_id)
+    FOREIGN KEY (feil_id) REFERENCES feil(feil_id) ON DELETE CASCADE,
+    FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id) ON DELETE CASCADE , 
+    FOREIGN KEY (status_id) REFERENCES status(status_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE hendelseskategori(
@@ -155,8 +155,8 @@ CREATE TABLE feilfolg(
     feil_id INT(11) NOT NULL,
     bruker_id INT(11) NOT NULL,
     PRIMARY KEY (feil_id, bruker_id),
-    FOREIGN KEY (feil_id) REFERENCES feil(feil_id),
-    FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id)
+    FOREIGN KEY (feil_id) REFERENCES feil(feil_id),ON DELETE CASCADE
+    FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE hendfolg(

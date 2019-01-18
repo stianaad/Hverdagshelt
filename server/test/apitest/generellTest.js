@@ -70,7 +70,21 @@ let oppdaterFeil1 = {
   beskrivelse: 'Kjør da pls',
   lengdegrad: 0.2,
   breddegrad: 0.3
-};
+}
+
+let testHendelse = {
+  bruker_id: 2,
+  hendelse_id: 1,
+  hendelseskategori_id: 1,
+  kommune_id: 54,
+  overskrift: 'testoverskrift',
+  tid: ('2019-11-20'),
+  beskrivelse: 'testbeskrivelse',
+  sted: 'teststed',
+  bilde: 'https://bjornost.tihlde.org/hverdagshelt/19af4f8c745a62973e2cd615eaf329fa',
+  lengdegrad: 0.1,
+  breddegrad: 0.2
+}
 
 beforeAll(done => {
   runsqlfile('lagtabeller.sql', pool, () => {
@@ -305,19 +319,41 @@ test('Hent en hendelse', done => {
   }
   feildao.hentEnHendelse({ hendelse_id: 2 }, callback);
 });
-/*
+
 test('Lag ny hendelse', done => {
   function callback(status, data){
     console.log(
       'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
     );
-    expect(data.length).toBeGreaterThanOrEqual(2);
-    expect(data[0].overskrift).toBe('Overskrift1');
+    expect(data.affectedRows).toBe(1);
     done();
   }
-  feildao.hentAlleHendelser(callback);
+  feildao.lagNyHendelse(testhendelse, callback);
 });
-*/
+
+test('Filtrer hendelser på kategori', done => {
+  function callback(status, data){
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.length).toBe(1);
+    expect(data[0].hendelse_id).toBe(1);
+    done();
+  }
+  feildao.filtrerHendelserPaaKategori({hendelseskategori_id: 1}, callback);
+});
+
+test('Filtrer hendelser kommune', done => {
+  function callback(status, data){
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.length).toBe(1);
+    done();
+  }
+  feildao.filtrerHendelserPaaKommune({kommune_id: 12}, callback);
+});
+
 //GENERELLTESTER
 test('hent alle kommuner', done => {
   function callback(status, data){
