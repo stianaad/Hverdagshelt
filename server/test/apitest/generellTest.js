@@ -303,7 +303,7 @@ test('Hent en hendelse', done => {
     expect(data[0].overskrift).toBe('Overskrift2');
     done();
   }
-  feildao.hentEnHendelse({ hendelse_id: 2 }callback);
+  feildao.hentEnHendelse({ hendelse_id: 2 }, callback);
 });
 /*
 test('Lag ny hendelse', done => {
