@@ -128,7 +128,14 @@ class komtest extends Component {
 class FireNullFire extends Component {
   render() {
     return (
-      <h1>404 IKKE FUNNET!</h1>
+      <>
+      <h3 style={{position:"absolute", top:"50px", left:"50px", margin:"0 auto", width:"400px", height:"300px", textAlign:"center", fontFamily:"'Comic Sans MS'", fontSize:"40px"}}>404 Ingen mulighet for <span style={{color:"green"}}>kommune-kasjon</span> på denne siden</h3>
+      <div style={{position:"relative", width:"700px",height:"100vh", margin:"0 400px"}}>
+        <img src="/sicko.png" style={{zIndex:"-1",height:"100%"}}></img>
+        <span style={{position: "absolute", top:"250px",left:"80px", fontSize:"40px"}}>your request went</span>
+        <span style={{position: "absolute", top:"300px",left:"150px", fontSize:"80px", fontFamily:"'Comic Sans MS'", color:"red"}}>SICKO MODE</span>
+      </div>
+      </>
     );
   }
 }
