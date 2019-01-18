@@ -51,49 +51,69 @@ router.post('/api/brukere/privat', (req, res) => {
   });
 });
 
-router.post('/api/brukere/ansatt', (req, res) => {
+router.post('/api/brukere/ansatt', checkToken, (req, res) => {
+  let rolle = req.decoded.role;
   console.log('Fikk POST-request fra klienten');
-  passord(req.body.passord).hash((error, hash) => {
-    if (error) {
-      throw new Error('Noe gikk galt');
-    }
-    req.body.passord = hash;
-    brukerDao.lagNyAdminBruker(req.body, (status, data) => {
-      res.status(status);
-      res.json(data);
-      console.log('Den nye IDen er:', data.insertId);
+  if(rolle == 'admin') {
+    passord(req.body.passord).hash((error, hash) => {
+      if (error) {
+        throw new Error('Noe gikk galt');
+      }
+      req.body.passord = hash;
+      brukerDao.lagNyAdminBruker(req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+        console.log('Den nye IDen er:', data.insertId);
+      });
     });
-  });
+  } else {
+    res.status(403);
+    res.json({ result: false });
+  }
 });
 
-router.post('/api/brukere/bedrift', (req, res) => {
+router.post('/api/brukere/bedrift', checkToken, (req, res) => {
   console.log('Fikk POST-request fra klienten');
-  passord(req.body.passord).hash((error, hash) => {
-    if (error) {
-      throw new Error('Noe gikk galt');
-    }
-    req.body.passord = hash;
-    brukerDao.lagNyBedriftBruker(req.body, (status, data) => {
-      res.status(status);
-      res.json(data);
-      console.log('Den nye IDen er:', data.insertId);
+  let rolle = req.decoded.role;
+
+  if(rolle== 'admin' || rolle == 'ansatt'){
+    passord(req.body.passord).hash((error, hash) => {
+      if (error) {
+        throw new Error('Noe gikk galt');
+      }
+      req.body.passord = hash;
+      brukerDao.lagNyBedriftBruker(req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+        console.log('Den nye IDen er:', data.insertId);
+      });
     });
-  });
+  } else {
+    res.status(403);
+    res.json({ result: false });
+  }
 });
 
-router.post('/api/brukere/admin', (req, res) => {
-  cconsole.log('Fikk POST-request fra klienten');
-  passord(req.body.passord).hash((error, hash) => {
-    if (error) {
-      throw new Error('Noe gikk galt');
-    }
-    req.body.passord = hash;
-    brukerDao.lagNyAdminBruker(req.body, (status, data) => {
-      res.status(status);
-      res.json(data);
-      console.log('Den nye IDen er:', data.insertId);
+router.post('/api/brukere/admin', checkToken, (req, res) => {
+  console.log('Fikk POST-request fra klienten');
+  let rolle = req.decoded.role;
+
+  if(rolle == 'admin') {
+    passord(req.body.passord).hash((error, hash) => {
+      if (error) {
+        throw new Error('Noe gikk galt');
+      }
+      req.body.passord = hash;
+      brukerDao.lagNyAdminBruker(req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+        console.log('Den nye IDen er:', data.insertId);
+      });
     });
-  });
+  } else {
+    res.status(403);
+    res.json({ result: false })
+  }
 });
 
 router.post('/api/brukere/nyttpassord', checkToken, (req, res) => {
@@ -142,9 +162,9 @@ router.get('/api/bruker/minside', checkToken, (req, res) => {
   }
 });
 
-router.get('/api/bruker/finnFolgteFeil', checkToken, (req, res) => {
+router.get('/api/bruker/feil', checkToken, (req, res) => {
   console.log(
-    '/api/bruker/finnFolgteFeil fikk get request fra klient'
+    '/api/bruker/feil fikk get request fra klient'
   );
   let role = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
@@ -159,9 +179,9 @@ router.get('/api/bruker/finnFolgteFeil', checkToken, (req, res) => {
   }
 });
 
-router.get('/api/bruker/finnfolgteHendelser', checkToken, (req, res) => {
+router.get('/api/bruker/hendelser', checkToken, (req, res) => {
   console.log(
-    '/api/bruker/finnfolgteHendelser fikk get request fra klient'
+    '/api/bruker/hendelser fikk get request fra klient'
   );
   let role = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
@@ -196,7 +216,6 @@ router.get('/resetPassord/:token', (req, res) => {
 router.put('/api/brukere', checkToken, (req, res) => {
   let rolle = {bruker_id: req.decoded.user.bruker_id, rolle: req.decoded.role};
 
-  
   brukerDao.oppdaterSpesifisertBruker(req.body, rolle, (status, data) => {
     res.status(status);
     res.json(data);
