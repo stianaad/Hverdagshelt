@@ -80,14 +80,23 @@ module.exports = class BrukerDao extends Dao {
 
   lagNyBedriftBruker(json, callback) {
     let self = this;
-    self.lagNyBruker(json, (status, data) => {
-      self.finnBrukerid(json, (status, data) => {
-        super.query(
-          'INSERT INTO bedrift VALUES(?,?,?)',
-          [res.json(data), json.orgnr, json.navn, json.telefon],
-          callback
-        );
-      });
+    self.finnBruker_id(json, (status, data) => {
+      if (data.length == 0) {
+        self.lagNyBruker(json, (status, data) => {
+          console.log(status);
+          if (status == 200) {
+            super.query(
+              'INSERT INTO bedrift (bruker_id, orgnr, navn, telefon) VALUES(?,?,?,?)',
+              [data.insertId, json.orgnr, json.navn, json.telefon],
+              callback
+            );
+          } else {
+            callback(403, {error: 'Empty promise.'});
+          }
+        });
+      } else {
+        callback(403, {error: 'E-post eksisterer allerede.'});
+      }
     });
   }
 

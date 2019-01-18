@@ -7,6 +7,7 @@ import {BildeTest} from './bildetest';
 import {MeldFeil} from './Komponenter/MeldFeil/meldFeil'
 import Popup from 'reactjs-popup';
 import {Registrering} from './Komponenter/Registrering/registrering';
+import {RegistrerBedrift} from './Komponenter/Registrering/registrerBedrift';
 import {MineOppgaver} from './Komponenter/Ansatt/mineOppgaver';
 import {generellServices} from './services/generellServices';
 import {RodKnapp} from './widgets';
@@ -156,6 +157,7 @@ if (root)
         <Route exact path="/meld-feil" component={MeldFeil} history={history}/>
         <Route exact path="/nyheter" component={Menu} />
         <Route exact path="/registrering" component={Registrering} history={history} />
+        <Route exact path="/registrerBedrift" component={RegistrerBedrift} history={history} />
         <Route exact path="/" component={Forside} history={history}/>
         <Route exact path="/bildetest" component={BildeTest} />
         <Route exact path="/glemt-passord" component={GlemtPassord}/>
