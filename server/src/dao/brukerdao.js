@@ -1,16 +1,38 @@
 import Dao from './dao.js';
 
 module.exports = class BrukerDao extends Dao {
+  kontrollOrgnr(tall){
+    var sum = 0;
+    sum += (parseInt(tall.charAt(0))+parseInt(tall.charAt(6)))*3;
+    sum += (parseInt(tall.charAt(1))+parseInt(tall.charAt(7)))*2;
+    sum += (parseInt(tall.charAt(2)))*7;
+    sum += (parseInt(tall.charAt(3)))*6;
+    sum += (parseInt(tall.charAt(4)))*5;
+    sum += (parseInt(tall.charAt(5)))*4;
+  
+    var rest = (sum % 11);
+    
+    var kontroll = -1;
+  
+    if (rest != 1) {
+      kontroll = 11 - rest;
+    }
+  
+    return (kontroll == parseInt(tall.charAt(8)));
+  }
+
   lagNyBruker(json, callback) {
     const tabell = [json.epost, json.passord, json.kommune_id];
-    if (json.epost.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+    let gyldig = json.epost.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+    gyldig = (json.kommune_id != null);
+    if (gyldig) {
       super.query(
         'INSERT INTO bruker (bruker_id, epost, passord, kommune_id) VALUES(DEFAULT,?,?,?)',
         tabell,
         callback
       );
     } else {
-      callback(403, {error: 'Ugyldig e-post.'});
+      callback(403, {error: 'Ugyldig input.'});
     }
   }
 
@@ -49,7 +71,8 @@ module.exports = class BrukerDao extends Dao {
       if (data.length == 0) {
         self.lagNyBruker(json, (status, data) => {
           console.log(status);
-          if (status == 200) {
+          let gyldig = (json.fornavn != null && json.etternavn != null);
+          if (status == 200 && gyldig) {
             super.query(
               'INSERT INTO privat (bruker_id, fornavn, etternavn) VALUES(?,?,?)',
               [data.insertId, json.fornavn, json.etternavn],
@@ -84,7 +107,9 @@ module.exports = class BrukerDao extends Dao {
       if (data.length == 0) {
         self.lagNyBruker(json, (status, data) => {
           console.log(status);
-          if (status == 200) {
+          let gyldig = kontrollOrgnr(toString(json.orgnr));
+          gyldig = (Number.isInteger(json.telefon) && json.telefon.length == 8 && json.navn != null);
+          if (status == 200 && gyldig) {
             super.query(
               'INSERT INTO bedrift (bruker_id, orgnr, navn, telefon) VALUES(?,?,?,?)',
               [data.insertId, json.orgnr, json.navn, json.telefon],
