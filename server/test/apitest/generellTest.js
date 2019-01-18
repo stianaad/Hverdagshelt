@@ -338,7 +338,7 @@ test('Filtrer hendelser på kategori', done => {
     console.log(
       'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
     );
-    expect(data.length).toBe(1);
+    expect(data.length).toBeGreaterThanOrEqual(1);
     expect(data[0].hendelse_id).toBe(1);
     done();
   }
