@@ -115,7 +115,7 @@ test('legg til ny bedriftbruker', done => {
     expect(data.affectedRows).toBe(1);
     done();
   }
-  brukerdao.lagNyBedrifBruker(testBedriftbruker, callback);
+  brukerdao.lagNyBedriftBruker(testBedriftbruker, callback);
 });
 
 test('legg til ny adminbruker', done => {
@@ -126,7 +126,7 @@ test('legg til ny adminbruker', done => {
     expect(data.affectedRows).toBe(1);
     done();
   }
-  brukerdao.lagNyPrivatBruker(testAdminbruker, callback);
+  brukerdao.lagNyAdminBruker(testAdminbruker, callback);
 });
 
 test('oppdater feil', done => {
