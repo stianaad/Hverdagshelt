@@ -161,6 +161,7 @@ test('slett feil', done => {
 })
 */
 
+/*
 test('Opprett ny oppdatering', done => {
   function callback(status, data){
     console.log(
@@ -171,7 +172,7 @@ test('Opprett ny oppdatering', done => {
   }
   feildao.lagOppdatering(testoppdatering, callback);
 });
-
+*/
 
 test('hentAlleOppdateringerPaaFeil', done => {
   function callback(status, data){
