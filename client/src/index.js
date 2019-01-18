@@ -178,14 +178,14 @@ const routes = () => {
               <Route exact path="/registrering" component={Registrering} history={history} />,
               <Route exact path="/glemt-passord" component={GlemtPassord} />,
               <Redirect from="/meldfeil" to="/" />,
-              <Redirect from="/minside/:bruker_id"  to="/" />,
+              <Redirect from="/minside"  to="/" />,
               <Redirect from="/mineoppgaver"  to="/" />
             ]
           ) : global.payload.role == 'privat' ? (
             //Privatbruker routes
             [
               <Route exact path="/meldfeil" component={MeldFeil} history={history} />,
-              <Route exact path="/minside/:bruker_id" component={Minside} history={history} />
+              <Route exact path="/minside" component={Minside} history={history} />
             ]
           ) : global.payload.role == 'ansatt' ? (
             //Ansatt routes
