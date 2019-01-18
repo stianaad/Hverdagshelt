@@ -67,3 +67,12 @@
   right: -16px !important;
   top: 51px !important;
 }
+
+.mainbuttons {
+  float: right;
+}
+
+.combinedlogo {
+  width: fit-content;
+  display: inline-block;
+}
