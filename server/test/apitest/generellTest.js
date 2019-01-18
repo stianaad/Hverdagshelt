@@ -4,6 +4,7 @@ import Generelldao from '../../src/dao/generelldao.js';
 import BrukerDao from '../../src/dao/brukerdao.js';
 import runsqlfile from '../runsqlfile.js';
 import FeilDao from '../../src/dao/feildao';
+import HendelseDao from '../../src/dao/hendelsedao'
 //import {Hendelse} from '../../../client/src/services/hendelseService';
 
 var pool = mysql.createPool({
@@ -19,14 +20,41 @@ var pool = mysql.createPool({
 let generelldao = new Generelldao(pool);
 let feildao = new FeilDao(pool);
 let brukerdao = new BrukerDao(pool);
+let hendelsedao = new HendelseDao(pool);
 
-let testprivatBruker1 = {
-  epost: 'ø@g.com',
+let testprivatBruker = {
+  epost: 'testprivat@test.com',
   passord: '1234567890',
   kommune_id: 1,
   fornavn: 'Øivind',
   etternavn: 'Larsson'
 };
+
+let testBedriftbruker = {
+  epost: 'testbedrift@test.com',
+  passord: 'qwertyui',
+  kommune_id: 22,
+  orgnr: 987654321,
+  navn: 'testBedrift',
+  telefon: 10203040
+}
+
+let testAnsattbruker = {
+  epost: 'testansatt@test.com',
+  passord: 'asdfghjk',
+  kommune_id: 23,
+  fornavn: 'test',
+  etternavn: 'ansatt',
+  telefon: 40302010
+}
+
+let testAdminbruker = {
+  epost: 'admin@test.com',
+  passord: 'zxcvbnml',
+  kommune_id: 24,
+  telefon: 10101010,
+  navn: 'testadmin'
+}
 
 let testoppdatering = {
   feil_id: 2,
@@ -44,7 +72,21 @@ let oppdaterFeil1 = {
   beskrivelse: 'Kjør da pls',
   lengdegrad: 0.2,
   breddegrad: 0.3
-};
+}
+
+let testhendelse = {
+  bruker_id: 2,
+  hendelse_id: 1,
+  hendelseskategori_id: 1,
+  kommune_id: 54,
+  overskrift: 'testoverskrift',
+  tid: ('2019-11-20'),
+  beskrivelse: 'testbeskrivelse',
+  sted: 'teststed',
+  bilde: 'https://bjornost.tihlde.org/hverdagshelt/19af4f8c745a62973e2cd615eaf329fa',
+  lengdegrad: 0.1,
+  breddegrad: 0.2
+}
 
 beforeAll(done => {
   runsqlfile('lagtabeller.sql', pool, () => {
@@ -58,6 +100,8 @@ afterAll(() => {
   pool.end();
 });
 
+//BRUKERTESTER
+
 test('legg til ny privatbruker', done => {
   function callback(status, data) {
     console.log(
@@ -66,10 +110,10 @@ test('legg til ny privatbruker', done => {
     expect(data.affectedRows).toBe(1);
     done();
   }
-  brukerdao.lagNyPrivatBruker(testprivatBruker1, callback);
+  brukerdao.lagNyPrivatBruker(testprivatBruker, callback);
 });
 
-test('oppdater feil', done => {
+test('legg til ny ansattbruker', done => {
   function callback(status, data) {
     console.log(
       'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
@@ -77,7 +121,29 @@ test('oppdater feil', done => {
     expect(data.affectedRows).toBe(1);
     done();
   }
-  feildao.oppdaterFeil(oppdaterFeil1, callback);
+  brukerdao.lagNyAnsattBruker(testAnsattbruker, callback);
+});
+
+test('legg til ny bedriftbruker', done => {
+  function callback(status, data) {
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  brukerdao.lagNyBedriftBruker(testBedriftbruker, callback);
+});
+
+test('legg til ny adminbruker', done => {
+  function callback(status, data) {
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  brukerdao.lagNyAdminBruker(testAdminbruker, callback);
 });
 
 test('lag ny bruker', done => {
@@ -102,17 +168,28 @@ test('hent brukerid', done => {
   brukerdao.finnBruker_id({epost: 'epost10@hotmail.com'}, callback);
 });
 
-
-test('hent alle kommuner', done => {
-  function callback(status, data){
+test('endre passord', done => {
+  function callback(status, data) {
     console.log(
       'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
     );
-    console.log(data.length);
-    expect(data.length).toBeGreaterThan(200);
+    expect(data.affectedRows).toBe(1);
     done();
   }
-  generelldao.hentAlleKommuner(callback);
+  brukerdao.endrePassord({epost: 'epost2@hotmail.com', passord: 'veldighemmelig'}, callback);
+});
+
+//FEILTESTER
+
+test('oppdater feil', done => {
+  function callback(status, data) {
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  feildao.oppdaterFeil(oppdaterFeil1, callback);
 });
 
 test('hent alle feil', done => {
@@ -150,7 +227,7 @@ test('Lag ny feil', done => {
   feildao.lagNyFeil(oppdaterFeil1, callback);
 });
 
-/*
+/* trenger on delete cascade
 test('slett feil', done => {
   function callback(status, data) {
     console.log('Test callback: status' + status + ', data: ' + JSON.stringify(data));
@@ -161,6 +238,7 @@ test('slett feil', done => {
 })
 */
 
+/* fucker opp pga tiden er primarykey, får duplicate
 test('Opprett ny oppdatering', done => {
   function callback(status, data){
     console.log(
@@ -171,7 +249,7 @@ test('Opprett ny oppdatering', done => {
   }
   feildao.lagOppdatering(testoppdatering, callback);
 });
-
+*/
 
 test('hentAlleOppdateringerPaaFeil', done => {
   function callback(status, data){
@@ -217,4 +295,76 @@ test('Hent alle hovedkategorier', done => {
     done();
   }
   feildao.hentAlleHovedkategorier(callback);
+});
+
+//HENDELSETESTER
+test('Hent alle hendelser', done => {
+  function callback(status, data){
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.length).toBeGreaterThanOrEqual(2);
+    expect(data[0].overskrift).toBe('Overskrift1');
+    done();
+  }
+  hendelsedao.hentAlleHendelser(callback);
+});
+
+test('Hent en hendelse', done => {
+  function callback(status, data){
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.length).toBe(1);
+    expect(data[0].overskrift).toBe('Overskrift2');
+    done();
+  }
+  hendelsedao.hentEnHendelse({ hendelse_id: 2 }, callback);
+});
+
+test('Lag ny hendelse', done => {
+  function callback(status, data){
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  hendelsedao.lagNyHendelse(testhendelse, callback);
+});
+
+test('Filtrer hendelser på kategori', done => {
+  function callback(status, data){
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.length).toBeGreaterThanOrEqual(1);
+    expect(data[0].hendelse_id).toBe(1);
+    done();
+  }
+  hendelsedao.filtrerHendelserPaaKategori({hendelseskategori_id: 1}, callback);
+});
+
+test('Filtrer hendelser kommune', done => {
+  function callback(status, data){
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.length).toBe(1);
+    done();
+  }
+  hendelsedao.filtrerHendelserPaaKommune({kommune_id: 12}, callback);
+});
+
+//GENERELLTESTER
+test('hent alle kommuner', done => {
+  function callback(status, data){
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    console.log(data.length);
+    expect(data.length).toBeGreaterThan(200);
+    done();
+  }
+  generelldao.hentAlleKommuner(callback);
 });

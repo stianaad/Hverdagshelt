@@ -1,5 +1,4 @@
-let jwt = require('jsonwebtoken');
-const config = require('./config.json');
+import jwt from 'jsonwebtoken';
 import BrukerDao from './dao/brukerdao';
 import { pool } from '../test/poolsetup';
 import secret from './config.json'
@@ -8,15 +7,16 @@ import passord from 'password-hash-and-salt';
 let brukerdao = new BrukerDao(pool);
 
 export let checkToken = (req, res, next) => {
-  let token = req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
+  let token = req.headers['x-access-token']; // Express headers are auto converted to lowercase
   if (token.startsWith('Bearer ')) {
     // Remove Bearer from string
     token = token.slice(7, token.length);
   }
-
+  console.log(token);
   if (token) {
-    jwt.verify(token, config.secret, (err, decoded) => {
+    jwt.verify(token, secret.secret, (err, decoded) => {
       if (err) {
+        res.status(403);
         return res.json({
           success: false,
           message: 'Token is not valid'
@@ -27,6 +27,7 @@ export let checkToken = (req, res, next) => {
       }
     });
   } else {
+    res.status(403);
     return res.json({
       success: false,
       message: 'Auth token is not supplied'
@@ -65,7 +66,7 @@ export let createToken = (req, res, next) => {
             else if (roller.bedrift == 1) { rolle.role = 'bedrift'; }
             else { rolle.role = 'admin'; }
             console.log(rolle.role);
-            jwt.sign({ user: user, role: rolle.role }, secret.secret, { expiresIn: '3m' }, (err, token) => {
+            jwt.sign({ user: user, role: rolle.role }, secret.secret, { expiresIn: '1d' }, (err, token) => {
               console.log(err);
               res.json({
                 "result": true,

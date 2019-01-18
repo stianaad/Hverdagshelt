@@ -183,35 +183,45 @@ export class Registrering extends Component {
   }
 
   lagre() {
-    if (this.brukerInput.passord.length < 8) {
-      this.passAdvarsel = 'Passord må være minst 8 tegn';
+    let valid = true;
+
+    let bruker = new Privat(
+      0,
+      this.brukerInput.epost,
+      this.brukerInput.passord,
+      this.kommune.current.verdi,
+      this.brukerInput.fornavn,
+      this.brukerInput.etternavn
+    );
+
+    if (!bruker.kommune_id){
+      this.advarsel = "Vennligst oppgi gyldig kommune"
+      valid = false;
     }
 
-    if (
-      this.brukerInput.bekreftPass === this.brukerInput.passord &&
-      this.brukerInput.passord.length >= 8
-    ) {
-      this.advarsel = '';
-      let bruker = new Privat(
-        0,
-        this.brukerInput.epost,
-        this.brukerInput.passord,
-        this.kommune.current.verdi,
-        this.brukerInput.fornavn,
-        this.brukerInput.etternavn
-      );
+    if (bruker.fornavn === "" || bruker.etternavn === ""){
+      this.advarsel = 'Fyll ut begge navnboksene';
+      valid = false;
+    }
 
-      if (bruker.epost.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-        brukerService.lagNyPrivatBruker(bruker).then((res) => {
-          console.log(bruker.epost);
-          console.log(res.status);
-          this.props.history.push('/');
-        });
-      } else {
-        this.advarsel = 'Ugyldig e-post';
-      }
-    } else {
-      this.advarsel = 'Passord stemmer ikke';
+    if (bruker.passord.length < 8) {
+      this.passAdvarsel = 'Passord må være minst 8 tegn';
+      valid = false;
+    }
+
+    if (this.brukerInput.bekreftPass != bruker.passord) {
+      this.advarsel = 'Passord stemmer ikke overens';
+      valid = false;
+    }
+
+    if (!bruker.epost.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      this.advarsel = 'E-post er ikke gyldig';
+      valid = false;
+    }
+    if (valid) {
+      brukerService.lagNyPrivatBruker(bruker).then((res) => {
+        this.props.history.push('/');
+      })
     }
   }
 
