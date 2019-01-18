@@ -95,6 +95,25 @@ class FeilService {
       return [];
     }
   }
+
+  abonner(feil_id) {
+    let token = sessionStorage.getItem('pollett');
+    if (token) {
+      return api.post('/api/feil/' + feil_id + '/abonnement',null , {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return null;
+    }
+  }
+
+  ikkeAbonner(feil_id) {
+    let token = sessionStorage.getItem('pollett');
+    if (token) {
+      return api.delete('/api/feil/' + feil_id + '/abonnement', {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return null;
+    }
+  }
+
 }
 
 export let feilService = new FeilService();

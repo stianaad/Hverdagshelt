@@ -10,8 +10,10 @@ import BildeOpplasting from '../opplasting/bildeopplasting.js';
 router.use(bodyParser.json());
 import {pool} from '../../test/poolsetup';
 import {checkToken} from '../middleware';
+import BrukerDao from '../dao/brukerdao.js';
 
 let feilDao = new FeilDao(pool);
+let brukerDao = new BrukerDao(pool);
 let bildeOpplasting = new BildeOpplasting();
 
 router.get('/api/feil', (req, res) => {
@@ -103,11 +105,23 @@ router.put('/api/feil/:feil_id', checkToken, (req, res) => {
       feil_id: req.body.feil_id,
     };
 
-  if (rolle == 'admin' || rolle == 'bedrift' || rolle == 'ansatt') {
-
+  if (rolle == 'admin' || rolle == 'ansatt') {
     feilDao.oppdaterFeil(a, (status, data) => {
-      console.log('Oppdatert feil med id =' + req.body.feil_id);
+      console.log('Admin eller ansatt har oppdatert feil med id =' + req.body.feil_id);
       res.status(status);
+    });
+  } else if (rolle == 'privat') {
+    let b = {bruker_id: req.decoded.user.bruker_id, feil_id: req.body.feil_id};
+    feilDao.sjekkFeilPaaBruker(b, (status, data) => {
+      if(data[0].length == 0) {
+        res.status(403);
+        res.json({result: false, message: 'Privatbruker har ikke registrert denne feilen'});
+      } else {
+        feilDao.oppdaterFeil(a, (status, data) => {
+          console.log('Privatbruker har oppdatert feil med id =' + req.body.feil_id);
+          res.status(status);
+        });
+      }
     });
   } else {
     res.status(403);
@@ -118,7 +132,15 @@ router.put('/api/feil/:feil_id', checkToken, (req, res) => {
 router.delete('/api/feil/:feil_id', checkToken, (req, res) => {
   console.log('Fikk POST-request fra klienten');
   let rolle = req.decoded.rolle;
-  let bruker_id = req.decoded.bruker_id;
+
+  let a = {
+    kommune_id: req.body.kommune_id,
+    subkategori_id: req.body.subkategori_id,
+    overskrift: req.body.overskrift,
+    beskrivelse: req.body.beskrivelse,
+    lengdegrad: req.body.lengdegrad,
+    breddegrad: req.body.breddegrad
+  }
 
   if (rolle == 'admin') {
     feilDao.slettFeil(req.body.feil_id, (status, data) => {
@@ -126,8 +148,32 @@ router.delete('/api/feil/:feil_id', checkToken, (req, res) => {
       res.status(status);
       res.json(data);
     });
-  } else if ((rolle = 'privat')) {
-    console.log('homo');
+  } else if (rolle == 'privat') {
+    let b = {bruker_id: req.decoded.bruker_id, feil_id: req.body.feil_id};
+    feilDao.sjekkFeilPaaBruker(b, (status, data) => {
+      if(data[0].length == 0) {
+        res.status(403);
+        res.json({result: false, message: 'Privatbruker har ikke registrert denne feilen'});
+      } else {
+        feilDao.oppdaterFeil(a, (status, data) => {
+          console.log('Privatbruker har slettet feil med id =' + req.body.feil_id);
+          res.status(status);
+        });
+      }
+    });
+  } else if (rolle == 'ansatt') {
+    let c = {kommune_id: req.decoded.user.kommune_id, feil_id: req.body.feil_id};
+    brukerDao.sjekkFeilPaaKommune(c, (status, data) => {
+      if(data[0].length == 0) {
+        res.status(403);
+        res.json({result: false, message: 'Ansatt har ikke tilgang til feil i denne kommunen'});
+      } else {
+        feilDao.oppdaterFeil(a, (status, data) => {
+          console.log('Ansatt har slettet feil med id =' + req.body.feil_id);
+          res.status(status);
+        });
+      }
+    });
   }
 });
 
@@ -156,17 +202,18 @@ router.get('/api/feil/:kategori_id', (req, res) => {
 router.post('/api/feil/oppdateringer/bedrift',checkToken, (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk POST-request fra klienten');
+  rolle = req.decoded.role;
 
   let a = {
     feil_id: req.body.feil_id,
     kommentar: req.body.kommentar,
-    status_id: req.body.status_id
+    status_id: req.body.status_id,
+    bruker_id: req.decoded.user.bruker_id
   };
   let role = req.decoded.role;
-  let bruker_id = req.decoded.user.bruker_id;
   console.log("hehehehehehehehehhe");
   if (role == 'bedrift') {
-    feilDao.lagOppdatering(a,bruker_id, (status, data) => {
+    feilDao.lagOppdatering(a, (status, data) => {
       console.log('Ny oppdatering laget:');
       res.status(status);
       res.json(data);
@@ -243,16 +290,32 @@ router.get('/api/hovedkategorier/subkategorier', (req, res) => {
   });
 });
 
-router.delete('/api/feil/:feil_id/bilder/:bilde_id', (req, res) => {
+router.delete('/api/feil/:feil_id/bilder/:bilde_id', checkToken, (req, res) => {
   console.log('Fikk DELETE-request fra klienten');
-
+  let rolle = req.decoded.role;
   let a = {url: req.body.url, feil_id: req.body.feil_id};
 
-  feilDao.slettBildeFraFeil(a, (status, data) => {
-    res.status(status);
-    res.json(data);
-    console.log('Slettet bilde fra feil');
-  });
+  if(rolle == 'admin' || rolle == 'ansatt') {
+    feilDao.slettBildeFraFeil(a, (status, data) => {
+      res.status(status);
+      res.json(data);
+      console.log('Admin eller ansatt slettet bilde fra feil');
+    });
+  } else if (rolle == 'privat') {
+    let b = {bruker_id: req.decoded.user.bruker_id, feil_id: req.body.feil_id};
+    feilDao.sjekkFeilPaaBruker(b, (status, data) => {
+      if(data[0].length == 0) {
+        res.status(403);
+        res.json({result: false});
+      } else {
+        feilDao.slettBildeFraFeil(a, (status, data) => {
+          res.status(status);
+          res.json(data);
+          console.log('Privat slettet bilde fra feil');
+        });
+      }
+    });
+  }
 });
 
 router.get('/api/feil/bedrift/nyeOppgaver', checkToken, (req, res) => {
@@ -287,7 +350,7 @@ router.get('/api/feil/bedrift/underBehandling', checkToken, (req, res) => {
   }
 });
 
-router.put('/api/bedrift/oppdater/feil/godta',checkToken, (req, res) => {
+router.put('/api/feil/bedrift/oppdater', checkToken, (req, res) => {
   console.log('Fikk PUT-request fra klienten');
   let role = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
