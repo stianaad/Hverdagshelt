@@ -193,14 +193,15 @@ router.get('/resetPassord/:token', (req, res) => {
   }
 });
 
-router.put('/api/bruker') {
+router.put('/api/bruker', checkToken, (req, res) => {
+  let role = req.decoded.role;
   
-  oppdaterSpesifisertBruker(json, (status, data) => {
+  oppdaterSpesifisertBruker(req.body, role, (status, data) => {
     res.status(status);
     res.json(data);
     console.log('/hentEnFeil resultat:' + data);
   });
-}
+});
 
 module.exports = router;
 

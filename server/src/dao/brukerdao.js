@@ -164,9 +164,9 @@ module.exports = class BrukerDao extends Dao {
     );
   }
 
-  oppdaterSpesifisertBruker(json, callback) {
+  oppdaterSpesifisertBruker(json, rolle, callback) {
     console.log('inne i oppdaterSpesifisertBruker');
-    if(json.rolle == 'privat') {
+    if(rolle == 'privat') {
       console.log('oppdaterer bruker');
       this.oppdaterBruker(json, (status, data) => {
         console.log('oppdaterer privat');
@@ -174,7 +174,7 @@ module.exports = class BrukerDao extends Dao {
         [json.fornavn, json.etternavn, json.bruker_id],
         callback);
       });
-    } else if (json.rolle == 'bedrift') {
+    } else if (rolle == 'bedrift') {
       console.log('oppdaterer bruker');
       this.oppdaterBruker(json, (status, data) => {
         console.log('oppdaterer bedrift');
@@ -182,7 +182,7 @@ module.exports = class BrukerDao extends Dao {
         [json.orgnr, json.navn, json.telefon, json.bruker_id],
         callback);
       });
-    } else if (json.rolle == 'ansatt') {
+    } else if (rolle == 'ansatt') {
       console.log('oppdaterer bruker');
       this.oppdaterBruker(json, (status, data) => {
         console.log('oppdaterer ansatt');
