@@ -94,9 +94,7 @@ router.put('/api/feil/:feil_id', checkToken, (req, res) => {
   let rolle = req.decoded.role;
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk POST-request fra klienten');
-
-  if (rolle == 'admin' || rolle == 'bedrift' || rolle == 'ansatt') {
-    let a = {
+  let a = {
       kommune_id: req.body.kommune_id,
       subkategori_id: req.body.subkategori_id,
       beskrivelse: req.body.beskrivelse,
@@ -104,6 +102,8 @@ router.put('/api/feil/:feil_id', checkToken, (req, res) => {
       breddegrad: req.body.breddegrad,
       feil_id: req.body.feil_id,
     };
+
+  if (rolle == 'admin' || rolle == 'bedrift' || rolle == 'ansatt') {
 
     feilDao.oppdaterFeil(a, (status, data) => {
       console.log('Oppdatert feil med id =' + req.body.feil_id);
@@ -153,21 +153,28 @@ router.get('/api/feil/:kategori_id', (req, res) => {
   });
 });
 
-router.post('/api/feil/:feil_id/oppdateringer', (req, res) => {
+router.post('/api/feil/oppdateringer/bedrift',checkToken, (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk POST-request fra klienten');
 
   let a = {
     feil_id: req.body.feil_id,
     kommentar: req.body.kommentar,
-    status_id: req.body.status_id,
-    bruker_id: req.body.bruker_id,
+    status_id: req.body.status_id
   };
-
-  feilDao.lagOppdatering(a, (status, data) => {
-    console.log('Ny oppdatering laget:');
-    res.status(status);
-  });
+  let role = req.decoded.role;
+  let bruker_id = req.decoded.user.bruker_id;
+  console.log("hehehehehehehehehhe");
+  if (role == 'bedrift') {
+    feilDao.lagOppdatering(a,bruker_id, (status, data) => {
+      console.log('Ny oppdatering laget:');
+      res.status(status);
+      res.json(data);
+    });
+  } else {
+    res.status(403);
+    res.json({result: false});
+  }
 });
 
 router.get('/api/feil/:feil_id/oppdatering', (req, res) => {
@@ -248,7 +255,7 @@ router.delete('/api/feil/:feil_id/bilder/:bilde_id', (req, res) => {
   });
 });
 
-router.get('/api/feil/bedrift', checkToken, (req, res) => {
+router.get('/api/feil/bedrift/nyeOppgaver', checkToken, (req, res) => {
   console.log('Fikk GET-request fra klienten');
   let role = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
@@ -280,13 +287,51 @@ router.get('/api/feil/bedrift/underBehandling', checkToken, (req, res) => {
   }
 });
 
-router.put('/api/feil/bedrift/oppdater', (req, res) => {
+router.put('/api/bedrift/oppdater/feil/godta',checkToken, (req, res) => {
   console.log('Fikk PUT-request fra klienten');
-
-  feilDao.oppdaterStatusFeilTilBedrift(req.body, (status, data) => {
-    res.status(status);
-    res.json(data);
-  });
+  let role = req.decoded.role;
+  let bruker_id = req.decoded.user.bruker_id;
+  console.log(bruker_id);
+  if (role == 'bedrift') {
+    feilDao.oppdaterStatusFeilTilBedrift(req.body,bruker_id, (status, data) => {
+      res.status(status);
+      res.json(data);
+    });
+  } else {
+    res.status(403);
+    res.json({result: false});
+  }
 });
+
+router.post("/api/feil/:feil_id/abonnement", checkToken, (req, res) => {
+  let role = req.decoded.role;
+  let bruker_id = req.decoded.user.bruker_id;
+  if (role == 'privat') {
+    feilDao.abonnerFeil({bruker_id: bruker_id, feil_id: req.params.feil_id}, (status, data) => {
+      res.status(status);
+      res.json(data);
+    });
+  } else {
+    res.status(403);
+    res.json({result: false});
+  }
+});
+
+router.delete("/api/feil/:feil_id/abonnement", checkToken, (req, res) => {
+  let role = req.decoded.role;
+  let bruker_id = req.decoded.user.bruker_id;
+  if (role == 'privat') {
+    feilDao.ikkeAbonnerFeil({bruker_id: bruker_id, feil_id: req.params.feil_id}, (status, data) => {
+      res.status(status);
+      res.json(data);
+    });
+  } else {
+    res.status(403);
+    res.json({result: false});
+  }
+});
+
+
+
 
 module.exports = router;
