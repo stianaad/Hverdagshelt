@@ -4,6 +4,7 @@ import mysql from 'mysql';
 import bodyParser from 'body-parser';
 import HendelseDao from '../dao/hendelsedao.js';
 import {pool} from '../../test/poolsetup';
+import {checkToken} from '../middleware';
 
 let hendelseDao = new HendelseDao(pool);
 
@@ -120,6 +121,35 @@ router.get('/api//hendelser/hovedkategorier', (req, res) => {
     res.json(data);
     console.log('/hentAlleHovedkategorier lengde: ' + data.length);
   });
+});
+
+
+router.post("/api/hendelser/:hendelse_id/abonnement", checkToken, (req, res) => {
+  let role = req.decoded.role;
+  let bruker_id = req.decoded.user.bruker_id;
+  if (role == 'privat') {
+    hendelseDao.abonnerHendelse({bruker_id: bruker_id, hendelse_id: req.params.hendelse_id}, (status, data) => {
+      res.status(status);
+      res.json(data);
+    });
+  } else {
+    res.status(403);
+    res.json({result: false});
+  }
+});
+
+router.delete("/api/hendelser/:hendelse_id/abonnement", checkToken, (req, res) => {
+  let role = req.decoded.role;
+  let bruker_id = req.decoded.user.bruker_id;
+  if (role == 'privat') {
+    hendelseDao.ikkeAbonnerHendelse({bruker_id: bruker_id, hendelse_id: req.params.hendelse_id}, (status, data) => {
+      res.status(status);
+      res.json(data);
+    });
+  } else {
+    res.status(403);
+    res.json({result: false});
+  }
 });
 
 module.exports = router;

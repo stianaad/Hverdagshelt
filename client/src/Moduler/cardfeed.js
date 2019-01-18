@@ -140,7 +140,7 @@ export class FeedEvent extends Component {
                         <br />
                         <Button
                           onClick={() => {
-                            this.props.knapp(this.tekstverdi, this.statusID);
+                            this.props.knapp(this.tekstverdi, this.statusID,this.props.feil_id);
                             this.lukk();
                           }}
                         >

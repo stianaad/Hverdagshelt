@@ -258,8 +258,12 @@ export class Bedrift extends Component {
     );
   }
 
-  oppdater(tekst, statusVerdi, feil_id, bruker_id) {
+  async oppdater(tekst, statusVerdi, feil_id) {
+    console.log(tekst);
     console.log(statusVerdi);
+    console.log(feil_id);
+    let res1 = await feilService.lagOppdatering({"feil_id": feil_id,"kommentar":tekst,"status_id":statusVerdi});
+    await console.log(res1);
   }
 
   async godtaJobb(feil_id) {
