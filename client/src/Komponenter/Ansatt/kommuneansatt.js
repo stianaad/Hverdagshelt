@@ -29,22 +29,24 @@ export class AnsattSide extends Component {
     return (
       <div>
         <PageHeader history={this.props.history} location={this.props.location} />
-        <Grid>
-          <Grid.Column width="3">
-            <div className="ansattMenyContainer">
-              <Menu vertical pointing secondary fluid>
-                <Menu.Item active>Nye feil</Menu.Item>
-                <Menu.Item>Valg2</Menu.Item>
-                <Menu.Item>Valg3</Menu.Item>
-                <Menu.Item>Valg4</Menu.Item>
-                <Menu.Item>Valg5</Menu.Item>
-              </Menu>
-            </div>
-          </Grid.Column>
-          <Grid.Column width="13">
-            <NyeFeil />
-          </Grid.Column>
-        </Grid>
+        <div className="vinduansatt">
+            <Grid>
+                <Grid.Column width="2">
+                    <div className="ansattMenyContainer">
+                    <Menu vertical pointing secondary fluid>
+                        <Menu.Item active>Nye feil</Menu.Item>
+                        <Menu.Item>Valg2</Menu.Item>
+                        <Menu.Item>Valg3</Menu.Item>
+                        <Menu.Item>Valg4</Menu.Item>
+                        <Menu.Item>Valg5</Menu.Item>
+                    </Menu>
+                    </div>
+                </Grid.Column>
+                <Grid.Column width="13">
+                    <NyeFeil />
+                </Grid.Column>
+            </Grid>
+        </div>
       </div>
     );
   }
@@ -91,17 +93,19 @@ export class NyeFeil extends Component {
       <div>
         <Modal open={this.bildeApen} onClose={this.handleClose} basic>
           <Modal.Content>
-            <Image src={this.valgtBilde} size="medium" />
-            <Button basic color="red" inverted>
-              <Icon name="remove" /> No
-            </Button>
-            <Button color="green" inverted>
-              <Icon name="checkmark" /> Yes
-            </Button>
+              <Grid>
+                  <Grid.Row centered>
+                    <img src={this.valgtBilde} className="bildevisning"/>
+                  </Grid.Row>
+                  <Grid.Row centered>
+                    <Button basic color="red" inverted>No</Button>
+                    <Button color="green" inverted>Yes</Button>
+                  </Grid.Row>
+              </Grid>
           </Modal.Content>
         </Modal>
         <Grid stackable>
-          <Grid.Row columns={3}>
+          <Grid.Row columns={4}>
             <Grid.Column />
             <Grid.Column>
               <h1 className="mt-3">Nye feil</h1>
@@ -187,6 +191,10 @@ export class NyeFeil extends Component {
         </Grid>
       </div>
     );
+  }
+
+  async godkjenn(){
+      
   }
 
   scroll() {

@@ -95,7 +95,7 @@
 }
 
 .ansattScroll{
-    height: 700px;
+    heigth: 80%;
     overflow-y: scroll; 
 }
 
@@ -105,4 +105,12 @@
     object-fit: cover;
 
  
+}
+
+.bildevisning{
+    height: 400px;
+}
+
+.vinduansatt{
+    heigth: calc(100vh - 60px);
 }
