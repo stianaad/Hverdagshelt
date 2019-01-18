@@ -93,3 +93,8 @@
 .hoyde-tabell{
     height: 310px;
 }
+
+.ansattScroll{
+    height: 700px;
+    overflow-y: scroll; 
+}

@@ -29,6 +29,8 @@ import { KommuneVelger } from './Moduler/KommuneVelger/kommuneVelger';
 import { KommuneInput } from './Moduler/kommuneInput/kommuneInput';
 import { enHendelse } from './Komponenter/Hendelser/enHendelse';
 
+import {AnsattSide} from './Komponenter/Ansatt/kommuneansatt';
+
 
 class Tabell extends Component {
   render() {
@@ -190,7 +192,8 @@ const routes = () => {
           ) : global.payload.role == 'ansatt' ? (
             //Ansatt routes
             [
-              <Route exact path="/mineoppgaver" component={MineOppgaver} history={history} />
+              <Route exact path="/mineoppgaver" component={MineOppgaver} history={history} />,
+              <Route exact path="/ansattside" component={AnsattSide} history={history}/>
             ]
           ) : global.payload.role == 'bedrift' ? (
             //Bedrift routes
@@ -212,6 +215,8 @@ const routes = () => {
           <Route exact path="/nyheter" component={Menu} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/headertest" component={PageHeader} history={history} />
+          <Route exact path="/ansattest" component={AnsattSide} history={history}/>
+
 
 
           {/*Siden eksisterer ikke/ingen tilgang*/}

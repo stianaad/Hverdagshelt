@@ -1,7 +1,22 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
 import {PageHeader} from '../../Moduler/header/header';
-import {Menu, Card, Feed, Grid, Button, Header, Icon, Input, Image, Modal, List, CardContent, GridColumn} from 'semantic-ui-react';
+import {Menu, 
+    Card, 
+    Feed, 
+    Grid, 
+    Button, 
+    Header, 
+    Icon, 
+    Input, 
+    Image, 
+    Modal, 
+    List, 
+    CardContent, 
+    GridColumn, 
+    Dropdown,
+    TextArea
+} from 'semantic-ui-react';
 import {FeedEvent, Filtrer, Info} from '../../Moduler/cardfeed'
 import {feilService} from '../../services/feilService';
 import {markerTabell,ShowMarkerMap } from '../../Moduler/kart/map';
@@ -85,20 +100,30 @@ export class NyeFeil extends Component{
                         <Card fluid>
                             <Card.Content>
                                 <div>
-                                    <Grid fluid columns={3} verticalAlign="middle">
-                                            <Grid.Column>
+                                    <Grid fluid columns={2} verticalAlign="middle">
+                                            <Grid.Column textAlign="left">
                                                 <h1>{this.valgtfeil.overskrift}</h1>
                                             </Grid.Column>
-                                            <Grid.Column/>
                                             <Grid.Column textAlign="right" fluid>
                                                 <h6>{this.valgtfeil.tid}</h6>
+                                            </Grid.Column>
+                                            <Grid.Column textAlign="left">
+                                                <h6>
+                                                    Status: {' '}
+                                                    <StatusDropdown/>
+                                                </h6>
+                                            </Grid.Column>
+                                            <Grid.Column>
+                                                <Button floated="right" color="red">Slett feil</Button>
                                             </Grid.Column>
                                     </Grid>
                                 </div>
                             </Card.Content>
                             <Card.Content extra>
                                 <div>
-                                    heihei
+                                    <Grid columns={3}>
+                                        <TextArea value={this.valgtfeil.beskrivelse}/>  
+                                    </Grid>
                                 </div>
                             </Card.Content>
                         </Card>                    
@@ -122,5 +147,49 @@ export class NyeFeil extends Component{
         this.valgtfeil = await {...this.nyefeil[0]};
 
         await this.scroll();
+    }
+}
+
+export class StatusDropdown extends Component{
+    statuser = [];
+    render(){
+        return(
+            <div>
+                <select onChange={this.props.onChange} style={{height: 30, width: 140}} className="form-control">
+                    {this.statuser.map(status => (
+                        <option value={status.status_id} key={status.status_id}>
+                            {status.status}
+                        </option>
+                    ))}
+                </select>
+            </div>
+        ); 
+    }
+
+    async mounted(){
+        let alleStatuser = await feilService.hentAlleStatuser();
+        this.statuser = await alleStatuser.data; 
+    }
+}
+
+export class BedriftDropdown extends Component{
+    bedrifter = [];
+    render(){
+        return(
+            <div>
+                <select onChange={this.props.onChange} style={{height: 30, width: 140}} className="form-control">
+                    {this.statuser.map(status => (
+                        <option value={status.status_id} key={status.status_id}>
+                            {status.status}
+                        </option>
+                    ))}
+                </select>
+            </div>
+        ); 
+    }
+
+    async mounted(){
+        let alleStatuser = await feilService();
+        this.statuser = await alleStatuser.data; 
     }
 }
