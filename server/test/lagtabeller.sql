@@ -163,8 +163,8 @@ CREATE TABLE hendfolg(
     hendelse_id INT(11) NOT NULL,
     bruker_id INT(11) NOT NULL,
     PRIMARY KEY (hendelse_id, bruker_id),
-    FOREIGN KEY (hendelse_id) REFERENCES hendelser(hendelse_id),
-    FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id)
+    FOREIGN KEY (hendelse_id) REFERENCES hendelser(hendelse_id) ON DELETE CASCADE,
+    FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE jobbSoknad(

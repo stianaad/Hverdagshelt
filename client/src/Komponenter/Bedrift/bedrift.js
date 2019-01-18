@@ -258,14 +258,20 @@ export class Bedrift extends Component {
     );
   }
 
-  oppdater(tekst, statusVerdi, feil_id, bruker_id) {
+  async oppdater(tekst, statusVerdi, feil_id) {
+    console.log(tekst);
     console.log(statusVerdi);
+    console.log(feil_id);
+    let res1 = await feilService.lagOppdatering({"feil_id": feil_id,"kommentar":tekst,"status_id":statusVerdi});
+    await console.log(res1);
+    await this.hentUnderBehandlingFeil();
+    await this.hentFerdigeFeilBedrift();
   }
 
   async godtaJobb(feil_id) {
     console.log(feil_id);
     this.handleClose();
-    let res = await feilService.oppdaterStatusFeilTilBedrift({feil_id: feil_id, status: 3});
+    let res = await feilService.oppdaterStatusFeilTilBedrift({feil_id: feil_id, status: 4});
     console.log(res.data);
     await this.hentNyeFeil();
     await this.hentUnderBehandlingFeil();
@@ -309,17 +315,17 @@ export class Bedrift extends Component {
     //await console.log(this.nyefeil);
   }
 
-  async mounted() {
-    /*let feil = await feilService.hentAlleFeil();
-        this.alleFeil = await feil.data; 
-        await console.log(this.alleFeil);*/
+  async hentFerdigeFeilBedrift() {
+    let res1 = await feilService.hentFerdigeFeilTilBedrift(); 
+    this.utførte = res1.data;
+    await this.scrollFerdig(); 
+    await console.log(this.utførte); 
+  }
 
+  async mounted() {
     await this.hentNyeFeil();
     await this.hentUnderBehandlingFeil();
-
-    /*this.utførte = await feil.data.filter(e => (e.status === 'Ferdig')); 
-        await this.scrollFerdig(); 
-        await console.log(this.utførte); */
+    await this.hentFerdigeFeilBedrift();
   }
 }
 

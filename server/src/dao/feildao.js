@@ -145,7 +145,8 @@ module.exports = class FeilDao extends Dao {
 
   hentNyeFeilTilBedrift(bruker_id, callback) {
     super.query(
-      "SELECT feil.*, hovedkategori.kategorinavn, DATE_FORMAT(f.tid, '%Y.%m.%d %H:%i') AS tid, kommuner.kommune_navn, kommuner.fylke_navn FROM feil INNER JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id INNER JOIN hovedkategori ON subkategori.hovedkategori_id = hovedkategori.hovedkategori_id INNER JOIN(SELECT feil_id, MIN(tid) AS tid FROM oppdatering GROUP BY feil_id) AS f ON feil.feil_id = f.feil_id INNER JOIN (SELECT feil_id, ANY_VALUE(status_id) AS status_id, MAX(tid) AS tid FROM oppdatering GROUP BY feil_id) AS s ON feil.feil_id = s.feil_id INNER JOIN status ON status.status_id = s.status_id INNER JOIN kommuner ON kommuner.kommune_id = feil.kommune_id INNER JOIN jobbSoknad ON feil.feil_id=jobbSoknad.feil_id AND jobbSoknad.bruker_id=? AND jobbSoknad.status=2",
+      /*"SELECT feil.*, hovedkategori.kategorinavn, DATE_FORMAT(f.tid, '%Y.%m.%d %H:%i') AS tid, kommuner.kommune_navn, kommuner.fylke_navn FROM feil INNER JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id INNER JOIN hovedkategori ON subkategori.hovedkategori_id = hovedkategori.hovedkategori_id INNER JOIN(SELECT feil_id, MIN(tid) AS tid FROM oppdatering GROUP BY feil_id) AS f ON feil.feil_id = f.feil_id INNER JOIN (SELECT feil_id, ANY_VALUE(status_id) AS status_id, MAX(tid) AS tid FROM oppdatering GROUP BY feil_id) AS s ON feil.feil_id = s.feil_id INNER JOIN status ON status.status_id = s.status_id INNER JOIN kommuner ON kommuner.kommune_id = feil.kommune_id INNER JOIN jobbSoknad ON feil.feil_id=jobbSoknad.feil_id AND jobbSoknad.bruker_id=? AND jobbSoknad.status=3"*/
+      "SELECT feil.*, hovedkategori.kategorinavn, DATE_FORMAT(f.tid, '%Y.%m.%d %H:%i') AS tid, kommuner.kommune_navn, kommuner.fylke_navn FROM feil INNER JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id INNER JOIN hovedkategori ON subkategori.hovedkategori_id = hovedkategori.hovedkategori_id INNER JOIN(SELECT feil_id, MAX(tid) AS tid FROM oppdatering GROUP BY feil_id) AS f ON feil.feil_id = f.feil_id INNER JOIN (SELECT feil_id, Max(status_id) AS status_id, MAX(tid) AS tid FROM oppdatering GROUP BY feil_id) AS s ON feil.feil_id = s.feil_id INNER JOIN status ON status.status_id = s.status_id INNER JOIN kommuner ON kommuner.kommune_id = feil.kommune_id INNER JOIN jobbSoknad ON feil.feil_id=jobbSoknad.feil_id AND jobbSoknad.bruker_id=? AND jobbSoknad.status=3",
       [bruker_id],
       callback
     );
@@ -153,17 +154,43 @@ module.exports = class FeilDao extends Dao {
 
   hentUnderBehandlingFeilTilBedrift(bruker_id, callback) {
     super.query(
-      "SELECT feil.*, hovedkategori.kategorinavn, DATE_FORMAT(f.tid, '%Y.%m.%d %H:%i') AS tid, kommuner.kommune_navn, kommuner.fylke_navn FROM feil INNER JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id INNER JOIN hovedkategori ON subkategori.hovedkategori_id = hovedkategori.hovedkategori_id INNER JOIN(SELECT feil_id, MIN(tid) AS tid FROM oppdatering GROUP BY feil_id) AS f ON feil.feil_id = f.feil_id INNER JOIN (SELECT feil_id, ANY_VALUE(status_id) AS status_id, MAX(tid) AS tid FROM oppdatering GROUP BY feil_id) AS s ON feil.feil_id = s.feil_id INNER JOIN status ON status.status_id = s.status_id INNER JOIN kommuner ON kommuner.kommune_id = feil.kommune_id INNER JOIN jobbSoknad ON feil.feil_id=jobbSoknad.feil_id AND jobbSoknad.bruker_id=? AND jobbSoknad.status=3 and status.status_id=2",
+      "SELECT feil.*, hovedkategori.kategorinavn, DATE_FORMAT(f.tid, '%Y.%m.%d %H:%i') AS tid, kommuner.kommune_navn, kommuner.fylke_navn FROM feil INNER JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id INNER JOIN hovedkategori ON subkategori.hovedkategori_id = hovedkategori.hovedkategori_id INNER JOIN(SELECT feil_id, MAX(tid) AS tid FROM oppdatering GROUP BY feil_id) AS f ON feil.feil_id = f.feil_id INNER JOIN (SELECT feil_id, Max(status_id) AS status_id, MAX(tid) AS tid FROM oppdatering GROUP BY feil_id) AS s ON feil.feil_id = s.feil_id INNER JOIN status ON status.status_id = s.status_id INNER JOIN kommuner ON kommuner.kommune_id = feil.kommune_id INNER JOIN jobbSoknad ON feil.feil_id=jobbSoknad.feil_id AND jobbSoknad.bruker_id=? AND jobbSoknad.status=4 AND status.status_id=3",
       [bruker_id],
       callback
     );
   }
 
-  oppdaterStatusFeilTilBedrift(json, callback) {
-    let tabell = [json.status, json.bruker_id, json.feil_id];
+  hentFerdigeFeilTilBedrift(bruker_id, callback) {
+    super.query(
+      "SELECT feil.*, hovedkategori.kategorinavn, DATE_FORMAT(f.tid, '%Y.%m.%d %H:%i') AS tid, kommuner.kommune_navn, kommuner.fylke_navn FROM feil INNER JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id INNER JOIN hovedkategori ON subkategori.hovedkategori_id = hovedkategori.hovedkategori_id INNER JOIN(SELECT feil_id, MAX(tid) AS tid FROM oppdatering GROUP BY feil_id) AS f ON feil.feil_id = f.feil_id INNER JOIN (SELECT feil_id, Max(status_id) AS status_id, MAX(tid) AS tid FROM oppdatering GROUP BY feil_id) AS s ON feil.feil_id = s.feil_id INNER JOIN status ON status.status_id = s.status_id INNER JOIN kommuner ON kommuner.kommune_id = feil.kommune_id INNER JOIN jobbSoknad ON feil.feil_id=jobbSoknad.feil_id AND jobbSoknad.bruker_id=? AND jobbSoknad.status=4 AND status.status_id=4",
+      [bruker_id],
+      callback
+    );
+  }
+
+  oppdaterStatusFeilTilBedrift(json,bruker_id, callback) {
+    let tabell = [json.status, bruker_id, json.feil_id];
     super.query('UPDATE jobbSoknad SET status=? WHERE bruker_id=? AND feil_id=?', tabell, callback);
   }
+
+  sjekkFeilPaaBruker(json, callback) {
+    super.query(
+      'SELECT * FROM feil WHERE bruker_id = ? AND feil_id = ?',
+      [json.bruker_id, json.feil_id],
+      callback
+    );
+  }
+  abonnerFeil(json, callback) {
+    super.query("INSERT INTO feilfolg (feil_id, bruker_id) VALUES (?, ?)", [json.feil_id, json.bruker_id], callback);
+  }
+
+  ikkeAbonnerFeil(json, callback) {
+    super.query("DELETE FROM feilfolg WHERE feil_id=? AND bruker_id=?", [json.feil_id, json.bruker_id], callback);
+  }
+
 };
+
+
 
 /*
 kategori(kategori_id, hoved, kategori)

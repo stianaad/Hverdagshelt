@@ -32,6 +32,7 @@ import {KommuneInput} from './Moduler/kommuneInput/kommuneInput';
 import {enHendelse} from './Komponenter/Hendelser/enHendelse';
 
 import {AnsattSide} from './Komponenter/Ansatt/kommuneansatt';
+import { AbonnerKnapp } from './Moduler/abonner/abonner';
 
 class Tabell extends Component {
   render() {

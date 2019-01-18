@@ -8,6 +8,8 @@ import {PageHeader} from '../../Moduler/header/header';
 import {PositionMap, Marker, MarkerMap, markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
 import {Card, Feed, Grid, Button, Header, Icon, Image, Modal, GridColumn, List} from 'semantic-ui-react';
 import {FeedEvent, FeedHendelse, Filtrer, Info} from '../../Moduler/cardfeed';
+import { brukerService } from '../../services/brukerService';
+import { AbonnerKnapp } from '../../Moduler/abonner/abonner';
 
 export class Hovedside extends Component {
   visFeil = false;
@@ -20,6 +22,7 @@ export class Hovedside extends Component {
   bilderTilFeil = [];
   statusIkon = '';
   markers = [];
+  abonnerteFeil = [];
 
   feil = {
     overskrift: '',
@@ -50,11 +53,10 @@ export class Hovedside extends Component {
 
   async merInfo(feil) {
     this.visFeil = true;
-    console.log(feil.feil_id);
-    console.log(feil.overskrift);
     this.feil = {...feil};
-    console.log(feil.status);
-    console.log(feil.tid.substr(11, 16));
+    console.log(this.abonnerteFeil);
+    this.feil.abonnert =  (this.abonnerteFeil.filter((a) => a.feil_id == feil.feil_id).length > 0);
+    console.log(this.feil);
     let res = await feilService.hentBilderTilFeil(feil.feil_id);
     this.bilderTilFeil = await res.data;
     this.endreStatusIkon(feil.status);
@@ -63,7 +65,6 @@ export class Hovedside extends Component {
   visEnHendelse(hendelse) {
     this.hendelse.overskrift = hendelse.overskrift;
     this.hendelse.beskrivelse = hendelse.beskrivelse;
-    console.log(hendelse.sted);
     this.hendelse.sted = hendelse.sted;
     this.hendelse.url = hendelse.url;
     this.hendelse.tid = hendelse.tid;
@@ -117,7 +118,7 @@ export class Hovedside extends Component {
     return (
       <div>
         <PageHeader history={this.props.history} location={this.props.location} />
-        <div className="mt-3">
+        <div className="mt-3 hovedTittel">
           <Grid columns={3}>
             <Grid.Column />
             <Grid.Column>
@@ -226,9 +227,9 @@ export class Hovedside extends Component {
                           </h1>
                           <h6>
                             Status: {this.feil.status} <img src={this.statusIkon} width="30" height="30" />
-                            <Button floated="right" color="red" size="small">
-                              Abonner
-                            </Button>
+                            {(global.payload && global.payload.role == 'privat') ? (
+                            <div className="float-right"><AbonnerKnapp feil_id={this.feil.feil_id} /></div>
+                            ) : null}
                           </h6>
                         </div>
                       </Card.Content>
@@ -452,6 +453,18 @@ export class Hovedside extends Component {
     );
   }
 
+  async abonnerfeil(feil_id) {
+    if (this.feil.abonnert) {
+      feilService.ikkeAbonner(feil_id);
+      this.feil.abonnert = false;
+    } else {
+      feilService.abonner(feil_id);
+      this.feil.abonnert = true;
+    }
+    let res = await brukerService.finnFolgteFeilTilBruker();
+    this.abonnerteFeil = await res.data;
+  }
+
   async callMap() {
     let res1 = await feilService.hentAlleFeil();
     await Promise.all([res1]).then(() => {
@@ -483,13 +496,15 @@ export class Hovedside extends Component {
     this.alleHendelser = await res3.data;*/
     let res1 = await feilService.hentAlleFeil(),
       res2 = await feilService.hentAlleHovedkategorier(),
-      res3 = await hendelseService.hentAlleHendelser();
+      res3 = await hendelseService.hentAlleHendelser(),
+      res4 = await brukerService.finnFolgteFeilTilBruker();
 
-    [this.alleFeil, this.aktiveFeil, this.alleKategorier, this.alleHendelser] = await Promise.all([
+    [this.alleFeil, this.aktiveFeil, this.alleKategorier, this.alleHendelser, this.abonnerteFeil] = await Promise.all([
       res1.data,
       res1.data,
       res2.data,
       res3.data,
+      res4.data,
     ]);
 
     await this.scrollFeil();
