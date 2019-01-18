@@ -80,8 +80,8 @@ module.exports = class FeilDao extends Dao {
     super.query('DELETE FROM feil WHERE feil_id = ?', [feil_id], callback);
   }
 
-  lagOppdatering(json, callback) {
-    var oppdatering = [json.feil_id, json.kommentar, json.status_id, json.bruker_id];
+  lagOppdatering(json,bruker_id, callback) {
+    var oppdatering = [json.feil_id, json.kommentar, json.status_id, bruker_id];
     super.query(
       'INSERT INTO oppdatering (feil_id, kommentar, status_id, bruker_id) VALUES (?, ?, ?, ?)',
       oppdatering,
@@ -159,11 +159,18 @@ module.exports = class FeilDao extends Dao {
     );
   }
 
-  oppdaterStatusFeilTilBedrift(json, callback) {
-    let tabell = [json.status, json.bruker_id, json.feil_id];
+  oppdaterStatusFeilTilBedrift(json,bruker_id, callback) {
+    let tabell = [json.status, bruker_id, json.feil_id];
     super.query('UPDATE jobbSoknad SET status=? WHERE bruker_id=? AND feil_id=?', tabell, callback);
   }
 
+  sjekkFeilPaaBruker(json, callback) {
+    super.query(
+      'SELECT * FROM feil WHERE bruker_id = ? AND feil_id = ?',
+      [json.bruker_id, json.feil_id],
+      callback
+    );
+  }
   abonnerFeil(json, callback) {
     super.query("INSERT INTO feilfolg (feil_id, bruker_id) VALUES (?, ?)", [json.feil_id, json.bruker_id], callback);
   }
@@ -173,6 +180,8 @@ module.exports = class FeilDao extends Dao {
   }
 
 };
+
+
 
 /*
 kategori(kategori_id, hoved, kategori)

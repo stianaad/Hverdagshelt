@@ -30,7 +30,13 @@ class FeilService {
   }
 
   lagOppdatering(nyOpp) {
-    return api.post('/api/feil/:feil_id/oppdateringer', nyOpp);
+    let token = sessionStorage.getItem('pollett');
+    if (token) {
+    return api.post('/api/feil/oppdateringer/bedrift', nyOpp, {headers: {'x-access-token': 'Bearer ' + token}});
+  } else {
+    console.log('oeifjeoif');
+    return [];
+  }
   }
 
   hentAlleOppdateringerPaaFeil(feil_id) {
@@ -64,7 +70,7 @@ class FeilService {
   hentNyeFeilTilBedrift() {
     let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.get('/api/feil/bedrift', {headers: {'x-access-token': 'Bearer ' + token}});
+      return api.get('/api/feil/bedrift/nyeOppgaver', {headers: {'x-access-token': 'Bearer ' + token}});
     } else {
       console.log('oeifjeoif');
       return [];
@@ -84,7 +90,7 @@ class FeilService {
   oppdaterStatusFeilTilBedrift(jobbSoknadObjekt) {
     let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.put('/api/feil/bedrift/oppdater', jobbSoknadObjekt, {headers: {'x-access-token': 'Bearer ' + token}});
+      return api.put('/api/bedrift/oppdater/feil/godta', jobbSoknadObjekt, {headers: {'x-access-token': 'Bearer ' + token}});
     } else {
       return [];
     }

@@ -117,7 +117,7 @@ module.exports = class BrukerDao extends Dao {
       if (data.length == 0) {
         self.lagNyBruker(json, (status, data) => {
           console.log(status);
-          let gyldig = kontrollOrgnr(toString(json.orgnr));
+          let gyldig = self.kontrollOrgnr(toString(json.orgnr));
           gyldig = Number.isInteger(json.telefon) && json.telefon.length == 8 && json.navn != null;
           if (status == 200 && gyldig) {
             super.query(
@@ -233,6 +233,14 @@ module.exports = class BrukerDao extends Dao {
     super.query(
       'UPDATE bruker SET epost = ?, kommune_id = ? WHERE bruker_id = ?',
       [json.epost, json.kommune_id, rolle.bruker_id],
+      callback
+    );
+  }
+
+  sjekkFeilPaaKommune(json, callback) {
+    super.query(
+      'SELECT * FROM feil WHERE kommune_id = ? AND feil_id = ?',
+      [json.kommnune_id, json.feil_id],
       callback
     );
   }
