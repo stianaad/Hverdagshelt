@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Component } from 'react-simplified';
 import { FormGroup, FormControl} from 'react-bootstrap';
 import { FormInput, GronnKnapp } from '../../widgets';
-import { KommuneInput } from '../../Moduler/KommuneInput/KommuneInput';
+import { KommuneInput } from '../../Moduler/kommuneInput/kommuneInput';
 import { PositionMap } from '../../Moduler/kart/map';
 import { feilService } from '../../services/feilService';
 import { PageHeader } from '../../Moduler/header/header';
