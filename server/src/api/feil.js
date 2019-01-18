@@ -350,7 +350,6 @@ router.get('/api/feil/bedrift/underBehandling', checkToken, (req, res) => {
   }
 });
 
-<<<<<<< HEAD
 router.get('/api/feil/bedrift/ferdig', checkToken, (req, res) => {
   console.log('Fikk GET-request fra klienten');
   let role = req.decoded.role;
@@ -370,9 +369,6 @@ router.get('/api/feil/bedrift/ferdig', checkToken, (req, res) => {
 
 
 router.put('/api/bedrift/oppdater/feil/godta',checkToken, (req, res) => {
-=======
-router.put('/api/feil/bedrift/oppdater', checkToken, (req, res) => {
->>>>>>> master
   console.log('Fikk PUT-request fra klienten');
   let role = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
