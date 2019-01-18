@@ -9,6 +9,7 @@ import {pool} from '../../test/poolsetup';
 import Epost from '../../epost.js';
 import jwt from 'jsonwebtoken';
 import async from 'async';
+import mdw from '../middleware.js';
 
 let brukerDao = new BrukerDao(pool);
 let glemt = new Epost();
@@ -176,7 +177,7 @@ router.post('/api/brukere/admin', (req, res) => {
   });
 });
 
-router.put('/brukere/:bruker_id/nyttpassord', (req, res) => {
+router.post('/brukere/:bruker_id/nyttpassord', (req, res) => {
   passord(req.body.passord).hash((error, hash) => {
     if (error) {
       throw new Error('Noe gikk galt');
@@ -190,15 +191,14 @@ router.put('/brukere/:bruker_id/nyttpassord', (req, res) => {
   });
 });
 
-router.get('/brukere/:bruker_id/nyttpassord', (req, res) => {
+router.post('/brukere/:bruker_id/glemtpassord', (req, res) => {
   brukerDao.hentBruker(req.body, (status, data) => {
     res.status(status);
     res.json(data);
     console.log('hele veien baby');
     if (data[0].epost === req.body.epost) {
-      let tTilBruker = token();
-      let link = 'http://localhost:3000/resett-passord/' + tTilBruker;
-      glemt.glemtPassord('r.vedoy@gmail.com', link);
+      let link = 'http://localhost:3000/resett-passord/' + makeid();
+      glemt.glemtPassord(req.body.epost, link);
     } else {
       throw new Error('Fant ikke bruker');
     }
@@ -251,3 +251,13 @@ router.get('/resetPassord/:token', (req, res) => {
 });
 
 module.exports = router;
+
+function makeid() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < 40; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
+}
