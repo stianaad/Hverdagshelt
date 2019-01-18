@@ -4,6 +4,7 @@ import Dao from './dao.js';
 module.exports = class BrukerDao extends Dao {
   kontrollOrgnr(tall) {
     var sum = 0;
+    tall = tall.toString();
     sum += (parseInt(tall.charAt(0)) + parseInt(tall.charAt(6))) * 3;
     sum += (parseInt(tall.charAt(1)) + parseInt(tall.charAt(7))) * 2;
     sum += parseInt(tall.charAt(2)) * 7;
@@ -70,7 +71,7 @@ module.exports = class BrukerDao extends Dao {
       if (data.length == 0) {
         self.lagNyBruker(json, (status, data) => {
           console.log(status);
-          let gyldig = json.fornavn != null && json.etternavn != null;
+          let gyldig = (json.fornavn != null) && (json.etternavn != null);
           if (status == 200 && gyldig) {
             super.query(
               'INSERT INTO privat (bruker_id, fornavn, etternavn) VALUES(?,?,?)',
@@ -116,12 +117,8 @@ module.exports = class BrukerDao extends Dao {
     self.finnBruker_id(json, (status, data) => {
       if (data.length == 0) {
         self.lagNyBruker(json, (status, data) => {
-          console.log(status);
-          let gyldig = self.kontrollOrgnr(toString(json.orgnr));
-          console.log(json.orgnr);
-          console.log(self.kontrollOrgnr(toString(json.orgnr)));
-          let gyldig2 = Number.isInteger(json.telefon) && json.telefon.length == 8 && json.navn != null;
-          if (status == 200 && gyldig && gyldig2) {
+          let gyldig = (self.kontrollOrgnr(json.orgnr) && json.telefon.length == 8 && json.navn != null);
+          if (status == 200 && gyldig) {
             super.query(
               'INSERT INTO bedrift (bruker_id, orgnr, navn, telefon) VALUES(?,?,?,?)',
               [data.insertId, json.orgnr, json.navn, json.telefon],
