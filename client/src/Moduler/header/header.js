@@ -78,7 +78,7 @@ export class ProfileButton extends Component {
                         <div style={{width: "170px"}} className="dropdown-menu dropdown-menu-right dropdownbox brukerbox" id="drops">
                             <div className="arrow"></div>
                             <div className="arrowborder"></div>
-                            <Link to="/minside/11"><div className="dropdown-item">Min side</div></Link>
+                            <Link to="/minside"><div className="dropdown-item">Min side</div></Link>
                             <div className="dropdown-item">Instillinger</div>
                             <div onClick={this.loggut} className="dropdown-item">Logg ut</div>
                         </div>

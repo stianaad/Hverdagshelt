@@ -265,67 +265,40 @@ const routes = () => {
           <Route exact path="/hendelser/:id" component={enHendelse} />
 
           {/*Under ligger spesielle routes*/}
-          {global.payload == null
-            ? //Ikke logget inn
-              [
-                <Route
-                  exact
-                  path="/registrering"
-                  component={Registrering}
-                  history={history}
-                />,
-                <Route exact path="/glemt-passord" component={GlemtPassord} />,
-                <Redirect from="/meldfeil" to="/" />,
-                <Redirect from="/minside/:bruker_id" to="/" />,
-                <Redirect from="/mineoppgaver" to="/" />,
-              ]
-            : global.payload.role == 'privat'
-            ? //Privatbruker routes
-              [
-                <Route
-                  exact
-                  path="/meldfeil"
-                  component={MeldFeil}
-                  history={history}
-                />,
-                <Route
-                  exact
-                  path="/minside/:bruker_id"
-                  component={Minside}
-                  history={history}
-                />,
-              ]
-            : global.payload.role == 'ansatt'
-            ? //Ansatt routes
-              [
-                <Route
-                  exact
-                  path="/mineoppgaver"
-                  component={MineOppgaver}
-                  history={history}
-                />,
-                <Route
-                  exact
-                  path="/registrerBedrift"
-                  component={RegistrerBedrift}
-                  history={history}
-                />,
-              ]
-            : global.payload.role == 'bedrift'
-            ? //Bedrift routes
-              []
-            : global.payload.role == 'admin'
-            ? //Admin routes
-              [
-                <Route
-                  exact
-                  path="/meldfeil"
-                  component={MeldFeil}
-                  history={history}
-                />,
-              ]
-            : null}
+          {global.payload == null ? (
+            //Ikke logget inn
+            [
+              <Route exact path="/registrering" component={Registrering} history={history} />,
+              <Route exact path="/glemt-passord" component={GlemtPassord} />,
+              <Redirect from="/meldfeil" to="/" />,
+              <Redirect from="/minside"  to="/" />,
+              <Redirect from="/mineoppgaver"  to="/" />
+            ]
+          ) : global.payload.role == 'privat' ? (
+            //Privatbruker routes
+            [
+              <Route exact path="/meldfeil" component={MeldFeil} history={history} />,
+              <Route exact path="/minside" component={Minside} history={history} />
+            ]
+          ) : global.payload.role == 'ansatt' ? (
+            //Ansatt routes
+            [
+              <Route exact path="/mineoppgaver" component={MineOppgaver} history={history} />,
+              <Route exact path="/registrerBedrift" component={RegistrerBedrift} history={history} />
+            ]
+          ) : global.payload.role == 'bedrift' ? (
+            //Bedrift routes
+            [
 
+            ]
+          ) : global.payload.role == 'admin' ? (
+            //Admin routes
+            [
+              <Route exact path="/meldfeil" component={MeldFeil} history={history} />
+            ]
+          ) : null}
+
+          
           {/*legg test-routes under*/}
           <Route
             exact

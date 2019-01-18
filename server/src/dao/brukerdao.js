@@ -1,6 +1,8 @@
 import Dao from './dao.js';
 
+//  7 av 13 funksjoner testes
 module.exports = class BrukerDao extends Dao {
+  
   kontrollOrgnr(tall){
     var sum = 0;
     sum += (parseInt(tall.charAt(0))+parseInt(tall.charAt(6)))*3;
@@ -36,6 +38,7 @@ module.exports = class BrukerDao extends Dao {
     }
   }
 
+  //testes
   finnBruker_id(json, callback) {
     let epost = [json.epost];
     super.query('SELECT bruker_id FROM bruker WHERE epost=?', epost, callback);
@@ -65,6 +68,7 @@ module.exports = class BrukerDao extends Dao {
     );
   }
 
+  //testes
   lagNyPrivatBruker(json, callback) {
     let self = this;
     self.finnBruker_id(json, (status, data) => {
@@ -88,19 +92,30 @@ module.exports = class BrukerDao extends Dao {
     });
   }
 
+  //testes
   lagNyAnsattBruker(json, callback) {
     let self = this;
-    self.lagNyBruker(json, (status, data) => {
-      self.finnBrukerid(json, (status, data) => {
-        super.query(
-          'INSERT INTO ansatt VALUES(?,?,?,?)',
-          [res.json(data), json.fornavn, json.etternavn, json.telefon],
-          callback
-        );
-      });
+    self.finnBruker_id(json, (status, data) => {
+      if (data.length == 0) {
+        self.lagNyBruker(json, (status, data) => {
+          console.log(status);
+          if (status == 200) {
+            super.query(
+              'INSERT INTO ansatt (bruker_id, fornavn, etternavn, telefon) VALUES(?,?,?,?)',
+              [data.insertId, json.fornavn, json.etternavn, json.telefon],
+              callback
+            );
+          } else {
+            callback(403, {error: 'Empty promise.'});
+          }
+        });
+      } else {
+        callback(403, {error: 'E-post eksisterer allerede.'});
+      }
     });
   }
 
+  //testes
   lagNyBedriftBruker(json, callback) {
     let self = this;
     self.finnBruker_id(json, (status, data) => {
@@ -125,19 +140,29 @@ module.exports = class BrukerDao extends Dao {
     });
   }
 
+  //testes
   lagNyAdminBruker(json, callback) {
     let self = this;
-    self.lagNyBruker(json, (status, data) => {
-      self.finnBrukerid(json, (status, data) => {
-        super.query(
-          'INSERT INTO admin VALUES(?,?,?)',
-          [res.json(data), json.telefon, json.navn],
-          callback
-        );
-      });
+    self.finnBruker_id(json, (status, data) => {
+      if (data.length == 0) {
+        self.lagNyBruker(json, (status, data) => {
+          console.log(status);
+          if (status == 200) {
+            super.query(
+              'INSERT INTO admin (bruker_id, telefon, navn) VALUES(?,?,?)',
+              [data.insertId, json.telefon, json.navn,],
+              callback
+            );
+          } else {
+            callback(403, {error: 'Empty promise.'});
+          }
+        });
+      } else {
+        callback(403, {error: 'E-post eksisterer allerede.'});
+      }
     });
   }
-
+  
   hentBruker(json, callback) {
     let tabell = [json.epost];
     console.log(tabell + 'bruker dao');
@@ -148,6 +173,7 @@ module.exports = class BrukerDao extends Dao {
     super.query('SELECT * FROM bruker', [], callback);
   }
 
+  //testes
   endrePassord(json, callback) {
     const tabell = [json.passord, json.epost];
     super.query('UPDATE bruker SET passord=? WHERE epost=?', tabell, callback);
@@ -162,4 +188,47 @@ module.exports = class BrukerDao extends Dao {
       callback
     );
   }
-};
+
+  oppdaterSpesifisertBruker(json, rolle, callback) {
+    console.log('inne i oppdaterSpesifisertBruker');
+    if(rolle == 'privat') {
+      console.log('oppdaterer bruker');
+      this.oppdaterBruker(json, (status, data) => {
+        console.log('oppdaterer privat');
+        super.query('UPDATE privat SET fornavn = ?, etternavn = ? WHERE bruker_id = ?',
+        [json.fornavn, json.etternavn, json.bruker_id],
+        callback);
+      });
+    } else if (rolle == 'bedrift') {
+      console.log('oppdaterer bruker');
+      this.oppdaterBruker(json, (status, data) => {
+        console.log('oppdaterer bedrift');
+        super.query('UPDATE bedrift SET orgnr = ?, navn = ?, telefon = ? WHERE bruker_id = ?',
+        [json.orgnr, json.navn, json.telefon, json.bruker_id],
+        callback);
+      });
+    } else if (rolle == 'ansatt') {
+      console.log('oppdaterer bruker');
+      this.oppdaterBruker(json, (status, data) => {
+        console.log('oppdaterer ansatt');
+        super.query('UPDATE ansatt SET fornavn = ?, etternavn = ?, telefon = ? WHERE bruker_id = ?',
+        [json.fornavn, json.etternavn, json.telefon, json.bruker_id],
+        callback);
+      });
+    } else { 
+      console.log('oppdaterer bruker');
+      this.oppdaterBruker(json, (status, data) => {
+        console.log('oppdaterer admin');
+        super.query('UPDATE admin SET telefon = ?, navn = ? WHERE bruker_id = ?',
+        [json.telefon, json.navn, json.bruker_id],
+        callback);
+      });
+    }
+  }
+
+  oppdaterBruker(json, callback) {
+    super.query('UPDATE bruker SET epost = ?, kommune_id = ? WHERE bruker_id = ?',
+    [json.epost, json.kommune_id, json.bruker_id], 
+    callback);
+  }
+ };

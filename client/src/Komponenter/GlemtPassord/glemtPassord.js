@@ -54,12 +54,10 @@ export class GlemtPassord extends Component{
     }
 
     lagre(){
-      console.log('Send epost')
       let epost = this.epost;
-      console.log(epost);
-      brukerService.hentbrukere()
-      .then(brukerepost =>(this.eksisterendeEpost = brukerepost))
-     // brukerService.glemtPassord(epost).catch((error: Error) => Alert.danger(error.message))
+      if (epost) {
+        brukerService.glemtPassord({epost: epost}).catch((error) => Alert.danger(error.message));
+      }
     }
 
 
