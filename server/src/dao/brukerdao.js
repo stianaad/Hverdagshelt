@@ -237,6 +237,14 @@ module.exports = class BrukerDao extends Dao {
     );
   }
 
+  sjekkFeilPaaKommune(json, callback) {
+    super.query(
+      'SELECT * FROM feil WHERE kommune_id = ? AND feil_id = ?',
+      [json.kommnune_id, json.feil_id],
+      callback
+    );
+  }
+
   hentBedrifter(callback) {
     super.query('SELECT * FROM bedrift', [], callback);
   }

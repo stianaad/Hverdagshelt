@@ -163,7 +163,17 @@ module.exports = class FeilDao extends Dao {
     let tabell = [json.status, json.bruker_id, json.feil_id];
     super.query('UPDATE jobbSoknad SET status=? WHERE bruker_id=? AND feil_id=?', tabell, callback);
   }
+
+  sjekkFeilPaaBruker(json, callback) {
+    super.query(
+      'SELECT * FROM feil WHERE bruker_id = ? AND feil_id = ?',
+      [json.bruker_id, json.feil_id],
+      callback
+    );
+  }
 };
+
+
 
 /*
 kategori(kategori_id, hoved, kategori)
