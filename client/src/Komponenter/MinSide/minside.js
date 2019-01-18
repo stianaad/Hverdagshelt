@@ -50,7 +50,7 @@ export class Minside extends Component {
                     </Modal.Header>*/}
                     <Modal.Content>
                         <div>
-                            <Card fluid="true">
+                            <Card fluid>
                                 <Card.Content>
                                     <div>
                                         <h1>
@@ -132,8 +132,8 @@ export class Minside extends Component {
                 </Modal>
 
                 <h1 className="text-center">Min side</h1>
-                <div className="row ">
-                    <div className="col mt-3 ml-3">
+                <div className="row minRow">
+                    <div className="col-sm-3 mt-3 ml-3" id="sideListe">
                     <h2> </h2>
                     <Card fluid="true">
                   <Card.Content>
@@ -175,12 +175,13 @@ export class Minside extends Component {
                   </Card.Content>
                 </Card>
                     </div>
-                    <div className="col mt-3">
+                    <div className="col-sm-3 mt-3">
+                    <div className="columnCenter">
                     <h2>Hendelser du følger</h2>
                     <Card.Group itemsPerRow={1}>
                         {this.folgteHendelser.map(hendelse => (
-                            <Card >
-                            <Image src={hendelse.bilde}/>
+                            <Card className="feilCard">
+                            <Image src={hendelse.bilde} className="feilCardImage"/>
                             <Card.Content>
                                 <Card.Header>{hendelse.overskrift}</Card.Header>
                                 <Card.Description><img className="mr-2"
@@ -192,24 +193,28 @@ export class Minside extends Component {
                         ))}
                     </Card.Group>
                     </div>
-                    <div className="col mt-3">
+                    </div>
+                    <div className="col-sm-3 mt-3">
+                    <div className="columnCenter">
                         <h2>Feil/mangler du følger</h2>
                         <Card.Group itemsPerRow={1}>
                         {this.folgteFeil.map(feil => (
-                            <Card>
-                                <Image src={feil.url} className="feilCard"/>
+                            <Card className="feilCard">
+                                <Image src={feil.url} className="feilCardImage"/>
                                 <Card.Content>
                                     <Card.Header>{feil.overskrift}</Card.Header>
                                     <Card.Description><img className="mr-2"
                                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Simple_icon_time.svg/750px-Simple_icon_time.svg.png"
                                 height="20"
-                                width="25"/>{feil.tid}</Card.Description>
+                                width="25"
+                                />{feil.tid}</Card.Description>
                                 </Card.Content>
                             </Card>
                         ))}
                     </Card.Group>
                     </div>
-                    <div className="col">
+                    </div>
+                    <div className="col-sm-3">
 
                     </div>
                 </div>
