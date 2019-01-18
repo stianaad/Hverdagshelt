@@ -207,13 +207,13 @@ router.post('/api/feil/oppdateringer/bedrift',checkToken, (req, res) => {
   let a = {
     feil_id: req.body.feil_id,
     kommentar: req.body.kommentar,
-    status_id: req.body.status_id
+    status_id: req.body.status_id,
+    bruker_id: req.decoded.user.bruker_id
   };
   let role = req.decoded.role;
-  let bruker_id = req.decoded.user.bruker_id;
   console.log("hehehehehehehehehhe");
   if (role == 'bedrift') {
-    feilDao.lagOppdatering(a,bruker_id, (status, data) => {
+    feilDao.lagOppdatering(a, (status, data) => {
       console.log('Ny oppdatering laget:');
       res.status(status);
       res.json(data);
