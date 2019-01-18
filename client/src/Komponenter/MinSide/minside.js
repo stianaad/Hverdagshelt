@@ -56,7 +56,7 @@ export class Minside extends Component {
                                         <h1>
                                             {this.valgtFeil.overskrift}
                                             <NavLink
-                                                to={'/minside/11'}
+                                                to={'/minside'}
                                                 onClick={this.handleClose}
                                             >
                                                 <img
@@ -235,13 +235,13 @@ export class Minside extends Component {
     }
 
     async mounted(){
-        await this.finnFeilBruker(this.props.match.params.bruker_id);
+        await this.finnFeilBruker();
 
-        let res2 = await brukerService.finnFolgteFeilTilBruker(this.props.match.params.bruker_id);
+        let res2 = await brukerService.finnFolgteFeilTilBruker();
         this.folgteFeil = await res2.data;
         await console.log(res2.data);
 
-        let res3 = await brukerService.finnFolgteHendelserTilBruker(this.props.match.params.bruker_id);
+        let res3 = await brukerService.finnFolgteHendelserTilBruker();
         this.folgteHendelser = await res3.data;
         await console.log(res3.data);
     }

@@ -183,7 +183,7 @@ export class Registrering extends Component {
   }
 
   lagre() {
-    let valid = true;
+    let gyldig = true;
 
     let bruker = new Privat(
       0,
@@ -196,29 +196,29 @@ export class Registrering extends Component {
 
     if (!bruker.kommune_id){
       this.advarsel = "Vennligst oppgi gyldig kommune"
-      valid = false;
+      gyldig = false;
     }
 
     if (bruker.fornavn === "" || bruker.etternavn === ""){
       this.advarsel = 'Fyll ut begge navnboksene';
-      valid = false;
+      gyldig = false;
     }
 
     if (bruker.passord.length < 8) {
       this.passAdvarsel = 'Passord må være minst 8 tegn';
-      valid = false;
+      gyldig = false;
     }
 
     if (this.brukerInput.bekreftPass != bruker.passord) {
       this.advarsel = 'Passord stemmer ikke overens';
-      valid = false;
+      gyldig = false;
     }
 
     if (!bruker.epost.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
       this.advarsel = 'E-post er ikke gyldig';
-      valid = false;
+      gyldig = false;
     }
-    if (valid) {
+    if (gyldig) {
       brukerService.lagNyPrivatBruker(bruker).then((res) => {
         this.props.history.push('/');
       })

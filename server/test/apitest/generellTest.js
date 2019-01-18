@@ -4,6 +4,7 @@ import Generelldao from '../../src/dao/generelldao.js';
 import BrukerDao from '../../src/dao/brukerdao.js';
 import runsqlfile from '../runsqlfile.js';
 import FeilDao from '../../src/dao/feildao';
+import HendelseDao from '../../src/dao/hendelsedao'
 //import {Hendelse} from '../../../client/src/services/hendelseService';
 
 var pool = mysql.createPool({
@@ -19,6 +20,7 @@ var pool = mysql.createPool({
 let generelldao = new Generelldao(pool);
 let feildao = new FeilDao(pool);
 let brukerdao = new BrukerDao(pool);
+let hendelsedao = new HendelseDao(pool);
 
 let testprivatBruker = {
   epost: 'testprivat@test.com',
@@ -70,7 +72,21 @@ let oppdaterFeil1 = {
   beskrivelse: 'Kjør da pls',
   lengdegrad: 0.2,
   breddegrad: 0.3
-};
+}
+
+let testhendelse = {
+  bruker_id: 2,
+  hendelse_id: 1,
+  hendelseskategori_id: 1,
+  kommune_id: 54,
+  overskrift: 'testoverskrift',
+  tid: ('2019-11-20'),
+  beskrivelse: 'testbeskrivelse',
+  sted: 'teststed',
+  bilde: 'https://bjornost.tihlde.org/hverdagshelt/19af4f8c745a62973e2cd615eaf329fa',
+  lengdegrad: 0.1,
+  breddegrad: 0.2
+}
 
 beforeAll(done => {
   runsqlfile('lagtabeller.sql', pool, () => {
@@ -291,7 +307,7 @@ test('Hent alle hendelser', done => {
     expect(data[0].overskrift).toBe('Overskrift1');
     done();
   }
-  feildao.hentAlleHendelser(callback);
+  hendelsedao.hentAlleHendelser(callback);
 });
 
 test('Hent en hendelse', done => {
@@ -303,21 +319,43 @@ test('Hent en hendelse', done => {
     expect(data[0].overskrift).toBe('Overskrift2');
     done();
   }
-  feildao.hentEnHendelse({ hendelse_id: 2 }, callback);
+  hendelsedao.hentEnHendelse({ hendelse_id: 2 }, callback);
 });
-/*
+
 test('Lag ny hendelse', done => {
   function callback(status, data){
     console.log(
       'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
     );
-    expect(data.length).toBeGreaterThanOrEqual(2);
-    expect(data[0].overskrift).toBe('Overskrift1');
+    expect(data.affectedRows).toBe(1);
     done();
   }
-  feildao.hentAlleHendelser(callback);
+  hendelsedao.lagNyHendelse(testhendelse, callback);
 });
-*/
+
+test('Filtrer hendelser på kategori', done => {
+  function callback(status, data){
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.length).toBeGreaterThanOrEqual(1);
+    expect(data[0].hendelse_id).toBe(1);
+    done();
+  }
+  hendelsedao.filtrerHendelserPaaKategori({hendelseskategori_id: 1}, callback);
+});
+
+test('Filtrer hendelser kommune', done => {
+  function callback(status, data){
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.length).toBe(1);
+    done();
+  }
+  hendelsedao.filtrerHendelserPaaKommune({kommune_id: 12}, callback);
+});
+
 //GENERELLTESTER
 test('hent alle kommuner', done => {
   function callback(status, data){

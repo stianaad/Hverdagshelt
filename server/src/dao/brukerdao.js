@@ -2,17 +2,39 @@ import Dao from './dao.js';
 
 //  7 av 13 funksjoner testes
 module.exports = class BrukerDao extends Dao {
-  //testes
+  
+  kontrollOrgnr(tall){
+    var sum = 0;
+    sum += (parseInt(tall.charAt(0))+parseInt(tall.charAt(6)))*3;
+    sum += (parseInt(tall.charAt(1))+parseInt(tall.charAt(7)))*2;
+    sum += (parseInt(tall.charAt(2)))*7;
+    sum += (parseInt(tall.charAt(3)))*6;
+    sum += (parseInt(tall.charAt(4)))*5;
+    sum += (parseInt(tall.charAt(5)))*4;
+  
+    var rest = (sum % 11);
+    
+    var kontroll = -1;
+  
+    if (rest != 1) {
+      kontroll = 11 - rest;
+    }
+  
+    return (kontroll == parseInt(tall.charAt(8)));
+  }
+
   lagNyBruker(json, callback) {
     const tabell = [json.epost, json.passord, json.kommune_id];
-    if (json.epost.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+    let gyldig = json.epost.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+    gyldig = (json.kommune_id != null);
+    if (gyldig) {
       super.query(
         'INSERT INTO bruker (bruker_id, epost, passord, kommune_id) VALUES(DEFAULT,?,?,?)',
         tabell,
         callback
       );
     } else {
-      callback(403, {error: 'Ugyldig e-post.'});
+      callback(403, {error: 'Ugyldig input.'});
     }
   }
 
@@ -53,7 +75,8 @@ module.exports = class BrukerDao extends Dao {
       if (data.length == 0) {
         self.lagNyBruker(json, (status, data) => {
           console.log(status);
-          if (status == 200) {
+          let gyldig = (json.fornavn != null && json.etternavn != null);
+          if (status == 200 && gyldig) {
             super.query(
               'INSERT INTO privat (bruker_id, fornavn, etternavn) VALUES(?,?,?)',
               [data.insertId, json.fornavn, json.etternavn],
@@ -99,7 +122,9 @@ module.exports = class BrukerDao extends Dao {
       if (data.length == 0) {
         self.lagNyBruker(json, (status, data) => {
           console.log(status);
-          if (status == 200) {
+          let gyldig = kontrollOrgnr(toString(json.orgnr));
+          gyldig = (Number.isInteger(json.telefon) && json.telefon.length == 8 && json.navn != null);
+          if (status == 200 && gyldig) {
             super.query(
               'INSERT INTO bedrift (bruker_id, orgnr, navn, telefon) VALUES(?,?,?,?)',
               [data.insertId, json.orgnr, json.navn, json.telefon],
@@ -163,4 +188,47 @@ module.exports = class BrukerDao extends Dao {
       callback
     );
   }
-};
+
+  oppdaterSpesifisertBruker(json, rolle, callback) {
+    console.log('inne i oppdaterSpesifisertBruker');
+    if(rolle == 'privat') {
+      console.log('oppdaterer bruker');
+      this.oppdaterBruker(json, (status, data) => {
+        console.log('oppdaterer privat');
+        super.query('UPDATE privat SET fornavn = ?, etternavn = ? WHERE bruker_id = ?',
+        [json.fornavn, json.etternavn, json.bruker_id],
+        callback);
+      });
+    } else if (rolle == 'bedrift') {
+      console.log('oppdaterer bruker');
+      this.oppdaterBruker(json, (status, data) => {
+        console.log('oppdaterer bedrift');
+        super.query('UPDATE bedrift SET orgnr = ?, navn = ?, telefon = ? WHERE bruker_id = ?',
+        [json.orgnr, json.navn, json.telefon, json.bruker_id],
+        callback);
+      });
+    } else if (rolle == 'ansatt') {
+      console.log('oppdaterer bruker');
+      this.oppdaterBruker(json, (status, data) => {
+        console.log('oppdaterer ansatt');
+        super.query('UPDATE ansatt SET fornavn = ?, etternavn = ?, telefon = ? WHERE bruker_id = ?',
+        [json.fornavn, json.etternavn, json.telefon, json.bruker_id],
+        callback);
+      });
+    } else { 
+      console.log('oppdaterer bruker');
+      this.oppdaterBruker(json, (status, data) => {
+        console.log('oppdaterer admin');
+        super.query('UPDATE admin SET telefon = ?, navn = ? WHERE bruker_id = ?',
+        [json.telefon, json.navn, json.bruker_id],
+        callback);
+      });
+    }
+  }
+
+  oppdaterBruker(json, callback) {
+    super.query('UPDATE bruker SET epost = ?, kommune_id = ? WHERE bruker_id = ?',
+    [json.epost, json.kommune_id, json.bruker_id], 
+    callback);
+  }
+ };

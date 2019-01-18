@@ -81,7 +81,7 @@ export class ResettPassord extends Component{
             alert('Passordene er ikke like');
             return false;
         }else{
-            brukerService.endrePassord(this.passord);
+            brukerService.resettPassord({passord: this.passord}, this.props.match.params.token);
         }
     }
 
