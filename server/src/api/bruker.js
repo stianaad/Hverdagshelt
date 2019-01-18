@@ -193,13 +193,14 @@ router.get('/resetPassord/:token', (req, res) => {
   }
 });
 
-router.put('/api/bruker', checkToken, (req, res) => {
-  let role = req.decoded.role;
+router.put('/api/brukere', checkToken, (req, res) => {
+  let rolle = {bruker_id: req.decoded.user.bruker_id, rolle: req.decoded.role};
+
   
-  oppdaterSpesifisertBruker(req.body, role, (status, data) => {
+  brukerDao.oppdaterSpesifisertBruker(req.body, rolle, (status, data) => {
     res.status(status);
     res.json(data);
-    console.log('/hentEnFeil resultat:' + data);
+    console.log('oppdater en bruker resultat:' + data);
   });
 });
 
