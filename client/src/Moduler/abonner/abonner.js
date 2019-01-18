@@ -9,11 +9,9 @@ export class AbonnerKnapp extends Component {
 
     render() {
         return (
-            <>
-                {this.abonnert != null && (
-                    <button onClick={()=>{this.klikk()}} style={{width: "90px"}} className={this.abonnert ? "btn btn-success" : "btn btn-danger"}>{this.abonnert ? "Abonnerer" : "Abonner"}</button>
-                )}
-            </>
+
+                    <button disabled={this.abonnert==null} onClick={()=>{this.klikk()}} style={{width: "90px"}} className={this.abonnert ? "btn btn-success" : "btn btn-danger"}>{this.abonnert ? "Abonnerer" : "Abonner"}</button>
+
         );
     }
 
