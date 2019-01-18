@@ -20,13 +20,39 @@ let generelldao = new Generelldao(pool);
 let feildao = new FeilDao(pool);
 let brukerdao = new BrukerDao(pool);
 
-let testprivatBruker1 = {
-  epost: 'ø@g.com',
+let testprivatBruker = {
+  epost: 'testprivat@test.com',
   passord: '1234567890',
   kommune_id: 1,
   fornavn: 'Øivind',
   etternavn: 'Larsson'
 };
+
+let testBedriftbruker = {
+  epost: 'testbedrift@test.com',
+  passord: 'qwertyui',
+  kommune_id: 22,
+  orgnr: 987654321,
+  navn: 'testBedrift',
+  telefon: 10203040
+}
+
+let testAnsattbruker = {
+  epost: 'testansatt@test.com',
+  passord: 'asdfghjk',
+  kommune_id: 23,
+  fornavn: 'test',
+  etternavn: 'ansatt',
+  telefon: 40302010
+}
+
+let testAdminbruker = {
+  epost: 'admin@test.com',
+  passord: 'zxcvbnml',
+  kommune_id: 24,
+  telefon: 10101010,
+  navn: 'testadmin'
+}
 
 let testoppdatering = {
   feil_id: 2,
@@ -69,6 +95,39 @@ test('legg til ny privatbruker', done => {
   brukerdao.lagNyPrivatBruker(testprivatBruker1, callback);
 });
 
+test('legg til ny ansattbruker', done => {
+  function callback(status, data) {
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  brukerdao.lagNyAnsattBruker(testAnsattbruker, callback);
+});
+
+test('legg til ny bedriftbruker', done => {
+  function callback(status, data) {
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  brukerdao.lagNyBedrifBruker(testBedriftbruker, callback);
+});
+
+test('legg til ny adminbruker', done => {
+  function callback(status, data) {
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  brukerdao.lagNyPrivatBruker(testAdminbruker, callback);
+});
+
 test('oppdater feil', done => {
   function callback(status, data) {
     console.log(
@@ -101,7 +160,6 @@ test('hent brukerid', done => {
   }
   brukerdao.finnBruker_id({epost: 'epost10@hotmail.com'}, callback);
 });
-
 
 test('hent alle kommuner', done => {
   function callback(status, data){
