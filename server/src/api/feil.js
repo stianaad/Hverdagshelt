@@ -306,7 +306,7 @@ router.delete('/api/feil/:feil_id/bilder/:bilde_id', checkToken, (req, res) => {
     feilDao.sjekkFeilPaaBruker(b, (status, data) => {
       if(data[0].length == 0) {
         res.status(403);
-        res.json(result: false);
+        res.json({result: false});
       } else {
         feilDao.slettBildeFraFeil(a, (status, data) => {
           res.status(status);
@@ -350,11 +350,7 @@ router.get('/api/feil/bedrift/underBehandling', checkToken, (req, res) => {
   }
 });
 
-<<<<<<< HEAD
 router.put('/api/feil/bedrift/oppdater', checkToken, (req, res) => {
-=======
-router.put('/api/bedrift/oppdater/feil/godta',checkToken, (req, res) => {
->>>>>>> bd2e29d312cb052b8bd37f14d42ccdccf009fc8e
   console.log('Fikk PUT-request fra klienten');
   let role = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
