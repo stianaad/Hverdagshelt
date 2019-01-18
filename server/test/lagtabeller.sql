@@ -166,3 +166,13 @@ CREATE TABLE hendfolg(
     FOREIGN KEY (hendelse_id) REFERENCES hendelser(hendelse_id),
     FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE jobbSoknad(
+	bruker_id INT(11) NOT NULL,
+    feil_id INT(11) NOT NULL,
+    status  INT(11) NOT NULL DEFAULT 2,
+    PRIMARY KEY (bruker_id,feil_id),
+    FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id),
+    FOREIGN KEY (feil_id) REFERENCES feil(feil_id),
+    FOREIGN KEY (status) REFERENCES status(status_id)
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;

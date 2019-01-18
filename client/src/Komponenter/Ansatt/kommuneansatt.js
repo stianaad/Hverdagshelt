@@ -1,11 +1,27 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
 import {PageHeader} from '../../Moduler/header/header';
-import {Menu, Card, Feed, Grid, Button, Header, Icon, Input, Image, Modal, List, CardContent, GridColumn} from 'semantic-ui-react';
+import {Menu, 
+    Card, 
+    Feed, 
+    Grid, 
+    Button, 
+    Header, 
+    Icon, 
+    Input, 
+    Image, 
+    Modal, 
+    List, 
+    CardContent, 
+    GridColumn, 
+    Dropdown,
+    TextArea
+} from 'semantic-ui-react';
 import {FeedEvent, Filtrer, Info} from '../../Moduler/cardfeed'
 import {feilService} from '../../services/feilService';
 import {markerTabell,ShowMarkerMap } from '../../Moduler/kart/map';
 import {NavLink} from 'react-router-dom';
+import { brukerService } from '../../services/brukerService';
 
 export class AnsattSide extends Component{
     render(){
@@ -41,16 +57,50 @@ export class NyeFeil extends Component{
         overskrift: "",
         beskrivelse: ""
     }
+    valgtBilde = "";
+    bilder = [];
+
+    feilApen = false; 
+    bildeApen = false; 
+
+    visBilde(url){
+        this.valgtBilde = url; 
+        this.bildeApen = true; 
+    }
+
+    handleClose(){
+        this.bildeApen = false; 
+    }
 
     visFeil(feil){
         this.valgtfeil = {...feil};
+        this.hentFeil(feil);
         console.log("Feil kopieres: " + this.valgtfeil);
+        this.feilApen = true; 
+    }
+
+    async hentFeil(feil){
+        let res = await feilService.hentBilderTilFeil(feil.feil_id);
+        this.bilder = await res.data; 
+        console.log("bilder: " + this.bilder);
     }
 
     render(){
         return(
             <div>
-                <Grid>
+                <Modal open={this.bildeApen} onClose={this.handleClose} basic>
+                    <Modal.Content>
+                        <Image src={this.valgtBilde} size="medium"/>
+                        <Button basic color='red' inverted>
+                            <Icon name='remove' /> No
+                        </Button>
+                        <Button color='green' inverted>
+                            <Icon name='checkmark' /> Yes
+                        </Button>
+                    </Modal.Content>
+                    
+                </Modal>
+                <Grid stackable>
                     <Grid.Row columns={3}>
                         <Grid.Column/>
                         <Grid.Column>
@@ -82,26 +132,60 @@ export class NyeFeil extends Component{
                         </div>
                     </Grid.Column>
                     <Grid.Column width="11">
+                        {this.feilApen ? (
                         <Card fluid>
                             <Card.Content>
                                 <div>
-                                    <Grid fluid columns={3} verticalAlign="middle">
-                                            <Grid.Column>
+                                    <Grid fluid columns={2} verticalAlign="middle">
+                                            <Grid.Column textAlign="left">
                                                 <h1>{this.valgtfeil.overskrift}</h1>
                                             </Grid.Column>
-                                            <Grid.Column/>
                                             <Grid.Column textAlign="right" fluid>
                                                 <h6>{this.valgtfeil.tid}</h6>
+                                            </Grid.Column>
+                                            <Grid.Column textAlign="left">
+                                                <h6>
+                                                    Status: {' '}
+                                                    {this.valgtfeil.status}
+                                                    
+                                                </h6>
+                                            </Grid.Column>
+                                            <Grid.Column>
+                                                <Button floated="right" color="red">Slett feil</Button>
+                                                <Button floated="right" color="green">Godkjenn</Button>
                                             </Grid.Column>
                                     </Grid>
                                 </div>
                             </Card.Content>
                             <Card.Content extra>
                                 <div>
-                                    heihei
+                                    <Grid columns={3} fluid stackable>
+                                        <Grid.Column>
+                                            <TextArea value={this.valgtfeil.beskrivelse} rows="6"/> 
+                                        </Grid.Column>
+                                        <Grid.Column>
+                                            KART
+                                        </Grid.Column>
+                                        <Grid.Column>
+                                            <Grid columns={2} fluid>
+                                                {this.bilder.map(bilde => (
+                                                    <Grid.Column>
+                                                        <div onClick={() => this.visBilde(bilde.url)}>
+                                                            <img src={bilde.url} className="bilder"/>
+                                                        </div>
+                                                    </Grid.Column>
+                                                ))}
+                                            </Grid>
+                                        </Grid.Column>
+                                    </Grid>
                                 </div>
                             </Card.Content>
-                        </Card>                    
+                        </Card>
+                        ): (
+                            <div>
+                                Trykk på feil
+                            </div>
+                        )}                 
                     </Grid.Column>
                 </Grid>
             </div>
@@ -121,6 +205,53 @@ export class NyeFeil extends Component{
         this.nyefeil = await feil.data.filter(e => (e.status === 'Ikke godkjent'));
         this.valgtfeil = await {...this.nyefeil[0]};
 
+        let res = await feilService.hentBilderTilFeil(this.valgtfeil.feil_id);
+        this.bilder = await res.data; 
+
         await this.scroll();
+    }
+}
+
+export class StatusDropdown extends Component{
+    statuser = [];
+    render(){
+        return(
+            <div>
+                <select onChange={this.props.onChange} style={{height: 30, width: 140}} className="form-control">
+                    {this.statuser.map(status => (
+                        <option value={status.status_id} key={status.status_id}>
+                            {status.status}
+                        </option>
+                    ))}
+                </select>
+            </div>
+        ); 
+    }
+
+    async mounted(){
+        let alleStatuser = await feilService.hentAlleStatuser();
+        this.statuser = await alleStatuser.data; 
+    }
+}
+
+export class BedriftDropdown extends Component{
+    bedrifter = [];
+    render(){
+        return(
+            <div>
+                <select onChange={this.props.onChange} style={{height: 30, width: 140}} className="form-control">
+                    {this.bedrifter.map(bedrift => (
+                        <option value={bedrift.bruker_id} key={bedrift.bruker_id}>
+                            {bedrift.navn}
+                        </option>
+                    ))}
+                </select>
+            </div>
+        ); 
+    }
+
+    async mounted(){
+        let alleBedrifter = await brukerService.hentBedrifter();
+        this.bedrifter = await alleBedrifter.data; 
     }
 }
