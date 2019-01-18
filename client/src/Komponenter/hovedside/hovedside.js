@@ -158,7 +158,7 @@ export class Hovedside extends Component {
                     </Card.Content>
                     <Card.Content className={this.classFeil}>
                       <Feed>
-                        {this.aktiveFeil.map((feil) => (
+                        {this.aktiveFeil.filter((feil) => (feil.kommune_navn.toLowerCase() == this.props.match.params.kommune.toLowerCase())).map((feil) => (
                           <FeedEvent
                             onClick={() => this.merInfo(feil)}
                             status={feil.status}
@@ -201,7 +201,7 @@ export class Hovedside extends Component {
               </div>
               <div className="col-sm-8">
                 {this.visFeil ? (
-                  <div className="mr-3 mb-3">
+                  <div className="mr-3 mb-3" style={{position: "absolute", zIndex: "10000000", width: "calc(100% - 44px)"}}>
                     <Card fluid>
                       <Card.Content>
                         <div>
@@ -237,7 +237,7 @@ export class Hovedside extends Component {
                           </Grid.Column>
                           <Grid.Column>
                             <h6>Posisjon</h6>
-                            <ShowMarkerMap key={this.feil.feil_id} width="100%" height="100%" id="posmap" feil={this.feil} />
+                            <ShowMarkerMap /*key={this.feil.feil_id}*/ width="100%" height="100%" id="posmap" feil={this.feil} />
                           </Grid.Column>
                           <Grid.Column>
                             <h6>Oppdateringer: </h6>
@@ -288,7 +288,7 @@ export class Hovedside extends Component {
                       </Modal.Content>
                     </Modal>
                   </div>
-                ) : (
+                ) : null }
                   <div className="row">
                     <div className="col-sm-6 text-center">
                       <div>
@@ -336,7 +336,7 @@ export class Hovedside extends Component {
                       </div>
                     </div>
                   </div>
-                )}
+                
               </div>
             </div>
           </div>
@@ -451,10 +451,10 @@ export class Hovedside extends Component {
   }
 
   async callMap() {
-    let res1 = await feilService.hentAlleFeil();
-    await Promise.all([res1]).then(() => {
-      this.kart.addMarkers(res1.data);
-    });
+    /*let res1 = await feilService.hentAlleFeil();
+    await Promise.all([res1]).then(() => {*/
+      this.kart.addMarkers(this.aktiveFeil.filter((feil) => (feil.kommune_navn == this.props.match.params.kommune)));
+    //});
   }
 
   scrollFeil() {
@@ -480,8 +480,8 @@ export class Hovedside extends Component {
     let res3 = await hendelseService.hentAlleHendelser();
     this.alleHendelser = await res3.data;*/
     let res1 = await feilService.hentAlleFeil(),
-      res2 = await feilService.hentAlleHovedkategorier(),
-      res3 = await hendelseService.hentAlleHendelser();
+        res2 = await feilService.hentAlleHovedkategorier(),
+        res3 = await hendelseService.hentAlleHendelser();
 
     [this.alleFeil, this.aktiveFeil, this.alleKategorier, this.alleHendelser] = await Promise.all([
       res1.data,
