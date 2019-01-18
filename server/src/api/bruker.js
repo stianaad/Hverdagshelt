@@ -8,6 +8,7 @@ import { callbackify } from 'util';
 import { pool } from '../../test/poolsetup';
 import Epost from '../../epost.js';
 import jwt from 'jsonwebtoken';
+import secret from '../config.json';
 import async from 'async';
 import mdw from '../middleware.js';
 import { checkToken } from '../middleware';
@@ -179,13 +180,14 @@ router.post('/api/brukere/admin', (req, res) => {
   });
 });
 
-router.post('/brukere/:bruker_id/nyttpassord', (req, res) => {
+router.post('/api/brukere/nyttpassord', checkToken, (req, res) => {
+  let epost = req.decoded.user.epost;
   passord(req.body.passord).hash((error, hash) => {
     if (error) {
       throw new Error('Noe gikk galt');
     }
     req.body.passord = hash;
-    brukerDao.endrePassord(req.body, (status, data) => {
+    brukerDao.endrePassord({passord: req.body.passord, epost: epost}, (status, data) => {
       res.status(status);
       res.json(data);
     });
@@ -193,14 +195,16 @@ router.post('/brukere/:bruker_id/nyttpassord', (req, res) => {
   });
 });
 
-router.post('/brukere/:bruker_id/glemtpassord', (req, res) => {
+router.post('/api/brukere/glemtpassord', (req, res) => {
   brukerDao.hentBruker(req.body, (status, data) => {
     res.status(status);
     res.json(data);
     console.log('hele veien baby');
     if (data[0].epost === req.body.epost) {
-      let link = 'http://localhost:3000/resett-passord/' + makeid();
-      glemt.glemtPassord(req.body.epost, link);
+      genenererEpostPollett(req.body.epost, (token) => {
+        let link = 'http://localhost:3000/resett-passord/' + token;
+        glemt.glemtPassord(req.body.epost, link);
+      });
     } else {
       throw new Error('Fant ikke bruker');
     }
@@ -275,12 +279,10 @@ router.get('/resetPassord/:token', (req, res) => {
 
 module.exports = router;
 
-function makeid() {
-  var text = "";
-  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-  for (var i = 0; i < 40; i++)
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-  return text;
+const genenererEpostPollett = (epost, callback) => {
+  console.log(secret.secret);
+  jwt.sign({user: {epost: epost}}, secret.secret, { expiresIn: 900 }, (err, token) => {
+    console.log(err);
+    callback(token);
+  });
 }

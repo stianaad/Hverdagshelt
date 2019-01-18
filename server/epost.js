@@ -142,7 +142,7 @@ module.exports = class epost {
 
     let subject = "Glemt passord";
 
-    let html = '<div style="margin-left:36px"><p>Nytt passord:</p><p>'+"Bruk denne linken for å resette ditt passord: " + link + '</p></div>'
+    let html = '<div style="margin-left:36px"><p>Nytt passord:</p><p>'+"<a href=\"" + link + "\">Klikk her</a> for å resette ditt passord.</p></div>"
     + '<div style="float:left;margin-top:45px"><img src="http://gdurl.com/BbIX" width="280"/></div>'
     + '<div style="margin-left:15px;margin-top:80px"><p>E-post: contact@HverdagsHelt.no</p>'
     + '<p>tlf: +47 00 00 00 00</p><p>Prosjekt HverdagsHelt</p></div>';
