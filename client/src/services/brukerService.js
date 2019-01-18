@@ -54,6 +54,10 @@ class BrukerService {
   finnFolgteHendelserTilBruker(bruker_id){
     return api.get('/api/bruker/finnFolgteHendelser/'+bruker_id);
   }
+
+  hentBedrifter(){
+    return api.get('/api/bedrifter');
+  }
 }
 
 export let brukerService = new BrukerService();

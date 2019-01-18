@@ -163,4 +163,8 @@ module.exports = class BrukerDao extends Dao {
       callback
     );
   }
+
+  hentBedrifter(callback) {
+    super.query('SELECT * FROM bedrift', [], callback);
+  }
 };

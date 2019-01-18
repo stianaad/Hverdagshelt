@@ -251,6 +251,16 @@ router.get('/resetPassord/:token', (req, res) => {
   }
 });
 
+router.get('/api/bedrifter', (req, res) => {
+  console.log('Fikk GET-request fra klienten');
+
+  brukerDao.hentBedrifter((status, data) => {
+    res.status(status);
+    res.json(data);
+    console.log('/hentAlleBedrifter lengde' + data.length);
+  });
+});
+
 module.exports = router;
 
 function makeid() {
