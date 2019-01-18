@@ -224,7 +224,7 @@ export class Hovedside extends Component {
                           <h6>
                             Status: {this.feil.status} <img src={this.statusIkon} width="30" height="30" />
                             {(global.payload && global.payload.role == 'privat') ? (
-                            <div className="float-right"><AbonnerKnapp feil_id={this.feil.feil_id} /></div>
+                            <div className="float-right"><AbonnerKnapp key={this.feil.feil_id} feil_id={this.feil.feil_id} /></div>
                             ) : null}
                           </h6>
                         </div>
@@ -237,7 +237,7 @@ export class Hovedside extends Component {
                           </Grid.Column>
                           <Grid.Column>
                             <h6>Posisjon</h6>
-                            <ShowMarkerMap width="100%" height="100%" id="posmap" feil={this.feil} />
+                            <ShowMarkerMap key={this.feil.feil_id} width="100%" height="100%" id="posmap" feil={this.feil} />
                           </Grid.Column>
                           <Grid.Column>
                             <h6>Oppdateringer: </h6>
@@ -293,6 +293,7 @@ export class Hovedside extends Component {
                     <div className="col-sm-6 text-center">
                       <div>
                         <MarkerMap
+                          key={this.props.match.params.kommune}
                           width="100%"
                           height="calc(100vh - 300px)"
                           id="test"
