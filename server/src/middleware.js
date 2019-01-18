@@ -61,15 +61,10 @@ export let createToken = (req, res, next) => {
             };
             let rolle = {role: ''};
 
-            if (roller.privatbruker == 1) {
-              rolle.role = 'privat';
-            } else if (roller.ansatt == 1) {
-              rolle.role = 'ansatt';
-            } else if (roller.bedrift == 1) {
-              rolle.role = 'bedrift';
-            } else {
-              rolle.role = 'admin';
-            }
+            if      (roller.privatbruker == 1)  {rolle.role = 'privat';} 
+            else if (roller.ansatt == 1)        {rolle.role = 'ansatt';}
+            else if (roller.bedrift == 1)       {rolle.role = 'bedrift';}
+            else                                {rolle.role = 'admin';}
             console.log(rolle.role);
             jwt.sign({user: user, role: rolle.role}, secret.secret, {expiresIn: '1d'}, (err, token) => {
               console.log(err);
