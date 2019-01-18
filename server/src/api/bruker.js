@@ -26,7 +26,7 @@ const hashPassord = (inputPassord) => {
     inputPassord = hash;
   });
 };
-
+ 
 // Verifisere passord
 
 export let verifiserePassord = (inputpassord, eksisterendePassord) => {

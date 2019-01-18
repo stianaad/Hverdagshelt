@@ -150,7 +150,7 @@ test('Lag ny feil', done => {
   feildao.lagNyFeil(oppdaterFeil1, callback);
 });
 
-/*
+
 test('slett feil', done => {
   function callback(status, data) {
     console.log('Test callback: status' + status + ', data: ' + JSON.stringify(data));
@@ -159,8 +159,9 @@ test('slett feil', done => {
   }
   feildao.slettFeil({feil_id: 1}, callback);
 })
-*/
 
+
+/*
 test('Opprett ny oppdatering', done => {
   function callback(status, data){
     console.log(
@@ -171,7 +172,7 @@ test('Opprett ny oppdatering', done => {
   }
   feildao.lagOppdatering(testoppdatering, callback);
 });
-
+*/
 
 test('hentAlleOppdateringerPaaFeil', done => {
   function callback(status, data){
