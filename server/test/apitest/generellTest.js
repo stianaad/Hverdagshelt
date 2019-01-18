@@ -74,7 +74,7 @@ let oppdaterFeil1 = {
   breddegrad: 0.3
 }
 
-let testHendelse = {
+let testhendelse = {
   bruker_id: 2,
   hendelse_id: 1,
   hendelseskategori_id: 1,
