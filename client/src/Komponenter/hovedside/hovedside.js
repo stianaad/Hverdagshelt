@@ -9,6 +9,7 @@ import {PositionMap, Marker, MarkerMap, markerTabell, ShowMarkerMap} from '../..
 import {Card, Feed, Grid, Button, Header, Icon, Image, Modal, GridColumn, List} from 'semantic-ui-react';
 import {FeedEvent, FeedHendelse, Filtrer, Info} from '../../Moduler/cardfeed';
 import { brukerService } from '../../services/brukerService';
+import { AbonnerKnapp } from '../../Moduler/abonner/abonner';
 
 export class Hovedside extends Component {
   visFeil = false;
@@ -227,9 +228,7 @@ export class Hovedside extends Component {
                           <h6>
                             Status: {this.feil.status} <img src={this.statusIkon} width="30" height="30" />
                             {(global.payload && global.payload.role == 'privat') ? (
-                            <Button onClick={() => {this.abonnerfeil(this.feil.feil_id)}} floated="right" color="red" size="small">
-                              {this.feil.abonnert ? "Abonnerer" : "Abonner"}
-                            </Button>
+                            <div className="float-right"><AbonnerKnapp feil_id={this.feil.feil_id} /></div>
                             ) : null}
                           </h6>
                         </div>
