@@ -165,7 +165,7 @@ export class Minside extends Component {
                             status={feil.status}
                             tid={feil.tid}
                             kategori={feil.kategorinavn}
-                            fjern={() => this.fjernFeil(feil.feil_id)}
+                            fjern={() => {this.fjernFeil(feil.feil_id)}}
                             onClick={() => this.handleOpen(feil)}
                           >
                             {feil.overskrift}

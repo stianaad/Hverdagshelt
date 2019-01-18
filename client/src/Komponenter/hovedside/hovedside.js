@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Component, sharedComponentData} from 'react-simplified';
-import {HashRouter, Route, NavLink, Redirect, Switch} from 'react-router-dom';
+import {HashRouter, Route, Link, NavLink, Redirect, Switch} from 'react-router-dom';
 import {generellServices} from '../../services/generellServices';
 import {feilService} from '../../services/feilService';
 import {hendelseService} from '../../services/hendelseService';
@@ -140,16 +140,17 @@ export class Hovedside extends Component {
             </Grid.Column>
             <Grid.Column>
               <div className="text-center mt-3 mr-3">
-                <Button color="red" size="large" floated="right" onClick={this.meldInnfeil}>Meld inn feil</Button>
+                <Link to="/meldfeil" ><Button color="red" size="large" floated="right">Meld inn feil</Button></Link>
               </div>
             </Grid.Column>
           </Grid>
         </div>
         {!this.visHendelser ? (
+          <div>
           <div className="row mt-4">
             <div className="col-sm-4">
               <div className="ml-3 mb-3">
-                <Card fluid>
+                <Card fluid style={{height:"calc(100vh - 300px)"}}>
                   <Card.Content>
                     <Card.Header>
                       Nylige feil og mangler
@@ -242,9 +243,9 @@ export class Hovedside extends Component {
                         </h6>
                       </div>
                     </Card.Content>
-                    <Card.Content extra>
-                      <Grid fluid columns={3}>
-                        <Grid.Column>
+                    <Card.Content extra style={{height: "calc(100vh - 415px)", overflowY:"auto"}}>
+                      <Grid fluid columns={3} style={{height:"100%"}}>
+                        <Grid.Column style={{overflowY:"auto"}}>
                           <h6>Beskrivelse: </h6>
                           <p>{this.feil.beskrivelse}</p>
                         </Grid.Column>
@@ -252,7 +253,7 @@ export class Hovedside extends Component {
                         <h6>Posisjon</h6>
                             <ShowMarkerMap
                               width="100%"
-                              height="250px"
+                              height="100%"
                               id="posmap"
                               feil={this.feil}
                             />
@@ -314,7 +315,7 @@ export class Hovedside extends Component {
                     <div >
                       <MarkerMap
                         width="100%"
-                        height="365px"
+                        height="calc(100vh - 300px)"
                         id="test"
                         center={this.props.match.params.kommune}
                         callback={this.callMap}
@@ -359,6 +360,7 @@ export class Hovedside extends Component {
                 </div>
               )}
             </div>
+          </div>
           </div>
         ) : (
           <div className="row mt-4">
@@ -474,10 +476,6 @@ export class Hovedside extends Component {
         )}
       </div>
     );
-  }
-
-  meldInnfeil(){
-    this.props.history.push("/meld-feil");
   }
 
   async callMap() {

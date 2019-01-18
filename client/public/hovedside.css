@@ -42,12 +42,12 @@ nav ul{
 }
 
 .hovedsideScroll{
-   height: 310px;    
+   height: calc(100vh - 350px);    
    overflow-y: scroll; 
 }
 
 .hovedsideTabeller{
-   height: 310px;
+   height: calc(100vh - 350px);
 }
    
 .leaflet-top{
