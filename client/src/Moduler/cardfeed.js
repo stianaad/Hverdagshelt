@@ -38,7 +38,7 @@ export class FeedEvent extends Component{
                 
                 <Feed.Event>
                 {(this.props.status !== "Under behandling") ? ((this.props.status === 'Ikke godkjent') ? (<Feed.Label image={"/warningicon.png"}/>)
-                                : (<Feed.Label image={"/successicon.png"}/>)) : (<Feed.Label image={"/processingicon.png"}/>)}
+                                : (<Feed.Label image={"/successicon.png"}/>)) : (<Feed.Label image={"/processingicon.png"}/>)}     
                     <Feed.Content >
                         <a onClick={this.props.onClick}>
                             {this.dato(this.props.tid)}
@@ -46,6 +46,8 @@ export class FeedEvent extends Component{
                                 {this.props.children}
                             </Feed.Summary>
                             <span><i>{this.props.kategori}</i></span>
+                            <br/>
+                            Sak ID: {this.props.feil_id}  
                         </a>
                     </Feed.Content>
                 </Feed.Event>

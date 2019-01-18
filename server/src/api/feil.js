@@ -239,4 +239,23 @@ router.delete('/api/feil/:feil_id/bilder/:bilde_id', (req, res) => {
   });
 });
 
+router.get('/api/feil/bedrift/:bruker_id', (req, res) => {
+  console.log('Fikk GET-request fra klienten');
+
+  feilDao.hentFeilTilBedrift(req.params.bruker_id, (status, data) => {
+    res.status(status);
+    res.json(data);
+  });
+});
+
+router.put('/api/feil/bedrift/oppdater', (req, res) => {
+  console.log('Fikk PUT-request fra klienten');
+
+  feilDao.oppdaterStatusFeilTilBedrift(req.body, (status, data) => {
+    res.status(status);
+    res.json(data);
+  });
+});
+
+
 module.exports = router;

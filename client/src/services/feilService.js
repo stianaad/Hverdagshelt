@@ -62,6 +62,14 @@ class FeilService {
   slettBildeFraFeil(info) {
     return api.delete('/api/feil/:feil_id/bilder/:bilde_id', info);
   }
+
+  hentFeilTilBedrift(bruker_id){
+    return api.get('/api/feil/bedrift/'+bruker_id);
+  }
+
+  oppdaterStatusFeilTilBedrift(jobbSoknadObjekt){
+    return api.put('/api/feil/bedrift/oppdater',jobbSoknadObjekt);
+  }
 }
 
 export let feilService = new FeilService();
