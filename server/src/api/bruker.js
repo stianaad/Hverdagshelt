@@ -14,36 +14,8 @@ import mdw from '../middleware.js';
 import { checkToken } from '../middleware';
 
 let brukerDao = new BrukerDao(pool);
-let glemt = new Epost();
+let epostTjener = new Epost();
 
-// Hashe passord
-
-const hashPassord = (inputPassord) => {
-  return passord(inputPassord).hash((error, hash) => {
-    if (error) {
-      throw new Error('Noe gikk galt');
-    }
-    console.log(inputPassord);
-    console.log(hash);
-    inputPassord = hash;
-  });
-};
-
-// Verifisere passord
-
-export let verifiserePassord = (inputpassord, eksisterendePassord) => {
-  passord(inputpassord).verifyAgainst(
-    eksisterendePassord,
-    (error, verified) => {
-      if (error) throw new Error('Noe gikk galt!');
-      if (!verified) {
-        console.log('Feil passord');
-      } else {
-        console.log('Sjekk ok!');
-      }
-    }
-  );
-};
 
 /**
  * Endepunkt
@@ -61,62 +33,6 @@ router.post('/api/brukere', (req, res) => {
       res.json(data);
       console.log('Den nye IDen er:', data.insertId);
     });
-  });
-});
-
-/*
- * Hasher først passordet, deretter kalles dao for å hente hash i database,
- * deretter verifiseres passorded som er skrevet inn mot det i databasen.
- */
-/*
-router.post("/sjekkPassord",(req,res)=>{
-  console.log("Sjekk passord");
-	passord(req.body.passord).hash((error,hash) => {
-		if(error){
-			throw new Error('Noge gjekk galt');
-    }
-    let info = {epost: req.body.epost, passord: hash};
-    brukerDao.hentBruker(info, (status, data) => {
-      res.status(status);
-      if (data.length > 0) {
-        verifiserePassord(hash, data[0].passord);
-      } else {
-        res.json({res: 'feil'});
-      }
-    });
-  });
-});*/
-//
-router.post('/api/sjekkPassord', (req, res) => {
-  /*passord("passord1").hash((error, hash) => {
-    if (error) {
-      throw new Error('Noe gikk galt');
-    }
-    console.log(hash);
-  })*/
-  console.log(req.body.epost);
-  brukerDao.hentBruker(req.body, (status, data) => {
-    //verifiserePassord(req.body.passord,data[0].passord);
-    if (data.length > 0) {
-      passord(req.body.passord).verifyAgainst(
-        data[0].passord,
-        (error, verified) => {
-          if (error) throw new Error('Noe gikk galt!');
-          if (!verified) {
-            console.log('false1');
-            res.json({ result: false });
-          } else {
-            console.log(data[0].bruker_id);
-            res.json({ result: true, bruker_id: data[0].bruker_id });
-          }
-        }
-      );
-    } else {
-      console.log('false2');
-      res.json({ result: false });
-    }
-    //res.status(status);
-    //res.json(data);
   });
 });
 
@@ -203,7 +119,7 @@ router.post('/api/brukere/glemtpassord', (req, res) => {
     if (data[0].epost === req.body.epost) {
       genenererEpostPollett(req.body.epost, (token) => {
         let link = 'http://localhost:3000/resett-passord/' + token;
-        glemt.glemtPassord(req.body.epost, link);
+        epostTjener.glemtPassord(req.body.epost, link);
       });
     } else {
       throw new Error('Fant ikke bruker');
@@ -272,7 +188,7 @@ router.get('/resetPassord/:token', (req, res) => {
     brukerDao.endrePassord(req.body, (status, data) => {
       res.status(status);
       res.json(data);
-      glemt.resattPassord(req.body.epost, 'http://localhost:3000/');
+      epostTjener.resattPassord(req.body.epost, 'http://localhost:3000/');
     });
   }
 });
