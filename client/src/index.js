@@ -196,7 +196,7 @@ const routes = () => {
           ) : global.payload.role == 'bedrift' ? (
             //Bedrift routes
             [
-
+              <Route exact path="/mineoppgaver" component={Bedrift} history={history} />
             ]
           ) : global.payload.role == 'admin' ? (
             //Admin routes
@@ -213,6 +213,7 @@ const routes = () => {
           <Route exact path="/nyheter" component={Menu} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/headertest" component={PageHeader} history={history} />
+          <Route exact path="/bedriftsoppgaver" component={Bedrift} history={history} />
 
 
           {/*Siden eksisterer ikke/ingen tilgang*/}

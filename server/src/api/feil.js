@@ -242,7 +242,16 @@ router.delete('/api/feil/:feil_id/bilder/:bilde_id', (req, res) => {
 router.get('/api/feil/bedrift/:bruker_id', (req, res) => {
   console.log('Fikk GET-request fra klienten');
 
-  feilDao.hentFeilTilBedrift(req.params.bruker_id, (status, data) => {
+  feilDao.hentNyeFeilTilBedrift(req.params.bruker_id, (status, data) => {
+    res.status(status);
+    res.json(data);
+  });
+});
+
+router.get('/api/feil/bedrift/underBehandling/:bruker_id', (req, res) => {
+  console.log('Fikk GET-request fra klienten');
+
+  feilDao.hentUnderBehandlingFeilTilBedrift(req.params.bruker_id, (status, data) => {
     res.status(status);
     res.json(data);
   });

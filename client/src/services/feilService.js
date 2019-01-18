@@ -63,8 +63,12 @@ class FeilService {
     return api.delete('/api/feil/:feil_id/bilder/:bilde_id', info);
   }
 
-  hentFeilTilBedrift(bruker_id){
+  hentNyeFeilTilBedrift(bruker_id){
     return api.get('/api/feil/bedrift/'+bruker_id);
+  }
+
+  hentUnderBehandlingFeilTilBedrift(bruker_id){
+    return api.get('api/feil/bedrift/underBehandling/'+bruker_id);
   }
 
   oppdaterStatusFeilTilBedrift(jobbSoknadObjekt){

@@ -14,6 +14,7 @@ export class Bedrift extends Component{
     alleFeil = [];
     bilderTilFeil = []; 
     oppdateringer = []; 
+    visGodkjennJobb = false;
 
     valgtFeil = {
         overskrift: "",
@@ -73,7 +74,7 @@ export class Bedrift extends Component{
                                             <NavLink
                                                 to={'/bedriftsoppgaver/'}
                                                 onClick={this.handleClose}
-                                            >
+                                                >
                                                 <img
                                                 className="float-right"
                                                 src="https://image.freepik.com/free-icon/x_318-27992.jpg"
@@ -84,13 +85,13 @@ export class Bedrift extends Component{
                                         </h1>
                                         <h6>Status: {this.valgtFeil.status}{' '}
                                             <img src='/warningicon.png' width="30" height="30" />
-                                            <Button floated='right' color='red' size="small"
+                                            {(this.visGodkjennJobb) ? (<span><Button floated='right' color='red' size="small"
                                             onClick={() => {this.avslaJobb(this.valgtFeil.feil_id)}}>
                                             Ikke godta</Button>
                                             <Button floated='right' color='green' size="small"
                                             onClick={() => {this.godtaJobb(this.valgtFeil.feil_id)}}>
                                             Godta jobb
-                                            </Button>
+                                            </Button></span>) : (null)}
                                         </h6>
                                     </div>
                                 </Card.Content>
@@ -111,6 +112,7 @@ export class Bedrift extends Component{
                                             />
                                         </Grid.Column>
                                         <Grid.Column>
+                                        <div className="oppdateringScroll">
                                         <List>
                                             <List.Item>
                                                 <List.Content>
@@ -137,6 +139,7 @@ export class Bedrift extends Component{
                                                 </List.Content>
                                             </List.Item>
                                         </List>
+                                        </div>
                                         <Image.Group size='tiny'>
                                             <Image src="/lofoten.jpg" />
                                             <Image src="/lofoten.jpg" />
@@ -171,7 +174,7 @@ export class Bedrift extends Component{
                                     </Card.Content>
                                     <Card.Content className={this.classNye}>
                                         {this.nyefeil.map(feil => (
-                                            <FeedEvent onClick={() => this.handleOpen(feil)}
+                                            <FeedEvent onClick={() => {this.handleOpen(feil);this.visGodkjennJobb=true;}}
                                                 status ={"Ikke godkjent"}
                                                 tid={feil.tid}
                                                 feil_id={feil.feil_id}
@@ -194,9 +197,12 @@ export class Bedrift extends Component{
                                     </Card.Content>
                                     <Card.Content className={this.classUnderB}>
                                         {this.underBehandling.map(feil => (
-                                            <FeedEvent onClick={() => this.handleOpen(feil)}
-                                                status ={feil.status}
+                                            <FeedEvent onClick={() => {this.handleOpen(feil);this.visGodkjennJobb=false;}}
+                                                status ={"Under behandling"}
                                                 tid={feil.tid}
+                                                visRedigering="true"
+                                                knapp = {this.knapp}
+                                                feil_id={feil.feil_id}
                                                 kategori ={feil.kategorinavn}>
                                                 {feil.overskrift}
                                             </FeedEvent>
@@ -217,7 +223,7 @@ export class Bedrift extends Component{
 
                                     <Card.Content className={this.classFerdig}>
                                         {this.utførte.map(feil => (
-                                                <FeedEvent onClick={() => this.handleOpen(feil)}
+                                                <FeedEvent onClick={() => {this.handleOpen(feil);this.visGodkjennJobb=false;}}
                                                     status ={feil.status}
                                                     tid={feil.tid}
                                                     kategori ={feil.kategorinavn}>
@@ -235,14 +241,18 @@ export class Bedrift extends Component{
         );
     }
 
+    oppdater(tekst,statusVerdi,feil_id,bruker_id){
+        console.log(statusVerdi);
+
+    }
+
     async godtaJobb(feil_id){
         console.log(feil_id);
         this.handleClose();
         let res = await feilService.oppdaterStatusFeilTilBedrift({"bruker_id": 7,"feil_id":feil_id,"status":3});
         console.log(res.data);
-        let hentFeilTilBedrift = await feilService.hentFeilTilBedrift(7);
-        this.nyefeil = await hentFeilTilBedrift.data;
-        await this.scrollNye();
+        await this.hentNyeFeil(7);
+        await this.hentUnderBehandlingFeil(7);
     }
 
     avslaJobb(feil_id){
@@ -268,23 +278,32 @@ export class Bedrift extends Component{
         }
     }
 
+    async hentNyeFeil(id){
+        let hentNyeFeilTilBedrift = await feilService.hentNyeFeilTilBedrift(id);
+        this.nyefeil = await hentNyeFeilTilBedrift.data;
+        await this.scrollNye();
+        //await console.log(this.nyefeil);
+    }
+
+    async hentUnderBehandlingFeil(id){
+        let underBehandling = await feilService.hentUnderBehandlingFeilTilBedrift(id);
+        this.underBehandling = await underBehandling.data;
+        await this.scrollUnderB();
+        //await console.log(this.nyefeil);
+    }
+
     async mounted(){
         let feil = await feilService.hentAlleFeil();
         this.alleFeil = await feil.data; 
         await console.log(this.alleFeil);
 
-        let hentFeilTilBedrift = await feilService.hentFeilTilBedrift(7);
-        this.nyefeil = await hentFeilTilBedrift.data;
-        await this.scrollNye();
-        await console.log(this.nyefeil);
+        await this.hentNyeFeil(7);
         
-        this.underBehandling = await feil.data.filter(e => (e.status === 'Under behandling'));
-        await this.scrollUnderB(); 
-        await console.log(this.underBehandling);
+        await this.hentUnderBehandlingFeil(7);
         
-        this.utførte = await feil.data.filter(e => (e.status === 'Ferdig')); 
+        /*this.utførte = await feil.data.filter(e => (e.status === 'Ferdig')); 
         await this.scrollFerdig(); 
-        await console.log(this.utførte); 
+        await console.log(this.utførte); */
     }
 }
 
