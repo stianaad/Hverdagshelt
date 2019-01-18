@@ -1,0 +1,112 @@
+.main-center {
+    background-image: url("/lofoten.jpg");
+    height: 100vh;
+    width:100vw;
+    padding-top:35vh;
+    display: flex;
+    justify-content: center;
+    background-size: cover;
+}
+
+.main-title {
+    font-size: 35px;
+    text-align:center;
+    color:#fff;
+    text-shadow: 2px 2px 3px rgba(0,0,0,1);
+}
+
+.main-header {
+    height:15vh;
+    padding:30px;
+    position: absolute;
+    width:100%;
+    align-content: center;
+}
+
+.main-header img {
+    width: 15vw;
+    margin-top: -20px;
+    display: inline-block;
+    vertical-align: top;
+    background-color: white;
+    border-radius: 50px;
+    padding: 8px;
+}
+
+.main-header-button {
+    height: 60px;
+    font-size: 18px;
+    border-radius:30px;
+    padding: 0 20px 0 20px;
+}
+
+.main-header h1 {
+    color: rgb(80,187,230);
+    display: inline;
+    margin-left: 20px;
+    position:relative;
+    bottom: 8px;
+    font-size: 8vw;
+}
+
+.combinedlogo {
+    width: fit-content;
+    margin: 0 auto;
+    padding-bottom: 20px;
+}
+
+.mainbuttons {
+    width: fit-content;
+    margin: 0 auto;
+    font-size: 10px;
+}
+
+.main-header .profileIcon {
+    height: 60px;
+    border: 1px solid black;
+}
+
+.main-header .brukerbox {
+    right: -16px !important;
+    top: 51px !important;
+}
+
+.main-header-button {
+    text-align: center;
+    max-width: 25vw;
+    font-size: 4vw;
+    border-radius:30px;
+    padding: 0 10px 0 6px;
+    margin-left: 1vw !important;
+    margin-right: 1vw !important;
+}
+
+.main-header .logginnbutton {
+    max-width:25vw;
+    font-size: 4vw;
+    margin-left: 1vw !important;
+    margin-right: 1vw !important;
+    padding: 0 10px 0 10px;
+}
+
+.main-header .dropdown-menu {
+    width: 95vw;
+    right: -11vw !important;
+}
+
+.main-header .arrow {
+    right: 19.5vw;
+}
+
+.main-header .arrowborder {
+    right:19vw;
+}
+
+.komBoks {
+    width: 90vw;
+    margin: 0 auto;
+}
+
+.komSok {
+    font-size: 20px !important;
+}
