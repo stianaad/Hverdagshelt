@@ -231,4 +231,8 @@ module.exports = class BrukerDao extends Dao {
     [json.epost, json.kommune_id, json.bruker_id], 
     callback);
   }
- };
+ 
+  hentBedrifter(callback) {
+    super.query('SELECT * FROM bedrift', [], callback);
+  }
+};

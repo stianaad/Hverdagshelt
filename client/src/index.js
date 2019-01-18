@@ -25,10 +25,13 @@ import {Hendelser} from '../src/Komponenter/Hendelser/hendelser';
 import createBrowserHistory from 'history/createBrowserHistory';
 const history = createBrowserHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
 
-import {relative} from 'path';
-import {KommuneVelger} from './Moduler/KommuneVelger/kommuneVelger';
-import {KommuneInput} from './Moduler/kommuneInput/kommuneInput';
-import {enHendelse} from './Komponenter/Hendelser/enHendelse';
+import { relative } from 'path';
+import { KommuneVelger } from './Moduler/KommuneVelger/kommuneVelger';
+import { KommuneInput } from './Moduler/kommuneInput/kommuneInput';
+import { enHendelse } from './Komponenter/Hendelser/enHendelse';
+
+import {AnsattSide} from './Komponenter/Ansatt/kommuneansatt';
+
 
 class Tabell extends Component {
   render() {
@@ -285,6 +288,7 @@ const routes = () => {
             [
               <Route exact path="/mineoppgaver" component={MineOppgaver} history={history} />,
               <Route exact path="/registrerBedrift" component={RegistrerBedrift} history={history} />
+              <Route exact path="/ansattside" component={AnsattSide} history={history}/>
             ]
           ) : global.payload.role == 'bedrift' ? (
             //Bedrift routes
@@ -310,6 +314,10 @@ const routes = () => {
           <Route exact path="/bildetest" component={BildeTest} />
           <Route exact path="/nyheter" component={Menu} />
           <Route exact path="/login" component={Login} />
+          <Route exact path="/headertest" component={PageHeader} history={history} />
+          <Route exact path="/ansattest" component={AnsattSide} history={history}/>
+
+
           <Route
             exact
             path="/headertest"

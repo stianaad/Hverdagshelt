@@ -93,3 +93,16 @@
 .hoyde-tabell{
     height: 310px;
 }
+
+.ansattScroll{
+    height: 700px;
+    overflow-y: scroll; 
+}
+
+.bilder{
+    width: 70px;
+    height: 70px; 
+    object-fit: cover;
+
+ 
+}

@@ -200,6 +200,21 @@ router.put('/api/bruker', checkToken, (req, res) => {
     console.log('/hentEnFeil resultat:' + data);
   });
 });
+router.get('/api/bedrifter', (req, res) => {
+  console.log('Fikk GET-request fra klienten');
+
+  brukerDao.hentBedrifter((status, data) => {
+    res.status(status);
+    res.json(data);
+    console.log('/hentAlleBedrifter lengde' + data.length);
+  });
+});
+
+module.exports = router;
+
+function makeid() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
 module.exports = router;
 

@@ -79,6 +79,10 @@ class BrukerService {
     return [];
   }
   }
+
+  hentBedrifter(){
+    return api.get('/api/bedrifter');
+  }
 }
 
 export let brukerService = new BrukerService();
