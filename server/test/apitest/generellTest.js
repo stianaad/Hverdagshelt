@@ -93,7 +93,7 @@ test('legg til ny privatbruker', done => {
     expect(data.affectedRows).toBe(1);
     done();
   }
-  brukerdao.lagNyPrivatBruker(testprivatBruker1, callback);
+  brukerdao.lagNyPrivatBruker(testprivatBruker, callback);
 });
 /*
 test('legg til ny ansattbruker', done => {
