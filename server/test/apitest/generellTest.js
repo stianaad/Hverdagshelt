@@ -176,18 +176,6 @@ test('oppdater feil', done => {
   feildao.oppdaterFeil(oppdaterFeil1, callback);
 });
 
-test('hent alle kommuner', done => {
-  function callback(status, data){
-    console.log(
-      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
-    );
-    console.log(data.length);
-    expect(data.length).toBeGreaterThan(200);
-    done();
-  }
-  generelldao.hentAlleKommuner(callback);
-});
-
 test('hent alle feil', done => {
   function callback(status, data){
     console.log(
@@ -291,4 +279,54 @@ test('Hent alle hovedkategorier', done => {
     done();
   }
   feildao.hentAlleHovedkategorier(callback);
+});
+
+//HENDELSETESTER
+test('Hent alle hendelser', done => {
+  function callback(status, data){
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.length).toBeGreaterThanOrEqual(2);
+    expect(data[0].overskrift).toBe('Overskrift1');
+    done();
+  }
+  feildao.hentAlleHendelser(callback);
+});
+
+test('Hent en hendelse', done => {
+  function callback(status, data){
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.length).toBe(1);
+    expect(data[0].overskrift).toBe('Overskrift2');
+    done();
+  }
+  feildao.hentEnHendelse({ hendelse_id: 2 }callback);
+});
+/*
+test('Lag ny hendelse', done => {
+  function callback(status, data){
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    expect(data.length).toBeGreaterThanOrEqual(2);
+    expect(data[0].overskrift).toBe('Overskrift1');
+    done();
+  }
+  feildao.hentAlleHendelser(callback);
+});
+*/
+//GENERELLTESTER
+test('hent alle kommuner', done => {
+  function callback(status, data){
+    console.log(
+      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
+    );
+    console.log(data.length);
+    expect(data.length).toBeGreaterThan(200);
+    done();
+  }
+  generelldao.hentAlleKommuner(callback);
 });

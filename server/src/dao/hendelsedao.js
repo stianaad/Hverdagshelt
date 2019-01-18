@@ -1,10 +1,12 @@
 import Dao from './dao.js';
 
 module.exports = class HendelseDao extends Dao {
+  //testes
   hentAlleHendelser(callback) {
     super.query("SELECT hendelse_id,overskrift,DATE_FORMAT(tid, '%Y-%m-%d %H:%i') AS tid,beskrivelse,sted,bilde, lengdegrad, breddegrad,kategorinavn FROM hendelser,hendelseskategori WHERE hendelser.hendelseskategori_id = hendelseskategori.hendelseskategori_id", null, callback);
   };
 
+  //testes
   hentEnHendelse(json, callback) {
     var id = json.hendelse_id;
     super.query('SELECT * FROM hendelser WHERE hendelse_id = ?', [id], callback);

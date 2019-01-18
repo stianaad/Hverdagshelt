@@ -1,6 +1,6 @@
 import Dao from './dao.js';
 
-//  7/13 funksjoner testes
+//  7 av 13 funksjoner testes
 module.exports = class BrukerDao extends Dao {
   //testes
   lagNyBruker(json, callback) {
