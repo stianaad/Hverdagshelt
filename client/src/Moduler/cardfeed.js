@@ -1,8 +1,14 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
-import {Card, Feed, Modal, Grid, GridColumn, Segment, Image, Button,Popup, Header} from 'semantic-ui-react';
+import {feilService} from '../services/feilService';
+import {Card, Feed, Modal, Grid, GridColumn, Segment, Image, Button,Popup, Header,Form,Dropdown ,TextArea} from 'semantic-ui-react';
 
 export class FeedEvent extends Component{
+    klikk = false;
+    tekstverdi = "";
+    statuser = [];
+    statusID = "";
+
     dato(tid){
         let innKommendeDato = tid.substr(0,10);
         let innKommendeKlokkeslett = tid.substr(11,16);
@@ -30,6 +36,26 @@ export class FeedEvent extends Component{
         }
         return(<Feed.Date content={iDag}/>)
     }
+
+    tekstFelt(e){
+        this.tekstverdi = e.target.value;
+    }
+
+    statusVerdi(e){
+        this.statusID = e.target.value;
+    }
+
+    state = { modalOpen: false };
+
+    async open() {
+        this.setState({ modalOpen: true });
+        let res1 = await feilService.hentAlleStatuser();
+        this.statuser = await res1.data.filter(status => (status.status_id != 1));
+        await console.log(this.statuser);
+    }
+
+    lukk = () => this.setState({ modalOpen: false });
+
     render(){
         //this.dato();
         //console.log("hehe");
@@ -38,7 +64,7 @@ export class FeedEvent extends Component{
                 
                 <Feed.Event>
                 {(this.props.status !== "Under behandling") ? ((this.props.status === 'Ikke godkjent') ? (<Feed.Label image={"/warningicon.png"}/>)
-                                : (<Feed.Label image={"/successicon.png"}/>)) : (<Feed.Label image={"/processingicon.png"}/>)}
+                                : (<Feed.Label image={"/successicon.png"}/>)) : (<Feed.Label image={"/processingicon.png"}/>)}     
                     <Feed.Content >
                         <a onClick={this.props.onClick}>
                             {this.dato(this.props.tid)}
@@ -46,9 +72,51 @@ export class FeedEvent extends Component{
                                 {this.props.children}
                             </Feed.Summary>
                             <span><i>{this.props.kategori}</i></span>
+                            <br/>
+                            Sak ID: {this.props.feil_id}  
                         </a>
                     </Feed.Content>
-                </Feed.Event>
+                    {(this.props.visRedigering) ? (
+                        <a>
+                         <Feed.Label>
+                          {/*<Popup trigger={<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSw2X0OANh285WcTWw99iFMeMuniesVc2Aqs4iYGx5pzJv15LW8"  width="30" height="30"/>}
+                            hideOnScroll
+                            on = "click"
+                            >
+                            <Grid>
+                                <Header as="h3">Legg til en oppdatering på feilen</Header>
+                            </Grid>
+                    </Popup>*/}
+                            <Modal trigger={<img  onClick={this.open} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSw2X0OANh285WcTWw99iFMeMuniesVc2Aqs4iYGx5pzJv15LW8"  width="20" height="20"/>} 
+                             size="tiny" open={this.state.modalOpen}
+                             onClose={this.lukk}>
+                                <Modal.Header className="fiksStorrelseOverskrift">Skriv inn en oppdatering på feilen</Modal.Header>
+                                <Modal.Content>
+                                <Modal.Description>
+                                    <Header textAlign="center">{this.props.children}</Header>
+                                    <div className="fiksStorrelseOverskrift" >
+                                    <select onChange={this.statusVerdi} className="form-control statusTabell">
+                                        <option hidden>
+                                            Velg status
+                                        </option>
+                                        {this.statuser.map(status => (
+                                            <option key={status.status_id} value={status.status_id}>{status.status}</option>
+                                        ))}
+                                    </select>
+                                    <br/>
+                                        <Form>
+                                            <TextArea autoHeight placeholder='Skriv oppdatering...' onChange={this.tekstFelt} />
+                                        </Form>
+                                        <br/>
+                                        <Button onClick={() => {this.props.knapp(this.tekstverdi,this.statusID);this.lukk()}}> Send inn oppdatering</Button>
+                                    </div>
+                                </Modal.Description>
+                                </Modal.Content>
+                            </Modal>
+                          </Feed.Label>
+                        </a>
+                         ) : (null)}
+                    </Feed.Event>
             </Feed>
         );
     }

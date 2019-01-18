@@ -162,7 +162,7 @@ export class RegistrerBedrift extends Component {
   }
 
   lagre() {
-    let valid = true;
+    let gyldig = true;
 
     let bedrift = new Bedrift(
       0,
@@ -175,48 +175,40 @@ export class RegistrerBedrift extends Component {
     );
 
     if (!bedrift.kommune_id) {
-      this.advarsel = 'Vennligst oppgi gyldig kommune';
-      console.log(bedrift.kommune_id);
-      valid = false;
+      this.advarsel = 'Vennligst oppgi gyldig kommune';;
+      gyldig = false;
     }
 
     if (bedrift.navn === '') {
       this.advarsel = 'Fyll ut bedriftsnavn';
-      console.log(bedrift.navn);
-      valid = false;
+      gyldig = false;
     }
 
     if (!bedrift.orgnr || bedrift.orgnr.length != 9) {
       this.advarsel = 'Organisasjonsnummer må være 9 siffer langt';
-      console.log(bedrift.orgnr.length);
-      console.log(bedrift.orgnr);
-      valid = false;
+      gyldig = false;
     }
 
     if (!bedrift.telefon || bedrift.telefon.length != 8) {
       this.advarsel = 'Telefonnummer må være 8 siffer langt';
-      console.log(bedrift.telefon);
-      console.log(bedrift.telefon.length);
-      valid = false;
+      gyldig = false;
     }
 
     if (!bedrift.passord || bedrift.passord.length < 8) {
       this.passAdvarsel = 'Passord må være minst 8 tegn';
-      console.log(bedrift.passord);
-      valid = false;
+      gyldig = false;
     }
 
     if (this.bedriftInput.bekreftPass != bedrift.passord) {
       this.advarsel = 'Passord stemmer ikke overens';
-      valid = false;
+      gyldig = false;
     }
 
     if (!bedrift.epost.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
       this.advarsel = 'E-post er ikke gyldig';
-      console.log(bedrift.epost);
-      valid = false;
+      gyldig = false;
     }
-    if (valid) {
+    if (gyldig) {
       brukerService.lagNyBedriftBruker(bedrift).then((res) => {
         this.props.history.push('/');
       });

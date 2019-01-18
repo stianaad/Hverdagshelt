@@ -16,12 +16,11 @@ import { checkToken } from '../middleware';
 let brukerDao = new BrukerDao(pool);
 let epostTjener = new Epost();
 
-
 /**
  * Endepunkt
  */
 
-router.post('/api/brukere', (req, res) => {
+router.post('/api/brukere/privat', (req, res) => {
   console.log('Fikk POST-request fra klienten');
   passord(req.body.passord).hash((error, hash) => {
     if (error) {
@@ -46,7 +45,6 @@ router.post('/api/brukere/privat', (req, res) => {
     brukerDao.lagNyPrivatBruker(req.body, (status, data) => {
       res.status(status);
       res.json(data);
-      console.log('Den nye IDen er:', data.insertId);
     });
   });
 });
