@@ -1,18 +1,22 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
 import {hendelseService} from '../../services/hendelseService';
-import { HashRouter, Route, NavLink, Redirect,Switch } from 'react-router-dom';
+import {generellServices} from '../../services/generellServices';
+import { HashRouter, Route, NavLink, Redirect,Switch,Link } from 'react-router-dom';
 import {FeedEvent,FeedHendelse, Filtrer, Info, Hendelse} from '../../Moduler/cardfeed';
-import {Card, Feed, Grid, Button, Header, Icon, Image, Modal} from 'semantic-ui-react';
+import {Card, Feed, Grid, Button, Header, Icon, Image, Modal,Dropdown} from 'semantic-ui-react';
 import {PageHeader} from '../../Moduler/header/header';
+import { KommuneVelger } from '../../Moduler/KommuneVelger/kommuneVelger';
 
 export class Hendelser extends Component{
     hendelser = [];
     alleKategorier = [];
     aktiveHendelser = [];
-    visHendelser=false;
+    link = "/hendelser";
+    tider=[];
+    kommuner=[];
+    navn=[];
 
-    kategori='';
 
     filterKategori(e) {
         let verdi = e.target.value;
@@ -43,7 +47,29 @@ export class Hendelser extends Component{
         }
     }
 
-    filterTid(e) {
+    filterFraTid(e) {
+        let fraTid = document.getElementById("fra").value+"0";
+        if (fraTid==="0") {
+            this.aktiveHendelser = this.hendelser;
+        }else {
+            this.aktiveHendelser= this.hendelser.filter(
+                (kat) => kat.tid > fraTid
+              );
+        }
+    }
+
+    filterTilTid(e) {
+        let tilTid = document.getElementById("til").value +"0";
+        if (tilTid==="0") {
+            this.aktiveHendelser = this.hendelser;
+        }else {
+          this.aktiveHendelser= this.hendelser.filter(
+            (kat) => kat.tid < tilTid
+          );
+        }
+    }
+
+    filterKommune(e) {
         let verdi = e.target.value;
         console.log(verdi);
         if (verdi == 0) {
@@ -52,10 +78,11 @@ export class Hendelser extends Component{
         }else {
           console.log(this.alleKategorier);
           this.aktiveHendelser= this.hendelser.filter(
-            (kat) => kat.tid === verdi
+            (kat) => kat.sted === verdi
           );
         }
     }
+  
   
     render() {
       return (
@@ -103,39 +130,56 @@ export class Hendelser extends Component{
                 ))}
                 
              </select>
+             {<input 
+             onChange={this.filterFraTid}
+             type="date" 
+             style={{height: 30, width: 110}} 
+             className="mt-2" 
+             id="fra"
+             /> }
+             {<input 
+             onChange={this.filterTilTid}
+             type="date" 
+             style={{height: 30, width: 110, marginLeft:4}} 
+             className="mt-2"
+             id = "til"
+             />}
 
-             <select
-                onChange={this.filterTid}
-                className="form-control right floated meta m-2"
-                style={{height: 30, width: 150}}
-                >
-                <option hidden> Tid </option>
-                <option value="0"> Alle tider </option>
-                {this.hendelser.map((tid) => (
-                <option
-                  value={tid.tid}
-                  key={tid.tid}
-                 >
-                    {' '}
-                    {tid.tid}
-                </option>
-                ))}
-             </select>
+            <Dropdown placeholder='Velg kommune' fluid search selection options={this.navn.map(navn=>navn)} />
+             
            </div>
+           
            
             <Card.Group itemsPerRow={3}>
               {this.aktiveHendelser.map(hendelse => (
-                  <a href="/hendelser/1">
+                 // <Link to="/hendelser/{h${hendelse.id}">
                 <Hendelse
-                    onClick={this.visEnHendelse}
+                    onClick={()=>location.href=this.link +"/"+ hendelse.hendelse_id}
                     bilde = {hendelse.bilde}
                     overskrift = {hendelse.overskrift}
                     sted = {hendelse.sted}
                     tid = {hendelse.tid}
                     beskrivelse = {hendelse.beskrivelse}
                 />
-                </a>
+               // </Link>
                     ))}
+
+                   
+                    
+            
+            {this.aktiveHendelser.map(hendelse => (
+                <Hendelse
+                    onClick={()=>location.href=this.link +"/"+ hendelse.hendelse_id}
+                    bilde = {hendelse.bilde}
+                    overskrift = {hendelse.overskrift}
+                    sted = {hendelse.sted}
+                    tid = {hendelse.tid}
+                    beskrivelse = {hendelse.beskrivelse}
+                />
+                    ))}
+
+
+                    
             </Card.Group>
             
         </div>
@@ -148,10 +192,27 @@ export class Hendelser extends Component{
         this.hendelser = await res1.data;
         this.aktiveHendelser = await res1.data;
 
+        let res2 = await generellServices.hentAlleKommuner();
+        this.kommuner = await res2.data;
+
         this.alleKategorier = this.aktiveHendelser.map(
             kat => kat.kategorinavn
         );
+
+        this.tider = this.aktiveHendelser.map(
+            kat => kat.tid
+        );
+
+        
+        this.navn = this.kommuner.map(
+            navn =>navn.kommune_navn
+             );
+
         console.log(this.alleKategorier);
+        console.log(this.tider);
+        console.log(this.kommuner);
+        console.log(this.navn);
+        
       }
     
 }

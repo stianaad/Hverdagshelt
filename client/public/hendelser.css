@@ -1,7 +1,8 @@
-#ytreblokk {
-    height: 100%;
-    width: 65%;
-    margin: auto;
+.dato {
+    height: 5%;
+    width: 15%;
+    padding-top: 2px;
+    margin: 2px;
     overflow: hidden;
 
     padding-left: 0.8%;
