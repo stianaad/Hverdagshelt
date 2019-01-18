@@ -45,7 +45,7 @@ module.exports = class BrukerDao extends Dao {
     );
   }
 
-  //testes
+  //testes --
   lagNyPrivatBruker(json, callback) {
     let self = this;
     self.finnBruker_id(json, (status, data) => {
@@ -71,8 +71,13 @@ module.exports = class BrukerDao extends Dao {
   //testes
   lagNyAnsattBruker(json, callback) {
     let self = this;
+    console.log(json);
     self.lagNyBruker(json, (status, data) => {
+      console.log(data);
+      console.log(status);
       self.finnBrukerid(json, (status, data) => {
+        console.log(json);
+        console.log(data);
         super.query(
           'INSERT INTO ansatt VALUES(?,?,?,?)',
           [res.json(data), json.fornavn, json.etternavn, json.telefon],
