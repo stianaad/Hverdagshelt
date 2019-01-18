@@ -4,6 +4,7 @@ import Generelldao from '../../src/dao/generelldao.js';
 import BrukerDao from '../../src/dao/brukerdao.js';
 import runsqlfile from '../runsqlfile.js';
 import FeilDao from '../../src/dao/feildao';
+import HendelseDao from '../../src/dao/hendelsedao'
 //import {Hendelse} from '../../../client/src/services/hendelseService';
 
 var pool = mysql.createPool({
@@ -19,6 +20,7 @@ var pool = mysql.createPool({
 let generelldao = new Generelldao(pool);
 let feildao = new FeilDao(pool);
 let brukerdao = new BrukerDao(pool);
+let hendelsedao = new HendelseDao(pool);
 
 let testprivatBruker = {
   epost: 'testprivat@test.com',
@@ -305,7 +307,7 @@ test('Hent alle hendelser', done => {
     expect(data[0].overskrift).toBe('Overskrift1');
     done();
   }
-  feildao.hentAlleHendelser(callback);
+  hendelsedao.hentAlleHendelser(callback);
 });
 
 test('Hent en hendelse', done => {
@@ -317,7 +319,7 @@ test('Hent en hendelse', done => {
     expect(data[0].overskrift).toBe('Overskrift2');
     done();
   }
-  feildao.hentEnHendelse({ hendelse_id: 2 }, callback);
+  hendelsedao.hentEnHendelse({ hendelse_id: 2 }, callback);
 });
 
 test('Lag ny hendelse', done => {
@@ -328,7 +330,7 @@ test('Lag ny hendelse', done => {
     expect(data.affectedRows).toBe(1);
     done();
   }
-  feildao.lagNyHendelse(testhendelse, callback);
+  hendelsedao.lagNyHendelse(testhendelse, callback);
 });
 
 test('Filtrer hendelser på kategori', done => {
@@ -340,7 +342,7 @@ test('Filtrer hendelser på kategori', done => {
     expect(data[0].hendelse_id).toBe(1);
     done();
   }
-  feildao.filtrerHendelserPaaKategori({hendelseskategori_id: 1}, callback);
+  hendelsedao.filtrerHendelserPaaKategori({hendelseskategori_id: 1}, callback);
 });
 
 test('Filtrer hendelser kommune', done => {
@@ -351,7 +353,7 @@ test('Filtrer hendelser kommune', done => {
     expect(data.length).toBe(1);
     done();
   }
-  feildao.filtrerHendelserPaaKommune({kommune_id: 12}, callback);
+  hendelsedao.filtrerHendelserPaaKommune({kommune_id: 12}, callback);
 });
 
 //GENERELLTESTER
