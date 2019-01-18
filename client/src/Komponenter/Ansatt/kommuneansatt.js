@@ -194,7 +194,11 @@ export class NyeFeil extends Component {
   }
 
   async godkjenn(){
-      
+      nyOpp = {
+          feil_id: this.valgtfeil.feil_id,
+          kommentar: "Ansatt har godkjent innhold",
+          status_id: 2,
+      };
   }
 
   scroll() {
