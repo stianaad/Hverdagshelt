@@ -177,6 +177,7 @@ export class Bedrift extends Component {
                           key={feil.feil_id}
                           status={'Ikke godkjent'}
                           tid={feil.tid}
+                          visSakID={true}
                           feil_id={feil.feil_id}
                           kategori={feil.kategorinavn}
                         >
@@ -205,6 +206,7 @@ export class Bedrift extends Component {
                           }}
                           key={feil.feil_id}
                           status={'Under behandling'}
+                          visSakID={true}
                           tid={feil.tid}
                           visRedigering="true"
                           knapp={this.oppdater}
@@ -236,6 +238,7 @@ export class Bedrift extends Component {
                             this.visGodkjennJobb = false;
                           }}
                           key={feil.feil_id}
+                          visSakID={true}
                           status={feil.status}
                           tid={feil.tid}
                           feil_id={feil.feil_id}

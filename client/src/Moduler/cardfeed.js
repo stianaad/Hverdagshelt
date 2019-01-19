@@ -93,7 +93,8 @@ export class FeedEvent extends Component {
                 <i>{this.props.kategori}</i>
               </span>
               <br />
-              Sak ID: {this.props.feil_id}
+              {(this.props.visSakID) ? (<span>Sak ID: {this.props.feil_id}</span>)
+              : (null)}
             </a>
           </Feed.Content>
           {this.props.visRedigering ? (
