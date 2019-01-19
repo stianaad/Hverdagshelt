@@ -77,13 +77,6 @@ export class Hovedside extends Component {
       console.log(this.alleFeil);
       this.aktiveFeil = this.alleFeil.filter((kat) => kat.kategorinavn === verdi);
       console.log(this.aktivKategori);
-      /*generellServices
-        .hentFeilFiltrertKategori(verdi)
-        .then(aktiveFeil => {
-          this.aktiveFeil = aktiveFeil;
-          console.log(aktiveFeil.length);
-          confirm.log()
-        })*/
     }
   }
   /*hentKommuner(){

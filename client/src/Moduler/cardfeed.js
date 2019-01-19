@@ -356,15 +356,19 @@ export class Info extends Component {
 }
 
 export class Filtrer extends Component {
+  
   render() {
     return (
       <div>
         <select onChange={this.props.onChange} style={{height: 30, width: 120}} className="rigth floated form-control">
           <option hidden>Filtrer</option>
-          <option value="0">Alle kategorier</option>
-          <option value="0">Alle kategorier</option>
-          <option value="0">Alle kategorier</option>
-          <option value="0">Alle kategorier</option>
+          <option value="0"> Alle kategorier </option>
+          {this.props.alleKategorier.map( filtrer => (
+            <option value={filtrer.kategorinavn} key={filtrer.kategorinavn}>
+            {' '}
+            {filtrer.kategorinavn}
+          </option>
+          ))}
         </select>
       </div>
     );

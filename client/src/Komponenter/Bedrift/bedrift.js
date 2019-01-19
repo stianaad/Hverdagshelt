@@ -10,11 +10,14 @@ import {NavLink} from 'react-router-dom';
 export class Bedrift extends Component {
   nyefeil = [];
   utførte = [];
+  alleUtførte = [];
   underBehandling = [];
+  alleUnderBehandling = [];
   alleFeil = [];
   bilderTilFeil = [];
   oppdateringer = [];
   visGodkjennJobb = false;
+  alleKategorier = [];
 
   valgtFeil = {
     overskrift: '',
@@ -160,7 +163,8 @@ export class Bedrift extends Component {
                     <Card.Content>
                       <Card.Header>
                         Nye feil til bedriften
-                        <Filtrer />
+                        {//<Filtrer />
+                        }
                       </Card.Header>
                     </Card.Content>
                     <Card.Content className={this.classNye}>
@@ -188,7 +192,7 @@ export class Bedrift extends Component {
                     <Card.Content>
                       <Card.Header>
                         Under behandling
-                        <Filtrer />
+                        <Filtrer alleKategorier = {this.alleKategorier} onChange = {this.filterUnderB}/>
                       </Card.Header>
                     </Card.Content>
                     <Card.Content className={this.classUnderB}>
@@ -218,7 +222,7 @@ export class Bedrift extends Component {
                     <Card.Content>
                       <Card.Header>
                         Avsluttede feil
-                        <Filtrer />
+                        <Filtrer alleKategorier={this.alleKategorier} onChange={this.filterUtførte}/>
                       </Card.Header>
                     </Card.Content>
 
@@ -246,6 +250,24 @@ export class Bedrift extends Component {
         </div>
       </>
     );
+  }
+
+  filterUtførte(e) {
+    let verdi = e.target.value;
+    if (verdi == 0) {
+      this.utførte = this.alleUtførte;
+    } else {
+      this.utførte = this.alleUtførte.filter((kat) => kat.kategorinavn === verdi);
+    }
+  }
+
+  filterUnderB(e) {
+    let verdi = e.target.value;
+    if (verdi == 0) {
+      this.underBehandling = this.alleUnderBehandling;
+    } else {
+      this.underBehandling = this.alleUnderBehandling.filter((kat) => kat.kategorinavn === verdi);
+    }
   }
 
   async oppdater(tekst, statusVerdi, feil_id) {
@@ -301,6 +323,7 @@ export class Bedrift extends Component {
   async hentUnderBehandlingFeil() {
     let underBehandling = await feilService.hentUnderBehandlingFeilTilBedrift();
     this.underBehandling = await underBehandling.data;
+    this.alleUnderBehandling = await underBehandling.data;
     await this.scrollUnderB();
     //await console.log(this.nyefeil);
   }
@@ -308,6 +331,7 @@ export class Bedrift extends Component {
   async hentFerdigeFeilBedrift() {
     let res1 = await feilService.hentFerdigeFeilTilBedrift(); 
     this.utførte = res1.data;
+    this.alleUtførte = res1.data;
     await this.scrollFerdig(); 
     await console.log(this.utførte); 
   }
@@ -316,6 +340,8 @@ export class Bedrift extends Component {
     await this.hentNyeFeil();
     await this.hentUnderBehandlingFeil();
     await this.hentFerdigeFeilBedrift();
+    let res2 = await feilService.hentAlleHovedkategorier();
+    this.alleKategorier = await res2.data;
   }
 }
 
