@@ -80,8 +80,8 @@ module.exports = class FeilDao extends Dao {
     super.query('DELETE FROM feil WHERE feil_id = ?', [feil_id], callback);
   }
 
-  lagOppdatering(json, callback) {
-    var oppdatering = [json.feil_id, json.kommentar, json.status_id, json.bruker_id];
+  lagOppdatering(json,bruker_id, callback) {
+    var oppdatering = [json.feil_id, json.kommentar, json.status_id, bruker_id];
     super.query(
       'INSERT INTO oppdatering (feil_id, kommentar, status_id, bruker_id) VALUES (?, ?, ?, ?)',
       oppdatering,
@@ -92,7 +92,7 @@ module.exports = class FeilDao extends Dao {
   //testes
   hentAlleOppdateringerPaaFeil(json, callback) {
     var feil_id = json.feil_id;
-    super.query('SELECT * FROM oppdatering WHERE feil_id = ?', [feil_id], callback);
+    super.query("SELECT kommentar,status,DATE_FORMAT(tid, '%Y.%m.%d %H:%i') AS tid FROM oppdatering,status WHERE oppdatering.status_id=status.status_id AND feil_id = ? ORDER BY tid ASC", [feil_id], callback);
   }
 
   /*slettOppdatering(json, callback) {
