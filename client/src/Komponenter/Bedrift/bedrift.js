@@ -9,6 +9,7 @@ import {NavLink} from 'react-router-dom';
 
 export class Bedrift extends Component {
   nyefeil = [];
+  alleNyeFeil = [];
   utførte = [];
   alleUtførte = [];
   underBehandling = [];
@@ -163,8 +164,7 @@ export class Bedrift extends Component {
                     <Card.Content>
                       <Card.Header>
                         Nye feil til bedriften
-                        {//<Filtrer />
-                        }
+                        <Filtrer alleKategorier={this.alleKategorier} onChange={this.filterNyeFeil}/>
                       </Card.Header>
                     </Card.Content>
                     <Card.Content className={this.classNye}>
@@ -270,6 +270,15 @@ export class Bedrift extends Component {
     }
   }
 
+  filterNyeFeil(e) {
+    let verdi = e.target.value;
+    if (verdi == 0) {
+      this.nyefeil = this.alleNyeFeil;
+    } else {
+      this.nyefeil = this.alleNyeFeil.filter((kat) => kat.kategorinavn === verdi);
+    }
+  }
+
   async oppdater(tekst, statusVerdi, feil_id) {
     console.log(tekst);
     console.log(statusVerdi);
@@ -315,6 +324,7 @@ export class Bedrift extends Component {
   async hentNyeFeil() {
     let hentNyeFeilTilBedrift = await feilService.hentNyeFeilTilBedrift();
     this.nyefeil = await hentNyeFeilTilBedrift.data;
+    this.alleNyeFeil = await hentNyeFeilTilBedrift.data;
     await this.scrollNye();
     await console.log('heiehi');
     await console.log(this.nyefeil);
