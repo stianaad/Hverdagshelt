@@ -124,7 +124,7 @@ export class Bedrift extends Component {
                         <div className="oppdateringScroll">
                           <List>
                               {this.oppdateringer.map(oppdatering =>(
-                                  <List.Item>
+                                  <List.Item key={oppdatering.tid}>
                                       <List.Content>
                                           <List.Header>
                                               {oppdatering.status}
@@ -160,7 +160,7 @@ export class Bedrift extends Component {
             <div className="row mt-5">
               <div className="col-sm-4">
                 <div className="m1-3">
-                  <Card color="red" fluid="true">
+                  <Card color="red" fluid>
                     <Card.Content>
                       <Card.Header>
                         Nye feil til bedriften
@@ -174,6 +174,7 @@ export class Bedrift extends Component {
                             this.handleOpen(feil);
                             this.visGodkjennJobb = true;
                           }}
+                          key={feil.feil_id}
                           status={'Ikke godkjent'}
                           tid={feil.tid}
                           feil_id={feil.feil_id}
@@ -202,6 +203,7 @@ export class Bedrift extends Component {
                             this.handleOpen(feil);
                             this.visGodkjennJobb = false;
                           }}
+                          key={feil.feil_id}
                           status={'Under behandling'}
                           tid={feil.tid}
                           visRedigering="true"
@@ -233,6 +235,7 @@ export class Bedrift extends Component {
                             this.handleOpen(feil);
                             this.visGodkjennJobb = false;
                           }}
+                          key={feil.feil_id}
                           status={feil.status}
                           tid={feil.tid}
                           feil_id={feil.feil_id}
@@ -290,17 +293,19 @@ export class Bedrift extends Component {
   }
 
   async godtaJobb(feil_id) {
-    console.log(feil_id);
+    //console.log(feil_id);
     this.handleClose();
     let res = await feilService.oppdaterStatusFeilTilBedrift({feil_id: feil_id, status: 4});
     await feilService.lagOppdatering({"feil_id": feil_id,"kommentar":"Bedrift godtok jobben og begynner arbeidet straks","status_id":3});
-    console.log(res.data);
+    //console.log(res.data);
     await this.hentNyeFeil();
     await this.hentUnderBehandlingFeil();
   }
 
-  avslaJobb(feil_id) {
-    console.log(feil_id);
+  async avslaJobb(feil_id) {
+    await feilService.oppdaterStatusFeilTilBedrift({feil_id: feil_id, status: 1});
+    await this.hentNyeFeil();
+    //console.log(feil_id);
     this.handleClose();
   }
 
