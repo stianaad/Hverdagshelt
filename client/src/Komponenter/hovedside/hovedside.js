@@ -408,33 +408,34 @@ export class Hovedside extends Component {
             </div>
             <div className="col-sm-4">
               <div className="mr-3 mb-3">
-                <Card fluid>
-                  <Card.Content>
-                    <Card.Header>
-                      <Grid>
-                        <Grid.Column width={12}>Kommende hendelser</Grid.Column>
-                        <Grid.Column width={4} />
-                      </Grid>
-                    </Card.Header>
-                  </Card.Content>
-                  <Card.Content>
-                    <Feed>
-                      {this.alleHendelser.map((hendelse) => (
-                        <FeedHendelse
-                          key={hendelse.hendelse_id}
-                          onClick={() => {
-                            this.visHendelser = true;
-                            this.visEnHendelse(hendelse);
-                          }}
-                          tid={hendelse.tid}
-                          kategori={hendelse.kategorinavn}
-                        >
-                          {hendelse.overskrift}
-                        </FeedHendelse>
-                      ))}
-                    </Feed>
-                  </Card.Content>
-                </Card>
+              <Card fluid>
+                <Card.Content>
+                  <Card.Header>
+                    <Grid>
+                      <Grid.Column width={12}>Kommende hendelser</Grid.Column>
+                      <Grid.Column width={4} />
+                    </Grid>
+                  </Card.Header>
+                </Card.Content>
+                <Card.Content className={this.classHendelser}>
+                  <Feed>
+                    {this.alleHendelser.map((hendelse) => (
+                      <FeedHendelse
+                        onClick={() => {
+                          this.visHendelser = true;
+                          this.visEnHendelse(hendelse);
+                        }}
+                        //status ={feil.status}
+                        tid={hendelse.tid}
+                        kategori={hendelse.kategorinavn}
+                        key={hendelse.hendelse_id}
+                      >
+                        {hendelse.overskrift}
+                      </FeedHendelse>
+                    ))}
+                  </Feed>
+                </Card.Content>
+              </Card>
               </div>
             </div>
           </div>
