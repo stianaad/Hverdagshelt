@@ -293,6 +293,7 @@ export class Bedrift extends Component {
     console.log(feil_id);
     this.handleClose();
     let res = await feilService.oppdaterStatusFeilTilBedrift({feil_id: feil_id, status: 4});
+    await feilService.lagOppdatering({"feil_id": feil_id,"kommentar":"Bedrift godtok jobben og begynner arbeidet straks","status_id":3});
     console.log(res.data);
     await this.hentNyeFeil();
     await this.hentUnderBehandlingFeil();
