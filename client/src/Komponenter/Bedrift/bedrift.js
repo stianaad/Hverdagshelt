@@ -72,7 +72,7 @@ export class Bedrift extends Component {
                     <div>
                       <h1>
                         {this.valgtFeil.overskrift}
-                        <NavLink to={'/bedriftsoppgaver/'} onClick={this.handleClose}>
+                        <NavLink to={'/mineoppgaver'} onClick={this.handleClose}>
                           <img
                             className="float-right"
                             src="https://image.freepik.com/free-icon/x_318-27992.jpg"
