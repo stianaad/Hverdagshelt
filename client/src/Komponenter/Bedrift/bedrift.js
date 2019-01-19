@@ -45,8 +45,7 @@ export class Bedrift extends Component {
 
     let res2 = await feilService.hentAlleOppdateringerPaaFeil(feil.feil_id);
     this.oppdateringer = await res2.data;
-    await console.log(this.oppdateringer);
-    await console.log('res2: ' + res2);
+    await console.log("OPPDATERINGER",this.oppdateringer[0]);
   }
 
   handleClose = () => {
@@ -120,30 +119,20 @@ export class Bedrift extends Component {
                       <Grid.Column>
                         <div className="oppdateringScroll">
                           <List>
-                            <List.Item>
-                              <List.Content>
-                                <List.Header>Godkjent</List.Header>
-                                <List.Description>01.01.18 19:00</List.Description>
-                              </List.Content>
-                            </List.Item>
-                            <List.Item>
-                              <List.Content>
-                                <List.Header>Godkjent</List.Header>
-                                <List.Description>01.01.18 19:00</List.Description>
-                              </List.Content>
-                            </List.Item>
-                            <List.Item>
-                              <List.Content>
-                                <List.Header>Godkjent</List.Header>
-                                <List.Description>01.01.18 19:00</List.Description>
-                              </List.Content>
-                            </List.Item>
-                            <List.Item>
-                              <List.Content>
-                                <List.Header>Godkjent</List.Header>
-                                <List.Description>01.01.18 19:00</List.Description>
-                              </List.Content>
-                            </List.Item>
+                              {this.oppdateringer.map(oppdatering =>(
+                                  <List.Item>
+                                      <List.Content>
+                                          <List.Header>
+                                              {oppdatering.status}
+                                          </List.Header>
+                                          <List.Description>
+                                              {oppdatering.tid}
+                                              <br/>
+                                              {oppdatering.kommentar}
+                                          </List.Description>
+                                      </List.Content>
+                                  </List.Item>
+                              ))}
                           </List>
                         </div>
                         <Image.Group size="tiny">
@@ -170,7 +159,7 @@ export class Bedrift extends Component {
                   <Card color="red" fluid="true">
                     <Card.Content>
                       <Card.Header>
-                        Nye innsendinger
+                        Nye feil til bedriften
                         <Filtrer />
                       </Card.Header>
                     </Card.Content>
@@ -228,7 +217,7 @@ export class Bedrift extends Component {
                   <Card color="green" fluid="true">
                     <Card.Content>
                       <Card.Header>
-                        Avsluttede saker
+                        Avsluttede feil
                         <Filtrer />
                       </Card.Header>
                     </Card.Content>
@@ -242,6 +231,7 @@ export class Bedrift extends Component {
                           }}
                           status={feil.status}
                           tid={feil.tid}
+                          feil_id={feil.feil_id}
                           kategori={feil.kategorinavn}
                         >
                           {feil.overskrift}

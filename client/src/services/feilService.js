@@ -40,7 +40,7 @@ class FeilService {
   }
 
   hentAlleOppdateringerPaaFeil(feil_id) {
-    return api.get('/api/feil/:feil_id/oppdatering', feil_id);
+    return api.get('/api/feil/'+feil_id+'/oppdatering');
   }
 
   hentEnStatus(status_id) {

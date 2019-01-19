@@ -202,18 +202,18 @@ router.get('/api/feil/:kategori_id', (req, res) => {
 router.post('/api/feil/oppdateringer/bedrift',checkToken, (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk POST-request fra klienten');
-  rolle = req.decoded.role;
 
   let a = {
     feil_id: req.body.feil_id,
     kommentar: req.body.kommentar,
     status_id: req.body.status_id,
-    bruker_id: req.decoded.user.bruker_id
+    //bruker_id: req.decoded.user.bruker_id
   };
   let role = req.decoded.role;
+  let bruker_id = req.decoded.user.bruker_id;
   console.log("hehehehehehehehehhe");
   if (role == 'bedrift') {
-    feilDao.lagOppdatering(a, (status, data) => {
+    feilDao.lagOppdatering(a,bruker_id, (status, data) => {
       console.log('Ny oppdatering laget:');
       res.status(status);
       res.json(data);
