@@ -178,14 +178,14 @@ router.get('/api/feil/:kategori_id', (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk GET-request fra klienten');
 
-  feilDao.hentFeilFiltrertKategori(req.params.kategori_id, (status, data) => {
+  feilDao.hentFeilFiltrertKategori(req.body, (status, data) => {
     res.status(status);
     res.json(data);
     console.log('/hent feil filtrert på kategori lengde: ' + data.length);
   });
 });
 
-router.post('/api/feil/oppdateringer/bedrift',checkToken, (req, res) => {
+router.post('/api/feil/oppdateringer/bedrift', checkToken, (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk POST-request fra klienten');
 
@@ -193,13 +193,12 @@ router.post('/api/feil/oppdateringer/bedrift',checkToken, (req, res) => {
     feil_id: req.body.feil_id,
     kommentar: req.body.kommentar,
     status_id: req.body.status_id,
-    //bruker_id: req.decoded.user.bruker_id
+    bruker_id: req.decoded.user.bruker_id
   };
   let role = req.decoded.role;
-  let bruker_id = req.decoded.user.bruker_id;
   console.log("hehehehehehehehehhe");
   if (role == 'bedrift') {
-    feilDao.lagOppdatering(a,bruker_id, (status, data) => {
+    feilDao.lagOppdatering(a, (status, data) => {
       console.log('Ny oppdatering laget:');
       res.status(status);
       res.json(data);
@@ -219,7 +218,7 @@ router.get('/api/feil/:feil_id/oppdatering', (req, res) => {
   feilDao.hentAlleOppdateringerPaaFeil(a, (status, data) => {
     res.status(status);
     res.json(data);
-    console.log('/hentAlleOppdateringerPaaFeil lengde: ' + data.length);
+    console.log('/oppdateringer med feil_id ' + a.feil_id +' lengde: ' + data.length);
   });
 });
 
@@ -259,7 +258,7 @@ router.get('/api/hovedkategorier', (req, res) => {
 router.get('/api/hovedkategorier/:hovedkategori_id/subkategorier', (req, res) => {
   console.log('Fikk GET-request fra klienten');
 
-  feilDao.hentAlleSubKategorierPaaHovedkategori(req.params.hovedkategori_id, (status, data) => {
+  feilDao.hentAlleSubKategorierPaaHovedkategori(req.body, (status, data) => {
     res.status(status);
     res.json(data);
     console.log('subkategorier under hovedkategori lengde:' + data.length);
@@ -281,7 +280,7 @@ router.delete('/api/feil/:feil_id/bilder/:bilde_id', checkToken, (req, res) => {
   let rolle = req.decoded.role;
   let a = {url: req.body.url, feil_id: req.body.feil_id};
 
-  if(rolle == 'admin' || rolle == 'ansatt') {
+  if(rolle == 'admin' || rolle == 'ansatt' && req.decoded.user.kommune_id == req.body.kommune_id) {
     feilDao.slettBildeFraFeil(a, (status, data) => {
       res.status(status);
       res.json(data);
@@ -301,15 +300,18 @@ router.delete('/api/feil/:feil_id/bilder/:bilde_id', checkToken, (req, res) => {
         });
       }
     });
+  } else {
+    res.status(403);
+    res.json({result: false});
   }
 });
 
-router.get('/api/feil/bedrift/nyeOppgaver', checkToken, (req, res) => {
+router.get('/api/feil/bedrift/nyeoppgaver', checkToken, (req, res) => {
   console.log('Fikk GET-request fra klienten');
-  let role = req.decoded.role;
+  let rolle = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
   console.log(bruker_id);
-  if (role == 'bedrift') {
+  if (rolle == 'bedrift') {
     feilDao.hentNyeFeilTilBedrift(bruker_id, (status, data) => {
       res.status(status);
       res.json(data);
@@ -322,10 +324,10 @@ router.get('/api/feil/bedrift/nyeOppgaver', checkToken, (req, res) => {
 
 router.get('/api/feil/bedrift/underBehandling', checkToken, (req, res) => {
   console.log('Fikk GET-request fra klienten');
-  let role = req.decoded.role;
+  let rolle = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
   console.log(bruker_id);
-  if (role == 'bedrift') {
+  if (rolle == 'bedrift') {
     feilDao.hentUnderBehandlingFeilTilBedrift(bruker_id, (status, data) => {
       res.status(status);
       res.json(data);
@@ -354,13 +356,13 @@ router.get('/api/feil/bedrift/ferdig', checkToken, (req, res) => {
 
 
 
-router.put('/api/bedrift/oppdater/feil/godta',checkToken, (req, res) => {
+router.put('/api/bedrift/oppdater/feil/godta', checkToken, (req, res) => {
   console.log('Fikk PUT-request fra klienten');
   let role = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
   console.log(bruker_id);
   if (role == 'bedrift') {
-    feilDao.oppdaterStatusFeilTilBedrift(req.body,bruker_id, (status, data) => {
+    feilDao.oppdaterStatusFeilTilBedrift(req.body, bruker_id, (status, data) => {
       res.status(status);
       res.json(data);
     });
@@ -374,7 +376,7 @@ router.post("/api/feil/:feil_id/abonnement", checkToken, (req, res) => {
   let role = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
   if (role == 'privat') {
-    feilDao.abonnerFeil({bruker_id: bruker_id, feil_id: req.params.feil_id}, (status, data) => {
+    feilDao.abonnerFeil({bruker_id: bruker_id, feil_id: req.body.feil_id}, (status, data) => {
       res.status(status);
       res.json(data);
     });
@@ -397,8 +399,5 @@ router.delete("/api/feil/:feil_id/abonnement", checkToken, (req, res) => {
     res.json({result: false});
   }
 });
-
-
-
 
 module.exports = router;
