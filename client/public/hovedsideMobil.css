@@ -1,0 +1,29 @@
+.hovedTittel button {
+    width: 90vw;
+    text-align: center;
+}
+
+.hovedTittel {
+    padding-top: 20px;
+    text-align: center;
+}
+
+.leaflet-top{
+    z-index: 700 !important;
+}
+
+.hovedsideScroll{
+    height: 80vh;     
+    overflow-y: scroll;
+}
+
+.hovedsideTabeller{
+    height: 80vh;
+    width: 90vw !important;
+}
+
+#mapContainer {
+    padding-right: 0 !important;
+    width: 90vw;
+    margin: 0 auto;
+}

@@ -118,28 +118,25 @@ export class Hovedside extends Component {
       <div>
         <PageHeader history={this.props.history} location={this.props.location} />
         <div className="mt-3 hovedTittel">
-          <Grid columns={3}>
-            <Grid.Column />
-            <Grid.Column>
-              <h1 className="text-center text-capitalize display-4">{this.props.match.params.kommune} </h1>
-            </Grid.Column>
-            <Grid.Column>
-              <div className="text-center mt-3 mr-3">
-                <Link to="/meldfeil">
-                  <Button color="red" size="large" floated="right">
-                    Meld inn feil
-                  </Button>
-                </Link>
-              </div>
-            </Grid.Column>
-          </Grid>
+
+          <h1 className="text-center text-capitalize display-4">{this.props.match.params.kommune} </h1>
+        
+          
+          <Link to="/meldfeil">
+            <Button color="red" size="large">
+              Meld inn feil
+            </Button>
+          </Link>
+          
+            
+          
         </div>
         {!this.visHendelser ? (
           <div>
             <div className="row mt-4">
               <div className="col-sm-4">
                 <div className="ml-3 mb-3">
-                  <Card fluid style={{height: 'calc(100vh - 300px)'}}>
+                  <Card fluid>
                     <Card.Content>
                       <Card.Header>
                         Nylige feil og mangler
@@ -294,7 +291,7 @@ export class Hovedside extends Component {
                 ) : (
                   <div className="row">
                     <div className="col-sm-6 text-center">
-                      <div>
+                      <div id="mapContainer">
                         <MarkerMap
                           width="100%"
                           height="calc(100vh - 300px)"

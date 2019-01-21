@@ -42,8 +42,8 @@ nav ul{
 }
 
 .hovedsideScroll{
-   height: calc(100vh - 350px);    
-   overflow-y: scroll; 
+   height: calc(100vh - 350px);     
+   overflow-y: scroll;
 }
 
 .hovedsideTabeller{
@@ -57,4 +57,12 @@ nav ul{
 .oppdateringScroll{
    height: 78px;
    overflow-y: scroll;
+}
+.hovedTittel {
+   position: relative;
+}
+.hovedTittel a {
+   position: absolute;
+   right: 10px;
+   bottom: 0px;
 }
