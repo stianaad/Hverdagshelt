@@ -137,10 +137,11 @@ export class FeedEvent extends Component {
                         </select>
                         <br />
                         <Form>
-                          <TextArea className="tekstFeltOppdatering" autoHeight placeholder="Skriv oppdatering..." onChange={this.tekstFelt} />
+                          <TextArea className="tekstFeltOppdatering" required={true} autoHeight placeholder="Skriv oppdatering..." onChange={this.tekstFelt} />
                         </Form>
                         <br />
                         <Button
+                          disabled={this.tekstverdi=== '' || this.statusID === ''}
                           onClick={() => {
                             this.props.knapp(this.tekstverdi, this.statusID,this.props.feil_id);
                             this.lukk();
@@ -349,7 +350,7 @@ export class ModalHendelse extends Component{
                 <div className="mt-5">
                 <p>
                   <img src="https://image.flaticon.com/icons/svg/33/33622.svg" height="20" width="20" />
-                  {this.props.sted}, Trondheim, Norge{' '}
+                  {this.props.sted}, {this.props.kommune_navn}, Norge{' '}
                 </p>
                 <p>
                   <img
