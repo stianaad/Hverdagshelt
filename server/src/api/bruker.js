@@ -175,6 +175,21 @@ router.get('/api/bruker/minside/gamle', checkToken, (req, res) => {
   }
 });
 
+router.get('/api/bruker/minside/sist/innlogget', checkToken, (req, res) => {
+  console.log('/bruker/minside fikk get request fra klient');
+  let role = req.decoded.role;
+  let bruker_id = req.decoded.user.bruker_id;
+  if (role == 'privat') {
+    brukerDao.oppdaterSistInnloggetPrivat(bruker_id, (status, data) => {
+      res.status(status);
+      res.json(data);
+    });
+  } else {
+    res.status(403);
+    res.json({result: false});
+  }
+});
+
 router.get('/api/bruker/feil', checkToken, (req, res) => {
   console.log('/api/bruker/feil fikk get request fra klient');
   let role = req.decoded.role;

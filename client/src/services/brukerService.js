@@ -71,6 +71,15 @@ class BrukerService {
     }
   }
 
+  oppdaterSistInnloggetPrivat() {
+    let token = sessionStorage.getItem('pollett');
+    if (token) {
+      return api.get('/api/bruker/minside/sist/innlogget', {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return [];
+    }
+  }
+
   finnFolgteFeilTilBruker() {
     let token = sessionStorage.getItem('pollett');
     if (token) {

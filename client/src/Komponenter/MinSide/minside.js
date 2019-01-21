@@ -25,6 +25,7 @@ export class Minside extends Component {
 
   state = {open: false};
 
+
   handleOpen = (feil) => {
     this.valgtFeil = {...feil};
     this.setState({open: true});
@@ -148,7 +149,7 @@ export class Minside extends Component {
               <Card.Content>
                 <Card.Header>
                   Dine rapporterte feil
-                  <Button basic color="green" onClick={this.visRapporterteFeil}>{this.oppdaterteFeil.length} nye oppdateringer</Button>
+                  <Button basic color="green" onClick={this.visRapporterteFeil}>{(this.oppdaterteFeil.length === 0) ? (<span>Ingen ny(e) oppdateringer</span>) : (<span>{this.oppdaterteFeil.length} nye oppdateringer</span>)}</Button>
                 </Card.Header>
               </Card.Content>
               {(this.visFeil) ? ( 
@@ -214,7 +215,7 @@ export class Minside extends Component {
               <h2>Feil/mangler du følger</h2>
               <Card.Group itemsPerRow={1}>
                 {this.folgteFeil.map((feil) => (
-                  <Card className="feilCard">
+                  <Card className="feilCard" onClick={() => this.handleOpen(feil)}>
                     <Image src={feil.url} className="feilCardImage" />
                     <Card.Content>
                       <Card.Header>{feil.overskrift}</Card.Header>
@@ -239,15 +240,16 @@ export class Minside extends Component {
     );
   }
 
-  visRapporterteFeil() {
+  async visRapporterteFeil() {
     this.visFeil = !this.visFeil;
     if(this.visFeil){
       this.finnIkkeOppdaterteFeil();
+      await brukerService.oppdaterSistInnloggetPrivat();
     }
   }
 
   scrollFeil() {
-    if ((this.oppdaterteFeil.length+this.ikkeOppdaterteFeil.length) > 4) {
+    if ((this.oppdaterteFeil.length+this.ikkeOppdaterteFeil.length+5) > 4) {
       this.classFeil = 'hovedsideScroll';
     }
   }
