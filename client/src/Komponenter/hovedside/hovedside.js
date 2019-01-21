@@ -130,7 +130,7 @@ export class Hovedside extends Component {
         </div>
         {!this.visHendelser ? (
           <div className="row mt-4 hovedContainer ml-1 mr-1">
-            <div className="col-sm-4" id="hovedFeil">
+            <div className="col-sm-3" id="hovedFeil">
               {/**
                       *NYLIGE FEIL
                       *NYLIGE FEIL
@@ -143,7 +143,7 @@ export class Hovedside extends Component {
                     <select
                       onChange={this.filter}
                       className="form-control right floated meta"
-                      style={{height: 30, width: 120}}
+                      style={{height: "30px", width: "100%", marginTop:"10px"}}
                     >
                       <option hidden> Filter </option>
                       <option value="0"> Alle kategorier </option>
@@ -174,8 +174,8 @@ export class Hovedside extends Component {
               </Card>
             </div>
             {this.visFeil ? (
-              <div className="col-sm-8">
-              <div className="mr-3 mb-3">
+              <div className="col-sm-9 feilInfo">
+              
                 <Card fluid>
                   <Card.Content>
                     <div>
@@ -261,7 +261,7 @@ export class Hovedside extends Component {
                     <Image src="/lofoten.jpg" />
                   </Modal.Content>
                 </Modal>
-              </div>
+              
               </div>
             ) : (
               /*
@@ -270,7 +270,7 @@ export class Hovedside extends Component {
                 KART
               */
               <>
-                <div className="col-sm-4 text-center" id="hovedKart">
+                <div className="col-sm-6 text-center" id="hovedKart">
                   <div id="mapContainer">
                     <MarkerMap
                       key={this.props.match.params.kommune}
@@ -283,7 +283,7 @@ export class Hovedside extends Component {
                     />
                   </div>
                 </div>
-                <div className="col-sm-4" id="hovedHendelser">
+                <div className="col-sm-3" id="hovedHendelser">
                   {/**
                     *KOMMENDE HENDELSER
                     *KOMMENDE HENDELSER
@@ -325,7 +325,7 @@ export class Hovedside extends Component {
           
         ) : (
           <div className="row mt-4">
-            <div className="col-sm-8 ">
+            <div className="col-sm-9 ">
               <Card fluid>
                 <Card.Content>
                   <div>
@@ -394,7 +394,7 @@ export class Hovedside extends Component {
                 </Card.Content>
               </Card>
             </div>
-            <div className="col-sm-4">
+            <div className="col-sm-3">
               <div className="mr-3 mb-3">
               <Card fluid className="hovedKort">
                 <Card.Content>
