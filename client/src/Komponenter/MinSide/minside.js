@@ -23,7 +23,8 @@ export class Minside extends Component {
     overskrift: '',
     bilde: '',
     tid: '',
-    sted: ''
+    sted: '',
+    kommune_navn: ''
   };
 
   visHendelse = false;
@@ -130,7 +131,7 @@ export class Minside extends Component {
             </div>
           </Modal.Content>) 
           : (
-            <ModalHendelse overskrift={this.valgteHendelse.overskrift} url={this.valgteHendelse.bilde} tid={this.valgteHendelse.tid} sted={this.valgteHendelse.sted}/>
+            <ModalHendelse overskrift={this.valgteHendelse.overskrift} url={this.valgteHendelse.bilde} tid={this.valgteHendelse.tid} sted={this.valgteHendelse.sted} kommune_navn={this.valgteHendelse.kommune_navn}/>
             )}
         </Modal>       
         <h1 className="text-center">Min side</h1>
