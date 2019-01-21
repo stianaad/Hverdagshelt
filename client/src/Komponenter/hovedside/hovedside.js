@@ -9,6 +9,7 @@ import {PositionMap, Marker, MarkerMap, markerTabell, ShowMarkerMap} from '../..
 import {Card, Feed, Grid, Button, Header, Icon, Image, Modal, GridColumn, List} from 'semantic-ui-react';
 import {FeedEvent, FeedHendelse, Filtrer, Info} from '../../Moduler/cardfeed';
 import { brukerService } from '../../services/brukerService';
+import { AbonnerKnapp } from '../../Moduler/abonner/abonner';
 
 export class Hovedside extends Component {
   visFeil = false;
@@ -21,7 +22,6 @@ export class Hovedside extends Component {
   bilderTilFeil = [];
   statusIkon = '';
   markers = [];
-  abonnerteFeil = [];
 
   feil = {
     overskrift: '',
@@ -53,9 +53,6 @@ export class Hovedside extends Component {
   async merInfo(feil) {
     this.visFeil = true;
     this.feil = {...feil};
-    console.log(this.abonnerteFeil);
-    this.feil.abonnert =  (this.abonnerteFeil.filter((a) => a.feil_id == feil.feil_id).length > 0);
-    console.log(this.feil);
     let res = await feilService.hentBilderTilFeil(feil.feil_id);
     this.bilderTilFeil = await res.data;
     this.endreStatusIkon(feil.status);
@@ -80,13 +77,6 @@ export class Hovedside extends Component {
       console.log(this.alleFeil);
       this.aktiveFeil = this.alleFeil.filter((kat) => kat.kategorinavn === verdi);
       console.log(this.aktivKategori);
-      /*generellServices
-        .hentFeilFiltrertKategori(verdi)
-        .then(aktiveFeil => {
-          this.aktiveFeil = aktiveFeil;
-          console.log(aktiveFeil.length);
-          confirm.log()
-        })*/
     }
   }
   /*hentKommuner(){
@@ -118,28 +108,25 @@ export class Hovedside extends Component {
       <div>
         <PageHeader history={this.props.history} location={this.props.location} />
         <div className="mt-3 hovedTittel">
-          <Grid columns={3}>
-            <Grid.Column />
-            <Grid.Column>
-              <h1 className="text-center text-capitalize display-4">{this.props.match.params.kommune} </h1>
-            </Grid.Column>
-            <Grid.Column>
-              <div className="text-center mt-3 mr-3">
-                <Link to="/meldfeil">
-                  <Button color="red" size="large" floated="right">
-                    Meld inn feil
-                  </Button>
-                </Link>
-              </div>
-            </Grid.Column>
-          </Grid>
+
+          <h1 className="text-center text-capitalize display-4">{this.props.match.params.kommune} </h1>
+        
+          
+          <Link to="/meldfeil">
+            <Button color="red" size="large">
+              Meld inn feil
+            </Button>
+          </Link>
+          
+            
+          
         </div>
         {!this.visHendelser ? (
           <div>
             <div className="row mt-4">
               <div className="col-sm-4">
                 <div className="ml-3 mb-3">
-                  <Card fluid style={{height: 'calc(100vh - 300px)'}}>
+                  <Card fluid>
                     <Card.Content>
                       <Card.Header>
                         Nylige feil og mangler
@@ -227,9 +214,7 @@ export class Hovedside extends Component {
                           <h6>
                             Status: {this.feil.status} <img src={this.statusIkon} width="30" height="30" />
                             {(global.payload && global.payload.role == 'privat') ? (
-                            <Button onClick={() => {this.abonnerfeil(this.feil.feil_id)}} floated="right" color="red" size="small">
-                              {this.feil.abonnert ? "Abonnerer" : "Abonner"}
-                            </Button>
+                            <div className="float-right"><AbonnerKnapp key={this.feil.feil_id} feil_id={this.feil.feil_id} /></div>
                             ) : null}
                           </h6>
                         </div>
@@ -242,7 +227,7 @@ export class Hovedside extends Component {
                           </Grid.Column>
                           <Grid.Column>
                             <h6>Posisjon</h6>
-                            <ShowMarkerMap width="100%" height="100%" id="posmap" feil={this.feil} />
+                            <ShowMarkerMap key={this.feil.feil_id} width="100%" height="100%" id="posmap" feil={this.feil} />
                           </Grid.Column>
                           <Grid.Column>
                             <h6>Oppdateringer: </h6>
@@ -296,8 +281,9 @@ export class Hovedside extends Component {
                 ) : (
                   <div className="row">
                     <div className="col-sm-6 text-center">
-                      <div>
+                      <div id="mapContainer">
                         <MarkerMap
+                          key={this.props.match.params.kommune}
                           width="100%"
                           height="calc(100vh - 300px)"
                           id="test"
@@ -419,51 +405,40 @@ export class Hovedside extends Component {
             </div>
             <div className="col-sm-4">
               <div className="mr-3 mb-3">
-                <Card fluid>
-                  <Card.Content>
-                    <Card.Header>
-                      <Grid>
-                        <Grid.Column width={12}>Kommende hendelser</Grid.Column>
-                        <Grid.Column width={4} />
-                      </Grid>
-                    </Card.Header>
-                  </Card.Content>
-                  <Card.Content>
-                    <Feed>
-                      {this.alleHendelser.map((hendelse) => (
-                        <FeedHendelse
-                          key={hendelse.hendelse_id}
-                          onClick={() => {
-                            this.visHendelser = true;
-                            this.visEnHendelse(hendelse);
-                          }}
-                          tid={hendelse.tid}
-                          kategori={hendelse.kategorinavn}
-                        >
-                          {hendelse.overskrift}
-                        </FeedHendelse>
-                      ))}
-                    </Feed>
-                  </Card.Content>
-                </Card>
+              <Card fluid>
+                <Card.Content>
+                  <Card.Header>
+                    <Grid>
+                      <Grid.Column width={12}>Kommende hendelser</Grid.Column>
+                      <Grid.Column width={4} />
+                    </Grid>
+                  </Card.Header>
+                </Card.Content>
+                <Card.Content className={this.classHendelser}>
+                  <Feed>
+                    {this.alleHendelser.map((hendelse) => (
+                      <FeedHendelse
+                        onClick={() => {
+                          this.visHendelser = true;
+                          this.visEnHendelse(hendelse);
+                        }}
+                        //status ={feil.status}
+                        tid={hendelse.tid}
+                        kategori={hendelse.kategorinavn}
+                        key={hendelse.hendelse_id}
+                      >
+                        {hendelse.overskrift}
+                      </FeedHendelse>
+                    ))}
+                  </Feed>
+                </Card.Content>
+              </Card>
               </div>
             </div>
           </div>
         )}
       </div>
     );
-  }
-
-  async abonnerfeil(feil_id) {
-    if (this.feil.abonnert) {
-      feilService.ikkeAbonner(feil_id);
-      this.feil.abonnert = false;
-    } else {
-      feilService.abonner(feil_id);
-      this.feil.abonnert = true;
-    }
-    let res = await brukerService.finnFolgteFeilTilBruker();
-    this.abonnerteFeil = await res.data;
   }
 
   async callMap() {
@@ -497,15 +472,13 @@ export class Hovedside extends Component {
     this.alleHendelser = await res3.data;*/
     let res1 = await feilService.hentAlleFeil(),
       res2 = await feilService.hentAlleHovedkategorier(),
-      res3 = await hendelseService.hentAlleHendelser(),
-      res4 = await brukerService.finnFolgteFeilTilBruker();
+      res3 = await hendelseService.hentAlleHendelser();
 
-    [this.alleFeil, this.aktiveFeil, this.alleKategorier, this.alleHendelser, this.abonnerteFeil] = await Promise.all([
+    [this.alleFeil, this.aktiveFeil, this.alleKategorier, this.alleHendelser] = await Promise.all([
       res1.data,
       res1.data,
       res2.data,
       res3.data,
-      res4.data,
     ]);
 
     await this.scrollFeil();

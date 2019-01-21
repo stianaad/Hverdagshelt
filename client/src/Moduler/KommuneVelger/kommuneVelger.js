@@ -34,7 +34,8 @@ export class KommuneVelger extends Component {
           {this.kommuner_filtrert.map((kommune, i) => (
             <li
               onClick={() => {
-                global.sidePush('/hovedside/' + kommune.kommune_navn.toLowerCase());
+                //global.sidePush('/hovedside/' + kommune.kommune_navn.toLowerCase());
+                this.navigate('/hovedside/' + kommune.kommune_navn.toLowerCase());
               }}
               key={kommune.kommune_id}
               className={i == this.valgt_index ? 'komElement komValgt' : 'komElement'}
@@ -55,10 +56,19 @@ export class KommuneVelger extends Component {
     this.kommuner = await res.data;
   }
 
+  navigate(path) {
+    this.sok = '';
+    this.listesyn = false;
+    this.kommuner_filtrert = [];
+    this.valgt_index = 0;
+    this.props.history.push(path);
+  }
+
   inputup(e) {
     if (e.key == 'Enter') {
       if (this.kommuner_filtrert.length > 0) {
-        global.sidePush('/hovedside/' + this.kommuner_filtrert[this.valgt_index].kommune_navn.toLowerCase());
+        //global.sidePush('/hovedside/' + this.kommuner_filtrert[this.valgt_index].kommune_navn.toLowerCase());
+        this.navigate('/hovedside/' + this.kommuner_filtrert[this.valgt_index].kommune_navn.toLowerCase());
       }
     } else if (e.key == 'ArrowDown') {
       //NED

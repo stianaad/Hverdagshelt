@@ -95,16 +95,8 @@
 }
 
 .ansattScroll{
-    height: calc(100vh - 250px);
+    height: 350px;
     overflow-y: scroll; 
-}
-
-.vinduansatt{
-    height: calc(100vh - 60px);
-}
-
-.feilDiv{
-    height: calc(100vh - 250px);
 }
 
 .bilder{
@@ -117,7 +109,11 @@
     height: 400px;
 }
 
-ansattMenyContainer{
+.ansattMenyContainer{
     background-color: white;
     margin-left: 10px; 
+}
+
+.vinduansatt{
+    height: calc(100vh - 60px);
 }

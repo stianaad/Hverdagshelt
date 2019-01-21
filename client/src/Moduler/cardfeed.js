@@ -64,7 +64,7 @@ export class FeedEvent extends Component {
   async open() {
     this.setState({modalOpen: true});
     let res1 = await feilService.hentAlleStatuser();
-    this.statuser = await res1.data.filter((status) => status.status_id != 1);
+    this.statuser = await res1.data.filter((status) => status.status_id > 2);
     await console.log(this.statuser);
   }
 
@@ -93,7 +93,8 @@ export class FeedEvent extends Component {
                 <i>{this.props.kategori}</i>
               </span>
               <br />
-              Sak ID: {this.props.feil_id}
+              {(this.props.visSakID) ? (<span>Sak ID: {this.props.feil_id}</span>)
+              : (null)}
             </a>
           </Feed.Content>
           {this.props.visRedigering ? (
@@ -117,6 +118,7 @@ export class FeedEvent extends Component {
                     />
                   }
                   size="tiny"
+                  className="oppdaterFeilBedrift"
                   open={this.state.modalOpen}
                   onClose={this.lukk}
                 >
@@ -135,7 +137,7 @@ export class FeedEvent extends Component {
                         </select>
                         <br />
                         <Form>
-                          <TextArea autoHeight placeholder="Skriv oppdatering..." onChange={this.tekstFelt} />
+                          <TextArea className="tekstFeltOppdatering" autoHeight placeholder="Skriv oppdatering..." onChange={this.tekstFelt} />
                         </Form>
                         <br />
                         <Button
@@ -355,24 +357,23 @@ export class Info extends Component {
 }
 
 export class Filtrer extends Component {
+  
   render() {
     return (
       <div>
         <select onChange={this.props.onChange} style={{height: 30, width: 120}} className="rigth floated form-control">
           <option hidden>Filtrer</option>
-          <option value="0">Alle kategorier</option>
-          <option value="0">Alle kategorier</option>
-          <option value="0">Alle kategorier</option>
-          <option value="0">Alle kategorier</option>
+          <option value="0"> Alle kategorier </option>
+          {this.props.alleKategorier.map( filtrer => (
+            <option value={filtrer.kategorinavn} key={filtrer.kategorinavn}>
+            {' '}
+            {filtrer.kategorinavn}
+          </option>
+          ))}
         </select>
       </div>
     );
   }
-  /*{this.alleKategorier.map(kategori => (
-                        <option value={kategori.hovedkategori_id} key={ketegori.hovedkategori_id}>
-                            {kategori.kategorinavn}
-                        </option>
-                    ))}*/
 }
 
 //For hendelse siden

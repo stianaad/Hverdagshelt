@@ -1,7 +1,7 @@
 .pageHeader {
     height:90px;
     background-color:#fff;
-    border-bottom: 2px solid #eee;
+    border-bottom: 2px solid #d9d9d9;
     position:fixed;
     top:0;
     left:0;
@@ -69,6 +69,7 @@
     height: 35px;
     border-radius: 20px;
     padding: 5px 15px;
+    border-bottom: 2px solid #d9d9d9;
 }
 
 .headKomWrapper div ul li {
@@ -99,10 +100,14 @@
 }
 
 .pageHeaderRight .logginnbutton {
+    box-shadow: 0 0.5px 2px rgba(0,0,0,0.2);
+    background-color: white;
+    cursor: pointer;
     height: 50px;
     margin-top: 3px;
     font-size: 16px;
     border-radius:30px;
+    border: none !important;
     padding: 0 20px 0 20px;
     padding-top: 0 !important;
 }

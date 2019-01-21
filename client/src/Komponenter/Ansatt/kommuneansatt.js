@@ -194,11 +194,13 @@ export class NyeFeil extends Component {
     );
   }
 
-  async godkjenn(tekst, statusVerdi, feil_id){
-      let res = await feilService.lagOppdatering({"feil_id": feil_id,"kommentar":tekst,"status_id":statusVerdi});
-      await console.log(res1);
+  async godkjenn(){
+      nyOpp = {
+          feil_id: this.valgtfeil.feil_id,
+          kommentar: "Ansatt har godkjent innhold",
+          status_id: 2,
+      };
   }
-
 
   scroll() {
     if (this.nyefeil.length > 5) {
