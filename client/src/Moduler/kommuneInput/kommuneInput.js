@@ -68,6 +68,11 @@ export class KommuneInput extends Component {
     });
     let res = await generellServices.hentAlleKommuner();
     this.kommuner = await res.data;
+
+    if (this.props.kommune_id) {
+      this.verdi = this.props.kommune_id;
+      this.sok = await res.data.find((kommune) => kommune.kommune_id==this.verdi).kommune_navn;
+    }
   }
 
   inputup(e) {

@@ -115,17 +115,16 @@ router.post('/api/brukere/admin', checkToken, (req, res) => {
 });
 
 router.post('/api/brukere/nyttpassord', checkToken, (req, res) => {
-  let epost = req.decoded.user.epost;
   passord(req.body.passord).hash((error, hash) => {
     if (error) {
       throw new Error('Noe gikk galt');
     }
     req.body.passord = hash;
-    brukerDao.endrePassord({passord: req.body.passord, epost: epost}, (status, data) => {
+    brukerDao.endrePassord({passord: req.body.passord, bruker_id: req.decoded.user.bruker_id}, (status, data) => {
       res.status(status);
       res.json(data);
     });
-    console.log('Suksess');
+    console.log('/nyttpassord, endret passord: OK');
   });
 });
 
@@ -133,19 +132,20 @@ router.post('/api/brukere/glemtpassord', (req, res) => {
   brukerDao.hentBruker(req.body, (status, data) => {
     res.status(status);
     res.json(data);
-    console.log('hele veien baby');
+    console.log('/glemtpassord - hentet bruker');
     if (data[0].epost === req.body.epost) {
       genenererEpostPollett(req.body.epost, (token) => {
+        console.log('/glemtpassord - epost matcher, pollett generert');
         let link = 'http://localhost:3000/resett-passord/' + token;
         epostTjener.glemtPassord(req.body.epost, link);
       });
     } else {
-      throw new Error('Fant ikke bruker');
+      throw new Error('/glemtpassord - Fant ikke bruker');
     }
   });
 });
 
-router.get('/api/bruker/minside', checkToken, (req, res) => {
+router.get('/api/brukere/minside', checkToken, (req, res) => {
   console.log('/bruker/minside fikk get request fra klient');
   let role = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
@@ -160,7 +160,7 @@ router.get('/api/bruker/minside', checkToken, (req, res) => {
   }
 });
 
-router.get('/api/bruker/feil', checkToken, (req, res) => {
+router.get('/api/brukere/feil', checkToken, (req, res) => {
   console.log('/api/bruker/feil fikk get request fra klient');
   let role = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
@@ -175,7 +175,7 @@ router.get('/api/bruker/feil', checkToken, (req, res) => {
   }
 });
 
-router.get('/api/bruker/hendelser', checkToken, (req, res) => {
+router.get('/api/brukere/hendelser', checkToken, (req, res) => {
   console.log('/api/bruker/hendelser fikk get request fra klient');
   let role = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
@@ -190,20 +190,6 @@ router.get('/api/bruker/hendelser', checkToken, (req, res) => {
   }
 });
 
-router.get('/resetPassord/:token', (req, res) => {
-  console.log('Reset passord');
-  let naaTid = Date.now().valueOf() / 1000;
-  let dekodet = jwt.decode(req.params.token);
-  let tidToken = dekodet.exp;
-  if (naaTid < tidToken) {
-    brukerDao.endrePassord(req.body, (status, data) => {
-      res.status(status);
-      res.json(data);
-      epostTjener.resattPassord(req.body.epost, 'http://localhost:3000/');
-    });
-  }
-});
-
 router.put('/api/brukere', checkToken, (req, res) => {
   let rolle = {bruker_id: req.decoded.user.bruker_id, rolle: req.decoded.role};
 
@@ -213,6 +199,7 @@ router.put('/api/brukere', checkToken, (req, res) => {
     console.log('oppdater en bruker resultat:' + data);
   });
 });
+
 router.get('/api/bedrifter', (req, res) => {
   console.log('Fikk GET-request fra klienten');
 

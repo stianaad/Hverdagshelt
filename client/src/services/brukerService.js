@@ -48,15 +48,10 @@ class BrukerService {
     return api.post('/api/brukere/glemtpassord', input);
   }
 
-  hentbrukere() {
-    console.log('hente brukere');
-    return api.get('/api/hentbrukere');
-  }
-
   finnFeilTilBruker() {
     let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.get('/api/bruker/minside', {headers: {'x-access-token': 'Bearer ' + token}});
+      return api.get('/api/brukere/minside', {headers: {'x-access-token': 'Bearer ' + token}});
     } else {
       return [];
     }
@@ -65,7 +60,7 @@ class BrukerService {
   finnFolgteFeilTilBruker() {
     let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.get('/api/bruker/feil', {headers: {'x-access-token': 'Bearer ' + token}});
+      return api.get('/api/brukere/feil', {headers: {'x-access-token': 'Bearer ' + token}});
     } else {
       return [];
     }
@@ -74,7 +69,7 @@ class BrukerService {
   finnFolgteHendelserTilBruker() {
     let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.get('/api/bruker/hendelser', {headers: {'x-access-token': 'Bearer ' + token}});
+      return api.get('/api/brukere/hendelser', {headers: {'x-access-token': 'Bearer ' + token}});
     } else {
       return [];
     }

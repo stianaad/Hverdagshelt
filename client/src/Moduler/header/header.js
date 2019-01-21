@@ -99,7 +99,7 @@ export class ProfileButton extends Component {
             >
               <div className="arrow" />
               <div className="arrowborder" />
-              <Link to="/mineOppgaver">
+              <Link to="/mineoppgaver">
                 <div className="dropdown-item">Mine oppgaver</div>
               </Link>
               <div className="dropdown-item">Legg til hendelse</div>
@@ -119,7 +119,9 @@ export class ProfileButton extends Component {
             >
               <div className="arrow" />
               <div className="arrowborder" />
-              <div className="dropdown-item">Mine oppgaver</div>
+              <Link to="/mineoppgaver">
+                <div className="dropdown-item">Mine oppgaver</div>
+              </Link>
               <div className="dropdown-item">Instillinger</div>
               <div onClick={this.loggut} className="dropdown-item">
                 Logg ut
