@@ -11,6 +11,10 @@ module.exports = class HendelseDao extends Dao {
     );
   }
 
+  hentHendelseForKommune(kommune_id, callback) {
+    super.query('SELECT * FROM hendelser WHERE kommune_id = ?', [kommune_id], callback);
+  }
+
   //testes
   hentEnHendelse(json, callback) {
     var id = json.hendelse_id;

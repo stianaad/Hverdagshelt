@@ -106,9 +106,14 @@
     object-fit: cover;
 }
 
-.bildevisning{
-    height: 300px;
-    position: center;
+.bildevisning {
+    max-height: 70vh;
+    max-width: 70vw;
+}
+
+.modalwidth {
+    width: max-content !important;
+    height: max-content !important;
 }
 
 .ansattMenyContainer{
@@ -118,8 +123,4 @@
 
 .vinduansatt{
     height: calc(100vh - 60px);
-}
-
-.modalwidth{
-    width: 30% !important;
 }

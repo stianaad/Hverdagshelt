@@ -40,17 +40,41 @@ module.exports = class BrukerDao extends Dao {
     super.query('SELECT bruker_id FROM bruker WHERE epost=?', epost, callback);
   }
 
-  finnFeilTilBruker(bruker_id, callback) {
+  finnOppdaterteFeilTilBruker(bruker_id, callback) {
     super.query(
-      "SELECT feil.*, hovedkategori.kategorinavn,status.status, DATE_FORMAT(f.tid, '%Y-%m-%d %H:%i') AS tid FROM feil INNER JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id INNER JOIN hovedkategori ON subkategori.hovedkategori_id = hovedkategori.hovedkategori_id INNER JOIN (SELECT feil_id, min(tid) as tid from oppdatering group by feil_id) as f ON feil.feil_id = f.feil_id INNER JOIN (SELECT feil_id, ANY_VALUE(status_id) as status_id, max(tid) as tid from oppdatering group by feil_id) as s ON feil.feil_id = s.feil_id INNER JOIN status ON status.status_id = s.status_id WHERE bruker_id=?",
+      "SELECT feil.*, hovedkategori.kategorinavn,status.status, DATE_FORMAT(f.tid, '%Y-%m-%d %H:%i') AS tid FROM feil INNER JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id INNER JOIN hovedkategori ON subkategori.hovedkategori_id = hovedkategori.hovedkategori_id INNER JOIN (SELECT feil_id, min(tid) as tid from oppdatering group by feil_id) as f ON feil.feil_id = f.feil_id INNER JOIN (SELECT feil_id, ANY_VALUE(status_id) as status_id, max(tid) as tid from oppdatering group by feil_id) as s ON feil.feil_id = s.feil_id INNER JOIN status ON status.status_id = s.status_id INNER JOIN privat ON privat.bruker_id=feil.bruker_id WHERE feil.bruker_id=? AND f.tid > privat.sist_innlogget",
       [bruker_id],
       callback
     );
   }
 
+  finnOppdaterteFeilTilBruker(bruker_id, callback) {
+    super.query(
+      "SELECT feil.*, hovedkategori.kategorinavn,status.status, DATE_FORMAT(f.tid, '%Y-%m-%d %H:%i') AS tid FROM feil INNER JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id INNER JOIN hovedkategori ON subkategori.hovedkategori_id = hovedkategori.hovedkategori_id INNER JOIN (SELECT feil_id, min(tid) as tid from oppdatering group by feil_id) as f ON feil.feil_id = f.feil_id INNER JOIN (SELECT feil_id, ANY_VALUE(status_id) as status_id, max(tid) as tid from oppdatering group by feil_id) as s ON feil.feil_id = s.feil_id INNER JOIN status ON status.status_id = s.status_id INNER JOIN privat ON privat.bruker_id=feil.bruker_id WHERE feil.bruker_id=? AND f.tid > privat.sist_innlogget ORDER BY tid desc",
+      [bruker_id],
+      callback
+    );
+  }
+
+  finnIkkeOppdaterteFeilTilBruker(bruker_id, callback) {
+    super.query(
+      "SELECT feil.*, hovedkategori.kategorinavn,status.status, DATE_FORMAT(f.tid, '%Y-%m-%d %H:%i') AS tid FROM feil INNER JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id INNER JOIN hovedkategori ON subkategori.hovedkategori_id = hovedkategori.hovedkategori_id INNER JOIN (SELECT feil_id, min(tid) as tid from oppdatering group by feil_id) as f ON feil.feil_id = f.feil_id INNER JOIN (SELECT feil_id, ANY_VALUE(status_id) as status_id, max(tid) as tid from oppdatering group by feil_id) as s ON feil.feil_id = s.feil_id INNER JOIN status ON status.status_id = s.status_id INNER JOIN privat ON privat.bruker_id=feil.bruker_id WHERE feil.bruker_id=? AND f.tid < privat.sist_innlogget ORDER BY tid desc",
+      [bruker_id],
+      callback
+    );
+  }
+
+  oppdaterSistInnloggetPrivat(bruker_id, callback){
+    super.query(
+      "UPDATE privat SET sist_innlogget=now() WHERE bruker_id = ?",
+      [bruker_id],
+      callback
+    )
+  }
+
   finnFolgteFeilTilBruker(bruker_id, callback) {
     super.query(
-      "SELECT feilfolg.feil_id, feilfolg.bruker_id, feil.overskrift, DATE_FORMAT(s.tid, '%Y-%m-%d %H:%i') AS tid, s.status_id, b.url FROM feil LEFT JOIN (SELECT feil_id, ANY_VALUE(status_id) as status_id, max(tid) as tid from oppdatering group by feil_id) as s ON s.feil_id=feil.feil_id LEFT JOIN (SELECT feil_id, ANY_VALUE(url) as url, min(bilde_id) as bilde_id from feilbilder group by feil_id) as b ON b.feil_id=feil.feil_id INNER JOIN feilfolg ON feilfolg.feil_id = feil.feil_id WHERE feilfolg.bruker_id = ?",
+      "SELECT feil.*, feilfolg.feil_id, feilfolg.bruker_id, feil.overskrift, DATE_FORMAT(s.tid, '%Y-%m-%d %H:%i') AS tid, s.status_id, b.url FROM feil LEFT JOIN (SELECT feil_id, MAX(status_id) as status_id, max(tid) as tid from oppdatering group by feil_id) as s ON s.feil_id=feil.feil_id LEFT JOIN (SELECT feil_id, ANY_VALUE(url) as url, min(bilde_id) as bilde_id from feilbilder group by feil_id) as b ON b.feil_id=feil.feil_id INNER JOIN feilfolg ON feilfolg.feil_id = feil.feil_id WHERE feilfolg.bruker_id = ?",
       [bruker_id],
       callback
     );
@@ -58,7 +82,7 @@ module.exports = class BrukerDao extends Dao {
 
   finnFolgteHendelserTilBruker(bruker_id, callback) {
     super.query(
-      "SELECT hendfolg.hendelse_id, hendfolg.bruker_id, hendelser.hendelse_id, DATE_FORMAT(hendelser.tid, '%Y-%m-%d %H:%i') AS tid,overskrift, beskrivelse,bilde,sted,lengdegrad,breddegrad,hendfolg.bruker_id FROM hendelser,hendfolg WHERE hendelser.hendelse_id=hendfolg.hendelse_id and hendfolg.bruker_id=?",
+      "SELECT hendfolg.hendelse_id, hendfolg.bruker_id, hendelser.hendelse_id, kommuner.kommune_navn ,DATE_FORMAT(hendelser.tid, '%Y-%m-%d %H:%i') AS tid,overskrift, beskrivelse,bilde,sted,lengdegrad,breddegrad,hendfolg.bruker_id FROM hendelser,hendfolg,kommuner WHERE hendelser.hendelse_id=hendfolg.hendelse_id and hendelser.kommune_id=kommuner.kommune_id AND hendfolg.bruker_id=?",
       [bruker_id],
       callback
     );
@@ -117,7 +141,7 @@ module.exports = class BrukerDao extends Dao {
     self.finnBruker_id(json, (status, data) => {
       if (data.length == 0) {
         self.lagNyBruker(json, (status, data) => {
-          console.log(json.telefon.length.toString() == 8);
+          console.log(json.telefon.length.toString() == 8); 
           console.log(json.navn != null);
           let gyldig = (self.kontrollOrgnr(json.orgnr) && json.telefon.length == 8 && json.navn != null);
           if (status == 200 && gyldig) {

@@ -9,6 +9,10 @@ class FeilService {
     return api.get('/api/feil/:feil_id', feil_id);
   }
 
+  hentFeilForKommune(kommune_id) {
+    return api.get('/api/kommuner/'+kommune_id+'/feil');
+  }
+
   hentBilderTilFeil(feil_id) {
     return api.get('/api/feil/' + feil_id + '/bilder');
   }

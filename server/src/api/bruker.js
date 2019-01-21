@@ -150,7 +150,37 @@ router.get('/api/brukere/minside', checkToken, (req, res) => {
   let role = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
   if (role == 'privat') {
-    brukerDao.finnFeilTilBruker(bruker_id, (status, data) => {
+    brukerDao.finnOppdaterteFeilTilBruker(bruker_id, (status, data) => {
+      res.status(status);
+      res.json(data);
+    });
+  } else {
+    res.status(403);
+    res.json({result: false});
+  }
+});
+
+router.get('/api/bruker/minside/gamle', checkToken, (req, res) => {
+  console.log('/bruker/minside fikk get request fra klient');
+  let role = req.decoded.role;
+  let bruker_id = req.decoded.user.bruker_id;
+  if (role == 'privat') {
+    brukerDao.finnIkkeOppdaterteFeilTilBruker(bruker_id, (status, data) => {
+      res.status(status);
+      res.json(data);
+    });
+  } else {
+    res.status(403);
+    res.json({result: false});
+  }
+});
+
+router.get('/api/bruker/minside/sist/innlogget', checkToken, (req, res) => {
+  console.log('/bruker/minside fikk get request fra klient');
+  let role = req.decoded.role;
+  let bruker_id = req.decoded.user.bruker_id;
+  if (role == 'privat') {
+    brukerDao.oppdaterSistInnloggetPrivat(bruker_id, (status, data) => {
       res.status(status);
       res.json(data);
     });

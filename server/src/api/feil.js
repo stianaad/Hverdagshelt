@@ -26,6 +26,13 @@ router.get('/api/feil', (req, res) => {
   });
 });
 
+router.get('/api/kommuner/:kommune_id/feil', (req, res) => {
+  feilDao.hentFeilForKommune(req.params.kommune_id, (status, data) => {
+    res.status(status);
+    res.json(data);
+  });
+});
+
 router.get('/api/feil/:feil_id', (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk GET-request fra klienten');
