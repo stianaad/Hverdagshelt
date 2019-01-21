@@ -6,12 +6,14 @@ import {KommuneInput} from '../../Moduler/kommuneInput/kommuneInput';
 import {PositionMap} from '../../Moduler/kart/map';
 import {feilService} from '../../services/feilService';
 import {PageHeader} from '../../Moduler/header/header';
+import queryString from 'query-string'
 
 export class MeldFeil extends Component {
   kategoriene = [];
   subkategoriene = [];
   subkatfiltrert = [];
   kominput = React.createRef();
+  defaultKommune = null;
 
   data = {
     overskrift: '',
@@ -37,7 +39,7 @@ export class MeldFeil extends Component {
               <label id="kommunelbl" htmlFor="kom">
                 Kommune:
               </label>
-              <KommuneInput ref={this.kominput} kommune_id={global.payload ? global.payload.user.kommune_id : null}/>
+              <KommuneInput ref={this.kominput} key={this.defaultKommune} kommune_id={this.defaultKommune}/>
             </div>
             <div id="overskriftblokk">
             <label id="overskriftlbl" htmlFor="kom">
@@ -143,6 +145,13 @@ export class MeldFeil extends Component {
     let skat = await feilService.hentAlleSubkategorier();
     this.subkategoriene = await skat.data;
     this.subkatfiltrert = await skat.data.filter((kat) => 1 == kat.hovedkategori_id);
+
+    const q = queryString.parse(this.props.location.search);
+    if (q.k && Number.isInteger(parseInt(q.k))) {
+      this.defaultKommune = parseInt(q.k);
+    } else {
+      this.defaultKommune = global.payload.user.kommune_id;
+    }
   }
 
   async handleChange(e) {
