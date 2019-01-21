@@ -118,6 +118,7 @@ module.exports = class BrukerDao extends Dao {
       if (data.length == 0) {
         self.lagNyBruker(json, (status, data) => {
           console.log(self.kontrollOrgnr(json.orgnr));
+          console.log(json.telefon.length == 8 && json.navn != null);
           let gyldig = (self.kontrollOrgnr(json.orgnr) && json.telefon.length == 8 && json.navn != null);
           if (status == 200 && gyldig) {
             super.query(
