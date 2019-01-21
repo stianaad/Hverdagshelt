@@ -51,11 +51,11 @@ router.get('/api/feil/:feil_id/bilder', (req, res) => {
 
 //Dette endepunktet krever multipart/form-data istedet for json for å håndtere bildeopplasting
 router.post('/api/feil', upload.array('bilder', 10), checkToken, (req, res) => {
-  //if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk POST-request fra klienten');
+  let rolle = req.decoded.role;
   let a = {
     kommune_id: req.body.kommune_id,
-    bruker_id: 1, //dette skal serveren finne ut av selv ut i fra token
+    bruker_id: req.decoded.user.bruker_id, 
     subkategori_id: req.body.subkategori_id,
     overskrift: req.body.overskrift,
     beskrivelse: req.body.beskrivelse,
@@ -70,7 +70,7 @@ router.post('/api/feil', upload.array('bilder', 10), checkToken, (req, res) => {
         feil_id: feil_id,
         kommentar: 'Sak opprettet',
         status_id: 1,
-        bruker_id: null,
+        bruker_id: req.decoded.user.bruker_id
       };
       feilDao.lagOppdatering(o, (status2, data) => {
         if (req.files && req.files.length > 0) {
@@ -99,13 +99,14 @@ router.put('/api/feil/:feil_id', checkToken, (req, res) => {
   let a = {
       kommune_id: req.body.kommune_id,
       subkategori_id: req.body.subkategori_id,
+      overskrift: req.body.overskrift,
       beskrivelse: req.body.beskrivelse,
       lengdegrad: req.body.lengdegrad,
       breddegrad: req.body.breddegrad,
       feil_id: req.body.feil_id,
     };
 
-  if (rolle == 'admin' || rolle == 'ansatt') {
+  if(rolle == 'ansatt' && req.decoded.user.kommune_id == req.body.kommune_id || rolle == 'admin') {
     feilDao.oppdaterFeil(a, (status, data) => {
       console.log('Admin eller ansatt har oppdatert feil med id =' + req.body.feil_id);
       res.status(status);
@@ -132,18 +133,10 @@ router.put('/api/feil/:feil_id', checkToken, (req, res) => {
 router.delete('/api/feil/:feil_id', checkToken, (req, res) => {
   console.log('Fikk POST-request fra klienten');
   let rolle = req.decoded.rolle;
-
-  let a = {
-    kommune_id: req.body.kommune_id,
-    subkategori_id: req.body.subkategori_id,
-    overskrift: req.body.overskrift,
-    beskrivelse: req.body.beskrivelse,
-    lengdegrad: req.body.lengdegrad,
-    breddegrad: req.body.breddegrad
-  }
+  let feil_id = {feil_id: req.body.feil_id};
 
   if (rolle == 'admin') {
-    feilDao.slettFeil(req.body.feil_id, (status, data) => {
+    feilDao.slettFeil(feil_id, (status, data) => {
       console.log('Slettet en feil');
       res.status(status);
       res.json(data);
@@ -155,24 +148,16 @@ router.delete('/api/feil/:feil_id', checkToken, (req, res) => {
         res.status(403);
         res.json({result: false, message: 'Privatbruker har ikke registrert denne feilen'});
       } else {
-        feilDao.oppdaterFeil(a, (status, data) => {
+        feilDao.slettFeil(feil_id, (status, data) => {
           console.log('Privatbruker har slettet feil med id =' + req.body.feil_id);
           res.status(status);
         });
       }
     });
-  } else if (rolle == 'ansatt') {
-    let c = {kommune_id: req.decoded.user.kommune_id, feil_id: req.body.feil_id};
-    brukerDao.sjekkFeilPaaKommune(c, (status, data) => {
-      if(data[0].length == 0) {
-        res.status(403);
-        res.json({result: false, message: 'Ansatt har ikke tilgang til feil i denne kommunen'});
-      } else {
-        feilDao.oppdaterFeil(a, (status, data) => {
-          console.log('Ansatt har slettet feil med id =' + req.body.feil_id);
-          res.status(status);
-        });
-      }
+  } else if (rolle == 'ansatt' && req.decoded.user.kommune_id == req.body.kommune_id) {
+    feilDao.slettFeil(feil_id, (status, data) => {
+      console.log('Ansatt har slettet feil med id =' + req.body.feil_id);
+      res.status(status);
     });
   }
 });
