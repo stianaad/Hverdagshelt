@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
 import {FormGroup, FormControl} from 'react-bootstrap';
-import {FormInput, GronnKnapp} from '../../widgets';
+import {GronnKnapp} from '../../widgets';
 import {KommuneInput} from '../../Moduler/kommuneInput/kommuneInput';
 import {PositionMap} from '../../Moduler/kart/map';
 import {feilService} from '../../services/feilService';
@@ -40,10 +40,15 @@ export class MeldFeil extends Component {
               <KommuneInput onChange={this.getKom} ref={this.kominput} />
             </div>
             <div id="overskriftblokk">
-              <FormInput
+            <label id="overskriftlbl" htmlFor="kom">
+                Overskrift:
+              </label>
+              <input
                 type="text"
+                className="form-control"
                 label="Overskrift:"
                 name="overskrift"
+                value={this.data.overskrift}
                 onChange={this.endreVerdi}
                 required
               />
@@ -118,7 +123,7 @@ export class MeldFeil extends Component {
           </div>
           <div id="sjekkboks">
             <div id="boksen">
-              <input onChange={this.endreVerdi} name="avsjekket" type="checkbox" name="Abonner" value="Abonner" />
+              <input onChange={this.endreVerdi} checked={!!this.data.avsjekket} name="avsjekket" type="checkbox" />
             </div>
             <div id="boksenlbl">
               <label>Abonner på denne saken</label>
@@ -133,6 +138,7 @@ export class MeldFeil extends Component {
   }
 
   async mounted() {
+    console.log(this.data)
     let hkat = await feilService.hentAlleHovedkategorier();
     this.kategoriene = await hkat.data;
     let skat = await feilService.hentAlleSubkategorier();
