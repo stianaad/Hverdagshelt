@@ -21,7 +21,7 @@ export class MeldFeil extends Component {
     beskrivelse: '',
     lengdegrad: 0,
     breddegrad: 0,
-    avsjekket: 0,
+    abonner: 1,
   };
 
   render() {
@@ -37,7 +37,7 @@ export class MeldFeil extends Component {
               <label id="kommunelbl" htmlFor="kom">
                 Kommune:
               </label>
-              <KommuneInput onChange={this.getKom} ref={this.kominput} />
+              <KommuneInput ref={this.kominput} kommune_id={global.payload ? global.payload.user.kommune_id : null}/>
             </div>
             <div id="overskriftblokk">
             <label id="overskriftlbl" htmlFor="kom">
@@ -123,7 +123,7 @@ export class MeldFeil extends Component {
           </div>
           <div id="sjekkboks">
             <div id="boksen">
-              <input onChange={this.endreVerdi} checked={!!this.data.avsjekket} name="avsjekket" type="checkbox" />
+              <input onChange={this.endreVerdi} checked={!!this.data.abonner} name="abonner" type="checkbox" />
             </div>
             <div id="boksenlbl">
               <label>Abonner på denne saken</label>
@@ -138,7 +138,6 @@ export class MeldFeil extends Component {
   }
 
   async mounted() {
-    console.log(this.data)
     let hkat = await feilService.hentAlleHovedkategorier();
     this.kategoriene = await hkat.data;
     let skat = await feilService.hentAlleSubkategorier();
@@ -161,7 +160,7 @@ export class MeldFeil extends Component {
     formData.append('beskrivelse', this.data.beskrivelse);
     formData.append('lengdegrad', this.data.lengdegrad);
     formData.append('breddegrad', this.data.breddegrad);
-    formData.append('avsjekket', this.data.avsjekket);
+    formData.append('abonner', this.data.abonner);
     Array.from(document.querySelector('#bil').files).forEach((file) => {if (file.type.match('image.*')) formData.append('bilder', file, file.name);})
 
     let token = sessionStorage.getItem('pollett');

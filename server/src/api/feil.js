@@ -64,28 +64,34 @@ router.post('/api/feil', upload.array('bilder', 10), checkToken, (req, res) => {
     breddegrad: req.body.breddegrad,
   };
   if (rolle == 'privat' || rolle == 'admin') {
-    feilDao.lagNyFeil(a, (status1, data) => {
+    feilDao.lagNyFeil(a, (status, data) => {
       console.log('Opprettet en ny feil');
       let feil_id = data.insertId;
-      let o = {
-        feil_id: feil_id,
-        kommentar: 'Sak opprettet',
-        status_id: 1,
-        bruker_id: req.decoded.user.bruker_id
-      };
-      feilDao.lagOppdatering(o, (status2, data) => {
+      
+      res.status(status);
+      res.json({"resultat": (status==200) ? "vellykket" : "feilet"});
+
+      if (status == 200) {
+
+        if (req.body.abonner == 1) {
+          feilDao.abonnerFeil({feil_id: feil_id, bruker_id: a.bruker_id});
+        }
+        
+        let o = {
+          feil_id: feil_id,
+          kommentar: 'Sak opprettet',
+          status_id: 1,
+          bruker_id: a.bruker_id
+        };
+        feilDao.lagOppdatering(o);
+        
         if (req.files && req.files.length > 0) {
           bildeOpplasting.lastOpp(req.files, (bilder) => {
-            feilDao.leggTilBilder(feil_id, bilder, (status3, data) => {
-              res.status(status3);
-              res.send();
-            });
+            feilDao.leggTilBilder(feil_id, bilder);
           });
-        } else {
-          res.status(status2);
-          res.send();
         }
-      });
+      }
+
     });
   } else {
     res.status(403);
