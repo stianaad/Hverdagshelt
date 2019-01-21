@@ -338,7 +338,7 @@ export class ModalHendelse extends Component{
     return(
       <Modal.Content image>
         <Grid>
-        <Header as="h1">{this.props.overskrift}</Header>
+        <Header as="h1" className="mt-2">{this.props.overskrift}</Header>
           <Grid.Row columns={2}>
             <Grid.Column>
             <Modal.Description>
@@ -346,7 +346,7 @@ export class ModalHendelse extends Component{
               <Button color="green" className="mt-2" floated="left" content="Kjøp billett"/>
               <Button color="red"  className="mt-2" floated="right" content="Abonner"/>
               <br />
-              <div>
+                <div className="mt-5">
                 <p>
                   <img src="https://image.flaticon.com/icons/svg/33/33622.svg" height="20" width="20" />
                   {this.props.sted}, Trondheim, Norge{' '}
@@ -363,7 +363,16 @@ export class ModalHendelse extends Component{
             </Modal.Description>
             </Grid.Column>
             <Grid.Column>
-
+            <p>
+              trykkeindustrien. Lorem Ipsum har vært bransjens standard for dummytekst helt siden
+              1500-tallet, da en ukjent boktrykker stokket en mengde bokstaver for å lage et
+              prøveeksemplar av en bok. Lorem Ipsum har tålt tidens tann usedvanlig godt, og har i
+              tillegg til å bestå gjennom fem århundrer også tålt spranget over til elektronisk
+              typografi uten vesentlige endringer. Lorem Ipsum ble gjort allment kjent i 1960-årene ved
+              lanseringen av Letraset-ark med avsnitt fra Lorem Ipsum, og senere med
+              sideombrekkingsprogrammet Aldus PageMaker som tok i bruk nettopp Lorem Ipsum for
+              dummytekst.
+            </p>
             </Grid.Column>
           </Grid.Row>
         </Grid>

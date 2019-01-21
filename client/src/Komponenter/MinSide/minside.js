@@ -180,7 +180,7 @@ export class Minside extends Component {
                       fjern={() => {
                         this.fjernFeil(feil.feil_id);
                       }}
-                      onClick={() => this.handleOpen(feil)}
+                      onClick={() => {this.visHendelse=false;this.handleOpen(feil)}}
                     >
                       {feil.overskrift}
                     </FeedMinside>
@@ -231,7 +231,7 @@ export class Minside extends Component {
               <h2>Feil/mangler du følger</h2>
               <Card.Group itemsPerRow={1}>
                 {this.folgteFeil.map((feil) => (
-                  <Card className="feilCard" onClick={() => this.handleOpen(feil)}>
+                  <Card className="feilCard" onClick={() => {this.visHendelse=false;this.handleOpen(feil)}}>
                     <Image src={feil.url} className="feilCardImage" />
                     <Card.Content>
                       <Card.Header>{feil.overskrift}</Card.Header>
