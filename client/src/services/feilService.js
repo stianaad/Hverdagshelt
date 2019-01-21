@@ -40,7 +40,7 @@ class FeilService {
   }
 
   hentAlleOppdateringerPaaFeil(feil_id) {
-    return api.get('/api/feil/:feil_id/oppdatering', feil_id);
+    return api.get('/api/feil/'+feil_id+'/oppdatering');
   }
 
   hentEnStatus(status_id) {
@@ -87,6 +87,16 @@ class FeilService {
     }
   }
 
+  hentFerdigeFeilTilBedrift() {
+    let token = sessionStorage.getItem('pollett');
+    if (token) {
+      return api.get('api/feil/bedrift/ferdig', {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      console.log('foeifj');
+      return [];
+    }
+  }
+
   oppdaterStatusFeilTilBedrift(jobbSoknadObjekt) {
     let token = sessionStorage.getItem('pollett');
     if (token) {
@@ -95,6 +105,25 @@ class FeilService {
       return [];
     }
   }
+
+  abonner(feil_id) {
+    let token = sessionStorage.getItem('pollett');
+    if (token) {
+      return api.post('/api/feil/' + feil_id + '/abonnement',null , {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return null;
+    }
+  }
+
+  ikkeAbonner(feil_id) {
+    let token = sessionStorage.getItem('pollett');
+    if (token) {
+      return api.delete('/api/feil/' + feil_id + '/abonnement', {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return null;
+    }
+  }
+
 }
 
 export let feilService = new FeilService();

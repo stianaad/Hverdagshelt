@@ -8,6 +8,8 @@ import {PageHeader} from '../../Moduler/header/header';
 import {PositionMap, Marker, MarkerMap, markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
 import {Card, Feed, Grid, Button, Header, Icon, Image, Modal, GridColumn, List} from 'semantic-ui-react';
 import {FeedEvent, FeedHendelse, Filtrer, Info} from '../../Moduler/cardfeed';
+import { brukerService } from '../../services/brukerService';
+import { AbonnerKnapp } from '../../Moduler/abonner/abonner';
 
 export class Hovedside extends Component {
   visFeil = false;
@@ -50,11 +52,7 @@ export class Hovedside extends Component {
 
   async merInfo(feil) {
     this.visFeil = true;
-    console.log(feil.feil_id);
-    console.log(feil.overskrift);
     this.feil = {...feil};
-    console.log(feil.status);
-    console.log(feil.tid.substr(11, 16));
     let res = await feilService.hentBilderTilFeil(feil.feil_id);
     this.bilderTilFeil = await res.data;
     this.endreStatusIkon(feil.status);
@@ -63,7 +61,6 @@ export class Hovedside extends Component {
   visEnHendelse(hendelse) {
     this.hendelse.overskrift = hendelse.overskrift;
     this.hendelse.beskrivelse = hendelse.beskrivelse;
-    console.log(hendelse.sted);
     this.hendelse.sted = hendelse.sted;
     this.hendelse.url = hendelse.url;
     this.hendelse.tid = hendelse.tid;
@@ -80,13 +77,6 @@ export class Hovedside extends Component {
       console.log(this.alleFeil);
       this.aktiveFeil = this.alleFeil.filter((kat) => kat.kategorinavn === verdi);
       console.log(this.aktivKategori);
-      /*generellServices
-        .hentFeilFiltrertKategori(verdi)
-        .then(aktiveFeil => {
-          this.aktiveFeil = aktiveFeil;
-          console.log(aktiveFeil.length);
-          confirm.log()
-        })*/
     }
   }
   /*hentKommuner(){
@@ -223,9 +213,9 @@ export class Hovedside extends Component {
                           </h1>
                           <h6>
                             Status: {this.feil.status} <img src={this.statusIkon} width="30" height="30" />
-                            <Button floated="right" color="red" size="small">
-                              Abonner
-                            </Button>
+                            {(global.payload && global.payload.role == 'privat') ? (
+                            <div className="float-right"><AbonnerKnapp key={this.feil.feil_id} feil_id={this.feil.feil_id} /></div>
+                            ) : null}
                           </h6>
                         </div>
                       </Card.Content>
@@ -237,7 +227,7 @@ export class Hovedside extends Component {
                           </Grid.Column>
                           <Grid.Column>
                             <h6>Posisjon</h6>
-                            <ShowMarkerMap width="100%" height="100%" id="posmap" feil={this.feil} />
+                            <ShowMarkerMap key={this.feil.feil_id} width="100%" height="100%" id="posmap" feil={this.feil} />
                           </Grid.Column>
                           <Grid.Column>
                             <h6>Oppdateringer: </h6>
@@ -293,6 +283,7 @@ export class Hovedside extends Component {
                     <div className="col-sm-6 text-center">
                       <div id="mapContainer">
                         <MarkerMap
+                          key={this.props.match.params.kommune}
                           width="100%"
                           height="calc(100vh - 300px)"
                           id="test"
@@ -414,33 +405,34 @@ export class Hovedside extends Component {
             </div>
             <div className="col-sm-4">
               <div className="mr-3 mb-3">
-                <Card fluid>
-                  <Card.Content>
-                    <Card.Header>
-                      <Grid>
-                        <Grid.Column width={12}>Kommende hendelser</Grid.Column>
-                        <Grid.Column width={4} />
-                      </Grid>
-                    </Card.Header>
-                  </Card.Content>
-                  <Card.Content>
-                    <Feed>
-                      {this.alleHendelser.map((hendelse) => (
-                        <FeedHendelse
-                          key={hendelse.hendelse_id}
-                          onClick={() => {
-                            this.visHendelser = true;
-                            this.visEnHendelse(hendelse);
-                          }}
-                          tid={hendelse.tid}
-                          kategori={hendelse.kategorinavn}
-                        >
-                          {hendelse.overskrift}
-                        </FeedHendelse>
-                      ))}
-                    </Feed>
-                  </Card.Content>
-                </Card>
+              <Card fluid>
+                <Card.Content>
+                  <Card.Header>
+                    <Grid>
+                      <Grid.Column width={12}>Kommende hendelser</Grid.Column>
+                      <Grid.Column width={4} />
+                    </Grid>
+                  </Card.Header>
+                </Card.Content>
+                <Card.Content className={this.classHendelser}>
+                  <Feed>
+                    {this.alleHendelser.map((hendelse) => (
+                      <FeedHendelse
+                        onClick={() => {
+                          this.visHendelser = true;
+                          this.visEnHendelse(hendelse);
+                        }}
+                        //status ={feil.status}
+                        tid={hendelse.tid}
+                        kategori={hendelse.kategorinavn}
+                        key={hendelse.hendelse_id}
+                      >
+                        {hendelse.overskrift}
+                      </FeedHendelse>
+                    ))}
+                  </Feed>
+                </Card.Content>
+              </Card>
               </div>
             </div>
           </div>

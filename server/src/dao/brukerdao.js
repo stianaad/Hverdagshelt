@@ -4,6 +4,7 @@ import Dao from './dao.js';
 module.exports = class BrukerDao extends Dao {
   kontrollOrgnr(tall) {
     var sum = 0;
+    tall = tall.toString();
     sum += (parseInt(tall.charAt(0)) + parseInt(tall.charAt(6))) * 3;
     sum += (parseInt(tall.charAt(1)) + parseInt(tall.charAt(7))) * 2;
     sum += parseInt(tall.charAt(2)) * 7;
@@ -49,7 +50,7 @@ module.exports = class BrukerDao extends Dao {
 
   finnFolgteFeilTilBruker(bruker_id, callback) {
     super.query(
-      "SELECT feil.overskrift, DATE_FORMAT(s.tid, '%Y-%m-%d %H:%i') AS tid, s.status_id, b.url FROM feil INNER JOIN (SELECT feil_id, ANY_VALUE(status_id) as status_id, max(tid) as tid from oppdatering group by feil_id) as s ON s.feil_id=feil.feil_id INNER JOIN (SELECT feil_id, ANY_VALUE(url) as url, min(bilde_id) as bilde_id from feilbilder group by feil_id) as b ON b.feil_id=feil.feil_id INNER JOIN feilfolg ON feilfolg.feil_id = feil.feil_id WHERE feilfolg.bruker_id = ?",
+      "SELECT feilfolg.feil_id, feilfolg.bruker_id, feil.overskrift, DATE_FORMAT(s.tid, '%Y-%m-%d %H:%i') AS tid, s.status_id, b.url FROM feil LEFT JOIN (SELECT feil_id, ANY_VALUE(status_id) as status_id, max(tid) as tid from oppdatering group by feil_id) as s ON s.feil_id=feil.feil_id LEFT JOIN (SELECT feil_id, ANY_VALUE(url) as url, min(bilde_id) as bilde_id from feilbilder group by feil_id) as b ON b.feil_id=feil.feil_id INNER JOIN feilfolg ON feilfolg.feil_id = feil.feil_id WHERE feilfolg.bruker_id = ?",
       [bruker_id],
       callback
     );
@@ -57,7 +58,7 @@ module.exports = class BrukerDao extends Dao {
 
   finnFolgteHendelserTilBruker(bruker_id, callback) {
     super.query(
-      "SELECT hendelser.hendelse_id, DATE_FORMAT(hendelser.tid, '%Y-%m-%d %H:%i') AS tid,overskrift, beskrivelse,bilde,sted,lengdegrad,breddegrad,hendfolg.bruker_id FROM hendelser,hendfolg WHERE hendelser.hendelse_id=hendfolg.hendelse_id  and hendfolg.bruker_id=?",
+      "SELECT hendfolg.hendelse_id, hendfolg.bruker_id, hendelser.hendelse_id, DATE_FORMAT(hendelser.tid, '%Y-%m-%d %H:%i') AS tid,overskrift, beskrivelse,bilde,sted,lengdegrad,breddegrad,hendfolg.bruker_id FROM hendelser,hendfolg WHERE hendelser.hendelse_id=hendfolg.hendelse_id and hendfolg.bruker_id=?",
       [bruker_id],
       callback
     );
@@ -70,7 +71,7 @@ module.exports = class BrukerDao extends Dao {
       if (data.length == 0) {
         self.lagNyBruker(json, (status, data) => {
           console.log(status);
-          let gyldig = json.fornavn != null && json.etternavn != null;
+          let gyldig = (json.fornavn != null) && (json.etternavn != null);
           if (status == 200 && gyldig) {
             super.query(
               'INSERT INTO privat (bruker_id, fornavn, etternavn) VALUES(?,?,?)',
@@ -116,9 +117,10 @@ module.exports = class BrukerDao extends Dao {
     self.finnBruker_id(json, (status, data) => {
       if (data.length == 0) {
         self.lagNyBruker(json, (status, data) => {
+
           console.log(status);
-          let gyldig = kontrollOrgnr(toString(json.orgnr));
-          gyldig = Number.isInteger(json.telefon) && json.telefon.length == 8 && json.navn != null;
+          let gyldig = (self.kontrollOrgnr(json.orgnr) && json.telefon.length == 8 && json.navn != null);
+          console.log(gyldig);
           if (status == 200 && gyldig) {
             super.query(
               'INSERT INTO bedrift (bruker_id, orgnr, navn, telefon) VALUES(?,?,?,?)',
@@ -233,6 +235,14 @@ module.exports = class BrukerDao extends Dao {
     super.query(
       'UPDATE bruker SET epost = ?, kommune_id = ? WHERE bruker_id = ?',
       [json.epost, json.kommune_id, rolle.bruker_id],
+      callback
+    );
+  }
+
+  sjekkFeilPaaKommune(json, callback) {
+    super.query(
+      'SELECT * FROM feil WHERE kommune_id = ? AND feil_id = ?',
+      [json.kommnune_id, json.feil_id],
       callback
     );
   }
