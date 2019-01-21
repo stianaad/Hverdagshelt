@@ -30,7 +30,7 @@ class HendelseService {
   }
 
   hentAlleHovedkategorier() {
-    return api.get('/api//hendelser/hovedkategorier');
+    return api.get('/api/hendelser/hovedkategorier');
   }
 }
 

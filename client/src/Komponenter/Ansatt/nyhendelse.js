@@ -156,7 +156,7 @@ export class NyHendelse extends Component{
         hendelse.lagNyHendelse(nyhendelse);
     }
 
-    async componentWillMount(){
+    async mounted(){
         let res = await hendelseService.hentAlleHovedkategorier();
         this.kategorier = await res.data; 
         await console.log(this.kategorier);
