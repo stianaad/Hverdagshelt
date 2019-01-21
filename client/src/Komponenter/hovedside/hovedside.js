@@ -260,9 +260,9 @@ export class Hovedside extends Component {
                     </Grid>
                   </Card.Content>
                 </Card>
-                <Modal open={this.state.open} onClose={this.handleClose} basic>
+                <Modal open={this.state.open} onClose={this.handleClose} basic centered className="modalwidth">
                   <Modal.Content>
-                    <Grid>
+                    <Grid fluid>
                       <Grid.Row centered>
                         <img src={this.bildeModal} className="bildevisning"/>
                       </Grid.Row>

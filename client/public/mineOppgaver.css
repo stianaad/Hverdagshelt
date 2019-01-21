@@ -107,14 +107,18 @@
 }
 
 .bildevisning{
-    height: 400px;
+    height: 300px;
+    position: center;
 }
 
 .ansattMenyContainer{
     background-color: white;
-    margin-left: 10px; 
 }
 
 .vinduansatt{
     height: calc(100vh - 60px);
+}
+
+.modalwidth{
+    width: 30% !important;
 }
