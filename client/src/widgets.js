@@ -280,15 +280,7 @@ export class GronnKnapp extends Component {
   }
 }
 
-export class FormInput extends Component<{
-  type: string,
-  label: React.Node,
-  value: mixed,
-  onChange: (event: SyntheticInputEvent<HTMLInputElement>) => mixed,
-  required?: boolean,
-  pattern?: string,
-  placeholder?: string,
-}> {
+export class FormInput extends Component {
   render() {
     return (
       <div id="radene" className="form-group row">
