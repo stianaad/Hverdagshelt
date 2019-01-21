@@ -31,7 +31,7 @@ let testprivatBruker = {
 };
 
 let testBedriftbruker = {
-  epost: 'testbedrift@test.com',
+  epost: 'testbedrift@test1.com',
   passord: 'qwertyui',
   kommune_id: 22,
   orgnr: 123456785,
@@ -162,7 +162,7 @@ test('endre passord', (done) => {
     expect(data.affectedRows).toBe(1);
     done();
   }
-  brukerdao.endrePassord({bruker_id: 1, passord: 'veldighemmelig'}, callback);
+  brukerdao.endrePassord({epost: 'epost9@hotmail.com', passord: 'veldighemmelig'}, callback);
 });
 
 //FEILTESTER
