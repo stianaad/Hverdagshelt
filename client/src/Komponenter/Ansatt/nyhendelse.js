@@ -47,78 +47,58 @@ export class NyHendelse extends Component{
                             <AnsattMeny/>
                         </Grid.Column>
                         <Grid.Column width="13">
-                            <Grid stackable fluid>
-                                <Grid.Row textAlign="center" centered>
-                                    <h1 className="mt-3">Ny hendelse</h1>
-                                </Grid.Row>
-                                
-                                        <Grid.Row centered fluid>
-                                            <div className="form-group">
-                                                <label>Overskrift</label>
-                                                <input type="text" className="form-control" placeholder="Overskrift" 
-                                                required={true}
-                                                onChange={(event) => (this.overskrift = event.target.value)}/>
-                                            </div>
-                                        </Grid.Row>
-                                        <Grid.Row centered fluid>
-                                            <div className="form-group">
-                                                <label>Beskrivelse</label>
-                                                <textarea className="form-control" rows="3" placeholder="Fortell litt om ditt"
-                                                    required={true}
-                                                    onChange={(event) => (this.beskrivelse = event.target.value)}
-                                                />
-                                            </div>
-                                        </Grid.Row>
-                                        <Grid.Row centered fluid>
-                                            <div className="form-group">
-                                                <label>Adresse</label>
-                                                <input type="text" className="form-control" placeholder="Adresse"
-                                                    required={true}
-                                                    onChange={(event) => (this.adresse = event.target.value)}
-                                                />
-                                            </div>
-                                        </Grid.Row>
-                                        <Grid.Row centered fluid>
-                                            <Grid.Column>
-                                                <div className="form-group">
-                                                    <label>Dato:</label>
-                                                    <input type="date" className="form-control"
-                                                        required={true}
-                                                        onChange={(event) => (this.dato = event.target.value)}
-                                                    />
-                                                </div>
-                                            </Grid.Column>
-                                            <Grid.Column>
-                                                <div className="form-group">
-                                                    <label>Start:</label>
-                                                    <input type="time" className="form-control"
-                                                        required={true}
-                                                        onChange={(event) => (this.tid = event.target.value)}
-                                                    />
-                                                </div>
-                                            </Grid.Column>
-                                            <Grid.Column>
-                                                <div className="form-group">
-                                                    <label>Kategori: </label>
-                                                    <select
-                                                        className="form-control"
-                                                        onChange={(event) => (this.kategori = event.target.value)}
-                                                        >
-                                                        <option hidden> Kategori</option>
-                                                        {this.kategorier.map((kategori) => (
-                                                            <option value={kategori.kategorinavn} key={kategori.kategorinavn}>
-                                                            {' '}
-                                                            {kategori.kategorinavn}
-                                                            </option>
-                                                        ))}
-                                                    </select>
-                                                </div>
-                                            </Grid.Column>
-                                        </Grid.Row>
-                                        <Grid.Row centered>
-                                            <Button color="green" onClick={this.lagre}>Ferdig</Button>
-                                        </Grid.Row>
-                            </Grid>
+                            <h1 className="mt-3">Ny hendelse</h1>
+                            <div className="form-group">
+                                <label>Overskrift</label>
+                                <input type="text" className="form-control" placeholder="Overskrift" 
+                                required={true}
+                                onChange={(event) => (this.overskrift = event.target.value)}/>
+                            </div>
+                            <div className="form-group">
+                                <label>Beskrivelse</label>
+                                <textarea className="form-control" rows="3" placeholder="Fortell litt om ditt"
+                                    required={true}
+                                    onChange={(event) => (this.beskrivelse = event.target.value)}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Adresse</label>
+                                <input type="text" className="form-control" placeholder="Adresse"
+                                    required={true}
+                                    onChange={(event) => (this.adresse = event.target.value)}
+                                />
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-4">
+                                    <label>Dato:</label>
+                                    <input type="date" className="form-control"
+                                        required={true}
+                                        onChange={(event) => (this.dato = event.target.value)}
+                                    />
+                                </div>
+                                <div className="form-group col-md-4">
+                                    <label>Start:</label>
+                                    <input type="time" className="form-control"
+                                        required={true}
+                                        onChange={(event) => (this.tid = event.target.value)}
+                                    />
+                                </div>
+                                <div className="form-group col-md-4">
+                                    <label>Kategori: </label>
+                                    <select
+                                        className="form-control"
+                                        onChange={(event) => (this.kategori = event.target.value)}
+                                        >
+                                        <option hidden> Kategori</option>
+                                        {this.kategorier.map((kategori) => (
+                                            <option value={kategori.kategorinavn} key={kategori.kategorinavn}>
+                                            {' '}
+                                            {kategori.kategorinavn}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
                         </Grid.Column>
                     </Grid>
                 </div>

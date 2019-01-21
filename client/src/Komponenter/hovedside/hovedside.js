@@ -246,6 +246,7 @@ export class Hovedside extends Component {
                           </List>
                         </div>
                         <br />
+                        <h6>Bilder:</h6>
                         <Grid columns={5} fluid>
                           {this.bilderTilFeil.map((bilde) => (
                             <Grid.Column>
@@ -259,9 +260,9 @@ export class Hovedside extends Component {
                     </Grid>
                   </Card.Content>
                 </Card>
-                <Modal open={this.state.open} onClose={this.handleClose} basic>
+                <Modal open={this.state.open} onClose={this.handleClose} basic centered className="modalwidth">
                   <Modal.Content>
-                    <img src={this.bildeModal} className="bildevisning"/>
+                      <img src={this.bildeModal} className="bildevisning"/>
                   </Modal.Content>
                 </Modal>
               
