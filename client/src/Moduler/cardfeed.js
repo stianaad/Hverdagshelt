@@ -275,11 +275,11 @@ export class FeedMinside extends Component {
       <Feed>
         <Feed.Event>
           <Feed.Label image={'/warningicon.png'} />
-          <Feed.Content>
+          <Feed.Content color="green">
             <a onClick={this.props.onClick}>
               {this.dato(this.props.tid)}
-              <Feed.Summary>{this.props.children}</Feed.Summary>
-              <span>
+              <Feed.Summary>{(this.props.oppdatering) ? (<span className="highlight">{this.props.children}</span>) : (this.props.children)} </Feed.Summary>
+              <span >
                 <i>{this.props.kategori}</i>
               </span>
             </a>
@@ -332,6 +332,55 @@ export class FeedMinside extends Component {
     );
   }
 }
+
+export class ModalHendelse extends Component{
+  render(){
+    return(
+      <Modal.Content image>
+        <Grid>
+        <Header as="h1" className="mt-2">{this.props.overskrift}</Header>
+          <Grid.Row columns={2}>
+            <Grid.Column>
+            <Modal.Description>
+              <Image src={this.props.url}/>
+              <Button color="green" className="mt-2" floated="left" content="Kjøp billett"/>
+              <Button color="red"  className="mt-2" floated="right" content="Abonner"/>
+              <br />
+                <div className="mt-5">
+                <p>
+                  <img src="https://image.flaticon.com/icons/svg/33/33622.svg" height="20" width="20" />
+                  {this.props.sted}, Trondheim, Norge{' '}
+                </p>
+                <p>
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Simple_icon_time.svg/750px-Simple_icon_time.svg.png"
+                    height="20"
+                    width="25"
+                  />
+                  {this.props.tid}
+                </p>
+              </div>
+            </Modal.Description>
+            </Grid.Column>
+            <Grid.Column>
+            <p>
+              trykkeindustrien. Lorem Ipsum har vært bransjens standard for dummytekst helt siden
+              1500-tallet, da en ukjent boktrykker stokket en mengde bokstaver for å lage et
+              prøveeksemplar av en bok. Lorem Ipsum har tålt tidens tann usedvanlig godt, og har i
+              tillegg til å bestå gjennom fem århundrer også tålt spranget over til elektronisk
+              typografi uten vesentlige endringer. Lorem Ipsum ble gjort allment kjent i 1960-årene ved
+              lanseringen av Letraset-ark med avsnitt fra Lorem Ipsum, og senere med
+              sideombrekkingsprogrammet Aldus PageMaker som tok i bruk nettopp Lorem Ipsum for
+              dummytekst.
+            </p>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+        </Modal.Content>
+    )
+  }
+}
+
 
 export class Info extends Component {
   render() {
