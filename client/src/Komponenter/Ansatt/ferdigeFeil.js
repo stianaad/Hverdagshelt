@@ -23,13 +23,13 @@ export class AnsattFerdig extends Component{
                 <PageHeader/>
                 <div className="vinduansatt">
                     <Grid>
-                        <Grid.Column width="2">
+                        <Grid.Column width="3">
                             <AnsattMeny/>
                         </Grid.Column>
-                        <Grid.Column width="13">
+                        <Grid.Column width="14">
                             <Grid stackable>
                                 <Grid.Row textAlign="center" centered>
-                                    <h1 className="mt-3">Nye feil</h1>
+                                    <h1 className="mt-3">Ferdige feil</h1>
                                 </Grid.Row>
                                 <Grid.Column width="4">
                                     <div>
@@ -37,7 +37,6 @@ export class AnsattFerdig extends Component{
                                         <Card.Content>
                                         <Card.Header>
                                             Nye innsendinger
-                                            <Filtrer />
                                         </Card.Header>
                                         </Card.Content>
                                         <Card.Content className={this.className}>
