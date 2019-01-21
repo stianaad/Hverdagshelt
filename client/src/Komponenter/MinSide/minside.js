@@ -27,6 +27,7 @@ export class Minside extends Component {
 
 
   handleOpen = (feil) => {
+    console.log(feil);
     this.valgtFeil = {...feil};
     this.setState({open: true});
   };
