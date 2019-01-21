@@ -98,6 +98,7 @@ export class NyHendelse extends Component{
                                         ))}
                                     </select>
                                 </div>
+                                <Button onClick={this.lagre} color="green">Lagre</Button>
                             </div>
                         </Grid.Column>
                     </Grid>
@@ -106,7 +107,7 @@ export class NyHendelse extends Component{
         );
     }
 
-    lagre(){
+    async lagre(){
         console.log(this.overskrift);
         console.log(this.beskrivelse);
         console.log(this.adresse);
@@ -115,12 +116,12 @@ export class NyHendelse extends Component{
         console.log(this.kategori);
 
         let datotid = this.dato + " " + this.tid + ":00";
-        console.log(res);
+        console.log(datotid);
 
-        let res = this.kategorier.filter((e) => e.kategorinavn === this.kategori);
-        kategorid = res.hendelseskategori_id;
-
-        nyhendelse = {
+        let tull = this.kategorier.filter((e) => e.kategorinavn === this.kategori);
+        let kategorid = tull.hendelseskategori_id;
+        
+        let svar = await hendelseService.lagNyHendelse({
             hendelseskategori_id: kategorid,
             kommune_id: 1,
             overskrift: this.overskrift,
@@ -130,14 +131,12 @@ export class NyHendelse extends Component{
             bilde: "lofoten.jpg",
             lengdegrad: 0,
             breddegrad: 0
-        }
-        
-        hendelse.lagNyHendelse(nyhendelse);
+        });
     }
 
     async mounted(){
-        let res = await hendelseService.hentAlleHovedkategorier();
-        this.kategorier = await res.data; 
-        await console.log(this.kategorier);
+        let kat = await hendelseService.hentAlleKategorier();
+        this.kategorier = await kat.data; 
+        await console.log(kat.data);
     }
 }

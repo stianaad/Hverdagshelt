@@ -32,6 +32,10 @@ class HendelseService {
   hentAlleHovedkategorier() {
     return api.get('/api/hendelser/hovedkategorier');
   }
+
+  hentAlleKategorier(){
+    return api.get('api/hendelseskat');
+  }
 }
 
 export let hendelseService = new HendelseService();

@@ -17,6 +17,8 @@ import {
   GridColumn,
   Dropdown,
   TextArea,
+  Sidebar,
+  Segment
 } from 'semantic-ui-react';
 import {FeedEvent, Filtrer, Info} from '../../Moduler/cardfeed';
 import {feilService} from '../../services/feilService';
@@ -25,23 +27,82 @@ import {NavLink} from 'react-router-dom';
 import {brukerService} from '../../services/brukerService';
 
 export class AnsattMeny extends Component {
-  state = { activeItem: 'Nye feil' }
-
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+  handleItemClick = name => this.setState({ activeItem: name });
 
   render() {
-    const { activeItem } = this.state;
+    const { activeItem } = this.state || {};
 
     return (
-        <div className="ansattMenyContainer">
-          <nav className="nav flex-column">
-            <NavLink className="nav-link active" to="/ansattest">Nye feil</NavLink>
-            <NavLink className="nav-link active" to="/ferdigtest">Utførte feil</NavLink>
-            <NavLink className="nav-link active" to="/nyhendelsetest">Ny hendelse</NavLink>
-            <NavLink className="nav-link active" to="/">Test</NavLink>
-          </nav>
-        </div>
-    );
+      <div>
+        <Menu vertical compact>
+          <Menu.Item>
+            <Menu.Header>Products</Menu.Header>
+
+            <Menu.Menu>
+              <Menu.Item
+                name='enterprise'
+                active={activeItem === 'enterprise'}
+                onClick={this.handleItemClick}
+              />
+              <Menu.Item
+                name='consumer'
+                active={activeItem === 'consumer'}
+                onClick={this.handleItemClick}
+              />
+            </Menu.Menu>
+          </Menu.Item>
+
+          <Menu.Item>
+            <Menu.Header>CMS Solutions</Menu.Header>
+
+            <Menu.Menu>
+              <Menu.Item
+                name='rails'
+                active={activeItem === 'rails'}
+                onClick={this.handleItemClick}
+              />
+              <Menu.Item
+                name='python'
+                active={activeItem === 'python'}
+                onClick={this.handleItemClick}
+              />
+              <Menu.Item name='php' active={activeItem === 'php'} onClick={this.handleItemClick} />
+            </Menu.Menu>
+          </Menu.Item>
+
+          <Menu.Item>
+            <Menu.Header>Hosting</Menu.Header>
+
+            <Menu.Menu>
+              <Menu.Item
+                name='shared'
+                active={activeItem === 'shared'}
+                onClick={this.handleItemClick}
+              />
+              <Menu.Item
+                name='dedicated'
+                active={activeItem === 'dedicated'}
+                onClick={this.handleItemClick}
+              />
+            </Menu.Menu>
+          </Menu.Item>
+
+          <Menu.Item>
+            <Menu.Header>Support</Menu.Header>
+
+            <Menu.Menu>
+              <Menu.Item name='email' active={activeItem === 'email'} onClick={this.handleItemClick}>
+                E-mail Support
+              </Menu.Item>
+
+              <Menu.Item name='faq' active={activeItem === 'faq'} onClick={this.handleItemClick}>
+                FAQs
+              </Menu.Item>
+            </Menu.Menu>
+          </Menu.Item>
+        </Menu>
+      </div>
+    )
   }
 }
 
@@ -100,10 +161,10 @@ export class NyeFeil extends Component {
         </Modal>
         <div className="vinduansatt">
             <Grid>
-                <Grid.Column width="2">
+                <Grid.Column width="4">
                     <AnsattMeny/>
                 </Grid.Column>
-                <Grid.Column width="13">
+                <Grid.Column fluid width="12">
                   <Grid stackable>
                     <Grid.Row textAlign="center" centered>
                         <h1 className="mt-3">Nye feil</h1>
@@ -189,7 +250,7 @@ export class NyeFeil extends Component {
                   </Grid>
                 </Grid.Column>
             </Grid>
-        </div>
+          </div>
       </div>
     );
   }

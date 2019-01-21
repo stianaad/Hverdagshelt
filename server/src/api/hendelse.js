@@ -130,6 +130,17 @@ router.get('/api/hendelser/hovedkategorier', (req, res) => {
   });
 });
 
+router.get('/api/hendelseskat', (req, res) => {
+  if (!(req.body instanceof Object)) return res.sendStatus(400);
+  console.log('Fikk GET-request fra klienten (hent alle kategorier)');
+
+  hendelseDao.hentAlleKategorier((status, data) => {
+    res.status(status);
+    res.json(data); 
+    console.log('/hentAlleKategorier lengde: ' + data.length);
+  });
+});
+
 
 router.post("/api/hendelser/:hendelse_id/abonnement", checkToken, (req, res) => {
   let role = req.decoded.role;

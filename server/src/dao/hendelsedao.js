@@ -95,6 +95,10 @@ module.exports = class HendelseDao extends Dao {
     super.query('SELECT * FROM hovedkategori', null, callback);
   }
 
+  hentAlleKategorier(callback){
+    super.query('SELECT * FROM hendelseskategori', null, callback);
+  }
+
   abonnerHendelse(json, callback) {
     super.query("INSERT INTO hendfolg (hendelse_id, bruker_id) VALUES (?, ?)", [json.hendelse_id, json.bruker_id], callback);
   }
