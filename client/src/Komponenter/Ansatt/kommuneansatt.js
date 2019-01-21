@@ -35,7 +35,9 @@ export class AnsattSide extends Component {
                     <div className="ansattMenyContainer">
                     <Menu vertical pointing secondary fluid>
                         <Menu.Item active>Nye feil</Menu.Item>
-                        <Menu.Item>Valg2</Menu.Item>
+                        <NavLink to={'/ferdigtest'}>
+                            <Menu.Item>Valg2</Menu.Item>
+                        </NavLink>
                         <Menu.Item>Valg3</Menu.Item>
                         <Menu.Item>Valg4</Menu.Item>
                         <Menu.Item>Valg5</Menu.Item>
@@ -105,12 +107,8 @@ export class NyeFeil extends Component {
           </Modal.Content>
         </Modal>
         <Grid stackable>
-          <Grid.Row columns={4}>
-            <Grid.Column />
-            <Grid.Column>
+          <Grid.Row textAlign="center" centered>
               <h1 className="mt-3">Nye feil</h1>
-            </Grid.Column>
-            <Grid.Column />
           </Grid.Row>
           <Grid.Column width="4">
             <div>
@@ -138,6 +136,7 @@ export class NyeFeil extends Component {
           </Grid.Column>
           <Grid.Column width="11">
             {this.feilApen ? (
+              <div className="feilDiv">
               <Card fluid>
                 <Card.Content>
                   <div>
@@ -155,7 +154,7 @@ export class NyeFeil extends Component {
                         <Button floated="right" color="red">
                           Slett feil
                         </Button>
-                        <Button floated="right" color="green">
+                        <Button floated="right" color="green" onClick={() => this.godkjenn(this.valgtfeil.feil_id, "test", 2)}>
                           Godkjenn
                         </Button>
                       </Grid.Column>
@@ -166,7 +165,7 @@ export class NyeFeil extends Component {
                   <div>
                     <Grid columns={3} fluid stackable>
                       <Grid.Column>
-                        <TextArea value={this.valgtfeil.beskrivelse} rows="6" />
+                        <TextArea value={this.valgtfeil.beskrivelse} rows="18" />
                       </Grid.Column>
                       <Grid.Column>KART</Grid.Column>
                       <Grid.Column>
@@ -184,6 +183,7 @@ export class NyeFeil extends Component {
                   </div>
                 </Card.Content>
               </Card>
+              </div>
             ) : (
               <div>Trykk på feil</div>
             )}
@@ -193,13 +193,11 @@ export class NyeFeil extends Component {
     );
   }
 
-  async godkjenn(){
-      nyOpp = {
-          feil_id: this.valgtfeil.feil_id,
-          kommentar: "Ansatt har godkjent innhold",
-          status_id: 2,
-      };
+  async godkjenn(tekst, statusVerdi, feil_id){
+      let res = await feilService.lagOppdatering({"feil_id": feil_id,"kommentar":tekst,"status_id":statusVerdi});
+      await console.log(res1);
   }
+
 
   scroll() {
     if (this.nyefeil.length > 5) {

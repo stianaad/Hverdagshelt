@@ -32,6 +32,7 @@ import {KommuneInput} from './Moduler/kommuneInput/kommuneInput';
 import {enHendelse} from './Komponenter/Hendelser/enHendelse';
 
 import {AnsattSide} from './Komponenter/Ansatt/kommuneansatt';
+import {AnsattFerdig} from './Komponenter/Ansatt/ferdigeFeil';
 
 class Tabell extends Component {
   render() {
@@ -295,6 +296,7 @@ const routes = () => {
           <Route exact path="/login" component={Login} />
           <Route exact path="/headertest" component={PageHeader} history={history} />
           <Route exact path="/ansattest" component={AnsattSide} history={history} />
+          <Route exact path="/ferdigtest" component={AnsattFerdig} history={history}/>
 
           <Route exact path="/headertest" component={PageHeader} history={history} />
           <Route exact path="/bedriftsoppgaver" component={Bedrift} history={history} />

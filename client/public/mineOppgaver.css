@@ -95,8 +95,16 @@
 }
 
 .ansattScroll{
-    height: 350px;
+    height: calc(100vh - 250px);
     overflow-y: scroll; 
+}
+
+.vinduansatt{
+    height: calc(100vh - 60px);
+}
+
+.feilDiv{
+    height: calc(100vh - 250px);
 }
 
 .bilder{
@@ -107,8 +115,4 @@
 
 .bildevisning{
     height: 400px;
-}
-
-.vinduansatt{
-    heigth: calc(100vh - 60px);
 }
