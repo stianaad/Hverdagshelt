@@ -59,7 +59,7 @@ router.post('/api/brukere/ansatt', checkToken, (req, res) => {
         throw new Error('Noe gikk galt');
       }
       req.body.passord = hash;
-      brukerDao.lagNyAdminBruker(req.body, (status, data) => {
+      brukerDao.lagNyAnsattBruker(req.body, (status, data) => {
         res.status(status);
         res.json(data);
         console.log('Den nye IDen er:', data.insertId);

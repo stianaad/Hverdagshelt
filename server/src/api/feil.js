@@ -328,7 +328,7 @@ router.get('/api/feil/bedrift/nyeoppgaver', checkToken, (req, res) => {
   }
 });
 
-router.get('/api/feil/bedrift/underBehandling', checkToken, (req, res) => {
+router.get('/api/feil/bedrift/underbehandling', checkToken, (req, res) => {
   console.log('Fikk GET-request fra klienten');
   let rolle = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
