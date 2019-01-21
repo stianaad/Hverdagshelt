@@ -100,15 +100,25 @@
 }
 
 .bilder{
+    cursor: pointer;
     width: 70px;
     height: 70px; 
     object-fit: cover;
 }
 
 .bildevisning{
-    height: 400px;
+    height: 300px;
+    position: center;
+}
+
+.ansattMenyContainer{
+    background-color: white;
 }
 
 .vinduansatt{
-    heigth: calc(100vh - 60px);
+    height: calc(100vh - 60px);
+}
+
+.modalwidth{
+    width: 30% !important;
 }

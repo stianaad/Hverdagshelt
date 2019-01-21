@@ -141,10 +141,9 @@ module.exports = class BrukerDao extends Dao {
     self.finnBruker_id(json, (status, data) => {
       if (data.length == 0) {
         self.lagNyBruker(json, (status, data) => {
-
-          console.log(status);
+          console.log(json.telefon.length.toString() == 8);
+          console.log(json.navn != null);
           let gyldig = (self.kontrollOrgnr(json.orgnr) && json.telefon.length == 8 && json.navn != null);
-          console.log(gyldig);
           if (status == 200 && gyldig) {
             super.query(
               'INSERT INTO bedrift (bruker_id, orgnr, navn, telefon) VALUES(?,?,?,?)',
@@ -212,7 +211,7 @@ module.exports = class BrukerDao extends Dao {
 
   oppdaterSpesifisertBruker(json, rolle, callback) {
     console.log('inne i oppdaterSpesifisertBruker');
-    if (rolle == 'privat') {
+    if (rolle.rolle == 'privat') {
       console.log('oppdaterer bruker');
       this.oppdaterBruker(json, (status, data) => {
         console.log('oppdaterer privat');
@@ -222,7 +221,7 @@ module.exports = class BrukerDao extends Dao {
           callback
         );
       });
-    } else if (rolle == 'bedrift') {
+    } else if (rolle.rolle == 'bedrift') {
       console.log('oppdaterer bruker');
       this.oppdaterBruker(json, rolle, (status, data) => {
         console.log('oppdaterer bedrift');
@@ -232,7 +231,7 @@ module.exports = class BrukerDao extends Dao {
           callback
         );
       });
-    } else if (rolle == 'ansatt') {
+    } else if (rolle.rolle == 'ansatt') {
       console.log('oppdaterer bruker');
       this.oppdaterBruker(json, rolle, (status, data) => {
         console.log('oppdaterer ansatt');

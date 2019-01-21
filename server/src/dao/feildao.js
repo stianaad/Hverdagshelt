@@ -80,8 +80,8 @@ module.exports = class FeilDao extends Dao {
     super.query('DELETE FROM feil WHERE feil_id = ?', [feil_id], callback);
   }
 
-  lagOppdatering(json,bruker_id, callback) {
-    var oppdatering = [json.feil_id, json.kommentar, json.status_id, bruker_id];
+  lagOppdatering(json, callback) {
+    var oppdatering = [json.feil_id, json.kommentar, json.status_id, json.bruker_id];
     super.query(
       'INSERT INTO oppdatering (feil_id, kommentar, status_id, bruker_id) VALUES (?, ?, ?, ?)',
       oppdatering,
@@ -121,7 +121,7 @@ module.exports = class FeilDao extends Dao {
   }
 
   hentFeilFiltrertKategori(json, callback) {
-    var kategori_id = json.kategori_id;
+    var kategori_id = json.hovedkategori_id;
     super.query(
       'SELECT feil.*,hovedkategori.hovedkategori_id,hovedkategori.kategorinavn AS kategorinavn FROM feil, subkategori,hovedkategori WHERE feil.subkategori_id=subkategori.subkategori_id AND subkategori.hovedkategori_id=hovedkategori.hovedkategori_id AND hovedkategori.hovedkategori_id=?',
       [kategori_id],
@@ -130,7 +130,7 @@ module.exports = class FeilDao extends Dao {
   }
 
   hentAlleSubKategorierPaaHovedkategori(json, callback) {
-    var hovedkategori_id = json;
+    var hovedkategori_id = json.hovedkategori_id;
     super.query('SELECT * FROM subkategori WHERE hovedkategori_id = ?', [hovedkategori_id], callback);
   }
 
@@ -168,7 +168,7 @@ module.exports = class FeilDao extends Dao {
     );
   }
 
-  oppdaterStatusFeilTilBedrift(json,bruker_id, callback) {
+  oppdaterStatusFeilTilBedrift(json, bruker_id, callback) {
     let tabell = [json.status, bruker_id, json.feil_id];
     super.query('UPDATE jobbSoknad SET status=? WHERE bruker_id=? AND feil_id=?', tabell, callback);
   }
