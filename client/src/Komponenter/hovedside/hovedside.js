@@ -246,6 +246,7 @@ export class Hovedside extends Component {
                           </List>
                         </div>
                         <br />
+                        <h6>Bilder:</h6>
                         <Grid columns={5} fluid>
                           {this.bilderTilFeil.map((bilde) => (
                             <Grid.Column>
