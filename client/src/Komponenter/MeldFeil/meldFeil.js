@@ -1,17 +1,19 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
 import {FormGroup, FormControl} from 'react-bootstrap';
-import {FormInput, GronnKnapp} from '../../widgets';
+import {GronnKnapp} from '../../widgets';
 import {KommuneInput} from '../../Moduler/kommuneInput/kommuneInput';
 import {PositionMap} from '../../Moduler/kart/map';
 import {feilService} from '../../services/feilService';
 import {PageHeader} from '../../Moduler/header/header';
+import queryString from 'query-string'
 
 export class MeldFeil extends Component {
   kategoriene = [];
   subkategoriene = [];
   subkatfiltrert = [];
   kominput = React.createRef();
+  defaultKommune = null;
 
   data = {
     overskrift: '',
@@ -21,7 +23,7 @@ export class MeldFeil extends Component {
     beskrivelse: '',
     lengdegrad: 0,
     breddegrad: 0,
-    avsjekket: 0,
+    abonner: 1,
   };
 
   render() {
@@ -37,13 +39,18 @@ export class MeldFeil extends Component {
               <label id="kommunelbl" htmlFor="kom">
                 Kommune:
               </label>
-              <KommuneInput onChange={this.getKom} ref={this.kominput} />
+              <KommuneInput ref={this.kominput} key={this.defaultKommune} kommune_id={this.defaultKommune}/>
             </div>
             <div id="overskriftblokk">
-              <FormInput
+            <label id="overskriftlbl" htmlFor="kom">
+                Overskrift:
+              </label>
+              <input
                 type="text"
+                className="form-control"
                 label="Overskrift:"
                 name="overskrift"
+                value={this.data.overskrift}
                 onChange={this.endreVerdi}
                 required
               />
@@ -118,7 +125,7 @@ export class MeldFeil extends Component {
           </div>
           <div id="sjekkboks">
             <div id="boksen">
-              <input onChange={this.endreVerdi} name="avsjekket" type="checkbox" name="Abonner" value="Abonner" />
+              <input onChange={this.endreVerdi} checked={!!this.data.abonner} name="abonner" type="checkbox" />
             </div>
             <div id="boksenlbl">
               <label>Abonner på denne saken</label>
@@ -138,6 +145,13 @@ export class MeldFeil extends Component {
     let skat = await feilService.hentAlleSubkategorier();
     this.subkategoriene = await skat.data;
     this.subkatfiltrert = await skat.data.filter((kat) => 1 == kat.hovedkategori_id);
+
+    const q = queryString.parse(this.props.location.search);
+    if (q.k && Number.isInteger(parseInt(q.k))) {
+      this.defaultKommune = parseInt(q.k);
+    } else {
+      this.defaultKommune = global.payload.user.kommune_id;
+    }
   }
 
   async handleChange(e) {
@@ -155,7 +169,7 @@ export class MeldFeil extends Component {
     formData.append('beskrivelse', this.data.beskrivelse);
     formData.append('lengdegrad', this.data.lengdegrad);
     formData.append('breddegrad', this.data.breddegrad);
-    formData.append('avsjekket', this.data.avsjekket);
+    formData.append('abonner', this.data.abonner);
     Array.from(document.querySelector('#bil').files).forEach((file) => {if (file.type.match('image.*')) formData.append('bilder', file, file.name);})
 
     let token = sessionStorage.getItem('pollett');
