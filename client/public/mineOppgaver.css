@@ -107,6 +107,7 @@
 
 .bildevisning{
     height: 300px;
+    position: center;
 }
 
 .ansattMenyContainer{
