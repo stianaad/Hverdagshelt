@@ -52,6 +52,7 @@ router.get('/api/feil/:feil_id/bilder', (req, res) => {
 //Dette endepunktet krever multipart/form-data istedet for json for å håndtere bildeopplasting
 router.post('/api/feil', upload.array('bilder', 10), checkToken, (req, res) => {
   //if (!(req.body instanceof Object)) return res.sendStatus(400);
+  let rolle = req.decoded.role;
   console.log('Fikk POST-request fra klienten');
   let a = {
     kommune_id: req.body.kommune_id,
