@@ -256,9 +256,9 @@ export class Hovedside extends Component {
                     </Grid>
                   </Card.Content>
                 </Card>
-                <Modal open={this.state.open} onClose={this.handleClose}>
+                <Modal open={this.state.open} onClose={this.handleClose} basic>
                   <Modal.Content>
-                    <Image src="/lofoten.jpg" />
+                    <img src="/lofoten.jpg" className="bildevisning"/>
                   </Modal.Content>
                 </Modal>
               </div>
