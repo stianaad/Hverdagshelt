@@ -115,7 +115,7 @@ module.exports = class BrukerDao extends Dao {
   lagNyBedriftBruker(json, callback) {
     let self = this;
     self.finnBruker_id(json, (status, data) => {
-      if (data.length == 0) {
+      if (data.length == 1) {
         self.lagNyBruker(json, (status, data) => {
           let gyldig = (self.kontrollOrgnr(json.orgnr) && json.telefon.length == 8 && json.navn != null);
           if (status == 200 && gyldig) {
