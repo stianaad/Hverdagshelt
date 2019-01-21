@@ -118,3 +118,7 @@
 .vinduansatt{
     height: calc(100vh - 60px);
 }
+
+.modalwidth{
+    width: 30% !important;
+}
