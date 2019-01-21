@@ -31,61 +31,76 @@ router.get('/api/hendelser/:hendelse_id', (req, res) => {
   });
 });
 
-router.post('/api/hendelser/:hendelse_id', (req, res) => {
+router.post('/api/hendelser/:hendelse_id', checkToken, (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk POST-request fra klienten');
+  let rolle = req.decoded.role;
 
-  let a = {
-    bruker_id: req.body.bruker_id,
-    hendelseskategori_id: req.body.hendelseskategori_id,
-    kommune_id: req.body.kommune_id,
-    overskrift: req.body.overskrift,
-    tid: req.body.tid,
-    beskrivelse: req.body.beskrivelse,
-    sted: req.body.sted,
-    bilde: req.body.bilde,
-    lengdegrad: req.body.lengdegrad,
-    breddegrad: req.body.breddegrad,
-  };
+  if(rolle == 'ansatt' || rolle == 'admin') {
+    let a = {
+      bruker_id: req.body.bruker_id,
+      hendelseskategori_id: req.body.hendelseskategori_id,
+      kommune_id: req.body.kommune_id,
+      overskrift: req.body.overskrift,
+      tid: req.body.tid,
+      beskrivelse: req.body.beskrivelse,
+      sted: req.body.sted,
+      bilde: req.body.bilde,
+      lengdegrad: req.body.lengdegrad,
+      breddegrad: req.body.breddegrad,
+    };
 
-  hendelseDao.lagNyHendelse(a, (status, data) => {
-    console.log('Opprettet en ny hendelse');
-    res.status(status);
-  });
+    hendelseDao.lagNyHendelse(a, (status, data) => {
+      console.log('Opprettet en ny hendelse');
+      res.status(status);
+    });
+  } else {
+    res.status(403);
+    res.json({result: false});
+  }
 });
 
-router.put('/api/hendelser/:hendelse_id', (req, res) => {
+router.put('/api/hendelser/:hendelse_id', checkToken, (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk POST-request fra klienten');
+  let role = req.decoded.role;
 
-  let a = {
-    hendelseskategori_id: req.body.hendelseskategori_id,
-    kommune_id: req.body.kommune_id,
-    overskrift: req.body.overskrift,
-    tid: req.body.tid,
-    beskrivelse: req.body.beskrivelse,
-    bilde: req.body.bilde,
-    lengdegrad: req.body.lengdegrad,
-    breddegrad: req.body.breddegrad,
-    hendelse_id: req.body.hendelse_id,
-  };
+  if(role == 'ansatt' || role == 'admin') {
+    let a = {
+      hendelseskategori_id: req.body.hendelseskategori_id,
+      kommune_id: req.body.kommune_id,
+      overskrift: req.body.overskrift,
+      tid: req.body.tid,
+      beskrivelse: req.body.beskrivelse,
+      bilde: req.body.bilde,
+      lengdegrad: req.body.lengdegrad,
+      breddegrad: req.body.breddegrad,
+      hendelse_id: req.body.hendelse_id,
+    };
 
-  hendelseDao.oppdaterHendelse(a, (status, data) => {
-    console.log('Oppdatert en hendelse');
-    res.status(status);
-  });
+    hendelseDao.oppdaterHendelse(a, (status, data) => {
+      console.log('Oppdatert en hendelse');
+      res.status(status);
+    });
+  } else {
+    res.status(403);
+    res.json({result: false});
+  }
 });
 
-router.delete('/api/hendelser/:hendelse_id', (req, res) => {
+router.delete('/api/hendelser/:hendelse_id', checkToken, (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk POST-request fra klienten');
-
-  var a = {hendelse_id: req.body.hendelse_id};
-
-  hendelseDao.slettHendelse(a, (status, data) => {
-    console.log('Slettet en hendelse');
-    res.status(status);
-  });
+  
+  if(req.decoded.role == 'admin' || req.decoded.role == 'ansatt') {
+    hendelseDao.slettHendelse(req.body, (status, data) => {
+      console.log('Slettet en hendelse');
+      res.status(status);
+    });
+  } else {
+    res.status(403);
+    res.json({result: false});
+  }
 });
 
 router.get('/api/hendelser/kategorier/:hendelseskategori_id', (req, res) => {
