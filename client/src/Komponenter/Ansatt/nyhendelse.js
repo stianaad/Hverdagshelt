@@ -98,7 +98,7 @@ export class NyHendelse extends Component{
                                                 </div>
                                             </Grid.Column>
                                             <Grid.Column>
-                                                <div class="form-group">
+                                                <div className="form-group">
                                                     <label>Kategori: </label>
                                                     <select
                                                         className="form-control"
@@ -143,8 +143,9 @@ export class NyHendelse extends Component{
 
         nyhendelse = {
             hendelseskategori_id: kategorid,
-            kommune_id = 1,
+            kommune_id: 1,
             overskrift: this.overskrift,
+            tid: datotid,
             beskrivelse: this.beskrivelse,
             sted: this.adresse,
             bilde: "lofoten.jpg",
@@ -155,7 +156,7 @@ export class NyHendelse extends Component{
         hendelse.lagNyHendelse(nyhendelse);
     }
 
-    async mounted(){
+    async componentWillMount(){
         let res = await hendelseService.hentAlleHovedkategorier();
         this.kategorier = await res.data; 
         await console.log(this.kategorier);
