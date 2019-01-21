@@ -9,6 +9,10 @@ class GenerellServices {
     return api.get('/api/filtrer/' + sokeord);
   }
 
+  sokKommune(sokeord) {
+    return api.get('/api/kommuner/' + sokeord);
+  }
+
   hentAlleFeil() {
     // denne skal egentlig ikkje ligge her (feilservice)
     return api.get('/api/hentAlleFeil');
