@@ -8,6 +8,9 @@ const transporter = nodemailer.createTransport({
     user: 'HverdagsHeltTeam07@gmail.com',
     pass: 'HverdagsHeltTeam07SuperSecret',
   },
+  tls: {
+    rejectUnauthorized: false,
+  },
 });
 
 module.exports = class epost {
@@ -18,7 +21,7 @@ module.exports = class epost {
       '<div style="margin-left:36px"><p>Meldt feil med saksnummer ' +
       saksnummer +
       ' er godkjent og registrert for behandling</p></div><div style="float:left;margin-top:45px">' +
-      '<img src="http://gdurl.com/BbIX" width="280"/></div>' +
+      '<img src="http://drive.google.com/uc?export=view&id=1FTiZHS4274x2VpVfjt2jj7aIfBbvVfBg" width="280"/></div>' +
       '<div style="margin-left:15px;margin-top:80px"><p>E-post: contact@HverdagsHelt.no</p>' +
       '<p>tlf: +47 00 00 00 00</p><p>Prosjekt HverdagsHelt</p></div>';
 
@@ -45,7 +48,7 @@ module.exports = class epost {
       '<div style="margin-left:36px"><p>Melding om feil kom ikke gjennom godkjenningsprosessen fordi:</p><p>' +
       begrunnelse +
       '</p></div><div style="float:left;margin-top:45px">' +
-      '<img src="http://gdurl.com/BbIX" width="280"/></div><div style="margin-left:15px;margin-top:80px">' +
+      '<img src="http://drive.google.com/uc?export=view&id=1FTiZHS4274x2VpVfjt2jj7aIfBbvVfBg" width="280"/></div><div style="margin-left:15px;margin-top:80px">' +
       '<p>E-post: contact@HverdagsHelt.no</p><p>tlf: +47 00 00 00 00</p><p>Prosjekt HverdagsHelt</p></div>';
 
     let mailOptions = {
@@ -72,7 +75,7 @@ module.exports = class epost {
       saksnummer +
       ' er ' +
       status +
-      '</p></div><div style="float:left;margin-top:45px"><img src="http://gdurl.com/BbIX" width="280"/>' +
+      '</p></div><div style="float:left;margin-top:45px"><img src="http://drive.google.com/uc?export=view&id=1FTiZHS4274x2VpVfjt2jj7aIfBbvVfBg" width="280"/>' +
       '</div><div style="margin-left:15px;margin-top:80px"><p>E-post: contact@HverdagsHelt.no</p>' +
       '<p>tlf: +47 00 00 00 00</p><p>Prosjekt HverdagsHelt</p></div>';
 
@@ -96,10 +99,10 @@ module.exports = class epost {
   registreringsBekreftelse(brukernavn, mottaker) {
     let subject = 'Brukerregistrering';
     let html =
-      '<div style="margin-left:36px"><p>Brukerregistrering fullført, velkommen til Hverdagshelt, ' +
-      brukernavn +
+      '<div style="margin-left:36px"><p>' +
+      'Velkommen til HverdagsHelt, ' + brukernavn + '!' +
       '</p></div><div style="float:left;margin-top:45px">' +
-      '<img src="http://gdurl.com/BbIX" width="280"/></div><div style="margin-left:15px;margin-top:80px">' +
+      '<img src="http://drive.google.com/uc?export=view&id=1FTiZHS4274x2VpVfjt2jj7aIfBbvVfBg" width="280"/></div><div style="margin-left:15px;margin-top:80px">' +
       '<p>E-post: contact@HverdagsHelt.no</p><p>tlf: +47 00 00 00 00</p><p>Prosjekt HverdagsHelt</p></div>';
 
     let mailOptions = {
@@ -125,7 +128,7 @@ module.exports = class epost {
       '<div style="margin-left:36px"><p>Nytt passord:</p><p>' +
       passord +
       '</p></div>' +
-      '<div style="float:left;margin-top:45px"><img src="http://gdurl.com/BbIX" width="280"/></div>' +
+      '<div style="float:left;margin-top:45px"><img src="http://drive.google.com/uc?export=view&id=1FTiZHS4274x2VpVfjt2jj7aIfBbvVfBg" width="280"/></div>' +
       '<div style="margin-left:15px;margin-top:80px"><p>E-post: contact@HverdagsHelt.no</p>' +
       '<p>tlf: +47 00 00 00 00</p><p>Prosjekt HverdagsHelt</p></div>';
 
@@ -154,7 +157,7 @@ module.exports = class epost {
       '<a href="' +
       link +
       '">Klikk her</a> for å resette ditt passord.</p></div>' +
-      '<div style="float:left;margin-top:45px"><img src="http://gdurl.com/BbIX" width="280"/></div>' +
+      '<div style="float:left;margin-top:45px"><img src="http://drive.google.com/uc?export=view&id=1FTiZHS4274x2VpVfjt2jj7aIfBbvVfBg" width="280"/></div>' +
       '<div style="margin-left:15px;margin-top:80px"><p>E-post: contact@HverdagsHelt.no</p>' +
       '<p>tlf: +47 00 00 00 00</p><p>Prosjekt HverdagsHelt</p></div>';
 
@@ -183,7 +186,7 @@ module.exports = class epost {
       'Gå hit for å logge inn igjen' +
       link +
       '</p></div>' +
-      '<div style="float:left;margin-top:45px"><img src="http://gdurl.com/BbIX" width="280"/></div>' +
+      '<div style="float:left;margin-top:45px"><img src="http://drive.google.com/uc?export=view&id=1FTiZHS4274x2VpVfjt2jj7aIfBbvVfBg" width="280"/></div>' +
       '<div style="margin-left:15px;margin-top:80px"><p>E-post: contact@HverdagsHelt.no</p>' +
       '<p>tlf: +47 00 00 00 00</p><p>Prosjekt HverdagsHelt</p></div>';
 
@@ -216,7 +219,7 @@ module.exports = class epost {
       '</p><p>' +
       beskrivelse +
       '</p><img src="cid:bilde"/></div><div style="float:left;margin-top:45px">' +
-      '<img src="http://gdurl.com/BbIX" width="280"/></div><div style="margin-left:15px;margin-top:80px">' +
+      '<img src="http://drive.google.com/uc?export=view&id=1FTiZHS4274x2VpVfjt2jj7aIfBbvVfBg" width="280"/></div><div style="margin-left:15px;margin-top:80px">' +
       '<p>E-post: contact@HverdagsHelt.no</p><p>tlf: +47 00 00 00 00</p><p>Prosjekt HverdagsHelt</p></div>';
 
     let mailOptions = {
