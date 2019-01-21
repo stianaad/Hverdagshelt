@@ -3,7 +3,7 @@ import {PageHeader} from '../../Moduler/header/header';
 import {Component, sharedComponentData} from 'react-simplified';
 import {feilService} from '../../services/feilService';
 import {Card, Feed, Grid, Button, Header, Icon, Image, Popup, Modal, Input, List,Dropdown} from 'semantic-ui-react';
-import {FeedEvent, FeedHendelse, Filtrer, Info, FeedMinside} from '../../Moduler/cardfeed';
+import {FeedEvent, FeedHendelse, Filtrer, Info, FeedMinside, ModalHendelse} from '../../Moduler/cardfeed';
 import {brukerService} from '../../services/brukerService';
 import {NavLink} from 'react-router-dom';
 import {markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
@@ -19,16 +19,29 @@ export class Minside extends Component {
     beskrivelse: '',
   };
 
+  valgteHendelse = {
+    overskrift: '',
+    bilde: '',
+    tid: '',
+    sted: ''
+  };
+
+  visHendelse = false;
+
   visFeil = false;
 
   classFeil = 'hovedsideTabeller';
 
   state = {open: false};
 
-
   handleOpen = (feil) => {
-    console.log(feil);
-    this.valgtFeil = {...feil};
+    if(this.visHendelse){
+      this.valgteHendelse= {...feil};
+      console.log(this.valgteHendelse);
+      console.log("ehehheh")
+    } else {
+      this.valgtFeil = {...feil};
+    }
     this.setState({open: true});
   };
 
@@ -44,7 +57,7 @@ export class Minside extends Component {
           {/*<Modal.Header>
                         {this.valgtFeil.overskrift}
                     </Modal.Header>*/}
-          <Modal.Content>
+                    {(!this.visHendelse) ? ( <Modal.Content>
             <div>
               <Card fluid>
                 <Card.Content>
@@ -115,9 +128,11 @@ export class Minside extends Component {
                 </Card.Content>
               </Card>
             </div>
-          </Modal.Content>
-        </Modal>
-
+          </Modal.Content>) 
+          : (
+            <ModalHendelse overskrift={this.valgteHendelse.overskrift} url={this.valgteHendelse.bilde} tid={this.valgteHendelse.tid} sted={this.valgteHendelse.sted}/>
+            )}
+        </Modal>       
         <h1 className="text-center">Min side</h1>
         <div className="row minRow">
           <div className="col-sm-3 mt-3 ml-3" id="sideListe">
@@ -192,7 +207,7 @@ export class Minside extends Component {
               <h2>Hendelser du følger</h2>
               <Card.Group itemsPerRow={1}>
                 {this.folgteHendelser.map((hendelse) => (
-                  <Card className="feilCard">
+                  <Card className="feilCard" onClick={() => {this.visHendelse=true; this.handleOpen(hendelse);}} >
                     <Image src={hendelse.bilde} className="feilCardImage" />
                     <Card.Content>
                       <Card.Header>{hendelse.overskrift}</Card.Header>

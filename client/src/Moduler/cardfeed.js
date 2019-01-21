@@ -333,6 +333,46 @@ export class FeedMinside extends Component {
   }
 }
 
+export class ModalHendelse extends Component{
+  render(){
+    return(
+      <Modal.Content image>
+        <Grid>
+        <Header as="h1">{this.props.overskrift}</Header>
+          <Grid.Row columns={2}>
+            <Grid.Column>
+            <Modal.Description>
+              <Image src={this.props.url}/>
+              <Button color="green" className="mt-2" floated="left" content="Kjøp billett"/>
+              <Button color="red"  className="mt-2" floated="right" content="Abonner"/>
+              <br />
+              <div>
+                <p>
+                  <img src="https://image.flaticon.com/icons/svg/33/33622.svg" height="20" width="20" />
+                  {this.props.sted}, Trondheim, Norge{' '}
+                </p>
+                <p>
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Simple_icon_time.svg/750px-Simple_icon_time.svg.png"
+                    height="20"
+                    width="25"
+                  />
+                  {this.props.tid}
+                </p>
+              </div>
+            </Modal.Description>
+            </Grid.Column>
+            <Grid.Column>
+
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+        </Modal.Content>
+    )
+  }
+}
+
+
 export class Info extends Component {
   render() {
     return (

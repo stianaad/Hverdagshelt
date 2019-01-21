@@ -371,7 +371,6 @@ export class Hovedside extends Component {
                               </Button>
                             </div>
                             <br />
-
                             <div>
                               <p>
                                 <img src="https://image.flaticon.com/icons/svg/33/33622.svg" height="20" width="20" />
