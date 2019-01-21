@@ -43,7 +43,8 @@ export class MeldFeil extends Component {
               <FormInput
                 type="text"
                 label="Overskrift:"
-                onChange={(event) => (this.data.overskrift = event.target.value)}
+                name="overskrift"
+                onChange={this.endreVerdi}
                 required
               />
             </div>
@@ -99,7 +100,7 @@ export class MeldFeil extends Component {
                 Beskrivelse:
               </label>
               <br />
-              <textarea type="text" id="bes" value={this.data.beskrivelse} onChange={this.skrivefelt} />
+              <textarea type="text" id="bes" value={this.data.beskrivelse} name="beskrivelse" onChange={this.endreVerdi} />
             </div>
             <div id="bilete">
               <label id="billbl" htmlFor="bil">
@@ -117,7 +118,7 @@ export class MeldFeil extends Component {
           </div>
           <div id="sjekkboks">
             <div id="boksen">
-              <input onChange={this.endreVerdi} type="checkbox" name="Abonner" value="Abonner" />
+              <input onChange={this.endreVerdi} name="avsjekket" type="checkbox" name="Abonner" value="Abonner" />
             </div>
             <div id="boksenlbl">
               <label>Abonner på denne saken</label>
@@ -144,31 +145,6 @@ export class MeldFeil extends Component {
     this.subkatfiltrert = this.subkategoriene.filter((kat) => this.data.kategori_id == kat.hovedkategori_id);
   }
 
-  skrivefelt(e) {
-    this.data.beskrivelse = e.target.value;
-  }
-
-  testknapp() {
-    this.data.kommune_id = this.kominput.current.verdi;
-    console.log(
-      this.data.avsjekket +
-        ':' +
-        this.data.kommune_id +
-        ':' +
-        this.data.overskrift +
-        ':' +
-        this.data.kategori_id.value +
-        ':' +
-        this.data.subkategori_id.value +
-        ':' +
-        this.data.beskrivelse +
-        ':' +
-        this.data.lengdegrad +
-        ':' +
-        this.data.breddegrad
-    );
-  }
-
   send() {
     let formData = new FormData();
     this.data.kommune_id = this.kominput.current.verdi;
@@ -180,24 +156,22 @@ export class MeldFeil extends Component {
     formData.append('lengdegrad', this.data.lengdegrad);
     formData.append('breddegrad', this.data.breddegrad);
     formData.append('avsjekket', this.data.avsjekket);
+    Array.from(document.querySelector('#bil').files).forEach((file) => {if (file.type.match('image.*')) formData.append('bilder', file, file.name);})
 
-    let files = document.querySelector('#bil').files;
-    for (let i = 0; i < files.length; i++) {
-      let file = files[i];
-      if (!file.type.match('image.*')) {
-        continue;
-      }
-      formData.append('bilder', file, file.name);
+    let token = sessionStorage.getItem('pollett');
+    if (token) {
+      let xhr = new XMLHttpRequest();
+      xhr.open('POST', '/api/feil ', true);
+      xhr.setRequestHeader("x-access-token", 'Bearer ' + token)
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+          this.props.history.push('/');
+        }
+      };
+      xhr.send(formData);
+    } else {
+      global.sidePush("/", true);
     }
-
-    let xhr = new XMLHttpRequest();
-    xhr.open('POST', '/api/feil ', true);
-    xhr.onreadystatechange = () => {
-      if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-        this.props.history.push('/');
-      }
-    };
-    xhr.send(formData);
   }
 
   posFunksjon(pos) {
@@ -209,6 +183,6 @@ export class MeldFeil extends Component {
     const target = e.target;
     const value = target.type === 'checkbox' ? (target.checked ? 1 : 0) : target.value;
     const name = target.name;
-    this.data.avsjekket = value;
+    this.data[name] = value;
   }
 }
