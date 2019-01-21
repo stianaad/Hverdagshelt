@@ -45,6 +45,7 @@
     bottom:0;
     /*background-color: red;*/
     z-index: 800;
+    white-space: nowrap;
 }
 
 .mobileButtons > div {

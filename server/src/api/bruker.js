@@ -120,7 +120,7 @@ router.post('/api/brukere/nyttpassord', checkToken, (req, res) => {
       throw new Error('Noe gikk galt');
     }
     req.body.passord = hash;
-    brukerDao.endrePassord({passord: req.body.passord, bruker_id: req.decoded.user.bruker_id}, (status, data) => {
+    brukerDao.endrePassord({passord: req.body.passord, epost: req.decoded.user.epost}, (status, data) => {
       res.status(status);
       res.json(data);
     });
@@ -212,17 +212,10 @@ router.get('/api/bedrifter', (req, res) => {
 
 module.exports = router;
 
-function makeid() {
-  var text = '';
-  var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-  module.exports = router;
-
-  const genenererEpostPollett = (epost, callback) => {
-    console.log(secret.secret);
-    jwt.sign({user: {epost: epost}}, secret.secret, {expiresIn: 900}, (err, token) => {
-      console.log(err);
-      callback(token);
-    });
-  };
-}
+const genenererEpostPollett = (epost, callback) => {
+  console.log(secret.secret);
+  jwt.sign({user: {epost: epost}}, secret.secret, {expiresIn: 900}, (err, token) => {
+    console.log(err);
+    callback(token);
+  });
+};

@@ -114,7 +114,7 @@ export class NyeFeil extends Component {
                           <Card.Content>
                             <Card.Header>
                               Nye innsendinger
-                              <Filtrer />
+
                             </Card.Header>
                           </Card.Content>
                           <Card.Content className={this.className}>

@@ -51,8 +51,8 @@ export class NyHendelse extends Component{
                                 <Grid.Row textAlign="center" centered>
                                     <h1 className="mt-3">Ny hendelse</h1>
                                 </Grid.Row>
-                                <Grid.Row centered>
-                                        <Grid.Row textAlign="center">
+                                
+                                        <Grid.Row centered fluid>
                                             <div className="form-group">
                                                 <label>Overskrift</label>
                                                 <input type="text" className="form-control" placeholder="Overskrift" 
@@ -118,7 +118,6 @@ export class NyHendelse extends Component{
                                         <Grid.Row centered>
                                             <Button color="green" onClick={this.lagre}>Ferdig</Button>
                                         </Grid.Row>
-                                </Grid.Row>
                             </Grid>
                         </Grid.Column>
                     </Grid>
