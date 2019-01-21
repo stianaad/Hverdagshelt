@@ -137,10 +137,11 @@ export class FeedEvent extends Component {
                         </select>
                         <br />
                         <Form>
-                          <TextArea className="tekstFeltOppdatering" autoHeight placeholder="Skriv oppdatering..." onChange={this.tekstFelt} />
+                          <TextArea className="tekstFeltOppdatering" required={true} autoHeight placeholder="Skriv oppdatering..." onChange={this.tekstFelt} />
                         </Form>
                         <br />
                         <Button
+                          disabled={this.tekstverdi=== '' || this.statusID === ''}
                           onClick={() => {
                             this.props.knapp(this.tekstverdi, this.statusID,this.props.feil_id);
                             this.lukk();
