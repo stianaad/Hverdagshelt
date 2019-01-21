@@ -1,0 +1,32 @@
+.container {
+  width: 70%;
+  margin: 0 auto;
+  padding-top: 10px;
+  /*background-color:
+  */
+}
+
+.valg{
+    border: solid; 
+    
+}
+
+.knappDiv{
+    align-content: center;
+    align-self: center;
+    text-align: center;
+    vertical-align: middle;
+    margin-left: 0px;
+}
+
+.knappDiv:button{
+    border: solid;
+}
+
+#registrer {
+  margin-right: 5px;
+}
+
+#passordSjekk {
+  color:red;
+}

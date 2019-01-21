@@ -1,0 +1,25 @@
+.bedriftContainer {
+    width: 90%;
+    margin: 0 auto;
+    padding-top: 10px;
+    /*background-color:
+    */
+  }
+
+  .fiksStorrelseOverskrift{
+    text-align: center;
+  }
+
+  .statusTabell {
+    /*width: 60%;*/
+    text-align: center;
+  }
+
+  .oppdaterFeilBedrift{
+    height: 60%;
+  }
+
+.tekstFeltOppdatering{
+  min-height: 30vh;
+  max-height: 40vh;
+}
