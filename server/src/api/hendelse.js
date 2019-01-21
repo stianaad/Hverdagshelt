@@ -17,6 +17,14 @@ router.get('/api/hendelser', (req, res) => {
   });
 });
 
+router.get('/api/kommuner/:kommune_id/hendelser', (req, res) => {
+  console.log('Fikk GET-request fra klienten');
+  hendelseDao.hentHendelseForKommune(req.params.kommune_id, (status, data) => {
+    res.status(status);
+    res.json(data);
+  });
+});
+
 router.get('/api/hendelser/:hendelse_id', (req, res) => {
   console.log('Fikk GET-request fra klienten');
   hendelseDao.hentEnHendelse(req.body, (status, data) => {

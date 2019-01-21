@@ -5,6 +5,10 @@ class HendelseService {
     return api.get('/api/hendelser');
   }
 
+  hentHendelserForKommune(kommune_id) {
+    return api.get('/api/kommuner/'+kommune_id+'/hendelser');
+  }
+
   hentEnHendelse(hendelse_id) {
     return api.get('/api/hendelser/' + hendelse_id);
   }
