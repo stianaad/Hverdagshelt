@@ -246,11 +246,15 @@ export class Hovedside extends Component {
                           </List>
                         </div>
                         <br />
-                        <Image.Group size="tiny">
+                        <Grid columns={2} fluid>
                           {this.bilderTilFeil.map((bilde) => (
-                            <Image key={bilde.bilde_id} src={bilde.url} onClick={() => {this.handleOpen(bilde.url)}} />
+                            <Grid.Column>
+                              <div onClick={() => this.visBilde(bilde.url)}>
+                                <img src={bilde.url} key={bilde.bilde_id} className="bilder" onClick={() => {this.handleOpen(bilde.url)}}/>
+                              </div>
+                            </Grid.Column>
                           ))}
-                        </Image.Group>
+                        </Grid>
                       </Grid.Column>
                     </Grid>
                   </Card.Content>
