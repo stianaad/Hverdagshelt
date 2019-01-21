@@ -171,7 +171,7 @@ export class Minside extends Component {
               </Card.Content>
               {(this.visFeil) ? ( 
               <Card.Content className={this.classFeil}>
-                <Feed>
+              {((this.oppdaterteFeil.length+this.ikkeOppdaterteFeil.length) > 0) ? (<Feed>  
                   {this.oppdaterteFeil.map((feil) => (
                     <FeedMinside
                       status={feil.status}
@@ -199,14 +199,14 @@ export class Minside extends Component {
                       {feil.overskrift}
                     </FeedMinside>
                   ))}
-                </Feed> 
+                </Feed> ) : (<Card><Card.Content><Header as="h4">Du har desverre ikke rapportert inn noen feil:( </Header></Card.Content></Card>)}
               </Card.Content>) : (null)}
             </Card>
           </div>
           <div className="col-sm-3 mt-3">
             <div className="columnCenter">
               <h2>Hendelser du følger</h2>
-              <Card.Group itemsPerRow={1}>
+              {(this.folgteHendelser.length>0) ? (<Card.Group itemsPerRow={1}>
                 {this.folgteHendelser.map((hendelse) => (
                   <Card className="feilCard" onClick={() => {this.visHendelse=true; this.handleOpen(hendelse);}} >
                     <Image src={hendelse.bilde} className="feilCardImage" />
@@ -224,13 +224,13 @@ export class Minside extends Component {
                     </Card.Content>
                   </Card>
                 ))}
-              </Card.Group>
+              </Card.Group>) : (<Card><Card.Content><Header as="h4">Du følger for øyeblikket ingen hendelser:( Gå til Hendelser for å finne noe du vil abonnere på.</Header></Card.Content></Card> )}
             </div>
           </div>
           <div className="col-sm-3 mt-3">
             <div className="columnCenter">
               <h2>Feil/mangler du følger</h2>
-              <Card.Group itemsPerRow={1}>
+              {(this.folgteFeil.length >0) ? (<Card.Group itemsPerRow={1}>
                 {this.folgteFeil.map((feil) => (
                   <Card className="feilCard" onClick={() => {this.visHendelse=false;this.handleOpen(feil)}}>
                     <Image src={feil.url} className="feilCardImage" />
@@ -249,6 +249,9 @@ export class Minside extends Component {
                   </Card>
                 ))}
               </Card.Group>
+              ) : (
+              <Card><Card.Content><Header as="h4">Du følger for øyeblikket ingen feil:( Gå til feil for å finne noe du vil abonnere på.</Header></Card.Content></Card> )}
+              
             </div>
           </div>
           <div className="col-sm-3" />
@@ -261,13 +264,15 @@ export class Minside extends Component {
     this.visFeil = !this.visFeil;
     if(this.visFeil){
       this.finnIkkeOppdaterteFeil();
+      await this.scrollFeil();
       await brukerService.oppdaterSistInnloggetPrivat();
     }
   }
 
   scrollFeil() {
-    if ((this.oppdaterteFeil.length+this.ikkeOppdaterteFeil.length+5) > 4) {
-      this.classFeil = 'hovedsideScroll';
+    if ((this.oppdaterteFeil.length+this.ikkeOppdaterteFeil.length) > 4) {
+      console.log(this.oppdaterteFeil.length+this.ikkeOppdaterteFeil.length);
+      this.classFeil = 'rapporterteFeilScroll';
     }
   }
 
