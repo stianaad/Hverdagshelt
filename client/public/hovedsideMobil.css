@@ -8,22 +8,73 @@
     text-align: center;
 }
 
-.leaflet-top{
+.leaflet-top, .leaflet-bottom{
     z-index: 700 !important;
 }
 
-.hovedsideScroll{
-    height: 80vh;     
-    overflow-y: scroll;
+.hovedsideTabeller{
+    height: calc(100vh - 300px);
+    overflow-y: auto;
 }
 
-.hovedsideTabeller{
-    height: 80vh;
-    width: 90vw !important;
+.hovedKort {
+    /*width: 90vw !important;*/
+    min-width: 200px !important;
+    margin: 0 !important;
 }
 
 #mapContainer {
-    padding-right: 0 !important;
-    width: 90vw;
+    height: calc(100vh - 250px);
+}
+
+.hovedContainer {
+    width:100vw;
+ }
+
+.hovedContainer > div[class*="col-"] {
+    width: 100vw;
+    max-width: 100vw !important;
+    flex: 0 1 auto !important;
+    margin-bottom: 10rem;
+}
+
+.mobileButtons {
+    width:100%;
+    height:70px;
+    position:fixed;
+    bottom:0;
+    /*background-color: red;*/
+    z-index: 800;
+}
+
+.mobileButtons > div {
+    width: fit-content;
     margin: 0 auto;
 }
+
+.mobileButtons > div > a > div {
+    padding: 0 10px 0 10px;
+    color: black;
+    margin: 0 1.5vw 0 1.5vw;
+    box-shadow: 0 0.5px 2px rgba(0,0,0,0.2);
+    text-align: center;
+    height: 60px;
+    width: 30vw;
+    border-radius: 50px;
+    background-color: white;
+    font-size: 5vw;
+    display: inline-block;
+}
+
+@media screen and (min-width: 440px) {
+    .mobileButtons > div > a > div {
+        font-size: 22px;
+    }
+}
+
+.mobileButtons > div > a > div > p {
+    position: relative;
+    top: 50%;
+    transform: translateY(-55%);
+}
+

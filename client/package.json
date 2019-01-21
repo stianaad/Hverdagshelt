@@ -19,6 +19,7 @@
     "js-base64": "^2.4.9",
     "jsonwebtoken": "^8.4.0",
     "leaflet": "^1.4.0",
+    "query-string": "^6.2.0",
     "react": "^16.6.1",
     "react-bootstrap": "^0.32.4",
     "react-grid-system": "^4.3.1",
