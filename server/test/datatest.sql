@@ -69,9 +69,29 @@ INSERT INTO oppdatering (feil_id, kommentar, status_id, bruker_id) VALUES
   (4, 'Kommentar4', 3, 6);
 
 INSERT INTO hendelseskategori (kategorinavn) VALUES 
-  ('HendelseKat1'),
-  ('HendelseKat2');
+  ('Fest'),
+  ('Konsert'),
+  ('Konferanse');
 
 INSERT INTO hendelser (bruker_id, hendelseskategori_id, kommune_id, overskrift, tid, beskrivelse, sted, bilde, lengdegrad, breddegrad) VALUES
   (5, 1, 4, 'Overskrift1', ('2019-08-07'), 'Beskrivelse1', 'Sted1', 'https://bjornost.tihlde.org/hverdagshelt/135d6d0f44a6ba73e3782c243663b90a', 0.0, 0.0),
   (6, 2, 12, 'Overskrift2', ('2019-12-20'), 'Beskrivelse2', 'Sted2', 'https://bjornost.tihlde.org/hverdagshelt/19af4f8c745a62973e2cd615eaf329fa', 1.0, 0.1);
+
+  INSERT INTO feilfolg (feil_id, bruker_id) VALUES
+  (1, 1),
+  (2, 1),
+  (5, 10),
+  (3, 9);
+
+  INSERT INTO hendfolg (hendelse_id, bruker_id) VALUES
+  (1, 1),
+  (1, 2),
+  (1, 3),
+  (2, 10),
+  (2, 1);
+
+  INSERT INTO jobbSoknad (bruker_id, feil_id) VALUES 
+  (7, 1),
+  (7, 2),
+  (7, 3),
+  (8, 1);

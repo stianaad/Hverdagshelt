@@ -20,6 +20,7 @@ export class Hovedside extends Component {
   alleHendelser = [];
   visHendelser = false;
   bilderTilFeil = [];
+  bildeModal = null;
   statusIkon = '';
   markers = [];
 
@@ -40,7 +41,8 @@ export class Hovedside extends Component {
 
   state = {open: false};
 
-  handleOpen = () => {
+  handleOpen = (url) => {
+    this.bildeModal = url;
     this.setState({open: true});
   };
   handleClose = () => {
@@ -244,21 +246,22 @@ export class Hovedside extends Component {
                           </List>
                         </div>
                         <br />
-                        <Image.Group size="tiny">
-                          <Image src="/lofoten.jpg" onClick={this.handleOpen} />
-                          <Image src="/lofoten.jpg" onClick={this.handleOpen} />
-                          <Image src="/lofoten.jpg" onClick={this.handleOpen} />
-                          <Image src="/lofoten.jpg" onClick={this.handleOpen} />
-                          <Image src="/lofoten.jpg" onClick={this.handleOpen} />
-                          <Image src="/lofoten.jpg" onClick={this.handleOpen} />
-                        </Image.Group>
+                        <Grid columns={5} fluid>
+                          {this.bilderTilFeil.map((bilde) => (
+                            <Grid.Column>
+                              <div onClick={() => this.visBilde(bilde.url)}>
+                                <img src={bilde.url} key={bilde.bilde_id} className="bilder" onClick={() => {this.handleOpen(bilde.url)}}/>
+                              </div>
+                            </Grid.Column>
+                          ))}
+                        </Grid>
                       </Grid.Column>
                     </Grid>
                   </Card.Content>
                 </Card>
-                <Modal open={this.state.open} onClose={this.handleClose}>
+                <Modal open={this.state.open} onClose={this.handleClose} basic>
                   <Modal.Content>
-                    <Image src="/lofoten.jpg" />
+                    <img src={this.bildeModal} className="bildevisning"/>
                   </Modal.Content>
                 </Modal>
               
@@ -466,35 +469,3 @@ export class Hovedside extends Component {
   }
 }
 
-class Tabell extends Component {
-  render() {
-    return (
-      <div className="ml-3">
-        <h5>{this.props.hovedOverskrift}</h5>
-        <br />
-        <div className="kanter">
-          <nav>
-            <ul className="list-group">
-              <li className="kanter lister">I dag</li>
-              {this.props.tabell.map((tabell) => (
-                <li className="kanter lister">
-                  <NavLink
-                    to={'/hovedside/' + this.props.kommune}
-                    onClick={() => {
-                      this.props.metode(tabell.overskrift);
-                    }}
-                  >
-                    {tabell.overskrift}
-                    <br />
-                    <i>{this.props.tema}</i>
-                    <span className="float-right">{tabell.tid}</span>
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </div>
-      </div>
-    );
-  }
-}
