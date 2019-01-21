@@ -5,6 +5,10 @@ class GenerellServices {
     return api.get('/api/kommuner');
   }
 
+  hentAlleFylker(){
+    return api.get('/api/fylker');
+  }
+
   filtrerKommuner(sokeord) {
     return api.get('/api/filtrer/' + sokeord);
   }

@@ -2,86 +2,81 @@ import * as React from 'react';
 import {Component} from 'react-simplified';
 import {hendelseService} from '../../services/hendelseService';
 import {generellServices} from '../../services/generellServices';
-import { HashRouter, Route, NavLink, Redirect,Switch,Link } from 'react-router-dom';
-import {FeedEvent,FeedHendelse, Filtrer, Info, Hendelse} from '../../Moduler/cardfeed';
-import {Card, Feed, Grid, Button, Header, Icon, Image, Modal,Dropdown} from 'semantic-ui-react';
+import {HashRouter, Route, NavLink, Redirect, Switch, Link} from 'react-router-dom';
+import {FeedEvent, FeedHendelse, Filtrer, Info, Hendelse} from '../../Moduler/cardfeed';
+import {Card, Feed, Grid, Button, Header, Icon, Image, Modal, Dropdown} from 'semantic-ui-react';
 import {PageHeader} from '../../Moduler/header/header';
 import { KommuneVelger } from '../../Moduler/KommuneVelger/kommuneVelger';
 
-export class Hendelser extends Component{
+export class Hendelser extends Component {
     hendelser = [];
     alleKategorier = [];
-    aktiveHendelser = [];
+		aktiveHendelser = [];
     link = "/hendelser";
     tider=[];
     kommuner=[];
-    navn=[];
+		fylker=[];
+		finnKommuneId=[]
 
+		tilbakestill(){
+			// Pushe tilbake til siden? 
+			this.aktiveHendelser = this.hendelser;
+			this.finnKommuneId = this.kommuner;
+		}
+	
 
-    filterKategori(e) {
-        let verdi = e.target.value;
-        console.log(verdi);
-        if (verdi == 0) {
-            this.aktiveHendelser = this.hendelser;
-            console.log(this.hendelser);
-        }else {
-          console.log(this.alleKategorier);
-          this.aktiveHendelser= this.hendelser.filter(
-            (kat) => kat.kategorinavn === verdi
-          );
-        }
-      }
+  filterKategori(e) {
+		let verdi =e.target.value;
+		this.aktiveHendelser = this.hendelser.filter((kat) => kat.kategorinavn === verdi);
+		this.aktiveHendelser = this.aktiveHendelser.filter((kat) => kat.kategorinavn === verdi);
 
-    
-    filterSted(e) {
-        let verdi = e.target.value;
-        console.log(verdi);
-        if (verdi == 0) {
-            this.aktiveHendelser = this.hendelser;
-            console.log(this.hendelser);
-        }else {
-          console.log(this.alleKategorier);
-          this.aktiveHendelser= this.hendelser.filter(
-            (kat) => kat.sted === verdi
-          );
-        }
-    }
+  }
+
+  filterSted(e) {
+		let verdi = e.target.value;
+		this.aktiveHendelser = this.hendelser.filter((kat) => kat.sted === verdi);
+		this.aktiveHendelser = this.aktiveHendelser.filter((kat) => kat.sted === verdi);
+  }
 
     filterFraTid(e) {
-        let fraTid = document.getElementById("fra").value+"0";
-        if (fraTid==="0") {
-            this.aktiveHendelser = this.hendelser;
-        }else {
-            this.aktiveHendelser= this.hendelser.filter(
-                (kat) => kat.tid > fraTid
-              );
-        }
-    }
+			let fraTid = document.getElementById("fra").value+"0";
+			if(fraTid === "0"){
+				this.aktiveHendelser = this.hendelser;
+			}else{
+			this.aktiveHendelser= this.aktiveHendelser.filter((kat) => kat.tid > fraTid);
+			}
+		}
 
     filterTilTid(e) {
-        let tilTid = document.getElementById("til").value +"0";
-        if (tilTid==="0") {
-            this.aktiveHendelser = this.hendelser;
-        }else {
-          this.aktiveHendelser= this.hendelser.filter(
-            (kat) => kat.tid < tilTid
-          );
-        }
+			let tilTid = document.getElementById("til").value +"0";
+			if (tilTid === "0") {
+				this.aktiveHendelser = this.hendelser;
+				
+			} else {
+			
+				this.aktiveHendelser = this.aktiveHendelser.filter((kat) => kat.tid < tilTid);
+			}
+	
     }
 
     filterKommune(e) {
-        let verdi = e.target.value;
-        console.log(verdi);
-        if (verdi == 0) {
-            this.aktiveHendelser = this.hendelser;
-            console.log(this.hendelser);
-        }else {
-          console.log(this.alleKategorier);
-          this.aktiveHendelser= this.hendelser.filter(
-            (kat) => kat.sted === verdi
-          );
-        }
-    }
+				let verdi = parseInt(e.target.value);
+				this.aktiveHendelser = this.hendelser.filter((kat) => kat.kommune_id === verdi);
+        this.aktiveHendelser= this.aktiveHendelser.filter((kat) => kat.kommune_id === verdi);
+			}
+
+		filterFylke(e) {
+			let verdi = e.target.value;
+			console.log(this.finnKommuneId);
+			//bruke find her til å finne kommuneid-er og så filtrere bort
+			this.finnKommuneId = this.finnKommuneId.filter(element => 
+				element.fylke_navn == verdi
+			);
+
+			console.log(this.finnKommuneId);
+
+			this.aktiveHendelser= this.aktiveHendelser.filter((kat) => kat.kommune_id === verdi);
+		}
   
   
     render() {
@@ -92,23 +87,23 @@ export class Hendelser extends Component{
             <h1 className="text-center b-5" >Hendelser</h1>
            
            <div className="row ml-1">
-           <h5 className="mt-3">Filtrer på: </h5>
+           <h5 className="mt-3">Filtrer: </h5>
            <select
-                onChange={this.filterKategori}
-                className="form-control right floated meta m-2"
-                style={{height: 30, width: 150}}
-                >
-                <option hidden> Kategori </option>
-                <option value="0"> Alle kategorier </option>
-                {this.hendelser.map((kategori) => (
-                <option
-                    value={kategori.kategorinavn}
-                    key={kategori.kategorinavn}
-                >
-                    {' '}
-                    {kategori.kategorinavn}
-                </option>
-                ))}
+							onChange={this.filterKategori}
+							className="form-control right floated meta m-2"
+							style={{height: 30, width: 150}}
+							>
+							<option hidden> Kategori </option>
+							<option value="0"> Alle kategorier </option>
+							{this.hendelser.map((kategori) => (
+							<option
+									value={kategori.kategorinavn}
+									key={kategori.kategorinavn}
+							>
+									{' '}
+									{kategori.kategorinavn}
+							</option>
+							))}
                 
              </select>
 
@@ -131,23 +126,68 @@ export class Hendelser extends Component{
                 
              </select>
              {<input 
-             onChange={this.filterFraTid}
-             type="date" 
-             style={{height: 30, width: 110}} 
-             className="mt-2" 
-             id="fra"
+                onChange={this.filterFraTid}
+                type="date" 
+                style={{height: 30, width: 110}} 
+                className="mt-2" 
+                id="fra"
              /> }
              {<input 
-             onChange={this.filterTilTid}
-             type="date" 
-             style={{height: 30, width: 110, marginLeft:4}} 
-             className="mt-2"
-             id = "til"
+                onChange={this.filterTilTid}
+                type="date" 
+                style={{height: 30, width: 110, marginLeft:4}} 
+                className="mt-2"
+                id = "til"
              />}
 
-            <Dropdown placeholder='Velg kommune' fluid search selection options={this.navn.map(navn=>navn)} />
+            <select
+                onChange={this.filterKommune}
+                className="form-control right floated meta m-2"
+                style={{height: 30, width: 150}}
+                >
+                <option hidden> Kommune </option>
+                <option value="0"> Alle kommuner </option>
+                {this.kommuner.map((sted) => (
+                <option
+                    value={sted.kommune_id}
+                    key={sted.id}
+                >
+                    {' '}
+                    {sted.kommune_navn}
+                </option>
+                ))}
+                
+             </select>
+
+						 <select
+                onChange={this.filterFylke}
+                className="form-control right floated meta m-2"
+                style={{height: 30, width: 150}}
+                >
+                <option hidden> Fylke </option>
+                <option value="0"> Alle kommuner </option>
+                {this.fylker.map((sted) => (
+                <option
+                    value={sted.fylke_navn}
+                    key={sted.fylke_navn}
+                >
+                    {' '}
+                    {sted.fylke_navn}
+                </option>
+                ))}
+                
+             </select>
+
+						 <button
+						 onClick ={this.tilbakestill}
+						 >
+						 Tilbakestill
+						 </button>
              
            </div>
+
+					 
+
            
            
             <Card.Group itemsPerRow={3}>
@@ -183,36 +223,42 @@ export class Hendelser extends Component{
             </Card.Group>
             
         </div>
-        );
+      );
     }
+async mounted() {
+    let res1 = await hendelseService.hentAlleHendelser();
+    this.hendelser = await res1.data;
+    this.aktiveHendelser = await res1.data;
+
+    let res2 = await generellServices.hentAlleKommuner();
+		this.kommuner = await res2.data;
+		this.finnKommuneId = await res2.data;
+		
+		let res3 = await generellServices.hentAlleFylker();
+		this.fylker = await res3.data;
+
+    this.alleKategorier = this.aktiveHendelser.map(
+        kat => kat.kategorinavn
+    );
+
+    this.tider = this.aktiveHendelser.map(
+        kat => kat.tid
+    );
     
-      async mounted() {
-  
-        let res1= await hendelseService.hentAlleHendelser();
-        this.hendelser = await res1.data;
-        this.aktiveHendelser = await res1.data;
+    this.navn = this.kommuner.map(
+        navn =>navn.kommune_navn
+		);
 
-        let res2 = await generellServices.hentAlleKommuner();
-        this.kommuner = await res2.data;
+		this.fylkekommune = this.kommuner
 
-        this.alleKategorier = this.aktiveHendelser.map(
-            kat => kat.kategorinavn
-        );
+		
 
-        this.tider = this.aktiveHendelser.map(
-            kat => kat.tid
-        );
+    //console.log(this.alleKategorier);
+    //console.log(this.tider);
+		console.log(this.kommuner);
+		console.log(this.aktiveHendelser);
+    //console.log(this.navn);
+    console.log(this.fylker);
+  }
 
-        
-        this.navn = this.kommuner.map(
-            navn =>navn.kommune_navn
-             );
-
-        console.log(this.alleKategorier);
-        console.log(this.tider);
-        console.log(this.kommuner);
-        console.log(this.navn);
-        
-      }
-    
 }

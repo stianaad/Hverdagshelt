@@ -25,7 +25,7 @@ export class Registrering extends Component {
   render() {
     return (
       <div>
-        <PageHeader history={this.props.history} />
+        <PageHeader history={this.props.history} location={this.props.location} />
         <h1 className="text-center text-capitalize display-4">Registrering</h1>
         <div className="container">
           <div className="row">
@@ -157,18 +157,10 @@ export class Registrering extends Component {
         */}
           <br />
           <div className="row knappDiv">
-            <button
-              id="registrer"
-              className="btn btn-primary"
-              onClick={this.lagre}
-            >
+            <button id="registrer" className="btn btn-primary" onClick={this.lagre}>
               Registrer deg
             </button>
-            <button
-              id="avbryt"
-              onClick={this.reRoute}
-              className="btn btn-secondary"
-            >
+            <button id="avbryt" onClick={this.reRoute} className="btn btn-secondary">
               Avbryt
             </button>
           </div>
@@ -183,42 +175,51 @@ export class Registrering extends Component {
   }
 
   lagre() {
-    if (this.brukerInput.passord.length < 8) {
-      this.passAdvarsel = 'Passord må være minst 8 tegn';
+    let gyldig = true;
+
+    let bruker = new Privat(
+      0,
+      this.brukerInput.epost,
+      this.brukerInput.passord,
+      this.kommune.current.verdi,
+      this.brukerInput.fornavn,
+      this.brukerInput.etternavn
+    );
+
+    if (!bruker.kommune_id) {
+      this.advarsel = 'Vennligst oppgi gyldig kommune';
+      gyldig = false;
     }
 
-    if (
-      this.brukerInput.bekreftPass === this.brukerInput.passord &&
-      this.brukerInput.passord.length >= 8
-    ) {
-      this.advarsel = '';
-      let bruker = new Privat(
-        0,
-        this.brukerInput.epost,
-        this.brukerInput.passord,
-        this.kommune.current.verdi,
-        this.brukerInput.fornavn,
-        this.brukerInput.etternavn
-      );
+    if (bruker.fornavn === '' || bruker.etternavn === '') {
+      this.advarsel = 'Fyll ut begge navnboksene';
+      gyldig = false;
+    }
 
-      if (bruker.epost.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-        brukerService.lagNyPrivatBruker(bruker).then((res) => {
-          console.log(bruker.epost);
-          console.log(res.status);
-          this.props.history.push('/');
-        });
-      } else {
-        this.advarsel = 'Ugyldig e-post';
-      }
-    } else {
-      this.advarsel = 'Passord stemmer ikke';
+    if (bruker.passord.length < 8) {
+      this.passAdvarsel = 'Passord må være minst 8 tegn';
+      gyldig = false;
+    }
+
+    if (this.brukerInput.bekreftPass != bruker.passord) {
+      this.advarsel = 'Passord stemmer ikke overens';
+      gyldig = false;
+    }
+
+    if (!bruker.epost.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      this.advarsel = 'E-post er ikke gyldig';
+      gyldig = false;
+    }
+    if (gyldig) {
+      brukerService.lagNyPrivatBruker(bruker).then((res) => {
+        this.props.history.push('/');
+      });
     }
   }
 
   endreVerdi(e) {
     const target = e.target;
-    const value =
-      target.type === 'checkbox' ? (target.checked ? 1 : 0) : target.value;
+    const value = target.type === 'checkbox' ? (target.checked ? 1 : 0) : target.value;
     const name = target.name;
     this.brukerInput[name] = value;
   }

@@ -6,7 +6,7 @@ class HendelseService {
   }
 
   hentEnHendelse(hendelse_id) {
-    return api.get('/api/hendelser/'+ hendelse_id);
+    return api.get('/api/hendelser/' + hendelse_id);
   }
 
   oppdaterHendelse(oppdatertHendelse) {
@@ -29,7 +29,7 @@ class HendelseService {
     return api.get('/api/hendelser/kommuner/:kommune_id', k_id);
   }
 
-  hentAlleHovedkategorier(){
+  hentAlleHovedkategorier() {
     return api.get('/api//hendelser/hovedkategorier');
   }
 }

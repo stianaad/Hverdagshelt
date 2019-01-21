@@ -7,13 +7,14 @@ import {feilService} from '../../services/feilService';
 import {markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
 import {NavLink} from 'react-router-dom';
 
-export class MineOppgaver extends Component {
+export class Bedrift extends Component {
   nyefeil = [];
   utførte = [];
   underBehandling = [];
   alleFeil = [];
   bilderTilFeil = [];
   oppdateringer = [];
+  visGodkjennJobb = false;
 
   valgtFeil = {
     overskrift: '',
@@ -56,7 +57,7 @@ export class MineOppgaver extends Component {
     return (
       <>
         <PageHeader history={this.props.history} location={this.props.location} />
-        <div className="container">
+        <div className="bedriftContainer">
           <Modal open={this.state.open} onClose={this.handleClose} size="small" centered={true} dimmer="blurring">
             {/*<Modal.Header>
                         {this.valgtFeil.overskrift}
@@ -68,7 +69,7 @@ export class MineOppgaver extends Component {
                     <div>
                       <h1>
                         {this.valgtFeil.overskrift}
-                        <NavLink to={'/mineOppgaver/'} onClick={this.handleClose}>
+                        <NavLink to={'/bedriftsoppgaver/'} onClick={this.handleClose}>
                           <img
                             className="float-right"
                             src="https://image.freepik.com/free-icon/x_318-27992.jpg"
@@ -79,6 +80,30 @@ export class MineOppgaver extends Component {
                       </h1>
                       <h6>
                         Status: {this.valgtFeil.status} <img src="/warningicon.png" width="30" height="30" />
+                        {this.visGodkjennJobb ? (
+                          <span>
+                            <Button
+                              floated="right"
+                              color="red"
+                              size="small"
+                              onClick={() => {
+                                this.avslaJobb(this.valgtFeil.feil_id);
+                              }}
+                            >
+                              Ikke godta
+                            </Button>
+                            <Button
+                              floated="right"
+                              color="green"
+                              size="small"
+                              onClick={() => {
+                                this.godtaJobb(this.valgtFeil.feil_id);
+                              }}
+                            >
+                              Godta jobb
+                            </Button>
+                          </span>
+                        ) : null}
                       </h6>
                     </div>
                   </Card.Content>
@@ -93,32 +118,34 @@ export class MineOppgaver extends Component {
                         <ShowMarkerMap width="100%" height="300px" id="posmap" feil={this.valgtFeil} />
                       </Grid.Column>
                       <Grid.Column>
-                        <List>
-                          <List.Item>
-                            <List.Content>
-                              <List.Header>Godkjent</List.Header>
-                              <List.Description>01.01.18 19:00</List.Description>
-                            </List.Content>
-                          </List.Item>
-                          <List.Item>
-                            <List.Content>
-                              <List.Header>Godkjent</List.Header>
-                              <List.Description>01.01.18 19:00</List.Description>
-                            </List.Content>
-                          </List.Item>
-                          <List.Item>
-                            <List.Content>
-                              <List.Header>Godkjent</List.Header>
-                              <List.Description>01.01.18 19:00</List.Description>
-                            </List.Content>
-                          </List.Item>
-                          <List.Item>
-                            <List.Content>
-                              <List.Header>Godkjent</List.Header>
-                              <List.Description>01.01.18 19:00</List.Description>
-                            </List.Content>
-                          </List.Item>
-                        </List>
+                        <div className="oppdateringScroll">
+                          <List>
+                            <List.Item>
+                              <List.Content>
+                                <List.Header>Godkjent</List.Header>
+                                <List.Description>01.01.18 19:00</List.Description>
+                              </List.Content>
+                            </List.Item>
+                            <List.Item>
+                              <List.Content>
+                                <List.Header>Godkjent</List.Header>
+                                <List.Description>01.01.18 19:00</List.Description>
+                              </List.Content>
+                            </List.Item>
+                            <List.Item>
+                              <List.Content>
+                                <List.Header>Godkjent</List.Header>
+                                <List.Description>01.01.18 19:00</List.Description>
+                              </List.Content>
+                            </List.Item>
+                            <List.Item>
+                              <List.Content>
+                                <List.Header>Godkjent</List.Header>
+                                <List.Description>01.01.18 19:00</List.Description>
+                              </List.Content>
+                            </List.Item>
+                          </List>
+                        </div>
                         <Image.Group size="tiny">
                           <Image src="/lofoten.jpg" />
                           <Image src="/lofoten.jpg" />
@@ -150,9 +177,13 @@ export class MineOppgaver extends Component {
                     <Card.Content className={this.classNye}>
                       {this.nyefeil.map((feil) => (
                         <FeedEvent
-                          onClick={() => this.handleOpen(feil)}
-                          status={feil.status}
+                          onClick={() => {
+                            this.handleOpen(feil);
+                            this.visGodkjennJobb = true;
+                          }}
+                          status={'Ikke godkjent'}
                           tid={feil.tid}
+                          feil_id={feil.feil_id}
                           kategori={feil.kategorinavn}
                         >
                           {feil.overskrift}
@@ -174,9 +205,15 @@ export class MineOppgaver extends Component {
                     <Card.Content className={this.classUnderB}>
                       {this.underBehandling.map((feil) => (
                         <FeedEvent
-                          onClick={() => this.handleOpen(feil)}
-                          status={feil.status}
+                          onClick={() => {
+                            this.handleOpen(feil);
+                            this.visGodkjennJobb = false;
+                          }}
+                          status={'Under behandling'}
                           tid={feil.tid}
+                          visRedigering="true"
+                          knapp={this.oppdater}
+                          feil_id={feil.feil_id}
                           kategori={feil.kategorinavn}
                         >
                           {feil.overskrift}
@@ -199,7 +236,10 @@ export class MineOppgaver extends Component {
                     <Card.Content className={this.classFerdig}>
                       {this.utførte.map((feil) => (
                         <FeedEvent
-                          onClick={() => this.handleOpen(feil)}
+                          onClick={() => {
+                            this.handleOpen(feil);
+                            this.visGodkjennJobb = false;
+                          }}
                           status={feil.status}
                           tid={feil.tid}
                           kategori={feil.kategorinavn}
@@ -216,6 +256,24 @@ export class MineOppgaver extends Component {
         </div>
       </>
     );
+  }
+
+  oppdater(tekst, statusVerdi, feil_id, bruker_id) {
+    console.log(statusVerdi);
+  }
+
+  async godtaJobb(feil_id) {
+    console.log(feil_id);
+    this.handleClose();
+    let res = await feilService.oppdaterStatusFeilTilBedrift({feil_id: feil_id, status: 3});
+    console.log(res.data);
+    await this.hentNyeFeil();
+    await this.hentUnderBehandlingFeil();
+  }
+
+  avslaJobb(feil_id) {
+    console.log(feil_id);
+    this.handleClose();
   }
 
   scrollNye() {
@@ -236,22 +294,32 @@ export class MineOppgaver extends Component {
     }
   }
 
-  async mounted() {
-    let feil = await feilService.hentAlleFeil();
-    this.alleFeil = await feil.data;
-    await console.log(this.alleFeil);
-
-    this.nyefeil = await feil.data.filter((e) => e.status === 'Ikke godkjent');
+  async hentNyeFeil() {
+    let hentNyeFeilTilBedrift = await feilService.hentNyeFeilTilBedrift();
+    this.nyefeil = await hentNyeFeilTilBedrift.data;
     await this.scrollNye();
+    await console.log('heiehi');
     await console.log(this.nyefeil);
+  }
 
-    this.underBehandling = await feil.data.filter((e) => e.status === 'Under behandling');
+  async hentUnderBehandlingFeil() {
+    let underBehandling = await feilService.hentUnderBehandlingFeilTilBedrift();
+    this.underBehandling = await underBehandling.data;
     await this.scrollUnderB();
-    await console.log(this.underBehandling);
+    //await console.log(this.nyefeil);
+  }
 
-    this.utførte = await feil.data.filter((e) => e.status === 'Ferdig');
-    await this.scrollFerdig();
-    await console.log(this.utførte);
+  async mounted() {
+    /*let feil = await feilService.hentAlleFeil();
+        this.alleFeil = await feil.data; 
+        await console.log(this.alleFeil);*/
+
+    await this.hentNyeFeil();
+    await this.hentUnderBehandlingFeil();
+
+    /*this.utførte = await feil.data.filter(e => (e.status === 'Ferdig')); 
+        await this.scrollFerdig(); 
+        await console.log(this.utførte); */
   }
 }
 

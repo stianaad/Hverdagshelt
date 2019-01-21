@@ -1,7 +1,8 @@
 .komSok {
     font-size:28px;
+    padding: 5px 20px;
     height: 60px;
-    border-radius:20px;
+    border-radius:30px;
 }
 
 .komBoks {
@@ -37,8 +38,7 @@
     transition: background 0.25s;
 }
 
-.komElement a {
-    text-decoration: none;
+.komElement {
     color: #000;
     background: #fff;
     display: inline-block;
@@ -57,10 +57,9 @@
     background: #eee;
 }
 
-.komElement a:hover {
+.komElement:hover {
     background: #eee;
     transition: background 0.25s;
-    text-decoration: none;
     color: #000;
 }
 
