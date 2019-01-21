@@ -261,7 +261,7 @@ export class Hovedside extends Component {
                 </Card>
                 <Modal open={this.state.open} onClose={this.handleClose} basic>
                   <Modal.Content>
-                    <img src="/lofoten.jpg" className="bildevisning"/>
+                    <img src={this.bildeModal} className="bildevisning"/>
                   </Modal.Content>
                 </Modal>
               
