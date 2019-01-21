@@ -20,6 +20,7 @@ export class Hovedside extends Component {
   alleHendelser = [];
   visHendelser = false;
   bilderTilFeil = [];
+  bildeModal = null;
   statusIkon = '';
   markers = [];
 
@@ -40,7 +41,8 @@ export class Hovedside extends Component {
 
   state = {open: false};
 
-  handleOpen = () => {
+  handleOpen = (url) => {
+    this.bildeModal = url;
     this.setState({open: true});
   };
   handleClose = () => {
@@ -130,7 +132,7 @@ export class Hovedside extends Component {
         </div>
         {!this.visHendelser ? (
           <div className="row mt-4 hovedContainer ml-1 mr-1">
-            <div className="col-sm-4" id="hovedFeil">
+            <div className="col-sm-3" id="hovedFeil">
               {/**
                       *NYLIGE FEIL
                       *NYLIGE FEIL
@@ -143,7 +145,7 @@ export class Hovedside extends Component {
                     <select
                       onChange={this.filter}
                       className="form-control right floated meta"
-                      style={{height: 30, width: 120}}
+                      style={{height: "30px", width: "100%", marginTop:"10px"}}
                     >
                       <option hidden> Filter </option>
                       <option value="0"> Alle kategorier </option>
@@ -174,8 +176,8 @@ export class Hovedside extends Component {
               </Card>
             </div>
             {this.visFeil ? (
-              <div className="col-sm-8">
-              <div className="mr-3 mb-3">
+              <div className="col-sm-9 feilInfo">
+              
                 <Card fluid>
                   <Card.Content>
                     <div>
@@ -245,12 +247,9 @@ export class Hovedside extends Component {
                         </div>
                         <br />
                         <Image.Group size="tiny">
-                          <Image src="/lofoten.jpg" onClick={this.handleOpen} />
-                          <Image src="/lofoten.jpg" onClick={this.handleOpen} />
-                          <Image src="/lofoten.jpg" onClick={this.handleOpen} />
-                          <Image src="/lofoten.jpg" onClick={this.handleOpen} />
-                          <Image src="/lofoten.jpg" onClick={this.handleOpen} />
-                          <Image src="/lofoten.jpg" onClick={this.handleOpen} />
+                          {this.bilderTilFeil.map((bilde) => (
+                            <Image key={bilde.bilde_id} src={bilde.url} onClick={() => {this.handleOpen(bilde.url)}} />
+                          ))}
                         </Image.Group>
                       </Grid.Column>
                     </Grid>
@@ -261,7 +260,7 @@ export class Hovedside extends Component {
                     <img src="/lofoten.jpg" className="bildevisning"/>
                   </Modal.Content>
                 </Modal>
-              </div>
+              
               </div>
             ) : (
               /*
@@ -270,7 +269,7 @@ export class Hovedside extends Component {
                 KART
               */
               <>
-                <div className="col-sm-4 text-center" id="hovedKart">
+                <div className="col-sm-6 text-center" id="hovedKart">
                   <div id="mapContainer">
                     <MarkerMap
                       key={this.props.match.params.kommune}
@@ -283,7 +282,7 @@ export class Hovedside extends Component {
                     />
                   </div>
                 </div>
-                <div className="col-sm-4" id="hovedHendelser">
+                <div className="col-sm-3" id="hovedHendelser">
                   {/**
                     *KOMMENDE HENDELSER
                     *KOMMENDE HENDELSER
@@ -325,7 +324,7 @@ export class Hovedside extends Component {
           
         ) : (
           <div className="row mt-4">
-            <div className="col-sm-8 ">
+            <div className="col-sm-9 ">
               <Card fluid>
                 <Card.Content>
                   <div>
@@ -394,7 +393,7 @@ export class Hovedside extends Component {
                 </Card.Content>
               </Card>
             </div>
-            <div className="col-sm-4">
+            <div className="col-sm-3">
               <div className="mr-3 mb-3">
               <Card fluid className="hovedKort">
                 <Card.Content>
@@ -466,35 +465,3 @@ export class Hovedside extends Component {
   }
 }
 
-class Tabell extends Component {
-  render() {
-    return (
-      <div className="ml-3">
-        <h5>{this.props.hovedOverskrift}</h5>
-        <br />
-        <div className="kanter">
-          <nav>
-            <ul className="list-group">
-              <li className="kanter lister">I dag</li>
-              {this.props.tabell.map((tabell) => (
-                <li className="kanter lister">
-                  <NavLink
-                    to={'/hovedside/' + this.props.kommune}
-                    onClick={() => {
-                      this.props.metode(tabell.overskrift);
-                    }}
-                  >
-                    {tabell.overskrift}
-                    <br />
-                    <i>{this.props.tema}</i>
-                    <span className="float-right">{tabell.tid}</span>
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </div>
-      </div>
-    );
-  }
-}

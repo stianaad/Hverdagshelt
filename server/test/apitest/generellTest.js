@@ -162,7 +162,7 @@ test('endre passord', (done) => {
     expect(data.affectedRows).toBe(1);
     done();
   }
-  brukerdao.endrePassord({epost: 'epost2@hotmail.com', passord: 'veldighemmelig'}, callback);
+  brukerdao.endrePassord({bruker_id: 1, passord: 'veldighemmelig'}, callback);
 });
 
 //FEILTESTER
