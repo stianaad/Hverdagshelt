@@ -53,10 +53,19 @@ class BrukerService {
     return api.get('/api/hentbrukere');
   }
 
-  finnFeilTilBruker() {
+  finnOppdaterteFeilTilBruker() {
     let token = sessionStorage.getItem('pollett');
     if (token) {
       return api.get('/api/bruker/minside', {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return [];
+    }
+  }
+
+  finnIkkeOppdaterteFeilTilBruker() {
+    let token = sessionStorage.getItem('pollett');
+    if (token) {
+      return api.get('/api/bruker/minside/gamle', {headers: {'x-access-token': 'Bearer ' + token}});
     } else {
       return [];
     }

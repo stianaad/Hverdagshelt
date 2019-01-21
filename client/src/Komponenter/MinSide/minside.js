@@ -2,14 +2,15 @@ import * as React from 'react';
 import {PageHeader} from '../../Moduler/header/header';
 import {Component, sharedComponentData} from 'react-simplified';
 import {feilService} from '../../services/feilService';
-import {Card, Feed, Grid, Button, Header, Icon, Image, Popup, Modal, Input, List} from 'semantic-ui-react';
+import {Card, Feed, Grid, Button, Header, Icon, Image, Popup, Modal, Input, List,Dropdown} from 'semantic-ui-react';
 import {FeedEvent, FeedHendelse, Filtrer, Info, FeedMinside} from '../../Moduler/cardfeed';
 import {brukerService} from '../../services/brukerService';
 import {NavLink} from 'react-router-dom';
 import {markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
 
 export class Minside extends Component {
-  rapporterteFeil = [];
+  oppdaterteFeil = [];
+  ikkeOppdaterteFeil = [];
   folgteFeil = [];
   folgteHendelser = [];
   valgtFeil = {
@@ -17,6 +18,10 @@ export class Minside extends Component {
     bilde: '',
     beskrivelse: '',
   };
+
+  visFeil = false;
+
+  classFeil = 'hovedsideTabeller';
 
   state = {open: false};
 
@@ -115,31 +120,55 @@ export class Minside extends Component {
         <div className="row minRow">
           <div className="col-sm-3 mt-3 ml-3" id="sideListe">
             <h2> </h2>
-            <Card fluid="true">
+            {/*<Dropdown text='Dine rapporterte feil' fluid floating labeled button className='icon'>
+              <Dropdown.Menu>
+                <Dropdown.Divider />
+                <Card.Content>
+                <Feed>
+                  {this.rapporterteFeil.map((feil) => (
+                    <Dropdown.Item>
+                    <FeedMinside
+                      status={feil.status}
+                      tid={feil.tid}
+                      kategori={feil.kategorinavn}
+                      fjern={() => {
+                        this.fjernFeil(feil.feil_id);
+                      }}
+                      onClick={() => this.handleOpen(feil)}
+                    >
+                      {feil.overskrift}
+                    </FeedMinside>
+                    </Dropdown.Item>
+                  ))}
+                </Feed>
+                 </Card.Content>
+              </Dropdown.Menu>
+                    </Dropdown>*/}
+            <Card fluid>
               <Card.Content>
                 <Card.Header>
                   Dine rapporterte feil
-                  {/*<select
-                        onChange={this.filter}
-                        className="form-control right floated meta"
-                        style={{height: 30, width: 120}}>
-                        <option hidden> Filter </option>
-                        <option value="0"> Alle kategorier </option>
-                        {this.alleKategorier.map((kategori) => (
-                          <option
-                            value={kategori.kategorinavn}
-                            key={kategori.kategorinavn}
-                          >
-                            {' '}
-                            {kategori.kategorinavn}
-                          </option>
-                        ))}
-                      </select>*/}
+                  <Button basic color="green" onClick={this.visRapporterteFeil}>{this.oppdaterteFeil.length} nye oppdateringer</Button>
                 </Card.Header>
               </Card.Content>
-              <Card.Content>
+              {(this.visFeil) ? ( 
+              <Card.Content className={this.classFeil}>
                 <Feed>
-                  {this.rapporterteFeil.map((feil) => (
+                  {this.oppdaterteFeil.map((feil) => (
+                    <FeedMinside
+                      status={feil.status}
+                      tid={feil.tid}
+                      kategori={feil.kategorinavn}
+                      oppdatering= {true}
+                      fjern={() => {
+                        this.fjernFeil(feil.feil_id);
+                      }}
+                      onClick={() => this.handleOpen(feil)}
+                    >
+                      {feil.overskrift}
+                    </FeedMinside>
+                  ))}
+                  {this.ikkeOppdaterteFeil.map((feil) => (
                     <FeedMinside
                       status={feil.status}
                       tid={feil.tid}
@@ -152,8 +181,8 @@ export class Minside extends Component {
                       {feil.overskrift}
                     </FeedMinside>
                   ))}
-                </Feed>
-              </Card.Content>
+                </Feed> 
+              </Card.Content>) : (null)}
             </Card>
           </div>
           <div className="col-sm-3 mt-3">
@@ -210,10 +239,29 @@ export class Minside extends Component {
     );
   }
 
-  async finnFeilBruker(id) {
-    let res1 = await brukerService.finnFeilTilBruker(id);
-    this.rapporterteFeil = await res1.data;
+  visRapporterteFeil() {
+    this.visFeil = !this.visFeil;
+    if(this.visFeil){
+      this.finnIkkeOppdaterteFeil();
+    }
+  }
+
+  scrollFeil() {
+    if ((this.oppdaterteFeil.length+this.ikkeOppdaterteFeil.length) > 4) {
+      this.classFeil = 'hovedsideScroll';
+    }
+  }
+
+  async finnOppdaterteFeilBruker() {
+    let res1 = await brukerService.finnOppdaterteFeilTilBruker();
+    this.oppdaterteFeil = await res1.data;
     await console.log(res1.data);
+  }
+
+  async finnIkkeOppdaterteFeil(){
+    let res1 = await brukerService.finnIkkeOppdaterteFeilTilBruker();
+    this.ikkeOppdaterteFeil = await res1.data;
+    await this.scrollFeil();
   }
 
   async fjernFeil(id) {
@@ -223,7 +271,7 @@ export class Minside extends Component {
   }
 
   async mounted() {
-    await this.finnFeilBruker();
+    await this.finnOppdaterteFeilBruker();
 
     let res2 = await brukerService.finnFolgteFeilTilBruker();
     this.folgteFeil = await res2.data;

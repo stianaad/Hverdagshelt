@@ -275,11 +275,11 @@ export class FeedMinside extends Component {
       <Feed>
         <Feed.Event>
           <Feed.Label image={'/warningicon.png'} />
-          <Feed.Content>
+          <Feed.Content color="green">
             <a onClick={this.props.onClick}>
               {this.dato(this.props.tid)}
-              <Feed.Summary>{this.props.children}</Feed.Summary>
-              <span>
+              <Feed.Summary>{(this.props.oppdatering) ? (<span className="highlight">{this.props.children}</span>) : (this.props.children)} </Feed.Summary>
+              <span >
                 <i>{this.props.kategori}</i>
               </span>
             </a>
