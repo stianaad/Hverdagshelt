@@ -31,7 +31,9 @@ import {KommuneVelger} from './Moduler/KommuneVelger/kommuneVelger';
 import {KommuneInput} from './Moduler/kommuneInput/kommuneInput';
 import {enHendelse} from './Komponenter/Hendelser/enHendelse';
 
-import {AnsattSide} from './Komponenter/Ansatt/kommuneansatt';
+import {NyeFeil} from './Komponenter/Ansatt/kommuneansatt';
+import {AnsattFerdig} from './Komponenter/Ansatt/ferdigeFeil';
+import {NyHendelse} from './Komponenter/Ansatt/nyhendelse';
 import { AbonnerKnapp } from './Moduler/abonner/abonner';
 
 class Tabell extends Component {
@@ -295,7 +297,9 @@ const routes = () => {
           <Route exact path="/nyheter" component={Menu} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/headertest" component={PageHeader} history={history} />
-          <Route exact path="/ansattest" component={AnsattSide} history={history} />
+          <Route exact path="/ansattest" component={NyeFeil} history={history} />
+          <Route exact path="/ferdigtest" component={AnsattFerdig} history={history}/>
+          <Route exact path="/nyhendelsetest" component={NyHendelse} history={history}/>
 
           <Route exact path="/headertest" component={PageHeader} history={history} />
           <Route exact path="/bedriftsoppgaver" component={Bedrift} history={history} />

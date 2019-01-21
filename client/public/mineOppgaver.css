@@ -109,6 +109,11 @@
     height: 400px;
 }
 
+.ansattMenyContainer{
+    background-color: white;
+    margin-left: 10px; 
+}
+
 .vinduansatt{
-    heigth: calc(100vh - 60px);
+    height: calc(100vh - 60px);
 }

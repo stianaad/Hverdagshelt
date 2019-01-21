@@ -260,7 +260,7 @@ export class MarkerMap extends Component {
   }
 
   render() {
-    return <div style={{width: this.props.width, height: this.props.height}} id={this.props.id} />;
+    return <div style={{width: this.props.width, height: this.props.height, borderRadius:"5px"}} id={this.props.id} />;
   }
 }
 
