@@ -246,7 +246,7 @@ export class Hovedside extends Component {
                           </List>
                         </div>
                         <br />
-                        <Grid columns={2} fluid>
+                        <Grid columns={5} fluid>
                           {this.bilderTilFeil.map((bilde) => (
                             <Grid.Column>
                               <div onClick={() => this.visBilde(bilde.url)}>
@@ -259,10 +259,10 @@ export class Hovedside extends Component {
                     </Grid>
                   </Card.Content>
                 </Card>
-                <Modal open={this.state.open} onClose={this.handleClose} basic centered>
+                <Modal open={this.state.open} onClose={this.handleClose} basic centered className="modalwidth">
                   <Modal.Content>
-                    <Grid centered>
-                      <Grid.Row centered verticalAlign>
+                    <Grid fluid>
+                      <Grid.Row centered>
                         <img src={this.bildeModal} className="bildevisning"/>
                       </Grid.Row>
                     </Grid>
