@@ -80,8 +80,8 @@ module.exports = class FeilDao extends Dao {
     super.query('DELETE FROM feil WHERE feil_id = ?', [feil_id], callback);
   }
 
-  lagOppdatering(json,bruker_id, callback) {
-    var oppdatering = [json.feil_id, json.kommentar, json.status_id, bruker_id];
+  lagOppdatering(json, callback) {
+    var oppdatering = [json.feil_id, json.kommentar, json.status_id, json.bruker_id];
     super.query(
       'INSERT INTO oppdatering (feil_id, kommentar, status_id, bruker_id) VALUES (?, ?, ?, ?)',
       oppdatering,
