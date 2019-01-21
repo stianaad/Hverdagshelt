@@ -169,8 +169,8 @@ module.exports = class BrukerDao extends Dao {
 
   //testes
   endrePassord(json, callback) {
-    const tabell = [json.passord, json.bruker_id];
-    super.query('UPDATE bruker SET passord=? WHERE bruker_id=?', tabell, callback);
+    const tabell = [json.passord, json.epost];
+    super.query('UPDATE bruker SET passord=? WHERE epost=?', tabell, callback);
   }
 
   hentBrukerRolle(json, callback) {
