@@ -116,3 +116,8 @@
 .bildevisning{
     height: 400px;
 }
+
+ansattMenyContainer{
+    background-color: white;
+    margin-left: 10px; 
+}

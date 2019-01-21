@@ -24,32 +24,23 @@ import {markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
 import {NavLink} from 'react-router-dom';
 import {brukerService} from '../../services/brukerService';
 
-export class AnsattSide extends Component {
+export class AnsattMeny extends Component {
+  state = { activeItem: 'Nye feil' }
+
+  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+
   render() {
+    const { activeItem } = this.state;
+
     return (
-      <div>
-        <PageHeader history={this.props.history} location={this.props.location} />
-        <div className="vinduansatt">
-            <Grid>
-                <Grid.Column width="2">
-                    <div className="ansattMenyContainer">
-                    <Menu vertical pointing secondary fluid>
-                        <Menu.Item active>Nye feil</Menu.Item>
-                        <NavLink to={'/ferdigtest'}>
-                            <Menu.Item>Valg2</Menu.Item>
-                        </NavLink>
-                        <Menu.Item>Valg3</Menu.Item>
-                        <Menu.Item>Valg4</Menu.Item>
-                        <Menu.Item>Valg5</Menu.Item>
-                    </Menu>
-                    </div>
-                </Grid.Column>
-                <Grid.Column width="13">
-                    <NyeFeil />
-                </Grid.Column>
-            </Grid>
+        <div className="ansattMenyContainer">
+          <nav className="nav flex-column">
+            <NavLink className="nav-link active" to="/ansattest">Nye feil</NavLink>
+            <NavLink className="nav-link active" to="/ferdigtest">Utførte feil</NavLink>
+            <NavLink className="nav-link active" to="/nyhendelsetest">Ny hendelse</NavLink>
+            <NavLink className="nav-link active" to="/">Test</NavLink>
+          </nav>
         </div>
-      </div>
     );
   }
 }
@@ -93,6 +84,7 @@ export class NyeFeil extends Component {
   render() {
     return (
       <div>
+        <PageHeader history={this.props.history} location={this.props.location} />
         <Modal open={this.bildeApen} onClose={this.handleClose} basic>
           <Modal.Content>
               <Grid>
@@ -106,89 +98,98 @@ export class NyeFeil extends Component {
               </Grid>
           </Modal.Content>
         </Modal>
-        <Grid stackable>
-          <Grid.Row textAlign="center" centered>
-              <h1 className="mt-3">Nye feil</h1>
-          </Grid.Row>
-          <Grid.Column width="4">
-            <div>
-              <Card color="red" fluid>
-                <Card.Content>
-                  <Card.Header>
-                    Nye innsendinger
-                    <Filtrer />
-                  </Card.Header>
-                </Card.Content>
-                <Card.Content className={this.className}>
-                  {this.nyefeil.map((feil) => (
-                    <FeedEvent
-                      onClick={() => this.visFeil(feil)}
-                      status={feil.status}
-                      tid={feil.tid}
-                      kategori={feil.kategorinavn}
-                    >
-                      {feil.overskrift}>
-                    </FeedEvent>
-                  ))}
-                </Card.Content>
-              </Card>
-            </div>
-          </Grid.Column>
-          <Grid.Column width="11">
-            {this.feilApen ? (
-              <div className="feilDiv">
-              <Card fluid>
-                <Card.Content>
-                  <div>
-                    <Grid fluid columns={2} verticalAlign="middle">
-                      <Grid.Column textAlign="left">
-                        <h1>{this.valgtfeil.overskrift}</h1>
-                      </Grid.Column>
-                      <Grid.Column textAlign="right" fluid>
-                        <h6>{this.valgtfeil.tid}</h6>
-                      </Grid.Column>
-                      <Grid.Column textAlign="left">
-                        <h6>Status: {this.valgtfeil.status}</h6>
-                      </Grid.Column>
-                      <Grid.Column>
-                        <Button floated="right" color="red">
-                          Slett feil
-                        </Button>
-                        <Button floated="right" color="green" onClick={() => this.godkjenn(this.valgtfeil.feil_id, "test", 2)}>
-                          Godkjenn
-                        </Button>
-                      </Grid.Column>
-                    </Grid>
-                  </div>
-                </Card.Content>
-                <Card.Content extra>
-                  <div>
-                    <Grid columns={3} fluid stackable>
-                      <Grid.Column>
-                        <TextArea value={this.valgtfeil.beskrivelse} rows="18" />
-                      </Grid.Column>
-                      <Grid.Column>KART</Grid.Column>
-                      <Grid.Column>
-                        <Grid columns={2} fluid>
-                          {this.bilder.map((bilde) => (
-                            <Grid.Column>
-                              <div onClick={() => this.visBilde(bilde.url)}>
-                                <img src={bilde.url} className="bilder" />
-                              </div>
-                            </Grid.Column>
-                          ))}
-                        </Grid>
-                      </Grid.Column>
-                    </Grid>
-                  </div>
-                </Card.Content>
-              </Card>
-              </div>
-            ) : (
-              <div>Trykk på feil</div>
-            )}
-          </Grid.Column>
-        </Grid>
+        <div className="vinduansatt">
+            <Grid>
+                <Grid.Column width="2">
+                    <AnsattMeny/>
+                </Grid.Column>
+                <Grid.Column width="13">
+                  <Grid stackable>
+                    <Grid.Row textAlign="center" centered>
+                        <h1 className="mt-3">Nye feil</h1>
+                    </Grid.Row>
+                    <Grid.Column width="4">
+                      <div>
+                        <Card color="red" fluid>
+                          <Card.Content>
+                            <Card.Header>
+                              Nye innsendinger
+                              <Filtrer />
+                            </Card.Header>
+                          </Card.Content>
+                          <Card.Content className={this.className}>
+                            {this.nyefeil.map((feil) => (
+                              <FeedEvent
+                                onClick={() => this.visFeil(feil)}
+                                status={feil.status}
+                                tid={feil.tid}
+                                kategori={feil.kategorinavn}
+                              >
+                                {feil.overskrift}>
+                              </FeedEvent>
+                            ))}
+                          </Card.Content>
+                        </Card>
+                      </div>
+                    </Grid.Column>
+                    <Grid.Column width="11">
+                      {this.feilApen ? (
+                        <div className="feilDiv">
+                        <Card fluid>
+                          <Card.Content>
+                            <div>
+                              <Grid fluid columns={2} verticalAlign="middle">
+                                <Grid.Column textAlign="left">
+                                  <h1>{this.valgtfeil.overskrift}</h1>
+                                </Grid.Column>
+                                <Grid.Column textAlign="right" fluid>
+                                  <h6>{this.valgtfeil.tid}</h6>
+                                </Grid.Column>
+                                <Grid.Column textAlign="left">
+                                  <h6>Status: {this.valgtfeil.status}</h6>
+                                </Grid.Column>
+                                <Grid.Column>
+                                  <Button floated="right" color="red">
+                                    Slett feil
+                                  </Button>
+                                  <Button floated="right" color="green" onClick={() => this.godkjenn(this.valgtfeil.feil_id, "test", 2)}>
+                                    Godkjenn
+                                  </Button>
+                                </Grid.Column>
+                              </Grid>
+                            </div>
+                          </Card.Content>
+                          <Card.Content extra>
+                            <div>
+                              <Grid columns={3} fluid stackable>
+                                <Grid.Column>
+                                  <TextArea value={this.valgtfeil.beskrivelse} rows="18" />
+                                </Grid.Column>
+                                <Grid.Column>KART</Grid.Column>
+                                <Grid.Column>
+                                  <Grid columns={2} fluid>
+                                    {this.bilder.map((bilde) => (
+                                      <Grid.Column>
+                                        <div onClick={() => this.visBilde(bilde.url)}>
+                                          <img src={bilde.url} className="bilder" />
+                                        </div>
+                                      </Grid.Column>
+                                    ))}
+                                  </Grid>
+                                </Grid.Column>
+                              </Grid>
+                            </div>
+                          </Card.Content>
+                        </Card>
+                        </div>
+                      ) : (
+                        <div>Trykk på feil</div>
+                      )}
+                    </Grid.Column>
+                  </Grid>
+                </Grid.Column>
+            </Grid>
+        </div>
       </div>
     );
   }
