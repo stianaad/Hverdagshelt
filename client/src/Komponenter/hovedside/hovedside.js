@@ -11,6 +11,7 @@ import {FeedEvent, FeedHendelse, Filtrer, Info} from '../../Moduler/cardfeed';
 import { brukerService } from '../../services/brukerService';
 import { AbonnerKnapp } from '../../Moduler/abonner/abonner';
 import {FireNullFire} from '../firenullfire/firenullfire';
+import { InfoBoks } from '../../Moduler/info/info';
 
 export class Hovedside extends Component {
   kommune = {};
@@ -147,6 +148,7 @@ export class Hovedside extends Component {
                 <Card.Content>
                   <Card.Header>
                     Nylige feil og mangler
+                    <InfoBoks tekst="Her finner du alle nye feil på infrastruktur i kommunen." />
                     <select
                       onChange={(e) => {this.feilKategori = e.target.value;}}
                       className="form-control right floated meta"
@@ -300,12 +302,24 @@ export class Hovedside extends Component {
                   */}
                   <Card fluid className="hovedKort">
                     <Card.Content>
-                      <Card.Header>
-                        <Grid>
-                          <Grid.Column width={12}>Kommende hendelser</Grid.Column>
-                          <Grid.Column width={4} />
-                        </Grid>
-                      </Card.Header>
+                    <Card.Header>
+                    Kommende hendelser
+                    <InfoBoks tekst="Her finner du kulturarrangementer og planlagt arbeid på infrastruktur for kommunen." />
+                    <select
+                      onChange={(e) => {this.feilKategori = e.target.value;}}
+                      className="form-control right floated meta"
+                      style={{height: "30px", width: "100%", marginTop:"10px"}}
+                    >
+                      <option hidden> Filter </option>
+                      <option value="0"> Alle kategorier </option>
+                      {this.alleKategorier.map((kategori) => (
+                        <option value={kategori.kategorinavn} key={kategori.kategorinavn}>
+                          {' '}
+                          {kategori.kategorinavn}
+                        </option>
+                      ))}
+                    </select>
+                  </Card.Header>
                     </Card.Content>
                     <Card.Content className='hovedsideTabeller'>
                       <Feed>
