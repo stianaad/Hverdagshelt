@@ -225,7 +225,7 @@ export class MarkerMap extends Component {
         this.coords = [[this.coords[0], this.coords[1]], [this.coords[2], this.coords[3]]];
 
         this.map = L.map(this.props.id, {
-          dragging: !L.Browser.mobile,
+          /*dragging: !L.Browser.mobile,*/
           layers: [
             L.tileLayer('https://maps.tilehosting.com/styles/streets/{z}/{x}/{y}.png?key=c1RIxTIz5D0YrAY6C81A', {
               attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
@@ -278,6 +278,7 @@ export class ShowMarkerMap extends Component {
       center: L.latLng(this.f.breddegrad, this.f.lengdegrad),
       zoom: 13,
       dragging: !L.Browser.mobile,
+      //tap: !L.Browser.mobile,
       layers: [
         L.tileLayer('https://maps.tilehosting.com/styles/streets/{z}/{x}/{y}.png?key=c1RIxTIz5D0YrAY6C81A', {
           attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
@@ -319,7 +320,7 @@ export class ShowMarkerMap extends Component {
 
   render() {
     console.log('render');
-    return <div style={{width: this.props.width, height: this.props.height}} id={this.props.id} />;
+    return <div style={{width: this.props.width, height: this.props.height, minHeight:"100px"}} id={this.props.id} />;
   }
 }
 

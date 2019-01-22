@@ -13,6 +13,7 @@
   <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="/login.css" />
+  <link rel="stylesheet" href="/info.css" />
   <link rel="stylesheet" href="/registrering.css" />
   <link rel='stylesheet' media='only screen and (min-width: 301px) and (max-width: 910px)' href='/headerMobil.css' />
   <link rel="stylesheet" media='only screen and (min-width: 911px) and (max-width: 9999px)' href="/header.css" />
@@ -31,15 +32,18 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
   <script>
-    window.addEventListener("hashchange", function () {
-      if (location.hash == "#hovedHendelser") {
-        window.scrollTo(window.scrollX, window.scrollY - 20);
+    
+    if (window.location.pathname.slice(1, 10) == "hovedside") {
+      let func = () => {
+        document.querySelector("#mapContainer").style.height ="0px";
+        document.querySelector("#test").style.height = "0px";
+        document.querySelector(".hovedTittel").style.marginBottom = "0px";
+        window.removeEventListener("scroll", func);
       }
-      else if (true) {
-        window.scrollTo(window.scrollX, window.scrollY - 150);
-      }
-      
-    });
+      window.scrollTo(0, 0);
+      window.addEventListener("scroll", func);
+    };
+    
   </script>
   <style>body{background-color:#f9f9f9}</style>
 </head>
