@@ -148,7 +148,7 @@ export class Hovedside extends Component {
 
           <h1 className="text-center text-capitalize display-4">{this.props.match.params.kommune} </h1>
 
-          <Link to="/meldfeil">
+          <Link to={this.kommune ? "/meldfeil?k="+this.kommune.kommune_id : "/meldfeil"}>
             <Button color="red" size="large">
               Meld inn feil
             </Button>
