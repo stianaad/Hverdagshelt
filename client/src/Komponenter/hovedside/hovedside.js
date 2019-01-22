@@ -22,6 +22,7 @@ export class Hovedside extends Component {
   bilderTilFeil = [];
   statusIkon = '';
   markers = [];
+  mobView = "#hovedtittelanchor";
 
   feil = {
     overskrift: '',
@@ -48,6 +49,9 @@ export class Hovedside extends Component {
   };
 
   async merInfo(feil) {
+    if (this.mobView == "#hovedFeil") {
+      document.querySelector("#hovedFeil").style.display="none";
+    }
     this.visFeil = true;
     this.feil = {...feil};
     let res = await feilService.hentBilderTilFeil(feil.feil_id);
@@ -100,11 +104,39 @@ export class Hovedside extends Component {
     }
   }
 
+  mobileView(view) {
+    if(this.visFeil) {
+      this.visFeil = false;
+      setTimeout(()=> this.mobileView(view), 200);
+    }
+    else {
+      //window.scrollTo(0, document.querySelector(id).offsetTop - 115);
+      let q = (id) => document.querySelector(id);
+      q("#mapContainer").style.height ="0px";
+      q("#test").style.height = "0px";
+      if (view == "#hovedKart") {
+        q(this.mobView).style.display = "none";
+        q("#mapContainer").style.height = "calc(100vh - 250px)";
+        q("#test").style.height = "100%";
+      }
+      else if (this.mobView == "#hovedKart") {
+        q("#mapContainer").style.height ="0px";
+        q("#test").style.height = "0px";
+        q(view).style.display ="block";
+      }
+      else {
+        q(this.mobView).style.display = "none";
+        q(view).style.display = "block";
+      }
+      this.mobView = view;
+    }
+  }
+
   render() {
     return (
       <div>
         <PageHeader history={this.props.history} location={this.props.location} />
-        <div className="mt-3 hovedTittel">
+        <div className="hovedTittel" id="hovedtittelanchor">
 
           <h1 className="text-center text-capitalize display-4">{this.props.match.params.kommune} </h1>
 
@@ -117,13 +149,16 @@ export class Hovedside extends Component {
         </div>
         <div className="mobileButtons">
           <div>
-            <a href="#hovedFeil">
+            <a onClick={() => this.mobileView("#hovedtittelanchor")}>
+              <div><p className="text-capitalize">{this.props.match.params.kommune}</p></div>
+            </a>
+            <a onClick={() => this.mobileView("#hovedFeil")}>
               <div><p>Feil</p></div>
             </a>
-            <a href="#hovedKart">
+            <a onClick={() => this.mobileView("#hovedKart")}>
               <div><p>Kart</p></div>
             </a>
-            <a href="#hovedHendelser">
+            <a onClick={() => this.mobileView("#hovedHendelser")}>
               <div><p>Hendelser</p></div>
             </a>
           </div>
@@ -177,7 +212,7 @@ export class Hovedside extends Component {
               <div className="col-sm-9 feilInfo">
               
                 <Card fluid>
-                  <Card.Content>
+                  <Card.Content extra style={{height:"120px", color:"black"}}>
                     <div>
                       <h1>
                         {this.feil.overskrift}
@@ -185,6 +220,9 @@ export class Hovedside extends Component {
                           to={'/hovedside/' + this.props.match.params.kommune}
                           onClick={() => {
                             this.visFeil = false;
+                            if (this.mobView == "#hovedFeil") {
+                              document.querySelector("#hovedFeil").style.display="block";
+                            }
                           }}
                         >
                           <img
@@ -203,8 +241,8 @@ export class Hovedside extends Component {
                       </h6>
                     </div>
                   </Card.Content>
-                  <Card.Content extra style={{height: 'calc(100vh - 415px)', overflowY: 'auto'}}>
-                    <Grid fluid columns={3} style={{height: '100%'}}>
+                  <Card.Content extra style={{height: 'calc(100vh - 415px)', overflowY: 'auto', color:"black"}}>
+                    <Grid fluid columns={3} stackable style={{height: '100%'}}>
                       <Grid.Column style={{overflowY: 'auto'}}>
                         <h6>Beskrivelse: </h6>
                         <p>{this.feil.beskrivelse}</p>
