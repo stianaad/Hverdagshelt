@@ -95,14 +95,32 @@
 }
 
 .ansattScroll{
-    height: 700px;
+    height: 350px;
     overflow-y: scroll; 
 }
 
 .bilder{
+    cursor: pointer;
     width: 70px;
     height: 70px; 
     object-fit: cover;
+}
 
- 
+.bildevisning {
+    max-height: 70vh;
+    max-width: 70vw;
+}
+
+.modalwidth {
+    width: max-content !important;
+    height: max-content !important;
+}
+
+.ansattMenyContainer{
+    background-color: white;
+    width: 50%;
+}
+
+.vinduansatt{
+    height: calc(100vh - 60px);
 }

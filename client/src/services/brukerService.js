@@ -53,10 +53,28 @@ class BrukerService {
     return api.get('/api/hentbrukere');
   }
 
-  finnFeilTilBruker() {
+  finnOppdaterteFeilTilBruker() {
     let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.get('/api/bruker/minside', {headers: {'x-access-token': 'Bearer ' + token}});
+      return api.get('/api/brukere/minside', {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return [];
+    }
+  }
+
+  finnIkkeOppdaterteFeilTilBruker() {
+    let token = sessionStorage.getItem('pollett');
+    if (token) {
+      return api.get('/api/bruker/minside/gamle', {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return [];
+    }
+  }
+
+  oppdaterSistInnloggetPrivat() {
+    let token = sessionStorage.getItem('pollett');
+    if (token) {
+      return api.get('/api/bruker/minside/sist/innlogget', {headers: {'x-access-token': 'Bearer ' + token}});
     } else {
       return [];
     }
@@ -65,7 +83,7 @@ class BrukerService {
   finnFolgteFeilTilBruker() {
     let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.get('/api/bruker/feil', {headers: {'x-access-token': 'Bearer ' + token}});
+      return api.get('/api/brukere/feil', {headers: {'x-access-token': 'Bearer ' + token}});
     } else {
       return [];
     }
@@ -74,7 +92,7 @@ class BrukerService {
   finnFolgteHendelserTilBruker() {
     let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.get('/api/bruker/hendelser', {headers: {'x-access-token': 'Bearer ' + token}});
+      return api.get('/api/brukere/hendelser', {headers: {'x-access-token': 'Bearer ' + token}});
     } else {
       return [];
     }

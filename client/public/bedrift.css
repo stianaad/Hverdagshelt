@@ -14,3 +14,12 @@
     /*width: 60%;*/
     text-align: center;
   }
+
+  .oppdaterFeilBedrift{
+    height: 60%;
+  }
+
+.tekstFeltOppdatering{
+  min-height: 20vh;
+  max-height: 40vh;
+}

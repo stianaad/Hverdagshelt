@@ -36,7 +36,8 @@ INSERT INTO kommuner (fylke_navn, kommune_navn) VALUES
     ('Østfold', 'Rakkestad'),
     ('Østfold', 'Råde'),
     ('Østfold', 'Rygge'),
-    ('Østfold', 'Våler'),
+    /*('Østfold', 'Våler'),*/
+    ('Østfold', 'Våler, Østfold'),
     ('Østfold', 'Hobøl'),
     ('Akershus', 'Vestby'),
     ('Akershus', 'Ski'),
@@ -56,7 +57,8 @@ INSERT INTO kommuner (fylke_navn, kommune_navn) VALUES
     ('Akershus', 'Nittedal'),
     ('Akershus', 'Gjerdrum'),
     ('Akershus', 'Ullensaker'),
-    ('Akershus', 'Nes'),
+    /*('Akershus', 'Nes'),*/
+    ('Akershus', 'Nes, Akershus'),
     ('Akershus', 'Eidsvoll'),
     ('Akershus', 'Nannestad'),
     ('Akershus', 'Hurdal'),
@@ -71,7 +73,8 @@ INSERT INTO kommuner (fylke_navn, kommune_navn) VALUES
     ('Hedmark', 'Eidskog'),
     ('Hedmark', 'Grue'),
     ('Hedmark', 'Åsnes'),
-    ('Hedmark', 'Våler'),
+    /*('Hedmark', 'Våler'),*/
+    ('Hedmark', 'Våler, Hedmark'),
     ('Hedmark', 'Elverum'),
     ('Hedmark', 'Trysil'),
     ('Hedmark', 'Åmot'),
@@ -82,7 +85,8 @@ INSERT INTO kommuner (fylke_navn, kommune_navn) VALUES
     ('Hedmark', 'Tynset'),
     ('Hedmark', 'Alvdal'),
     ('Hedmark', 'Folldal'),
-    ('Hedmark', 'Os'),
+    /*('Hedmark', 'Os'),*/
+    ('Hedmark', 'Os, Hedmark'),
     ('Oppland', 'Lillehammer'),
     ('Oppland', 'Gjøvik'),
     ('Oppland', 'Dovre'),
@@ -114,7 +118,8 @@ INSERT INTO kommuner (fylke_navn, kommune_navn) VALUES
     ('Buskerud', 'Ringerik'),
     ('Buskerud', 'Hole'),
     ('Buskerud', 'Flå'),
-    ('Buskerud', 'Nes'),
+    /*('Buskerud', 'Nes'),*/
+    ('Buskerud', 'Nes, Buskerud'),
     ('Buskerud', 'Gol'),
     ('Buskerud', 'Hemsedal'),
     ('Buskerud', 'Ål'),
@@ -135,7 +140,8 @@ INSERT INTO kommuner (fylke_navn, kommune_navn) VALUES
     ('Vestfold', 'Sandefjord'),
     ('Vestfold', 'Svelvik'),
     ('Vestfold', 'Larvik'),
-    ('Vestfold', 'Sande'),
+    /*('Vestfold', 'Sande'),*/
+    ('Vestfold', 'Sande, Vestfold'),
     ('Vestfold', 'Holmestrand'),
     ('Vestfold', 'Re'),
     ('Vestfold', 'Færder'),
@@ -147,7 +153,8 @@ INSERT INTO kommuner (fylke_navn, kommune_navn) VALUES
     ('Telemark', 'Kragerø'),
     ('Telemark', 'Drangedal'),
     ('Telemark', 'Nome'),
-    ('Telemark', 'Bø'),
+    /*('Telemark', 'Bø'),*/
+    ('Telemark', 'Bø, Telemark'),
     ('Telemark', 'Sauherad'),
     ('Telemark', 'Tinn'),
     ('Telemark', 'Hjartdal'),
@@ -231,7 +238,8 @@ INSERT INTO kommuner (fylke_navn, kommune_navn) VALUES
     ('Hordaland', 'Kvam'),
     ('Hordaland', 'Fusa'),
     ('Hordaland', 'Samnanger'),
-    ('Hordaland', 'Os'),
+    /*('Hordaland', 'Os'),*/
+    ('Hordaland', 'Os, Hordaland'),
     ('Hordaland', 'Austevoll'),
     ('Hordaland', 'Sund'),
     ('Hordaland', 'Fjell'),
@@ -276,8 +284,10 @@ INSERT INTO kommuner (fylke_navn, kommune_navn) VALUES
     ('Møre og Romsdal', 'Ålesund'),
     ('Møre og Romsdal', 'Kristiansund'),
     ('Møre og Romsdal', 'Vanylven'),
-    ('Møre og Romsdal', 'Sande'),
-    ('Møre og Romsdal', 'Herøy'),
+    /*('Møre og Romsdal', 'Sande'),*/
+    ('Møre og Romsdal', 'Sande, Møre og Romsdal'),
+    /*('Møre og Romsdal', 'Herøy'),*/
+    ('Møre og Romsdal', 'Herøy, Møre og Romsdal'),
     ('Møre og Romsdal', 'Ulstein'),
     ('Møre og Romsdal', 'Hareid'),
     ('Møre og Romsdal', 'Volda'),
@@ -362,7 +372,8 @@ INSERT INTO kommuner (fylke_navn, kommune_navn) VALUES
     ('Nordland', 'Brønnøy'),
     ('Nordland', 'Vega'),
     ('Nordland', 'Vevelstad'),
-    ('Nordland', 'Herøy'),
+    /*('Nordland', 'Herøy'),*/
+    ('Nordland', 'Herøy, Nordland'),
     ('Nordland', 'Alstahaug'),
     ('Nordland', 'Leirfjord'),
     ('Nordland', 'Vefsn'),
@@ -394,7 +405,8 @@ INSERT INTO kommuner (fylke_navn, kommune_navn) VALUES
     ('Nordland', 'Vestvågøy'),
     ('Nordland', 'Vågan'),
     ('Nordland', 'Hadsel'),
-    ('Nordland', 'Bø'),
+    /*('Nordland', 'Bø'),*/
+    ('Nordland', 'Bø, Nordland'),
     ('Nordland', 'Øksnes'),
     ('Nordland', 'Sortland'),
     ('Nordland', 'Andøy'),

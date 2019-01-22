@@ -1,17 +1,19 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
 import {FormGroup, FormControl} from 'react-bootstrap';
-import {FormInput, GronnKnapp} from '../../widgets';
+import {GronnKnapp} from '../../widgets';
 import {KommuneInput} from '../../Moduler/kommuneInput/kommuneInput';
 import {PositionMap} from '../../Moduler/kart/map';
 import {feilService} from '../../services/feilService';
 import {PageHeader} from '../../Moduler/header/header';
+import queryString from 'query-string'
 
 export class MeldFeil extends Component {
   kategoriene = [];
   subkategoriene = [];
   subkatfiltrert = [];
   kominput = React.createRef();
+  defaultKommune = null;
 
   data = {
     overskrift: '',
@@ -21,7 +23,7 @@ export class MeldFeil extends Component {
     beskrivelse: '',
     lengdegrad: 0,
     breddegrad: 0,
-    avsjekket: 0,
+    abonner: 1,
   };
 
   render() {
@@ -37,13 +39,19 @@ export class MeldFeil extends Component {
               <label id="kommunelbl" htmlFor="kom">
                 Kommune:
               </label>
-              <KommuneInput onChange={this.getKom} ref={this.kominput} />
+              <KommuneInput ref={this.kominput} key={this.defaultKommune} kommune_id={this.defaultKommune}/>
             </div>
             <div id="overskriftblokk">
-              <FormInput
+            <label id="overskriftlbl" htmlFor="kom">
+                Overskrift:
+              </label>
+              <input
                 type="text"
+                className="form-control"
                 label="Overskrift:"
-                onChange={(event) => (this.data.overskrift = event.target.value)}
+                name="overskrift"
+                value={this.data.overskrift}
+                onChange={this.endreVerdi}
                 required
               />
             </div>
@@ -99,7 +107,7 @@ export class MeldFeil extends Component {
                 Beskrivelse:
               </label>
               <br />
-              <textarea type="text" id="bes" value={this.data.beskrivelse} onChange={this.skrivefelt} />
+              <textarea type="text" id="bes" value={this.data.beskrivelse} name="beskrivelse" onChange={this.endreVerdi} />
             </div>
             <div id="bilete">
               <label id="billbl" htmlFor="bil">
@@ -117,7 +125,7 @@ export class MeldFeil extends Component {
           </div>
           <div id="sjekkboks">
             <div id="boksen">
-              <input onChange={this.endreVerdi} type="checkbox" name="Abonner" value="Abonner" />
+              <input onChange={this.endreVerdi} checked={!!this.data.abonner} name="abonner" type="checkbox" />
             </div>
             <div id="boksenlbl">
               <label>Abonner på denne saken</label>
@@ -137,36 +145,18 @@ export class MeldFeil extends Component {
     let skat = await feilService.hentAlleSubkategorier();
     this.subkategoriene = await skat.data;
     this.subkatfiltrert = await skat.data.filter((kat) => 1 == kat.hovedkategori_id);
+
+    const q = queryString.parse(this.props.location.search);
+    if (q.k && Number.isInteger(parseInt(q.k))) {
+      this.defaultKommune = parseInt(q.k);
+    } else {
+      this.defaultKommune = global.payload.user.kommune_id;
+    }
   }
 
   async handleChange(e) {
     this.data.kategori_id = e.target.value;
     this.subkatfiltrert = this.subkategoriene.filter((kat) => this.data.kategori_id == kat.hovedkategori_id);
-  }
-
-  skrivefelt(e) {
-    this.data.beskrivelse = e.target.value;
-  }
-
-  testknapp() {
-    this.data.kommune_id = this.kominput.current.verdi;
-    console.log(
-      this.data.avsjekket +
-        ':' +
-        this.data.kommune_id +
-        ':' +
-        this.data.overskrift +
-        ':' +
-        this.data.kategori_id.value +
-        ':' +
-        this.data.subkategori_id.value +
-        ':' +
-        this.data.beskrivelse +
-        ':' +
-        this.data.lengdegrad +
-        ':' +
-        this.data.breddegrad
-    );
   }
 
   send() {
@@ -179,25 +169,23 @@ export class MeldFeil extends Component {
     formData.append('beskrivelse', this.data.beskrivelse);
     formData.append('lengdegrad', this.data.lengdegrad);
     formData.append('breddegrad', this.data.breddegrad);
-    formData.append('avsjekket', this.data.avsjekket);
+    formData.append('abonner', this.data.abonner);
+    Array.from(document.querySelector('#bil').files).forEach((file) => {if (file.type.match('image.*')) formData.append('bilder', file, file.name);})
 
-    let files = document.querySelector('#bil').files;
-    for (let i = 0; i < files.length; i++) {
-      let file = files[i];
-      if (!file.type.match('image.*')) {
-        continue;
-      }
-      formData.append('bilder', file, file.name);
+    let token = sessionStorage.getItem('pollett');
+    if (token) {
+      let xhr = new XMLHttpRequest();
+      xhr.open('POST', '/api/feil ', true);
+      xhr.setRequestHeader("x-access-token", 'Bearer ' + token)
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+          this.props.history.push('/');
+        }
+      };
+      xhr.send(formData);
+    } else {
+      global.sidePush("/", true);
     }
-
-    let xhr = new XMLHttpRequest();
-    xhr.open('POST', '/api/feil ', true);
-    xhr.onreadystatechange = () => {
-      if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-        this.props.history.push('/');
-      }
-    };
-    xhr.send(formData);
   }
 
   posFunksjon(pos) {
@@ -209,6 +197,6 @@ export class MeldFeil extends Component {
     const target = e.target;
     const value = target.type === 'checkbox' ? (target.checked ? 1 : 0) : target.value;
     const name = target.name;
-    this.data.avsjekket = value;
+    this.data[name] = value;
   }
 }

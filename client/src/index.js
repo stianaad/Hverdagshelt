@@ -17,6 +17,7 @@ import {PositionMap, Marker, MarkerMap, markerTabell} from './Moduler/kart/map';
 import {Hovedside} from './Komponenter/hovedside/hovedside';
 import {Minside} from './Komponenter/MinSide/minside';
 import {PageHeader} from './Moduler/header/header';
+import {FireNullFire} from './Komponenter/firenullfire/firenullfire';
 
 import {GlemtPassord} from '../src/Komponenter/GlemtPassord/glemtPassord';
 import {ResettPassord} from '../src/Komponenter/GlemtPassord/resettPassord';
@@ -31,7 +32,10 @@ import {KommuneVelger} from './Moduler/KommuneVelger/kommuneVelger';
 import {KommuneInput} from './Moduler/kommuneInput/kommuneInput';
 import {enHendelse} from './Komponenter/Hendelser/enHendelse';
 
-import {AnsattSide} from './Komponenter/Ansatt/kommuneansatt';
+import {NyeFeil} from './Komponenter/Ansatt/kommuneansatt';
+import {AnsattFerdig} from './Komponenter/Ansatt/ferdigeFeil';
+import {NyHendelse} from './Komponenter/Ansatt/nyhendelse';
+import { AbonnerKnapp } from './Moduler/abonner/abonner';
 
 class Tabell extends Component {
   render() {
@@ -157,62 +161,6 @@ class komtest extends Component {
   }
 }
 
-class FireNullFire extends Component {
-  render() {
-    return (
-      <>
-        <h3
-          style={{
-            position: 'absolute',
-            top: '50px',
-            left: '50px',
-            margin: '0 auto',
-            width: '400px',
-            height: '300px',
-            textAlign: 'center',
-            fontFamily: "'Comic Sans MS'",
-            fontSize: '40px',
-          }}
-        >
-          404 Ingen mulighet for <span style={{color: 'green'}}>kommune-kasjon</span> på denne siden
-        </h3>
-        <div
-          style={{
-            position: 'relative',
-            width: '700px',
-            height: '100vh',
-            margin: '0 400px',
-          }}
-        >
-          <img src="/sicko.png" style={{zIndex: '-1', height: '100%'}} />
-          <span
-            style={{
-              position: 'absolute',
-              top: '250px',
-              left: '80px',
-              fontSize: '40px',
-            }}
-          >
-            your request went
-          </span>
-          <span
-            style={{
-              position: 'absolute',
-              top: '300px',
-              left: '150px',
-              fontSize: '80px',
-              fontFamily: "'Comic Sans MS'",
-              color: 'red',
-            }}
-          >
-            SICKO MODE
-          </span>
-        </div>
-      </>
-    );
-  }
-}
-
 global.sideRefresh = (hard) => {
   setTimeout(() => {
     let path = window.location.pathname;
@@ -277,7 +225,8 @@ const routes = () => {
               [
                 <Route exact path="/mineoppgaver" component={MineOppgaver} history={history} />,
                 <Route exact path="/registrerBedrift" component={RegistrerBedrift} history={history} />,
-                <Route exact path="/ansattside" component={AnsattSide} history={history} />,
+                <Route exact path="/ansattside" component={NyeFeil} history={history} />,
+                <Route exact path="/ansatt/nyhendelse" component={NyHendelse} history={history}/>
               ]
             : global.payload.role == 'bedrift'
             ? //Bedrift routes
@@ -294,7 +243,9 @@ const routes = () => {
           <Route exact path="/nyheter" component={Menu} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/headertest" component={PageHeader} history={history} />
-          <Route exact path="/ansattest" component={AnsattSide} history={history} />
+          <Route exact path="/ansattest" component={NyeFeil} history={history} />
+          <Route exact path="/ferdigtest" component={AnsattFerdig} history={history}/>
+          <Route exact path="/nyhendelsetest" component={NyHendelse} history={history}/>
 
           <Route exact path="/headertest" component={PageHeader} history={history} />
           <Route exact path="/bedriftsoppgaver" component={Bedrift} history={history} />

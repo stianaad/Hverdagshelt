@@ -11,6 +11,10 @@ module.exports = class HendelseDao extends Dao {
     );
   }
 
+  hentHendelseForKommune(kommune_id, callback) {
+    super.query('SELECT * FROM hendelser WHERE kommune_id = ?', [kommune_id], callback);
+  }
+
   //testes
   hentEnHendelse(json, callback) {
     var id = json.hendelse_id;
@@ -24,6 +28,7 @@ module.exports = class HendelseDao extends Dao {
       json.hendelseskategori_id,
       json.kommune_id,
       json.overskrift,
+      json.tid,
       json.beskrivelse,
       json.sted,
       json.bilde,
@@ -31,7 +36,7 @@ module.exports = class HendelseDao extends Dao {
       json.breddegrad,
     ];
     super.query(
-      'INSERT INTO hendelser (bruker_id, hendelseskategori_id, kommune_id, overskrift, beskrivelse, sted, bilde, lengdegrad, breddegrad) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO hendelser (bruker_id, hendelseskategori_id, kommune_id, overskrift, tid, beskrivelse, sted, bilde, lengdegrad, breddegrad) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
       hendelse,
       callback
     );
@@ -93,4 +98,17 @@ module.exports = class HendelseDao extends Dao {
   hentAlleHovedkategorier(callback) {
     super.query('SELECT * FROM hovedkategori', null, callback);
   }
-};
+
+  hentAlleKategorier(callback){
+    super.query('SELECT * FROM hendelseskategori', null, callback);
+  }
+
+  abonnerHendelse(json, callback) {
+    super.query("INSERT INTO hendfolg (hendelse_id, bruker_id) VALUES (?, ?)", [json.hendelse_id, json.bruker_id], callback);
+  }
+
+  ikkeAbonnerHendelse(json, callback) {
+    super.query("DELETE FROM hendfolg WHERE hendelse_id=? AND bruker_id=?", [json.hendelse_id, json.bruker_id], callback);
+  }
+
+}

@@ -41,13 +41,10 @@ nav ul{
    margin-right: 10 px; 
 }
 
-.hovedsideScroll{
-   height: calc(100vh - 350px);    
-   overflow-y: scroll; 
-}
-
 .hovedsideTabeller{
-   height: calc(100vh - 350px);
+   height: 100%;
+   overflow-y: auto;
+   overflow-x: hidden;
 }
    
 .leaflet-top{
@@ -55,6 +52,43 @@ nav ul{
 }
 
 .oppdateringScroll{
-   height: 78px;
+   height: 25vh;
    overflow-y: scroll;
+}
+.hovedTittel {
+   position: relative;
+}
+.hovedTittel a {
+   position: absolute;
+   right: 1rem;
+   bottom: 0px;
+}
+
+.hovedKort {
+   height: 100%;
+}
+
+#mapContainer {
+   height: 100%;
+}
+
+#hovedKart {
+   max-width: 10000px;
+}
+
+.hovedContainer {
+   height: calc(100vh - 200px);
+}
+
+.hovedContainer > div[class*="col-"] {
+   min-width: 200px;
+   margin-bottom: 1rem;
+}
+
+.mobileButtons {
+   display:none;
+}
+
+.feilInfo > div {
+   height: 100%;
 }

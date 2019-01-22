@@ -31,12 +31,12 @@ let testprivatBruker = {
 };
 
 let testBedriftbruker = {
-  epost: 'testbedrift@test.com',
+  epost: 'testbedrift@test1.com',
   passord: 'qwertyui',
   kommune_id: 22,
-  orgnr: 987654321,
+  orgnr: 123456785,
   navn: 'testBedrift',
-  telefon: 10203040,
+  telefon: 12345678, 
 };
 
 let testAnsattbruker = {
@@ -162,7 +162,7 @@ test('endre passord', (done) => {
     expect(data.affectedRows).toBe(1);
     done();
   }
-  brukerdao.endrePassord({epost: 'epost2@hotmail.com', passord: 'veldighemmelig'}, callback);
+  brukerdao.endrePassord({epost: 'epost9@hotmail.com', passord: 'veldighemmelig'}, callback);
 });
 
 //FEILTESTER
