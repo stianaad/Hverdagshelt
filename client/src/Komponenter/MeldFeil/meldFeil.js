@@ -183,7 +183,6 @@ export class MeldFeil extends Component {
 
     if (hjelpData.lengdegrad === 0 && hjelpData.breddegrad === 0) {
       this.advarsel = 'Vennligst oppgi en posisjon';
-      console.log("Hello hello lads");
       gyldig = false;
     }
 
