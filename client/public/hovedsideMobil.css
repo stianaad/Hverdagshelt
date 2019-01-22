@@ -46,15 +46,20 @@
     width: 100vw;
     max-width: 100vw !important;
     flex: 0 1 auto !important;
-}
-
-.hovedContainer > div[class*="col-"]:not(#hovedHendelser) {
     margin-top:20px;
 }
+
+/*.hovedContainer > div[class*="col-"]:not(#hovedHendelser) {
+    margin-top:20px;
+}*/
 
 
 .hovedContainer > div[class*="col-"]:not(#hovedKart):not(.feilInfo) {
     display:none;
+}
+
+.feilInfo {
+    margin-top: 20px;
 }
 
 .mobileButtons {
