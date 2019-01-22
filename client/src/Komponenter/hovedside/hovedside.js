@@ -173,7 +173,7 @@ export class Hovedside extends Component {
         </div>
         {!this.visHendelser ? (
           <div className="row mt-4 hovedContainer ml-1 mr-1">
-            <div className="col-sm-3" id="hovedFeil">
+            <div className="col-md-auto" id="hovedFeil">
               {/**
                       *NYLIGE FEIL
                       *NYLIGE FEIL
@@ -218,7 +218,7 @@ export class Hovedside extends Component {
               </Card>
             </div>
             {this.visFeil ? (
-              <div className="col-sm-9 feilInfo">
+              <div className="col feilInfo">
               
                 <Card fluid>
                   <Card.Content extra style={{height:"120px", color:"black"}}>
@@ -319,20 +319,20 @@ export class Hovedside extends Component {
                 KART
               */
               <>
-                <div className="col-sm-6 text-center" id="hovedKart">
+                <div className="col text-center" id="hovedKart">
                   <div id="mapContainer">
                     <MarkerMap
                       key={this.props.match.params.kommune}
                       width="100%"
                       height="100%"
-                      id="test"
+f                      id="test"
                       center={this.props.match.params.kommune}
                       callback={this.callMap}
                       onRef={(ref) => (this.kart = ref)}
                     />
                   </div>
                 </div>
-                <div className="col-sm-3" id="hovedHendelser">
+                <div className="col-md-auto" id="hovedHendelser">
                   {/**
                     *KOMMENDE HENDELSER
                     *KOMMENDE HENDELSER
