@@ -5,7 +5,7 @@ import {feilService} from '../../services/feilService';
 import {Card, Feed, Grid, Button, Header, Icon, Image, Popup, Modal, Input, List,Dropdown} from 'semantic-ui-react';
 import {FeedEvent, FeedHendelse, Filtrer, Info, FeedMinside, ModalHendelse} from '../../Moduler/cardfeed';
 import {brukerService} from '../../services/brukerService';
-import {NavLink} from 'react-router-dom';
+import {NavLink,Link} from 'react-router-dom';
 import {markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
 
 export class Minside extends Component {
@@ -133,8 +133,18 @@ export class Minside extends Component {
           : (
             <ModalHendelse overskrift={this.valgteHendelse.overskrift} url={this.valgteHendelse.bilde} tid={this.valgteHendelse.tid} sted={this.valgteHendelse.sted} kommune_navn={this.valgteHendelse.kommune_navn}/>
             )}
-        </Modal>       
-        <h1 className="text-center">Min side</h1>
+        </Modal>
+        <div className="mt-3 hovedTittel">
+
+          <h1 className="text-center text-capitalize display-4">Min side </h1>
+
+          <Link to="/meldfeil">
+            <Button color="red" size="large">
+              Meld inn feil
+            </Button>
+          </Link>
+
+        </div>      
         <div className="row minRow">
           <div className="col-sm-3 mt-3 ml-3" id="sideListe">
             <h2> </h2>
