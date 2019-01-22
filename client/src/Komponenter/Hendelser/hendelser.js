@@ -15,7 +15,8 @@ export class Hendelser extends Component {
     alleKategorier = [];
 	aktiveHendelser = [];
     link = "/hendelser";
-    tider=[];
+	tider=[];
+	hjemKommune = '';
     kommuner=[];
 		fylker=[];
 		finnKommuneId=[]
@@ -257,15 +258,17 @@ export class Hendelser extends Component {
 		if(global.payload == null){
 			res1 = await hendelseService.hentAlleHendelser();
 		} else {
-			console.log("hei");
+			this.hjemKommune = global.payload.user.kommune_id;
 			res1 = await hendelseService.hentHendelserForKommune(global.payload.user.kommune_id);
+			this.hjemKommune = await res1.data.find(e => e.kommune_id == this.hjemKommune).kommune_navn;
+			await console.log(this.hjemKommune);
 		}
 		this.hendelser = await res1.data;
 		this.aktiveHendelser = await res1.data;
+
 		/*this.tider = this.aktiveHendelser.map(
 			kat => kat.tid
 		);
-		
 		this.navn = this.kommuner.map(
 			navn =>navn.kommune_navn
 			);
