@@ -6,14 +6,12 @@ import {
   Feed,
   Modal,
   Grid,
-  GridColumn,
   Segment,
   Image,
   Button,
   Popup,
   Header,
   Form,
-  Dropdown,
   TextArea,
 } from 'semantic-ui-react';
 
@@ -425,6 +423,26 @@ export class Filtrer extends Component {
     );
   }
 }
+
+export class KatDropdown extends Component {
+  
+  render() {
+    return (
+      <div>
+        <select onChange={this.props.onChange} style={{height: 30, width: 120}} className="rigth floated form-control">
+          <option hidden value={this.props.valgt.kategorinavn}>{this.props.valgt.kategorinavn}</option>
+          {this.props.alleKategorier.map( filtrer => (
+            <option value={filtrer.kategorinavn} key={filtrer.kategorinavn}>
+            {' '}
+            {filtrer.kategorinavn}
+          </option>
+          ))}
+        </select>
+      </div>
+    );
+  }
+}
+
 
 //For hendelse siden
 export class Hendelse extends Component{
