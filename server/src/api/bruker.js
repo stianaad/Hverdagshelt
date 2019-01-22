@@ -253,6 +253,13 @@ router.get('/api/bedrifter', (req, res) => {
   });
 });
 
+router.get('/api/mininfo', checkToken, (req, res) => {
+  brukerDao.hentBrukerInfo(req.decoded.user.bruker_id, req.decoded.role, (status, data) => {
+    res.status(status);
+    res.json(data);
+  });
+});
+
 module.exports = router;
 
 const genenererEpostPollett = (epost, callback) => {
