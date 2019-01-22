@@ -46,6 +46,34 @@ class HendelseService {
   hentAlleKategorier(){
     return api.get('/api/hendelseskat');
   }
+
+  opprettHendelseskategori(json) {
+    let token = sessionStorage.getItem('pollett');
+    if(token) {
+      return api.post('/api/hendelser/hendelseskategorier', json, {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return null;
+    }
+  }
+
+  oppdaterHendelseskategori(json, hek_id) {
+    let token = sessionStorage.getItem('pollett');
+    if(token) {
+      return api.put('/api/hendelser/hendelseskategorier/'+hek_id, json, {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return null;
+    }
+  }
+
+  oppdaterHendelseskategori(hek_id) {
+    let token = sessionStorage.getItem('pollett');
+    if(token) {
+      return api.delete('/api/hendelser/hendelseskategorier/'+hek_id, {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return null;
+    }
+  }
+
 }
 
 export let hendelseService = new HendelseService();

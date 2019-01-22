@@ -336,14 +336,32 @@ export class PositionMap extends Component {
   marker = null;
 
   locateMe() {
-    this.map.locate({setView: true, maxZoom: 14});
+    navigator.geolocation.getCurrentPosition((pos) => {
+      //alert(pos.coords.latitude+":"+pos.coords.longitude);
+      if (this.marker == undefined) {
+        this.marker = L.marker({ lat: pos.coords.latitude, lng: pos.coords.longitude }, {
+          draggable: !L.Browser.mobile,
+        }).addTo(this.map);
+      } else {
+        this.marker.setLatLng({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+      }
+      this.props.position(this.marker.getLatLng());
+      this.map.setView({ lat: pos.coords.latitude, lng: pos.coords.longitude }, 14)
+    }, (err) => {
+      //alert(err.code);
+    });
+    
+    /*this.map.locate({setView: true, maxZoom: 14});
     this.map.on('locationfound', () => {
       if (this.marker == undefined) {
         this.marker = L.marker(this.map.getCenter(), {
           draggable: !L.Browser.mobile,
         }).addTo(this.map);
       }
-    });
+      else {
+        this.marker.setLatLng(this.map.getCenter());
+      }
+    });*/
   }
 
   clicked(e) {
@@ -394,10 +412,10 @@ export class PositionMap extends Component {
         <button
           style={{position: 'absolute', top: '10px', right: '10px', zIndex: '900', height: '35px', cursor: 'pointer'}}
           id="locatebtn"
-          type="button"
+          //type="button"
           onClick={this.locateMe}
           onTouchStart={this.locateMe}
-        >
+          >
           Finn Meg
         </button>
       </div>

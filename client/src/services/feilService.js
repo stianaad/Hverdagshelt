@@ -141,6 +141,61 @@ class FeilService {
     }
   }
 
+  slettHovedkategori(hk_id) {
+    let token = sessionStorage.getItem('pollett');
+    console.log('Slett hovedkategori service:');
+    if (token) {
+      return api.delete('/api/hovedkategori/' + hk_id, {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return null;
+    }
+  }
+
+  slettSubkategori(sk_id) {
+    let token = sessionStorage.getItem('pollett');
+    console.log('Slett subkategori service:');
+    if (token) {
+      return api.delete('/api/subkategori/' + sk_id, {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return null;
+    }
+  }
+
+  oppdaterHovedkategori(hk_id) {
+    let token = sessionStorage.getItem('pollett');
+    console.log('Oppdater hovedkategorier service:');
+    if (token) {
+      return api.put('/api/hovedkategorier/' + hk_id, {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return null;
+    }
+  }
+
+  oppdaterSubkategori(sk_id) {
+    let token = sessionStorage.getItem('pollett');
+    console.log('Oppdater subkategori service:');
+    if (token) {
+      return api.put('/api/subkategorier/' + sk_id, {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return null;
+    }
+  }
+
+  opprettHovedkategori(nyHk) {
+    let token = sessionStorage.getItem('pollett');
+    console.log('Opprett ny hovedkategori service:');
+    if(token) {
+      return api.post('/api/hovedkategorier', {headers: {'x-access-token': 'Bearer ' + token}});
+    }  
+  }
+
+  opprettSubkategori(nyHk) {
+    let token = sessionStorage.getItem('pollett');
+    console.log('Opprett ny subkategori service:');
+    if(token) {
+      return api.post('/api/subkategori', {headers: {'x-access-token': 'Bearer ' + token}});
+    }  
+  }
 }
 
 export let feilService = new FeilService();
