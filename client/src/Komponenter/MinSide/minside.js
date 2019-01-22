@@ -135,9 +135,7 @@ export class Minside extends Component {
             )}
         </Modal>
         <div className="mt-3 hovedTittel">
-
           <h1 className="text-center text-capitalize display-4">Min side </h1>
-
           <Link to="/meldfeil">
             <Button color="red" size="large">
               Meld inn feil
