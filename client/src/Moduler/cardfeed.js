@@ -407,7 +407,6 @@ export class Info extends Component {
 }
 
 export class Filtrer extends Component {
-  
   render() {
     return (
       <div>
@@ -458,8 +457,24 @@ export class Hendelse extends Component{
     }
     render(){
         return(
-            <Card>
-            <Image src={this.props.bilde} onClick={this.props.onClick} rounded />
+              <Card className="feilCard" raised>
+                <Image src={this.props.bilde} className="feilCardImage" />
+                <Card.Content>
+                  <Card.Header>{this.props.overskrift}</Card.Header>
+                  <Card.Description>
+                    <img
+                      className="mr-2"
+                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Simple_icon_time.svg/750px-Simple_icon_time.svg.png"
+                      height="20"
+                      width="25"
+                    />
+                    {this.props.tid}
+                    <br/>
+                    {this.props.sted}
+                  </Card.Description>
+                </Card.Content>
+              </Card>
+            /*<Image src={this.props.bilde} onClick={this.props.onClick} rounded />
             <Card.Content>
             <a onClick={this.props.onClick}>
               <Card.Header>{this.props.overskrift}</Card.Header>
@@ -475,8 +490,7 @@ export class Hendelse extends Component{
                 Følg
              </Button>
              </div>
-            </Card.Content>
-          </Card>
+        </Card.Content>*/
         );
     }
 

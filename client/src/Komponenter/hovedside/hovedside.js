@@ -148,7 +148,7 @@ export class Hovedside extends Component {
 
           <h1 className="text-center text-capitalize display-4">{this.props.match.params.kommune} </h1>
 
-          <Link to="/meldfeil">
+          <Link to={this.kommune ? "/meldfeil?k="+this.kommune.kommune_id : "/meldfeil"}>
             <Button color="red" size="large">
               Meld inn feil
             </Button>
@@ -225,22 +225,22 @@ export class Hovedside extends Component {
                     <div>
                       <h1>
                         {this.feil.overskrift}
-                        <NavLink
-                          to={'/hovedside/' + this.props.match.params.kommune}
+                        <img
                           onClick={() => {
-                            this.visFeil = false;
                             if (this.mobView == "#hovedFeil") {
                               document.querySelector("#hovedFeil").style.display="block";
+                              this.mobileView("#hovedFeil");
+                            }
+                            else {
+                              this.visFeil = false;
                             }
                           }}
-                        >
-                          <img
-                            className="float-right"
-                            src="https://image.freepik.com/free-icon/x_318-27992.jpg"
-                            width="20"
-                            height="20"
-                          />
-                        </NavLink>
+                          src="https://image.freepik.com/free-icon/x_318-27992.jpg"
+                          width="20"
+                          height="20"
+                          style={{cursor:"pointer", float:"right"}}
+                        />
+                        {/*</Link>*/}
                       </h1>
                       <h6>
                         Status: {this.feil.status} <img src={this.statusIkon} width="30" height="30" />

@@ -17,7 +17,7 @@ router.get('/api/hendelser', (req, res) => {
   });
 });
 
-router.get('/api/kommuner/:kommune_id/hendelser', (req, res) => {
+router.get('/api/kommuner/hendelser/:kommune_id', (req, res) => {
   console.log('Fikk GET-request fra klienten');
   hendelseDao.hentHendelseForKommune(req.params.kommune_id, (status, data) => {
     res.status(status);
@@ -148,7 +148,6 @@ router.get('/api/hendelseskat', (req, res) => {
     console.log('/hentAlleKategorier lengde: ' + data.length);
   });
 });
-
 
 router.post("/api/hendelser/:hendelse_id/abonnement", checkToken, (req, res) => {
   let role = req.decoded.role;
