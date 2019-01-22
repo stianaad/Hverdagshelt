@@ -41,10 +41,13 @@ export class Hendelser extends Component {
 	if(this.skrivKategori === "0"){
 		this.skrivKategori = "Alle kategorier";
 		this.aktiveHendelser = this.hendelser;
-		this.aktiveHendelser = this.hendelser.filter(h => ((h.kommune_id === this.skrivKommuneID) || this.skrivKommuneID == "")).filter(h => ((h.tid >= this.skrivFraTid) || this.skrivFraTid == "")).filter(h => ((h.tid <= this.skrivTilTid) || this.skrivTilTid == ""));
+		this.aktiveHendelser = this.hendelser.filter(h => ((h.kommune_id === this.skrivKommuneID) || this.skrivKommuneID == ""))
+		.filter(h => ((h.tid >= this.skrivFraTid) || this.skrivFraTid == "")).filter(h => ((h.tid <= this.skrivTilTid) || this.skrivTilTid == ""))
+		.filter(h => ((h.fylke_navn === this.skrivFylke) || this.skrivFylke == "Fylke"));;
 	} else {
 		this.aktiveHendelser = this.hendelser.filter((h) => ((h.kategorinavn === this.skrivKategori) || this.skrivKategori == "Kategori"))
-				.filter(h => ((h.kommune_id === this.skrivKommuneID) || this.skrivKommuneID == "")).filter(h => ((h.tid >= this.skrivFraTid) || this.skrivFraTid == "")).filter(h => ((h.tid <= this.skrivTilTid) || this.skrivTilTid == ""));
+				.filter(h => ((h.kommune_id === this.skrivKommuneID) || this.skrivKommuneID == "")).filter(h => ((h.tid >= this.skrivFraTid) || this.skrivFraTid == ""))
+				.filter(h => ((h.tid <= this.skrivTilTid) || this.skrivTilTid == "")).filter(h => ((h.fylke_navn === this.skrivFylke) || this.skrivFylke == "Fylke"));;
 	}
   }
 
@@ -54,11 +57,12 @@ export class Hendelser extends Component {
 				this.aktiveHendelser = this.hendelser;
 				this.skrivFraTid = "";
 				this.aktiveHendelser = this.hendelser.filter((h) => ((h.kategorinavn === this.skrivKategori) || this.skrivKategori == "Kategori"))
-				.filter(h => ((h.kommune_id === this.skrivKommuneID) || this.skrivKommuneID == "")).filter(h => ((h.tid <= this.skrivTilTid) || this.skrivTilTid == ""));
+				.filter(h => ((h.kommune_id === this.skrivKommuneID) || this.skrivKommuneID == "")).filter(h => ((h.tid <= this.skrivTilTid) || this.skrivTilTid == "")).filter(h => ((h.fylke_navn === this.skrivFylke) || this.skrivFylke == "Fylke"));;
 			}else{
 				this.skrivFraTid = fraTid;
 				this.aktiveHendelser = this.hendelser.filter((h) => ((h.kategorinavn === this.skrivKategori) || this.skrivKategori == "Kategori"))
-				.filter(h => ((h.kommune_id === this.skrivKommuneID) || this.skrivKommuneID == "")).filter(h => ((h.tid >= this.skrivFraTid) || this.skrivFraTid == "")).filter(h => ((h.tid <= this.skrivTilTid) || this.skrivTilTid == ""));
+				.filter(h => ((h.kommune_id === this.skrivKommuneID) || this.skrivKommuneID == "")).filter(h => ((h.tid >= this.skrivFraTid) || this.skrivFraTid == ""))
+				.filter(h => ((h.tid <= this.skrivTilTid) || this.skrivTilTid == "")).filter(h => ((h.fylke_navn === this.skrivFylke) || this.skrivFylke == "Fylke"));;
 				console.log(this.skrivFraTid);
 				//this.aktiveHendelser= this.aktiveHendelser.filter((kat) => kat.tid > fraTid);
 			}
@@ -70,11 +74,13 @@ export class Hendelser extends Component {
 			this.aktiveHendelser = this.hendelser;
 			this.skrivTilTid = "";
 			this.aktiveHendelser = this.hendelser.filter((h) => ((h.kategorinavn === this.skrivKategori) || this.skrivKategori == "Kategori"))
-			.filter(h => ((h.kommune_id === this.skrivKommuneID) || this.skrivKommuneID == "")).filter(h => ((h.tid >= this.skrivFraTid) || this.skrivFraTid == ""));
+			.filter(h => ((h.kommune_id === this.skrivKommuneID) || this.skrivKommuneID == "")).
+			filter(h => ((h.tid >= this.skrivFraTid) || this.skrivFraTid == "")).filter(h => ((h.fylke_navn === this.skrivFylke) || this.skrivFylke == "Fylke"));;
 		} else {
 			this.skrivTilTid = tilTid;
 			this.aktiveHendelser = this.hendelser.filter((h) => ((h.kategorinavn === this.skrivKategori) || this.skrivKategori == "Kategori"))
-				.filter(h => ((h.kommune_id === this.skrivKommuneID) || this.skrivKommuneID == "")).filter(h => ((h.tid >= this.skrivFraTid) || this.skrivFraTid == "")).filter(h => ((h.tid <= this.skrivTilTid) || this.skrivTilTid == ""));
+				.filter(h => ((h.kommune_id === this.skrivKommuneID) || this.skrivKommuneID == "")).filter(h => ((h.tid >= this.skrivFraTid) || this.skrivFraTid == ""))
+				.filter(h => ((h.tid <= this.skrivTilTid) || this.skrivTilTid == "")).filter(h => ((h.fylke_navn === this.skrivFylke) || this.skrivFylke == "Fylke"));
 			console.log(this.skrivTilTid);
 			//this.aktiveHendelser = this.aktiveHendelser.filter((kat) => kat.tid < tilTid);
 		}
@@ -93,24 +99,22 @@ export class Hendelser extends Component {
 				this.skrivAlleKommuner = this.kommuner.find(e => (e.kommune_id == this.skrivKommuneID)).kommune_navn;
 				this.visFylke = true;
 				this.skrivFylke = "Fylke";
-				console.log(this.hendelser);
-				console.log(this.skrivKategori);
-				console.log(this.skrivFraTid);
 				this.aktiveHendelser = this.hendelser.filter((h) => ((h.kategorinavn === this.skrivKategori) || this.skrivKategori == "Kategori"))
 				.filter(h => ((h.kommune_id === this.skrivKommuneID) || this.skrivKommuneID == "")).filter(h => ((h.tid >= this.skrivFraTid) || this.skrivFraTid == "")).filter(h => ((h.tid <= this.skrivTilTid) || this.skrivTilTid == ""));
-				//this.aktiveHendelser = this.hendelser.filter((kat) => kat.kommune_id === verdi);
-				//this.aktiveHendelser= this.aktiveHendelser.filter((kat) => kat.kommune_id === verdi);
 			}
 		}
 
 
 		filterFylke(e) {
-			let verdi = e.target.value;
-			if( verdi === "0"){
-				this.skrivFylke = "Alle fylker";
+			this.skrivFylke = e.target.value;
+			if( this.skrivFylke === "0"){
+				this.skrivFylke = "Fylke";
+				this.aktiveHendelser = this.hendelser.filter((h) => ((h.kategorinavn === this.skrivKategori) || this.skrivKategori == "Kategori"))
+				.filter(h => ((h.tid >= this.skrivFraTid) || this.skrivFraTid == "")).filter(h => ((h.tid <= this.skrivTilTid) || this.skrivTilTid == ""));
+			} else {
+				this.aktiveHendelser = this.hendelser.filter((h) => ((h.kategorinavn === this.skrivKategori) || this.skrivKategori == "Kategori"))
+				.filter(h => ((h.fylke_navn === this.skrivFylke) || this.skrivFylke == "Fylke")).filter(h => ((h.tid >= this.skrivFraTid) || this.skrivFraTid == "")).filter(h => ((h.tid <= this.skrivTilTid) || this.skrivTilTid == ""));
 			}
-			this.skrivFylke = verdi;
-			this.aktiveHendelser = this.hendelser.filter(fylke => fylke.fylke_navn === verdi);
 		}
 
 	handleOpen = () => {
