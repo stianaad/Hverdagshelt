@@ -40,3 +40,17 @@
     overflow-y: auto;
     overflow-x: hidden;
 }
+
+#container > div {
+  display:inline-block;
+}
+
+#keys {
+  font-weight: 600;
+}
+
+#innhold {
+  float:right;
+  text-align: right;
+  word-break: break-all;
+}

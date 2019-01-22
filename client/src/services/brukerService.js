@@ -132,6 +132,15 @@ class BrukerService {
   hentBedrifter() {
     return api.get('/api/bedrifter');
   }
+
+  minInfo() {
+    let token = sessionStorage.getItem('pollett');
+    if(token) {
+      return api.get('/api/mininfo', {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return [];
+    }
+  }
 }
 
 export let brukerService = new BrukerService();
