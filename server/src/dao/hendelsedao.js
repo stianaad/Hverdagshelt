@@ -5,7 +5,7 @@ module.exports = class HendelseDao extends Dao {
   //testes
   hentAlleHendelser(callback) {
     super.query(
-      "SELECT hendelse_id,overskrift,DATE_FORMAT(tid, '%Y-%m-%d %H:%i') AS tid,beskrivelse,sted,bilde, lengdegrad, breddegrad,kategorinavn FROM hendelser,hendelseskategori WHERE hendelser.hendelseskategori_id = hendelseskategori.hendelseskategori_id",
+      "SELECT hendelse_id,overskrift, kommune_id,DATE_FORMAT(tid, '%Y-%m-%d %H:%i') AS tid,beskrivelse,sted,bilde, lengdegrad, breddegrad,kategorinavn FROM hendelser,hendelseskategori WHERE hendelser.hendelseskategori_id = hendelseskategori.hendelseskategori_id",
       null,
       callback
     );
