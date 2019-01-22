@@ -345,6 +345,7 @@ export class PositionMap extends Component {
       } else {
         this.marker.setLatLng({ lat: pos.coords.latitude, lng: pos.coords.longitude });
       }
+      this.props.position(this.marker.getLatLng());
       this.map.setView({ lat: pos.coords.latitude, lng: pos.coords.longitude }, 14)
     }, (err) => {
       //alert(err.code);
