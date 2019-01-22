@@ -111,7 +111,6 @@ test('legg til ny privatbruker', (done) => {
   brukerdao.lagNyPrivatBruker(testprivatBruker, callback);
 });
 
-/* BRUKER_ID ER ambiguous !!!!!!!
 test('hent feil til bruker', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
@@ -139,7 +138,7 @@ test('hent hendelser til bruker', (done) => {
   }
   brukerdao.finnFolgteHendelserTilBruker({bruker_id: 3}, callback);
 });
-*/
+
 test('hent bruker på id', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
@@ -388,7 +387,7 @@ test('abonner på en hendelse', (done) => {
     expect(data.affectedRows).toBe(1);
     done();
   }
-  hendelsedao.abonnerHendelse({hendelse_id: 1, bruker_id: 3}, callback);
+  hendelsedao.abonnerHendelse({hendelse_id: 1, bruker_id: 5}, callback);
 });
 
 //GENERELLTESTER
