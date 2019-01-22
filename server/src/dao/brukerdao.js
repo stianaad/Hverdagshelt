@@ -40,6 +40,11 @@ module.exports = class BrukerDao extends Dao {
     super.query('SELECT bruker_id FROM bruker WHERE epost=?', epost, callback);
   }
 
+  finnBruker_id(json, callback) {
+    let epost = [json.epost];
+    super.query('SELECT bruker_id FROM bruker WHERE epost=?', epost, callback);
+  }
+
   finnFeilTilBruker(bruker_id, callback) {
     super.query(
       "SELECT feil.*, hovedkategori.kategorinavn,status.status, DATE_FORMAT(f.tid, '%Y-%m-%d %H:%i') AS tid FROM feil INNER JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id INNER JOIN hovedkategori ON subkategori.hovedkategori_id = hovedkategori.hovedkategori_id INNER JOIN (SELECT feil_id, min(tid) as tid from oppdatering group by feil_id) as f ON feil.feil_id = f.feil_id INNER JOIN (SELECT feil_id, ANY_VALUE(status_id) as status_id, max(tid) as tid from oppdatering group by feil_id) as s ON feil.feil_id = s.feil_id INNER JOIN status ON status.status_id = s.status_id WHERE bruker_id=?",
@@ -160,9 +165,9 @@ module.exports = class BrukerDao extends Dao {
   }
 
   hentBruker(json, callback) {
-    let tabell = [json.epost];
+    let tabell = [json.bruker_id];
     console.log(tabell + 'bruker dao');
-    super.query('SELECT * FROM bruker WHERE epost=?', tabell, callback);
+    super.query('SELECT * FROM bruker WHERE bruker_id=?', tabell, callback);
   }
 
   hentBrukere(callback) {

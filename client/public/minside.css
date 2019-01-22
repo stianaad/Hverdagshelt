@@ -19,8 +19,12 @@
     margin: 0 auto;
 }
 
-#sideListe {
+#sideListe, #sideListeH {
     min-width: 270px;
+}
+
+#sideListeH {
+  margin-right: 15px;
 }
 
 .minRow > div {

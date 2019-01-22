@@ -382,7 +382,7 @@ router.post("/api/feil/:feil_id/abonnement", checkToken, (req, res) => {
   let role = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
   if (role == 'privat') {
-    feilDao.abonnerFeil({bruker_id: bruker_id, feil_id: req.body.feil_id}, (status, data) => {
+    feilDao.abonnerFeil({bruker_id: bruker_id, feil_id: req.params.feil_id}, (status, data) => {
       res.status(status);
       res.json(data);
     });

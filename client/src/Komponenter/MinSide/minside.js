@@ -18,6 +18,13 @@ export class Minside extends Component {
     beskrivelse: '',
   };
 
+  bruker = {
+    fornavn: '',
+    etternavn: '',
+    epost: '',
+    kommune_id: -1,
+  }
+
   state = {open: false};
 
   handleOpen = (feil) => {
@@ -113,8 +120,7 @@ export class Minside extends Component {
 
         <h1 className="text-center">Min side</h1>
         <div className="row minRow">
-          <div className="col-sm-3 mt-3 ml-3" id="sideListe">
-            <h2> </h2>
+          <div className="col-sm mt-3 ml-3" id="sideListe">
             <Card fluid="true">
               <Card.Content>
                 <Card.Header>
@@ -156,7 +162,7 @@ export class Minside extends Component {
               </Card.Content>
             </Card>
           </div>
-          <div className="col-sm-3 mt-3">
+          <div className="col-sm mt-3">
             <div className="columnCenter">
               <h2>Hendelser du følger</h2>
               <Card.Group itemsPerRow={1}>
@@ -180,7 +186,7 @@ export class Minside extends Component {
               </Card.Group>
             </div>
           </div>
-          <div className="col-sm-3 mt-3">
+          <div className="col-sm mt-3">
             <div className="columnCenter">
               <h2>Feil/mangler du følger</h2>
               <Card.Group itemsPerRow={1}>
@@ -204,16 +210,33 @@ export class Minside extends Component {
               </Card.Group>
             </div>
           </div>
-          <div className="col-sm-3" />
+          <div className="col-sm mt-3 ml-3" id="sideListeH">
+            <Card fluid="true">
+              <Card.Content>
+                <Card.Header>
+                  Brukerinformasjon
+                </Card.Header>
+              </Card.Content>
+              <Card.Content>
+                <Feed>
+                  {this.bruker.epost}
+                </Feed>
+              </Card.Content>
+            </Card>
+          </div>
         </div>
       </div>
     );
   }
 
-  async finnFeilBruker(id) {
-    let res1 = await brukerService.finnFeilTilBruker(id);
+  async finnFeilBruker() {
+    let res1 = await brukerService.finnFeilTilBruker();
     this.rapporterteFeil = await res1.data;
     await console.log(res1.data);
+
+    let res4 = await brukerService.hentBruker(global.payload.user.bruker_id);
+    this.bruker = await {...res4.data};
+    await console.log(this.bruker);
   }
 
   async fjernFeil(id) {
