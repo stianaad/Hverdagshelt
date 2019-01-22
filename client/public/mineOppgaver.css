@@ -143,9 +143,23 @@
 }
 
 .ansattMenyContainer{
-    height: calc(100vh - 65px);
+    width: 150px !important; 
+    margin-top: 60px !important;
 }
 
 .vinduansatt{
     height: calc(100vh - 60px);
+}
+
+.ansattContent{
+    margin-left: 160px; 
+    margin-right: 10px;
+}
+
+.ansattSentrerTekst{
+    align-content: center;
+}
+
+.ansattSentrerTekst h1{
+    margin: auto;
 }

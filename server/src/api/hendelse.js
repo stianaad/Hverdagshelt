@@ -166,8 +166,49 @@ router.post("/api/hendelser/:hendelse_id/abonnement", checkToken, (req, res) => 
 router.delete("/api/hendelser/:hendelse_id/abonnement", checkToken, (req, res) => {
   let role = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
-  if (role == 'privat') {
+  if (role == 'privat' || role == 'admin') {
     hendelseDao.ikkeAbonnerHendelse({bruker_id: bruker_id, hendelse_id: req.body.hendelse_id}, (status, data) => {
+      res.status(status);
+      res.json(data);
+    });
+  } else {
+    res.status(403);
+    res.json({result: false});
+  }
+});
+
+router.post('/api/hendelser/hendelseskategorier', checkToken, (req, res) => {
+  let role = req.decoded.role;
+  if (role == 'admin') {
+    hendelseDao.nyHendelseskategori(req.body, (status, data) => {
+      res.status(status);
+      res.json(data);
+    });
+  } else {
+    res.status(403);
+    res.json({result: false});
+  }
+});
+
+router.put('/api/hendelser/hendelseskategorier/:hendelseskategori_id', checkToken, (req, res) => {
+  let role = req.decoded.role;
+  let a = {hendelseskategori_id: req.params.hendelseskategori_id, kategorinavn: req.body.kategorinavn}
+  if (role == 'admin') {
+    hendelseDao.oppdaterHendelseskategori(a, (status, data) => {
+      res.status(status);
+      res.json(data);
+    });
+  } else {
+    res.status(403);
+    res.json({result: false});
+  }
+});
+
+router.delete('/api/hendelser/hendelseskategorier/:hendelseskategori_id', checkToken, (req, res) => {
+  let role = req.decoded.role;
+  console.log(req.params);
+  if (role == 'admin') {
+    hendelseDao.slettHendelseskategori(req.params, (status, data) => {
       res.status(status);
       res.json(data);
     });
