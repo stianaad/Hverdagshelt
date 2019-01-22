@@ -186,10 +186,16 @@ module.exports = class BrukerDao extends Dao {
     });
   }
 
-  hentBruker(json, callback) {
+  hentBrukerPaaEpost(json, callback) {
+    let tabell = [json.epost];
+    console.log('hent bruker på epost, data:' + tabell);
+    super.query('SELECT * FROM bruker WHERE epost = ?', tabell, callback);
+  }
+
+  hentBrukerPaaid(json, callback) {
     let tabell = [json.bruker_id];
     console.log(tabell + 'bruker dao');
-    super.query('SELECT * FROM bruker WHERE bruker_id=?', tabell, callback);
+    super.query('SELECT * FROM bruker WHERE bruker_id = ?', tabell, callback);
   }
 
   hentBrukere(callback) {
