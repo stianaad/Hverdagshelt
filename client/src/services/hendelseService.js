@@ -18,7 +18,7 @@ class HendelseService {
   }
 
   lagNyHendelse(nyHendelse) {
-    return api.post('/api/hendelser/:hendelse_id', nyHendelse);
+    return api.post('/api/hendelser', nyHendelse);
   }
 
   slettHendelse(hendelse) {
