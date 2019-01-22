@@ -12,8 +12,8 @@ export class MeldFeil extends Component {
   kategoriene = [];
   subkategoriene = [];
   subkatfiltrert = [];
-  kominput = React.createRef();
   defaultKommune = null;
+  kommune = null;
 
   data = {
     overskrift: '',
@@ -41,7 +41,7 @@ export class MeldFeil extends Component {
               <label id="kommunelbl" htmlFor="kom">
                 Kommune:
               </label>
-              <KommuneInput ref={this.kominput} key={this.defaultKommune} kommune_id={this.defaultKommune}/>
+              <KommuneInput key={this.defaultKommune} kommune_id={this.defaultKommune} onChange={(e)=>{this.data.kommune_id = e.id; this.kommune = e.navn;}}/>
             </div>
             <div id="overskriftblokk">
             <label id="overskriftlbl" htmlFor="kom">
@@ -123,7 +123,7 @@ export class MeldFeil extends Component {
             <label id="poslbl" htmlFor="pos">
               Posisjon:
             </label>
-            <PositionMap width="100%" height="500px" id="posmap" center="Trondheim" position={this.posFunksjon} />
+            <PositionMap width="100%" height="500px" id="posmap" key={this.kommune} center={this.kommune} position={this.posFunksjon} />
           </div>
           <div id="sjekkboks">
             <div id="boksen">
@@ -193,7 +193,6 @@ export class MeldFeil extends Component {
 
     if(gyldig){
       let formData = new FormData();
-      this.data.kommune_id = this.kominput.current.verdi;
       formData.append('kommune_id', this.data.kommune_id);
       formData.append('overskrift', this.data.overskrift);
       formData.append('kategori_id', this.data.kategori_id.value);
