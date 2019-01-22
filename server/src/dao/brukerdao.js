@@ -25,7 +25,8 @@ module.exports = class BrukerDao extends Dao {
 
   lagNyBruker(json, callback) {
     const tabell = [json.epost, json.passord, json.kommune_id];
-    let gyldig = json.epost.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/ && json.kommune_id != null);
+    let gyldig = json.epost.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) && json.kommune_id != null;
+    console.log(gyldig)
     if (gyldig) {
       super.query('INSERT INTO bruker (bruker_id, epost, passord, kommune_id) VALUES(DEFAULT,?,?,?)', tabell, callback);
     } else {
@@ -35,8 +36,8 @@ module.exports = class BrukerDao extends Dao {
 
   //testes
   finnBruker_id(json, callback) {
-    let epost = [json.epost];
-    super.query('SELECT bruker_id FROM bruker WHERE epost=?', epost, callback);
+    let e = [json.epost];
+    super.query('SELECT bruker_id FROM bruker WHERE epost=?', e, callback);
   }
 
   finnFeilTilBruker(bruker_id, callback) {
