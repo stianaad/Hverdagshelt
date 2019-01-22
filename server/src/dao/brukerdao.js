@@ -146,9 +146,7 @@ module.exports = class BrukerDao extends Dao {
     self.finnBruker_id(json, (status, data) => {
       if (data.length == 0) {
         self.lagNyBruker(json, (status, data) => {
-          console.log(json.telefon.toString().length == 8); 
-          console.log(json.navn != null);
-          let gyldig = (self.kontrollOrgnr(json.orgnr) && json.telefon.length == 8 && json.navn != null);
+          let gyldig = (self.kontrollOrgnr(json.orgnr) && json.navn != null);
           if (status == 200 && gyldig) {
             super.query(
               'INSERT INTO bedrift (bruker_id, orgnr, navn, telefon) VALUES(?,?,?,?)',
