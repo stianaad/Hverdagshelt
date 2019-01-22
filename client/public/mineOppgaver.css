@@ -64,6 +64,28 @@
     
   }
 
+  .menyItem{
+      grid-area: meny; 
+  }
+
+  .toppItem{
+      grid-area: topp; 
+  }
+
+  .listeItem{
+      grid-area: liste; 
+  }
+
+  .cardItem{
+      grid-area: kort; 
+  }
+
+  .ansattGrid{
+      display: grid;
+      grid-template-areas: 
+        "meny topp topp topp topp"
+        "meny liste kort kort kort";
+  }
   .infoGrid{
       display: grid; 
       grid-template-areas: "a b c" "a b d"; 

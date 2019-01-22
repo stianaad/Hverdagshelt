@@ -26,7 +26,7 @@ export class AnsattFerdig extends Component{
                         <Grid.Column width="3">
                             <AnsattMeny/>
                         </Grid.Column>
-                        <Grid.Column width="14">
+                        <Grid.Column width="13">
                             <Grid stackable>
                                 <Grid.Row textAlign="center" centered>
                                     <h1 className="mt-3">Ferdige feil</h1>
