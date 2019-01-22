@@ -407,7 +407,6 @@ export class Info extends Component {
 }
 
 export class Filtrer extends Component {
-  
   render() {
     return (
       <div>

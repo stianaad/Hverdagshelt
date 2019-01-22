@@ -413,4 +413,99 @@ router.delete("/api/feil/:feil_id/abonnement", checkToken, (req, res) => {
   }
 });
 
+router.put('/api/hovedkategorier/:hovedkategori_id', checkToken, (req, res) => {
+  let role = req.decoded.role;
+  console.log('oppdater hovedkategori, rolle:' + role);
+  let a = {kategorinavn: req.body.kategorinavn, hovedkategori_id: req.params.hovedkategori_id};
+  if(role == 'admin') {
+    feilDao.oppdaterHovedkategori(a, (status, data) => {
+      console.log('Oppdater hovedkategori data: ' + data);
+      res.status(status);
+      res.json(data);
+    })
+  } else {
+    res.status(403);
+    res.json({result: false});
+  }
+});
+
+router.put('/api/subkategorier/:subkategori_id', checkToken, (req, res) => {
+  let role = req.decoded.role;
+  console.log('oppdater subkategori, rolle:' + role)
+  let a = {
+    kategorinavn: req.body.kategorinavn,
+    hovedkategori_id: req.body.hovedkategori_id,
+    subkategori_id: req.params.subkategori_id
+  };
+  if(role == 'admin') {
+    feilDao.oppdaterSubkategori(a, (status, data) => {
+      console.log('Oppdater subkategori data: ' + data);
+      res.status(status);
+      res.json(data);
+    })
+  } else {
+    res.status(403);
+    res.json({result: false});
+  }
+});
+
+router.post('/api/subkategorier', checkToken, (req, res) => {
+  let role = req.decoded.role;
+  console.log('ny subkategori, rolle:' + role)
+  if(role == 'admin') {
+    feilDao.nySubkategori(req.body, (status, data) => {
+      console.log('ny subkategori data: ' + data);
+      res.status(status);
+      res.json(data);
+    })
+  } else {
+    res.status(403);
+    res.json({result: false});
+  }
+});
+
+router.post('/api/hovedkategorier', checkToken, (req, res) => {
+  let role = req.decoded.role;
+  console.log('ny hovedkategori, rolle:' + role)
+  if(role == 'admin') {
+    feilDao.nySubkategori(req.body, (status, data) => {
+      console.log('ny hovedkategori data: ' + data);
+      res.status(status);
+      res.json(data);
+    })
+  } else {
+    res.status(403);
+    res.json({result: false});
+  }
+});
+
+router.delete('/api/hovedkategorier/:hovedkategori_id', checkToken, (req, res) => {
+  let role = req.decoded.role;
+  console.log('slette hovedkategori, rolle:' + role);
+  if(role == 'admin') {
+    feilDao.slettHovedkategori({hovedkategori_id: req.params.hovedkategori_id}, (status, data) => {
+      console.log('slett hovedkategori data:' + data);
+      res.status(status);
+      res.json(data);
+    });
+  } else {
+    res.status(403);
+    res.json({result: false});
+  }
+});
+
+router.delete('/api/subkategorier/:subkategori_id', checkToken, (req, res) => {
+  let role = req.decoded.role;
+  console.log('slette subkategori, rolle:' + role);
+  if(role == 'admin') {
+    feilDao.slettSubkategori({subkategori_id: req.params.subkategori_id}, (status, data) => {
+      console.log('slett subkategori data:' + data);
+      res.status(status);
+      res.json(data);
+    });
+  } else {
+    res.status(403);
+    res.json({result: false});
+  }
+});
 module.exports = router;
