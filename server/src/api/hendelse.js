@@ -34,7 +34,7 @@ router.get('/api/hendelser/:hendelse_id', (req, res) => {
   });
 });
 
-router.post('/api/hendelser/:hendelse_id', checkToken, (req, res) => {
+router.post('/api/hendelser', checkToken, (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk POST-request fra klienten');
   let rolle = req.decoded.role;
