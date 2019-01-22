@@ -120,10 +120,10 @@ router.get('/api/brukere/:bruker_id', (req, res) => {
 
   let a = {bruker_id: req.params.bruker_id};
 
-  brukerDao.hentBruker(a, (status, data) => {
+  brukerDao.hentBrukerPaaid(a, (status, data) => {
     res.status(status);
     res.json(data);
-    console.log('/hentBruker resultat:' + data);
+    console.log('/hentBrukerpaaid resultat:' + data);
   });
 });
 
@@ -142,7 +142,7 @@ router.post('/api/brukere/nyttpassord', checkToken, (req, res) => {
 });
 
 router.post('/api/brukere/glemtpassord', (req, res) => {
-  brukerDao.hentBruker(req.body, (status, data) => {
+  brukerDao.hentBrukerPaaid(req.body, (status, data) => {
     res.status(status);
     res.json(data);
     console.log('/glemtpassord - hentet bruker');
