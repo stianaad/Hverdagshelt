@@ -17,21 +17,13 @@ router.get('/api/hendelser', (req, res) => {
   });
 });
 
-router.get('/api/kommuner/hendelser/din/kommune',checkToken, (req, res) => {
+router.get('/api/kommuner/hendelser/:kommune_id', (req, res) => {
   console.log('Fikk GET-request fra klienten');
-  let role = req.decoded.role;
-  let kommune_id = req.decoded.user.kommune_id;
-  if (role == 'privat') {
-    hendelseDao.hentHendelseForKommune(kommune_id, (status, data) => {
-      res.status(status);
-      res.json(data);
-    });
-  } else {
-    res.status(403);
-    res.json({result: false});
-  }
+  hendelseDao.hentHendelseForKommune(req.params.kommune_id, (status, data) => {
+    res.status(status);
+    res.json(data);
+  });
 });
-
 
 router.get('/api/hendelser/:hendelse_id', (req, res) => {
   console.log('Fikk GET-request fra klienten');
