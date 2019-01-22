@@ -23,6 +23,10 @@ class BrukerService {
     return api.post('/api/brukere/admin', nyAdminBruker);
   }
 
+  hentBruker(bruker_id) {
+    return api.get('/api/brukere/'+ bruker_id);
+  }
+
   endrePassord(nyInformasjon) {
     console.log('endre');
     let token = sessionStorage.getItem('pollett');
@@ -83,7 +87,7 @@ class BrukerService {
   finnFolgteFeilTilBruker() {
     let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.get('/api/brukere/feil', {headers: {'x-access-token': 'Bearer ' + token}});
+      return api.get('/api/brukerfeil', {headers: {'x-access-token': 'Bearer ' + token}});
     } else {
       return [];
     }
@@ -92,7 +96,7 @@ class BrukerService {
   finnFolgteHendelserTilBruker() {
     let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.get('/api/brukere/hendelser', {headers: {'x-access-token': 'Bearer ' + token}});
+      return api.get('/api/brukerhendelser', {headers: {'x-access-token': 'Bearer ' + token}});
     } else {
       return [];
     }

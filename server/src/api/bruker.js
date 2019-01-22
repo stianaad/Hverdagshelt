@@ -114,6 +114,19 @@ router.post('/api/brukere/admin', checkToken, (req, res) => {
   }
 });
 
+router.get('/api/brukere/:bruker_id', (req, res) => {
+  if (!(req.body instanceof Object)) return res.sendStatus(400);
+  console.log('Fikk penis fra klienten');
+
+  let a = {bruker_id: req.params.bruker_id};
+
+  brukerDao.hentBruker(a, (status, data) => {
+    res.status(status);
+    res.json(data);
+    console.log('/hentBruker resultat:' + data);
+  });
+});
+
 router.post('/api/brukere/nyttpassord', checkToken, (req, res) => {
   passord(req.body.passord).hash((error, hash) => {
     if (error) {
@@ -190,8 +203,8 @@ router.get('/api/bruker/minside/sist/innlogget', checkToken, (req, res) => {
   }
 });
 
-router.get('/api/brukere/feil', checkToken, (req, res) => {
-  console.log('/api/bruker/feil fikk get request fra klient');
+router.get('/api/brukerfeil', checkToken, (req, res) => {
+  console.log('/api/brukerfeil fikk get request fra klient');
   let role = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
   if (role == 'privat') {
@@ -205,8 +218,8 @@ router.get('/api/brukere/feil', checkToken, (req, res) => {
   }
 });
 
-router.get('/api/brukere/hendelser', checkToken, (req, res) => {
-  console.log('/api/bruker/hendelser fikk get request fra klient');
+router.get('/api/brukerhendelser', checkToken, (req, res) => {
+  console.log('/api/brukerhendelser fikk get request fra klient');
   let role = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
   if (role == 'privat') {
