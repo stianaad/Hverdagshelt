@@ -17,7 +17,7 @@ router.get('/api/hendelser', (req, res) => {
   });
 });
 
-router.get('/api/kommuner/:kommune_id/hendelser',checkToken, (req, res) => {
+router.get('/api/kommuner/hendelser/din/kommune',checkToken, (req, res) => {
   console.log('Fikk GET-request fra klienten');
   let role = req.decoded.role;
   let kommune_id = req.decoded.user.kommune_id;

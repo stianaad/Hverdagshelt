@@ -253,7 +253,7 @@ export class Hendelser extends Component {
 	}
 
 	async mounted() {
-		let res1 = await hendelseService.hentAlleHendelser();
+		let res1 = await hendelseService.hentHendelserForKommune();
 		this.hendelser = await res1.data;
 		this.aktiveHendelser = await res1.data;
 

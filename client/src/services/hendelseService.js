@@ -5,8 +5,13 @@ class HendelseService {
     return api.get('/api/hendelser');
   }
 
-  hentHendelserForKommune(kommune_id) {
-    return api.get('/api/kommuner/'+kommune_id+'/hendelser');
+  hentHendelserForKommune() {
+    let token = sessionStorage.getItem('pollett');
+    if (token) {
+      return api.get('/api/kommuner/hendelser/din/kommune', {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return [];
+    }
   }
 
   hentEnHendelse(hendelse_id) {
