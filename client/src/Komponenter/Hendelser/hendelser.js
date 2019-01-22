@@ -8,6 +8,7 @@ import {Card, Feed, Grid, Button, Header, Icon, Image, Modal, Dropdown,Popup} fr
 import {PageHeader} from '../../Moduler/header/header';
 import { KommuneVelger } from '../../Moduler/KommuneVelger/kommuneVelger';
 import { isNullOrUndefined, isUndefined, isNumber } from 'util';
+import { brukerService } from '../../services/brukerService';
 
 export class Hendelser extends Component {
 	isOpen = false;
@@ -17,9 +18,10 @@ export class Hendelser extends Component {
     link = "/hendelser";
 	tider=[];
 	hjemKommune = '';
-    kommuner=[];
-		fylker=[];
-		finnKommuneId=[]
+	visFylke = false;
+	kommuner=[];
+	fylker=[];
+	finnKommuneId=[]
 
 		tilbakestill(){
 			// Pushe tilbake til siden? 
@@ -65,9 +67,15 @@ export class Hendelser extends Component {
     }
 
     filterKommune(e) {
-				let verdi = parseInt(e.target.value);
+			let verdi = parseInt(e.target.value);
+			if(verdi === 0){
+				this.aktiveHendelser = this.hendelser;
+				this.visFylke = false;
+			}else{
+				this.visFylke = true;
 				this.aktiveHendelser = this.hendelser.filter((kat) => kat.kommune_id === verdi);
-        this.aktiveHendelser= this.aktiveHendelser.filter((kat) => kat.kommune_id === verdi);
+				this.aktiveHendelser= this.aktiveHendelser.filter((kat) => kat.kommune_id === verdi);
+			}
 		}
 
 
@@ -113,15 +121,13 @@ export class Hendelser extends Component {
 					<select
 						onChange={this.filterKategori}
 						className="form-control right floated meta m-2"
-						style={{height: 30, width: 150}}
-						>
+						style={{height: 30, width: 150}}>
 						<option hidden> Kategori </option>
 						<option value="0"> Alle kategorier </option>
-						{this.hendelser.map((kategori) => (
+						{this.alleKategorier.map((kategori) => (
 						<option
 								value={kategori.kategorinavn}
-								key={kategori.kategorinavn}
-						>
+								key={kategori.kategorinavn}>
 								{' '}
 								{kategori.kategorinavn}
 						</option>
@@ -133,7 +139,8 @@ export class Hendelser extends Component {
 							className="form-control right floated meta m-2"
 							style={{height: 30, width: 150}}
 							>
-							<option hidden> Kommune </option>
+							{(this.hjemKommune.length>0) ? (<option hidden> {this.hjemKommune} </option>) :
+							<option hidden> Kommune </option>}
 							<option value="0"> Alle kommuner </option>
 							{this.kommuner.map((sted) => (
 							<option
@@ -168,10 +175,10 @@ export class Hendelser extends Component {
 					<select
 						onChange={this.filterFylke}
 						className="form-control right floated meta m-2"
-						style={{height: 30, width: 150}}
-						>
-						<option hidden> Fylke </option>
-						<option value="0"> Alle kommuner </option>
+						disabled={this.visFylke}
+						style={{height: 30, width: 150}}>
+						<option hidden> fylke </option>
+						<option value="0"> Alle Fylker </option>
 						{this.fylker.map((sted) => (
 						<option
 							value={sted.fylke_navn}
@@ -226,15 +233,7 @@ export class Hendelser extends Component {
 						overskrift = {hendelse.overskrift}
 						sted = {hendelse.sted}
 						tid = {hendelse.tid}
-					/>))}	
-					{this.aktiveHendelser.map(hendelse => (
-					<Hendelse
-						onClick={()=>location.href=this.link +"/"+ hendelse.hendelse_id}
-						bilde = {hendelse.bilde}
-						overskrift = {hendelse.overskrift}
-						sted = {hendelse.sted}
-						tid = {hendelse.tid}
-					/>))}		
+					/>))}			
 			</Card.Group>
         </div>
       );
@@ -243,14 +242,18 @@ export class Hendelser extends Component {
 	async hentData(){
 		let res2 = await generellServices.hentAlleKommuner();
 		this.kommuner = await res2.data;
-		//this.finnKommuneId = await res2.data;
-		
+		if(global.payload != null){
+			this.hjemKommune = global.payload.user.kommune_id;
+			let res1 = await res2.data.find(e => e.kommune_id == this.hjemKommune);
+			this.hjemKommune = res1.kommune_navn;
+			this.visFylke = true;
+		}
+
 		let res3 = await generellServices.hentAlleFylker();
 		this.fylker = await res3.data;
 
-		this.alleKategorier = this.aktiveHendelser.filter(
-			kat => kat.kategorinavn
-		);
+		let res4 = await hendelseService.hentAlleKategorier();
+		this.alleKategorier = await res4.data;
 	}
 
 	async mounted() {
@@ -258,10 +261,7 @@ export class Hendelser extends Component {
 		if(global.payload == null){
 			res1 = await hendelseService.hentAlleHendelser();
 		} else {
-			this.hjemKommune = global.payload.user.kommune_id;
 			res1 = await hendelseService.hentHendelserForKommune(global.payload.user.kommune_id);
-			this.hjemKommune = await res1.data.find(e => e.kommune_id == this.hjemKommune).kommune_navn;
-			await console.log(this.hjemKommune);
 		}
 		this.hendelser = await res1.data;
 		this.aktiveHendelser = await res1.data;
