@@ -276,4 +276,23 @@ module.exports = class BrukerDao extends Dao {
   hentBedrifter(callback) {
     super.query('SELECT * FROM bedrift', [], callback);
   }
-};
+
+  hentBrukerInfo(bruker_id, rolle, callback) {
+    switch (rolle) {
+      case 'privat':
+        super.query('SELECT fornavn, etternavn, epost, kommune_id, kommune_navn, sist_innlogget FROM bruker INNER JOIN privat USING (bruker_id) INNER JOIN kommuner USING(kommune_id) WHERE bruker_id = ?', [bruker_id], callback);
+        break;
+      case 'ansatt':
+        super.query('SELECT fornavn, etternavn, epost, telefon, kommune_id, kommune_navn FROM bruker INNER JOIN ansatt USING (bruker_id) INNER JOIN kommuner USING(kommune_id) WHERE bruker_id = ?', [bruker_id], callback);
+        break;
+      case 'bedrift':
+        super.query('SELECT epost, orgnr, navn, telefon, kommune_id, kommune_navn FROM bruker INNER JOIN bedrift USING (bruker_id) INNER JOIN kommuner USING(kommune_id) WHERE bruker_id = ?', [bruker_id], callback);
+        break;
+      case 'admin':
+        super.query('SELECT epost, telefon, navn, kommune_id, kommune_navn FROM bruker INNER JOIN admin USING (bruker_id) INNER JOIN kommuner USING(kommune_id) WHERE bruker_id = ?', [bruker_id], callback);
+        break;
+      default:
+        callback(403, {resultat: "feilet"});
+    }
+  }
+}
