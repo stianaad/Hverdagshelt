@@ -201,7 +201,7 @@ const routes = () => {
           <Route exact path="/" component={Forside} history={history} />
           <Route exact path="/hovedside/:kommune" component={Hovedside} history={history} />
           <Route exact path="/resett-passord/:token" component={ResettPassord} />
-          <Route exact path="/hendelser" component={Hendelser} />
+          <Route exact path="/hendelser" component={Hendelser}/>
           <Route exact path="/hendelser/:id" component={enHendelse} />
 
           {/*Under ligger spesielle routes*/}

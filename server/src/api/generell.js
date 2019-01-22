@@ -31,4 +31,12 @@ router.get('/api/filtrer/:sok', (req, res) => {
   });
 });
 
+router.get('/api/fylker', (req,res)=>{
+  console.log("hahaha");
+  generelldao.hentAlleFylker((status, data)=>{
+    res.status(status);
+    res.json(data);
+  });
+});
+
 module.exports = router;
