@@ -17,6 +17,8 @@ import {
   GridColumn,
   Dropdown,
   TextArea,
+  Sidebar,
+  Segment
 } from 'semantic-ui-react';
 import {FeedEvent, Filtrer, Info} from '../../Moduler/cardfeed';
 import {feilService} from '../../services/feilService';
@@ -25,23 +27,63 @@ import {NavLink} from 'react-router-dom';
 import {brukerService} from '../../services/brukerService';
 
 export class AnsattMeny extends Component {
-  state = { activeItem: 'Nye feil' }
-
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+  handleItemClick = name => this.setState({ activeItem: name });
 
   render() {
-    const { activeItem } = this.state;
+    const { activeItem } = this.state || {};
 
     return (
-        <div className="ansattMenyContainer">
-          <nav className="nav flex-column">
-            <NavLink className="nav-link active" to="/ansattest">Nye feil</NavLink>
-            <NavLink className="nav-link active" to="/ferdigtest">Utførte feil</NavLink>
-            <NavLink className="nav-link active" to="/nyhendelsetest">Ny hendelse</NavLink>
-            <NavLink className="nav-link active" to="/">Test</NavLink>
-          </nav>
-        </div>
-    );
+      <div>
+        <Menu vertical className="ansattMenyContainer">
+          <Menu.Item>
+            <Menu.Header>Feil og mangler</Menu.Header>
+
+            <Menu.Menu>
+              <NavLink exact to="/ansattest">
+                <Menu.Item
+                  name='Oversikt'
+                  active={activeItem === 'Oversikt'}
+                  onClick={this.handleItemClick}
+                />
+              </NavLink>
+              <Menu.Item
+                name='Nye feil'
+                active={activeItem === 'Nye feil'}
+                onClick={this.handleItemClick}
+              />
+              <Menu.Item
+                name='Under arbeid'
+                active={activeItem === 'Under behandling'}
+                onClick={this.handleItemClick}
+              />
+              <Menu.Item
+                name='Ferdig'
+                active={activeItem === 'Ferdig'}
+                onClick={this.handleItemClick}
+              />
+            </Menu.Menu>
+            
+          </Menu.Item>
+
+          <Menu.Item>
+            <Menu.Header>Hendelser</Menu.Header>
+
+            <Menu.Menu>
+              <Menu.Item
+                name='Alle hendelser'
+                active={activeItem === 'Alle hendelser'}
+                onClick={this.handleItemClick}
+              />
+              <Menu.Item
+                name='Ny hendelse'
+                active={activeItem === 'Ny hendelse'}
+                onClick={this.handleItemClick}
+              />
+            </Menu.Menu>
+          </Menu.Item>
+        </Menu>
+      </div>
+    )
   }
 }
 
@@ -100,10 +142,10 @@ export class NyeFeil extends Component {
         </Modal>
         <div className="vinduansatt">
             <Grid>
-                <Grid.Column width="2">
+                <Grid.Column width="3">
                     <AnsattMeny/>
                 </Grid.Column>
-                <Grid.Column width="13">
+                <Grid.Column fluid width="13">
                   <Grid stackable>
                     <Grid.Row textAlign="center" centered>
                         <h1 className="mt-3">Nye feil</h1>
@@ -134,7 +176,7 @@ export class NyeFeil extends Component {
                     </Grid.Column>
                     <Grid.Column width="11">
                       {this.feilApen ? (
-                        <div className="feilDiv">
+                        <div className="ansattFeilVisning">
                         <Card fluid>
                           <Card.Content>
                             <div>
@@ -189,7 +231,7 @@ export class NyeFeil extends Component {
                   </Grid>
                 </Grid.Column>
             </Grid>
-        </div>
+          </div>
       </div>
     );
   }

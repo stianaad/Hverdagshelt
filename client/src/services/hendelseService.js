@@ -18,7 +18,7 @@ class HendelseService {
   }
 
   lagNyHendelse(nyHendelse) {
-    return api.post('/api/hendelser/:hendelse_id', nyHendelse);
+    return api.post('/api/hendelser', nyHendelse);
   }
 
   slettHendelse(hendelse) {
@@ -35,6 +35,10 @@ class HendelseService {
 
   hentAlleHovedkategorier() {
     return api.get('/api/hendelser/hovedkategorier');
+  }
+
+  hentAlleKategorier(){
+    return api.get('api/hendelseskat');
   }
 }
 

@@ -201,7 +201,7 @@ const routes = () => {
           <Route exact path="/" component={Forside} history={history} />
           <Route exact path="/hovedside/:kommune" component={Hovedside} history={history} />
           <Route exact path="/resett-passord/:token" component={ResettPassord} />
-          <Route exact path="/hendelser" component={Hendelser} />
+          <Route exact path="/hendelser" component={Hendelser}/>
           <Route exact path="/hendelser/:id" component={enHendelse} />
 
           {/*Under ligger spesielle routes*/}
@@ -225,7 +225,8 @@ const routes = () => {
               [
                 <Route exact path="/mineoppgaver" component={MineOppgaver} history={history} />,
                 <Route exact path="/registrerBedrift" component={RegistrerBedrift} history={history} />,
-                <Route exact path="/ansattside" component={AnsattSide} history={history} />,
+                <Route exact path="/ansattside" component={NyeFeil} history={history}/>,
+                <Route exact path="/ansatt/nyhendelse" component={NyHendelse} history={history}/>
               ]
             : global.payload.role == 'bedrift'
             ? //Bedrift routes

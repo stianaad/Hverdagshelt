@@ -427,28 +427,57 @@ export class Filtrer extends Component {
 }
 
 //For hendelse siden
-export class Hendelse extends Component {
-  render() {
-    return (
-      <Card>
-        <Image src={this.props.bilde} onClick={this.props.onClick} size="medium" />
-        <Card.Content>
-          <a onClick={this.props.onClick}>
-            <Card.Header>{this.props.overskrift}</Card.Header>
-            <Card.Meta>
-              <span className="date">
-                {this.props.sted} {this.props.tid}
-              </span>
-            </Card.Meta>
-            <Card.Description>{this.props.beskrivelse}</Card.Description>
-          </a>
-        </Card.Content>
-        <Card.Content extra>
-          <div className="ui two buttons">
-            <Button positive>Følg</Button>
-          </div>
-        </Card.Content>
-      </Card>
-    );
-  }
+export class Hendelse extends Component{
+    dato(tid){
+        let innKommendeDato = tid.substr(0,10);
+        let innKommendeKlokkeslett = tid.substr(11,16);
+        let iDag = new Date();
+        let dd = iDag.getDate();
+        let mm = iDag.getMonth()+1; //January is 0!
+        let yyyy = iDag.getFullYear();
+
+        if(dd<10) {
+            dd = '0'+dd
+        } 
+
+        if(mm<10) {
+            mm = '0'+mm
+        } 
+        //iDag = yyyy + '-' + mm + '-' + dd;
+        iDag = yyyy + '-' + mm + '-' + dd;
+        let iGaar = yyyy + '-' + mm + '-' + (dd-1);
+
+        if(innKommendeDato===iDag){
+            iDag="I dag "+innKommendeKlokkeslett;
+        } else if(iGaar === innKommendeDato){
+            iDag ="I går "+innKommendeKlokkeslett;
+        } else{
+            iDag= tid;
+        }
+        return(<Feed.Date content={iDag}/>)
+    }
+    render(){
+        return(
+            <Card>
+            <Image src={this.props.bilde} onClick={this.props.onClick} rounded />
+            <Card.Content>
+            <a onClick={this.props.onClick}>
+              <Card.Header>{this.props.overskrift}</Card.Header>
+              <Card.Meta>
+                <span className='date'>{this.props.sted} {this.dato(this.props.tid)}</span>
+              </Card.Meta>
+              <Card.Description>{this.props.beskrivelse}</Card.Description>
+              </a>
+            </Card.Content>
+            <Card.Content extra>
+             <div className='ui two buttons'>
+             <Button positive>
+                Følg
+             </Button>
+             </div>
+            </Card.Content>
+          </Card>
+        );
+    }
+
 }

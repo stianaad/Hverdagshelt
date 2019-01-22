@@ -34,12 +34,12 @@ router.get('/api/hendelser/:hendelse_id', (req, res) => {
   });
 });
 
-router.post('/api/hendelser/:hendelse_id', checkToken, (req, res) => {
+router.post('/api/hendelser', checkToken, (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk POST-request fra klienten');
   let rolle = req.decoded.role;
 
-  if(rolle == 'ansatt' || rolle == 'admin') {
+  if(rolle == 'ansatt' && req.decoded.user.kommune_id == req.body.kommune_id || rolle == 'admin') {
     let a = {
       bruker_id: req.decoded.user.bruker_id,
       hendelseskategori_id: req.body.hendelseskategori_id,
@@ -68,7 +68,7 @@ router.put('/api/hendelser/:hendelse_id', checkToken, (req, res) => {
   console.log('Fikk POST-request fra klienten');
   let role = req.decoded.role;
 
-  if(role == 'ansatt' || role == 'admin') {
+  if(role == 'ansatt' && req.decoded.user.kommune_id == req.body.kommune_id || role == 'admin') {
     let a = {
       hendelseskategori_id: req.body.hendelseskategori_id,
       kommune_id: req.body.kommune_id,
@@ -96,7 +96,7 @@ router.delete('/api/hendelser/:hendelse_id', checkToken, (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk POST-request fra klienten');
   
-  if(req.decoded.role == 'admin' || req.decoded.role == 'ansatt') {
+  if(req.decoded.role == 'admin' || req.decoded.role == 'ansatt' && req.decoded.user.kommune_id == req.body.kommune_id) {
     hendelseDao.slettHendelse(req.body, (status, data) => {
       console.log('Slettet en hendelse');
       res.status(status);
@@ -135,6 +135,17 @@ router.get('/api/hendelser/hovedkategorier', (req, res) => {
     res.status(status);
     res.json(data);
     console.log('/hentAlleHovedkategorier lengde: ' + data.length);
+  });
+});
+
+router.get('/api/hendelseskat', (req, res) => {
+  if (!(req.body instanceof Object)) return res.sendStatus(400);
+  console.log('Fikk GET-request fra klienten (hent alle kategorier)');
+
+  hendelseDao.hentAlleKategorier((status, data) => {
+    res.status(status);
+    res.json(data); 
+    console.log('/hentAlleKategorier lengde: ' + data.length);
   });
 });
 
