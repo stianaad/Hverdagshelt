@@ -224,7 +224,7 @@ const routes = () => {
               [
                 <Route exact path="/mineoppgaver" component={MineOppgaver} history={history} />,
                 <Route exact path="/registrerBedrift" component={RegistrerBedrift} history={history} />,
-                <Route exact path="/ansattside" component={NyeFeil} history={history}/>,
+                <Route exact path="/ansatt/nyefeil" component={NyeFeil} history={history}/>,
                 <Route exact path="/ansatt/nyhendelse" component={NyHendelse} history={history}/>
               ]
             : global.payload.role == 'bedrift'

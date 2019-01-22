@@ -343,6 +343,9 @@ export class PositionMap extends Component {
           draggable: !L.Browser.mobile,
         }).addTo(this.map);
       }
+      else {
+        this.marker.setLatLng(this.map.getCenter());
+      }
     });
   }
 

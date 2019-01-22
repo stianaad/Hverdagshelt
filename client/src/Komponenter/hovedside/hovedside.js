@@ -148,7 +148,7 @@ export class Hovedside extends Component {
 
           <h1 className="text-center text-capitalize display-4">{this.props.match.params.kommune} </h1>
 
-          <Link to="/meldfeil">
+          <Link to={this.kommune ? "/meldfeil?k="+this.kommune.kommune_id : "/meldfeil"}>
             <Button color="red" size="large">
               Meld inn feil
             </Button>
@@ -173,7 +173,7 @@ export class Hovedside extends Component {
         </div>
         {!this.visHendelser ? (
           <div className="row mt-4 hovedContainer ml-1 mr-1">
-            <div className="col-sm-3" id="hovedFeil">
+            <div className="col-md-auto" id="hovedFeil">
               {/**
                       *NYLIGE FEIL
                       *NYLIGE FEIL
@@ -218,29 +218,29 @@ export class Hovedside extends Component {
               </Card>
             </div>
             {this.visFeil ? (
-              <div className="col-sm-9 feilInfo">
+              <div className="col feilInfo">
               
                 <Card fluid>
                   <Card.Content extra style={{height:"120px", color:"black"}}>
                     <div>
                       <h1>
                         {this.feil.overskrift}
-                        <NavLink
-                          to={'/hovedside/' + this.props.match.params.kommune}
+                        <img
                           onClick={() => {
-                            this.visFeil = false;
                             if (this.mobView == "#hovedFeil") {
                               document.querySelector("#hovedFeil").style.display="block";
+                              this.mobileView("#hovedFeil");
+                            }
+                            else {
+                              this.visFeil = false;
                             }
                           }}
-                        >
-                          <img
-                            className="float-right"
-                            src="https://image.freepik.com/free-icon/x_318-27992.jpg"
-                            width="20"
-                            height="20"
-                          />
-                        </NavLink>
+                          src="https://image.freepik.com/free-icon/x_318-27992.jpg"
+                          width="20"
+                          height="20"
+                          style={{cursor:"pointer", float:"right"}}
+                        />
+                        {/*</Link>*/}
                       </h1>
                       <h6>
                         Status: {this.feil.status} <img src={this.statusIkon} width="30" height="30" />
@@ -319,20 +319,20 @@ export class Hovedside extends Component {
                 KART
               */
               <>
-                <div className="col-sm-6 text-center" id="hovedKart">
+                <div className="col text-center" id="hovedKart">
                   <div id="mapContainer">
                     <MarkerMap
                       key={this.props.match.params.kommune}
                       width="100%"
                       height="100%"
-                      id="test"
+f                      id="test"
                       center={this.props.match.params.kommune}
                       callback={this.callMap}
                       onRef={(ref) => (this.kart = ref)}
                     />
                   </div>
                 </div>
-                <div className="col-sm-3" id="hovedHendelser">
+                <div className="col-md-auto" id="hovedHendelser">
                   {/**
                     *KOMMENDE HENDELSER
                     *KOMMENDE HENDELSER

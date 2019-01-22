@@ -111,24 +111,6 @@ test('legg til ny privatbruker', (done) => {
   brukerdao.lagNyPrivatBruker(testprivatBruker, callback);
 });
 
-test('legg til ny ansattbruker', (done) => {
-  function callback(status, data) {
-    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
-    expect(data.affectedRows).toBe(1);
-    done();
-  }
-  brukerdao.lagNyAnsattBruker(testAnsattbruker, callback);
-});
-
-test('legg til ny bedriftbruker', (done) => {
-  function callback(status, data) {
-    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
-    expect(data.affectedRows).toBe(1);
-    done();
-  }
-  brukerdao.lagNyBedriftBruker(testBedriftbruker, callback);
-});
-
 test('legg til ny adminbruker', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
@@ -156,6 +138,15 @@ test('hent brukerid', (done) => {
   brukerdao.finnBruker_id({epost: 'epost10@hotmail.com'}, callback);
 });
 
+test('legg til ny bedriftbruker', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  brukerdao.lagNyBedriftBruker(testBedriftbruker, callback);
+});
+
 test('endre passord', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
@@ -163,6 +154,15 @@ test('endre passord', (done) => {
     done();
   }
   brukerdao.endrePassord({epost: 'epost9@hotmail.com', passord: 'veldighemmelig'}, callback);
+});
+
+test('legg til ny ansattbruker', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  brukerdao.lagNyAnsattBruker(testAnsattbruker, callback);
 });
 
 //FEILTESTER

@@ -49,8 +49,17 @@
     margin-top:20px;
 }
 
+/*.hovedContainer > div[class*="col-"]:not(#hovedHendelser) {
+    margin-top:20px;
+}*/
+
+
 .hovedContainer > div[class*="col-"]:not(#hovedKart):not(.feilInfo) {
     display:none;
+}
+
+.feilInfo {
+    margin-top: 20px;
 }
 
 .mobileButtons {
@@ -95,3 +104,10 @@
     transform: translateY(-55%);
 }
 
+.feilInfo {
+    -webkit-overflow-scrolling: touch;
+}
+
+.feilInfo h1 {
+    font-size: 5vw;
+}

@@ -5,14 +5,16 @@ module.exports = class HendelseDao extends Dao {
   //testes
   hentAlleHendelser(callback) {
     super.query(
-      "SELECT hendelse_id,overskrift, kommune_id,DATE_FORMAT(tid, '%Y-%m-%d %H:%i') AS tid,beskrivelse,sted,bilde, lengdegrad, breddegrad,kategorinavn FROM hendelser,hendelseskategori WHERE hendelser.hendelseskategori_id = hendelseskategori.hendelseskategori_id",
+      "SELECT hendelse_id,overskrift, hendelser.kommune_id,fylke_navn,DATE_FORMAT(tid, '%Y-%m-%d %H:%i') AS tid,beskrivelse,sted,bilde, lengdegrad, breddegrad,kategorinavn FROM hendelser,hendelseskategori,kommuner WHERE hendelser.hendelseskategori_id = hendelseskategori.hendelseskategori_id AND kommuner.kommune_id=hendelser.kommune_id",
       null,
       callback
     );
   }
 
   hentHendelseForKommune(kommune_id, callback) {
-    super.query('SELECT * FROM hendelser WHERE kommune_id = ?', [kommune_id], callback);
+    super.query("SELECT hendelse_id,overskrift,kommune_navn, hendelser.kommune_id,fylke_navn,DATE_FORMAT(tid, '%Y-%m-%d %H:%i') AS tid,beskrivelse,sted,bilde, lengdegrad, breddegrad,kategorinavn FROM hendelser,hendelseskategori,kommuner WHERE hendelser.hendelseskategori_id = hendelseskategori.hendelseskategori_id AND kommuner.kommune_id=hendelser.kommune_id AND hendelser.kommune_id=?",
+     [kommune_id], 
+     callback);
   }
 
   //testes
@@ -95,12 +97,20 @@ module.exports = class HendelseDao extends Dao {
     );
   }
 
-  hentAlleHovedkategorier(callback) {
-    super.query('SELECT * FROM hovedkategori', null, callback);
-  }
-
   hentAlleKategorier(callback){
     super.query('SELECT * FROM hendelseskategori', null, callback);
+  }
+
+  nyHendelseskategori(json, callback) {
+    super.query('INSERT INTO hendelseskategori (kategorinavn) VALUES (?)', [json.kategorinavn], callback);
+  }
+
+  oppdaterHendelseskategori(json, callback) {
+    super.query('UPDATE hendelseskategori SET kategorinavn = ? WHERE hendelseskategori_id = ?', [json.kategorinavn, json.hendelseskategori_id], callback);
+  }
+
+  slettHendelseskategori(json, callback) {
+    super.query('DELETE FROM hendelseskategori WHERE hendelseskategori_id = ?', [json.hendelseskategori_id], callback);
   }
 
   abonnerHendelse(json, callback) {

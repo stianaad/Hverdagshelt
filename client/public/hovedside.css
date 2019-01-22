@@ -66,6 +66,7 @@ nav ul{
 
 .hovedKort {
    height: 100%;
+   width: 325px !important;
 }
 
 #mapContainer {
@@ -80,11 +81,11 @@ nav ul{
    height: calc(100vh - 200px);
 }
 
-.hovedContainer > div[class*="col-"] {
+/*.hovedContainer > div[class*="col-"] {
    min-width: 200px;
    margin-bottom: 1rem;
    display: default;
-}
+}*/
 
 .mobileButtons {
    display:none;

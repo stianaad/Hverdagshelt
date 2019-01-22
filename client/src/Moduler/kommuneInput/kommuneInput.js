@@ -59,6 +59,7 @@ export class KommuneInput extends Component {
       this.verdi = this.kommuner_filtrert[index].kommune_id;
       this.valgt_index = index;
       this.sok = this.kommuner_filtrert[index].kommune_navn;
+      this.props.onChange && this.props.onChange({navn: this.sok, id: this.verdi});
     }
   }
 
@@ -72,6 +73,7 @@ export class KommuneInput extends Component {
     if (this.props.kommune_id) {
       this.verdi = this.props.kommune_id;
       this.sok = await res.data.find((kommune) => kommune.kommune_id==this.verdi).kommune_navn;
+      await this.props.onChange && this.props.onChange({navn: this.sok, id: this.verdi});
     }
   }
 

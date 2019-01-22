@@ -6,14 +6,12 @@ import {
   Feed,
   Modal,
   Grid,
-  GridColumn,
   Segment,
   Image,
   Button,
   Popup,
   Header,
   Form,
-  Dropdown,
   TextArea,
 } from 'semantic-ui-react';
 
@@ -407,7 +405,6 @@ export class Info extends Component {
 }
 
 export class Filtrer extends Component {
-  
   render() {
     return (
       <div>
@@ -425,6 +422,26 @@ export class Filtrer extends Component {
     );
   }
 }
+
+export class KatDropdown extends Component {
+  
+  render() {
+    return (
+      <div>
+        <select onChange={this.props.onChange} style={{height: 30, width: 120}} className="rigth floated form-control">
+          <option hidden value={this.props.valgt.kategorinavn}>{this.props.valgt.kategorinavn}</option>
+          {this.props.alleKategorier.map( filtrer => (
+            <option value={filtrer.kategorinavn} key={filtrer.kategorinavn}>
+            {' '}
+            {filtrer.kategorinavn}
+          </option>
+          ))}
+        </select>
+      </div>
+    );
+  }
+}
+
 
 //For hendelse siden
 export class Hendelse extends Component{
@@ -458,8 +475,24 @@ export class Hendelse extends Component{
     }
     render(){
         return(
-            <Card>
-            <Image src={this.props.bilde} onClick={this.props.onClick} rounded />
+              <Card className="feilCard" raised>
+                <Image src={this.props.bilde} className="feilCardImage" />
+                <Card.Content>
+                  <Card.Header>{this.props.overskrift}</Card.Header>
+                  <Card.Description>
+                    <img
+                      className="mr-2"
+                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Simple_icon_time.svg/750px-Simple_icon_time.svg.png"
+                      height="20"
+                      width="25"
+                    />
+                    {this.props.tid}
+                    <br/>
+                    {this.props.sted}
+                  </Card.Description>
+                </Card.Content>
+              </Card>
+            /*<Image src={this.props.bilde} onClick={this.props.onClick} rounded />
             <Card.Content>
             <a onClick={this.props.onClick}>
               <Card.Header>{this.props.overskrift}</Card.Header>
@@ -475,8 +508,7 @@ export class Hendelse extends Component{
                 Følg
              </Button>
              </div>
-            </Card.Content>
-          </Card>
+        </Card.Content>*/
         );
     }
 
