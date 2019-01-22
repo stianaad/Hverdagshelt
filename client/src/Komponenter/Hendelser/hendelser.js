@@ -257,6 +257,8 @@ export class Hendelser extends Component {
 		this.hendelser = await res1.data;
 		this.aktiveHendelser = await res1.data;
 
+		console.log(global.payload.user.kommune_id);
+
 		/*this.tider = this.aktiveHendelser.map(
 			kat => kat.tid
 		);
