@@ -64,6 +64,28 @@
     
   }
 
+  .menyItem{
+      grid-area: meny; 
+  }
+
+  .toppItem{
+      grid-area: topp; 
+  }
+
+  .listeItem{
+      grid-area: liste; 
+  }
+
+  .cardItem{
+      grid-area: kort; 
+  }
+
+  .ansattGrid{
+      display: grid;
+      grid-template-areas: 
+        "meny topp topp topp topp"
+        "meny liste kort kort kort";
+  }
   .infoGrid{
       display: grid; 
       grid-template-areas: "a b c" "a b d"; 
@@ -95,23 +117,33 @@
 }
 
 .ansattScroll{
-    height: 350px;
+    height: calc(100vh - 200px);
     overflow-y: scroll; 
 }
 
+.ansattFeilVisning{
+    height: calc(100vh - 200px);
+}
+
 .bilder{
+    cursor: pointer;
     width: 70px;
     height: 70px; 
     object-fit: cover;
 }
 
-.bildevisning{
-    height: 400px;
+.bildevisning {
+    max-height: 70vh;
+    max-width: 70vw;
+}
+
+.modalwidth {
+    width: max-content !important;
+    height: max-content !important;
 }
 
 .ansattMenyContainer{
-    background-color: white;
-    margin-left: 10px; 
+    height: calc(100vh - 65px);
 }
 
 .vinduansatt{

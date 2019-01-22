@@ -10,8 +10,13 @@ import {Card, Feed, Grid, Button, Header, Icon, Image, Modal, GridColumn, List} 
 import {FeedEvent, FeedHendelse, Filtrer, Info} from '../../Moduler/cardfeed';
 import { brukerService } from '../../services/brukerService';
 import { AbonnerKnapp } from '../../Moduler/abonner/abonner';
+import {FireNullFire} from '../firenullfire/firenullfire';
+import { InfoBoks } from '../../Moduler/info/info';
 
 export class Hovedside extends Component {
+  kommune = {};
+  feilKategori = "0";
+
   visFeil = false;
   alleFeil = [];
   alleKategorier = [];
@@ -20,6 +25,7 @@ export class Hovedside extends Component {
   alleHendelser = [];
   visHendelser = false;
   bilderTilFeil = [];
+  bildeModal = null;
   statusIkon = '';
   markers = [];
   mobView = "#hovedtittelanchor";
@@ -41,7 +47,8 @@ export class Hovedside extends Component {
 
   state = {open: false};
 
-  handleOpen = () => {
+  handleOpen = (url) => {
+    this.bildeModal = url;
     this.setState({open: true});
   };
   handleClose = () => {
@@ -133,6 +140,7 @@ export class Hovedside extends Component {
   }
 
   render() {
+    if (this.kommune == null) return (<FireNullFire />);
     return (
       <div>
         <PageHeader history={this.props.history} location={this.props.location} />
@@ -175,8 +183,9 @@ export class Hovedside extends Component {
                 <Card.Content>
                   <Card.Header>
                     Nylige feil og mangler
+                    <InfoBoks tekst="Her finner du alle nye feil på infrastruktur i kommunen." />
                     <select
-                      onChange={this.filter}
+                      onChange={(e) => {this.feilKategori = e.target.value;}}
                       className="form-control right floated meta"
                       style={{height: "30px", width: "100%", marginTop:"10px"}}
                     >
@@ -193,7 +202,7 @@ export class Hovedside extends Component {
                 </Card.Content>
                 <Card.Content className='hovedsideTabeller'>
                   <Feed>
-                    {this.aktiveFeil.map((feil) => (
+                    {this.alleFeil.filter((feil) => (this.feilKategori == feil.kategorinavn) || this.feilKategori == "0").map((feil) => (
                       <FeedEvent
                         onClick={() => this.merInfo(feil)}
                         status={feil.status}
@@ -282,21 +291,23 @@ export class Hovedside extends Component {
                           </List>
                         </div>
                         <br />
-                        <Image.Group size="tiny">
-                          <Image src="/lofoten.jpg" onClick={this.handleOpen} />
-                          <Image src="/lofoten.jpg" onClick={this.handleOpen} />
-                          <Image src="/lofoten.jpg" onClick={this.handleOpen} />
-                          <Image src="/lofoten.jpg" onClick={this.handleOpen} />
-                          <Image src="/lofoten.jpg" onClick={this.handleOpen} />
-                          <Image src="/lofoten.jpg" onClick={this.handleOpen} />
-                        </Image.Group>
+                        <h6>Bilder:</h6>
+                        <Grid columns={5} fluid>
+                          {this.bilderTilFeil.map((bilde) => (
+                            <Grid.Column>
+                              <div onClick={() => this.visBilde(bilde.url)}>
+                                <img src={bilde.url} key={bilde.bilde_id} className="bilder" onClick={() => {this.handleOpen(bilde.url)}}/>
+                              </div>
+                            </Grid.Column>
+                          ))}
+                        </Grid>
                       </Grid.Column>
                     </Grid>
                   </Card.Content>
                 </Card>
-                <Modal open={this.state.open} onClose={this.handleClose}>
+                <Modal open={this.state.open} onClose={this.handleClose} basic centered className="modalwidth">
                   <Modal.Content>
-                    <Image src="/lofoten.jpg" />
+                      <img src={this.bildeModal} className="bildevisning"/>
                   </Modal.Content>
                 </Modal>
               
@@ -329,12 +340,24 @@ export class Hovedside extends Component {
                   */}
                   <Card fluid className="hovedKort">
                     <Card.Content>
-                      <Card.Header>
-                        <Grid>
-                          <Grid.Column width={12}>Kommende hendelser</Grid.Column>
-                          <Grid.Column width={4} />
-                        </Grid>
-                      </Card.Header>
+                    <Card.Header>
+                    Kommende hendelser
+                    <InfoBoks tekst="Her finner du kulturarrangementer og planlagt arbeid på infrastruktur for kommunen." />
+                    <select
+                      onChange={(e) => {this.feilKategori = e.target.value;}}
+                      className="form-control right floated meta"
+                      style={{height: "30px", width: "100%", marginTop:"10px"}}
+                    >
+                      <option hidden> Filter </option>
+                      <option value="0"> Alle kategorier </option>
+                      {this.alleKategorier.map((kategori) => (
+                        <option value={kategori.kategorinavn} key={kategori.kategorinavn}>
+                          {' '}
+                          {kategori.kategorinavn}
+                        </option>
+                      ))}
+                    </select>
+                  </Card.Header>
                     </Card.Content>
                     <Card.Content className='hovedsideTabeller'>
                       <Feed>
@@ -470,69 +493,37 @@ export class Hovedside extends Component {
     );
   }
 
-  async callMap() {
-    let res1 = await feilService.hentAlleFeil();
-    await Promise.all([res1]).then(() => {
-      this.kart.addMarkers(res1.data);
-    });
+  callMap() {
+    this.kart.addMarkers(this.alleFeil);
   }
 
   async mounted() {
-    /*let res1 = await feilService.hentAlleFeil();
-    this.alleFeil = await res1.data;
-    this.aktiveFeil = await res1.data;
+    this.visFeil = false;
 
-    let res2 = await feilService.hentAlleHovedkategorier();
-    this.alleKategorier = await res2.data;
+    let res = await generellServices.sokKommune(this.props.match.params.kommune);
+    await Promise.resolve(res.data).then(async () => {
+      if (res.data.length > 0) {
+        this.kommune = res.data[0];
 
-    let res3 = await hendelseService.hentAlleHendelser();
-    this.alleHendelser = await res3.data;*/
-    let res1 = await feilService.hentAlleFeil(),
-      res2 = await feilService.hentAlleHovedkategorier(),
-      res3 = await hendelseService.hentAlleHendelser();
+        let res1 = await feilService.hentFeilForKommune(this.kommune.kommune_id),
+            res2 = await feilService.hentAlleHovedkategorier(),
+            res3 = await hendelseService.hentHendelserForKommune(this.kommune.kommune_id);
 
-    [this.alleFeil, this.aktiveFeil, this.alleKategorier, this.alleHendelser] = await Promise.all([
-      res1.data,
-      res1.data,
-      res2.data,
-      res3.data,
-    ]);
+        [this.alleFeil, this.aktiveFeil, this.alleKategorier, this.alleHendelser] = await Promise.all([
+          res1.data,
+          res1.data,
+          res2.data,
+          res3.data,
+        ]);
+    
+        await Promise.all([res1.data]).then(() => {
+          this.kart.addMarkers(res1.data);
+        });
 
-    await Promise.all([res1.data]).then(() => {
-      this.kart.addMarkers(res1.data);
+      } else {
+        this.kommune = null;
+      }
     });
   }
 }
 
-class Tabell extends Component {
-  render() {
-    return (
-      <div className="ml-3">
-        <h5>{this.props.hovedOverskrift}</h5>
-        <br />
-        <div className="kanter">
-          <nav>
-            <ul className="list-group">
-              <li className="kanter lister">I dag</li>
-              {this.props.tabell.map((tabell) => (
-                <li className="kanter lister">
-                  <NavLink
-                    to={'/hovedside/' + this.props.kommune}
-                    onClick={() => {
-                      this.props.metode(tabell.overskrift);
-                    }}
-                  >
-                    {tabell.overskrift}
-                    <br />
-                    <i>{this.props.tema}</i>
-                    <span className="float-right">{tabell.tid}</span>
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </div>
-      </div>
-    );
-  }
-}

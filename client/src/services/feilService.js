@@ -9,34 +9,56 @@ class FeilService {
     return api.get('/api/feil/:feil_id', feil_id);
   }
 
+  hentFeilForKommune(kommune_id) {
+    return api.get('/api/kommuner/'+kommune_id+'/feil');
+  }
+
   hentBilderTilFeil(feil_id) {
     return api.get('/api/feil/' + feil_id + '/bilder');
   }
 
   lagNyFeil(nyFeil) {
-    return api.post('/api/feil', nyFeil);
+    let token = sessionStorage.getItem('pollett');
+    if (token) {
+      return api.post('/api/feil', nyFeil, {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      console.log('ny feil feilet');
+      return [];
+    }
   }
 
-  oppdaterFeil(oppdatertFeil) {
-    return api.put('/api/feil/:feil_id', oppdatertFeil);
+  oppdaterFeil(oppdatertFeil, feil_id) {
+    let token = sessionStorage.getItem('pollett');
+    if (token) {
+      return api.put('/api/feil/' + feil_id, nyOpp, {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      console.log('oppdatertfeil, token feil');
+      return [];
+    }
   }
 
   slettFeil(feil_id) {
-    return api.delete('/api/feil/' + feil_id);
+    let token = sessionStorage.getItem('pollett');
+    if(token) {
+      return api.delete('/api/feil/' + feil_id, {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return [];
+      console.log('æsjebæsj, token dæsj');
+    }
   }
 
   hentFeilFiltrertKategori(hk_id) {
-    return api.get('/api/feil/:kategori_id', hk_id);
+    return api.get('/api/feil/' + hk_id);
   }
 
   lagOppdatering(nyOpp) {
     let token = sessionStorage.getItem('pollett');
     if (token) {
-    return api.post('/api/feil/oppdateringer/bedrift', nyOpp, {headers: {'x-access-token': 'Bearer ' + token}});
-  } else {
-    console.log('oeifjeoif');
-    return [];
-  }
+      return api.post('/api/feil/oppdateringer/bedrift', nyOpp, {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      console.log('oeifjeoif');
+      return [];
+    }
   }
 
   hentAlleOppdateringerPaaFeil(feil_id) {
@@ -63,8 +85,13 @@ class FeilService {
     return api.get('/api/hovedkategorier/subkategorier');
   }
 
-  slettBildeFraFeil(info) {
-    return api.delete('/api/feil/:feil_id/bilder/:bilde_id', info);
+  slettBildeFraFeil(info, feil_id, bilde_id) {
+    let token = sessionStorage.getItem('pollett');
+    if(token) {
+      return api.delete('/api/feil/' + feil_id + '/bilder/' + bilde_id, info, {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+
+    }
   }
 
   hentNyeFeilTilBedrift() {

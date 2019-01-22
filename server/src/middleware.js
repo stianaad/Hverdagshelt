@@ -37,7 +37,7 @@ export let checkToken = (req, res, next) => {
 
 export let createToken = (req, res, next) => {
   console.log('Inne i createToken');
-  brukerdao.hentBruker(req.body, (status, info) => {
+  brukerdao.hentBrukerPaaEpost(req.body, (status, info) => {
     if (info.length > 0) {
       let aa = {bruker_id: info[0].bruker_id};
       let user = {
@@ -75,11 +75,11 @@ export let createToken = (req, res, next) => {
             });
           });
         } else {
-          res.json({result: false});
+          res.json({result1: false});
         }
       });
     } else {
-      res.json({result: false});
+      res.json({result2: false});
     }
   });
 };

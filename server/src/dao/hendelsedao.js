@@ -5,10 +5,14 @@ module.exports = class HendelseDao extends Dao {
   //testes
   hentAlleHendelser(callback) {
     super.query(
-      "SELECT hendelse_id,overskrift,DATE_FORMAT(tid, '%Y-%m-%d %H:%i') AS tid,beskrivelse,sted,bilde, lengdegrad, breddegrad,kategorinavn FROM hendelser,hendelseskategori WHERE hendelser.hendelseskategori_id = hendelseskategori.hendelseskategori_id",
+      "SELECT hendelse_id,overskrift, kommune_id,DATE_FORMAT(tid, '%Y-%m-%d %H:%i') AS tid,beskrivelse,sted,bilde, lengdegrad, breddegrad,kategorinavn FROM hendelser,hendelseskategori WHERE hendelser.hendelseskategori_id = hendelseskategori.hendelseskategori_id",
       null,
       callback
     );
+  }
+
+  hentHendelseForKommune(kommune_id, callback) {
+    super.query('SELECT * FROM hendelser WHERE kommune_id = ?', [kommune_id], callback);
   }
 
   //testes
@@ -93,6 +97,10 @@ module.exports = class HendelseDao extends Dao {
 
   hentAlleHovedkategorier(callback) {
     super.query('SELECT * FROM hovedkategori', null, callback);
+  }
+
+  hentAlleKategorier(callback){
+    super.query('SELECT * FROM hendelseskategori', null, callback);
   }
 
   abonnerHendelse(json, callback) {

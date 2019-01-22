@@ -59,7 +59,7 @@ router.post('/api/brukere/ansatt', checkToken, (req, res) => {
         throw new Error('Noe gikk galt');
       }
       req.body.passord = hash;
-      brukerDao.lagNyAdminBruker(req.body, (status, data) => {
+      brukerDao.lagNyAnsattBruker(req.body, (status, data) => {
         res.status(status);
         res.json(data);
         console.log('Den nye IDen er:', data.insertId);
@@ -114,6 +114,19 @@ router.post('/api/brukere/admin', checkToken, (req, res) => {
   }
 });
 
+router.get('/api/brukere/:bruker_id', (req, res) => {
+  if (!(req.body instanceof Object)) return res.sendStatus(400);
+  console.log('Fikk penis fra klienten');
+
+  let a = {bruker_id: req.params.bruker_id};
+
+  brukerDao.hentBrukerPaaid(a, (status, data) => {
+    res.status(status);
+    res.json(data);
+    console.log('/hentBrukerpaaid resultat:' + data);
+  });
+});
+
 router.post('/api/brukere/nyttpassord', checkToken, (req, res) => {
   passord(req.body.passord).hash((error, hash) => {
     if (error) {
@@ -129,7 +142,7 @@ router.post('/api/brukere/nyttpassord', checkToken, (req, res) => {
 });
 
 router.post('/api/brukere/glemtpassord', (req, res) => {
-  brukerDao.hentBruker(req.body, (status, data) => {
+  brukerDao.hentBrukerPaaid(req.body, (status, data) => {
     res.status(status);
     res.json(data);
     console.log('/glemtpassord - hentet bruker');
@@ -150,7 +163,7 @@ router.get('/api/brukere/minside', checkToken, (req, res) => {
   let role = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
   if (role == 'privat') {
-    brukerDao.finnFeilTilBruker(bruker_id, (status, data) => {
+    brukerDao.finnOppdaterteFeilTilBruker(bruker_id, (status, data) => {
       res.status(status);
       res.json(data);
     });
@@ -160,8 +173,38 @@ router.get('/api/brukere/minside', checkToken, (req, res) => {
   }
 });
 
-router.get('/api/brukere/feil', checkToken, (req, res) => {
-  console.log('/api/bruker/feil fikk get request fra klient');
+router.get('/api/bruker/minside/gamle', checkToken, (req, res) => {
+  console.log('/bruker/minside fikk get request fra klient');
+  let role = req.decoded.role;
+  let bruker_id = req.decoded.user.bruker_id;
+  if (role == 'privat') {
+    brukerDao.finnIkkeOppdaterteFeilTilBruker(bruker_id, (status, data) => {
+      res.status(status);
+      res.json(data);
+    });
+  } else {
+    res.status(403);
+    res.json({result: false});
+  }
+});
+
+router.get('/api/bruker/minside/sist/innlogget', checkToken, (req, res) => {
+  console.log('/bruker/minside fikk get request fra klient');
+  let role = req.decoded.role;
+  let bruker_id = req.decoded.user.bruker_id;
+  if (role == 'privat') {
+    brukerDao.oppdaterSistInnloggetPrivat(bruker_id, (status, data) => {
+      res.status(status);
+      res.json(data);
+    });
+  } else {
+    res.status(403);
+    res.json({result: false});
+  }
+});
+
+router.get('/api/brukerfeil', checkToken, (req, res) => {
+  console.log('/api/brukerfeil fikk get request fra klient');
   let role = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
   if (role == 'privat') {
@@ -175,8 +218,8 @@ router.get('/api/brukere/feil', checkToken, (req, res) => {
   }
 });
 
-router.get('/api/brukere/hendelser', checkToken, (req, res) => {
-  console.log('/api/bruker/hendelser fikk get request fra klient');
+router.get('/api/brukerhendelser', checkToken, (req, res) => {
+  console.log('/api/brukerhendelser fikk get request fra klient');
   let role = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
   if (role == 'privat') {

@@ -12,6 +12,10 @@ module.exports = class FeilDao extends Dao {
     );
   }
 
+  hentFeilForKommune(kommune_id, callback) {
+    super.query("SELECT feil.*, hovedkategori.kategorinavn, status.status, DATE_FORMAT(f.tid, '%Y.%m.%d %H:%i') AS tid, kommuner.kommune_navn, kommuner.fylke_navn FROM feil INNER JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id INNER JOIN hovedkategori ON subkategori.hovedkategori_id = hovedkategori.hovedkategori_id INNER JOIN(SELECT feil_id, MIN(tid) AS tid FROM oppdatering GROUP BY feil_id) AS f ON feil.feil_id = f.feil_id INNER JOIN (SELECT feil_id, ANY_VALUE(status_id) AS status_id, MAX(tid) AS tid FROM oppdatering GROUP BY feil_id) AS s ON feil.feil_id = s.feil_id INNER JOIN status ON status.status_id = s.status_id INNER JOIN kommuner ON kommuner.kommune_id = feil.kommune_id WHERE feil.kommune_id = ?", [kommune_id], callback);
+  }
+
   //testes
   hentEnFeil(json, callback) {
     var feil_id = json.feil_id;
@@ -29,11 +33,16 @@ module.exports = class FeilDao extends Dao {
       json.lengdegrad,
       json.breddegrad,
     ];
-    super.query(
-      'INSERT INTO feil (kommune_id, bruker_id, subkategori_id, overskrift, beskrivelse, lengdegrad, breddegrad) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      feil,
-      callback
-    );
+    let gyldig = (json.kommune_id != null && json.bruker_id > 0 && json.subkategori_id != '-1' && json.overskrift != '' && json.beskrivelse != '' && json.lengdegrad != '0' && json.breddegrad != '0');
+    if (gyldig) {
+      super.query(
+        'INSERT INTO feil (kommune_id, bruker_id, subkategori_id, overskrift, beskrivelse, lengdegrad, breddegrad) VALUES (?, ?, ?, ?, ?, ?, ?)',
+        feil,
+        callback
+      );
+    } else {
+      callback(403, {error: 'Ugyldig input.'});
+    }
   }
 
   leggTilBilder(feil_id, bilder, callback) {

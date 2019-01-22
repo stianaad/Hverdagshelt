@@ -17,6 +17,8 @@ import {
   GridColumn,
   Dropdown,
   TextArea,
+  Sidebar,
+  Segment
 } from 'semantic-ui-react';
 import {FeedEvent, Filtrer, Info} from '../../Moduler/cardfeed';
 import {feilService} from '../../services/feilService';
@@ -25,23 +27,63 @@ import {NavLink} from 'react-router-dom';
 import {brukerService} from '../../services/brukerService';
 
 export class AnsattMeny extends Component {
-  state = { activeItem: 'Nye feil' }
-
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+  handleItemClick = name => this.setState({ activeItem: name });
 
   render() {
-    const { activeItem } = this.state;
+    const { activeItem } = this.state || {};
 
     return (
-        <div className="ansattMenyContainer">
-          <nav className="nav flex-column">
-            <NavLink className="nav-link active" to="/ansattest">Nye feil</NavLink>
-            <NavLink className="nav-link active" to="/ferdigtest">Utførte feil</NavLink>
-            <NavLink className="nav-link active" to="/nyhendelsetest">Ny hendelse</NavLink>
-            <NavLink className="nav-link active" to="/">Test</NavLink>
-          </nav>
-        </div>
-    );
+      <div>
+        <Menu vertical className="ansattMenyContainer">
+          <Menu.Item>
+            <Menu.Header>Feil og mangler</Menu.Header>
+
+            <Menu.Menu>
+              <NavLink exact to="/ansattest">
+                <Menu.Item
+                  name='Oversikt'
+                  active={activeItem === 'Oversikt'}
+                  onClick={this.handleItemClick}
+                />
+              </NavLink>
+              <Menu.Item
+                name='Nye feil'
+                active={activeItem === 'Nye feil'}
+                onClick={this.handleItemClick}
+              />
+              <Menu.Item
+                name='Under arbeid'
+                active={activeItem === 'Under behandling'}
+                onClick={this.handleItemClick}
+              />
+              <Menu.Item
+                name='Ferdig'
+                active={activeItem === 'Ferdig'}
+                onClick={this.handleItemClick}
+              />
+            </Menu.Menu>
+            
+          </Menu.Item>
+
+          <Menu.Item>
+            <Menu.Header>Hendelser</Menu.Header>
+
+            <Menu.Menu>
+              <Menu.Item
+                name='Alle hendelser'
+                active={activeItem === 'Alle hendelser'}
+                onClick={this.handleItemClick}
+              />
+              <Menu.Item
+                name='Ny hendelse'
+                active={activeItem === 'Ny hendelse'}
+                onClick={this.handleItemClick}
+              />
+            </Menu.Menu>
+          </Menu.Item>
+        </Menu>
+      </div>
+    )
   }
 }
 
@@ -98,43 +140,40 @@ export class NyeFeil extends Component {
               </Grid>
           </Modal.Content>
         </Modal>
-        <div className="vinduansatt">
-            <Grid>
-                <Grid.Column width="2">
-                    <AnsattMeny/>
-                </Grid.Column>
-                <Grid.Column width="13">
-                  <Grid stackable>
-                    <Grid.Row textAlign="center" centered>
-                        <h1 className="mt-3">Nye feil</h1>
-                    </Grid.Row>
-                    <Grid.Column width="4">
-                      <div>
-                        <Card color="red" fluid>
-                          <Card.Content>
-                            <Card.Header>
-                              Nye innsendinger
-                              <Filtrer />
-                            </Card.Header>
-                          </Card.Content>
-                          <Card.Content className={this.className}>
-                            {this.nyefeil.map((feil) => (
-                              <FeedEvent
-                                onClick={() => this.visFeil(feil)}
-                                status={feil.status}
-                                tid={feil.tid}
-                                kategori={feil.kategorinavn}
-                              >
-                                {feil.overskrift}>
-                              </FeedEvent>
-                            ))}
-                          </Card.Content>
-                        </Card>
-                      </div>
-                    </Grid.Column>
-                    <Grid.Column width="11">
-                      {this.feilApen ? (
-                        <div className="feilDiv">
+        <div className="vinduansatt ansattGrid">
+          <div className="col sm-2">
+            <AnsattMeny/>
+          </div>
+          <div className="col sm-10">
+            <div className="row">
+              <h1>Nye feil og mangler</h1>
+            </div>
+            <div className="row">
+              <div className="col sm-2">
+                <Card color="red" fluid>
+                  <Card.Content>
+                    <Card.Header>
+                      Nye innsendinger
+
+                    </Card.Header>
+                  </Card.Content>
+                  <Card.Content className={this.className}>
+                    {this.nyefeil.map((feil) => (
+                      <FeedEvent
+                        onClick={() => this.visFeil(feil)}
+                        status={feil.status}
+                        tid={feil.tid}
+                        kategori={feil.kategorinavn}
+                      >
+                        {feil.overskrift}>
+                      </FeedEvent>
+                    ))}
+                  </Card.Content>
+                </Card>
+              </div>
+              <div className="col sm-10">
+              {this.feilApen ? (
+                        <div className="ansattFeilVisning">
                         <Card fluid>
                           <Card.Content>
                             <div>
@@ -184,11 +223,10 @@ export class NyeFeil extends Component {
                         </div>
                       ) : (
                         <div>Trykk på feil</div>
-                      )}
-                    </Grid.Column>
-                  </Grid>
-                </Grid.Column>
-            </Grid>
+                      )}            
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -265,3 +303,179 @@ export class BedriftDropdown extends Component {
     this.bedrifter = await alleBedrifter.data;
   }
 }
+
+/*<div className="vinduansatt">
+            <Grid>
+                <Grid.Column width="3">
+                    <AnsattMeny/>
+                </Grid.Column>
+                <Grid.Column fluid width="13">
+                  <Grid stackable>
+                    <Grid.Row textAlign="center" centered>
+                        <h1 className="mt-3">Nye feil</h1>
+                    </Grid.Row>
+                    <Grid.Column width="4">
+                      <div>
+                        <Card color="red" fluid>
+                          <Card.Content>
+                            <Card.Header>
+                              Nye innsendinger
+
+                            </Card.Header>
+                          </Card.Content>
+                          <Card.Content className={this.className}>
+                            {this.nyefeil.map((feil) => (
+                              <FeedEvent
+                                onClick={() => this.visFeil(feil)}
+                                status={feil.status}
+                                tid={feil.tid}
+                                kategori={feil.kategorinavn}
+                              >
+                                {feil.overskrift}>
+                              </FeedEvent>
+                            ))}
+                          </Card.Content>
+                        </Card>
+                      </div>
+                    </Grid.Column>
+                    <Grid.Column width="11">
+                      {this.feilApen ? (
+                        <div className="ansattFeilVisning">
+                        <Card fluid>
+                          <Card.Content>
+                            <div>
+                              <Grid fluid columns={2} verticalAlign="middle">
+                                <Grid.Column textAlign="left">
+                                  <h1>{this.valgtfeil.overskrift}</h1>
+                                </Grid.Column>
+                                <Grid.Column textAlign="right" fluid>
+                                  <h6>{this.valgtfeil.tid}</h6>
+                                </Grid.Column>
+                                <Grid.Column textAlign="left">
+                                  <h6>Status: {this.valgtfeil.status}</h6>
+                                </Grid.Column>
+                                <Grid.Column>
+                                  <Button floated="right" color="red">
+                                    Slett feil
+                                  </Button>
+                                  <Button floated="right" color="green" onClick={() => this.godkjenn(this.valgtfeil.feil_id, "test", 2)}>
+                                    Godkjenn
+                                  </Button>
+                                </Grid.Column>
+                              </Grid>
+                            </div>
+                          </Card.Content>
+                          <Card.Content extra>
+                            <div>
+                              <Grid columns={3} fluid stackable>
+                                <Grid.Column>
+                                  <TextArea value={this.valgtfeil.beskrivelse} rows="18" />
+                                </Grid.Column>
+                                <Grid.Column>KART</Grid.Column>
+                                <Grid.Column>
+                                  <Grid columns={2} fluid>
+                                    {this.bilder.map((bilde) => (
+                                      <Grid.Column>
+                                        <div onClick={() => this.visBilde(bilde.url)}>
+                                          <img src={bilde.url} className="bilder" />
+                                        </div>
+                                      </Grid.Column>
+                                    ))}
+                                  </Grid>
+                                </Grid.Column>
+                              </Grid>
+                            </div>
+                          </Card.Content>
+                        </Card>
+                        </div>
+                      ) : (
+                        <div>Trykk på feil</div>
+                      )}
+                    </Grid.Column>
+                  </Grid>
+                </Grid.Column>
+            </Grid>
+          </div>
+
+          <div className="menyItem">
+            <AnsattMeny/>
+          </div>
+          <div className="toppItem">
+            <h1 className="mx-auto mt-3">Nye feil</h1>
+          </div>
+          <div className="listeItem">
+            <Card color="red" fluid>
+              <Card.Content>
+                <Card.Header>
+                  Nye innsendinger
+
+                </Card.Header>
+              </Card.Content>
+              <Card.Content className={this.className}>
+                {this.nyefeil.map((feil) => (
+                  <FeedEvent
+                    onClick={() => this.visFeil(feil)}
+                    status={feil.status}
+                    tid={feil.tid}
+                    kategori={feil.kategorinavn}
+                  >
+                    {feil.overskrift}>
+                  </FeedEvent>
+                ))}
+              </Card.Content>
+            </Card>
+          </div>
+          <div className="cardItem">
+          {this.feilApen ? (
+            <div className="ansattFeilVisning">
+              <Card fluid>
+                <Card.Content>
+                  <div>
+                    <Grid fluid columns={2} verticalAlign="middle">
+                      <Grid.Column textAlign="left">
+                        <h1>{this.valgtfeil.overskrift}</h1>
+                      </Grid.Column>
+                      <Grid.Column textAlign="right" fluid>
+                        <h6>{this.valgtfeil.tid}</h6>
+                      </Grid.Column>
+                      <Grid.Column textAlign="left">
+                        <h6>Status: {this.valgtfeil.status}</h6>
+                      </Grid.Column>
+                      <Grid.Column>
+                        <Button floated="right" color="red">
+                          Slett feil
+                        </Button>
+                        <Button floated="right" color="green" onClick={() => this.godkjenn(this.valgtfeil.feil_id, "test", 2)}>
+                          Godkjenn
+                        </Button>
+                      </Grid.Column>
+                    </Grid>
+                  </div>
+                </Card.Content>
+                <Card.Content extra>
+                  <div>
+                    <Grid columns={3} fluid stackable>
+                      <Grid.Column>
+                        <TextArea value={this.valgtfeil.beskrivelse} rows="18" />
+                      </Grid.Column>
+                      <Grid.Column>KART</Grid.Column>
+                      <Grid.Column>
+                        <Grid columns={2} fluid>
+                          {this.bilder.map((bilde) => (
+                            <Grid.Column>
+                              <div onClick={() => this.visBilde(bilde.url)}>
+                                <img src={bilde.url} className="bilder" />
+                              </div>
+                            </Grid.Column>
+                          ))}
+                        </Grid>
+                      </Grid.Column>
+                    </Grid>
+                  </div>
+                </Card.Content>
+              </Card>
+              </div>
+            ) : (
+              <div>Trykk på feil</div>
+            )}
+          </div>*/

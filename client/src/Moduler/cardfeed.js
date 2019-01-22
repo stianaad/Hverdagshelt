@@ -137,10 +137,11 @@ export class FeedEvent extends Component {
                         </select>
                         <br />
                         <Form>
-                          <TextArea className="tekstFeltOppdatering" autoHeight placeholder="Skriv oppdatering..." onChange={this.tekstFelt} />
+                          <TextArea className="tekstFeltOppdatering" required={true} autoHeight placeholder="Skriv oppdatering..." onChange={this.tekstFelt} />
                         </Form>
                         <br />
                         <Button
+                          disabled={this.tekstverdi=== '' || this.statusID === ''}
                           onClick={() => {
                             this.props.knapp(this.tekstverdi, this.statusID,this.props.feil_id);
                             this.lukk();
@@ -275,11 +276,11 @@ export class FeedMinside extends Component {
       <Feed>
         <Feed.Event>
           <Feed.Label image={'/warningicon.png'} />
-          <Feed.Content>
+          <Feed.Content color="green">
             <a onClick={this.props.onClick}>
               {this.dato(this.props.tid)}
-              <Feed.Summary>{this.props.children}</Feed.Summary>
-              <span>
+              <Feed.Summary>{(this.props.oppdatering) ? (<span className="highlight">{this.props.children}</span>) : (this.props.children)} </Feed.Summary>
+              <span >
                 <i>{this.props.kategori}</i>
               </span>
             </a>
@@ -333,6 +334,55 @@ export class FeedMinside extends Component {
   }
 }
 
+export class ModalHendelse extends Component{
+  render(){
+    return(
+      <Modal.Content image>
+        <Grid>
+        <Header as="h1" className="mt-2">{this.props.overskrift}</Header>
+          <Grid.Row columns={2}>
+            <Grid.Column>
+            <Modal.Description>
+              <Image src={this.props.url}/>
+              <Button color="green" className="mt-2" floated="left" content="Kjøp billett"/>
+              <Button color="red"  className="mt-2" floated="right" content="Abonner"/>
+              <br />
+                <div className="mt-5">
+                <p>
+                  <img src="https://image.flaticon.com/icons/svg/33/33622.svg" height="20" width="20" />
+                  {this.props.sted}, {this.props.kommune_navn}, Norge{' '}
+                </p>
+                <p>
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Simple_icon_time.svg/750px-Simple_icon_time.svg.png"
+                    height="20"
+                    width="25"
+                  />
+                  {this.props.tid}
+                </p>
+              </div>
+            </Modal.Description>
+            </Grid.Column>
+            <Grid.Column>
+            <p>
+              trykkeindustrien. Lorem Ipsum har vært bransjens standard for dummytekst helt siden
+              1500-tallet, da en ukjent boktrykker stokket en mengde bokstaver for å lage et
+              prøveeksemplar av en bok. Lorem Ipsum har tålt tidens tann usedvanlig godt, og har i
+              tillegg til å bestå gjennom fem århundrer også tålt spranget over til elektronisk
+              typografi uten vesentlige endringer. Lorem Ipsum ble gjort allment kjent i 1960-årene ved
+              lanseringen av Letraset-ark med avsnitt fra Lorem Ipsum, og senere med
+              sideombrekkingsprogrammet Aldus PageMaker som tok i bruk nettopp Lorem Ipsum for
+              dummytekst.
+            </p>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+        </Modal.Content>
+    )
+  }
+}
+
+
 export class Info extends Component {
   render() {
     return (
@@ -377,28 +427,57 @@ export class Filtrer extends Component {
 }
 
 //For hendelse siden
-export class Hendelse extends Component {
-  render() {
-    return (
-      <Card>
-        <Image src={this.props.bilde} onClick={this.props.onClick} size="medium" />
-        <Card.Content>
-          <a onClick={this.props.onClick}>
-            <Card.Header>{this.props.overskrift}</Card.Header>
-            <Card.Meta>
-              <span className="date">
-                {this.props.sted} {this.props.tid}
-              </span>
-            </Card.Meta>
-            <Card.Description>{this.props.beskrivelse}</Card.Description>
-          </a>
-        </Card.Content>
-        <Card.Content extra>
-          <div className="ui two buttons">
-            <Button positive>Følg</Button>
-          </div>
-        </Card.Content>
-      </Card>
-    );
-  }
+export class Hendelse extends Component{
+    dato(tid){
+        let innKommendeDato = tid.substr(0,10);
+        let innKommendeKlokkeslett = tid.substr(11,16);
+        let iDag = new Date();
+        let dd = iDag.getDate();
+        let mm = iDag.getMonth()+1; //January is 0!
+        let yyyy = iDag.getFullYear();
+
+        if(dd<10) {
+            dd = '0'+dd
+        } 
+
+        if(mm<10) {
+            mm = '0'+mm
+        } 
+        //iDag = yyyy + '-' + mm + '-' + dd;
+        iDag = yyyy + '-' + mm + '-' + dd;
+        let iGaar = yyyy + '-' + mm + '-' + (dd-1);
+
+        if(innKommendeDato===iDag){
+            iDag="I dag "+innKommendeKlokkeslett;
+        } else if(iGaar === innKommendeDato){
+            iDag ="I går "+innKommendeKlokkeslett;
+        } else{
+            iDag= tid;
+        }
+        return(<Feed.Date content={iDag}/>)
+    }
+    render(){
+        return(
+            <Card>
+            <Image src={this.props.bilde} onClick={this.props.onClick} rounded />
+            <Card.Content>
+            <a onClick={this.props.onClick}>
+              <Card.Header>{this.props.overskrift}</Card.Header>
+              <Card.Meta>
+                <span className='date'>{this.props.sted} {this.dato(this.props.tid)}</span>
+              </Card.Meta>
+              <Card.Description>{this.props.beskrivelse}</Card.Description>
+              </a>
+            </Card.Content>
+            <Card.Content extra>
+             <div className='ui two buttons'>
+             <Button positive>
+                Følg
+             </Button>
+             </div>
+            </Card.Content>
+          </Card>
+        );
+    }
+
 }
