@@ -17,16 +17,6 @@ class FeilService {
     return api.get('/api/feil/' + feil_id + '/bilder');
   }
 
-  lagNyFeil(nyFeil) {
-    let token = sessionStorage.getItem('pollett');
-    if (token) {
-      return api.post('/api/feil', nyFeil, {headers: {'x-access-token': 'Bearer ' + token}});
-    } else {
-      console.log('ny feil feilet');
-      return [];
-    }
-  }
-
   oppdaterFeil(oppdatertFeil, feil_id) {
     let token = sessionStorage.getItem('pollett');
     if (token) {
