@@ -10,8 +10,12 @@ import {Card, Feed, Grid, Button, Header, Icon, Image, Modal, GridColumn, List} 
 import {FeedEvent, FeedHendelse, Filtrer, Info} from '../../Moduler/cardfeed';
 import { brukerService } from '../../services/brukerService';
 import { AbonnerKnapp } from '../../Moduler/abonner/abonner';
+import {FireNullFire} from '../firenullfire/firenullfire';
 
 export class Hovedside extends Component {
+  kommune = {};
+  feilKategori = "0";
+
   visFeil = false;
   alleFeil = [];
   alleKategorier = [];
@@ -103,6 +107,7 @@ export class Hovedside extends Component {
   }
 
   render() {
+    if (this.kommune == null) return (<FireNullFire />);
     return (
       <div>
         <PageHeader history={this.props.history} location={this.props.location} />
@@ -143,7 +148,7 @@ export class Hovedside extends Component {
                   <Card.Header>
                     Nylige feil og mangler
                     <select
-                      onChange={this.filter}
+                      onChange={(e) => {this.feilKategori = e.target.value;}}
                       className="form-control right floated meta"
                       style={{height: "30px", width: "100%", marginTop:"10px"}}
                     >
@@ -160,7 +165,7 @@ export class Hovedside extends Component {
                 </Card.Content>
                 <Card.Content className='hovedsideTabeller'>
                   <Feed>
-                    {this.aktiveFeil.map((feil) => (
+                    {this.alleFeil.filter((feil) => (this.feilKategori == feil.kategorinavn) || this.feilKategori == "0").map((feil) => (
                       <FeedEvent
                         onClick={() => this.merInfo(feil)}
                         status={feil.status}
@@ -260,13 +265,9 @@ export class Hovedside extends Component {
                     </Grid>
                   </Card.Content>
                 </Card>
-                <Modal open={this.state.open} onClose={this.handleClose} basic>
+                <Modal open={this.state.open} onClose={this.handleClose} basic centered className="modalwidth">
                   <Modal.Content>
-                    <Grid>
-                      <Grid.Row centered>
-                        <img src={this.bildeModal} className="bildevisning"/>
-                      </Grid.Row>
-                    </Grid>
+                      <img src={this.bildeModal} className="bildevisning"/>
                   </Modal.Content>
                 </Modal>
               
@@ -440,36 +441,36 @@ export class Hovedside extends Component {
     );
   }
 
-  async callMap() {
-    let res1 = await feilService.hentAlleFeil();
-    await Promise.all([res1]).then(() => {
-      this.kart.addMarkers(res1.data);
-    });
+  callMap() {
+    this.kart.addMarkers(this.alleFeil);
   }
 
   async mounted() {
-    /*let res1 = await feilService.hentAlleFeil();
-    this.alleFeil = await res1.data;
-    this.aktiveFeil = await res1.data;
+    this.visFeil = false;
 
-    let res2 = await feilService.hentAlleHovedkategorier();
-    this.alleKategorier = await res2.data;
+    let res = await generellServices.sokKommune(this.props.match.params.kommune);
+    await Promise.resolve(res.data).then(async () => {
+      if (res.data.length > 0) {
+        this.kommune = res.data[0];
 
-    let res3 = await hendelseService.hentAlleHendelser();
-    this.alleHendelser = await res3.data;*/
-    let res1 = await feilService.hentAlleFeil(),
-      res2 = await feilService.hentAlleHovedkategorier(),
-      res3 = await hendelseService.hentAlleHendelser();
+        let res1 = await feilService.hentFeilForKommune(this.kommune.kommune_id),
+            res2 = await feilService.hentAlleHovedkategorier(),
+            res3 = await hendelseService.hentHendelserForKommune(this.kommune.kommune_id);
 
-    [this.alleFeil, this.aktiveFeil, this.alleKategorier, this.alleHendelser] = await Promise.all([
-      res1.data,
-      res1.data,
-      res2.data,
-      res3.data,
-    ]);
+        [this.alleFeil, this.aktiveFeil, this.alleKategorier, this.alleHendelser] = await Promise.all([
+          res1.data,
+          res1.data,
+          res2.data,
+          res3.data,
+        ]);
+    
+        await Promise.all([res1.data]).then(() => {
+          this.kart.addMarkers(res1.data);
+        });
 
-    await Promise.all([res1.data]).then(() => {
-      this.kart.addMarkers(res1.data);
+      } else {
+        this.kommune = null;
+      }
     });
   }
 }

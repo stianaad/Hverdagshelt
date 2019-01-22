@@ -2,14 +2,15 @@ import * as React from 'react';
 import {PageHeader} from '../../Moduler/header/header';
 import {Component, sharedComponentData} from 'react-simplified';
 import {feilService} from '../../services/feilService';
-import {Card, Feed, Grid, Button, Header, Icon, Image, Popup, Modal, Input, List} from 'semantic-ui-react';
-import {FeedEvent, FeedHendelse, Filtrer, Info, FeedMinside} from '../../Moduler/cardfeed';
+import {Card, Feed, Grid, Button, Header, Icon, Image, Popup, Modal, Input, List,Dropdown} from 'semantic-ui-react';
+import {FeedEvent, FeedHendelse, Filtrer, Info, FeedMinside, ModalHendelse} from '../../Moduler/cardfeed';
 import {brukerService} from '../../services/brukerService';
 import {NavLink} from 'react-router-dom';
 import {markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
 
 export class Minside extends Component {
-  rapporterteFeil = [];
+  oppdaterteFeil = [];
+  ikkeOppdaterteFeil = [];
   folgteFeil = [];
   folgteHendelser = [];
   valgtFeil = {
@@ -24,11 +25,30 @@ export class Minside extends Component {
     epost: '',
     kommune_id: -1,
   }
+  valgteHendelse = {
+    overskrift: '',
+    bilde: '',
+    tid: '',
+    sted: '',
+    kommune_navn: ''
+  };
+
+  visHendelse = false;
+
+  visFeil = false;
+
+  classFeil = 'hovedsideTabeller';
 
   state = {open: false};
 
   handleOpen = (feil) => {
-    this.valgtFeil = {...feil};
+    if(this.visHendelse){
+      this.valgteHendelse= {...feil};
+      console.log(this.valgteHendelse);
+      console.log("ehehheh")
+    } else {
+      this.valgtFeil = {...feil};
+    }
     this.setState({open: true});
   };
 
@@ -44,7 +64,7 @@ export class Minside extends Component {
           {/*<Modal.Header>
                         {this.valgtFeil.overskrift}
                     </Modal.Header>*/}
-          <Modal.Content>
+                    {(!this.visHendelse) ? ( <Modal.Content>
             <div>
               <Card fluid>
                 <Card.Content>
@@ -115,9 +135,11 @@ export class Minside extends Component {
                 </Card.Content>
               </Card>
             </div>
-          </Modal.Content>
-        </Modal>
-
+          </Modal.Content>) 
+          : (
+            <ModalHendelse overskrift={this.valgteHendelse.overskrift} url={this.valgteHendelse.bilde} tid={this.valgteHendelse.tid} sted={this.valgteHendelse.sted} kommune_navn={this.valgteHendelse.kommune_navn}/>
+            )}
+        </Modal>       
         <h1 className="text-center">Min side</h1>
         <div className="row minRow">
           <div className="col-sm mt-3 ml-3" id="sideListe">
@@ -125,27 +147,27 @@ export class Minside extends Component {
               <Card.Content>
                 <Card.Header>
                   Dine rapporterte feil
-                  {/*<select
-                        onChange={this.filter}
-                        className="form-control right floated meta"
-                        style={{height: 30, width: 120}}>
-                        <option hidden> Filter </option>
-                        <option value="0"> Alle kategorier </option>
-                        {this.alleKategorier.map((kategori) => (
-                          <option
-                            value={kategori.kategorinavn}
-                            key={kategori.kategorinavn}
-                          >
-                            {' '}
-                            {kategori.kategorinavn}
-                          </option>
-                        ))}
-                      </select>*/}
+                  <Button basic color="green" onClick={this.visRapporterteFeil}>{(this.oppdaterteFeil.length === 0) ? (<span>Ingen ny(e) oppdateringer</span>) : (<span>{this.oppdaterteFeil.length} nye oppdateringer</span>)}</Button>
                 </Card.Header>
               </Card.Content>
-              <Card.Content>
-                <Feed>
-                  {this.rapporterteFeil.map((feil) => (
+              {(this.visFeil) ? ( 
+              <Card.Content className={this.classFeil}>
+              {((this.oppdaterteFeil.length+this.ikkeOppdaterteFeil.length) > 0) ? (<Feed>  
+                  {this.oppdaterteFeil.map((feil) => (
+                    <FeedMinside
+                      status={feil.status}
+                      tid={feil.tid}
+                      kategori={feil.kategorinavn}
+                      oppdatering= {true}
+                      fjern={() => {
+                        this.fjernFeil(feil.feil_id);
+                      }}
+                      onClick={() => {this.visHendelse=false;this.handleOpen(feil)}}
+                    >
+                      {feil.overskrift}
+                    </FeedMinside>
+                  ))}
+                  {this.ikkeOppdaterteFeil.map((feil) => (
                     <FeedMinside
                       status={feil.status}
                       tid={feil.tid}
@@ -158,16 +180,16 @@ export class Minside extends Component {
                       {feil.overskrift}
                     </FeedMinside>
                   ))}
-                </Feed>
-              </Card.Content>
+                </Feed> ) : (<Card><Card.Content><Header as="h4">Du har desverre ikke rapportert inn noen feil:( </Header></Card.Content></Card>)}
+              </Card.Content>) : (null)}
             </Card>
           </div>
           <div className="col-sm mt-3">
             <div className="columnCenter">
               <h2>Hendelser du følger</h2>
-              <Card.Group itemsPerRow={1}>
+              {(this.folgteHendelser.length>0) ? (<Card.Group itemsPerRow={1}>
                 {this.folgteHendelser.map((hendelse) => (
-                  <Card className="feilCard">
+                  <Card className="feilCard" onClick={() => {this.visHendelse=true; this.handleOpen(hendelse);}} >
                     <Image src={hendelse.bilde} className="feilCardImage" />
                     <Card.Content>
                       <Card.Header>{hendelse.overskrift}</Card.Header>
@@ -183,15 +205,15 @@ export class Minside extends Component {
                     </Card.Content>
                   </Card>
                 ))}
-              </Card.Group>
+              </Card.Group>) : (<Card><Card.Content><Header as="h4">Du følger for øyeblikket ingen hendelser:( Gå til Hendelser for å finne noe du vil abonnere på.</Header></Card.Content></Card> )}
             </div>
           </div>
           <div className="col-sm mt-3">
             <div className="columnCenter">
               <h2>Feil/mangler du følger</h2>
-              <Card.Group itemsPerRow={1}>
+              {(this.folgteFeil.length >0) ? (<Card.Group itemsPerRow={1}>
                 {this.folgteFeil.map((feil) => (
-                  <Card className="feilCard">
+                  <Card className="feilCard" onClick={() => {this.visHendelse=false;this.handleOpen(feil)}}>
                     <Image src={feil.url} className="feilCardImage" />
                     <Card.Content>
                       <Card.Header>{feil.overskrift}</Card.Header>
@@ -208,6 +230,9 @@ export class Minside extends Component {
                   </Card>
                 ))}
               </Card.Group>
+              ) : (
+              <Card><Card.Content><Header as="h4">Du følger for øyeblikket ingen feil:( Gå til feil for å finne noe du vil abonnere på.</Header></Card.Content></Card> )}
+              
             </div>
           </div>
           <div className="col-sm mt-3 ml-3" id="sideListeH">
@@ -232,11 +257,34 @@ export class Minside extends Component {
   async finnFeilBruker() {
     let res1 = await brukerService.finnFeilTilBruker();
     this.rapporterteFeil = await res1.data;
-    await console.log(res1.data);
+  }
 
-    let res4 = await brukerService.hentBruker(global.payload.user.bruker_id);
-    this.bruker = await {...res4.data};
-    await console.log(this.bruker);
+  async visRapporterteFeil() {
+    this.visFeil = !this.visFeil;
+    if(this.visFeil){
+      this.finnIkkeOppdaterteFeil();
+      await this.scrollFeil();
+      await brukerService.oppdaterSistInnloggetPrivat();
+    }
+  }
+
+  scrollFeil() {
+    if ((this.oppdaterteFeil.length+this.ikkeOppdaterteFeil.length) > 4) {
+      console.log(this.oppdaterteFeil.length+this.ikkeOppdaterteFeil.length);
+      this.classFeil = 'rapporterteFeilScroll';
+    }
+  }
+
+  async finnOppdaterteFeilBruker() {
+    let res1 = await brukerService.finnOppdaterteFeilTilBruker();
+    this.oppdaterteFeil = await res1.data;
+    await console.log(res1.data);
+  }
+
+  async finnIkkeOppdaterteFeil(){
+    let res1 = await brukerService.finnIkkeOppdaterteFeilTilBruker();
+    this.ikkeOppdaterteFeil = await res1.data;
+    await this.scrollFeil();
   }
 
   async fjernFeil(id) {
@@ -246,7 +294,7 @@ export class Minside extends Component {
   }
 
   async mounted() {
-    await this.finnFeilBruker();
+    await this.finnOppdaterteFeilBruker();
 
     let res2 = await brukerService.finnFolgteFeilTilBruker();
     this.folgteFeil = await res2.data;
@@ -255,5 +303,9 @@ export class Minside extends Component {
     let res3 = await brukerService.finnFolgteHendelserTilBruker();
     this.folgteHendelser = await res3.data;
     await console.log(res3.data);
+
+    let res4 = await brukerService.hentBruker(global.payload.user.bruker_id);
+    this.bruker = await {...res4.data};
+    await console.log(this.bruker);
   }
 }

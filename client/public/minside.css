@@ -30,3 +30,13 @@
 .minRow > div {
     min-width: 250px;
 }
+
+.highlight {
+    color: yellowgreen;
+}
+
+.rapporterteFeilScroll {
+    height: 50vh !important;
+    overflow-y: auto;
+    overflow-x: hidden;
+}

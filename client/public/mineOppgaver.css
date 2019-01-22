@@ -95,8 +95,12 @@
 }
 
 .ansattScroll{
-    height: 350px;
+    height: calc(100vh - 200px);
     overflow-y: scroll; 
+}
+
+.ansattFeilVisning{
+    height: calc(100vh - 200px);
 }
 
 .bilder{
@@ -106,13 +110,18 @@
     object-fit: cover;
 }
 
-.bildevisning{
-    height: 400px;
+.bildevisning {
+    max-height: 70vh;
+    max-width: 70vw;
+}
+
+.modalwidth {
+    width: max-content !important;
+    height: max-content !important;
 }
 
 .ansattMenyContainer{
-    background-color: white;
-    margin-left: 10px; 
+    height: calc(100vh - 65px);
 }
 
 .vinduansatt{
