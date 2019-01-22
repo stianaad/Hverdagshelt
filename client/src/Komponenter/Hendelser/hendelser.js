@@ -253,12 +253,15 @@ export class Hendelser extends Component {
 	}
 
 	async mounted() {
-		let res1 = await hendelseService.hentHendelserForKommune();
+		let res1 = '';
+		if(global.payload == null){
+			res1 = await hendelseService.hentAlleHendelser();
+		} else {
+			console.log("hei");
+			res1 = await hendelseService.hentHendelserForKommune(global.payload.user.kommune_id);
+		}
 		this.hendelser = await res1.data;
 		this.aktiveHendelser = await res1.data;
-
-		console.log(global.payload.user.kommune_id);
-
 		/*this.tider = this.aktiveHendelser.map(
 			kat => kat.tid
 		);
