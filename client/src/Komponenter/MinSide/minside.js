@@ -19,6 +19,12 @@ export class Minside extends Component {
     beskrivelse: '',
   };
 
+  bruker = {
+    fornavn: '',
+    etternavn: '',
+    epost: '',
+    kommune_id: -1,
+  }
   valgteHendelse = {
     overskrift: '',
     bilde: '',
@@ -144,33 +150,8 @@ export class Minside extends Component {
 
         </div>      
         <div className="row minRow">
-          <div className="col-sm-3 mt-3 ml-3" id="sideListe">
-            <h2> </h2>
-            {/*<Dropdown text='Dine rapporterte feil' fluid floating labeled button className='icon'>
-              <Dropdown.Menu>
-                <Dropdown.Divider />
-                <Card.Content>
-                <Feed>
-                  {this.rapporterteFeil.map((feil) => (
-                    <Dropdown.Item>
-                    <FeedMinside
-                      status={feil.status}
-                      tid={feil.tid}
-                      kategori={feil.kategorinavn}
-                      fjern={() => {
-                        this.fjernFeil(feil.feil_id);
-                      }}
-                      onClick={() => this.handleOpen(feil)}
-                    >
-                      {feil.overskrift}
-                    </FeedMinside>
-                    </Dropdown.Item>
-                  ))}
-                </Feed>
-                 </Card.Content>
-              </Dropdown.Menu>
-                    </Dropdown>*/}
-            <Card fluid>
+          <div className="col-sm mt-3 ml-3" id="sideListe">
+            <Card fluid="true">
               <Card.Content>
                 <Card.Header>
                   Dine rapporterte feil
@@ -211,7 +192,7 @@ export class Minside extends Component {
               </Card.Content>) : (null)}
             </Card>
           </div>
-          <div className="col-sm-3 mt-3">
+          <div className="col-sm mt-3">
             <div className="columnCenter">
               <h2>Hendelser du følger</h2>
               {(this.folgteHendelser.length>0) ? (<Card.Group itemsPerRow={1}>
@@ -235,7 +216,7 @@ export class Minside extends Component {
               </Card.Group>) : (<Card><Card.Content><Header as="h4">Du følger for øyeblikket ingen hendelser:( Gå til Hendelser for å finne noe du vil abonnere på.</Header></Card.Content></Card> )}
             </div>
           </div>
-          <div className="col-sm-3 mt-3">
+          <div className="col-sm mt-3">
             <div className="columnCenter">
               <h2>Feil/mangler du følger</h2>
               {(this.folgteFeil.length >0) ? (<Card.Group itemsPerRow={1}>
@@ -262,10 +243,28 @@ export class Minside extends Component {
               
             </div>
           </div>
-          <div className="col-sm-3" />
+          <div className="col-sm mt-3 ml-3" id="sideListeH">
+            <Card fluid="true">
+              <Card.Content>
+                <Card.Header>
+                  Brukerinformasjon
+                </Card.Header>
+              </Card.Content>
+              <Card.Content>
+                <Feed>
+                  {this.bruker.epost}
+                </Feed>
+              </Card.Content>
+            </Card>
+          </div>
         </div>
       </div>
     );
+  }
+
+  async finnFeilBruker() {
+    let res1 = await brukerService.finnFeilTilBruker();
+    this.rapporterteFeil = await res1.data;
   }
 
   async visRapporterteFeil() {
@@ -312,5 +311,9 @@ export class Minside extends Component {
     let res3 = await brukerService.finnFolgteHendelserTilBruker();
     this.folgteHendelser = await res3.data;
     await console.log(res3.data);
+
+    let res4 = await brukerService.hentBruker(global.payload.user.bruker_id);
+    this.bruker = await {...res4.data};
+    await console.log(this.bruker);
   }
 }

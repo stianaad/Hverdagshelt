@@ -83,6 +83,7 @@ nav ul{
 .hovedContainer > div[class*="col-"] {
    min-width: 200px;
    margin-bottom: 1rem;
+   display: default;
 }
 
 .mobileButtons {

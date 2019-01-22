@@ -33,11 +33,16 @@ module.exports = class FeilDao extends Dao {
       json.lengdegrad,
       json.breddegrad,
     ];
-    super.query(
-      'INSERT INTO feil (kommune_id, bruker_id, subkategori_id, overskrift, beskrivelse, lengdegrad, breddegrad) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      feil,
-      callback
-    );
+    let gyldig = (json.kommune_id != null && json.bruker_id > 0 && json.subkategori_id != '-1' && json.overskrift != '' && json.beskrivelse != '' && json.lengdegrad != '0' && json.breddegrad != '0');
+    if (gyldig) {
+      super.query(
+        'INSERT INTO feil (kommune_id, bruker_id, subkategori_id, overskrift, beskrivelse, lengdegrad, breddegrad) VALUES (?, ?, ?, ?, ?, ?, ?)',
+        feil,
+        callback
+      );
+    } else {
+      callback(403, {error: 'Ugyldig input.'});
+    }
   }
 
   leggTilBilder(feil_id, bilder, callback) {
@@ -145,6 +150,33 @@ module.exports = class FeilDao extends Dao {
   slettBildeFraFeil(json, callback) {
     var info = [json.url, json.feil_id];
     super.query('DELETE FROM feil_bilder WHERE url = ? AND feil_id = ?', info, callback);
+  }
+
+  oppdaterSubkategori(json, callback) {
+    var info = [json.kategorinavn, json.hovedkategori_id, json.subkategori_id];
+    super.query('UPDATE subkategori SET kategorinavn = ?, hovedkategori_id = ? WHERE subkategori_id = ?', info, callback);
+  }
+
+  slettSubkategori(json, callback) {
+    super.query('DELETE FROM subkategori WHERE subkategori_id = ?', [json.subkategori_id], callback);
+  }
+
+  nySubkategori(json, callback) {
+    var info = [json.kategorinavn, json.hovedkategori_id];
+    super.query('INSERT INTO subkategori (kategorinavn, hovedkategori_id) VALUES (?,?)', info, callback);
+  }
+
+  nyHovedkategori(json, callback) {
+    super.query('INSERT INTO hovedkategori (kategorinavn) VALUES (?)', [json.kategorinavn], callback);
+  }
+
+  oppdaterHovedkategori(json, callback) {
+    var info = [json.kategorinavn, json.hovedkategori_id];
+    super.query('UPDATE hovedkategori SET kategorinavn = ? WHERE hovedkategori_id = ?', info, callback);
+  }
+
+  slettHovedkategori(json, callback) {
+    super.query('DELETE FROM hovedkategori WHERE hovedkategori_id = ?', [json.hovedkategori_id], callback);
   }
 
   hentNyeFeilTilBedrift(bruker_id, callback) {

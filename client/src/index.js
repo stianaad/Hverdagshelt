@@ -35,7 +35,6 @@ import {enHendelse} from './Komponenter/Hendelser/enHendelse';
 import {NyeFeil} from './Komponenter/Ansatt/kommuneansatt';
 import {AnsattFerdig} from './Komponenter/Ansatt/ferdigeFeil';
 import {NyHendelse} from './Komponenter/Ansatt/nyhendelse';
-import { AbonnerKnapp } from './Moduler/abonner/abonner';
 
 class Tabell extends Component {
   render() {

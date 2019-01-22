@@ -67,6 +67,10 @@ html, body {
   margin-bottom: 20px;
 }
 
+#advarsel {
+  color: red;
+}
+
 /* Mobilversjon */
 
 @media (max-width: 1000px){

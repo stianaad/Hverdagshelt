@@ -23,7 +23,13 @@ class HendelseService {
   }
 
   lagNyHendelse(nyHendelse) {
-    return api.post('/api/hendelser', nyHendelse);
+    let token = sessionStorage.getItem('pollett');
+    if (token) {
+      return api.post('/api/hendelser', nyHendelse, {headers: {'x-access-token': 'Bearer ' + token}});
+    }else{
+      console.log('ikkje braa');
+      return [];
+    }
   }
 
   slettHendelse(hendelse) {

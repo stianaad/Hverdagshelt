@@ -2,25 +2,52 @@ import api from './api';
 
 class BrukerService {
   lagNyBruker(nyBruker) {
-    console.log('lage');
-    //return api.post('/api/lagNyBruker', nyBruker);
-    return api.post('/api/brukere', nyBruker);
+    let token = sessionStorage.getItem('pollett');
+    if(token) {
+      return api.post('/api/brukere', nyBruker, {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return [];
+    }
   }
 
   lagNyPrivatBruker(nyPrivatBruker) {
-    return api.post('/api/brukere/privat', nyPrivatBruker);
+    let token = sessionStorage.getItem('pollett');
+    if(token) {
+      return api.post('/api/brukere/privat', nyPrivatBruker, {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return [];
+    }
   }
 
   lagNyAnsattBruker(nyAnsattBruker) {
-    return api.post('/api/brukere/ansatt', nyAnsattBruker);
+    let token = sessionStorage.getItem('pollett');
+    if(token) {
+      return api.post('/api/brukere/ansatt', nyAnsattBruker, {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return [];
+    }
   }
 
   lagNyBedriftBruker(nyBedriftBruker) {
-    return api.post('/api/brukere/bedrift', nyBedriftBruker);
+    let token = sessionStorage.getItem('pollett');
+    if(token) {
+      return api.post('/api/brukere/bedrift', nyBedriftBruker, {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return [];
+    }
   }
 
   lagNyAdminBruker(nyAdminBruker) {
-    return api.post('/api/brukere/admin', nyAdminBruker);
+    let token = sessionStorage.getItem('pollett');
+    if(token) {
+      return api.post('/api/brukere/admin', nyAdminBruker, {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return [];
+    }
+  }
+
+  hentBrukerPaaid(bruker_id) {
+    return api.get('/api/brukere/'+ bruker_id);
   }
 
   endrePassord(nyInformasjon) {
@@ -33,9 +60,13 @@ class BrukerService {
     }
   }
 
-  resettPassord(nyInformasjon, token) {
-    console.log('reset');
-    return api.post('/api/brukere/nyttpassord', nyInformasjon, {headers: {'x-access-token': 'Bearer ' + token}});
+  resettPassord(nyInformasjon) {
+    let token = sessionStorage.getItem('pollett');
+    if(token) {
+      return api.post('/api/brukere/nyttpassord', nyInformasjon, {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return [];
+    }
   }
 
   loggInn(informasjon) {
@@ -83,7 +114,7 @@ class BrukerService {
   finnFolgteFeilTilBruker() {
     let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.get('/api/brukere/feil', {headers: {'x-access-token': 'Bearer ' + token}});
+      return api.get('/api/brukerfeil', {headers: {'x-access-token': 'Bearer ' + token}});
     } else {
       return [];
     }
@@ -92,7 +123,7 @@ class BrukerService {
   finnFolgteHendelserTilBruker() {
     let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.get('/api/brukere/hendelser', {headers: {'x-access-token': 'Bearer ' + token}});
+      return api.get('/api/brukerhendelser', {headers: {'x-access-token': 'Bearer ' + token}});
     } else {
       return [];
     }

@@ -25,8 +25,7 @@ module.exports = class BrukerDao extends Dao {
 
   lagNyBruker(json, callback) {
     const tabell = [json.epost, json.passord, json.kommune_id];
-    let gyldig = json.epost.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
-    gyldig = json.kommune_id != null;
+    let gyldig = json.epost.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/ && json.kommune_id != null);
     if (gyldig) {
       super.query('INSERT INTO bruker (bruker_id, epost, passord, kommune_id) VALUES(DEFAULT,?,?,?)', tabell, callback);
     } else {
@@ -40,7 +39,7 @@ module.exports = class BrukerDao extends Dao {
     super.query('SELECT bruker_id FROM bruker WHERE epost=?', epost, callback);
   }
 
-  finnOppdaterteFeilTilBruker(bruker_id, callback) {
+  finnFeilTilBruker(bruker_id, callback) {
     super.query(
       "SELECT feil.*, hovedkategori.kategorinavn,status.status, DATE_FORMAT(f.tid, '%Y-%m-%d %H:%i') AS tid FROM feil INNER JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id INNER JOIN hovedkategori ON subkategori.hovedkategori_id = hovedkategori.hovedkategori_id INNER JOIN (SELECT feil_id, min(tid) as tid from oppdatering group by feil_id) as f ON feil.feil_id = f.feil_id INNER JOIN (SELECT feil_id, ANY_VALUE(status_id) as status_id, max(tid) as tid from oppdatering group by feil_id) as s ON feil.feil_id = s.feil_id INNER JOIN status ON status.status_id = s.status_id INNER JOIN privat ON privat.bruker_id=feil.bruker_id WHERE feil.bruker_id=? AND f.tid > privat.sist_innlogget",
       [bruker_id],
@@ -141,9 +140,7 @@ module.exports = class BrukerDao extends Dao {
     self.finnBruker_id(json, (status, data) => {
       if (data.length == 0) {
         self.lagNyBruker(json, (status, data) => {
-          console.log(json.telefon.length.toString() == 8); 
-          console.log(json.navn != null);
-          let gyldig = (self.kontrollOrgnr(json.orgnr) && json.telefon.length == 8 && json.navn != null);
+          let gyldig = (self.kontrollOrgnr(json.orgnr) && json.navn != null);
           if (status == 200 && gyldig) {
             super.query(
               'INSERT INTO bedrift (bruker_id, orgnr, navn, telefon) VALUES(?,?,?,?)',
@@ -183,10 +180,16 @@ module.exports = class BrukerDao extends Dao {
     });
   }
 
-  hentBruker(json, callback) {
+  hentBrukerPaaEpost(json, callback) {
     let tabell = [json.epost];
+    console.log('hent bruker på epost, data:' + tabell);
+    super.query('SELECT * FROM bruker WHERE epost = ?', tabell, callback);
+  }
+
+  hentBrukerPaaid(json, callback) {
+    let tabell = [json.bruker_id];
     console.log(tabell + 'bruker dao');
-    super.query('SELECT * FROM bruker WHERE epost=?', tabell, callback);
+    super.query('SELECT * FROM bruker WHERE bruker_id = ?', tabell, callback);
   }
 
   hentBrukere(callback) {
@@ -273,4 +276,23 @@ module.exports = class BrukerDao extends Dao {
   hentBedrifter(callback) {
     super.query('SELECT * FROM bedrift', [], callback);
   }
-};
+
+  hentBrukerInfo(bruker_id, rolle, callback) {
+    switch (rolle) {
+      case 'privat':
+        super.query('SELECT fornavn, etternavn, epost, kommune_id, kommune_navn, sist_innlogget FROM bruker INNER JOIN privat USING (bruker_id) INNER JOIN kommuner USING(kommune_id) WHERE bruker_id = ?', [bruker_id], callback);
+        break;
+      case 'ansatt':
+        super.query('SELECT fornavn, etternavn, epost, telefon, kommune_id, kommune_navn FROM bruker INNER JOIN ansatt USING (bruker_id) INNER JOIN kommuner USING(kommune_id) WHERE bruker_id = ?', [bruker_id], callback);
+        break;
+      case 'bedrift':
+        super.query('SELECT epost, orgnr, navn, telefon, kommune_id, kommune_navn FROM bruker INNER JOIN bedrift USING (bruker_id) INNER JOIN kommuner USING(kommune_id) WHERE bruker_id = ?', [bruker_id], callback);
+        break;
+      case 'admin':
+        super.query('SELECT epost, telefon, navn, kommune_id, kommune_navn FROM bruker INNER JOIN admin USING (bruker_id) INNER JOIN kommuner USING(kommune_id) WHERE bruker_id = ?', [bruker_id], callback);
+        break;
+      default:
+        callback(403, {resultat: "feilet"});
+    }
+  }
+}
