@@ -25,8 +25,7 @@ module.exports = class BrukerDao extends Dao {
 
   lagNyBruker(json, callback) {
     const tabell = [json.epost, json.passord, json.kommune_id];
-    let gyldig = json.epost.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
-    gyldig = json.kommune_id != null;
+    let gyldig = json.epost.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/ && json.kommune_id != null);
     if (gyldig) {
       super.query('INSERT INTO bruker (bruker_id, epost, passord, kommune_id) VALUES(DEFAULT,?,?,?)', tabell, callback);
     } else {

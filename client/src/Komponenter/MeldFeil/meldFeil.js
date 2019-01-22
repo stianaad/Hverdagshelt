@@ -17,14 +17,16 @@ export class MeldFeil extends Component {
 
   data = {
     overskrift: '',
-    kommune_id: 1,
-    kategori_id: 1,
-    subkategori_id: 1,
+    kommune_id: -1,
+    kategori_id: -1,
+    subkategori_id: -1,
     beskrivelse: '',
     lengdegrad: 0,
     breddegrad: 0,
     abonner: 1,
   };
+
+  advarsel = '';
 
   render() {
     return (
@@ -134,6 +136,7 @@ export class MeldFeil extends Component {
           <div id="meldinnknapp">
             <GronnKnapp onClick={this.send}>Meld inn</GronnKnapp>
           </div>
+          <label id="advarsel">{this.advarsel}</label>
         </div>
       </>
     );
@@ -160,31 +163,64 @@ export class MeldFeil extends Component {
   }
 
   send() {
-    let formData = new FormData();
-    this.data.kommune_id = this.kominput.current.verdi;
-    formData.append('kommune_id', this.data.kommune_id);
-    formData.append('overskrift', this.data.overskrift);
-    formData.append('kategori_id', this.data.kategori_id.value);
-    formData.append('subkategori_id', this.data.subkategori_id.value);
-    formData.append('beskrivelse', this.data.beskrivelse);
-    formData.append('lengdegrad', this.data.lengdegrad);
-    formData.append('breddegrad', this.data.breddegrad);
-    formData.append('abonner', this.data.abonner);
-    Array.from(document.querySelector('#bil').files).forEach((file) => {if (file.type.match('image.*')) formData.append('bilder', file, file.name);})
+    let hjelpData = this.data;
+    let gyldig = true;
 
-    let token = sessionStorage.getItem('pollett');
-    if (token) {
-      let xhr = new XMLHttpRequest();
-      xhr.open('POST', '/api/feil ', true);
-      xhr.setRequestHeader("x-access-token", 'Bearer ' + token)
-      xhr.onreadystatechange = () => {
-        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-          this.props.history.push('/');
-        }
-      };
-      xhr.send(formData);
+    if (!hjelpData.kommune_id) {
+      this.advarsel = 'Vennligst oppgi gyldig kommune';
+      gyldig = false;
+    }
+
+    if (hjelpData.overskrift === '') {
+      this.advarsel = 'Vennligst oppgi overskrift';
+      gyldig = false;
+    }
+
+    if (hjelpData.beskrivelse === '') {
+      this.advarsel = 'Vennligst oppgi en beskrivelse';
+      gyldig = false;
+    }
+
+    if (hjelpData.lengdegrad === 0 && hjelpData.breddegrad === 0) {
+      this.advarsel = 'Vennligst oppgi en posisjon';
+      console.log("Hello hello lads");
+      gyldig = false;
+    }
+
+    if (hjelpData.kategori_id < 1 || hjelpData.subkategori_id < 1) {
+      this.advarsel = 'Vennligst oppgi riktig kategori';
+      gyldig = false;
+    }
+
+    if(gyldig){
+      let formData = new FormData();
+      this.data.kommune_id = this.kominput.current.verdi;
+      formData.append('kommune_id', this.data.kommune_id);
+      formData.append('overskrift', this.data.overskrift);
+      formData.append('kategori_id', this.data.kategori_id.value);
+      formData.append('subkategori_id', this.data.subkategori_id.value);
+      formData.append('beskrivelse', this.data.beskrivelse);
+      formData.append('lengdegrad', this.data.lengdegrad);
+      formData.append('breddegrad', this.data.breddegrad);
+      formData.append('abonner', this.data.abonner);
+      Array.from(document.querySelector('#bil').files).forEach((file) => {if (file.type.match('image.*')) formData.append('bilder', file, file.name);})
+
+      let token = sessionStorage.getItem('pollett');
+      if (token) {
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', '/api/feil ', true);
+        xhr.setRequestHeader("x-access-token", 'Bearer ' + token)
+        xhr.onreadystatechange = () => {
+          if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            this.props.history.push('/');
+          }
+        };
+        xhr.send(formData);
+      } else {
+        global.sidePush("/", true);
+      }
     } else {
-      global.sidePush("/", true);
+
     }
   }
 

@@ -33,11 +33,16 @@ module.exports = class FeilDao extends Dao {
       json.lengdegrad,
       json.breddegrad,
     ];
-    super.query(
-      'INSERT INTO feil (kommune_id, bruker_id, subkategori_id, overskrift, beskrivelse, lengdegrad, breddegrad) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      feil,
-      callback
-    );
+    let gyldig = (json.kommune_id != null && json.bruker_id > 0 && json.subkategori_id != '-1' && json.overskrift != '' && json.beskrivelse != '' && json.lengdegrad != '0' && json.breddegrad != '0');
+    if (gyldig) {
+      super.query(
+        'INSERT INTO feil (kommune_id, bruker_id, subkategori_id, overskrift, beskrivelse, lengdegrad, breddegrad) VALUES (?, ?, ?, ?, ?, ?, ?)',
+        feil,
+        callback
+      );
+    } else {
+      callback(403, {error: 'Ugyldig input.'});
+    }
   }
 
   leggTilBilder(feil_id, bilder, callback) {
