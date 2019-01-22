@@ -16,11 +16,21 @@ class BrukerService {
   }
 
   lagNyBedriftBruker(nyBedriftBruker) {
-    return api.post('/api/brukere/bedrift', nyBedriftBruker);
+    let token = sessionStorage.getItem('pollett');
+    if(token) {
+      return api.post('/api/brukere/bedrift', nyBedriftBruker, {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return [];
+    }
   }
 
   lagNyAdminBruker(nyAdminBruker) {
-    return api.post('/api/brukere/admin', nyAdminBruker);
+    let token = sessionStorage.getItem('pollett');
+    if(token) {
+      return api.post('/api/brukere/admin', nyAdminBruker, {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return [];
+    }
   }
 
   hentBruker(bruker_id) {
