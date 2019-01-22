@@ -7,6 +7,6 @@ test:
   stage: test
   image: node:latest
   services:
-    - mysql:latest # The JS mysql-library does not yet support the newest mysql protocol
+    - mysql:5.7.24 # The JS mysql-library does not yet support the newest mysql protocol
   script:
     - cd server && npm install && npm test
