@@ -12,7 +12,9 @@ module.exports = class HendelseDao extends Dao {
   }
 
   hentHendelseForKommune(kommune_id, callback) {
-    super.query('SELECT * FROM hendelser WHERE kommune_id = ?', [kommune_id], callback);
+    super.query("SELECT hendelse_id,overskrift, hendelser.kommune_id,fylke_navn,DATE_FORMAT(tid, '%Y-%m-%d %H:%i') AS tid,beskrivelse,sted,bilde, lengdegrad, breddegrad,kategorinavn FROM hendelser,hendelseskategori,kommuner WHERE hendelser.hendelseskategori_id = hendelseskategori.hendelseskategori_id AND kommuner.kommune_id=hendelser.kommune_id AND hendelser.kommune_id=?",
+     [kommune_id], 
+     callback);
   }
 
   //testes
