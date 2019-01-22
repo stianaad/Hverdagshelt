@@ -83,7 +83,7 @@ CREATE TABLE subkategori (
     kategorinavn VARCHAR(255) NOT NULL,
     hovedkategori_id INT(11) NOT NULL,
     PRIMARY KEY (subkategori_id),
-    FOREIGN KEY (hovedkategori_id) REFERENCES hovedkategori(hovedkategori_id)
+    FOREIGN KEY (hovedkategori_id) REFERENCES hovedkategori(hovedkategori_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE status (
