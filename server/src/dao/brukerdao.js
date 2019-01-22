@@ -211,7 +211,7 @@ module.exports = class BrukerDao extends Dao {
 
   oppdaterSpesifisertBruker(json, rolle, callback) {
     console.log('inne i oppdaterSpesifisertBruker');
-    if (rolle.rolle == 'privat') {
+    if (rolle.rolle == 'privat' || rolle == 'admin') {
       console.log('oppdaterer bruker');
       this.oppdaterBruker(json, (status, data) => {
         console.log('oppdaterer privat');
@@ -221,7 +221,7 @@ module.exports = class BrukerDao extends Dao {
           callback
         );
       });
-    } else if (rolle.rolle == 'bedrift') {
+    } else if (rolle.rolle == 'bedrift' || rolle == 'admin') {
       console.log('oppdaterer bruker');
       this.oppdaterBruker(json, rolle, (status, data) => {
         console.log('oppdaterer bedrift');
@@ -231,7 +231,7 @@ module.exports = class BrukerDao extends Dao {
           callback
         );
       });
-    } else if (rolle.rolle == 'ansatt') {
+    } else if (rolle.rolle == 'ansatt' || rolle == 'admin') {
       console.log('oppdaterer bruker');
       this.oppdaterBruker(json, rolle, (status, data) => {
         console.log('oppdaterer ansatt');

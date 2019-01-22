@@ -203,7 +203,7 @@ router.post('/api/feil/oppdateringer/bedrift', checkToken, (req, res) => {
   };
   let role = req.decoded.role;
   console.log("hehehehehehehehehhe");
-  if (role == 'bedrift') {
+  if (role == 'bedrift' || role == 'admin') {
     feilDao.lagOppdatering(a, (status, data) => {
       console.log('Ny oppdatering laget:');
       res.status(status);
@@ -219,7 +219,7 @@ router.get('/api/feil/:feil_id/oppdatering', (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk GET-request fra klienten');
 
-  let a = {feil_id: req.params.feil_id};
+  let a = {feil_id: req.body.feil_id};
 
   feilDao.hentAlleOppdateringerPaaFeil(a, (status, data) => {
     res.status(status);
@@ -317,7 +317,7 @@ router.get('/api/feil/bedrift/nyeoppgaver', checkToken, (req, res) => {
   let rolle = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
   console.log(bruker_id);
-  if (rolle == 'bedrift') {
+  if (rolle == 'bedrift' || rolle == 'admin') {
     feilDao.hentNyeFeilTilBedrift(bruker_id, (status, data) => {
       res.status(status);
       res.json(data);
@@ -333,7 +333,7 @@ router.get('/api/feil/bedrift/underbehandling', checkToken, (req, res) => {
   let rolle = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
   console.log(bruker_id);
-  if (rolle == 'bedrift') {
+  if (rolle == 'bedrift' || rolle == 'admin') {
     feilDao.hentUnderBehandlingFeilTilBedrift(bruker_id, (status, data) => {
       res.status(status);
       res.json(data);
@@ -349,7 +349,7 @@ router.get('/api/feil/bedrift/ferdig', checkToken, (req, res) => {
   let role = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
   console.log(bruker_id);
-  if (role == 'bedrift') {
+  if (role == 'bedrift' || role == 'admin') {
     feilDao.hentFerdigeFeilTilBedrift(bruker_id, (status, data) => {
       res.status(status);
       res.json(data);
@@ -367,7 +367,7 @@ router.put('/api/bedrift/oppdater/feil/godta', checkToken, (req, res) => {
   let role = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
   console.log(bruker_id);
-  if (role == 'bedrift') {
+  if (role == 'bedrift' || role == 'admin') {
     feilDao.oppdaterStatusFeilTilBedrift(req.body, bruker_id, (status, data) => {
       res.status(status);
       res.json(data);
@@ -381,7 +381,7 @@ router.put('/api/bedrift/oppdater/feil/godta', checkToken, (req, res) => {
 router.post("/api/feil/:feil_id/abonnement", checkToken, (req, res) => {
   let role = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
-  if (role == 'privat') {
+  if (role == 'privat' || rolle == 'admin') {
     feilDao.abonnerFeil({bruker_id: bruker_id, feil_id: req.body.feil_id}, (status, data) => {
       res.status(status);
       res.json(data);
@@ -395,7 +395,7 @@ router.post("/api/feil/:feil_id/abonnement", checkToken, (req, res) => {
 router.delete("/api/feil/:feil_id/abonnement", checkToken, (req, res) => {
   let role = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
-  if (role == 'privat') {
+  if (role == 'privat' || role == 'admin') {
     feilDao.ikkeAbonnerFeil({bruker_id: bruker_id, feil_id: req.params.feil_id}, (status, data) => {
       res.status(status);
       res.json(data);
