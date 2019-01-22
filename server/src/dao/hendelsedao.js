@@ -97,12 +97,20 @@ module.exports = class HendelseDao extends Dao {
     );
   }
 
-  hentAlleHovedkategorier(callback) {
-    super.query('SELECT * FROM hovedkategori', null, callback);
-  }
-
   hentAlleKategorier(callback){
     super.query('SELECT * FROM hendelseskategori', null, callback);
+  }
+
+  nyHendelseskategori(json, callback) {
+    super.query('INSERT INTO hendelseskategori (kategorinavn) VALUES (?)', [json.kategorinavn], callback);
+  }
+
+  oppdaterHendelseskategori(json, callback) {
+    super.query('UPDATE hendelseskategori SET kategorinavn = ? WHERE hendelseskategori_id = ?', [json.kategorinavn, json.hendelseskategori_id], callback);
+  }
+
+  slettHendelseskategori(json, callback) {
+    super.query('DELETE FROM hendelseskategori WHERE hendelseskategori_id = ?', [json.hendelseskategori_id], callback);
   }
 
   abonnerHendelse(json, callback) {
