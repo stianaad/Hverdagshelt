@@ -6,7 +6,7 @@ import {FeedEvent, Filtrer, Info} from '../../Moduler/cardfeed';
 import {feilService} from '../../services/feilService';
 import {markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
 import {NavLink} from 'react-router-dom';
-import {AnsattMeny} from './kommuneansatt';
+import {AnsattMeny} from './ansattMeny';
 
 export class AnsattFerdig extends Component{
     fullforteFeil = [];

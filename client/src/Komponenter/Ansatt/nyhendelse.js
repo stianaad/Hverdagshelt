@@ -2,29 +2,10 @@ import * as React from 'react';
 import {Component} from 'react-simplified';
 import {PageHeader} from '../../Moduler/header/header';
 import {
-  Menu,
-  Card,
-  Feed,
   Grid,
-  Form,
   Button,
-  Header,
-  Icon,
-  Input,
-  Image,
-  Modal,
-  List,
-  CardContent,
-  GridColumn,
-  Dropdown,
-  TextArea,
 } from 'semantic-ui-react';
-import {FeedEvent, Filtrer, Info} from '../../Moduler/cardfeed';
-import {feilService} from '../../services/feilService';
-import {markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
-import {NavLink} from 'react-router-dom';
-import {brukerService} from '../../services/brukerService';
-import {AnsattMeny} from './kommuneansatt';
+import {AnsattMeny} from './ansattMeny';
 import {hendelseService} from '../../services/hendelseService'
 
 
