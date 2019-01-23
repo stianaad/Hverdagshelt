@@ -93,7 +93,7 @@ export class Hendelser extends Component {
 			}else{
 				this.skrivAlleKommuner = this.kommuner.find(e => (e.kommune_id == this.skrivKommuneID)).kommune_navn;
 				this.visFylke = true;
-				this.skrivFylke = "Fylke";
+				this.skrivFylke = "Alle fylker";
 				this.filterAlle();
 			}
 		}
@@ -101,7 +101,7 @@ export class Hendelser extends Component {
 		filterFylke(e) {
 			this.skrivFylke = e.target.value;
 			if( this.skrivFylke === "0"){
-				this.skrivFylke = "Fylke";
+				this.skrivFylke = "Alle fylker";
 				this.filterAlle();
 			} else {
 				this.filterAlle();
@@ -277,13 +277,16 @@ export class Hendelser extends Component {
 				let res1 = await res2.data.find(e => e.kommune_id == this.skrivKommuneID);
 				this.skrivAlleKommuner = res1.kommune_navn;
 			}
-			if(this.skrivAlleKommuner != "Alle kommuner"){
-				this.visFylke = true;
-			}
 			let res = await hendelseService.hentAlleHendelser();
 			this.hendelser = await res.data;
 			this.aktiveHendelser = await res.data;
 			await this.filterAlle();
+		}
+
+		if(this.skrivAlleKommuner != "Alle kommuner" || this.skrivAlleKommuner != "Kommuner"){
+			this.visFylke = true;
+			this.skrivFylke= "Alle fylker";
+			console.log(this.skrivFylke);
 		}
 
 		let res3 = await generellServices.hentAlleFylker();
@@ -302,6 +305,7 @@ export class Hendelser extends Component {
 		}
 		this.hendelser = await res1.data;
 		this.aktiveHendelser = await res1.data;
+		console.log(this.hendelser);
 		/*this.tider = this.aktiveHendelser.map(
 			kat => kat.tid
 		);
