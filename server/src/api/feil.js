@@ -403,13 +403,30 @@ router.post('/api/bedrift/feil', checkToken, (req, res) => {
   }
 });
 
-router.get('/api/ansatt/bedrift/:orgnr/feil/ferdig', checkToken, (req, res) => {
+router.get('/api/ansatt/bedrift/:orgnr/feil/nyeoppgaver', checkToken, (req, res) => {
   console.log('Fikk POST-request fra klienten');
   console.log('Inne i post bedrift feil');
   let role = req.decoded.role;
   if (role == 'ansatt' || role == 'admin') {
     feilDao.hentBedriftPaaOrgnr(req.params.orgnr, (status, data) => {
-      feilDao.hentFerdigeFeilTilBedrift(data[0].bruker_id, (status, data) => {
+      feilDao.hentNyeFeilTilBedrift(data[0].bruker_id, (status, data) => {
+        res.status(status);
+        res.json(data);
+      });
+    });
+  } else {
+    res.status(403);
+    res.json({result: false});
+  }
+});
+
+router.get('/api/ansatt/bedrift/:orgnr/feil/underbehandling', checkToken, (req, res) => {
+  console.log('Fikk POST-request fra klienten');
+  console.log('Inne i post bedrift feil');
+  let role = req.decoded.role;
+  if (role == 'ansatt' || role == 'admin') {
+    feilDao.hentBedriftPaaOrgnr(req.params.orgnr, (status, data) => {
+      feilDao.hentUnderBehandlingFeilTilBedrift(data[0].bruker_id, (status, data) => {
         res.status(status);
         res.json(data);
       });

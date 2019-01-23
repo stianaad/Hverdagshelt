@@ -144,7 +144,29 @@ class FeilService {
     if (token) {
       return api.get('/api/ansatt/bedrift/'+orgnr+'/feil/ferdig', { headers: { 'x-access-token': 'Bearer ' + token } });
     } else {
-      console.log('sendFeilTilBedrift failed');
+      console.log('hentFerdigeFeilForAnsatt failed');
+      return [];
+    }
+  }
+
+  hentFeilUnderbehandlingForAnsatt(orgnr) {
+    let token = sessionStorage.getItem('pollett');
+    console.log(token);
+    if (token) {
+      return api.get('/api/ansatt/bedrift/'+orgnr+'/feil/underbehandling', { headers: { 'x-access-token': 'Bearer ' + token } });
+    } else {
+      console.log('hentFeilUnderbehandlingForAnsatt failed');
+      return [];
+    }
+  }
+
+  hentNyeFeilForAnsatt(orgnr) {
+    let token = sessionStorage.getItem('pollett');
+    console.log(token);
+    if (token) {
+      return api.get('/api/ansatt/bedrift/'+orgnr+'/feil/nyeoppgaver', { headers: { 'x-access-token': 'Bearer ' + token } });
+    } else {
+      console.log('hentNyeFeilForAnsatt failed');
       return [];
     }
   }
