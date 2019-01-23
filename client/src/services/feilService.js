@@ -20,7 +20,7 @@ class FeilService {
   oppdaterFeil(oppdatertFeil, feil_id) {
     let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.put('/api/feil/' + feil_id, nyOpp, {headers: {'x-access-token': 'Bearer ' + token}});
+      return api.put('/api/feil/' + feil_id, oppdatertFeil, {headers: {'x-access-token': 'Bearer ' + token}});
     } else {
       console.log('oppdatertfeil, token feil');
       return [];
