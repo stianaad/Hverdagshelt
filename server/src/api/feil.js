@@ -387,7 +387,7 @@ router.post('/api/bedrift/feil', checkToken, (req, res) => {
   console.log('Fikk POST-request fra klienten');
   console.log('Inne i post bedrift feil');
   let role = req.decoded.role;
-  let a = {bruker_id: req.decoded.user.bruker_id, feil_id: req.body.params.feil_id}
+  let a = {bruker_id: req.decoded.user.bruker_id, feil_id: req.body.feil_id}
   console.log(bruker_id + role);
   if (role == 'ansatt' || role == 'admin') {
     feilDao.sendFeilTilBedrift(a, (status, data) => {
