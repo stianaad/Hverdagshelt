@@ -8,6 +8,11 @@
     background-size: cover;
 }
 
+.touchscroll {
+    -webkit-overflow-scrolling: touch;
+    height:10px;
+  }
+
 .main-title {
     font-size: 35px;
     text-align:center;

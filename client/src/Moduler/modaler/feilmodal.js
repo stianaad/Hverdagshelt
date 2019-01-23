@@ -46,8 +46,8 @@ export class FeilModal extends Component {
                 </h6>
               </div>
             </Card.Content>
-            <Card.Content extra>
-              <Grid fluid columns={3}>
+            <Card.Content extra style={{overflowY:"auto", height:"77%"}} className="touchscroll">
+              <Grid fluid columns={3} stackable>
                 <Grid.Column>
                   <h6>Beskrivelse</h6>
                   <Input>{this.props.feil.beskrivelse}</Input>
