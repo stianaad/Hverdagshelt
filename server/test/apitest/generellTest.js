@@ -5,7 +5,7 @@ import BrukerDao from '../../src/dao/brukerdao.js';
 import runsqlfile from '../runsqlfile.js';
 import FeilDao from '../../src/dao/feildao';
 import HendelseDao from '../../src/dao/hendelsedao';
-//import {Hendelse} from '../../../client/src/services/hendelseService';
+//import {localTestPool} from '../poolsetup.js';
 
 var pool = mysql.createPool({
   connectionLimit: 1,
