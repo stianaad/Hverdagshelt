@@ -140,7 +140,7 @@ export class MineOppgaver extends Component {
             <div className="row mt-5">
               <div className="col-sm-4">
                 <div className="m1-3">
-                  <Card color="red" fluid="true">
+                  <Card color="red" fluid>
                     <Card.Content>
                       <Card.Header>
                         Nye innsendinger
@@ -164,7 +164,7 @@ export class MineOppgaver extends Component {
               </div>
               <div className="col-sm-4">
                 <div className="m1-3">
-                  <Card color="yellow" fluid="true">
+                  <Card color="yellow" fluid>
                     <Card.Content>
                       <Card.Header>
                         Under behandling
@@ -188,7 +188,7 @@ export class MineOppgaver extends Component {
               </div>
               <div className="col-sm-4">
                 <div className="m1-3">
-                  <Card color="green" fluid="true">
+                  <Card color="green" fluid>
                     <Card.Content>
                       <Card.Header>
                         Avsluttede saker
