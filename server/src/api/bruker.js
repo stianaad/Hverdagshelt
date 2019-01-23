@@ -45,7 +45,7 @@ router.post('/api/brukere/privat', (req, res) => {
     brukerDao.lagNyPrivatBruker(req.body, (status, data) => {
       res.status(status);
       res.json(data);
-      epostTjener.registreringsBekreftelse(req.body.fornavn + " " + req.body.etternavn, req.body.epost);
+      epostTjener.registreringsBekreftelse(req.body.fornavn + ' ' + req.body.etternavn, req.body.epost);
     });
   });
 });
@@ -86,7 +86,7 @@ router.post('/api/brukere/bedrift', checkToken, (req, res) => {
         res.json(data);
       });
     });
-} else {
+  } else {
     res.status(403);
     res.json({result: false});
   }
@@ -139,6 +139,39 @@ router.post('/api/brukere/nyttpassord', checkToken, (req, res) => {
     });
     console.log('/nyttpassord, endret passord: OK');
   });
+});
+
+router.put('/api/brukere/endrepassord', checkToken, (req, res) => {
+  if (req.body.nyttPass === req.body.nyttPassSjekk && req.body.nyttPass.length >= 8) {
+    brukerDao.hentBrukerPaaid(req.decoded.user, (status, info) => {
+      if (info.length > 0) {
+        passord(req.body.gammeltPass).verifyAgainst(info[0].passord, (error, verified) => {
+          if (error) {
+            throw new Error('/brukere/endrepassord - Error på verifisering');
+          }
+          if (verified) {
+            console.log('passod verifisert');
+            passord(req.body.nyttPass).hash((error, hash) => {
+              if (error) {
+                throw new Error('/brukere/endrepassord - Hashing feilet');
+              }
+              req.body.nyttPass = hash;
+              brukerDao.endrePassord({passord: req.body.nyttPass, epost: req.decoded.user.epost}, (status, data) => {
+                res.status(status);
+                res.json(data);
+              });
+            });
+          }
+          else {
+            res.status(403);
+            res.json({result: false});
+          }
+        });
+      }
+    });
+  } else {
+    throw new Error ('/brukere/endrepassord - Passord ikke like eller for korte')
+  }
 });
 
 router.post('/api/brukere/glemtpassord', (req, res) => {
