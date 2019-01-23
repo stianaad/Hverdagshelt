@@ -138,10 +138,11 @@ class FeilService {
     }
   }
 
-  hentFerdigeFeilForAnsatt(k) {
+  hentFerdigeFeilForAnsatt(orgnr) {
     let token = sessionStorage.getItem('pollett');
+    console.log(token);
     if (token) {
-      return api.put('/api/ansatt/bedrift/feil/ferdig', k, { headers: { 'x-access-token': 'Bearer ' + token } });
+      return api.get('/api/ansatt/bedrift/'+orgnr+'/feil/ferdig', { headers: { 'x-access-token': 'Bearer ' + token } });
     } else {
       console.log('sendFeilTilBedrift failed');
       return [];

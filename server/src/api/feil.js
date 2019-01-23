@@ -403,7 +403,7 @@ router.post('/api/bedrift/feil', checkToken, (req, res) => {
   }
 });
 
-router.get('/api/ansatt/bedrift/:orgnr/feil/underbehandling', checkToken, (req, res) => {
+router.get('/api/ansatt/bedrift/:orgnr/feil/ferdig', checkToken, (req, res) => {
   console.log('Fikk POST-request fra klienten');
   console.log('Inne i post bedrift feil');
   let role = req.decoded.role;
