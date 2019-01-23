@@ -135,8 +135,9 @@ export class Hovedside extends Component {
     else {
       //window.scrollTo(0, document.querySelector(id).offsetTop - 115);
       let q = (id) => document.querySelector(id);
-      
-      if (view == this.mobView) {
+      q("#mapContainer").style.height ="0px";
+        q("#test").style.height = "0px";
+      if (view == this.mobView && view == "#hovedKart") {
         return;
       } else {
         q("#mapContainer").style.height ="0px";
@@ -146,11 +147,11 @@ export class Hovedside extends Component {
         if (!window.closedObj.isClosed) {
           console.log(window.closedObj);
           window.setClosed();
-          window.removeEventListener("touchmove", window.func);
+          
         }
 
         q(this.mobView).style.display = "none";
-        q("#mapContainer").style.height = "calc(100vh - 250px)";
+        q("#mapContainer").style.height = "calc(100vh - 75px)";
         q("#test").style.height = "100%";
       }
       else if (this.mobView == "#hovedKart") {
@@ -255,7 +256,7 @@ export class Hovedside extends Component {
                         <img
                           onClick={() => {
                             if (this.mobView == "#hovedFeil") {
-                              document.querySelector("#hovedFeil").style.display="block";
+                              //document.querySelector("#hovedFeil").style.display="block";
                               this.mobileView("#hovedFeil");
                             }
                             else {
@@ -277,7 +278,7 @@ export class Hovedside extends Component {
                       </h6>
                     </div>
                   </Card.Content>
-                  <Card.Content extra style={{height: '100%', overflowY: 'auto', color:"black"}}>
+                  <Card.Content extra style={{height: '100%', color:"black"}}>
                     <Grid  columns={3} stackable style={{height: '100%'}}>
                       <Grid.Column style={{overflowY: 'auto'}}>
                         <h6>Beskrivelse: </h6>
@@ -411,7 +412,7 @@ f                      id="test"
           </div>
           
         ) : (
-          <div className="row mt-4">
+          <div className="row mt-4 hovedContainer">
             <div className="col-sm-9 hendelseInfo">
               <Card fluid>
                 <Card.Content>
@@ -548,6 +549,8 @@ f                      id="test"
         ]);
     
         await Promise.all([res1.data]).then(() => {
+          console.log("got here");
+          if (this.mobView != "#hovedKart") window.setClosed();
           this.kart.addMarkers(res1.data);
         });
 
