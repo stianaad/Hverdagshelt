@@ -246,7 +246,6 @@ test('Lag ny feil', (done) => {
   feildao.lagNyFeil(oppdaterFeil1, callback);
 });
 
-/* trenger on delete cascade
 test('slett feil', done => {
   function callback(status, data) {
     console.log('Test callback: status' + status + ', data: ' + JSON.stringify(data));
@@ -255,7 +254,7 @@ test('slett feil', done => {
   }
   feildao.slettFeil({feil_id: 1}, callback);
 })
-*/
+
 
 /* fucker opp pga tiden er primarykey, får duplicate
 test('Opprett ny oppdatering', done => {

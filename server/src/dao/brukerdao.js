@@ -1,6 +1,6 @@
 import Dao from './dao.js';
 
-//  7 av 22 funksjoner testes
+//  11 av 22 funksjoner testes
 module.exports = class BrukerDao extends Dao {
   kontrollOrgnr(tall) {
     var sum = 0;

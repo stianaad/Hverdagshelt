@@ -1,7 +1,7 @@
 import Dao from './dao.js';
 
 //DAO som omfatter alt som innebærer feil, det vil også si oppdateringer, statuser og kategorier
-// 9 av 17 funksjoner testes
+// 9 av 30 funksjoner testes
 module.exports = class FeilDao extends Dao {
   //testes
   hentAlleFeil(callback) {
@@ -85,8 +85,7 @@ module.exports = class FeilDao extends Dao {
 
   //testes, men trenger on delete cascade
   slettFeil(json, callback) {
-    var feil_id = json.feil_id;
-    super.query('DELETE FROM feil WHERE feil_id = ?', [feil_id], callback);
+    super.query('DELETE FROM feil WHERE feil_id = ?', [json.feil_id], callback);
   }
 
   lagOppdatering(json, callback) {
@@ -216,6 +215,7 @@ module.exports = class FeilDao extends Dao {
       callback
     );
   }
+
   abonnerFeil(json, callback) {
     super.query("INSERT INTO feilfolg (feil_id, bruker_id) VALUES (?, ?)", [json.feil_id, json.bruker_id], callback);
   }
@@ -223,7 +223,6 @@ module.exports = class FeilDao extends Dao {
   ikkeAbonnerFeil(json, callback) {
     super.query("DELETE FROM feilfolg WHERE feil_id=? AND bruker_id=?", [json.feil_id, json.bruker_id], callback);
   }
-
 };
 
 
