@@ -194,7 +194,7 @@ module.exports = class BrukerDao extends Dao {
   //testes
   hentBrukerPaaid(json, callback) {
     let tabell = [json.bruker_id];
-    console.log(tabell + 'bruker dao');
+    console.log(tabell + ' bruker dao');
     super.query('SELECT * FROM bruker WHERE bruker_id = ?', tabell, callback);
   }
 
