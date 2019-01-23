@@ -20,10 +20,12 @@ export class AlleBedrifter extends Component{
     openBed(bed){
         this.valgtBed = {...bed};
         this.bedApen = true;
+        this.hentFeil(bed);
     }
 
-    async hentFeil(){
-        
+    async hentFeil(bed){
+        let res1 = await feilService.hentFerdigeFeilForAnsatt(bed.orgnr);
+        await console.log(res1.data);
     }
 
     render(){

@@ -403,12 +403,12 @@ router.post('/api/bedrift/feil', checkToken, (req, res) => {
   }
 });
 
-router.get('/api/ansatt/bedrift/feil/ferdig', checkToken, (req, res) => {
+router.get('/api/ansatt/bedrift/:orgnr/feil/ferdig', checkToken, (req, res) => {
   console.log('Fikk POST-request fra klienten');
   console.log('Inne i post bedrift feil');
   let role = req.decoded.role;
   if (role == 'ansatt' || role == 'admin') {
-    hentBedriftPaaOrgnr(req.body.orgnr, (status, data) => {
+    feilDao.hentBedriftPaaOrgnr(req.params.orgnr, (status, data) => {
       feilDao.hentFerdigeFeilTilBedrift(data[0].bruker_id, (status, data) => {
         res.status(status);
         res.json(data);
