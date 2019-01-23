@@ -387,12 +387,32 @@ router.post('/api/bedrift/feil', checkToken, (req, res) => {
   console.log('Fikk POST-request fra klienten');
   console.log('Inne i post bedrift feil');
   let role = req.decoded.role;
-  let a = {bruker_id: req.decoded.user.bruker_id, feil_id: req.body.feil_id}
-  console.log(bruker_id + role);
   if (role == 'ansatt' || role == 'admin') {
-    feilDao.sendFeilTilBedrift(a, (status, data) => {
-      res.status(status);
-      res.json(data);
+    hentBedriftPaaOrgnr(req.body.orgnr, (status, data) => {
+      let a = {bruker_id: data[0].bruker_id, feil_id: req.body.feil_id}
+      console.log(a);
+      feilDao.sendFeilTilBedrift(a, (status, data) => {
+        res.status(status);
+        res.json(data);
+      });
+    })
+
+  } else {
+    res.status(403);
+    res.json({result: false});
+  }
+});
+
+router.get('/api/ansatt/bedrift/feil/ferdig', checkToken, (req, res) => {
+  console.log('Fikk POST-request fra klienten');
+  console.log('Inne i post bedrift feil');
+  let role = req.decoded.role;
+  if (role == 'ansatt' || role == 'admin') {
+    hentBedriftPaaOrgnr(req.body.orgnr, (status, data) => {
+      feilDao.hentFerdigeFeilTilBedrift(data[0].bruker_id, (status, data) => {
+        res.status(status);
+        res.json(data);
+      });
     });
   } else {
     res.status(403);
