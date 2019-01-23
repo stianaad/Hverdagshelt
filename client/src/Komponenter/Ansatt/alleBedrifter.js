@@ -16,6 +16,11 @@ export class AlleBedrifter extends Component{
     feilApen = false; 
     valgtBed = '';
     feilHosBedrift = [];
+    valgtFeil = {
+        feil_id: "",
+        overskrift: "",
+        beskrivelse: ""
+    }
 
     openBed(bed){
         this.valgtBed = {...bed};
@@ -25,7 +30,18 @@ export class AlleBedrifter extends Component{
 
     async hentFeil(bed){
         let res1 = await feilService.hentFerdigeFeilForAnsatt(bed.orgnr);
-        await console.log(res1.data);
+        this.feilHosBedrift = await res1.data; 
+        await console.log(this.feilHosBedrift);
+        
+    }
+
+    async hentOppdateringer(){
+        
+    }
+
+    visFeil(feil){
+        this.valgtFeil = {...feil};
+        this.feilApen = true;
     }
 
     render(){
@@ -64,11 +80,36 @@ export class AlleBedrifter extends Component{
                             <div className="col-sm-8">
                                 {this.bedApen ? (
                                     <div>
-                                       <Card>
-                                            <Grid columns={3}>
+                                       <Card fluid>
+                                            <Grid columns={3} fluid>
+                                                <Grid.Column>
+                                                    <List divided relaxed>
+                                                        {this.feilHosBedrift.map((feil) => (
+                                                            <List.Item onClick={() => this.visFeil(feil)}>
+                                                                <List.Content>
+                                                                    <List.Header>{feil.overskrift}</List.Header>
+                                                                    <List.Description>{feil.tid}</List.Description>
+                                                                </List.Content>
+                                                            </List.Item>
+                                                        ))}
+                                                    </List>                                                
+                                                </Grid.Column>
                                                 <Grid.Column>
 
                                                 </Grid.Column>
+                                                {this.feilApen ? (
+                                                    <div>
+                                                        <Grid.Column>
+                                                            <h5>overskrift: </h5>
+                                                            {this.valgtFeil.overskrift}
+                                                            <h5>Beskrivelse:</h5>
+                                                            {this.valgtFeil.beskrivelse}
+                                                            <ShowMarkerMap key={this.valgtFeil.feil_id} width="100%" height="85%" id="posmap" feil={this.valgtFeil} />
+                                                        </Grid.Column>
+                                                    </div>
+                                                ):(
+                                                    <div>Trykk på en feil i lista for å se mer informasjon</div>
+                                                )}
                                             </Grid>
                                        </Card>
                                     </div>
