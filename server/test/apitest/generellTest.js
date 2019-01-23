@@ -118,7 +118,6 @@ test('legg til ny privatbruker', (done) => {
 test('hent ikke oppdaterte feil til bruker', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
-    expect(data.affectedRows).toBeGreaterThanOrEqual(1);
     expect(data[0].overskrift).toBe('Test2');
     done();
   }
@@ -147,7 +146,6 @@ test('legg til ny adminbruker', (done) => {
 test('hent hendelser til bruker', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
-    expect(data.affectedRows).toBeGreaterThanOrEqual(1);
     expect(data[0].beskrivelse).toBe('Beskrivelse2');
     done();
   }
@@ -362,7 +360,7 @@ test('Filtrer hendelser kommune', (done) => {
 test('hent alle hendelseskategorier', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
-    expect(data[0].kategorinavn).toBe('Fest');
+    expect(data.length).toBeGreaterThanOrEqual(2);
     done();
   }
   hendelsedao.hentAlleHendelseskategorier(callback);
