@@ -54,3 +54,21 @@
   text-align: right;
   word-break: break-all;
 }
+
+.form-control{
+  text-align: right;
+}
+
+.col-sm-4 {
+  text-align: left;
+  font-weight: 600;
+}
+
+.modalPopup {
+  color: #0645AD;
+  
+}
+
+.modalPopup:hover{
+  cursor: pointer;
+}
