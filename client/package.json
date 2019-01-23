@@ -16,6 +16,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
     "axios": "^0.18.0",
+    "html2canvas": "^1.0.0-alpha.12",
     "js-base64": "^2.4.9",
     "jsonwebtoken": "^8.4.0",
     "leaflet": "^1.4.0",
