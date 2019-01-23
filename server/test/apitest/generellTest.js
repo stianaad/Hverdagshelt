@@ -115,13 +115,13 @@ test('legg til ny privatbruker', (done) => {
   brukerdao.lagNyPrivatBruker(testprivatBruker, callback);
 });
 
-test('hent feil til bruker', (done) => {
+test('hent ikke oppdaterte feil til bruker', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
     expect(data[0].overskrift).toBe('wedwed');
     done();
   }
-  brukerdao.finnFeilTilBruker(1, callback);
+  brukerdao.finnIkkeOppdaterteFeilTilBruker(1, callback);
 });
 
 test('hent fulgte feil til bruker', (done) => {
