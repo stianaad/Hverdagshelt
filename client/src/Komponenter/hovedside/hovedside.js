@@ -182,11 +182,38 @@ export class Hovedside extends Component {
 
           <h1 className="text-center text-capitalize display-4">{this.props.match.params.kommune} </h1>
 
-          <Link to={this.kommune ? "/meldfeil?k="+this.kommune.kommune_id : "/meldfeil"}>
-            <Button color="red" size="large">
+          {global.payload == null ? (
+            <Button
+              color="red"
+              size = "large"
+              className="meldFeilHoved"
+              onClick={() => {
+                clearInterval(this.shakeInterval);
+                this.shakeInterval = setInterval(() => {
+                  if (Math.abs(this.shake) > 20) this.shakeDir*=-1;
+                  this.shake += this.shakeDir;
+                  document.body.style.transform = "translate("+this.shake+"px, 0)";
+                },10);
+                setTimeout(() => {
+                  clearInterval(this.shakeInterval);
+                  document.body.style.transform = "";
+                  this.shake = 0;
+                  this.shakeDir = 5;
+                  document.querySelector(".logginnbutton").click();
+                },300);
+              }}
+            >
               Meld inn feil
             </Button>
-          </Link>
+            ) : global.payload.role == 'admin' || global.payload.role == 'privat' ? (
+              <Link to={this.kommune ? "/meldfeil?k="+this.kommune.kommune_id : "/meldfeil"}>
+                <Button className="meldFeilHoved" color="red" size="large">
+                  Meld inn feil
+                </Button>
+              </Link>
+            ) : null}
+
+          
 
         </div>
         <div className="mobileButtons">
