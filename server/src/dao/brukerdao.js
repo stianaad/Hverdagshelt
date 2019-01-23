@@ -29,7 +29,7 @@ module.exports = class BrukerDao extends Dao {
     let gyldig = json.epost.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) && json.kommune_id != null;
     console.log(gyldig)
     if (gyldig) {
-      super.query('INSERT INTO bruker (bruker_id, epost, passord, kommune_id) VALUES(DEFAULT,?,?,?)', tabell, callback);
+      super.query('INSERT INTO bruker (epost, passord, kommune_id) VALUES(?,?,?)', tabell, callback);
     } else {
       callback(403, {error: 'Ugyldig input.'});
     }
