@@ -1,5 +1,5 @@
 .feilCardImage{
-    width: 250px !important;
+    /*width: 250px !important;*/
     height: auto;
     max-height: 300px;
     
@@ -7,28 +7,20 @@
 }
 
 .feilCard{
-    width:250px !important;
+    /*width:250px !important;*/
+    margin:5px 0!important;
 }
 
 /*.slettFeil:hover{
     
 }*/
 
-.columnCenter{
-    width:250px;
-    margin: 0 auto;
-}
-
-#sideListe, #sideListeH {
-    min-width: 270px;
+.minSideKolonne {
+  width: 300px;
 }
 
 #sideListeH {
   margin-right: 15px;
-}
-
-.minRow > div {
-    min-width: 250px;
 }
 
 .highlight {

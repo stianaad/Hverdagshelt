@@ -1,15 +1,14 @@
 import * as React from 'react';
 import {PageHeader} from '../../Moduler/header/header';
-import {Component, sharedComponentData} from 'react-simplified';
-import {feilService} from '../../services/feilService';
-import {Card, Feed, Grid, Button, Header, Icon, Image, Popup, Modal, Input, List, Dropdown} from 'semantic-ui-react';
-import {FeedEvent, FeedHendelse, Filtrer, Info, FeedMinside, ModalHendelse} from '../../Moduler/cardfeed';
+import {Component} from 'react-simplified';
+import {Card, Feed, Button, Header, Image} from 'semantic-ui-react';
+import {FeedMinside, ModalHendelse} from '../../Moduler/cardfeed';
 import {brukerService} from '../../services/brukerService';
-import {NavLink, Link} from 'react-router-dom';
-import {markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
+import {Link} from 'react-router-dom';
 import {KommuneInput} from '../../Moduler/kommuneInput/kommuneInput';
 import { FeilModal } from '../../Moduler/modaler/feilmodal';
 import { EndrePassordModal } from '../../Moduler/modaler/endrepassordmodal';
+import {InfoBoks} from '../../Moduler/info/info';
 
 export class Minside extends Component {
   oppdaterteFeil = [];
@@ -103,8 +102,9 @@ export class Minside extends Component {
             </Button>
           </Link>
         </div>
-        <div className="row minRow">
-          <div className="col-sm mt-3 ml-3" id="sideListe">
+        <div className="row">
+          <div className="col"></div>
+          <div className="col-md-auto ml-3 mr-1 minSideKolonne" id="sideListe">
             <Card fluid>
               <Card.Content>
                 <Card.Header>
@@ -167,8 +167,7 @@ export class Minside extends Component {
               ) : null}
             </Card>
           </div>
-          <div className="col-sm mt-3">
-            <div className="columnCenter">
+          <div className="col-md-auto mx-1 minSideKolonne">
               <h2>Hendelser du følger</h2>
               {this.folgteHendelser.length > 0 ? (
                 <Card.Group itemsPerRow={1}>
@@ -207,9 +206,7 @@ export class Minside extends Component {
                 </Card>
               )}
             </div>
-          </div>
-          <div className="col-sm mt-3">
-            <div className="columnCenter">
+          <div className="col-md-auto mx-1 minSideKolonne">
               <h2>Feil/mangler du følger</h2>
               {this.folgteFeil.length > 0 ? (
                 <Card.Group itemsPerRow={1}>
@@ -248,11 +245,10 @@ export class Minside extends Component {
                 </Card>
               )}
             </div>
-          </div>
-          <div className="col-md-auto mx-3" id="sideListeH">
+          <div className="col-md-auto mr-3 ml-1 minSideKolonne" id="sideListeH">
             <Card fluid>
               <Card.Content>
-                <Card.Header>Brukerinformasjon</Card.Header>
+                <Card.Header>Brukerinformasjon<InfoBoks tekst="Her kan du både se og redigere din personlige informasjon. Du kan også endre passord ved: 'Rediger bruker' > 'Endre passord'."/></Card.Header>
               </Card.Content>
               <Card.Content>
                 <div id="container">
@@ -366,6 +362,7 @@ export class Minside extends Component {
               </Card.Content>
             </Card>
           </div>
+          <div className="col"></div>
         </div>
       </div>
     );
