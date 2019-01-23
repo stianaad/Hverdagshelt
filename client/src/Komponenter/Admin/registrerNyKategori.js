@@ -18,6 +18,7 @@ import {
   import {hendelseService} from '../../services/hendelseService';
 
 export class RegistrerNyKategori extends Component {
+    /* EKSEMPEL <RegistrerNyKategori overskrift="Registrer ny hendelseskategori" label="hendekseKat" placeholder="vann" id={3}/>*/ 
     open = false;
     kategori = "";
     hovedkategoriID = "";

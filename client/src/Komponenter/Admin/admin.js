@@ -3,6 +3,7 @@ import {Component} from 'react-simplified';
 import { PageHeader } from '../../Moduler/header/header';
 import {RegistrerBedrift} from '../Registrering/registrerBedrift';
 import {RegistrerNyKategori} from './registrerNyKategori';
+import {SlettKategori} from './slettKategori';
 
 export class Administrasjon extends Component {
     render() {
@@ -10,7 +11,7 @@ export class Administrasjon extends Component {
             <div className="container">
                 <PageHeader history={this.props.history} location={this.props.location} />
                 <p>test</p>
-                <RegistrerNyKategori overskrift="Registrer ny hendelseskategori" label="hendekseKat" placeholder="vann" id={3}/>
+                <SlettKategori overskrift="Slett hovedkategori/subkategori"/>
             </div>
         );
     }
