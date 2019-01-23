@@ -16,7 +16,7 @@ import generell from './api/generell.js';
 app.use(generell);
 import feil from './api/feil.js';
 app.use(feil);
-const hendelse = require('./api/hendelse.js');
+import hendelse from './api/hendelse.js';
 app.use(hendelse);
 
 import jwt from 'jsonwebtoken';
