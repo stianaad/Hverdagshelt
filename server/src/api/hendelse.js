@@ -142,7 +142,7 @@ router.get('/api/hendelseskat', (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk GET-request fra klienten (hent alle kategorier)');
 
-  hendelseDao.hentAlleKategorier((status, data) => {
+  hendelseDao.hentAlleHendelseskategorier((status, data) => {
     res.status(status);
     res.json(data); 
     console.log('/hentAlleKategorier lengde: ' + data.length);
@@ -153,7 +153,7 @@ router.post("/api/hendelser/:hendelse_id/abonnement", checkToken, (req, res) => 
   let role = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
   if (role == 'privat') {
-    hendelseDao.abonnerHendelse({bruker_id: bruker_id, hendelse_id: req.body.hendelse_id}, (status, data) => {
+    hendelseDao.abonnerHendelse({bruker_id: bruker_id, hendelse_id: req.params.hendelse_id}, (status, data) => {
       res.status(status);
       res.json(data);
     });
@@ -167,7 +167,7 @@ router.delete("/api/hendelser/:hendelse_id/abonnement", checkToken, (req, res) =
   let role = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
   if (role == 'privat' || role == 'admin') {
-    hendelseDao.ikkeAbonnerHendelse({bruker_id: bruker_id, hendelse_id: req.body.hendelse_id}, (status, data) => {
+    hendelseDao.ikkeAbonnerHendelse({bruker_id: bruker_id, hendelse_id: req.params.hendelse_id}, (status, data) => {
       res.status(status);
       res.json(data);
     });

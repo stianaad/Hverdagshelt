@@ -7,3 +7,20 @@
 
     padding-left: 0.8%;
   }
+
+  .hendelserBilde{
+    max-height: 30vh;
+    align-content: center;
+  }
+
+  .knappLengdeHendelser{
+    width: 100%;
+  }
+
+  .feilCard {
+    max-width: 250px !important;
+  }
+
+  @media screen and (min-width: 600px) {
+    
+  }
