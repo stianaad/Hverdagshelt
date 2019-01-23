@@ -68,7 +68,10 @@ export class Hovedside extends Component {
 
   visEnHendelse(hendelse) {
     if (this.mobView == "#hovedHendelser") {
-      document.querySelector("#hovedHendelser").style.display="none";
+      setTimeout(()=>{
+        document.querySelector("#hovedHendelser").style.display="none";
+      },100);
+      
       /*setTimeout(() => {
         document.querySelector("#hovedHendelser").style.display="none";
         setTimeout(()=>{document.querySelector(".hendelseFeil").style.display="block";}, 100);
