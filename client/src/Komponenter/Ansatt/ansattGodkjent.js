@@ -7,6 +7,7 @@ import {feilService} from '../../services/feilService';
 import {markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
 import {NavLink} from 'react-router-dom';
 import {AnsattMeny} from './ansattMeny';
+import { brukerService } from '../../services/brukerService';
 
 export class AnsattGodkjent extends Component{
     godkjente = [];
@@ -16,6 +17,16 @@ export class AnsattGodkjent extends Component{
         overskrift: '',
         beskrivelse: ''
     };
+    feilApen = false; 
+
+    statuser = [];
+
+    alleBedrifter = [];
+
+    visFeil(feil){
+        this.feilApen = true;
+        this.valgtfeil = feil; 
+    }
 
     render(){
         return(
@@ -54,46 +65,60 @@ export class AnsattGodkjent extends Component{
                                     <div className="ansattFeilVindu">
                                         <Card fluid>
                                             <Card.Content>
-                                                <div>
-                                                    <Grid fluid columns={2} verticalAlign="middle">
-                                                    <Grid.Column textAlign="left">
-                                                        <h1>{this.valgtfeil.overskrift}</h1>
-                                                    </Grid.Column>
-                                                    <Grid.Column textAlign="right" fluid>
-                                                        <h6>{this.valgtfeil.tid}</h6>
-                                                    </Grid.Column>
-                                                    <Grid.Column textAlign="left">
-                                                        <h6>Status: {this.valgtfeil.status}</h6>
-                                                    </Grid.Column>
-                                                    <Grid.Column>
-                                                        <Button floated="right" color="red">
-                                                        Slett feil
-                                                        </Button>
-                                                        <Button floated="right" color="green" onClick={() => this.godkjenn(this.valgtfeil.feil_id, "test", 2)}>
-                                                        Godkjenn
-                                                        </Button>
-                                                    </Grid.Column>
-                                                    </Grid>
-                                                </div>
+                                                <h3>{this.valgtfeil.overskrift}</h3>
                                             </Card.Content>
                                             <Card.Content extra>
                                                 <div>
-                                                    <Grid columns={3} fluid stackable>
-                                                    <Grid.Column>
-                                                        <TextArea value={this.valgtfeil.beskrivelse} rows="18" />
-                                                    </Grid.Column>
-                                                    <Grid.Column>KART</Grid.Column>
-                                                    <Grid.Column>
-                                                        <Grid columns={2} fluid>
-                                                        {this.bilder.map((bilde) => (
-                                                            <Grid.Column>
-                                                            <div onClick={() => this.visBilde(bilde.url)}>
-                                                                <img src={bilde.url} className="bilder" />
+                                                    <Grid columns={3} fluid stackable divided>
+                                                        <Grid.Column>
+                                                            <div>
+                                                                <h5>Beskrivelse: </h5>
+                                                                <p>{this.valgtfeil.beskrivelse}</p>
+                                                                <h5>Posisjon: </h5>
+                                                                <ShowMarkerMap key={this.valgtfeil.feil_id} width="100%" height="50%" id="posmap" feil={this.valgtfeil} />
                                                             </div>
-                                                            </Grid.Column>
-                                                        ))}
-                                                        </Grid>
-                                                    </Grid.Column>
+                                                        </Grid.Column>    
+                                                        <Grid.Column>
+                                                            <h5>Oppdater: </h5>
+                                                            <div className="form-group">
+                                                                <label>Kommentar: </label>
+                                                                <input type="text" className="form-control"
+                                                                    required={true}
+                                                                />
+                                                            </div>
+                                                            <div className="form-group">
+                                                                <label>Status: </label>
+                                                                <select
+                                                                    className="form-control"
+                                                                    >
+                                                                    <option hidden>{this.valgtfeil.status}</option>
+                                                                    {this.statuser.map((status) => (
+                                                                        <option value={status.status} key={status.status}>
+                                                                        {' '}
+                                                                        {status.status}
+                                                                        </option>
+                                                                    ))}
+                                                                </select>
+                                                            </div>
+                                                            <Button basic color="green">Lagre</Button>
+                                                        </Grid.Column>
+                                                        <Grid.Column>
+                                                            <h5>Send til bedrift: </h5>
+                                                            <div className="form-group">
+                                                                <select
+                                                                    className="form-control"
+                                                                    >
+                                                                    <option hidden>Velg bedrift</option>
+                                                                    {this.alleBedrifter.map((bed) => (
+                                                                        <option value={bed.navn} key={bed.navn}>
+                                                                        {' '}
+                                                                        {bed.navn}
+                                                                        </option>
+                                                                    ))}
+                                                                </select>
+                                                            </div>
+                                                            <Button basic color="blue">Send</Button>
+                                                        </Grid.Column>                                                
                                                     </Grid>
                                                 </div>
                                             </Card.Content>
@@ -123,6 +148,12 @@ export class AnsattGodkjent extends Component{
         this.godkjente = await feil.data.filter(e => (e.status === 'Godkjent'));
         
         await this.scroll();
+
+        let status = await feilService.hentAlleStatuser();
+        this.statuser = await status.data; 
+
+        let bed = await brukerService.hentBedrifter();
+        this.alleBedrifter = await bed.data; 
       }
     
 }
