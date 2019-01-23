@@ -2,7 +2,12 @@ import api from './api';
 
 class FeilService {
   hentAlleFeil() {
-    return api.get('/api/feil');
+    let token = sessionStorage.getItem('pollett');
+    if (token) {
+      return api.get('/api/feil');
+    } else {
+      return [];
+    }
   }
 
   hentEnFeil(feil_id) {
@@ -10,7 +15,16 @@ class FeilService {
   }
 
   hentFeilForKommune(kommune_id) {
-    return api.get('/api/kommuner/'+kommune_id+'/feil');
+    let token = sessionStorage.getItem('pollett');
+    if (token) {
+      return api.get('/api/kommuner/' + kommune_id + '/feil');
+    } else {
+      return [];
+    }
+  }
+
+  hentGodkjenteFeilForKommune(kommune_id) {
+      return api.get('/api/kommuner/' + kommune_id + '/godkjentefeil');
   }
 
   hentBilderTilFeil(feil_id) {
@@ -20,7 +34,7 @@ class FeilService {
   oppdaterFeil(oppdatertFeil, feil_id) {
     let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.put('/api/feil/' + feil_id, nyOpp, {headers: {'x-access-token': 'Bearer ' + token}});
+      return api.put('/api/feil/' + feil_id, oppdatertFeil, {headers: {'x-access-token': 'Bearer ' + token}});
     } else {
       console.log('oppdatertfeil, token feil');
       return [];
@@ -29,8 +43,8 @@ class FeilService {
 
   slettFeil(feil_id) {
     let token = sessionStorage.getItem('pollett');
-    if(token) {
-      return api.delete('/api/feil/' + feil_id, {headers: {'x-access-token': 'Bearer ' + token}});
+    if (token) {
+      return api.delete('/api/feil/' + feil_id, { headers: { 'x-access-token': 'Bearer ' + token } });
     } else {
       return [];
       console.log('æsjebæsj, token dæsj');
@@ -44,7 +58,7 @@ class FeilService {
   lagOppdatering(nyOpp) {
     let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.post('/api/feil/oppdateringer/bedrift', nyOpp, {headers: {'x-access-token': 'Bearer ' + token}});
+      return api.post('/api/feil/oppdateringer/bedrift', nyOpp, { headers: { 'x-access-token': 'Bearer ' + token } });
     } else {
       console.log('oeifjeoif');
       return [];
@@ -52,7 +66,7 @@ class FeilService {
   }
 
   hentAlleOppdateringerPaaFeil(feil_id) {
-    return api.get('/api/feil/'+feil_id+'/oppdatering');
+    return api.get('/api/feil/' + feil_id + '/oppdatering');
   }
 
   hentEnStatus(status_id) {
@@ -77,8 +91,8 @@ class FeilService {
 
   slettBildeFraFeil(info, feil_id, bilde_id) {
     let token = sessionStorage.getItem('pollett');
-    if(token) {
-      return api.delete('/api/feil/' + feil_id + '/bilder/' + bilde_id, info, {headers: {'x-access-token': 'Bearer ' + token}});
+    if (token) {
+      return api.delete('/api/feil/' + feil_id + '/bilder/' + bilde_id, info, { headers: { 'x-access-token': 'Bearer ' + token } });
     } else {
 
     }
@@ -87,7 +101,7 @@ class FeilService {
   hentNyeFeilTilBedrift() {
     let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.get('/api/feil/bedrift/nyeOppgaver', {headers: {'x-access-token': 'Bearer ' + token}});
+      return api.get('/api/feil/bedrift/nyeOppgaver', { headers: { 'x-access-token': 'Bearer ' + token } });
     } else {
       console.log('oeifjeoif');
       return [];
@@ -97,7 +111,7 @@ class FeilService {
   hentUnderBehandlingFeilTilBedrift() {
     let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.get('api/feil/bedrift/underBehandling', {headers: {'x-access-token': 'Bearer ' + token}});
+      return api.get('api/feil/bedrift/underBehandling', { headers: { 'x-access-token': 'Bearer ' + token } });
     } else {
       console.log('foeifj');
       return [];
@@ -107,7 +121,7 @@ class FeilService {
   hentFerdigeFeilTilBedrift() {
     let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.get('api/feil/bedrift/ferdig', {headers: {'x-access-token': 'Bearer ' + token}});
+      return api.get('api/feil/bedrift/ferdig', { headers: { 'x-access-token': 'Bearer ' + token } });
     } else {
       console.log('foeifj');
       return [];
@@ -117,7 +131,7 @@ class FeilService {
   oppdaterStatusFeilTilBedrift(jobbSoknadObjekt) {
     let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.put('/api/bedrift/oppdater/feil/godta', jobbSoknadObjekt, {headers: {'x-access-token': 'Bearer ' + token}});
+      return api.put('/api/bedrift/oppdater/feil/godta', jobbSoknadObjekt, { headers: { 'x-access-token': 'Bearer ' + token } });
     } else {
       return [];
     }
@@ -126,7 +140,7 @@ class FeilService {
   abonner(feil_id) {
     let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.post('/api/feil/' + feil_id + '/abonnement',null , {headers: {'x-access-token': 'Bearer ' + token}});
+      return api.post('/api/feil/' + feil_id + '/abonnement', null, { headers: { 'x-access-token': 'Bearer ' + token } });
     } else {
       return null;
     }
@@ -135,7 +149,7 @@ class FeilService {
   ikkeAbonner(feil_id) {
     let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.delete('/api/feil/' + feil_id + '/abonnement', {headers: {'x-access-token': 'Bearer ' + token}});
+      return api.delete('/api/feil/' + feil_id + '/abonnement', { headers: { 'x-access-token': 'Bearer ' + token } });
     } else {
       return null;
     }
@@ -145,7 +159,7 @@ class FeilService {
     let token = sessionStorage.getItem('pollett');
     console.log('Slett hovedkategori service:');
     if (token) {
-      return api.delete('/api/hovedkategori/' + hk_id, {headers: {'x-access-token': 'Bearer ' + token}});
+      return api.delete('/api/hovedkategori/' + hk_id, { headers: { 'x-access-token': 'Bearer ' + token } });
     } else {
       return null;
     }
@@ -155,7 +169,7 @@ class FeilService {
     let token = sessionStorage.getItem('pollett');
     console.log('Slett subkategori service:');
     if (token) {
-      return api.delete('/api/subkategori/' + sk_id, {headers: {'x-access-token': 'Bearer ' + token}});
+      return api.delete('/api/subkategori/' + sk_id, { headers: { 'x-access-token': 'Bearer ' + token } });
     } else {
       return null;
     }
@@ -165,7 +179,7 @@ class FeilService {
     let token = sessionStorage.getItem('pollett');
     console.log('Oppdater hovedkategorier service:');
     if (token) {
-      return api.put('/api/hovedkategorier/' + hk_id, {headers: {'x-access-token': 'Bearer ' + token}});
+      return api.put('/api/hovedkategorier/' + hk_id, { headers: { 'x-access-token': 'Bearer ' + token } });
     } else {
       return null;
     }
@@ -175,7 +189,7 @@ class FeilService {
     let token = sessionStorage.getItem('pollett');
     console.log('Oppdater subkategori service:');
     if (token) {
-      return api.put('/api/subkategorier/' + sk_id, {headers: {'x-access-token': 'Bearer ' + token}});
+      return api.put('/api/subkategorier/' + sk_id, { headers: { 'x-access-token': 'Bearer ' + token } });
     } else {
       return null;
     }
@@ -184,17 +198,17 @@ class FeilService {
   opprettHovedkategori(nyHk) {
     let token = sessionStorage.getItem('pollett');
     console.log('Opprett ny hovedkategori service:');
-    if(token) {
-      return api.post('/api/hovedkategorier', {headers: {'x-access-token': 'Bearer ' + token}});
-    }  
+    if (token) {
+      return api.post('/api/hovedkategorier', { headers: { 'x-access-token': 'Bearer ' + token } });
+    }
   }
 
   opprettSubkategori(nyHk) {
     let token = sessionStorage.getItem('pollett');
     console.log('Opprett ny subkategori service:');
-    if(token) {
-      return api.post('/api/subkategori', {headers: {'x-access-token': 'Bearer ' + token}});
-    }  
+    if (token) {
+      return api.post('/api/subkategori', { headers: { 'x-access-token': 'Bearer ' + token } });
+    }
   }
 }
 

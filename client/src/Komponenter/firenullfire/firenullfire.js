@@ -1,14 +1,16 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
+import { PageHeader } from '../../Moduler/header/header';
 
 export class FireNullFire extends Component {
   render() {
     return (
       <>
+        <PageHeader history={this.props.history} location={this.props.location} />
         <h3
           style={{
             position: 'absolute',
-            top: '50px',
+            top: '100px',
             left: '50px',
             margin: '0 auto',
             width: '400px',

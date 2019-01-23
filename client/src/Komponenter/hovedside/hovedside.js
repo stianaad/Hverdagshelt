@@ -14,7 +14,7 @@ import {FireNullFire} from '../firenullfire/firenullfire';
 import { InfoBoks } from '../../Moduler/info/info';
 
 export class Hovedside extends Component {
-  kommune = {};
+  kommune = 0;
   feilKategori = "0";
 
   visFeil = false;
@@ -168,7 +168,8 @@ export class Hovedside extends Component {
   }
 
   render() {
-    if (this.kommune == null) return (<FireNullFire />);
+    if (this.kommune == 0) return (<></>);
+    if (this.kommune == null) return (<FireNullFire history={this.props.history} location={this.props.location}/>);
     return (
       <div>
         <PageHeader history={this.props.history} location={this.props.location} />
@@ -537,7 +538,7 @@ f                      id="test"
       if (res.data.length > 0) {
         this.kommune = res.data[0];
 
-        let res1 = await feilService.hentFeilForKommune(this.kommune.kommune_id),
+        let res1 = await feilService.hentGodkjenteFeilForKommune(this.kommune.kommune_id),
             res2 = await feilService.hentAlleHovedkategorier(),
             res3 = await hendelseService.hentHendelserForKommune(this.kommune.kommune_id);
 

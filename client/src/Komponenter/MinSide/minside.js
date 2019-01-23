@@ -7,12 +7,14 @@ import {FeedEvent, FeedHendelse, Filtrer, Info, FeedMinside, ModalHendelse} from
 import {brukerService} from '../../services/brukerService';
 import {NavLink,Link} from 'react-router-dom';
 import {markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
+import {KommuneInput} from '../../Moduler/kommuneInput/kommuneInput';
 
 export class Minside extends Component {
   oppdaterteFeil = [];
   ikkeOppdaterteFeil = [];
   folgteFeil = [];
   folgteHendelser = [];
+  komin = React.createRef();
   valgtFeil = {
     overskrift: '',
     bilde: '',
@@ -25,9 +27,14 @@ export class Minside extends Component {
     epost: '',
     kommune_id: -1,
     kommune_navn: '',
-    /*telefon: -1,
-    orgnr: -1,
-    navn: '',*/
+  };
+
+  brukerInfoDummy = {
+    fornavn: '',
+    etternavn: '',
+    epost: '',
+    kommune_id: -1,
+    kommune_navn: '',
   };
 
   valgteHendelse = {
@@ -41,6 +48,8 @@ export class Minside extends Component {
   visHendelse = false;
 
   visFeil = false;
+
+  redigerer = false;
 
   classFeil = 'hovedsideTabeller';
 
@@ -308,22 +317,62 @@ export class Minside extends Component {
                     <p>Fornavn:</p>
                     <p>Etternavn:</p>
                     <p>E-post: </p>
+                    <p>Kommune: </p>
                   </div>
                   <div id="innhold">
-                    <p>{this.brukerInfo.fornavn}</p>
-                    <p>{this.brukerInfo.etternavn}</p>
-                    <p>{this.brukerInfo.epost}</p>
+                  {this.redigerer ? (
+                  <>
+                    <div className="form-group">
+                      <input type="text" className="form-control" placeholder="Fornavn" value={this.brukerInfoDummy.fornavn} onChange={this.endreVerdi} name="fornavn" />
+                      <input type="text" className="form-control" placeholder="Etternavn" value={this.brukerInfoDummy.etternavn} onChange={this.endreVerdi} name="etternavn" />
+                      <input type="text" className="form-control" placeholder="Epost" value={this.brukerInfoDummy.epost} onChange={this.endreVerdi} name="epost" />
+                      <KommuneInput ref={this.komin} key={this.brukerInfo.kommune_id} kommune_id={this.brukerInfo.kommune_id} onChange={(e)=>{this.brukerInfoDummy.kommune_id = e.id; this.brukerInfoDummy.kommune_navn = e.navn;}}/>
+                    </div>
+                  </>) : 
+                  (<>
+                      <p>{this.brukerInfo.fornavn}</p>
+                      <p>{this.brukerInfo.etternavn}</p>
+                      <p>{this.brukerInfo.epost}</p>
+                      <p>{this.brukerInfo.kommune_navn}</p>
+                    </>)}
                   </div>
                 </div>
               </Card.Content>
               <Card.Content textAlign = "center">
-                <Button basic color="blue" onClick=''>Rediger Brukerinfo</Button>
+                {this.redigerer ? (
+                  <>
+                  <Button basic color ="green" onClick={this.rediger}>Lagre</Button>
+                  <Button basic color ="red" onClick={() => this.redigerer = false}>Avbryt</Button>
+                  </>
+                ) : (
+                  <>
+                  <Button basic color="blue" onClick={this.rediger}>Rediger Brukerinfo</Button>
+                  </>
+                )}
               </Card.Content>
             </Card>
           </div>
         </div>
       </div>
     );
+  }
+
+  rediger() {
+    if (this.redigerer){
+      this.redigerer = false;
+      this.brukerInfo = {...this.brukerInfoDummy};
+      brukerService.oppdaterSpesifisertBruker(this.brukerInfo);
+    } else {
+      this.brukerInfoDummy = {...this.brukerInfo};
+      this.redigerer = true;
+    }
+  }
+
+  endreVerdi(e) {
+    const target = e.target;
+    const value = target.type === 'checkbox' ? (target.checked ? 1 : 0) : target.value;
+    const name = target.name;
+    this.brukerInfoDummy[name] = value;
   }
 
   async finnFeilBruker() {

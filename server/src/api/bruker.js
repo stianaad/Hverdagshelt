@@ -236,6 +236,8 @@ router.get('/api/brukerhendelser', checkToken, (req, res) => {
 router.put('/api/brukere', checkToken, (req, res) => {
   let rolle = {bruker_id: req.decoded.user.bruker_id, rolle: req.decoded.role};
 
+  console.log(rolle);
+
   brukerDao.oppdaterSpesifisertBruker(req.body, rolle, (status, data) => {
     res.status(status);
     res.json(data);
