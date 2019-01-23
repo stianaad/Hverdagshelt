@@ -128,10 +128,10 @@ class FeilService {
     }
   }
 
-  sendFeilTilBedrift(fbObjekt) {
+  sendFeilTilBedrift(feil_id) {
     let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.put('/api/bedrift/feil', fbObjekt, { headers: { 'x-access-token': 'Bearer ' + token } });
+      return api.put('/api/bedrift/feil', feil_id, { headers: { 'x-access-token': 'Bearer ' + token } });
     } else {
       console.log('sendFeilTilBedrift failed');
       return [];
