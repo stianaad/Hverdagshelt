@@ -276,7 +276,7 @@ export class ShowMarkerMap extends Component {
       center: L.latLng(this.f.breddegrad, this.f.lengdegrad),
       zoom: 13,
       dragging: !L.Browser.mobile,
-      //tap: !L.Browser.mobile,
+      tap: !L.Browser.mobile,
       layers: [
         L.tileLayer('https://maps.tilehosting.com/styles/streets/{z}/{x}/{y}.png?key=c1RIxTIz5D0YrAY6C81A', {
           attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
@@ -293,6 +293,7 @@ export class ShowMarkerMap extends Component {
       center: L.latLng(this.f.breddegrad, this.f.lengdegrad),
       zoom: 13,
       dragging: !L.Browser.mobile,
+      tap: !L.Browser.mobile,
       layers: [
         L.tileLayer('https://maps.tilehosting.com/styles/streets/{z}/{x}/{y}.png?key=c1RIxTIz5D0YrAY6C81A', {
           attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',

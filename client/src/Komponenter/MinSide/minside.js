@@ -8,12 +8,14 @@ import {brukerService} from '../../services/brukerService';
 import {NavLink, Link} from 'react-router-dom';
 import {markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
 import {KommuneInput} from '../../Moduler/kommuneInput/kommuneInput';
+import { FeilModal } from '../../Moduler/modaler/feilmodal';
 
 export class Minside extends Component {
   oppdaterteFeil = [];
   ikkeOppdaterteFeil = [];
   folgteFeil = [];
   folgteHendelser = [];
+  advarsel = '';
   komin = React.createRef();
   valgtFeil = {
     overskrift: '',
@@ -21,11 +23,13 @@ export class Minside extends Component {
     beskrivelse: '',
   };
 
+  feil = {feil_id:0}
+
   passord = {
     gammeltPass: '',
-    nyttPass1: '',
-    nyttPass2: '',
-  };
+    nyttPass: '',
+    nyttPassSjekk: '',
+  }
 
   brukerInfo = {
     fornavn: '',
@@ -52,7 +56,7 @@ export class Minside extends Component {
   };
 
   visHendelse = false;
-
+  feilModal = false;
   visFeil = false;
 
   redigerer = false;
@@ -90,83 +94,72 @@ export class Minside extends Component {
     return (
       <div>
         <PageHeader history={this.props.history} location={this.props.location} />
-        <Modal open={this.passordModalOpen} onClose={this.closePassordModal} size="tiny" centered>
+        <Modal open={this.passordModalOpen} onClose={this.closePassordModal} size="small" centered>
           <Modal.Content>
             <div className="container">
-              <form>
-                <h1 className="text-center">Endre passord</h1>
-                <div className="card">
-                  <div className="card-body">
-                    <div className="form-group row">
-                      <label htmlFor="gammeltPass" className="col-sm-4 col-form-label">
-                        {' '}
-                        Gammelt passord:
-                      </label>
-                      <div className="col-sm-8">
-                        <input
-                          type="password"
-                          id="gammeltPass"
-                          name="gammeltPass"
-                          className="form-control"
-                          value={this.passord.gammeltPass}
-                          required={true}
-                          placeholder="Gammelt passord"
-                          onChange={this.endrePassVerdi}
-                        />
-                        <small className="form-text text-muted">Skriv inn din ditt gamle passord.</small>
-                      </div>
+              <h1 className="text-center">Endre passord</h1>
+              <div className="card">
+                <div className="card-body">
+                  <div className="form-group row">
+                    <label htmlFor='gammeltPass' className="col-sm-4 col-form-label venstreForm"> Gammelt passord:</label>
+                    <div className="col-sm-8">
+                      <input
+                        type="password"
+                        id="gammeltPass"
+                        name="gammeltPass"
+                        className="form-control hoyreForm"
+                        value={this.passord.gammeltPass}
+                        required={true}
+                        placeholder="Gammelt passord"
+                        onChange={this.endrePassVerdi}
+                      />
+                      <small className="form-text text-muted">Skriv inn din ditt gamle passord</small>
                     </div>
-                    <div className="form-group row">
-                      <label htmlFor="nyttPass1" className="col-sm-4 col-form-label">
-                        {' '}
-                        Nytt passord:
-                      </label>
-                      <div className="col-sm-8">
-                        <input
-                          type="password"
-                          id="nyttPass1"
-                          name="nyttPass1"
-                          className="form-control"
-                          value={this.passord.nyttPass1}
-                          required={true}
-                          placeholder="Nytt passord"
-                          onChange={this.endrePassVerdi}
-                        />
-                        <small className="form-text text-muted">Skriv inn din ditt nye passord.</small>
-                      </div>
-                    </div>
-                    <div className="form-group row">
-                      <label htmlFor="nyttPass2" className="col-sm-4 col-form-label">
-                        {' '}
-                        Gjenta nytt passord:
-                      </label>
-                      <div className="col-sm-8">
-                        <input
-                          type="password"
-                          id="nyttPass2"
-                          name="nyttPass2"
-                          className="form-control"
-                          value={this.passord.nyttPass2}
-                          placeholder="Gjenta passord"
-                          required={true}
-                          onChange={this.endrePassVerdi}
-                        />
-                        <small className="form-text text-muted">Gjenta ditt nye passord.</small>
-                      </div>
-                    </div>
-                    <Button basic color="green" onClick={this.lagrePass}>
-                      Endre Passord
-                    </Button>
                   </div>
+                  <div className="form-group row">
+                    <label htmlFor='nyttPass' className="col-sm-4 col-form-label venstreForm"> Nytt passord:</label>
+                    <div className="col-sm-8">
+                      <input
+                        type="password"
+                        id="nyttPass"
+                        name="nyttPass"
+                        className="form-control hoyreForm"
+                        value={this.passord.nyttPass}
+                        required={true}
+                        placeholder="Nytt passord"
+                        onChange={this.endrePassVerdi}
+                      />
+                      <small className="form-text text-muted">Skriv inn din ditt nye passord. Minst 8 tegn langt</small>
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <label htmlFor='nyttPassSjekk'className="col-sm-4 col-form-label venstreForm"> Gjenta nytt passord:</label>
+                    <div className="col-sm-8">
+                      <input
+                        type="password"
+                        id="nyttPassSjekk"
+                        name="nyttPassSjekk"
+                        className="form-control hoyreForm"
+                        value={this.passord.nyttPassSjekk}
+                        placeholder="Gjenta passord"
+                        required={true}
+                        onChange={this.endrePassVerdi}
+                      />
+                      <small className="form-text text-muted">Gjenta ditt nye passord</small>
+                    </div>
+                  </div>
+                  <Button basic color="green" onClick={this.lagrePass}>
+                    Endre Passord
+                  </Button>
+                  <p>{this.advarsel}</p>
                 </div>
-              </form>
+              </div>
             </div>
           </Modal.Content>
         </Modal>
+        <FeilModal key={this.feil.feil_id+this.feilModal} open={this.feilModal} feil={this.feil} onClose={() => {this.feilModal = false}} />
+        {/*
         <Modal open={this.state.open} onClose={this.handleClose} size="small" centered dimmer="blurring">
-          {/*<Modal.Header>
-                        {this.valgtFeil.overskrift}
-                    </Modal.Header>*/}
           {!this.visHendelse ? (
             <Modal.Content>
               <div>
@@ -249,7 +242,7 @@ export class Minside extends Component {
               kommune_navn={this.valgteHendelse.kommune_navn}
             />
           )}
-        </Modal>
+          </Modal>*/}
         <div className="mt-3 hovedTittel">
           <h1 className="text-center text-capitalize display-4">Min side </h1>
           <Link to="/meldfeil">
@@ -369,8 +362,8 @@ export class Minside extends Component {
                     <Card
                       className="feilCard"
                       onClick={() => {
-                        this.visHendelse = false;
-                        this.handleOpen(feil);
+                        this.feilModal = true;
+                        this.feil = feil;
                       }}
                     >
                       <Image src={feil.url} className="feilCardImage" />
@@ -411,14 +404,14 @@ export class Minside extends Component {
                   {this.redigerer ? (
                     <div id="innhold">
                       <div className="form-group row">
-                        <label className="col-sm-4 col-form-label" htmlFor="fornavn">
+                        <label className="col-sm-4 col-form-label venstreForm" htmlFor="fornavn">
                           Fornavn:{' '}
                         </label>
                         <div className="col-sm-8">
                           <input
                             type="text"
                             id="fornavn"
-                            className="form-control"
+                            className="form-control hoyreForm"
                             placeholder="Fornavn"
                             value={this.brukerInfoDummy.fornavn}
                             onChange={this.endreVerdi}
@@ -427,14 +420,14 @@ export class Minside extends Component {
                         </div>
                       </div>
                       <div className="form-group row">
-                        <label className="col-sm-4 col-form-label" htmlFor="etternavn">
+                        <label className="col-sm-4 col-form-label venstreForm" htmlFor="etternavn">
                           Etternavn:{' '}
                         </label>
                         <div className="col-sm-8">
                           <input
                             type="text"
                             id="etternavn"
-                            className="form-control"
+                            className="form-control hoyreForm"
                             placeholder="Etternavn"
                             value={this.brukerInfoDummy.etternavn}
                             onChange={this.endreVerdi}
@@ -443,14 +436,14 @@ export class Minside extends Component {
                         </div>
                       </div>
                       <div className="form-group row">
-                        <label className="col-sm-4 col-form-label" htmlFor="e-post">
+                        <label className="col-sm-4 col-form-label venstreForm" htmlFor="e-post">
                           E-post:{' '}
                         </label>
                         <div className="col-sm-8">
                           <input
                             type="text"
                             id="e-post"
-                            className="form-control"
+                            className="form-control hoyreForm"
                             placeholder="Epost"
                             value={this.brukerInfoDummy.epost}
                             onChange={this.endreVerdi}
@@ -459,12 +452,13 @@ export class Minside extends Component {
                         </div>
                       </div>
                       <div className="form-group row">
-                        <label className="col-sm-4 col-form-label" htmlFor="kommune">
+                        <label className="col-sm-4 col-form-label venstreForm" htmlFor="kommune">
                           Kommune:{' '}
                         </label>
-                        <div className="col-sm-8">
+                        <div className="col-sm-8 hoyreForm">
                           <KommuneInput
                             id="kommune"
+                            className="hoyreForm"
                             ref={this.komin}
                             key={this.brukerInfo.kommune_id}
                             kommune_id={this.brukerInfo.kommune_id}
@@ -510,7 +504,7 @@ export class Minside extends Component {
                 ) : (
                   <>
                     <Button basic color="blue" onClick={this.rediger}>
-                      Rediger Brukerinfo
+                      Rediger bruker
                     </Button>
                   </>
                 )}
@@ -522,11 +516,21 @@ export class Minside extends Component {
     );
   }
 
-  rediger() {
+  oppdaterInfo(res) {
+    if (res.result) {
+      let base64Url = res.token.split('.')[1];
+      let base64 = base64Url.replace('-', '+').replace('_', '/');
+      global.payload = JSON.parse(window.atob(base64));
+      sessionStorage.setItem('pollett', res.token);
+    }
+  }
+
+  async rediger() {
     if (this.redigerer) {
       this.redigerer = false;
       this.brukerInfo = {...this.brukerInfoDummy};
-      brukerService.oppdaterSpesifisertBruker(this.brukerInfo);
+      let res = await brukerService.oppdaterSpesifisertBruker(this.brukerInfo);
+      await this.oppdaterInfo(res.data);
     } else {
       this.brukerInfoDummy = {...this.brukerInfo};
       this.redigerer = true;
@@ -548,7 +552,16 @@ export class Minside extends Component {
   }
 
   lagrePass() {
-    console.log(this.passord);
+    if (this.passord.nyttPass.length < 8 || this.passord.nyttPass !== this.passord.nyttPassSjekk) {
+      this.advarsel = 'Feil ved innsending. Nytt passord må være 8 tegn langt og passordene må være like.';
+    } else {
+      if (brukerService.endrePassord(this.passord)) {
+        this.advarsel = 'Gammelt passord er ikke korrekt, eller noe gikk galt ved innmelding.';
+      } else {
+        alert('Passord er endret');
+        this.closePassordModal();
+      }
+    }
   }
 
   async finnFeilBruker() {

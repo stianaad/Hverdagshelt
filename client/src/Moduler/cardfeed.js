@@ -75,14 +75,14 @@ export class FeedEvent extends Component {
     return (
       <Feed>
         <Feed.Event>
-          {this.props.status !== 'Under behandling' ? (
-            this.props.status === 'Godkjent' ? (
-              <Feed.Label image={'/warningicon.png'} />
+          {this.props.status !== 'Godkjent' ? (
+            this.props.status === 'Under behandling' ? (
+              <Feed.Label image={'/processingicon.png'} />
             ) : (
               <Feed.Label image={'/successicon.png'} />
             )
           ) : (
-            <Feed.Label image={'/processingicon.png'} />
+            <Feed.Label image={'/warningicon.png'} />
           )}
           <Feed.Content>
             <a onClick={this.props.onClick}>
@@ -364,14 +364,7 @@ export class ModalHendelse extends Component{
             </Grid.Column>
             <Grid.Column>
             <p>
-              trykkeindustrien. Lorem Ipsum har vært bransjens standard for dummytekst helt siden
-              1500-tallet, da en ukjent boktrykker stokket en mengde bokstaver for å lage et
-              prøveeksemplar av en bok. Lorem Ipsum har tålt tidens tann usedvanlig godt, og har i
-              tillegg til å bestå gjennom fem århundrer også tålt spranget over til elektronisk
-              typografi uten vesentlige endringer. Lorem Ipsum ble gjort allment kjent i 1960-årene ved
-              lanseringen av Letraset-ark med avsnitt fra Lorem Ipsum, og senere med
-              sideombrekkingsprogrammet Aldus PageMaker som tok i bruk nettopp Lorem Ipsum for
-              dummytekst.
+              {this.props.beskrivelse}
             </p>
             </Grid.Column>
           </Grid.Row>
@@ -495,14 +488,15 @@ export class Hendelse extends Component{
               />
               {this.props.tid}
               </p>
+              
             </Card.Description>
           </Card.Content>
           </a>
           {(global.payload && global.payload.role == 'privat') ? (
-            <Card.Content extra>
-              <div className="text-center "><AbonnerKnapp key={this.props.hendelse_id} hendelse_id={this.props.hendelse_id} /></div>
-            </Card.Content>
-              ) : null}
+            
+            <div className="text-center "><AbonnerKnapp key={this.props.hendelse_id} hendelse_id={this.props.hendelse_id} /></div>
+          
+        ) : null}
         </Card>
               /*<Card className="h-100" fluid>
               <Image src={this.props.bilde} className="hendelseBilde"/>

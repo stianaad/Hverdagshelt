@@ -1,18 +1,82 @@
+.hendelseContainer {
+  width: 100vw;
+  margin: 0 auto;
+  margin-top: 10px;
+}
+
 .dato {
-    height: 5%;
-    width: 15%;
-    padding-top: 2px;
-    margin: 2px;
-    overflow: hidden;
+  height: 5%;
+  width: 15%;
+  padding-top: 2px;
+  margin: 2px;
+  overflow: hidden;
 
-    padding-left: 0.8%;
-  }
+  padding-left: 0.8%;
+}
 
-  .hendelserBilde{
-    max-height: 30vh;
-    align-content: center;
-  }
+.hendelserBilde{
+  max-height: 30vh;
+  align-content: center;
+}
 
-  .knappLengdeHendelser{
-    width: 100%;
+.knappLengdeHendelser{
+  width: 100%;
+}
+
+.hendelseContainer .row {
+  width: 80vw;
+  margin: 0 auto;
+}
+
+.hendelseContainer .row button {
+  margin: 0 auto !important;
+}
+
+@media screen and (min-width: 0px) and (max-width: 767px) {
+  .hendelseContainer .stackable {
+    width: 270px;
+    margin: 0 auto;
   }
+}
+
+@media screen and (min-width: 768px) and (max-width: 900px) {
+  .hendelseContainer .stackable {
+    width: 542px;
+    margin: 0 auto;
+  }
+}
+
+@media screen and (min-width: 901px) and (max-width: 1200px) {
+  .hendelseContainer .stackable {
+    width: 810px;
+    margin: 0 auto;
+  }
+}
+
+@media screen and (min-width: 1200px) and (max-width: 4000px) {
+  .hendelseContainer .stackable {
+    width: 1080px;
+    margin: 0 auto;
+  }
+}
+
+.hendelseContainer .stackable {
+  margin-top: 20px; 
+}
+
+.feilCard {
+  max-width: 250px !important;
+  margin: 10px !important;
+}
+
+.feilCard button {
+  margin: 10px 0 10px 0;
+}
+
+.feilCardImage {
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  width:250px !important;
+  height:200px !important;
+  object-fit: cover;
+}
