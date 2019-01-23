@@ -495,15 +495,15 @@ export class Hendelse extends Component{
               />
               {this.props.tid}
               </p>
-              {(global.payload && global.payload.role == 'privat') ? (
-            
-                  <div className="text-center "><AbonnerKnapp key={this.props.hendelse_id} hendelse_id={this.props.hendelse_id} /></div>
-                
-              ) : null}
+              
             </Card.Description>
           </Card.Content>
           </a>
+          {(global.payload && global.payload.role == 'privat') ? (
+            
+            <div className="text-center "><AbonnerKnapp key={this.props.hendelse_id} hendelse_id={this.props.hendelse_id} /></div>
           
+        ) : null}
         </Card>
               /*<Card className="h-100" fluid>
               <Image src={this.props.bilde} className="hendelseBilde"/>
