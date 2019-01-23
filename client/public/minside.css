@@ -55,11 +55,13 @@
   word-break: break-all;
 }
 
-.form-control{
+.hoyreForm, .hoyreForm div input, .hoyreForm div ul{
   text-align: right;
 }
 
-.col-sm-4 {
+
+
+.venstreForm {
   text-align: left;
   font-weight: 600;
 }
