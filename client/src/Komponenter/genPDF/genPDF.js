@@ -8,7 +8,7 @@ import * as html2canvas from 'html2canvas';
 
 export class GenPDF extends Component {
 
-  res = [];
+  resultat = [];
 
   chunkArray(myArray, chunk_size){
     let index = 0;
@@ -42,13 +42,13 @@ export class GenPDF extends Component {
     return(
       <>
         <div id="ToRenderAsPDF">
-          <canvas id="myChart"></canvas>
+          <h1>Dette er en html2canvas og jsPDF demo</h1>
         </div>
         <div>
           <GronnKnapp onClick={this.print}>Last ned PDF</GronnKnapp>
         </div>
         <div>
-        {this.res.map(e => (
+        {this.resultat.map(e => (
           <StatBar elementID={e.id} text="Feil per kommune" label={e.navn} data={e.antall} ></StatBar>
         ))}
         </div>
@@ -57,7 +57,6 @@ export class GenPDF extends Component {
   }
 
   async mounted(){
-    //<StatBar elementID={e.id} text="Feil per kommune" label={json.navn} data={json.antall} ></StatBar>
     let info = await genPDFService.hentFeilPerKommune();
     let kom = await generellServices.hentAlleKommuner();
 
@@ -84,7 +83,7 @@ export class GenPDF extends Component {
     let navn = [];
     let tall = [];
 
-    let resultat = this.chunkArray(informasjon.data, 15);
+    let oppdeling = this.chunkArray(informasjon.data, 15);
 
     for(let i = 0; i < informasjon.data.length; i++){
       navn[i] = informasjon.data[i].navn;
@@ -94,12 +93,9 @@ export class GenPDF extends Component {
     let navnChunk =  this.chunkArray(navn, 15);
     let tallChunk = this.chunkArray(tall, 15);
 
-    console.log(navnChunk);
-    console.log(tallChunk);
-
     let stats = [];
 
-    for(let i = 0; i < resultat.length; i++){
+    for(let i = 0; i < oppdeling.length; i++){
       stats.push({
         "id": i,
         "navn": navnChunk[i],
@@ -107,77 +103,10 @@ export class GenPDF extends Component {
       })
     }
 
-    console.log(stats);
-    console.log(stats.map(e => e.id));
-    this.res = stats;
+    this.resultat = stats;
 
-    /*let myChart = document.getElementById('myChart').getContext('2d');
+    //husk å endre suggestedMax til større verdi enn det største antallet i antalltabellen
+    //endre tittel og hoverlabel til å bli variabla og ikke hardkodet
 
-    Chart.defaults.global.defaultFontFamily = 'Lato';
-    Chart.defaults.global.defaultFontSize = 18;
-    Chart.defaults.global.defaultFontColor = '#777';
-
-    let barChart = new Chart(myChart, {
-      type:'bar',
-      data: {
-        labels: navn,
-        datasets: [{
-          label: 'Antall feil',
-          data: tall,
-          backgroundColor: '#777',
-          borderWidth: 1,
-          borderColor: '#777',
-          hovedBorderWidth: 3,
-          hoverBorderColor: '#000'
-        }]
-      },
-      options: {
-        title: {
-          display: true,
-          text: 'Feil per kommune',
-          fontSize: 25
-        },
-        legend: {
-          display: false,
-          position: 'right',
-          labels: {
-            fontColor: '#000'
-          }
-        },
-        layout: {
-          padding: {
-            left: 0,
-            right: 0,
-            bottom: 0,
-            top: 0
-          }
-        },
-        tooltips: {
-          enabled: true
-        },
-        hover: {
-            animationDuration: 1
-        },
-        animation: {
-            duration: 1,
-            onComplete: function () {
-                var chartInstance = this.chart,
-                    ctx = chartInstance.ctx;
-                ctx.textAlign = 'center';
-                ctx.fillStyle = '#777';
-                ctx.textBaseline = 'bottom';
-
-                this.data.datasets.forEach(function (dataset, i) {
-                    var meta = chartInstance.controller.getDatasetMeta(i);
-                    meta.data.forEach(function (bar, index) {
-                        var data = dataset.data[index];
-                        ctx.fillText(data, bar._model.x, bar._model.y - 5);
-
-                    });
-                });
-            }
-        }
-      }
-    });*/
   }
 }

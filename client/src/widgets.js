@@ -341,6 +341,14 @@ export class StatBar extends Component <{elementID: string, label: string, data:
           text: 'Feil per kommune',
           fontSize: 25
         },
+        scales: {
+          yAxes: [{
+            ticks: {
+              suggestedMax: 25,
+              suggestedMin: 0
+            }
+          }]
+        },
         legend: {
           display: false,
           position: 'right',
