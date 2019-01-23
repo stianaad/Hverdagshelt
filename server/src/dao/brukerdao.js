@@ -222,7 +222,7 @@ module.exports = class BrukerDao extends Dao {
     console.log('inne i oppdaterSpesifisertBruker');
     if (rolle.rolle == 'privat' || rolle == 'admin') {
       console.log('oppdaterer bruker');
-      this.oppdaterBruker(json, (status, data) => {
+      this.oppdaterBruker(json, rolle, (status, data) => {
         console.log('oppdaterer privat');
         super.query(
           'UPDATE privat SET fornavn = ?, etternavn = ? WHERE bruker_id = ?',
