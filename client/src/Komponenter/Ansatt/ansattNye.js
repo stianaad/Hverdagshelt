@@ -226,6 +226,13 @@ export class NyeFeil extends Component {
   }
 
   async godkjenn(){
+      await console.log("lagrer");
+      await feilService.lagOppdatering({
+        "feil_id": this.valgtfeil.feil_id,
+        "kommentar": 'Ansatt har godkjent feil', 
+        "status_id": 2
+      });
+      await console.log("oppdaterer");
       await feilService.oppdaterFeil({
         kommune_id : global.payload.user.kommune_id, 
         subkategori_id: this.valgtUnderKat.subkategori_id,
@@ -235,12 +242,7 @@ export class NyeFeil extends Component {
         breddegrad: this.valgtfeil.breddegrad,
         feil_id: this.valgtfeil.feil_id
       });
-
-      await feilService.lagOppdatering({
-        "feil_id": this.valgtfeil.feil_id,
-        "kommentar": 'Ansatt har godkjent feil', 
-        "status_id": 2
-      });
+      await console.log("ferdig");
   }
 
   async lagre(){
@@ -258,7 +260,7 @@ export class NyeFeil extends Component {
   }
 
   async mounted() {
-    let feil = await feilService.hentAlleFeil();
+    let feil = await feilService.hentFeilForKommune(global.payload.user.kommune_id);
     this.alleFeil = await feil.data;
 
     this.nyefeil = await feil.data.filter((e) => e.status === 'Ikke godkjent');
