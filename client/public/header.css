@@ -135,7 +135,7 @@ body {
     text-align:center;
 }
 
-.brukerbox > .dropdown-item {
+.brukerbox > .dropdown-item, .brukerbox > a > .dropdown-item {
     padding: 10px !important;
     cursor: pointer;
 }

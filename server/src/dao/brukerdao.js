@@ -1,6 +1,6 @@
 import Dao from './dao.js';
 
-//  7 av 22 funksjoner testes
+//  11 av 22 funksjoner testes
 module.exports = class BrukerDao extends Dao {
   kontrollOrgnr(tall) {
     var sum = 0;
@@ -29,7 +29,7 @@ module.exports = class BrukerDao extends Dao {
     let gyldig = json.epost.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) && json.kommune_id != null;
     console.log(gyldig)
     if (gyldig) {
-      super.query('INSERT INTO bruker (bruker_id, epost, passord, kommune_id) VALUES(DEFAULT,?,?,?)', tabell, callback);
+      super.query('INSERT INTO bruker (epost, passord, kommune_id) VALUES(?,?,?)', tabell, callback);
     } else {
       callback(403, {error: 'Ugyldig input.'});
     }
@@ -222,7 +222,7 @@ module.exports = class BrukerDao extends Dao {
     console.log('inne i oppdaterSpesifisertBruker');
     if (rolle.rolle == 'privat' || rolle == 'admin') {
       console.log('oppdaterer bruker');
-      this.oppdaterBruker(json, (status, data) => {
+      this.oppdaterBruker(json, rolle, (status, data) => {
         console.log('oppdaterer privat');
         super.query(
           'UPDATE privat SET fornavn = ?, etternavn = ? WHERE bruker_id = ?',

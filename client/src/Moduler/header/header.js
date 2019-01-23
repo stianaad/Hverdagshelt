@@ -128,24 +128,26 @@ export class ProfileButton extends Component {
               </div>
             </div>
           </div>
-        ) : (
+        ) : this.brukerType == 'admin' ? (
           <div className="dropdown profileButton">
             <img className="profileIcon" src="/profile.svg" alt="Bruker ikon" onClick={this.clickDrop} />
             <div
-              style={{width: '180px'}}
+              style={{width: '200px'}}
               className="dropdown-menu dropdown-menu-right dropdownbox brukerbox"
               id="drops"
             >
               <div className="arrow" />
               <div className="arrowborder" />
-              <div className="dropdown-item">Mine oppgaver</div>
-              <div className="dropdown-item">Instillinger</div>
+              <Link to="/administrasjon">
+                <div className="dropdown-item">Administrasjon</div>
+              </Link>
+              <div className="dropdown-item">Kontoinnstillinger</div>
               <div onClick={this.loggut} className="dropdown-item">
                 Logg ut
               </div>
             </div>
           </div>
-        )}
+        ) : null}
       </>
     );
   }

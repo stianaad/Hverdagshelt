@@ -124,5 +124,4 @@ module.exports = class HendelseDao extends Dao {
   ikkeAbonnerHendelse(json, callback) {
     super.query("DELETE FROM hendfolg WHERE hendelse_id=? AND bruker_id=?", [json.hendelse_id, json.bruker_id], callback);
   }
-
 }
