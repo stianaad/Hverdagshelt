@@ -207,7 +207,7 @@ class FeilService {
     let token = sessionStorage.getItem('pollett');
     console.log('Opprett ny subkategori service:');
     if (token) {
-      return api.post('/api/subkategori',nySk, { headers: { 'x-access-token': 'Bearer ' + token } });
+      return api.post('/api/subkategorier',nySk, { headers: { 'x-access-token': 'Bearer ' + token } });
     }
   }
 }
