@@ -154,7 +154,7 @@ export class AnsattOversikt extends Component {
   }
 
   async mounted() {
-    let feil = await feilService.hentAlleFeil();
+    let feil = await feilService.hentFeilForKommune(global.payload.user.kommune_id);
     this.alleFeil = await feil.data;
     await console.log(this.alleFeil);
 
