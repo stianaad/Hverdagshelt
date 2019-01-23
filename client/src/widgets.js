@@ -301,6 +301,91 @@ export class FormInput extends Component {
   }
 }
 
+export class StatBar extends Component <{elementID: string, label: string, data: number}> {
+
+  render() {
+    return (
+      <>
+        <div>
+          <canvas id={this.props.elementID}></canvas>
+        </div>
+      </>
+    );
+  }
+
+  async mounted(){
+
+    let myChart = document.getElementById(this.props.elementID).getContext('2d');
+
+    Chart.defaults.global.defaultFontFamily = 'Lato';
+    Chart.defaults.global.defaultFontSize = 18;
+    Chart.defaults.global.defaultFontColor = '#777';
+
+    let barChart = new Chart(myChart, {
+      type:'bar',
+      data: {
+        labels: this.props.label,
+        datasets: [{
+          label: 'Antall feil',
+          data: this.props.data,
+          backgroundColor: '#777',
+          borderWidth: 1,
+          borderColor: '#777',
+          hovedBorderWidth: 3,
+          hoverBorderColor: '#000'
+        }]
+      },
+      options: {
+        title: {
+          display: true,
+          text: 'Feil per kommune',
+          fontSize: 25
+        },
+        legend: {
+          display: false,
+          position: 'right',
+          labels: {
+            fontColor: '#000'
+          }
+        },
+        layout: {
+          padding: {
+            left: 0,
+            right: 0,
+            bottom: 0,
+            top: 0
+          }
+        },
+        tooltips: {
+          enabled: true
+        },
+        hover: {
+            animationDuration: 1
+        },
+        animation: {
+            duration: 1,
+            onComplete: function () {
+                var chartInstance = this.chart,
+                    ctx = chartInstance.ctx;
+                ctx.textAlign = 'center';
+                ctx.fillStyle = '#777';
+                ctx.textBaseline = 'bottom';
+
+                this.data.datasets.forEach(function (dataset, i) {
+                    var meta = chartInstance.controller.getDatasetMeta(i);
+                    meta.data.forEach(function (bar, index) {
+                        var data = dataset.data[index];
+                        ctx.fillText(data, bar._model.x, bar._model.y - 5);
+
+                    });
+                });
+            }
+        }
+      }
+    });
+  }
+}
+
 /*
 /**
  * Renders an information card using Bootstrap classes

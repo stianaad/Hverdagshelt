@@ -3,10 +3,12 @@ import {Component} from 'react-simplified';
 import {genPDFService} from '../../services/genPDFService';
 import {generellServices} from '../../services/generellServices.js';
 import {feilService} from '../../services/feilService.js';
-import {GronnKnapp} from '../../widgets.js';
+import {GronnKnapp, StatBar} from '../../widgets.js';
 import * as html2canvas from 'html2canvas';
 
 export class GenPDF extends Component {
+
+  res = [];
 
   chunkArray(myArray, chunk_size){
     let index = 0;
@@ -45,37 +47,71 @@ export class GenPDF extends Component {
         <div>
           <GronnKnapp onClick={this.print}>Last ned PDF</GronnKnapp>
         </div>
+        <div>
+        {this.res.map(e => (
+          <StatBar elementID={e.id} text="Feil per kommune" label={e.navn} data={e.antall} ></StatBar>
+        ))}
+        </div>
       </>
     );
   }
 
   async mounted(){
+    //<StatBar elementID={e.id} text="Feil per kommune" label={json.navn} data={json.antall} ></StatBar>
     let info = await genPDFService.hentFeilPerKommune();
     let kom = await generellServices.hentAlleKommuner();
-    let feil = await feilService.hentAlleFeil();
 
-    console.log(info.data);
-    console.log(kom.data);
-
-    let navn = [];
-    let tall = [];
-    let komnavn =  [];
-
-    
-
-    for(let i = 0; i < info.data.length; i++){
-      navn[i] = info.data[i].kommune_navn;
-      tall[i] = info.data[i].antall;
+    let informasjon =  {
+      data: []
     }
 
     for(let i = 0; i < kom.data.length; i++){
-      komnavn[i] = kom.data[i].kommune_navn;
+      informasjon.data.push({
+        "id": kom.data[i].kommune_id,
+        "navn": kom.data[i].kommune_navn,
+        "antall": 0
+      });
     }
 
-    let res = this.chunkArray(komnavn, 15);
-    console.log(res);
+    for(let i = 0; i < informasjon.data.length; i++){
+      for(let j = 0; j < info.data.length; j++){
+        if(informasjon.data[i].id === info.data[j].kommune_id){
+          informasjon.data[i].antall = info.data[j].antall;
+        }
+      }
+    }
 
-    let myChart = document.getElementById('myChart').getContext('2d');
+    let navn = [];
+    let tall = [];
+
+    let resultat = this.chunkArray(informasjon.data, 15);
+
+    for(let i = 0; i < informasjon.data.length; i++){
+      navn[i] = informasjon.data[i].navn;
+      tall[i] = informasjon.data[i].antall;
+    }
+
+    let navnChunk =  this.chunkArray(navn, 15);
+    let tallChunk = this.chunkArray(tall, 15);
+
+    console.log(navnChunk);
+    console.log(tallChunk);
+
+    let stats = [];
+
+    for(let i = 0; i < resultat.length; i++){
+      stats.push({
+        "id": i,
+        "navn": navnChunk[i],
+        "antall": tallChunk[i]
+      })
+    }
+
+    console.log(stats);
+    console.log(stats.map(e => e.id));
+    this.res = stats;
+
+    /*let myChart = document.getElementById('myChart').getContext('2d');
 
     Chart.defaults.global.defaultFontFamily = 'Lato';
     Chart.defaults.global.defaultFontSize = 18;
@@ -142,6 +178,6 @@ export class GenPDF extends Component {
             }
         }
       }
-    });
+    });*/
   }
 }
