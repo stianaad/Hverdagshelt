@@ -28,67 +28,63 @@ export class FeilModal extends Component {
       <>
         {this.open ? (
           <Modal open={true} size="medium" centered onClose={this.props.onClose}>
-            <Card.Content>
-              <div>
-                <h1>
-                  {this.props.feil.overskrift}
+            <div className="feilModalBoks">
+              <Card.Header className="feilModalHeader">
+                  <h1 className="feilModalTittel">
+                    {this.props.feil.overskrift}
+                  </h1>
+                  <h6>
+                    Status: {this.props.feil.status} <img src="/warningicon.png" width="30" height="30" />
+                  </h6>
                   <img
-                    style={{ cursor: "pointer" }}
-                    onClick={this.props.onClose}
-                    className="float-right"
-                    src="https://image.freepik.com/free-icon/x_318-27992.jpg"
-                    width="20"
-                    height="20"
-                  />
-                </h1>
-                <h6>
-                  Status: {this.props.feil.status} <img src="/warningicon.png" width="30" height="30" />
-                </h6>
-              </div>
-            </Card.Content>
-            <Card.Content extra style={{overflowY:"auto", height:"77%"}} className="touchscroll">
-              <Grid fluid columns={3} stackable>
-                <Grid.Column>
-                  <h6>Beskrivelse</h6>
-                  <Input>{this.props.feil.beskrivelse}</Input>
-                </Grid.Column>
-                <Grid.Column>
-                  <h6>Posisjon</h6>
-                  <ShowMarkerMap width="100%" height="300px" id="posmap" feil={this.props.feil} />
-                </Grid.Column>
-                <Grid.Column>
-                  <h6>Oppdateringer: </h6>
-                  <div className="oppdateringScroll">
-                    <List className="p-2">
-                      {this.oppTilFeil.map((opp) => (
-                        <List.Item>
-                          <List.Content>
-                            <List.Header>{opp.status}<span className="float-right font-weight-light font-italic">{opp.tid}</span></List.Header>
-                            <List.Description>{opp.kommentar}</List.Description>
-                          </List.Content>
-                        </List.Item>
-                      ))}
-                    </List>
-                  </div>
-                  <br />
-                  <div className="bildeBoks">
-                    <h6>Bilder:</h6>
-                    <Grid columns={5}>
-                      {this.bilderTilFeil.map((bilde) => (
-                        <Grid.Column key={bilde.bilde_id}>
-                          <div onClick={() => this.visBilde(bilde.url)}>
-                            <img src={bilde.url} key={bilde.bilde_id} className="bilder" onClick={() => { this.bildeModal = bilde.url; this.bildeOpen = true; }} />
+                      onClick={this.props.onClose}
+                      className="feilModalX"
+                      src="https://image.freepik.com/free-icon/x_318-27992.jpg"
+                      width="20"
+                      height="20"
+                    />
+              </Card.Header>
+              <Card.Content className="feilModalInnhold">
+                <Grid fluid columns={3} stackable style={{margin:"0"}}>
+                  <Grid.Column>
+                    <h6>Beskrivelse:</h6>
+                    <Input className="feilModalBeskrivelse">{this.props.feil.beskrivelse}</Input>
+                  </Grid.Column>
+                  <Grid.Column>
+                    <h6>Posisjon:</h6>
+                    <ShowMarkerMap width="100%" height="300px" id="posmap" feil={this.props.feil} />
+                  </Grid.Column>
+                  <Grid.Column>
+                    <h6>Oppdateringer: </h6>
+                    <div className="oppdateringScroll" style={{ height: "33%" }}>
+                      <List className="p-2">
+                        {this.oppTilFeil.map((opp) => (
+                          <List.Item>
+                            <List.Content>
+                              <List.Header>{opp.status}<span className="float-right font-weight-light font-italic">{opp.tid}</span></List.Header>
+                              <List.Description>{opp.kommentar}</List.Description>
+                            </List.Content>
+                          </List.Item>
+                        ))}
+                      </List>
+                    </div>
+                    <div>
+                      <h6>Bilder:</h6>
+                      <div>
+                        {this.bilderTilFeil.map((bilde) => (
+                            <div className="feilModalBilde" key={bilde.bilde_id} onClick={() => this.visBilde(bilde.url)}>
+                              <img src={bilde.url} key={bilde.bilde_id} className="bilder" onClick={() => { this.bildeModal = bilde.url; this.bildeOpen = true; }} />
                           </div>
-                        </Grid.Column>
-                      ))}
-                    </Grid>
-                  </div>
-                </Grid.Column>
-              </Grid>
-            </Card.Content>
+                        ))}
+                      </div>
+                    </div>
+                  </Grid.Column>
+                </Grid>
+              </Card.Content>
+            </div>
           </Modal>
         ) : null}
-        <Modal open={this.bildeOpen} onClose={()=>{this.bildeOpen = false;}} basic centered className="modalwidth">
+        <Modal open={this.bildeOpen} onClose={() => { this.bildeOpen = false; }} basic centered className="modalwidth">
           <Modal.Content>
             <img src={this.bildeModal} className="bildevisning" />
           </Modal.Content>

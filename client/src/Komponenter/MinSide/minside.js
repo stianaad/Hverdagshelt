@@ -295,7 +295,10 @@ export class Minside extends Component {
                           fjern={() => {
                             this.fjernFeil(feil.feil_id);
                           }}
-                          onClick={() => this.handleOpen(feil)}
+                          onClick={() => {
+                            this.feilModal = true;
+                            this.feil = feil;
+                          }}
                         >
                           {feil.overskrift}
                         </FeedMinside>
@@ -394,7 +397,7 @@ export class Minside extends Component {
               )}
             </div>
           </div>
-          <div className="col-sm mt-3 ml-3" id="sideListeH">
+          <div className="col-md-auto mx-3" id="sideListeH">
             <Card fluid>
               <Card.Content>
                 <Card.Header>Brukerinformasjon</Card.Header>
