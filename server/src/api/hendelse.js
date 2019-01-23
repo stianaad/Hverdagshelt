@@ -153,7 +153,7 @@ router.post("/api/hendelser/:hendelse_id/abonnement", checkToken, (req, res) => 
   let role = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
   if (role == 'privat') {
-    hendelseDao.abonnerHendelse({bruker_id: bruker_id, hendelse_id: req.body.hendelse_id}, (status, data) => {
+    hendelseDao.abonnerHendelse({bruker_id: bruker_id, hendelse_id: req.params.hendelse_id}, (status, data) => {
       res.status(status);
       res.json(data);
     });
@@ -167,7 +167,7 @@ router.delete("/api/hendelser/:hendelse_id/abonnement", checkToken, (req, res) =
   let role = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
   if (role == 'privat' || role == 'admin') {
-    hendelseDao.ikkeAbonnerHendelse({bruker_id: bruker_id, hendelse_id: req.body.hendelse_id}, (status, data) => {
+    hendelseDao.ikkeAbonnerHendelse({bruker_id: bruker_id, hendelse_id: req.params.hendelse_id}, (status, data) => {
       res.status(status);
       res.json(data);
     });

@@ -3,7 +3,7 @@ import {Component} from 'react-simplified';
 import {hendelseService} from '../../services/hendelseService';
 import {generellServices} from '../../services/generellServices';
 import {HashRouter, Route, NavLink, Redirect, Switch, Link} from 'react-router-dom';
-import {FeedEvent, FeedHendelse, Filtrer, Info, Hendelse} from '../../Moduler/cardfeed';
+import {FeedEvent, FeedHendelse, Filtrer, Info, Hendelse,ModalHendelse} from '../../Moduler/cardfeed';
 import {Card, Feed, Grid, Button, Header, Icon, Image, Modal, Dropdown,Popup} from 'semantic-ui-react';
 import {PageHeader} from '../../Moduler/header/header';
 import { KommuneVelger } from '../../Moduler/KommuneVelger/kommuneVelger';
@@ -28,6 +28,15 @@ export class Hendelser extends Component {
 	kommuner=[];
 	fylker=[];
 	finnKommuneId=[]
+	state = {open: false};
+	valgteHendelse = {
+		overskrift: '',
+		bilde: '',
+		tid: '',
+		sted: '',
+		kommune_navn: '',
+	  };
+
 
 		tilbakestill(){
 			// Pushe tilbake til siden? 
@@ -116,15 +125,29 @@ export class Hendelser extends Component {
 				.filter(h => ((h.kommune_id === this.skrivKommuneID) || this.skrivKommuneID == "")).filter(h => ((h.tid >= this.skrivFraTid) || this.skrivFraTid == "")).filter(h => ((h.tid <= this.skrivTilTid) || this.skrivTilTid == ""))
 				.filter(h => ((h.fylke_navn === this.skrivFylke) || this.skrivFylke == "Fylke"));
 	}
+
+
+
+	handleOpenHendelser = (hendelse) => {
+		this.valgteHendelse = {...hendelse};
+		console.log(this.valgteHendelse);
+		console.log('ehehheh');
+		this.setState({open: true});
+	  };
+	
+	  handleCloseHendelser = () => {
+		this.setState({open: false});
+	  };
   
   
     render() {
       return (
         <div className="container" >
         <PageHeader history={this.props.history}/>
-        
+		<Modal open={this.state.open} onClose={this.handleCloseHendelser} size="small" centered={true} dimmer="blurring">
+			<ModalHendelse overskrift={this.valgteHendelse.overskrift} url={this.valgteHendelse.bilde} tid={this.valgteHendelse.tid} sted={this.valgteHendelse.sted} kommune_navn={this.valgteHendelse.kommune_navn}/>
+		</Modal>
             <h1 className="text-center b-5" >Hendelser</h1>
-           
            <div className="row ml-1">
 		   <Popup
                 trigger={
@@ -229,11 +252,15 @@ export class Hendelser extends Component {
 			<Card.Group stackable>
 				{this.aktiveHendelser.map(hendelse => (
 					<Hendelse
-						onClick={()=>location.href=this.link +"/"+ hendelse.hendelse_id}
+					onClick={() => {
+                        this.handleOpenHendelser(hendelse);
+                      }}
 						bilde = {hendelse.bilde}
 						overskrift = {hendelse.overskrift}
 						sted = {hendelse.sted}
 						tid = {hendelse.tid}
+						key={hendelse.hendelse_id}
+						hendelse_id={hendelse.hendelse_id}
 					/>))}			
 			</Card.Group>
         </div>
