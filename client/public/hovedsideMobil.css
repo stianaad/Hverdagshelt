@@ -54,12 +54,31 @@
 }*/
 
 
-.hovedContainer > div[class*="col-"]:not(#hovedKart):not(.feilInfo) {
+.hovedContainer > div[class*="col-"]:not(#hovedKart):not(.feilInfo):not(.hendelseInfo) {
     display:none;
 }
 
 .feilInfo {
     margin-top: 20px;
+}
+
+.feilInfo > div {
+    height: calc(100vh - 280px) !important;
+}
+
+.hendelseInfo {
+    margin: 20px auto;
+    width: 100vw;
+    margin-bottom: 100px;
+    display: block !important;
+}
+
+#hendelseKnapper {
+    margin-top: 15px;
+}
+
+#hendelseKnapper > button{
+    font-size: 3.5vw !important;
 }
 
 .mobileButtons {
