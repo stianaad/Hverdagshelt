@@ -500,7 +500,7 @@ export class Minside extends Component {
                 ) : (
                   <>
                     <Button basic color="blue" onClick={this.rediger}>
-                      Rediger Brukerinfo
+                      Rediger bruker
                     </Button>
                   </>
                 )}
