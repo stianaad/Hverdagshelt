@@ -4,6 +4,10 @@ import {KommuneVelger} from '../../Moduler/KommuneVelger/kommuneVelger';
 import {Link} from 'react-router-dom';
 import {ProfileButton} from '../../Moduler/header/header';
 export class Forside extends Component {
+
+shake = 0;
+shakeDir = 5;
+
   render() {
     return (
       <div>
@@ -17,7 +21,30 @@ export class Forside extends Component {
             </Link>
           </div>
           <div className="mainbuttons">
+            {global.payload == null ? (
             <button
+              type="button"
+              className="main-header-button btn btn-danger border border-dark mr-4"
+              onClick={() => {
+                clearInterval(this.shakeInterval);
+                this.shakeInterval = setInterval(() => {
+                  if (Math.abs(this.shake) > 20) this.shakeDir*=-1;
+                  this.shake += this.shakeDir;
+                  document.body.style.transform = "translate("+this.shake+"px, 0)";
+                },10);
+                setTimeout(() => {
+                  clearInterval(this.shakeInterval);
+                  document.body.style.transform = "";
+                  this.shake = 0;
+                  this.shakeDir = 5;
+                  document.querySelector(".logginnbutton").click();
+                },300);
+              }}
+            >
+              Meld inn feil
+            </button>
+            ) : global.payload.role == 'admin' || global.payload.role == 'privat' ? (
+              <button
               type="button"
               className="main-header-button btn btn-danger border border-dark mr-4"
               onClick={() => {
@@ -26,6 +53,7 @@ export class Forside extends Component {
             >
               Meld inn feil
             </button>
+            ) : null}
             <button
               type="button"
               className="main-header-button btn btn-light border border-dark mr-4"
