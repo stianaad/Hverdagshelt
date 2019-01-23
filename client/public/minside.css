@@ -1,7 +1,7 @@
 .feilCardImage{
     /*width: 250px !important;*/
     height: auto;
-    max-height: 300px;
+    max-height: 250px;
     
     object-fit: cover;
 }
@@ -15,8 +15,12 @@
     
 }*/
 
-.minSideKolonne {
-  width: 300px;
+.minSideUtKolonne {
+  width: 325px;
+}
+
+.minSideInKolonne {
+  width: 250px;
 }
 
 #sideListeH {

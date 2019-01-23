@@ -104,11 +104,11 @@ export class Minside extends Component {
         </div>
         <div className="row">
           <div className="col"></div>
-          <div className="col-md-auto ml-3 mr-1 minSideKolonne" id="sideListe">
+          <div className="col-md-auto ml-3 mr-1 minSideUtKolonne" id="sideListe">
             <Card fluid>
               <Card.Content>
                 <Card.Header>
-                  Dine rapporterte feil
+                  Dine rapporterte feil<InfoBoks tekst="Trykk på knappen under for å se dine rapporterte feil."/>
                   <Button basic color="green" onClick={this.visRapporterteFeil}>
                     {this.oppdaterteFeil.length === 0 ? (
                       <span>Ingen ny(e) oppdateringer</span>
@@ -167,7 +167,7 @@ export class Minside extends Component {
               ) : null}
             </Card>
           </div>
-          <div className="col-md-auto mx-1 minSideKolonne">
+          <div className="col-md-auto mx-1 minSideInKolonne">
               <h2>Hendelser du følger</h2>
               {this.folgteHendelser.length > 0 ? (
                 <Card.Group itemsPerRow={1}>
@@ -206,7 +206,7 @@ export class Minside extends Component {
                 </Card>
               )}
             </div>
-          <div className="col-md-auto mx-1 minSideKolonne">
+          <div className="col-md-auto mx-1 minSideInKolonne">
               <h2>Feil/mangler du følger</h2>
               {this.folgteFeil.length > 0 ? (
                 <Card.Group itemsPerRow={1}>
@@ -245,7 +245,7 @@ export class Minside extends Component {
                 </Card>
               )}
             </div>
-          <div className="col-md-auto mr-3 ml-1 minSideKolonne" id="sideListeH">
+          <div className="col-md-auto mr-3 ml-1 minSideUtKolonne" id="sideListeH">
             <Card fluid>
               <Card.Content>
                 <Card.Header>Brukerinformasjon<InfoBoks tekst="Her kan du både se og redigere din personlige informasjon. Du kan også endre passord ved: 'Rediger bruker' > 'Endre passord'."/></Card.Header>
