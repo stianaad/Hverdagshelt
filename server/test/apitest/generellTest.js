@@ -17,6 +17,7 @@ var pool = mysql.createPool({
   multipleStatements: true,
 });
 
+
 let generelldao = new Generelldao(pool);
 let feildao = new FeilDao(pool);
 let brukerdao = new BrukerDao(pool);
