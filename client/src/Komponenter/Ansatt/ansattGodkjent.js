@@ -146,7 +146,7 @@ export class AnsattGodkjent extends Component{
                                                                     ))}
                                                                 </select>
                                                             </div>
-                                                            <Button basic color="blue">Send</Button>
+                                                            <Button basic color="blue" onClick={this.sendTilBed}>Send</Button>
                                                         </Grid.Column>                                                
                                                     </Grid>
                                                 </div>
@@ -172,6 +172,14 @@ export class AnsattGodkjent extends Component{
         });
 
         await this.mounted(); 
+    }
+
+    async sendTilBed(){
+        console.log("orgnr: " + this.valgtBedrift.orgnr + ", id: " + this.valgtfeil.feil_id);
+        await feilService.sendFeilTilBedrift({
+            orgnr: this.valgtBedrift.orgnr,
+            feil_id: this.valgtfeil.feil_id
+        });
     }
 
     scroll() {
