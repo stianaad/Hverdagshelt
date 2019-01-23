@@ -135,8 +135,8 @@ export class Hovedside extends Component {
     else {
       //window.scrollTo(0, document.querySelector(id).offsetTop - 115);
       let q = (id) => document.querySelector(id);
-      q("#mapContainer").style.height ="0px";
-        q("#test").style.height = "0px";
+      //q("#mapContainer").style.height ="0px";
+      //q("#test").style.height = "0px";
       if (view == this.mobView && view == "#hovedKart") {
         return;
       } else {
