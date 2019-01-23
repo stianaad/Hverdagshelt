@@ -7,11 +7,13 @@ import {
   Button,
   Modal,
   TextArea,
+  Input,
 } from 'semantic-ui-react';
 import {FeedEvent, Filtrer, KatDropdown} from '../../Moduler/cardfeed';
 import {feilService} from '../../services/feilService';
 import {brukerService} from '../../services/brukerService';
 import {AnsattMeny} from './ansattMeny';
+import {ShowMarkerMap} from '../../Moduler/kart/map';
 
 export class NyeFeil extends Component {
   nyefeil = [];
@@ -91,7 +93,7 @@ export class NyeFeil extends Component {
   render() {
     return (
       <div>
-        <PageHeader history={this.props.history} location={this.props.location} />
+        <PageHeader history={this.props.history} location={this.props.location}/>
         <Modal open={this.bildeApen} onClose={this.handleClose} basic>
           <Modal.Content>
               <Grid>
@@ -140,8 +142,9 @@ export class NyeFeil extends Component {
                         <Card.Content>
                           <div>
                             <Grid fluid columns={2} verticalAlign="middle">
-                              <Grid.Column textAlign="left">
-                                <h3>{this.valgtfeil.overskrift}</h3>
+                              <Grid.Column>
+                                <h5>Overskrift:</h5>
+                                <Input value={this.valgtfeil.overskrift} onChange={(e) => (this.valgtfeil.overskrift = e.target.value)}></Input>
                               </Grid.Column>
                               <Grid.Column textAlign="right" fluid>
                                 <h6>{this.valgtfeil.tid}</h6>
@@ -150,10 +153,10 @@ export class NyeFeil extends Component {
                                 <h6>Status: {this.valgtfeil.status}</h6>
                               </Grid.Column>
                               <Grid.Column>
-                                <Button floated="right" color="red">
+                                <Button floated="right" color="red" onClick={this.slett}>
                                   Slett feil
                                 </Button>
-                                <Button floated="right" color="green" onClick={() => this.godkjenn(this.valgtfeil.feil_id, "test", 2)}>
+                                <Button floated="right" color="green" onClick={this.godkjenn}>
                                   Godkjenn
                                 </Button>
                               </Grid.Column>
@@ -164,21 +167,32 @@ export class NyeFeil extends Component {
                           <div>
                             <Grid columns={3} fluid stackable>
                               <Grid.Column>
+                                <h6>Beskrivelse: </h6>
                                 <TextArea value={this.valgtfeil.beskrivelse} rows="18" 
                                   onChange={(event) => (this.valgtfeil.beskrivelse = event.target.value)}
                                 />
                               </Grid.Column>
-                              <Grid.Column>KART</Grid.Column>
                               <Grid.Column>
-                                <Grid columns={2} fluid>
-                                  {this.bilder.map((bilde) => (
-                                    <Grid.Column>
-                                      <div onClick={() => this.visBilde(bilde.url)}>
-                                        <img src={bilde.url} className="bilder" />
-                                      </div>
-                                    </Grid.Column>
-                                  ))}
-                                </Grid>
+                                <h6>Posisjon: </h6>
+                                <ShowMarkerMap key={this.valgtfeil.feil_id} width="100%" height="85%" id="posmap" feil={this.valgtfeil} />
+                              </Grid.Column>
+                              <Grid.Column>
+                                <h6>Bilder: </h6>
+                                {this.bilder.length > 0 ? (
+                                  <Grid columns={2}>
+                                    {this.bilder.map((bilde) => (
+                                      <Grid.Column>
+                                        <div onClick={() => this.visBilde(bilde.url)}>
+                                          <img src={bilde.url} className="bilder" />
+                                        </div>
+                                      </Grid.Column>
+                                    ))}
+                                  </Grid> 
+                                ):(
+                                  <p>Ingen bilder</p>
+                                )}
+                                <br/>
+                                <h6>Kategorier</h6>
                                 <KatDropdown
                                   valgt={this.valgtHovedKat}
                                   alleKategorier={this.hovedkat}
@@ -188,6 +202,7 @@ export class NyeFeil extends Component {
                                   key={this.valgtHovedKat}
                                   valgt={this.valgtUnderKat}
                                   alleKategorier={this.underkat}
+                                  onChange={(e) => (this.valgtUnderKat = e.target.value)}
                                 />
                               </Grid.Column>
                             </Grid>
@@ -206,15 +221,36 @@ export class NyeFeil extends Component {
     );
   }
 
-  async godkjenn(){
-      console.log("Beskrivelse: " + this.valgtfeil.beskrivelse);
-      let nyOpp = {
-          feil_id: this.valgtfeil.feil_id,
-          kommentar: "Ansatt har godkjent innhold",
-          status_id: 2
-      };
+  async slett(){
+    await feilService.slettFeil(this.valgtfeil.feil_id);
+  }
 
-      console.log("nyOpp: " + nyOpp.data);
+  async godkjenn(){
+      await console.log("lagrer");
+      await feilService.lagOppdatering({
+        "feil_id": this.valgtfeil.feil_id,
+        "kommentar": 'Ansatt har godkjent feil', 
+        "status_id": 2
+      });
+      await console.log("oppdaterer");
+      await feilService.oppdaterFeil({
+        kommune_id : global.payload.user.kommune_id, 
+        subkategori_id: this.valgtUnderKat.subkategori_id,
+        overskrift: this.valgtfeil.overskrift,
+        beskrivelse: this.valgtfeil.beskrivelse,
+        lengdegrad: this.valgtfeil.lengdegrad,
+        breddegrad: this.valgtfeil.breddegrad,
+        feil_id: this.valgtfeil.feil_id
+      });
+      await console.log("ferdig");
+  }
+
+  async lagre(){
+    await feilService.lagOppdatering({
+      "feil_id": this.valgtfeil.feil_id,
+      "kommentar": 'Ansatt har godkjent feil', 
+      "status_id": 2
+    });
   }
 
   scroll() {
@@ -224,7 +260,7 @@ export class NyeFeil extends Component {
   }
 
   async mounted() {
-    let feil = await feilService.hentAlleFeil();
+    let feil = await feilService.hentFeilForKommune(global.payload.user.kommune_id);
     this.alleFeil = await feil.data;
 
     this.nyefeil = await feil.data.filter((e) => e.status === 'Ikke godkjent');
