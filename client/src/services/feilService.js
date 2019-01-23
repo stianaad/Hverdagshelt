@@ -4,7 +4,7 @@ class FeilService {
   hentAlleFeil() {
     let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.get('/api/feil');
+      return api.get('/api/feil', {headers: {'x-access-token': 'Bearer ' + token}});
     } else {
       return [];
     }
@@ -17,7 +17,7 @@ class FeilService {
   hentFeilForKommune(kommune_id) {
     let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.get('/api/kommuner/' + kommune_id + '/feil');
+      return api.get('/api/kommuner/' + kommune_id + '/feil', {headers: {'x-access-token': 'Bearer ' + token}});
     } else {
       return [];
     }
