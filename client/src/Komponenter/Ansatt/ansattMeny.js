@@ -16,18 +16,22 @@ export class AnsattMeny extends Component {
                 <Menu.Item
                     name='Oversikt'
                     as={NavLink}
-                    to='/ansatt/nyefeil'
+                    to='/ansatt/oversikt'
                 />
                 <Menu.Item
                   name='Nye feil'
                   as={NavLink}
-                  to={'/ansatt/nyefeil'}
+                  to='/ansatt/nyefeil'
                 />
                 <Menu.Item
                   name='Under arbeid'
+                  as={NavLink}
+                  to='/ansatt/underbehandling'
                 />
                 <Menu.Item
                   name='Ferdig'
+                  as={NavLink}
+                  to='/ansatt/ferdig'
                 />
               </Menu.Menu>
             </Menu.Item>
@@ -37,6 +41,8 @@ export class AnsattMeny extends Component {
               <Menu.Menu>
                 <Menu.Item
                   name='Alle hendelser'
+                  as={NavLink}
+                  to='/ansatt/hendelser'
                 />
               <Menu.Item
                 name='Ny hendelse'
