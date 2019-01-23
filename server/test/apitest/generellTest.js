@@ -118,7 +118,8 @@ test('legg til ny privatbruker', (done) => {
 test('hent ikke oppdaterte feil til bruker', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
-    expect(data[0].overskrift).toBe('wedwed');
+    expect(data.affectedRows).toBeGreaterThanOrEqual(1);
+    expect(data[0].overskrift).toBe('Test2');
     done();
   }
   brukerdao.finnIkkeOppdaterteFeilTilBruker(1, callback);
@@ -134,10 +135,20 @@ test('hent fulgte feil til bruker', (done) => {
   brukerdao.finnFolgteFeilTilBruker(17, callback);
 });
 
+test('legg til ny adminbruker', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  brukerdao.lagNyAdminBruker(testAdminbruker, callback);
+});
+
 test('hent hendelser til bruker', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
-    expect(data[0].beskrivelse).toBe('Beskrivelse1');
+    expect(data.affectedRows).toBeGreaterThanOrEqual(1);
+    expect(data[0].beskrivelse).toBe('Beskrivelse2');
     done();
   }
   brukerdao.finnFolgteHendelserTilBruker(17, callback);
@@ -150,15 +161,6 @@ test('hent bruker på id', (done) => {
     done();
   }
   brukerdao.hentBrukerPaaid({bruker_id: 3}, callback);
-});
-
-test('legg til ny adminbruker', (done) => {
-  function callback(status, data) {
-    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
-    expect(data.affectedRows).toBe(1);
-    done();
-  }
-  brukerdao.lagNyAdminBruker(testAdminbruker, callback);
 });
 
 test('lag ny bruker', (done) => {
