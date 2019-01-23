@@ -94,7 +94,7 @@ INSERT INTO `bedrift` (`bruker_id`, `orgnr`, `navn`, `telefon`) VALUES
 --
 
 CREATE TABLE `bruker` (
-  `bruker_id` int(11) NOT NULL AUTO_INCREMENT,
+  `bruker_id` int(11) NOT NULL,
   `epost` varchar(255) NOT NULL,
   `passord` text NOT NULL,
   `kommune_id` int(11) DEFAULT NULL
@@ -136,7 +136,7 @@ INSERT INTO `bruker` (`bruker_id`, `epost`, `passord`, `kommune_id`) VALUES
 --
 
 CREATE TABLE `feil` (
-  `feil_id` int(11) NOT NULL AUTO_INCREMENT,
+  `feil_id` int(11) NOT NULL,
   `bruker_id` int(11) NOT NULL,
   `kommune_id` int(11) NOT NULL,
   `subkategori_id` int(11) NOT NULL,
@@ -326,7 +326,7 @@ INSERT INTO `fylker` (`fylke_navn`) VALUES
 --
 
 CREATE TABLE `hendelser` (
-  `hendelse_id` int(11) NOT NULL AUTO_INCREMENT,
+  `hendelse_id` int(11) NOT NULL,
   `bruker_id` int(11) NOT NULL,
   `hendelseskategori_id` int(11) NOT NULL,
   `kommune_id` int(11) NOT NULL,
@@ -360,7 +360,7 @@ INSERT INTO `hendelser` (`hendelse_id`, `bruker_id`, `hendelseskategori_id`, `ko
 --
 
 CREATE TABLE `hendelseskategori` (
-  `hendelseskategori_id` int(11) NOT NULL AUTO_INCREMENT,
+  `hendelseskategori_id` int(11) NOT NULL,
   `kategorinavn` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -398,7 +398,7 @@ INSERT INTO `hendfolg` (`hendelse_id`, `bruker_id`) VALUES
 --
 
 CREATE TABLE `hovedkategori` (
-  `hovedkategori_id` int(11) NOT NULL AUTO_INCREMENT,
+  `hovedkategori_id` int(11) NOT NULL,
   `kategorinavn` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -1003,7 +1003,7 @@ INSERT INTO `status` (`status_id`, `status`) VALUES
 --
 
 CREATE TABLE `subkategori` (
-  `subkategori_id` int(11) NOT NULL AUTO_INCREMENT,
+  `subkategori_id` int(11) NOT NULL,
   `kategorinavn` varchar(255) NOT NULL,
   `hovedkategori_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
