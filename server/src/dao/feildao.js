@@ -151,7 +151,7 @@ module.exports = class FeilDao extends Dao {
   //testes
   slettBildeFraFeil(json, callback) {
     var info = [json.url, json.feil_id];
-    super.query('DELETE FROM feil_bilder WHERE url = ? AND feil_id = ?', info, callback);
+    super.query('DELETE FROM feilbilder WHERE url = ? AND feil_id = ?', info, callback);
   }
 
   oppdaterSubkategori(json, callback) {
