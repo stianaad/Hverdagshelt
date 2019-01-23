@@ -64,7 +64,7 @@ nav ul{
 .hovedTittel {
    position: relative;
 }
-.hovedTittel a, .hovedTittel button {
+.hovedTittel a button, .hovedTittel button {
    position: absolute;
    right: 1rem;
    bottom: 0px;
@@ -98,6 +98,10 @@ nav ul{
 }
 
 .feilInfo > div {
+   height: 100%;
+}
+
+.hendelseInfo > div {
    height: 100%;
 }
 

@@ -147,22 +147,22 @@ export class Hendelser extends Component {
   
     render() {
       return (
-        <div className="container" >
+        <div className="hendelseContainer" >
         <PageHeader history={this.props.history}/>
 		<Modal open={this.state.open} onClose={this.handleCloseHendelser} size="small" centered={true} dimmer="blurring">
-			<ModalHendelse overskrift={this.valgteHendelse.overskrift} url={this.valgteHendelse.bilde} tid={this.valgteHendelse.tid} sted={this.valgteHendelse.sted} kommune_navn={this.valgteHendelse.kommune_navn}/>
+			<ModalHendelse overskrift={this.valgteHendelse.overskrift} beskrivelse={this.valgteHendelse.beskrivelse} url={this.valgteHendelse.bilde} tid={this.valgteHendelse.tid} sted={this.valgteHendelse.sted} kommune_navn={this.valgteHendelse.kommune_navn}/>
 		</Modal>
             <h1 className="text-center b-5" >Hendelser</h1>
-           <div className="row ml-3">
+           <div className="row">
 		   <Popup
                 trigger={
-					<Button className="float-right mb-2" onClick={this.hentData}>Filtrer <img src="https://png.pngtree.com/svg/20160828/filter_45418.png" height="20" width="20"/> </Button>}
+					<Button className="mb-2" onClick={this.hentData}>Filtrer <img src="https://png.pngtree.com/svg/20160828/filter_45418.png" height="20" width="20"/> </Button>}
 				flowing
                 on="click"
                 open={this.isOpen}
                 onOpen={this.handleOpen}
                 onClose={this.handleClose}
-                position="bottom left">
+                >
                 <Grid centered columns={3}>
                     <Grid.Column>
 					<select
@@ -255,7 +255,7 @@ export class Hendelser extends Component {
                 </Grid>
               </Popup>
            </div>
-			<Card.Group stackable style={{width:"792px", margin: "0 auto"}}>
+			<Card.Group stackable>
 				{this.aktiveHendelser.map(hendelse => (
 					<Hendelse
 					onClick={() => {

@@ -8,6 +8,7 @@ import {brukerService} from '../../services/brukerService';
 import {NavLink, Link} from 'react-router-dom';
 import {markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
 import {KommuneInput} from '../../Moduler/kommuneInput/kommuneInput';
+import { FeilModal } from '../../Moduler/modaler/feilmodal';
 
 export class Minside extends Component {
   oppdaterteFeil = [];
@@ -22,6 +23,7 @@ export class Minside extends Component {
     beskrivelse: '',
   };
 
+  feil = {feil_id:0}
 
   passord = {
     gammeltPass: '',
@@ -54,7 +56,7 @@ export class Minside extends Component {
   };
 
   visHendelse = false;
-
+  feilModal = false;
   visFeil = false;
 
   redigerer = false;
@@ -155,6 +157,8 @@ export class Minside extends Component {
             </div>
           </Modal.Content>
         </Modal>
+        <FeilModal key={this.feil.feil_id+this.feilModal} open={this.feilModal} feil={this.feil} onClose={() => {this.feilModal = false}} />
+        {/*
         <Modal open={this.state.open} onClose={this.handleClose} size="small" centered dimmer="blurring">
           {!this.visHendelse ? (
             <Modal.Content>
@@ -238,7 +242,7 @@ export class Minside extends Component {
               kommune_navn={this.valgteHendelse.kommune_navn}
             />
           )}
-        </Modal>
+          </Modal>*/}
         <div className="mt-3 hovedTittel">
           <h1 className="text-center text-capitalize display-4">Min side </h1>
           <Link to="/meldfeil">
@@ -358,8 +362,8 @@ export class Minside extends Component {
                     <Card
                       className="feilCard"
                       onClick={() => {
-                        this.visHendelse = false;
-                        this.handleOpen(feil);
+                        this.feilModal = true;
+                        this.feil = feil;
                       }}
                     >
                       <Image src={feil.url} className="feilCardImage" />
