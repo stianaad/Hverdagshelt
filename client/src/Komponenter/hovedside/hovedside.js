@@ -25,6 +25,7 @@ export class Hovedside extends Component {
   alleHendelser = [];
   visHendelser = false;
   bilderTilFeil = [];
+  oppTilFeil = []
   bildeModal = null;
   statusIkon = '';
   markers = [];
@@ -61,8 +62,12 @@ export class Hovedside extends Component {
     }
     this.visFeil = true;
     this.feil = {...feil};
-    let res = await feilService.hentBilderTilFeil(feil.feil_id);
-    this.bilderTilFeil = await res.data;
+    let res1 = await feilService.hentBilderTilFeil(feil.feil_id),
+        res2 = await feilService.hentAlleOppdateringerPaaFeil(feil.feil_id);
+    this.bilderTilFeil = await res1.data;
+    this.oppTilFeil = await res2.data;
+    await console.log(res2.data);
+
     this.endreStatusIkon(feil.status);
   }
 
@@ -292,44 +297,30 @@ export class Hovedside extends Component {
                       <Grid.Column>
                         <h6>Oppdateringer: </h6>
                         <div className="oppdateringScroll">
-                          <List>
+                          <List className="p-2">
+                            {this.oppTilFeil.map((opp) => (
                             <List.Item>
                               <List.Content>
-                                <List.Header>Godkjent</List.Header>
-                                <List.Description>01.01.18 19:00</List.Description>
+                                <List.Header>{opp.status}<span className="float-right font-weight-light font-italic">{opp.tid}</span></List.Header>
+                                <List.Description>{opp.kommentar}</List.Description>
                               </List.Content>
                             </List.Item>
-                            <List.Item>
-                              <List.Content>
-                                <List.Header>Godkjent</List.Header>
-                                <List.Description>01.01.18 19:00</List.Description>
-                              </List.Content>
-                            </List.Item>
-                            <List.Item>
-                              <List.Content>
-                                <List.Header>Godkjent</List.Header>
-                                <List.Description>01.01.18 19:00</List.Description>
-                              </List.Content>
-                            </List.Item>
-                            <List.Item>
-                              <List.Content>
-                                <List.Header>Godkjent</List.Header>
-                                <List.Description>01.01.18 19:00</List.Description>
-                              </List.Content>
-                            </List.Item>
+                            ))}
                           </List>
                         </div>
                         <br />
-                        <h6>Bilder:</h6>
-                        <Grid columns={5} >
-                          {this.bilderTilFeil.map((bilde) => (
-                            <Grid.Column key={bilde.bilde_id}>
-                              <div onClick={() => this.visBilde(bilde.url)}>
-                                <img src={bilde.url} key={bilde.bilde_id} className="bilder" onClick={() => {this.handleOpen(bilde.url)}}/>
-                              </div>
-                            </Grid.Column>
-                          ))}
-                        </Grid>
+                        <div className="bildeBoks">
+                          <h6>Bilder:</h6>
+                          <Grid columns={5}>
+                            {this.bilderTilFeil.map((bilde) => (
+                              <Grid.Column key={bilde.bilde_id}>
+                                <div onClick={() => this.visBilde(bilde.url)}>
+                                  <img src={bilde.url} key={bilde.bilde_id} className="bilder" onClick={() => {this.handleOpen(bilde.url)}}/>
+                                </div>
+                              </Grid.Column>
+                            ))}
+                          </Grid>
+                        </div>
                       </Grid.Column>
                     </Grid>
                   </Card.Content>
@@ -551,7 +542,7 @@ f                      id="test"
     
         await Promise.all([res1.data]).then(() => {
           console.log("got here");
-          if (this.mobView != "#hovedKart") window.setClosed();
+          if (this.mobView != "#hovedKart" && L.Browser.mobile) window.setClosed();
           this.kart.addMarkers(res1.data);
         });
 

@@ -242,7 +242,7 @@ router.get('/api/feil/:feil_id/oppdatering', (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk GET-request fra klienten');
 
-  let a = { feil_id: req.body.feil_id };
+  let a = { feil_id: req.params.feil_id };
 
   feilDao.hentAlleOppdateringerPaaFeil(a, (status, data) => {
     res.status(status);
