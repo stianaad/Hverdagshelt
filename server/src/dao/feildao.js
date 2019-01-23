@@ -137,15 +137,18 @@ module.exports = class FeilDao extends Dao {
     );
   }
 
+  //testes
   hentAlleSubKategorierPaaHovedkategori(json, callback) {
     var hovedkategori_id = json.hovedkategori_id;
     super.query('SELECT * FROM subkategori WHERE hovedkategori_id = ?', [hovedkategori_id], callback);
   }
 
+  //testes
   hentAlleSubkategorier(callback) {
     super.query('SELECT * FROM subkategori', null, callback);
   }
 
+  //testes
   slettBildeFraFeil(json, callback) {
     var info = [json.url, json.feil_id];
     super.query('DELETE FROM feil_bilder WHERE url = ? AND feil_id = ?', info, callback);
@@ -160,6 +163,7 @@ module.exports = class FeilDao extends Dao {
     super.query('DELETE FROM subkategori WHERE subkategori_id = ?', [json.subkategori_id], callback);
   }
 
+  //testes
   nySubkategori(json, callback) {
     var info = [json.kategorinavn, json.hovedkategori_id];
     super.query('INSERT INTO subkategori (kategorinavn, hovedkategori_id) VALUES (?,?)', info, callback);
@@ -169,11 +173,13 @@ module.exports = class FeilDao extends Dao {
     super.query('INSERT INTO hovedkategori (kategorinavn) VALUES (?)', [json.kategorinavn], callback);
   }
 
+  //testes
   oppdaterHovedkategori(json, callback) {
     var info = [json.kategorinavn, json.hovedkategori_id];
     super.query('UPDATE hovedkategori SET kategorinavn = ? WHERE hovedkategori_id = ?', info, callback);
   }
 
+  //testes
   slettHovedkategori(json, callback) {
     super.query('DELETE FROM hovedkategori WHERE hovedkategori_id = ?', [json.hovedkategori_id], callback);
   }
@@ -195,6 +201,7 @@ module.exports = class FeilDao extends Dao {
     );
   }
 
+  //testes
   hentFerdigeFeilTilBedrift(bruker_id, callback) {
     super.query(
       "SELECT feil.*, hovedkategori.kategorinavn, DATE_FORMAT(f.tid, '%Y.%m.%d %H:%i') AS tid, kommuner.kommune_navn, kommuner.fylke_navn FROM feil INNER JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id INNER JOIN hovedkategori ON subkategori.hovedkategori_id = hovedkategori.hovedkategori_id INNER JOIN(SELECT feil_id, MAX(tid) AS tid FROM oppdatering GROUP BY feil_id) AS f ON feil.feil_id = f.feil_id INNER JOIN (SELECT feil_id, Max(status_id) AS status_id, MAX(tid) AS tid FROM oppdatering GROUP BY feil_id) AS s ON feil.feil_id = s.feil_id INNER JOIN status ON status.status_id = s.status_id INNER JOIN kommuner ON kommuner.kommune_id = feil.kommune_id INNER JOIN jobbSoknad ON feil.feil_id=jobbSoknad.feil_id AND jobbSoknad.bruker_id=? AND jobbSoknad.status=4 AND status.status_id=4",
@@ -216,10 +223,12 @@ module.exports = class FeilDao extends Dao {
     );
   }
 
+  //testes
   abonnerFeil(json, callback) {
     super.query("INSERT INTO feilfolg (feil_id, bruker_id) VALUES (?, ?)", [json.feil_id, json.bruker_id], callback);
   }
 
+  //testes
   ikkeAbonnerFeil(json, callback) {
     super.query("DELETE FROM feilfolg WHERE feil_id=? AND bruker_id=?", [json.feil_id, json.bruker_id], callback);
   }

@@ -307,6 +307,87 @@ test('Hent alle hovedkategorier', (done) => {
   feildao.hentAlleHovedkategorier(callback);
 });
 
+test('Hent alle subkategorier', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
+    expect(data.length).toBeGreaterThanOrEqual(6);
+    done();
+  }
+  feildao.hentAlleSubkategorier(callback);
+});
+
+test('Hent alle subkategorier på hovedkategori', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
+    expect(data[0].kategorinavn).toBe('Subkat6');
+    done();
+  }
+  feildao.hentAlleSubKategorierPaaHovedkategori({hovedkategori_id: 3}, callback);
+});
+
+test('opprett ny subkategori', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  feildao.nySubkategori({kategorinavn: 'subkategoritest', hovedkategori_id: 3}, callback);
+});
+
+test('oppdater hovedkategori', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  feildao.oppdaterHovedkategori({kategorinavn: 'oppdatertkategoritest', hovedkategori_id: 1}, callback);
+});
+
+test('slett hovedkategori', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  feildao.slettHovedkategori({hovedkategori_id: 2}, callback);
+});
+
+test('slett bilde fra feil', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  feildao.slettBildeFraFeil({url: 'https://bjornost.tihlde.org/hverdagshelt/cafa241c9903a3994aab66230db15a74', feil_id: 43}, callback);
+});
+
+test('hent ferdige feil til bedrift', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
+    expect(data.length).toBeGreaterThanOrEqual(1);
+    done();
+  }
+  feildao.hentFerdigeFeilTilBedrift({bruker_id: 25}, callback);
+});
+
+test('bruker oppretter abonnement', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  feildao.abonnerFeil({feil_id: 1, bruker_id: 1}, callback);
+});
+
+test('bruker kansellerer abonnement', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  feildao.ikkeAbonnerFeil({feil_id: 33, bruker_id: 16}, callback);
+});
+
 //HENDELSETESTER
 test('Hent alle hendelser', (done) => {
   function callback(status, data) {
