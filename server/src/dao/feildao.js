@@ -199,6 +199,10 @@ module.exports = class FeilDao extends Dao {
     );
   }
 
+  hentBedriftPaaOrgnr(orgnr, callback) {
+    super.query('SELECT * FROM bedrift WHERE orgnr = ?', [orgnr], callback);
+  }
+
   sendFeilTilBedrift(json, callback) {
     super.query(
       "INSERT into jobbSoknad VALUES (?,?)"
