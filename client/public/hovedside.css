@@ -101,6 +101,10 @@ nav ul{
    height: 100%;
 }
 
+.hendelseInfo > div {
+   height: 100%;
+}
+
 #hendelseKnapper {
    margin-top: 15px;
 }
