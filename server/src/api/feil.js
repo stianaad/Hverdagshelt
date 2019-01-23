@@ -210,7 +210,7 @@ router.post('/api/feil/oppdateringer/bedrift', checkToken, (req, res) => {
   };
   let role = req.decoded.role;
   console.log("hehehehehehehehehhe");
-  if (role == 'bedrift' || role == 'admin') {
+  if (role == 'bedrift' || role == 'admin' || role == 'ansatt') {
     feilDao.lagOppdatering(a, (status, data) => {
       console.log('Ny oppdatering laget:');
       res.status(status);
