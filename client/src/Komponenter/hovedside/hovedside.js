@@ -14,7 +14,7 @@ import {FireNullFire} from '../firenullfire/firenullfire';
 import { InfoBoks } from '../../Moduler/info/info';
 
 export class Hovedside extends Component {
-  kommune = {};
+  kommune = 0;
   feilKategori = "0";
 
   visFeil = false;
@@ -167,7 +167,8 @@ export class Hovedside extends Component {
   }
 
   render() {
-    if (this.kommune == null) return (<FireNullFire />);
+    if (this.kommune == 0) return (<></>);
+    if (this.kommune == null) return (<FireNullFire history={this.props.history} location={this.props.location}/>);
     return (
       <div>
         <PageHeader history={this.props.history} location={this.props.location} />
