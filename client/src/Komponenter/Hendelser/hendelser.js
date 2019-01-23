@@ -203,12 +203,12 @@ export class Hendelser extends Component {
                     </Grid.Column>
 					<Grid.Column>
 					{<div>
-						 	<label> Fra: 
+						 	<label style={{display: 'inline'}}> Fra: {' '} 
 						 		<input 
 									onChange={this.filterFraTid}
 									type="date" 
-									style={{height: 30, width: 110}} 
-									className="mt-2" 
+									style={{height: 30, width: 110, display: 'inline'}} 
+									className="mt-2 form-control" 
 									id="fra"
 								/> 
 							</label>
@@ -233,12 +233,12 @@ export class Hendelser extends Component {
                		</select>
 					</Grid.Column>
 					<Grid.Column>
-					{<label className="ml-1">Til: 
+					{<label className="ml-1" style={{display: 'inline'}}>Til: {' '} 
 						 	<input 
 								onChange={this.filterTilTid}
 								type="date" 
-								style={{height: 30, width: 110}} 
-								className="mt-2"
+								style={{height: 30, width: 110, display: 'inline'}} 
+								className="mt-2 form-control"
 								id = "til"
 							/>
 						</label>}

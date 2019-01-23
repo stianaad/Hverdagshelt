@@ -17,6 +17,20 @@ export class AnsattGodkjent extends Component{
         overskrift: '',
         beskrivelse: ''
     };
+    kommentar = '';
+
+    valgtStatus = {
+        status_id: '',
+        status: ''
+    }
+
+    valgtBedrift = {
+        bruker_id: '',
+        orgnr: '',
+        navn: '',
+        tlf: ''
+    }
+
     feilApen = false; 
 
     statuser = [];
@@ -26,6 +40,18 @@ export class AnsattGodkjent extends Component{
     visFeil(feil){
         this.feilApen = true;
         this.valgtfeil = feil; 
+    }
+
+    handterStatuser(status){
+        let res = this.statuser.find(e => (e.status === status));
+        this.valgtStatus = res; 
+        console.log(this.valgtStatus);
+    }
+
+    handterBedrift(bed){
+        let res = this.alleBedrifter.find(e => (e.navn = bed));
+        this.valgtBedrift = res;
+        console.log(this.valgtBedrift);
     }
 
     render(){
@@ -90,6 +116,7 @@ export class AnsattGodkjent extends Component{
                                                                 <label>Status: </label>
                                                                 <select
                                                                     className="form-control"
+                                                                    onChange={(e) => this.handterStatuser(e.target.value)}
                                                                     >
                                                                     <option hidden>{this.valgtfeil.status}</option>
                                                                     {this.statuser.map((status) => (
@@ -100,17 +127,19 @@ export class AnsattGodkjent extends Component{
                                                                     ))}
                                                                 </select>
                                                             </div>
-                                                            <Button basic color="green">Lagre</Button>
+                                                            <Button basic color="green" onClick={this.oppdatering}>Lagre</Button>
                                                         </Grid.Column>
                                                         <Grid.Column>
                                                             <h5>Send til bedrift: </h5>
                                                             <div className="form-group">
                                                                 <select
                                                                     className="form-control"
+                                                                    onChange={(e) => this.handterBedrift(e.target.value)}
                                                                     >
                                                                     <option hidden>Velg bedrift</option>
                                                                     {this.alleBedrifter.map((bed) => (
-                                                                        <option value={bed.navn} key={bed.navn}>
+                                                                        <option value={bed.navn} key={bed.navn}
+                                                                        >
                                                                         {' '}
                                                                         {bed.navn}
                                                                         </option>
@@ -133,6 +162,16 @@ export class AnsattGodkjent extends Component{
                 </div>
             </div>
         ); 
+    }
+
+    async oppdatering(){
+        await feilService.lagOppdatering({
+            "feil_id": this.valgtfeil.feil_id,
+            "kommentar": 'Ansatt har godkjent feil', 
+            "status_id": this.valgtStatus.status_id
+        });
+
+        await this.mounted(); 
     }
 
     scroll() {
