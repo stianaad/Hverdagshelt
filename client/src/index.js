@@ -244,6 +244,7 @@ const routes = () => {
             : global.payload.role == 'admin'
             ? //Admin routes
               [
+              <Route exact path="/registrerBedrift" key="registrerbedrift"component={RegistrerBedrift} history={history} />,
               <Route exact path="/meldfeil" key="meldfeil" component={MeldFeil} history={history} />,
               <Route exact path="/administrasjon" key="administrasjon" component={Administrasjon} history={history} />,
               ]
