@@ -39,6 +39,7 @@ import {AnsattOversikt} from './Komponenter/Ansatt/ansattOversikt';
 import {AnsattUnder} from './Komponenter/Ansatt/ansattUnderBehandling';
 import {AnsattHendelser } from './Komponenter/Ansatt/ansattHendelser';
 import {AnsattGodkjent} from './Komponenter/Ansatt/ansattGodkjent';
+import { AlleBedrifter } from './Komponenter/Ansatt/alleBedrifter';
 
 import { Administrasjon } from './Komponenter/Admin/admin';
 
@@ -203,7 +204,8 @@ const routes = () => {
                 <Route exact path="/ansatt/underbehandling" key="underbehandling" component={AnsattUnder} history={history}/>,
                 <Route exact path="/ansatt/ferdig" key="ferdig" component={AnsattFerdig} history={history}/>,
                 <Route exact path="/ansatt/hendelser" key="hendelser"component={AnsattHendelser} history={history}/>,
-                <Route exact path="/ansatt/godkjent" key="hendelser"component={AnsattGodkjent} history={history}/>
+                <Route exact path="/ansatt/godkjent" key="godkjent"component={AnsattGodkjent} history={history}/>,
+                <Route exact path='/ansatt/bedrifter' key='bedrifter' component={AlleBedrifter} history={history}/>
               ]
             : global.payload.role == 'bedrift'
             ? //Bedrift routes
@@ -211,6 +213,7 @@ const routes = () => {
             : global.payload.role == 'admin'
             ? //Admin routes
               [
+              <Route exact path="/registrerBedrift" key="registrerbedrift"component={RegistrerBedrift} history={history} />,
               <Route exact path="/meldfeil" key="meldfeil" component={MeldFeil} history={history} />,
               <Route exact path="/administrasjon" key="administrasjon" component={Administrasjon} history={history} />,
               ]
