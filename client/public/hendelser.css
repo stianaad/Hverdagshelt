@@ -16,3 +16,11 @@
   .knappLengdeHendelser{
     width: 100%;
   }
+
+  .feilCard {
+    max-width: 250px !important;
+  }
+
+  @media screen and (min-width: 600px) {
+    
+  }
