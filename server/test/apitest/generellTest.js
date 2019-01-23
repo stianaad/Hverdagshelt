@@ -377,7 +377,7 @@ test('bruker oppretter abonnement', (done) => {
     expect(data.affectedRows).toBe(1);
     done();
   }
-  feildao.abonnerFeil({feil_id: 1, bruker_id: 1}, callback);
+  feildao.abonnerFeil({feil_id: 2, bruker_id: 1}, callback);
 });
 
 test('bruker kansellerer abonnement', (done) => {
