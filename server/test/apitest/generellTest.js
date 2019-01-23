@@ -360,7 +360,7 @@ test('Filtrer hendelser kommune', (done) => {
 test('hent alle hendelseskategorier', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
-    expect(data[0].kategorinavn).toBe('Fest');
+    expect(data.length).toBeGreaterThanOrEqual(2);
     done();
   }
   hendelsedao.hentAlleHendelseskategorier(callback);
