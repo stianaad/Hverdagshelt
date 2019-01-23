@@ -56,6 +56,21 @@ export class AnsattMeny extends Component {
               />
               </Menu.Menu>
             </Menu.Item>
+            <Menu.Item>
+              <Menu.Header>Bedrifter</Menu.Header>
+              <Menu.Menu>
+                <Menu.Item
+                  name='Alle bedrifter'
+                  as={NavLink}
+                  to='/ansatt/bedrifter'
+                />
+              <Menu.Item
+                name='Feil hos bedrifter'
+                as={NavLink}
+                to='/ansatt/nyhendelse'
+              />
+              </Menu.Menu>
+            </Menu.Item>
           </Menu>
         </div>
       )
