@@ -87,13 +87,17 @@ let testhendelse = {
   lengdegrad: 0.1,
   breddegrad: 0.2,
 };
-
+/*
 beforeAll((done) => {
   runsqlfile('lagtabeller.sql', pool, () => {
     runsqlfile('fylkekommunedata.sql', pool, () => {
       runsqlfile('datatest.sql', pool, done);
     });
   });
+});
+*/
+beforeAll((done) => {
+  runsqlfile('bjornost.sql', pool, done);
 });
 
 afterAll(() => {
@@ -114,7 +118,7 @@ test('legg til ny privatbruker', (done) => {
 test('hent feil til bruker', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
-    expect(data[0].overskrift).toBe('Overskrift1');
+    expect(data[0].overskrift).toBe('wedwed');
     done();
   }
   brukerdao.finnFeilTilBruker(1, callback);
@@ -123,11 +127,11 @@ test('hent feil til bruker', (done) => {
 test('hent fulgte feil til bruker', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
-    expect(data[0].overskrift).toBe('Overskrift2');
-    expect(data[0].kommune_id).toBe(20);
+    expect(data[0].overskrift).toBe('Hull i veien ved Torvbyen');
+    expect(data[0].kommune_id).toBe(4);
     done();
   }
-  brukerdao.finnFolgteFeilTilBruker(1, callback);
+  brukerdao.finnFolgteFeilTilBruker(17, callback);
 });
 
 test('hent hendelser til bruker', (done) => {
@@ -136,7 +140,7 @@ test('hent hendelser til bruker', (done) => {
     expect(data[0].beskrivelse).toBe('Beskrivelse1');
     done();
   }
-  brukerdao.finnFolgteHendelserTilBruker(3, callback);
+  brukerdao.finnFolgteHendelserTilBruker(17, callback);
 });
 
 test('hent bruker på id', (done) => {
