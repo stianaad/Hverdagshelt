@@ -67,6 +67,15 @@ export class Hovedside extends Component {
   }
 
   visEnHendelse(hendelse) {
+    if (this.mobView == "#hovedHendelser") {
+      document.querySelector("#hovedHendelser").style.display="none";
+      /*setTimeout(() => {
+        document.querySelector("#hovedHendelser").style.display="none";
+        setTimeout(()=>{document.querySelector(".hendelseFeil").style.display="block";}, 100);
+        console.log("yeet");
+      }, 200);*/
+    }
+    this.visHendelser = true;
     this.hendelse.overskrift = hendelse.overskrift;
     this.hendelse.beskrivelse = hendelse.beskrivelse;
     this.hendelse.sted = hendelse.sted;
@@ -112,9 +121,16 @@ export class Hovedside extends Component {
   }
 
   mobileView(view) {
+    console.log(this.visHendelser);
     if(this.visFeil) {
       this.visFeil = false;
-      setTimeout(()=> this.mobileView(view), 200);
+      setTimeout(() => this.mobileView(view), 200);
+      console.log("visfeil var true, nå er false");
+    }
+    else if (this.visHendelser) {
+      this.visHendelser = false;
+      setTimeout(() => this.mobileView(view), 200);
+      console.log("vishendelser var true, nå er false");
     }
     else {
       //window.scrollTo(0, document.querySelector(id).offsetTop - 115);
@@ -132,6 +148,7 @@ export class Hovedside extends Component {
         q(view).style.display ="block";
       }
       else {
+        console.log(this.mobView);
         q(this.mobView).style.display = "none";
         q(view).style.display = "block";
       }
@@ -364,7 +381,6 @@ f                      id="test"
                         {this.alleHendelser.map((hendelse) => (
                           <FeedHendelse
                             onClick={() => {
-                              this.visHendelser = true;
                               this.visEnHendelse(hendelse);
                             }}
                             //status ={feil.status}
@@ -386,7 +402,7 @@ f                      id="test"
           
         ) : (
           <div className="row mt-4">
-            <div className="col-sm-9 ">
+            <div className="col-sm-9 hendelseInfo">
               <Card fluid>
                 <Card.Content>
                   <div>
@@ -395,7 +411,13 @@ f                      id="test"
                       <NavLink
                         to={'/hovedside/' + this.props.match.params.kommune}
                         onClick={() => {
-                          this.visHendelser = false;
+                          if (this.mobView == "#hovedHendelser") {
+                            document.querySelector("#hovedHendelser").style.display="block";
+                            this.mobileView("#hovedHendelser");
+                          }
+                          else {
+                            this.visHendelser = false;
+                          }
                         }}
                       >
                         <img
@@ -407,7 +429,7 @@ f                      id="test"
                       </NavLink>
                     </h1>
                     <div>
-                      <Grid columns={2}>
+                      <Grid columns={2} stackable>
                         <Grid.Column>
                           <img
                             className="img-fluid w-100 "
@@ -455,7 +477,7 @@ f                      id="test"
                 </Card.Content>
               </Card>
             </div>
-            <div className="col-sm-3">
+            <div className="col-sm-3" id="hovedHendelser">
               <div className="mr-3 mb-3">
               <Card fluid className="hovedKort">
                 <Card.Content>
@@ -471,7 +493,6 @@ f                      id="test"
                     {this.alleHendelser.map((hendelse) => (
                       <FeedHendelse
                         onClick={() => {
-                          this.visHendelser = true;
                           this.visEnHendelse(hendelse);
                         }}
                         //status ={feil.status}
