@@ -159,7 +159,7 @@ class FeilService {
     let token = sessionStorage.getItem('pollett');
     console.log('Slett hovedkategori service:');
     if (token) {
-      return api.delete('/api/hovedkategori/' + hk_id, { headers: { 'x-access-token': 'Bearer ' + token } });
+      return api.delete('/api/hovedkategorier/' + hk_id, { headers: { 'x-access-token': 'Bearer ' + token } });
     } else {
       return null;
     }
@@ -169,7 +169,7 @@ class FeilService {
     let token = sessionStorage.getItem('pollett');
     console.log('Slett subkategori service:');
     if (token) {
-      return api.delete('/api/subkategori/' + sk_id, { headers: { 'x-access-token': 'Bearer ' + token } });
+      return api.delete('/api/subkategorier/' + sk_id, { headers: { 'x-access-token': 'Bearer ' + token } });
     } else {
       return null;
     }
