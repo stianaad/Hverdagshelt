@@ -273,10 +273,10 @@ test('Opprett ny oppdatering', done => {
 test('hentAlleOppdateringerPaaFeil', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
-    expect(data.length).toBe(1);
+    expect(data[0].kommentar).toBe('Sak opprettet');
     done();
   }
-  feildao.hentAlleOppdateringerPaaFeil({feil_id: 1}, callback);
+  feildao.hentAlleOppdateringerPaaFeil({feil_id: 17}, callback);
 });
 
 test('Hent en status', (done) => {
@@ -368,7 +368,7 @@ test('hent ferdige feil til bedrift', (done) => {
     expect(data.length).toBeGreaterThanOrEqual(1);
     done();
   }
-  feildao.hentFerdigeFeilTilBedrift({bruker_id: 25}, callback);
+  feildao.hentFerdigeFeilTilBedrift(25, callback);
 });
 
 test('bruker oppretter abonnement', (done) => {
