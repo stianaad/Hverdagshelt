@@ -347,7 +347,7 @@ router.get('/api/feil/bedrift/nyeoppgaver', checkToken, (req, res) => {
     });
   } else {
     res.status(403);
-    res.json({ result: false });
+    res.json({result: false});
   }
 });
 
@@ -367,7 +367,7 @@ router.get('/api/feil/bedrift/underbehandling', checkToken, (req, res) => {
   }
 });
 
-router.get('/api/feil/bedrift/ferdig', checkToken, (req, res) => {
+router.get('/api/bedrift/feil/ferdig', checkToken, (req, res) => {
   console.log('Fikk GET-request fra klienten');
   let role = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
@@ -383,7 +383,22 @@ router.get('/api/feil/bedrift/ferdig', checkToken, (req, res) => {
   }
 });
 
-
+router.post('/api/bedrift/feil', checkToken, (req, res) => {
+  console.log('Fikk POST-request fra klienten');
+  console.log('Inne i post bedrift feil');
+  let role = req.decoded.role;
+  let a = {bruker_id: req.decoded.user.bruker_id, feil:id: req.body.params.feil_id}
+  console.log(bruker_id + role);
+  if (role == 'ansatt' || role == 'admin') {
+    feilDao.sendFeilTilBedrift(a, (status, data) => {
+      res.status(status);
+      res.json(data);
+    });
+  } else {
+    res.status(403);
+    res.json({result: false});
+  }
+});
 
 router.put('/api/bedrift/oppdater/feil/godta', checkToken, (req, res) => {
   console.log('Fikk PUT-request fra klienten');

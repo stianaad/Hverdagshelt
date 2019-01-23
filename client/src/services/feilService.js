@@ -121,9 +121,19 @@ class FeilService {
   hentFerdigeFeilTilBedrift() {
     let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.get('api/feil/bedrift/ferdig', { headers: { 'x-access-token': 'Bearer ' + token } });
+      return api.get('/api/bedrift/feil/ferdig', { headers: { 'x-access-token': 'Bearer ' + token } });
     } else {
       console.log('foeifj');
+      return [];
+    }
+  }
+
+  sendFeilTilBedrift(fbObjekt) {
+    let token = sessionStorage.getItem('pollett');
+    if (token) {
+      return api.put('/api/bedrift/feil', fbObjekt, { headers: { 'x-access-token': 'Bearer ' + token } });
+    } else {
+      console.log('sendFeilTilBedrift failed');
       return [];
     }
   }
