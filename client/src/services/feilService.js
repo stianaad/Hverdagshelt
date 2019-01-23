@@ -202,7 +202,7 @@ class FeilService {
     let token = sessionStorage.getItem('pollett');
     console.log('Slett hovedkategori service:');
     if (token) {
-      return api.delete('/api/hovedkategori/' + hk_id, { headers: { 'x-access-token': 'Bearer ' + token } });
+      return api.delete('/api/hovedkategorier/' + hk_id, { headers: { 'x-access-token': 'Bearer ' + token } });
     } else {
       return null;
     }
@@ -212,7 +212,7 @@ class FeilService {
     let token = sessionStorage.getItem('pollett');
     console.log('Slett subkategori service:');
     if (token) {
-      return api.delete('/api/subkategori/' + sk_id, { headers: { 'x-access-token': 'Bearer ' + token } });
+      return api.delete('/api/subkategorier/' + sk_id, { headers: { 'x-access-token': 'Bearer ' + token } });
     } else {
       return null;
     }
@@ -242,15 +242,15 @@ class FeilService {
     let token = sessionStorage.getItem('pollett');
     console.log('Opprett ny hovedkategori service:');
     if (token) {
-      return api.post('/api/hovedkategorier', { headers: { 'x-access-token': 'Bearer ' + token } });
+      return api.post('/api/hovedkategorier',nyHk, { headers: { 'x-access-token': 'Bearer ' + token } });
     }
   }
 
-  opprettSubkategori(nyHk) {
+  opprettSubkategori(nySk) {
     let token = sessionStorage.getItem('pollett');
     console.log('Opprett ny subkategori service:');
     if (token) {
-      return api.post('/api/subkategori', { headers: { 'x-access-token': 'Bearer ' + token } });
+      return api.post('/api/subkategorier',nySk, { headers: { 'x-access-token': 'Bearer ' + token } });
     }
   }
 }
