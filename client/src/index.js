@@ -37,7 +37,9 @@ import {AnsattFerdig} from './Komponenter/Ansatt/ansattFerdige';
 import {NyHendelse} from './Komponenter/Ansatt/nyhendelse';
 import {AnsattOversikt} from './Komponenter/Ansatt/ansattOversikt';
 import {AnsattUnder} from './Komponenter/Ansatt/ansattUnderBehandling';
-import { AnsattHendelser } from './Komponenter/Ansatt/ansattHendelser';
+import {AnsattHendelser } from './Komponenter/Ansatt/ansattHendelser';
+import {AnsattGodkjent} from './Komponenter/Ansatt/ansattGodkjent';
+
 import { Administrasjon } from './Komponenter/Admin/admin';
 
 class Tabell extends Component {
@@ -234,6 +236,7 @@ const routes = () => {
                 <Route exact path="/ansatt/underbehandling" key="underbehandling" component={AnsattUnder} history={history}/>,
                 <Route exact path="/ansatt/ferdig" key="ferdig" component={AnsattFerdig} history={history}/>,
                 <Route exact path="/ansatt/hendelser" key="hendelser"component={AnsattHendelser} history={history}/>,
+                <Route exact path="/ansatt/godkjent" key="hendelser"component={AnsattGodkjent} history={history}/>
               ]
             : global.payload.role == 'bedrift'
             ? //Bedrift routes

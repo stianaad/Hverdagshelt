@@ -5,7 +5,7 @@ import BrukerDao from '../../src/dao/brukerdao.js';
 import runsqlfile from '../runsqlfile.js';
 import FeilDao from '../../src/dao/feildao';
 import HendelseDao from '../../src/dao/hendelsedao';
-//import {Hendelse} from '../../../client/src/services/hendelseService';
+//import {localTestPool} from '../poolsetup.js';
 
 var pool = mysql.createPool({
   connectionLimit: 1,
@@ -16,6 +16,7 @@ var pool = mysql.createPool({
   debug: false,
   multipleStatements: true,
 });
+
 
 let generelldao = new Generelldao(pool);
 let feildao = new FeilDao(pool);
@@ -246,7 +247,6 @@ test('Lag ny feil', (done) => {
   feildao.lagNyFeil(oppdaterFeil1, callback);
 });
 
-/* trenger on delete cascade
 test('slett feil', done => {
   function callback(status, data) {
     console.log('Test callback: status' + status + ', data: ' + JSON.stringify(data));
@@ -255,28 +255,14 @@ test('slett feil', done => {
   }
   feildao.slettFeil({feil_id: 1}, callback);
 })
-*/
-
-/* fucker opp pga tiden er primarykey, får duplicate
-test('Opprett ny oppdatering', done => {
-  function callback(status, data){
-    console.log(
-      'Test callback: status ' + status + ', data= '+ JSON.stringify(data)
-    );
-    expect(data.affectedRows).toBeGreaterThanOrEqual(1);
-    done();
-  }
-  feildao.lagOppdatering(testoppdatering, callback);
-});
-*/
 
 test('hentAlleOppdateringerPaaFeil', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
-    expect(data.length).toBe(1);
+    expect(data[0].kommentar).toBe('Sak opprettet');
     done();
   }
-  feildao.hentAlleOppdateringerPaaFeil({feil_id: 1}, callback);
+  feildao.hentAlleOppdateringerPaaFeil({feil_id: 17}, callback);
 });
 
 test('Hent en status', (done) => {
@@ -306,6 +292,87 @@ test('Hent alle hovedkategorier', (done) => {
     done();
   }
   feildao.hentAlleHovedkategorier(callback);
+});
+
+test('Hent alle subkategorier', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
+    expect(data.length).toBeGreaterThanOrEqual(6);
+    done();
+  }
+  feildao.hentAlleSubkategorier(callback);
+});
+
+test('Hent alle subkategorier på hovedkategori', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
+    expect(data[0].kategorinavn).toBe('Subkat6');
+    done();
+  }
+  feildao.hentAlleSubKategorierPaaHovedkategori({hovedkategori_id: 3}, callback);
+});
+
+test('opprett ny subkategori', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  feildao.nySubkategori({kategorinavn: 'subkategoritest', hovedkategori_id: 3}, callback);
+});
+
+test('oppdater hovedkategori', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  feildao.oppdaterHovedkategori({kategorinavn: 'oppdatertkategoritest', hovedkategori_id: 1}, callback);
+});
+
+test('slett hovedkategori', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  feildao.slettHovedkategori({hovedkategori_id: 2}, callback);
+});
+
+test('slett bilde fra feil', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  feildao.slettBildeFraFeil({url: 'https://bjornost.tihlde.org/hverdagshelt/cafa241c9903a3994aab66230db15a74', feil_id: 43}, callback);
+});
+
+test('hent ferdige feil til bedrift', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
+    expect(data.length).toBeGreaterThanOrEqual(1);
+    done();
+  }
+  feildao.hentFerdigeFeilTilBedrift(25, callback);
+});
+
+test('bruker oppretter abonnement', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  feildao.abonnerFeil({feil_id: 2, bruker_id: 1}, callback);
+});
+
+test('bruker kansellerer abonnement', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  feildao.ikkeAbonnerFeil({feil_id: 33, bruker_id: 16}, callback);
 });
 
 //HENDELSETESTER

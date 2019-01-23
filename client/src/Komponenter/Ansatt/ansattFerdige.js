@@ -43,7 +43,7 @@ export class AnsattFerdig extends Component{
                                             tid={feil.tid}
                                             kategori={feil.kategorinavn}
                                             >
-                                            {feil.overskrift}>
+                                            {feil.overskrift}
                                             </FeedEvent>
                                         ))}
                                     </Card.Content>
@@ -117,10 +117,10 @@ export class AnsattFerdig extends Component{
       }
     
       async mounted() {
-        let feil = await feilService.hentAlleFeil();
+        let feil = await feilService.hentFeilForKommune(global.payload.user.kommune_id);
         this.alleFeil = await feil.data;
     
-        this.fullforteFeil = await feil.data.filter(e => (e.status === 'Ikke godkjent'));
+        this.fullforteFeil = await feil.data.filter(e => (e.status === 'Ferdig'));
         
         await this.scroll();
       }

@@ -6,12 +6,13 @@
     overflow: hidden;
 
     padding-left: 0.8%;
-}
+  }
 
-.feilCard {
-  max-width: 250px !important;
-}
+  .hendelserBilde{
+    max-height: 30vh;
+    align-content: center;
+  }
 
-.feilCard .content {
-  height: fit-content;
-}
+  .knappLengdeHendelser{
+    width: 100%;
+  }
