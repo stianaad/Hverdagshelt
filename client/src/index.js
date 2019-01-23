@@ -38,6 +38,7 @@ import {NyHendelse} from './Komponenter/Ansatt/nyhendelse';
 import {AnsattOversikt} from './Komponenter/Ansatt/ansattOversikt';
 import {AnsattUnder} from './Komponenter/Ansatt/ansattUnderBehandling';
 import { AnsattHendelser } from './Komponenter/Ansatt/ansattHendelser';
+import { Administrasjon } from './Komponenter/Admin/admin';
 
 class Tabell extends Component {
   render() {
@@ -239,7 +240,10 @@ const routes = () => {
               [<Route exact path="/mineoppgaver" key="mineoppgaver" component={Bedrift} history={history} />]
             : global.payload.role == 'admin'
             ? //Admin routes
-              [<Route exact path="/meldfeil" key="admin" component={MeldFeil} history={history} />]
+              [
+              <Route exact path="/meldfeil" key="meldfeil" component={MeldFeil} history={history} />,
+              <Route exact path="/administrasjon" key="administrasjon" component={Administrasjon} history={history} />,
+              ]
             : null}
 
           {/*legg test-routes under*/}

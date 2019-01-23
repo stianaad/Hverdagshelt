@@ -94,3 +94,7 @@ nav ul{
 .feilInfo > div {
    height: 100%;
 }
+
+#hendelseKnapper {
+   margin-top: 15px;
+}
