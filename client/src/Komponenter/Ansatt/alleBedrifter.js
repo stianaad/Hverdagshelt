@@ -12,6 +12,19 @@ import { brukerService } from '../../services/brukerService';
 export class AlleBedrifter extends Component{
     bedrifter = [];
     className = '';
+    bedApen = false; 
+    feilApen = false; 
+    valgtBed = '';
+    feilHosBedrift = [];
+
+    openBed(bed){
+        this.valgtBed = {...bed};
+        this.bedApen = true;
+    }
+
+    async hentFeil(){
+        
+    }
 
     render(){
         return(
@@ -34,7 +47,7 @@ export class AlleBedrifter extends Component{
                                     <Card.Content className={this.className}>
                                         {this.bedrifter.map((bed) => (
                                             <Feed>
-                                                <Feed.Event>
+                                                <Feed.Event onClick={() => this.openBed(bed)}>
                                                     <Feed.Content>
                                                         <Feed.Summary>{bed.navn}</Feed.Summary>
                                                         <Feed.Date content={bed.telefon}/>
@@ -47,6 +60,21 @@ export class AlleBedrifter extends Component{
                                 </Card>
                             </div>
                             <div className="col-sm-8">
+                                {this.bedApen ? (
+                                    <div>
+                                       <Card>
+                                            <Grid columns={3}>
+                                                <Grid.Column>
+
+                                                </Grid.Column>
+                                            </Grid>
+                                       </Card>
+                                    </div>
+                                ):(
+                                    <div>
+                                        Velg en bedrift for å se mer informasjon
+                                    </div>
+                                )}
                                
                             </div>
                         </div>
