@@ -258,6 +258,7 @@ export class Hendelser extends Component {
 						bilde = {hendelse.bilde}
 						overskrift = {hendelse.overskrift}
 						sted = {hendelse.sted}
+						kommune_navn = {hendelse.kommune_navn}
 						tid = {hendelse.tid}
 						key={hendelse.hendelse_id}
 						hendelse_id={hendelse.hendelse_id}

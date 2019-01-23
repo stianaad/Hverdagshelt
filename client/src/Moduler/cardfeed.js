@@ -480,8 +480,13 @@ export class Hendelse extends Component{
           <a onClick={this.props.onClick}>
           <Image src={this.props.bilde} className="feilCardImage" />
           <Card.Content>
-            <Card.Header>{this.props.overskrift}</Card.Header>
+          <Header as="h3" className="mt-1">{this.props.overskrift}</Header>
             <Card.Description>
+              <p>
+            <img className="mr-2" src="https://image.flaticon.com/icons/svg/33/33622.svg" height="20" width="20" />
+            {this.props.sted}, {this.props.kommune_navn}
+            </p>
+            <p>
               <img
                 className="mr-2"
                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Simple_icon_time.svg/750px-Simple_icon_time.svg.png"
@@ -489,8 +494,7 @@ export class Hendelse extends Component{
                 width="25"
               />
               {this.props.tid}
-              <br/>
-              {this.props.sted}
+              </p>
             </Card.Description>
           </Card.Content>
           </a>
