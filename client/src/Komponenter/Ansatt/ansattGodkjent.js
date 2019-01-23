@@ -8,8 +8,8 @@ import {markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
 import {NavLink} from 'react-router-dom';
 import {AnsattMeny} from './ansattMeny';
 
-export class AnsattFerdig extends Component{
-    fullforteFeil = [];
+export class AnsattGodkjent extends Component{
+    godkjente = [];
     alleFeil = [];
     className = '';
     valgtfeil = {
@@ -24,7 +24,7 @@ export class AnsattFerdig extends Component{
                 <div className="container-fluid vinduansatt">
                     <AnsattMeny/>
                     <div className="row justify-content-md-center mt-3 mb-3">
-                        <h1>Fullførte feil</h1>
+                        <h1>Godkjente feil</h1>
                     </div>
                     <div className="ansattContent">
                         <div className="row">
@@ -36,7 +36,7 @@ export class AnsattFerdig extends Component{
                                         </Card.Header>
                                     </Card.Content>
                                     <Card.Content className={this.className}>
-                                        {this.fullforteFeil.map((feil) => (
+                                        {this.godkjente.map((feil) => (
                                             <FeedEvent
                                             onClick={() => this.visFeil(feil)}
                                             status={feil.status}
@@ -111,7 +111,7 @@ export class AnsattFerdig extends Component{
     }
 
     scroll() {
-        if (this.fullforteFeil.length > 5) {
+        if (this.godkjente.length > 5) {
           this.className = 'ansattScroll';
         }
       }
@@ -120,7 +120,7 @@ export class AnsattFerdig extends Component{
         let feil = await feilService.hentFeilForKommune(global.payload.user.kommune_id);
         this.alleFeil = await feil.data;
     
-        this.fullforteFeil = await feil.data.filter(e => (e.status === 'Ferdig'));
+        this.godkjente = await feil.data.filter(e => (e.status === 'Godkjent'));
         
         await this.scroll();
       }

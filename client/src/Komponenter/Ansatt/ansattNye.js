@@ -129,7 +129,7 @@ export class NyeFeil extends Component {
                           tid={feil.tid}
                           kategori={feil.kategorinavn}
                         >
-                          {feil.overskrift}>
+                          {feil.overskrift}
                         </FeedEvent>
                       ))}
                     </Card.Content>
