@@ -22,12 +22,12 @@ export class AnsattHendelser extends Component{
                     <div className="row mt-3 mb-3 justify-content-md-center">
                         <h1 >Hendelser</h1>
                     </div>
-                    <div className="ansattContent">
+                    <div className="ansattHendelser">
                         <Grid stackable columns={3}>
                             {this.hendelser.map(hendelse => (
                                 <Grid.Column>
                                     <Card className="h-100" fluid>
-                                        <Image src={hendelse.bilde}/>
+                                        <Image src={hendelse.bilde} className="hendelseBilde"/>
                                         <Card.Content>
                                             <Card.Header>{hendelse.overskrift}</Card.Header>
                                             <Card.Meta>
