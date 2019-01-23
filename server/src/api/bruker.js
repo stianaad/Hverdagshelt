@@ -235,13 +235,21 @@ router.get('/api/brukerhendelser', checkToken, (req, res) => {
 
 router.put('/api/brukere', checkToken, (req, res) => {
   let rolle = {bruker_id: req.decoded.user.bruker_id, rolle: req.decoded.role};
-
   console.log(rolle);
 
   brukerDao.oppdaterSpesifisertBruker(req.body, rolle, (status, data) => {
-    res.status(status);
-    res.json(data);
-    console.log('oppdater en bruker resultat:' + data);
+    let payload = req.decoded;
+    payload.user.epost = req.body.epost;
+    payload.user.kommune_id = req.body.kommune_id;
+    jwt.sign({user: payload.user, role: payload.role}, secret.secret, {expiresIn: '1d'}, (err, token) => {
+      console.log(err);
+      res.status(200);
+      res.json({
+        result: true,
+        token: token,
+      });
+      console.log('oppdater en bruker resultat:' + data);
+    });
   });
 });
 
