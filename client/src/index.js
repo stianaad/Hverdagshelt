@@ -23,6 +23,7 @@ import {GlemtPassord} from '../src/Komponenter/GlemtPassord/glemtPassord';
 import {ResettPassord} from '../src/Komponenter/GlemtPassord/resettPassord';
 import {Hendelser} from '../src/Komponenter/Hendelser/hendelser';
 import {Bedrift} from '../src/Komponenter/Bedrift/bedrift';
+import {RegistrerNyKategori} from '../src/Komponenter/Admin/registrerNyKategori';
 
 import createBrowserHistory from 'history/createBrowserHistory';
 const history = createBrowserHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
@@ -246,6 +247,7 @@ const routes = () => {
               [
               <Route exact path="/meldfeil" key="meldfeil" component={MeldFeil} history={history} />,
               <Route exact path="/administrasjon" key="administrasjon" component={Administrasjon} history={history} />,
+              <Route exact path="/administrasjon/kategori" key="kategori" component={RegistrerNyKategori} history={history} />
               ]
             : null}
 

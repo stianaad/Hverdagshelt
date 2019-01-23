@@ -199,15 +199,15 @@ class FeilService {
     let token = sessionStorage.getItem('pollett');
     console.log('Opprett ny hovedkategori service:');
     if (token) {
-      return api.post('/api/hovedkategorier', { headers: { 'x-access-token': 'Bearer ' + token } });
+      return api.post('/api/hovedkategorier',nyHk, { headers: { 'x-access-token': 'Bearer ' + token } });
     }
   }
 
-  opprettSubkategori(nyHk) {
+  opprettSubkategori(nySk) {
     let token = sessionStorage.getItem('pollett');
     console.log('Opprett ny subkategori service:');
     if (token) {
-      return api.post('/api/subkategori', { headers: { 'x-access-token': 'Bearer ' + token } });
+      return api.post('/api/subkategori',nySk, { headers: { 'x-access-token': 'Bearer ' + token } });
     }
   }
 }
