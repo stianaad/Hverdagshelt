@@ -39,9 +39,12 @@ export class Hendelser extends Component {
 
 
 		tilbakestill(){
-			// Pushe tilbake til siden? 
 			this.aktiveHendelser = this.hendelser;
-			this.finnKommuneId = this.kommuner;
+			this.hentData();
+			 this.skrivAlleKommuner="Alle kommuner";
+			 this.skrivKommuneID="";
+			 this.skrivKategori="Alle kategorier";
+			 this.skrivFylke="Alle fylker";
 		}
 	
 
@@ -93,15 +96,16 @@ export class Hendelser extends Component {
 			}else{
 				this.skrivAlleKommuner = this.kommuner.find(e => (e.kommune_id == this.skrivKommuneID)).kommune_navn;
 				this.visFylke = true;
-				this.skrivFylke = "Alle fylker";
+				this.skrivFylke = "Fylke";
 				this.filterAlle();
+				document.getElementById("fylke").value = 0;
 			}
 		}
 
 		filterFylke(e) {
 			this.skrivFylke = e.target.value;
 			if( this.skrivFylke === "0"){
-				this.skrivFylke = "Alle fylker";
+				this.skrivFylke = "Fylke";
 				this.filterAlle();
 			} else {
 				this.filterAlle();
@@ -213,6 +217,7 @@ export class Hendelser extends Component {
 						onChange={this.filterFylke}
 						className="form-control right floated meta m-2"
 						disabled={this.visFylke}
+						id="fylke"
 						style={{height: 30, width: 150}}>
 						<option hidden> {this.skrivFylke} </option>
 						<option value="0"> Alle Fylker </option>
@@ -242,7 +247,7 @@ export class Hendelser extends Component {
 					fluid
 					size ="mini"
 					primary
-					onClick ={()=> {this.mounted()}}>
+					onClick ={()=> {this.tilbakestill()}}>
 					Tilbakestill
 					</Button>
 					</Grid.Column>
@@ -277,16 +282,13 @@ export class Hendelser extends Component {
 				let res1 = await res2.data.find(e => e.kommune_id == this.skrivKommuneID);
 				this.skrivAlleKommuner = res1.kommune_navn;
 			}
+			if(this.skrivAlleKommuner != "Alle kommuner"){
+				this.visFylke = true;
+			}
 			let res = await hendelseService.hentAlleHendelser();
 			this.hendelser = await res.data;
 			this.aktiveHendelser = await res.data;
 			await this.filterAlle();
-		}
-
-		if(this.skrivAlleKommuner != "Alle kommuner" || this.skrivAlleKommuner != "Kommuner"){
-			this.visFylke = true;
-			this.skrivFylke= "Alle fylker";
-			console.log(this.skrivFylke);
 		}
 
 		let res3 = await generellServices.hentAlleFylker();
