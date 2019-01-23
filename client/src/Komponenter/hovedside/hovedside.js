@@ -219,16 +219,16 @@ export class Hovedside extends Component {
         <div className="mobileButtons">
           <div>
             <a onClick={() => this.mobileView("#hovedtittelanchor")}>
-              <div><p className="text-capitalize">{this.props.match.params.kommune}</p></div>
+              <div className={this.mobView=="#hovedtittelanchor"?"mobActive":""}><p className="text-capitalize">{this.props.match.params.kommune}</p></div>
             </a>
             <a onClick={() => this.mobileView("#hovedFeil")}>
-              <div><p>Feil</p></div>
+              <div className={this.mobView=="#hovedFeil"?"mobActive":""}><p>Feil</p></div>
             </a>
             <a onClick={() => this.mobileView("#hovedKart")}>
-              <div><p>Kart</p></div>
+              <div className={this.mobView=="#hovedKart"?"mobActive":""}><p>Kart</p></div>
             </a>
             <a onClick={() => this.mobileView("#hovedHendelser")}>
-              <div><p>Hendelser</p></div>
+              <div className={this.mobView=="#hovedHendelser"?"mobActive":""}><p>Hendelser</p></div>
             </a>
           </div>
         </div>
@@ -491,7 +491,7 @@ f                      id="test"
                           </div>
                         </Grid.Column>
                         <Grid.Column>
-                          <p>
+                          <p id="hendelseBeskrivelse">
                             {this.hendelse.beskrivelse}
                           </p>
                         </Grid.Column>
