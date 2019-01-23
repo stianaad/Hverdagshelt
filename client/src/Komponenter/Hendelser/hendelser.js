@@ -40,11 +40,12 @@ export class Hendelser extends Component {
 
 		tilbakestill(){
 			this.aktiveHendelser = this.hendelser;
-			this.hentData();
 			 this.skrivAlleKommuner="Alle kommuner";
 			 this.skrivKommuneID="";
 			 this.skrivKategori="Alle kategorier";
-			 this.skrivFylke="Alle fylker";
+			 this.skrivFylke="Fylke";
+			 document.getElementById("fylke").value = 0;
+			 this.hentData();
 		}
 	
 
