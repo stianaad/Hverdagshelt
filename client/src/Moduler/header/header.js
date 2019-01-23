@@ -83,7 +83,6 @@ export class ProfileButton extends Component {
               <Link to="/minside">
                 <div className="dropdown-item">Min side</div>
               </Link>
-              <div className="dropdown-item">Instillinger</div>
               <div onClick={this.loggut} className="dropdown-item">
                 Logg ut
               </div>
