@@ -432,8 +432,8 @@ f                      id="test"
           </div>
           
         ) : (
-          <div className="row mt-4 hovedContainer">
-            <div className="col-sm-9 hendelseInfo">
+          <div className="row mt-4 hovedContainer ml-1 mr-1">
+            <div className="col hendelseInfo">
               <Card fluid>
                 <Card.Content>
                   <div>
@@ -501,37 +501,54 @@ f                      id="test"
                 </Card.Content>
               </Card>
             </div>
-            <div className="col-sm-3" id="hovedHendelser">
-              <div className="mr-3 mb-3">
-              <Card fluid className="hovedKort">
-                <Card.Content>
-                  <Card.Header>
-                    <Grid>
-                      <Grid.Column width={12}>Kommende hendelser</Grid.Column>
-                      <Grid.Column width={4} />
-                    </Grid>
+            <div className="col-md-auto" id="hovedHendelser">
+                  {/**
+                    *KOMMENDE HENDELSER
+                    *KOMMENDE HENDELSER
+                    *KOMMENDE HENDELSER
+                  */}
+                  <Card fluid className="hovedKort">
+                    <Card.Content>
+                    <Card.Header>
+                    Kommende hendelser
+                    <InfoBoks tekst="Her finner du kulturarrangementer og planlagt arbeid på infrastruktur for kommunen." />
+                    <select
+                      onChange={(e) => {this.feilKategori = e.target.value;}}
+                      className="form-control right floated meta"
+                      style={{height: "30px", width: "100%", marginTop:"10px"}}
+                    >
+                      <option hidden> Filter </option>
+                      <option value="0"> Alle kategorier </option>
+                      {this.alleKategorier.map((kategori) => (
+                        <option value={kategori.kategorinavn} key={kategori.kategorinavn}>
+                          {' '}
+                          {kategori.kategorinavn}
+                        </option>
+                      ))}
+                    </select>
                   </Card.Header>
-                </Card.Content>
-                <Card.Content className='hovedsideTabeller'>
-                  <Feed>
-                    {this.alleHendelser.map((hendelse) => (
-                      <FeedHendelse
-                        onClick={() => {
-                          this.visEnHendelse(hendelse);
-                        }}
-                        //status ={feil.status}
-                        tid={hendelse.tid}
-                        kategori={hendelse.kategorinavn}
-                        key={hendelse.hendelse_id}
-                      >
-                        {hendelse.overskrift}
-                      </FeedHendelse>
-                    ))}
-                  </Feed>
-                </Card.Content>
-              </Card>
-              </div>
-            </div>
+                    </Card.Content>
+                    <Card.Content className='hovedsideTabeller'>
+                      <Feed>
+                        {this.alleHendelser.map((hendelse) => (
+                          <FeedHendelse
+                            onClick={() => {
+                              this.visEnHendelse(hendelse);
+                              console.log(hendelse);
+                            }}
+                            //status ={feil.status}
+                            tid={hendelse.tid}
+                            kategori={hendelse.kategorinavn}
+                            key={hendelse.hendelse_id}
+                          >
+                            {hendelse.overskrift}
+                          </FeedHendelse>
+                        ))}
+                      </Feed>
+                    </Card.Content>
+                  </Card>
+                  
+                </div>
           </div>
         )}
       </div>
