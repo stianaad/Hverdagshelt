@@ -75,7 +75,7 @@ export class FeedEvent extends Component {
       <Feed>
         <Feed.Event>
           {this.props.status !== 'Under behandling' ? (
-            this.props.status === 'Ikke godkjent' ? (
+            this.props.status === 'Godkjent' ? (
               <Feed.Label image={'/warningicon.png'} />
             ) : (
               <Feed.Label image={'/successicon.png'} />
