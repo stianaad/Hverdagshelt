@@ -82,7 +82,7 @@ export class Hendelser extends Component {
 		}
     }
 
-    filterKommune(e) {
+    async filterKommune(e) {
 			this.skrivKommuneID = parseInt(e.target.value);
 			if(this.skrivKommuneID === 0){
 				this.aktiveHendelser = this.hendelser;
@@ -180,9 +180,9 @@ export class Hendelser extends Component {
 							onChange={this.filterKommune}
 							className="form-control right floated meta m-2"
 							style={{height: 30, width: 150}}
+							value="hehehe"
 							>
-							{(this.hjemKommune.length>0) ? (<option hidden> {this.hjemKommune} </option>) :
-							<option hidden> {this.skrivAlleKommuner} </option>}
+							<option hidden> {this.skrivAlleKommuner}</option>
 							<option value="0"> Alle kommuner </option>
 							{this.kommuner.map((sted) => (
 							<option
@@ -271,11 +271,18 @@ export class Hendelser extends Component {
 		let res2 = await generellServices.hentAlleKommuner();
 		this.kommuner = await res2.data;
 		if(global.payload != null){
-			this.hjemKommune = global.payload.user.kommune_id;
-			let res1 = await res2.data.find(e => e.kommune_id == this.hjemKommune);
-			this.hjemKommune = res1.kommune_navn;
-			this.visFylke = true;
-			this.skrivFylke = "Fylke";
+			if(this.skrivAlleKommuner == "Kommuner"){
+				this.skrivKommuneID = global.payload.user.kommune_id;
+				let res1 = await res2.data.find(e => e.kommune_id == this.skrivKommuneID);
+				this.skrivAlleKommuner = res1.kommune_navn;
+			}
+			if(this.skrivAlleKommuner != "Alle kommuner"){
+				this.visFylke = true;
+			}
+			let res = await hendelseService.hentAlleHendelser();
+			this.hendelser = await res.data;
+			this.aktiveHendelser = await res.data;
+			await this.filterAlle();
 		}
 
 		let res3 = await generellServices.hentAlleFylker();
@@ -294,7 +301,6 @@ export class Hendelser extends Component {
 		}
 		this.hendelser = await res1.data;
 		this.aktiveHendelser = await res1.data;
-
 		/*this.tider = this.aktiveHendelser.map(
 			kat => kat.tid
 		);
