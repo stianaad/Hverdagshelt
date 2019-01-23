@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react-simplified';
-import { Card, Grid, Image, Modal, Input, List } from 'semantic-ui-react';
+import { Card, Grid, Modal, Input, List } from 'semantic-ui-react';
 import { ShowMarkerMap } from '../kart/map';
 import { feilService } from '../../services/feilService';
 

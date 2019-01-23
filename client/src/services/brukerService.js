@@ -48,7 +48,7 @@ class BrukerService {
       return api.put('/api/brukere/endrepassord', passord, {headers: {'x-access-token': 'Bearer ' + token}});
     } else {
       console.log('token ikke ok i endrepassord');
-      return [];
+      return false;
     }
   }
 
