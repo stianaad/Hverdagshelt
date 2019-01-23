@@ -491,7 +491,7 @@ f                      id="test"
                           </div>
                         </Grid.Column>
                         <Grid.Column>
-                          <p>
+                          <p id="hendelseBeskrivelse">
                             {this.hendelse.beskrivelse}
                           </p>
                         </Grid.Column>

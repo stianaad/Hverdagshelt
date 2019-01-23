@@ -105,6 +105,14 @@ nav ul{
    height: 100%;
 }
 
+.hendelseInfo > div > div {
+   overflow-y: auto;
+}
+
 #hendelseKnapper {
    margin-top: 15px;
+}
+
+#hendelseBeskrivelse {
+   overflow-y: auto;
 }
