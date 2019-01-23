@@ -111,6 +111,43 @@ test('legg til ny privatbruker', (done) => {
   brukerdao.lagNyPrivatBruker(testprivatBruker, callback);
 });
 
+test('hent feil til bruker', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
+    expect(data[0].overskrift).toBe('Overskrift1');
+    done();
+  }
+  brukerdao.finnFeilTilBruker({bruker_id: 1}, callback);
+});
+
+test('hent fulgte feil til bruker', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
+    expect(data[0].overskrift).toBe('Overskrift2');
+    expect(data[0].kommune_id).toBe(20);
+    done();
+  }
+  brukerdao.finnFolgteFeilTilBruker({bruker_id: 1}, callback);
+});
+
+test('hent hendelser til bruker', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
+    expect(data[0].beskrivelse).toBe('Beskrivelse1');
+    done();
+  }
+  brukerdao.finnFolgteHendelserTilBruker({bruker_id: 3}, callback);
+});
+
+test('hent bruker på id', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
+    expect(data[0].epost).toBe('epost3@hotmail.com');
+    done();
+  }
+  brukerdao.hentBrukerPaaid({bruker_id: 3}, callback);
+});
+
 test('legg til ny adminbruker', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
@@ -314,6 +351,43 @@ test('Filtrer hendelser kommune', (done) => {
     done();
   }
   hendelsedao.filtrerHendelserPaaKommune({kommune_id: 12}, callback);
+});
+
+test('hent alle hendelseskategorier', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
+    expect(data[0].kategorinavn).toBe('Fest');
+    done();
+  }
+  hendelsedao.hentAlleHendelseskategorier(callback);
+});
+
+
+test('opprett ny hendelseskategorier', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  hendelsedao.nyHendelseskategori({kategorinavn: 'Testkategori'}, callback);
+});
+
+test('oppdater en hendelseskategorier', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  hendelsedao.oppdaterHendelseskategori({kategorinavn: 'testnavn', hendelseskategori_id: 1}, callback);
+});
+
+test('abonner på en hendelse', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+  hendelsedao.abonnerHendelse({hendelse_id: 1, bruker_id: 5}, callback);
 });
 
 //GENERELLTESTER

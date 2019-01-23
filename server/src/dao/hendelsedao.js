@@ -1,6 +1,6 @@
 import Dao from './dao.js';
 
-// 5 av 9 testes
+// 9 av 15 funksjoner testes
 module.exports = class HendelseDao extends Dao {
   //testes
   hentAlleHendelser(callback) {
@@ -97,14 +97,17 @@ module.exports = class HendelseDao extends Dao {
     );
   }
 
-  hentAlleKategorier(callback){
+  //testes
+  hentAlleHendelseskategorier(callback){
     super.query('SELECT * FROM hendelseskategori', null, callback);
   }
 
+  //testes
   nyHendelseskategori(json, callback) {
     super.query('INSERT INTO hendelseskategori (kategorinavn) VALUES (?)', [json.kategorinavn], callback);
   }
 
+  //testes
   oppdaterHendelseskategori(json, callback) {
     super.query('UPDATE hendelseskategori SET kategorinavn = ? WHERE hendelseskategori_id = ?', [json.kategorinavn, json.hendelseskategori_id], callback);
   }
@@ -113,6 +116,7 @@ module.exports = class HendelseDao extends Dao {
     super.query('DELETE FROM hendelseskategori WHERE hendelseskategori_id = ?', [json.hendelseskategori_id], callback);
   }
 
+  //testes
   abonnerHendelse(json, callback) {
     super.query("INSERT INTO hendfolg (hendelse_id, bruker_id) VALUES (?, ?)", [json.hendelse_id, json.bruker_id], callback);
   }

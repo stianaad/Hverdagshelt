@@ -8,18 +8,26 @@ import {Card, Feed, Grid, Button, Header, Icon, Image, Modal, Dropdown,Popup} fr
 import {PageHeader} from '../../Moduler/header/header';
 import { KommuneVelger } from '../../Moduler/KommuneVelger/kommuneVelger';
 import { isNullOrUndefined, isUndefined, isNumber } from 'util';
+import { brukerService } from '../../services/brukerService';
 
 export class Hendelser extends Component {
 	isOpen = false;
     hendelser = [];
-    alleKategorier = [];
+	alleKategorier = [];
+	skrivAlleKommuner = "Kommuner";
+	skrivKategori = "Kategori";
+	skrivFylke = "Fylke";
+	skrivFraTid = "";
+	skrivTilTid = "";
+	skrivKommuneID = "";
 	aktiveHendelser = [];
     link = "/hendelser";
 	tider=[];
 	hjemKommune = '';
-    kommuner=[];
-		fylker=[];
-		finnKommuneId=[]
+	visFylke = false;
+	kommuner=[];
+	fylker=[];
+	finnKommuneId=[]
 
 		tilbakestill(){
 			// Pushe tilbake til siden? 
@@ -29,52 +37,84 @@ export class Hendelser extends Component {
 	
 
   filterKategori(e) {
-		let verdi =e.target.value;
-		if(verdi === "0"){
-			this.aktiveHendelser = this.hendelser;
-		} else {
-		this.aktiveHendelser = this.hendelser.filter((kat) => kat.kategorinavn === verdi);
-		}
-  }
-
-  filterSted(e) {
-		let verdi = e.target.value;
-		this.aktiveHendelser = this.hendelser.filter((kat) => kat.sted === verdi);
-		this.aktiveHendelser = this.aktiveHendelser.filter((kat) => kat.sted === verdi);
+	this.skrivKategori = e.target.value;
+	if(this.skrivKategori === "0"){
+		this.skrivKategori = "Alle kategorier";
+		this.aktiveHendelser = this.hendelser;
+		this.aktiveHendelser = this.hendelser.filter(h => ((h.kommune_id === this.skrivKommuneID) || this.skrivKommuneID == ""))
+		.filter(h => ((h.tid >= this.skrivFraTid) || this.skrivFraTid == "")).filter(h => ((h.tid <= this.skrivTilTid) || this.skrivTilTid == ""))
+		.filter(h => ((h.fylke_navn === this.skrivFylke) || this.skrivFylke == "Fylke"));;
+	} else {
+		this.aktiveHendelser = this.hendelser.filter((h) => ((h.kategorinavn === this.skrivKategori) || this.skrivKategori == "Kategori"))
+				.filter(h => ((h.kommune_id === this.skrivKommuneID) || this.skrivKommuneID == "")).filter(h => ((h.tid >= this.skrivFraTid) || this.skrivFraTid == ""))
+				.filter(h => ((h.tid <= this.skrivTilTid) || this.skrivTilTid == "")).filter(h => ((h.fylke_navn === this.skrivFylke) || this.skrivFylke == "Fylke"));;
+	}
   }
 
     filterFraTid(e) {
-			let fraTid = document.getElementById("fra").value+"0";
+			let fraTid = document.getElementById("fra").value;
 			if(fraTid === "0"){
 				this.aktiveHendelser = this.hendelser;
+				this.skrivFraTid = "";
+				this.aktiveHendelser = this.hendelser.filter((h) => ((h.kategorinavn === this.skrivKategori) || this.skrivKategori == "Kategori"))
+				.filter(h => ((h.kommune_id === this.skrivKommuneID) || this.skrivKommuneID == "")).filter(h => ((h.tid <= this.skrivTilTid) || this.skrivTilTid == "")).filter(h => ((h.fylke_navn === this.skrivFylke) || this.skrivFylke == "Fylke"));;
 			}else{
-			this.aktiveHendelser= this.aktiveHendelser.filter((kat) => kat.tid > fraTid);
+				this.skrivFraTid = fraTid;
+				this.aktiveHendelser = this.hendelser.filter((h) => ((h.kategorinavn === this.skrivKategori) || this.skrivKategori == "Kategori"))
+				.filter(h => ((h.kommune_id === this.skrivKommuneID) || this.skrivKommuneID == "")).filter(h => ((h.tid >= this.skrivFraTid) || this.skrivFraTid == ""))
+				.filter(h => ((h.tid <= this.skrivTilTid) || this.skrivTilTid == "")).filter(h => ((h.fylke_navn === this.skrivFylke) || this.skrivFylke == "Fylke"));;
+				console.log(this.skrivFraTid);
+				//this.aktiveHendelser= this.aktiveHendelser.filter((kat) => kat.tid > fraTid);
 			}
 		}
 
     filterTilTid(e) {
-			let tilTid = document.getElementById("til").value +"0";
-			if (tilTid === "0") {
-				this.aktiveHendelser = this.hendelser;
-				
-			} else {
-			
-				this.aktiveHendelser = this.aktiveHendelser.filter((kat) => kat.tid < tilTid);
-			}
-	
+		let tilTid = document.getElementById("til").value;
+		if (tilTid === "0") {
+			this.aktiveHendelser = this.hendelser;
+			this.skrivTilTid = "";
+			this.aktiveHendelser = this.hendelser.filter((h) => ((h.kategorinavn === this.skrivKategori) || this.skrivKategori == "Kategori"))
+			.filter(h => ((h.kommune_id === this.skrivKommuneID) || this.skrivKommuneID == "")).
+			filter(h => ((h.tid >= this.skrivFraTid) || this.skrivFraTid == "")).filter(h => ((h.fylke_navn === this.skrivFylke) || this.skrivFylke == "Fylke"));;
+		} else {
+			this.skrivTilTid = tilTid;
+			this.aktiveHendelser = this.hendelser.filter((h) => ((h.kategorinavn === this.skrivKategori) || this.skrivKategori == "Kategori"))
+				.filter(h => ((h.kommune_id === this.skrivKommuneID) || this.skrivKommuneID == "")).filter(h => ((h.tid >= this.skrivFraTid) || this.skrivFraTid == ""))
+				.filter(h => ((h.tid <= this.skrivTilTid) || this.skrivTilTid == "")).filter(h => ((h.fylke_navn === this.skrivFylke) || this.skrivFylke == "Fylke"));
+			console.log(this.skrivTilTid);
+			//this.aktiveHendelser = this.aktiveHendelser.filter((kat) => kat.tid < tilTid);
+		}
     }
 
     filterKommune(e) {
-				let verdi = parseInt(e.target.value);
-				this.aktiveHendelser = this.hendelser.filter((kat) => kat.kommune_id === verdi);
-        this.aktiveHendelser= this.aktiveHendelser.filter((kat) => kat.kommune_id === verdi);
+			this.skrivKommuneID = parseInt(e.target.value);
+			if(this.skrivKommuneID === 0){
+				this.aktiveHendelser = this.hendelser;
+				this.visFylke = false;
+				this.skrivAlleKommuner = "Alle kommuner";
+				this.skrivKommuneID = "";
+				this.aktiveHendelser = this.hendelser.filter((h) => ((h.kategorinavn === this.skrivKategori) || this.skrivKategori == "Kategori"))
+				.filter(h => ((h.tid >= this.skrivFraTid) || this.skrivFraTid == "")).filter(h => ((h.tid <= this.skrivTilTid) || this.skrivTilTid == ""));
+			}else{
+				this.skrivAlleKommuner = this.kommuner.find(e => (e.kommune_id == this.skrivKommuneID)).kommune_navn;
+				this.visFylke = true;
+				this.skrivFylke = "Fylke";
+				this.aktiveHendelser = this.hendelser.filter((h) => ((h.kategorinavn === this.skrivKategori) || this.skrivKategori == "Kategori"))
+				.filter(h => ((h.kommune_id === this.skrivKommuneID) || this.skrivKommuneID == "")).filter(h => ((h.tid >= this.skrivFraTid) || this.skrivFraTid == "")).filter(h => ((h.tid <= this.skrivTilTid) || this.skrivTilTid == ""));
+			}
 		}
 
 
 		filterFylke(e) {
-			let verdi = e.target.value;
-			console.log(verdi);
-			this.aktiveHendelser = this.hendelser.filter(fylke => fylke.fylke_navn === verdi);
+			this.skrivFylke = e.target.value;
+			if( this.skrivFylke === "0"){
+				this.skrivFylke = "Fylke";
+				this.aktiveHendelser = this.hendelser.filter((h) => ((h.kategorinavn === this.skrivKategori) || this.skrivKategori == "Kategori"))
+				.filter(h => ((h.tid >= this.skrivFraTid) || this.skrivFraTid == "")).filter(h => ((h.tid <= this.skrivTilTid) || this.skrivTilTid == ""));
+			} else {
+				this.aktiveHendelser = this.hendelser.filter((h) => ((h.kategorinavn === this.skrivKategori) || this.skrivKategori == "Kategori"))
+				.filter(h => ((h.fylke_navn === this.skrivFylke) || this.skrivFylke == "Fylke")).filter(h => ((h.tid >= this.skrivFraTid) || this.skrivFraTid == "")).filter(h => ((h.tid <= this.skrivTilTid) || this.skrivTilTid == ""));
+			}
 		}
 
 	handleOpen = () => {
@@ -106,22 +146,19 @@ export class Hendelser extends Component {
                 open={this.isOpen}
                 onOpen={this.handleOpen}
                 onClose={this.handleClose}
-                position="bottom left"
-              >
-                <Grid centered columns={4}>
+                position="bottom left">
+                <Grid centered columns={3}>
                     <Grid.Column>
 					<select
 						onChange={this.filterKategori}
 						className="form-control right floated meta m-2"
-						style={{height: 30, width: 150}}
-						>
-						<option hidden> Kategori </option>
+						style={{height: 30, width: 150}}>
+						<option hidden> {this.skrivKategori} </option>
 						<option value="0"> Alle kategorier </option>
-						{this.hendelser.map((kategori) => (
+						{this.alleKategorier.map((kategori) => (
 						<option
 								value={kategori.kategorinavn}
-								key={kategori.kategorinavn}
-						>
+								key={kategori.kategorinavn}>
 								{' '}
 								{kategori.kategorinavn}
 						</option>
@@ -133,12 +170,13 @@ export class Hendelser extends Component {
 							className="form-control right floated meta m-2"
 							style={{height: 30, width: 150}}
 							>
-							<option hidden> Kommune </option>
+							{(this.hjemKommune.length>0) ? (<option hidden> {this.hjemKommune} </option>) :
+							<option hidden> {this.skrivAlleKommuner} </option>}
 							<option value="0"> Alle kommuner </option>
 							{this.kommuner.map((sted) => (
 							<option
 								value={sted.kommune_id}
-								key={sted.id}
+								key={sted.kommune_navn}
 							>
 								{' '}
 								{sted.kommune_navn}
@@ -148,30 +186,25 @@ export class Hendelser extends Component {
 						</select>
                     </Grid.Column>
 					<Grid.Column>
-					<select
-						onChange={this.filterSted}
-						className="form-control right floated meta m-2"
-						style={{height: 30, width: 150}}
-						>
-						<option hidden> Sted </option>
-						<option value="0"> Alle steder </option>
-						{this.hendelser.map((sted) => (
-						<option
-								value={sted.sted}
-								key={sted.sted}>
-								{' '}
-								{sted.sted}
-						</option>
-						))} 
-					</select>
+					{<div>
+						 	<label> Fra: 
+						 		<input 
+									onChange={this.filterFraTid}
+									type="date" 
+									style={{height: 30, width: 110}} 
+									className="mt-2" 
+									id="fra"
+								/> 
+							</label>
+						</div>}
 					<br/>
 					<select
 						onChange={this.filterFylke}
 						className="form-control right floated meta m-2"
-						style={{height: 30, width: 150}}
-						>
-						<option hidden> Fylke </option>
-						<option value="0"> Alle kommuner </option>
+						disabled={this.visFylke}
+						style={{height: 30, width: 150}}>
+						<option hidden> {this.skrivFylke} </option>
+						<option value="0"> Alle Fylker </option>
 						{this.fylker.map((sted) => (
 						<option
 							value={sted.fylke_navn}
@@ -183,37 +216,24 @@ export class Hendelser extends Component {
                		</select>
 					</Grid.Column>
 					<Grid.Column>
-						{<div>
-						 	<label> Fra: 
-						 		<input 
-									onChange={this.filterFraTid}
-									type="date" 
-									style={{height: 30, width: 110}} 
-									className="mt-2" 
-									id="fra"
-								/> 
-							</label>
-						</div>}
+					{<label className="ml-1">Til: 
+						 	<input 
+								onChange={this.filterTilTid}
+								type="date" 
+								style={{height: 30, width: 110}} 
+								className="mt-2"
+								id = "til"
+							/>
+						</label>}
 						<br/>
 					<Button 
-					className="mt-2"
+					className="mt-4"
 					fluid
 					size ="mini"
 					primary
 					onClick ={()=> {this.mounted()}}>
 					Tilbakestill
 					</Button>
-					</Grid.Column>
-					<Grid.Column>
-						{<label className="ml-1">Til: 
-						 	<input 
-								onChange={this.filterTilTid}
-								type="date" 
-								style={{height: 30, width: 110, marginLeft:4}} 
-								className="mt-2"
-								id = "til"
-							/>
-						</label>}
 					</Grid.Column>
                 </Grid>
               </Popup>
@@ -226,15 +246,7 @@ export class Hendelser extends Component {
 						overskrift = {hendelse.overskrift}
 						sted = {hendelse.sted}
 						tid = {hendelse.tid}
-					/>))}	
-					{this.aktiveHendelser.map(hendelse => (
-					<Hendelse
-						onClick={()=>location.href=this.link +"/"+ hendelse.hendelse_id}
-						bilde = {hendelse.bilde}
-						overskrift = {hendelse.overskrift}
-						sted = {hendelse.sted}
-						tid = {hendelse.tid}
-					/>))}		
+					/>))}			
 			</Card.Group>
         </div>
       );
@@ -243,14 +255,19 @@ export class Hendelser extends Component {
 	async hentData(){
 		let res2 = await generellServices.hentAlleKommuner();
 		this.kommuner = await res2.data;
-		//this.finnKommuneId = await res2.data;
-		
+		if(global.payload != null){
+			this.hjemKommune = global.payload.user.kommune_id;
+			let res1 = await res2.data.find(e => e.kommune_id == this.hjemKommune);
+			this.hjemKommune = res1.kommune_navn;
+			this.visFylke = true;
+			this.skrivFylke = "Fylke";
+		}
+
 		let res3 = await generellServices.hentAlleFylker();
 		this.fylker = await res3.data;
 
-		this.alleKategorier = this.aktiveHendelser.filter(
-			kat => kat.kategorinavn
-		);
+		let res4 = await hendelseService.hentAlleKategorier();
+		this.alleKategorier = await res4.data;
 	}
 
 	async mounted() {
@@ -258,10 +275,7 @@ export class Hendelser extends Component {
 		if(global.payload == null){
 			res1 = await hendelseService.hentAlleHendelser();
 		} else {
-			this.hjemKommune = global.payload.user.kommune_id;
 			res1 = await hendelseService.hentHendelserForKommune(global.payload.user.kommune_id);
-			this.hjemKommune = await res1.data.find(e => e.kommune_id == this.hjemKommune).kommune_navn;
-			await console.log(this.hjemKommune);
 		}
 		this.hendelser = await res1.data;
 		this.aktiveHendelser = await res1.data;

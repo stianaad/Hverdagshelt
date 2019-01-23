@@ -32,9 +32,12 @@ import {KommuneVelger} from './Moduler/KommuneVelger/kommuneVelger';
 import {KommuneInput} from './Moduler/kommuneInput/kommuneInput';
 import {enHendelse} from './Komponenter/Hendelser/enHendelse';
 
-import {NyeFeil} from './Komponenter/Ansatt/kommuneansatt';
-import {AnsattFerdig} from './Komponenter/Ansatt/ferdigeFeil';
+import {NyeFeil} from './Komponenter/Ansatt/ansattNye';
+import {AnsattFerdig} from './Komponenter/Ansatt/ansattFerdige';
 import {NyHendelse} from './Komponenter/Ansatt/nyhendelse';
+import {AnsattOversikt} from './Komponenter/Ansatt/ansattOversikt';
+import {AnsattUnder} from './Komponenter/Ansatt/ansattUnderBehandling';
+import { AnsattHendelser } from './Komponenter/Ansatt/ansattHendelser';
 
 class Tabell extends Component {
   render() {
@@ -225,7 +228,11 @@ const routes = () => {
                 <Route exact path="/mineoppgaver" key="mineoppgaver" component={MineOppgaver} history={history} />,
                 <Route exact path="/registrerBedrift" key="registrerbedrift"component={RegistrerBedrift} history={history} />,
                 <Route exact path="/ansatt/nyefeil" key="nyefeil" component={NyeFeil} history={history}/>,
-                <Route exact path="/ansatt/nyhendelse" key="nyhendelse" component={NyHendelse} history={history}/>
+                <Route exact path="/ansatt/nyhendelse" key="nyhendelse" component={NyHendelse} history={history}/>,
+                <Route exact path="/ansatt/oversikt" key="oversikt" component={AnsattOversikt} history={history}/>,
+                <Route exact path="/ansatt/underbehandling" key="underbehandling" component={AnsattUnder} history={history}/>,
+                <Route exact path="/ansatt/ferdig" key="ferdig" component={AnsattFerdig} history={history}/>,
+                <Route exact path="/ansatt/hendelser" key="hendelser"component={AnsattHendelser} history={history}/>,
               ]
             : global.payload.role == 'bedrift'
             ? //Bedrift routes
