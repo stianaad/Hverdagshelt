@@ -43,39 +43,6 @@ import { AlleBedrifter } from './Komponenter/Ansatt/alleBedrifter';
 
 import { Administrasjon } from './Komponenter/Admin/admin';
 
-class Tabell extends Component {
-  render() {
-    return (
-      <div className="ml-3">
-        <h5>{this.props.hovedOverskrift}</h5>
-        <br />
-        <div className="kanter">
-          <nav>
-            <ul className="list-group">
-              <li className="kanter lister">I dag</li>
-              {this.props.tabell.map((tabell) => (
-                <li className="kanter lister">
-                  <NavLink
-                    to={'/hovedside/' + this.props.kommune}
-                    onClick={() => {
-                      this.props.metode(tabell.overskrift);
-                    }}
-                  >
-                    {tabell.overskrift}
-                    <br />
-                    <i>{this.props.tema}</i>
-                    <span className="float-right">{tabell.tid}</span>
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </div>
-      </div>
-    );
-  }
-}
-
 //<PositionMap width="100%" height="500px" id="posmap" center="Oslo" position={this.posisjon}></PositionMap>
 class Menu extends Component {
   tekst = '';
