@@ -36,10 +36,10 @@
     
     if (window.location.pathname.slice(1, 10) == "hovedside") {
       let func = () => {
+        window.removeEventListener("touchmove", func);
         document.querySelector("#mapContainer").style.height ="0px";
         document.querySelector("#test").style.height = "0px";
         document.querySelector(".hovedTittel").style.marginBottom = "0px";
-        window.removeEventListener("touchmove", func);
       }
       //window.scrollTo(0, 0);
       window.addEventListener("touchmove", func);

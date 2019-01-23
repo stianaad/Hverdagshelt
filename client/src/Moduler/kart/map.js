@@ -410,7 +410,8 @@ export class PositionMap extends Component {
       <div style={{width: this.props.width, height: this.props.height, position: 'relative'}}>
         <div style={{width: '100%', height: '100%'}} id={this.props.id} />
         <button
-          style={{position: 'absolute', top: '10px', right: '10px', zIndex: '900', height: '35px', cursor: 'pointer'}}
+          style={{position: 'absolute', top: '10px', right: '10px', zIndex: '900', height: '35px', cursor: 'pointer', backgroundColor:"white", borderRadius:"5px"}}
+          
           id="locatebtn"
           //type="button"
           onClick={this.locateMe}
