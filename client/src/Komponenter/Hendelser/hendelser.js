@@ -153,7 +153,7 @@ export class Hendelser extends Component {
 			<ModalHendelse overskrift={this.valgteHendelse.overskrift} url={this.valgteHendelse.bilde} tid={this.valgteHendelse.tid} sted={this.valgteHendelse.sted} kommune_navn={this.valgteHendelse.kommune_navn}/>
 		</Modal>
             <h1 className="text-center b-5" >Hendelser</h1>
-           <div className="row ml-1">
+           <div className="row ml-3">
 		   <Popup
                 trigger={
 					<Button className="float-right mb-2" onClick={this.hentData}>Filtrer <img src="https://png.pngtree.com/svg/20160828/filter_45418.png" height="20" width="20"/> </Button>}
@@ -255,7 +255,7 @@ export class Hendelser extends Component {
                 </Grid>
               </Popup>
            </div>
-			<Card.Group stackable>
+			<Card.Group stackable style={{width:"792px", margin: "0 auto"}}>
 				{this.aktiveHendelser.map(hendelse => (
 					<Hendelse
 					onClick={() => {

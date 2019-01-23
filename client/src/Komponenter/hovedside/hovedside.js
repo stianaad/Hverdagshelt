@@ -551,7 +551,7 @@ f                      id="test"
     
         await Promise.all([res1.data]).then(() => {
           console.log("got here");
-          if (this.mobView != "#hovedKart") window.setClosed();
+          if (this.mobView != "#hovedKart" && L.Browser.mobile) window.setClosed();
           this.kart.addMarkers(res1.data);
         });
 
