@@ -264,7 +264,7 @@ const routes = () => {
           <Route exact path="/bedriftsoppgaver" component={Bedrift} history={history} />
 
           {/*Siden eksisterer ikke/ingen tilgang*/}
-          <Route component={FireNullFire} />
+          <Route component={FireNullFire} history={history} />
         </Switch>
       </div>
     </Router>

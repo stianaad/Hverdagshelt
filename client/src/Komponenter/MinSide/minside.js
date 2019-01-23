@@ -5,7 +5,7 @@ import {feilService} from '../../services/feilService';
 import {Card, Feed, Grid, Button, Header, Icon, Image, Popup, Modal, Input, List, Dropdown} from 'semantic-ui-react';
 import {FeedEvent, FeedHendelse, Filtrer, Info, FeedMinside, ModalHendelse} from '../../Moduler/cardfeed';
 import {brukerService} from '../../services/brukerService';
-import {NavLink,Link} from 'react-router-dom';
+import {NavLink, Link} from 'react-router-dom';
 import {markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
 import {KommuneInput} from '../../Moduler/kommuneInput/kommuneInput';
 
@@ -19,6 +19,12 @@ export class Minside extends Component {
     overskrift: '',
     bilde: '',
     beskrivelse: '',
+  };
+
+  passord = {
+    gammeltPass: '',
+    nyttPass1: '',
+    nyttPass2: '',
   };
 
   brukerInfo = {
@@ -51,6 +57,8 @@ export class Minside extends Component {
 
   redigerer = false;
 
+  passordModalOpen = false;
+
   classFeil = 'hovedsideTabeller';
 
   state = {open: false};
@@ -70,89 +78,177 @@ export class Minside extends Component {
     this.setState({open: false});
   };
 
+  openPassordModal() {
+    this.passordModalOpen = true;
+  }
+
+  closePassordModal() {
+    this.passordModalOpen = false;
+  }
+
   render() {
     return (
       <div>
         <PageHeader history={this.props.history} location={this.props.location} />
-        <Modal open={this.state.open} onClose={this.handleClose} size="small" centered={true} dimmer="blurring">
+        <Modal open={this.passordModalOpen} onClose={this.closePassordModal} size="tiny" centered>
+          <Modal.Content>
+            <div className="container">
+              <form>
+                <h1 className="text-center">Endre passord</h1>
+                <div className="card">
+                  <div className="card-body">
+                    <div className="form-group row">
+                      <label htmlFor="gammeltPass" className="col-sm-4 col-form-label">
+                        {' '}
+                        Gammelt passord:
+                      </label>
+                      <div className="col-sm-8">
+                        <input
+                          type="password"
+                          id="gammeltPass"
+                          name="gammeltPass"
+                          className="form-control"
+                          value={this.passord.gammeltPass}
+                          required={true}
+                          placeholder="Gammelt passord"
+                          onChange={this.endrePassVerdi}
+                        />
+                        <small className="form-text text-muted">Skriv inn din ditt gamle passord.</small>
+                      </div>
+                    </div>
+                    <div className="form-group row">
+                      <label htmlFor="nyttPass1" className="col-sm-4 col-form-label">
+                        {' '}
+                        Nytt passord:
+                      </label>
+                      <div className="col-sm-8">
+                        <input
+                          type="password"
+                          id="nyttPass1"
+                          name="nyttPass1"
+                          className="form-control"
+                          value={this.passord.nyttPass1}
+                          required={true}
+                          placeholder="Nytt passord"
+                          onChange={this.endrePassVerdi}
+                        />
+                        <small className="form-text text-muted">Skriv inn din ditt nye passord.</small>
+                      </div>
+                    </div>
+                    <div className="form-group row">
+                      <label htmlFor="nyttPass2" className="col-sm-4 col-form-label">
+                        {' '}
+                        Gjenta nytt passord:
+                      </label>
+                      <div className="col-sm-8">
+                        <input
+                          type="password"
+                          id="nyttPass2"
+                          name="nyttPass2"
+                          className="form-control"
+                          value={this.passord.nyttPass2}
+                          placeholder="Gjenta passord"
+                          required={true}
+                          onChange={this.endrePassVerdi}
+                        />
+                        <small className="form-text text-muted">Gjenta ditt nye passord.</small>
+                      </div>
+                    </div>
+                    <Button basic color="green" onClick={this.lagrePass}>
+                      Endre Passord
+                    </Button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </Modal.Content>
+        </Modal>
+        <Modal open={this.state.open} onClose={this.handleClose} size="small" centered dimmer="blurring">
           {/*<Modal.Header>
                         {this.valgtFeil.overskrift}
                     </Modal.Header>*/}
-                    {(!this.visHendelse) ? ( <Modal.Content>
-            <div>
-              <Card fluid>
-                <Card.Content>
-                  <div>
-                    <h1>
-                      {this.valgtFeil.overskrift}
-                      <NavLink to={'/minside'} onClick={this.handleClose}>
-                        <img
-                          className="float-right"
-                          src="https://image.freepik.com/free-icon/x_318-27992.jpg"
-                          width="20"
-                          height="20"
-                        />
-                      </NavLink>
-                    </h1>
-                    <h6>
-                      Status: {this.valgtFeil.status} <img src="/warningicon.png" width="30" height="30" />
-                    </h6>
-                  </div>
-                </Card.Content>
-                <Card.Content extra>
-                  <Grid fluid columns={3}>
-                    <Grid.Column>
-                      <h6>Beskrivelse</h6>
-                      <Input>{this.valgtFeil.beskrivelse}</Input>
-                    </Grid.Column>
-                    <Grid.Column>
-                      <h6>Posisjon</h6>
-                      <ShowMarkerMap width="100%" height="300px" id="posmap" feil={this.valgtFeil} />
-                    </Grid.Column>
-                    <Grid.Column>
-                      <List>
-                        <List.Item>
-                          <List.Content>
-                            <List.Header>Godkjent</List.Header>
-                            <List.Description>01.01.18 19:00</List.Description>
-                          </List.Content>
-                        </List.Item>
-                        <List.Item>
-                          <List.Content>
-                            <List.Header>Godkjent</List.Header>
-                            <List.Description>01.01.18 19:00</List.Description>
-                          </List.Content>
-                        </List.Item>
-                        <List.Item>
-                          <List.Content>
-                            <List.Header>Godkjent</List.Header>
-                            <List.Description>01.01.18 19:00</List.Description>
-                          </List.Content>
-                        </List.Item>
-                        <List.Item>
-                          <List.Content>
-                            <List.Header>Godkjent</List.Header>
-                            <List.Description>01.01.18 19:00</List.Description>
-                          </List.Content>
-                        </List.Item>
-                      </List>
-                      <Image.Group size="tiny">
-                        <Image src="/lofoten.jpg" />
-                        <Image src="/lofoten.jpg" />
-                        <Image src="/lofoten.jpg" />
-                        <Image src="/lofoten.jpg" />
-                        <Image src="/lofoten.jpg" />
-                        <Image src="/lofoten.jpg" />
-                      </Image.Group>
-                    </Grid.Column>
-                  </Grid>
-                </Card.Content>
-              </Card>
-            </div>
-          </Modal.Content>) 
-          : (
-            <ModalHendelse overskrift={this.valgteHendelse.overskrift} url={this.valgteHendelse.bilde} tid={this.valgteHendelse.tid} sted={this.valgteHendelse.sted} kommune_navn={this.valgteHendelse.kommune_navn}/>
-            )}
+          {!this.visHendelse ? (
+            <Modal.Content>
+              <div>
+                <Card fluid>
+                  <Card.Content>
+                    <div>
+                      <h1>
+                        {this.valgtFeil.overskrift}
+                        <NavLink to={'/minside'} onClick={this.handleClose}>
+                          <img
+                            className="float-right"
+                            src="https://image.freepik.com/free-icon/x_318-27992.jpg"
+                            width="20"
+                            height="20"
+                          />
+                        </NavLink>
+                      </h1>
+                      <h6>
+                        Status: {this.valgtFeil.status} <img src="/warningicon.png" width="30" height="30" />
+                      </h6>
+                    </div>
+                  </Card.Content>
+                  <Card.Content extra>
+                    <Grid fluid columns={3}>
+                      <Grid.Column>
+                        <h6>Beskrivelse</h6>
+                        <Input>{this.valgtFeil.beskrivelse}</Input>
+                      </Grid.Column>
+                      <Grid.Column>
+                        <h6>Posisjon</h6>
+                        <ShowMarkerMap width="100%" height="300px" id="posmap" feil={this.valgtFeil} />
+                      </Grid.Column>
+                      <Grid.Column>
+                        <List>
+                          <List.Item>
+                            <List.Content>
+                              <List.Header>Godkjent</List.Header>
+                              <List.Description>01.01.18 19:00</List.Description>
+                            </List.Content>
+                          </List.Item>
+                          <List.Item>
+                            <List.Content>
+                              <List.Header>Godkjent</List.Header>
+                              <List.Description>01.01.18 19:00</List.Description>
+                            </List.Content>
+                          </List.Item>
+                          <List.Item>
+                            <List.Content>
+                              <List.Header>Godkjent</List.Header>
+                              <List.Description>01.01.18 19:00</List.Description>
+                            </List.Content>
+                          </List.Item>
+                          <List.Item>
+                            <List.Content>
+                              <List.Header>Godkjent</List.Header>
+                              <List.Description>01.01.18 19:00</List.Description>
+                            </List.Content>
+                          </List.Item>
+                        </List>
+                        <Image.Group size="tiny">
+                          <Image src="/lofoten.jpg" />
+                          <Image src="/lofoten.jpg" />
+                          <Image src="/lofoten.jpg" />
+                          <Image src="/lofoten.jpg" />
+                          <Image src="/lofoten.jpg" />
+                          <Image src="/lofoten.jpg" />
+                        </Image.Group>
+                      </Grid.Column>
+                    </Grid>
+                  </Card.Content>
+                </Card>
+              </div>
+            </Modal.Content>
+          ) : (
+            <ModalHendelse
+              overskrift={this.valgteHendelse.overskrift}
+              url={this.valgteHendelse.bilde}
+              tid={this.valgteHendelse.tid}
+              sted={this.valgteHendelse.sted}
+              kommune_navn={this.valgteHendelse.kommune_navn}
+            />
+          )}
         </Modal>
         <div className="mt-3 hovedTittel">
           <h1 className="text-center text-capitalize display-4">Min side </h1>
@@ -161,8 +257,7 @@ export class Minside extends Component {
               Meld inn feil
             </Button>
           </Link>
-
-        </div>      
+        </div>
         <div className="row minRow">
           <div className="col-sm mt-3 ml-3" id="sideListe">
             <Card fluid>
@@ -313,40 +408,110 @@ export class Minside extends Component {
               </Card.Content>
               <Card.Content>
                 <div id="container">
-                  <div id="keys">
-                    <p>Fornavn:</p>
-                    <p>Etternavn:</p>
-                    <p>E-post: </p>
-                    <p>Kommune: </p>
-                  </div>
-                  <div id="innhold">
                   {this.redigerer ? (
-                  <>
-                    <div className="form-group">
-                      <input type="text" className="form-control" placeholder="Fornavn" value={this.brukerInfoDummy.fornavn} onChange={this.endreVerdi} name="fornavn" />
-                      <input type="text" className="form-control" placeholder="Etternavn" value={this.brukerInfoDummy.etternavn} onChange={this.endreVerdi} name="etternavn" />
-                      <input type="text" className="form-control" placeholder="Epost" value={this.brukerInfoDummy.epost} onChange={this.endreVerdi} name="epost" />
-                      <KommuneInput ref={this.komin} key={this.brukerInfo.kommune_id} kommune_id={this.brukerInfo.kommune_id} onChange={(e)=>{this.brukerInfoDummy.kommune_id = e.id; this.brukerInfoDummy.kommune_navn = e.navn;}}/>
+                    <div id="innhold">
+                      <div className="form-group row">
+                        <label className="col-sm-4 col-form-label" htmlFor="fornavn">
+                          Fornavn:{' '}
+                        </label>
+                        <div className="col-sm-8">
+                          <input
+                            type="text"
+                            id="fornavn"
+                            className="form-control"
+                            placeholder="Fornavn"
+                            value={this.brukerInfoDummy.fornavn}
+                            onChange={this.endreVerdi}
+                            name="fornavn"
+                          />
+                        </div>
+                      </div>
+                      <div className="form-group row">
+                        <label className="col-sm-4 col-form-label" htmlFor="etternavn">
+                          Etternavn:{' '}
+                        </label>
+                        <div className="col-sm-8">
+                          <input
+                            type="text"
+                            id="etternavn"
+                            className="form-control"
+                            placeholder="Etternavn"
+                            value={this.brukerInfoDummy.etternavn}
+                            onChange={this.endreVerdi}
+                            name="etternavn"
+                          />
+                        </div>
+                      </div>
+                      <div className="form-group row">
+                        <label className="col-sm-4 col-form-label" htmlFor="e-post">
+                          E-post:{' '}
+                        </label>
+                        <div className="col-sm-8">
+                          <input
+                            type="text"
+                            id="e-post"
+                            className="form-control"
+                            placeholder="Epost"
+                            value={this.brukerInfoDummy.epost}
+                            onChange={this.endreVerdi}
+                            name="epost"
+                          />
+                        </div>
+                      </div>
+                      <div className="form-group row">
+                        <label className="col-sm-4 col-form-label" htmlFor="kommune">
+                          Kommune:{' '}
+                        </label>
+                        <div className="col-sm-8">
+                          <KommuneInput
+                            id="kommune"
+                            ref={this.komin}
+                            key={this.brukerInfo.kommune_id}
+                            kommune_id={this.brukerInfo.kommune_id}
+                            onChange={(e) => {
+                              this.brukerInfoDummy.kommune_id = e.id;
+                              this.brukerInfoDummy.kommune_navn = e.navn;
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <p className="modalPopup" onClick={this.openPassordModal}>
+                        Endre passord?
+                      </p>
                     </div>
-                  </>) : 
-                  (<>
-                      <p>{this.brukerInfo.fornavn}</p>
-                      <p>{this.brukerInfo.etternavn}</p>
-                      <p>{this.brukerInfo.epost}</p>
-                      <p>{this.brukerInfo.kommune_navn}</p>
-                    </>)}
-                  </div>
+                  ) : (
+                    <>
+                      <div id="keys">
+                        <p>Fornavn:</p>
+                        <p>Etternavn:</p>
+                        <p>E-post: </p>
+                        <p>Kommune: </p>
+                      </div>
+                      <div id="innhold">
+                        <p>{this.brukerInfo.fornavn}</p>
+                        <p>{this.brukerInfo.etternavn}</p>
+                        <p>{this.brukerInfo.epost}</p>
+                        <p>{this.brukerInfo.kommune_navn}</p>
+                      </div>
+                    </>
+                  )}
                 </div>
               </Card.Content>
-              <Card.Content textAlign = "center">
+              <Card.Content textAlign="center">
                 {this.redigerer ? (
                   <>
-                  <Button basic color ="green" onClick={this.rediger}>Lagre</Button>
-                  <Button basic color ="red" onClick={() => this.redigerer = false}>Avbryt</Button>
+                    <Button basic color="green" onClick={this.rediger}>
+                      Lagre
+                    </Button>
+                    <Button basic color="red" onClick={() => (this.redigerer = false)}>
+                      Avbryt
+                    </Button>
                   </>
                 ) : (
                   <>
-                  <Button basic color="blue" onClick={this.rediger}>Rediger Brukerinfo</Button>
+                    <Button basic color="blue" onClick={this.rediger}>
+                      Rediger Brukerinfo
+                    </Button>
                   </>
                 )}
               </Card.Content>
@@ -358,7 +523,7 @@ export class Minside extends Component {
   }
 
   rediger() {
-    if (this.redigerer){
+    if (this.redigerer) {
       this.redigerer = false;
       this.brukerInfo = {...this.brukerInfoDummy};
       brukerService.oppdaterSpesifisertBruker(this.brukerInfo);
@@ -368,11 +533,22 @@ export class Minside extends Component {
     }
   }
 
+  endrePassVerdi(e) {
+    const target = e.target;
+    const value = target.type === 'checkbox' ? (target.checked ? 1 : 0) : target.value;
+    const name = target.name;
+    this.passord[name] = value;
+  }
+
   endreVerdi(e) {
     const target = e.target;
     const value = target.type === 'checkbox' ? (target.checked ? 1 : 0) : target.value;
     const name = target.name;
     this.brukerInfoDummy[name] = value;
+  }
+
+  lagrePass() {
+    console.log(this.passord);
   }
 
   async finnFeilBruker() {
