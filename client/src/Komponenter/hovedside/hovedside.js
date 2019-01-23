@@ -271,7 +271,7 @@ export class Hovedside extends Component {
                     </div>
                   </Card.Content>
                   <Card.Content extra style={{height: '100%', overflowY: 'auto', color:"black"}}>
-                    <Grid fluid columns={3} stackable style={{height: '100%'}}>
+                    <Grid  columns={3} stackable style={{height: '100%'}}>
                       <Grid.Column style={{overflowY: 'auto'}}>
                         <h6>Beskrivelse: </h6>
                         <p>{this.feil.beskrivelse}</p>
@@ -312,9 +312,9 @@ export class Hovedside extends Component {
                         </div>
                         <br />
                         <h6>Bilder:</h6>
-                        <Grid columns={5} fluid>
+                        <Grid columns={5} >
                           {this.bilderTilFeil.map((bilde) => (
-                            <Grid.Column>
+                            <Grid.Column key={bilde.bilde_id}>
                               <div onClick={() => this.visBilde(bilde.url)}>
                                 <img src={bilde.url} key={bilde.bilde_id} className="bilder" onClick={() => {this.handleOpen(bilde.url)}}/>
                               </div>
