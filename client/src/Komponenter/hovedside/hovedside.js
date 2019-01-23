@@ -536,7 +536,7 @@ f                      id="test"
       if (res.data.length > 0) {
         this.kommune = res.data[0];
 
-        let res1 = await feilService.hentFeilForKommune(this.kommune.kommune_id),
+        let res1 = await feilService.hentGodkjenteFeilForKommune(this.kommune.kommune_id),
             res2 = await feilService.hentAlleHovedkategorier(),
             res3 = await hendelseService.hentHendelserForKommune(this.kommune.kommune_id);
 

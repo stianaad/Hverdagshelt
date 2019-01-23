@@ -3,6 +3,12 @@ import Dao from './dao.js';
 //DAO som omfatter alt som innebærer feil, det vil også si oppdateringer, statuser og kategorier
 // 9 av 17 funksjoner testes
 module.exports = class FeilDao extends Dao {
+
+  hentGodkjenteFeilForKommune(kommune_id, callback) {
+    super.query("SELECT feil.*, hovedkategori.kategorinavn, status.status, DATE_FORMAT(f.tid, '%Y.%m.%d %H:%i') AS tid, kommuner.kommune_navn, kommuner.fylke_navn FROM feil INNER JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id INNER JOIN hovedkategori ON subkategori.hovedkategori_id = hovedkategori.hovedkategori_id INNER JOIN(SELECT feil_id, MIN(tid) AS tid FROM oppdatering GROUP BY feil_id) AS f ON feil.feil_id = f.feil_id INNER JOIN (SELECT status_id, feil_id, tid FROM oppdatering WHERE (feil_id , tid) IN (SELECT feil_id, MAX(tid) AS tid FROM oppdatering GROUP BY feil_id)) AS s ON feil.feil_id = s.feil_id INNER JOIN status ON status.status_id = s.status_id INNER JOIN kommuner ON kommuner.kommune_id = feil.kommune_id WHERE feil.kommune_id = ? AND s.status_id > 1;", [kommune_id], callback);
+  }
+
+
   //testes
   hentAlleFeil(callback) {
     super.query(
