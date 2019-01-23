@@ -27,7 +27,7 @@ export class Registrering extends Component {
       <div>
         <PageHeader history={this.props.history} location={this.props.location} />
         <h1 className="text-center text-capitalize display-4">Registrering</h1>
-        <div className="container">
+        <div className="regContainer">
           <div className="row">
             <div className="col">
               <div className="form-group">
