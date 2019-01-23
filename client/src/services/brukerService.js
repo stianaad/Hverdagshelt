@@ -50,12 +50,14 @@ class BrukerService {
     return api.get('/api/brukere/'+ bruker_id);
   }
 
-  endrePassord(nyInformasjon) {
+  endrePassord(passord) {
     console.log('endre');
     let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.post('/api/brukere/nyttpassord', nyInformasjon, {headers: {'x-access-token': 'Bearer ' + token}});
+      console.log('token ok i endrepassord')
+      return api.put('/api/brukere/endrepassord', passord, {headers: {'x-access-token': 'Bearer ' + token}});
     } else {
+      console.log('token ikke ok i endrepassord');
       return [];
     }
   }
