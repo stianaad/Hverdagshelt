@@ -138,6 +138,13 @@ export class Hovedside extends Component {
       q("#mapContainer").style.height ="0px";
       q("#test").style.height = "0px";
       if (view == "#hovedKart") {
+        
+        if (!window.closedObj.isClosed) {
+          console.log(window.closedObj);
+          window.setClosed();
+          window.removeEventListener("touchmove", window.func);
+        }
+        
         q(this.mobView).style.display = "none";
         q("#mapContainer").style.height = "calc(100vh - 250px)";
         q("#test").style.height = "100%";
