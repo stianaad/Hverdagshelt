@@ -154,6 +154,7 @@
 .ansattContent{
     margin-left: 160px; 
     margin-right: 10px;
+    align-content: center;
 }
 
 .ansattSentrerTekst{
@@ -162,4 +163,16 @@
 
 .ansattSentrerTekst h1{
     margin: auto;
+}
+
+.hendelseBilde{
+    max-height: 200px;
+    object-fit: cover;
+}
+
+.ansattHendelser{
+    margin-left: 160px; 
+    margin-right: 10px;
+    align-content: center;
+    width: 70%;
 }

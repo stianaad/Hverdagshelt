@@ -267,7 +267,7 @@ export class Hovedside extends Component {
                       </h6>
                     </div>
                   </Card.Content>
-                  <Card.Content extra style={{height: 'calc(100vh - 415px)', overflowY: 'auto', color:"black"}}>
+                  <Card.Content extra style={{height: '100%', overflowY: 'auto', color:"black"}}>
                     <Grid fluid columns={3} stackable style={{height: '100%'}}>
                       <Grid.Column style={{overflowY: 'auto'}}>
                         <h6>Beskrivelse: </h6>

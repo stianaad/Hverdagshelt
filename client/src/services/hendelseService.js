@@ -44,7 +44,7 @@ class HendelseService {
   }
 
   hentAlleKategorier(){
-    return api.get('api/hendelseskat');
+    return api.get('/api/hendelseskat');
   }
 
   opprettHendelseskategori(json) {

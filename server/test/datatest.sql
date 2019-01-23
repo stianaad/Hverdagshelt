@@ -78,7 +78,7 @@ INSERT INTO hendelser (bruker_id, hendelseskategori_id, kommune_id, overskrift, 
   (6, 2, 12, 'Overskrift2', ('2019-12-20'), 'Beskrivelse2', 'Sted2', 'https://bjornost.tihlde.org/hverdagshelt/19af4f8c745a62973e2cd615eaf329fa', 1.0, 0.1);
 
   INSERT INTO feilfolg (feil_id, bruker_id) VALUES
-  (1, 1),
+  (1, 2),
   (2, 1),
   (5, 10),
   (3, 9);
