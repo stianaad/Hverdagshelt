@@ -65,6 +65,24 @@ class HendelseService {
     }
   }
 
+  abonner(hendelse_id) {
+    let token = sessionStorage.getItem('pollett');
+    if (token) {
+      return api.post('/api/hendelser/' + hendelse_id + '/abonnement',null , {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return null;
+    }
+  }
+
+  ikkeAbonner(hendelse_id) {
+    let token = sessionStorage.getItem('pollett');
+    if (token) {
+      return api.delete('/api/hendelser/' + hendelse_id + '/abonnement', {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return null;
+    }
+  }
+
   oppdaterHendelseskategori(hek_id) {
     let token = sessionStorage.getItem('pollett');
     if(token) {

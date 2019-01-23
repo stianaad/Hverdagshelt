@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
 import {feilService} from '../services/feilService';
+import {AbonnerKnapp} from '../Moduler/abonner/abonner';
 import {
   Card,
   Feed,
@@ -341,7 +342,7 @@ export class ModalHendelse extends Component{
           <Grid.Row columns={2}>
             <Grid.Column>
             <Modal.Description>
-              <Image src={this.props.url}/>
+              <Image src={this.props.url} className="hendelserBilde"/>
               <Button color="green" className="mt-2" floated="left" content="Kjøp billett"/>
               <Button color="red"  className="mt-2" floated="right" content="Abonner"/>
               <br />
@@ -475,23 +476,55 @@ export class Hendelse extends Component{
     }
     render(){
         return(
-              <Card className="feilCard" raised>
-                <Image src={this.props.bilde} className="feilCardImage" />
-                <Card.Content>
+          <Card className="feilCard" raised >
+          <a onClick={this.props.onClick}>
+          <Image src={this.props.bilde} className="feilCardImage" />
+          <Card.Content>
+          <Header as="h3" className="mt-1">{this.props.overskrift}</Header>
+            <Card.Description>
+              <p>
+            <img className="mr-2" src="https://image.flaticon.com/icons/svg/33/33622.svg" height="20" width="20" />
+            {this.props.sted}, {this.props.kommune_navn}
+            </p>
+            <p>
+              <img
+                className="mr-2"
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Simple_icon_time.svg/750px-Simple_icon_time.svg.png"
+                height="20"
+                width="25"
+              />
+              {this.props.tid}
+              </p>
+            </Card.Description>
+          </Card.Content>
+          </a>
+          {(global.payload && global.payload.role == 'privat') ? (
+            <Card.Content extra>
+              <div className="text-center "><AbonnerKnapp key={this.props.hendelse_id} hendelse_id={this.props.hendelse_id} /></div>
+            </Card.Content>
+              ) : null}
+        </Card>
+              /*<Card className="h-100" fluid>
+              <Image src={this.props.bilde} className="hendelseBilde"/>
+              <Card.Content>
                   <Card.Header>{this.props.overskrift}</Card.Header>
-                  <Card.Description>
-                    <img
+                  <Card.Meta>
+                      <div className="row justify-content-md-center">
+                          <span className="date"><img
                       className="mr-2"
                       src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Simple_icon_time.svg/750px-Simple_icon_time.svg.png"
                       height="20"
                       width="25"
                     />
-                    {this.props.tid}
-                    <br/>
-                    {this.props.sted}
-                  </Card.Description>
-                </Card.Content>
-              </Card>
+                    {this.props.tid}</span>
+                          <span className="date float-rigth">{this.props.sted}</span>
+                      </div>
+                  </Card.Meta>
+              </Card.Content>
+              <Card.Content extra>
+                  <Button color="green">Endre</Button>
+              </Card.Content>
+          </Card>
             /*<Image src={this.props.bilde} onClick={this.props.onClick} rounded />
             <Card.Content>
             <a onClick={this.props.onClick}>

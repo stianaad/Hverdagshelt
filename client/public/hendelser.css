@@ -7,3 +7,12 @@
 
     padding-left: 0.8%;
   }
+
+  .hendelserBilde{
+    max-height: 30vh;
+    align-content: center;
+  }
+
+  .knappLengdeHendelser{
+    width: 100%;
+  }
