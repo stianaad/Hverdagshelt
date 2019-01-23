@@ -117,7 +117,7 @@ test('hent feil til bruker', (done) => {
     expect(data[0].overskrift).toBe('Overskrift1');
     done();
   }
-  brukerdao.finnFeilTilBruker({bruker_id: 1}, callback);
+  brukerdao.finnFeilTilBruker(1, callback);
 });
 
 test('hent fulgte feil til bruker', (done) => {
@@ -127,7 +127,7 @@ test('hent fulgte feil til bruker', (done) => {
     expect(data[0].kommune_id).toBe(20);
     done();
   }
-  brukerdao.finnFolgteFeilTilBruker({bruker_id: 1}, callback);
+  brukerdao.finnFolgteFeilTilBruker(1, callback);
 });
 
 test('hent hendelser til bruker', (done) => {
@@ -136,7 +136,7 @@ test('hent hendelser til bruker', (done) => {
     expect(data[0].beskrivelse).toBe('Beskrivelse1');
     done();
   }
-  brukerdao.finnFolgteHendelserTilBruker({bruker_id: 3}, callback);
+  brukerdao.finnFolgteHendelserTilBruker(3, callback);
 });
 
 test('hent bruker på id', (done) => {
