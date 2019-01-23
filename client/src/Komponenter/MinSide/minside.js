@@ -512,11 +512,21 @@ export class Minside extends Component {
     );
   }
 
-  rediger() {
+  oppdaterInfo(res) {
+    if (res.result) {
+      let base64Url = res.token.split('.')[1];
+      let base64 = base64Url.replace('-', '+').replace('_', '/');
+      global.payload = JSON.parse(window.atob(base64));
+      sessionStorage.setItem('pollett', res.token);
+    }
+  }
+
+  async rediger() {
     if (this.redigerer) {
       this.redigerer = false;
       this.brukerInfo = {...this.brukerInfoDummy};
-      brukerService.oppdaterSpesifisertBruker(this.brukerInfo);
+      let res = await brukerService.oppdaterSpesifisertBruker(this.brukerInfo);
+      await this.oppdaterInfo(res.data);
     } else {
       this.brukerInfoDummy = {...this.brukerInfo};
       this.redigerer = true;

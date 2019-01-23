@@ -2,21 +2,11 @@ import api from './api';
 
 class BrukerService {
   lagNyBruker(nyBruker) {
-    let token = sessionStorage.getItem('pollett');
-    if(token) {
-      return api.post('/api/brukere', nyBruker, {headers: {'x-access-token': 'Bearer ' + token}});
-    } else {
-      return [];
-    }
+    return api.post('/api/brukere', nyBruker);
   }
 
   lagNyPrivatBruker(nyPrivatBruker) {
-    let token = sessionStorage.getItem('pollett');
-    if(token) {
-      return api.post('/api/brukere/privat', nyPrivatBruker, {headers: {'x-access-token': 'Bearer ' + token}});
-    } else {
-      return [];
-    }
+    return api.post('/api/brukere/privat', nyPrivatBruker);
   }
 
   lagNyAnsattBruker(nyAnsattBruker) {

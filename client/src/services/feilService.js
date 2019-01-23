@@ -4,7 +4,7 @@ class FeilService {
   hentAlleFeil() {
     let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.get('/api/feil');
+      return api.get('/api/feil', {headers: {'x-access-token': 'Bearer ' + token}});
     } else {
       return [];
     }
@@ -17,7 +17,7 @@ class FeilService {
   hentFeilForKommune(kommune_id) {
     let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.get('/api/kommuner/' + kommune_id + '/feil');
+      return api.get('/api/kommuner/' + kommune_id + '/feil', {headers: {'x-access-token': 'Bearer ' + token}});
     } else {
       return [];
     }
@@ -121,9 +121,19 @@ class FeilService {
   hentFerdigeFeilTilBedrift() {
     let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.get('api/feil/bedrift/ferdig', { headers: { 'x-access-token': 'Bearer ' + token } });
+      return api.get('/api/bedrift/feil/ferdig', { headers: { 'x-access-token': 'Bearer ' + token } });
     } else {
       console.log('foeifj');
+      return [];
+    }
+  }
+
+  sendFeilTilBedrift(feil_id) {
+    let token = sessionStorage.getItem('pollett');
+    if (token) {
+      return api.put('/api/bedrift/feil', feil_id, { headers: { 'x-access-token': 'Bearer ' + token } });
+    } else {
+      console.log('sendFeilTilBedrift failed');
       return [];
     }
   }
