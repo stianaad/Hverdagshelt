@@ -135,16 +135,20 @@ export class Hovedside extends Component {
     else {
       //window.scrollTo(0, document.querySelector(id).offsetTop - 115);
       let q = (id) => document.querySelector(id);
-      q("#mapContainer").style.height ="0px";
-      q("#test").style.height = "0px";
+      
+      if (view == this.mobView) {
+        return;
+      } else {
+        q("#mapContainer").style.height ="0px";
+        q("#test").style.height = "0px";
+      }
       if (view == "#hovedKart") {
-        
         if (!window.closedObj.isClosed) {
           console.log(window.closedObj);
           window.setClosed();
           window.removeEventListener("touchmove", window.func);
         }
-        
+
         q(this.mobView).style.display = "none";
         q("#mapContainer").style.height = "calc(100vh - 250px)";
         q("#test").style.height = "100%";
