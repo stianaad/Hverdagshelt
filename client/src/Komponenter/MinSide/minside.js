@@ -107,7 +107,7 @@ export class Minside extends Component {
                         type="password"
                         id="gammeltPass"
                         name="gammeltPass"
-                        className="form-control hoyreForm"
+                        className="form-control"
                         value={this.passord.gammeltPass}
                         required={true}
                         placeholder="Gammelt passord"
@@ -123,7 +123,7 @@ export class Minside extends Component {
                         type="password"
                         id="nyttPass"
                         name="nyttPass"
-                        className="form-control hoyreForm"
+                        className="form-control"
                         value={this.passord.nyttPass}
                         required={true}
                         placeholder="Nytt passord"
@@ -139,7 +139,7 @@ export class Minside extends Component {
                         type="password"
                         id="nyttPassSjekk"
                         name="nyttPassSjekk"
-                        className="form-control hoyreForm"
+                        className="form-control"
                         value={this.passord.nyttPassSjekk}
                         placeholder="Gjenta passord"
                         required={true}
