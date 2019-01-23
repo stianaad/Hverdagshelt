@@ -107,18 +107,16 @@ export class NyeFeil extends Component {
         </Modal>
         <div className="container-fluid vinduansatt">
             <AnsattMeny/>
-            <div className="row mt-3 mb-3 ansattSentrerTekst">
+            <div className="row mt-3 mb-3 justify-content-md-center">
                 <h1 >Nye feil og mangler</h1>
               </div>
             <div className="ansattContent">
-              
               <div className="row">
                 <div className="col-sm-4">
                   <Card color="red" fluid>
                     <Card.Content>
                       <Card.Header>
                         Nye innsendinger
-
                       </Card.Header>
                     </Card.Content>
                     <Card.Content className={this.className}>

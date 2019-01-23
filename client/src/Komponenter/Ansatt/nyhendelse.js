@@ -32,7 +32,7 @@ export class NyHendelse extends Component{
                 <PageHeader/>
                 <div className="vinduansatt">
                     <AnsattMeny/>
-                    <div className="row justify-content-md-center">
+                    <div className="row justify-content-md-center mt-3 mb-3">
                     <div className="col-sm-6 ansattContent">
                         <h1 className="mt-3">Ny hendelse</h1>
                         <div className="form-group">
