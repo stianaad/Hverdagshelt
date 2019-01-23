@@ -150,7 +150,7 @@ export class Hendelser extends Component {
         <div className="hendelseContainer" >
         <PageHeader history={this.props.history}/>
 		<Modal open={this.state.open} onClose={this.handleCloseHendelser} size="small" centered={true} dimmer="blurring">
-			<ModalHendelse overskrift={this.valgteHendelse.overskrift} url={this.valgteHendelse.bilde} tid={this.valgteHendelse.tid} sted={this.valgteHendelse.sted} kommune_navn={this.valgteHendelse.kommune_navn}/>
+			<ModalHendelse overskrift={this.valgteHendelse.overskrift} beskrivelse={this.valgteHendelse.beskrivelse} url={this.valgteHendelse.bilde} tid={this.valgteHendelse.tid} sted={this.valgteHendelse.sted} kommune_navn={this.valgteHendelse.kommune_navn}/>
 		</Modal>
             <h1 className="text-center b-5" >Hendelser</h1>
            <div className="row">
