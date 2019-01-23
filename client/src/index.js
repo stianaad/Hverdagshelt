@@ -207,32 +207,32 @@ const routes = () => {
           {global.payload == null
             ? //Ikke logget inn
               [
-                <Route exact path="/registrering" component={Registrering} history={history} />,
-                <Route exact path="/glemt-passord" component={GlemtPassord} />,
-                <Redirect from="/meldfeil" to="/" />,
-                <Redirect from="/minside" to="/" />,
-                <Redirect from="/mineoppgaver" to="/" />,
+                <Route exact path="/registrering" key="registrering" component={Registrering} history={history} />,
+                <Route exact path="/glemt-passord" key="glemt-passord" component={GlemtPassord} />,
+                <Redirect from="/meldfeil" key="meldfeil" to="/" />,
+                <Redirect from="/minside" key="minside" to="/" />,
+                <Redirect from="/mineoppgaver" key="mineoppgaver" to="/" />,
               ]
             : global.payload.role == 'privat'
             ? //Privatbruker routes
               [
-                <Route exact path="/meldfeil" component={MeldFeil} history={history} />,
-                <Route exact path="/minside" component={Minside} history={history} />,
+                <Route exact path="/meldfeil" key="meldfeil" component={MeldFeil} history={history} />,
+                <Route exact path="/minside" key="minside" component={Minside} history={history} />,
               ]
             : global.payload.role == 'ansatt'
             ? //Ansatt routes
               [
-                <Route exact path="/mineoppgaver" component={MineOppgaver} history={history} />,
-                <Route exact path="/registrerBedrift" component={RegistrerBedrift} history={history} />,
-                <Route exact path="/ansatt/nyefeil" component={NyeFeil} history={history}/>,
-                <Route exact path="/ansatt/nyhendelse" component={NyHendelse} history={history}/>
+                <Route exact path="/mineoppgaver" key="mineoppgaver" component={MineOppgaver} history={history} />,
+                <Route exact path="/registrerBedrift" key="registrerbedrift"component={RegistrerBedrift} history={history} />,
+                <Route exact path="/ansatt/nyefeil" key="nyefeil" component={NyeFeil} history={history}/>,
+                <Route exact path="/ansatt/nyhendelse" key="nyhendelse" component={NyHendelse} history={history}/>
               ]
             : global.payload.role == 'bedrift'
             ? //Bedrift routes
-              [<Route exact path="/mineoppgaver" component={Bedrift} history={history} />]
+              [<Route exact path="/mineoppgaver" key="mineoppgaver" component={Bedrift} history={history} />]
             : global.payload.role == 'admin'
             ? //Admin routes
-              [<Route exact path="/meldfeil" component={MeldFeil} history={history} />]
+              [<Route exact path="/meldfeil" key="admin" component={MeldFeil} history={history} />]
             : null}
 
           {/*legg test-routes under*/}
