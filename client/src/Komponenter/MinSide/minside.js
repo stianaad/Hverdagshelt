@@ -142,7 +142,7 @@ export class Minside extends Component {
           </div>
         </div>
 
-        <div className="row">
+        <div className="row" id="minRow">
           <div className="col minSideUtKolonne" id="sideListe">
             <Card fluid>
               <Card.Content>
@@ -292,7 +292,7 @@ export class Minside extends Component {
               <Card.Content>
                 <div id="container">
                   {this.redigerer ? (
-                    <div id="innhold">
+                    <div id="redInnhold">
                       <div className="form-group row">
                         <label className="col-sm-4 col-form-label venstreForm" htmlFor="fornavn">
                           Fornavn:{' '}
