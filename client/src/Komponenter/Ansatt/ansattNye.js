@@ -269,13 +269,13 @@ export class NyeFeil extends Component {
       await console.log("ferdig");
   }
 
-  async lagre(){
+  /*async lagre(){
     await feilService.lagOppdatering({
       "feil_id": this.valgtfeil.feil_id,
       "kommentar": 'Ansatt har godkjent feil', 
       "status_id": 2
     });
-  }
+  }*/
 
   scroll() {
     if (this.nyefeil.length > 5) {

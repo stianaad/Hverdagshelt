@@ -58,7 +58,7 @@ module.exports = class epost {
       subject: subject,
       html: html,
     };
-
+    console.log('Hello im sending mail');
     transporter.sendMail(mailOptions, function(err, info) {
       if (err) {
         console.log(err);
@@ -67,7 +67,6 @@ module.exports = class epost {
       }
     });
   }
-
   //Melding om feil ble ikke godkjent av administrasjonen
   feilIkkeGodkjent(begrunnelse, mottaker) {
     let subject = 'Melding av feil';

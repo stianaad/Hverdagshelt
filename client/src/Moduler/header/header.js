@@ -11,12 +11,18 @@ export class ProfileButton extends Component {
   mounted() {
     this.loggetInn = global.payload != undefined;
     this.brukerType = global.payload != undefined ? global.payload.role : null;
+    console.log(this.brukerType);
   }
 
   loggut() {
     sessionStorage.removeItem('pollett');
     global.payload = null;
-    global.sideRefresh(true);
+    let p = window.location.pathname;
+    if (p == "/" || p.startsWith("/hovedside/") || p.startsWith("/hendelser") || p.startsWith("/resett-passord/")) {
+      global.sideRefresh(true);
+    } else {
+      global.sidePush("/",true);
+    }
   }
 
   clickDrop(event) {
@@ -51,24 +57,6 @@ export class ProfileButton extends Component {
     return (
       <>
         {!this.loggetInn ? (
-          /*<div className="dropdown">
-                    <img className="profileIcon" src="/profile.svg" alt="Bruker ikon" onClick={this.clickDrop}></img>
-                    <div className="dropdown-menu dropdown-menu-right dropdownbox" id="drops">
-                    <div className="arrow"></div>
-                    <div className="arrowborder"></div>
-                    <div className="form-group">
-                        <label htmlFor="epost">E-post:</label>
-                        <input type="text" name="epost" className="form-control" id="epost" placeholder="E-post"></input>
-                        <label htmlFor="passord">Passord:</label>
-                        <input type="password" name ="passord" className="form-control" id="passord" placeholder="Passord"></input>
-                        <p className="glemtLink">Glemt passord?</p>
-                    </div>
-                    
-                    <button className="myLoginButton">Logg inn</button>
-                    <Link to="/registrering"><button style={{float:"right"}} className="myLoginButton">Registrer deg</button></Link>
-                    
-                    </div>
-                </div>*/
           <Login history={this.props.history} location={this.props.location} />
         ) : this.brukerType == 'privat' ? (
           <div className="dropdown profileButton">
@@ -98,17 +86,15 @@ export class ProfileButton extends Component {
             >
               <div className="arrow" />
               <div className="arrowborder" />
-              <Link to="/mineoppgaver">
-                <div className="dropdown-item">Mine oppgaver</div>
+              <Link to="/ansatt/oversikt">
+                <div className="dropdown-item">Kommune</div>
               </Link>
-              <div className="dropdown-item">Legg til hendelse</div>
-              <div className="dropdown-item">Instillinger</div>
               <div onClick={this.loggut} className="dropdown-item">
                 Logg ut
               </div>
             </div>
           </div>
-        ) : this.brukertType == 'bedrift' ? (
+        ) : this.brukerType == 'bedrift' ? (
           <div className="dropdown profileButton">
             <img className="profileIcon" src="/profile.svg" alt="Bruker ikon" onClick={this.clickDrop} />
             <div
@@ -121,7 +107,6 @@ export class ProfileButton extends Component {
               <Link to="/mineoppgaver">
                 <div className="dropdown-item">Mine oppgaver</div>
               </Link>
-              <div className="dropdown-item">Instillinger</div>
               <div onClick={this.loggut} className="dropdown-item">
                 Logg ut
               </div>
@@ -140,7 +125,6 @@ export class ProfileButton extends Component {
               <Link to="/administrasjon">
                 <div className="dropdown-item">Administrasjon</div>
               </Link>
-              <div className="dropdown-item">Kontoinnstillinger</div>
               <div onClick={this.loggut} className="dropdown-item">
                 Logg ut
               </div>
