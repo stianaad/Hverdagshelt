@@ -425,7 +425,7 @@ export class Minside extends Component {
     this.visFeil = !this.visFeil;
     console.log(this.visFeil);
     if (this.visFeil) {
-      if(this.ikkeOppdaterteFeil.length.length > 0 ){
+      if(this.alleIkkeOppdaterteFeil.length.length > 0 ){
         this.ikkeOppdaterteFeil = this.alleIkkeOppdaterteFeil;
       } else {
         this.finnIkkeOppdaterteFeil();
@@ -470,6 +470,10 @@ export class Minside extends Component {
     await this.finnOppdaterteFeilBruker();
     await this.finnIkkeOppdaterteFeil();
     await this.scrollFeil();
+    //this.ikkeOppdaterteFeil = this.ikkeOppdaterteFeil.filter(e => e.feil_id != id);
+    //this.oppdaterteFeil = this.oppdaterteFeil.filter(e => e.feil_id != id);
+    await console.log(this.ikkeOppdaterteFeil);
+    await console.log(this.oppdaterteFeil);
   }
 
   async mounted() {
