@@ -80,7 +80,7 @@ export class Minside extends Component {
       <div>
         <PageHeader history={this.props.history} location={this.props.location} />
         <EndrePassordModal key={this.endrePassordModal} open={this.endrePassordModal} onClose={() => {this.endrePassordModal = false}} />
-        <FeilModal key={this.feil.feil_id+this.feilModal} open={this.feilModal} feil={this.feil} onClose={() => {this.feilModal = false}} />
+        <FeilModal abonner={true} key={this.feil.feil_id+this.feilModal} open={this.feilModal} feil={this.feil} onClose={() => {this.feilModal = false}} />
         {/*
         <Modal open={this.state.open} onClose={this.handleClose} size="small" centered dimmer="blurring">
           {!this.visHendelse ? (

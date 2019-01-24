@@ -4,14 +4,14 @@ import mysql from 'mysql';
 import bodyParser from 'body-parser';
 import BrukerDao from '../dao/brukerdao.js';
 import passord from 'password-hash-and-salt';
-import {callbackify} from 'util';
-import {pool} from '../../test/poolsetup';
+import { callbackify } from 'util';
+import { pool } from '../../test/poolsetup';
 import Epost from '../epost.js';
 import jwt from 'jsonwebtoken';
 import secret from '../config.json';
 import async from 'async';
 import mdw from '../middleware.js';
-import {checkToken} from '../middleware';
+import { checkToken } from '../middleware';
 
 let brukerDao = new BrukerDao(pool);
 let epostTjener = new Epost();
@@ -54,21 +54,32 @@ router.post('/api/brukere/ansatt', checkToken, (req, res) => {
   let rolle = req.decoded.role;
   console.log('Fikk POST-request fra klienten');
   if (rolle == 'admin') {
-    passord(req.body.passord).hash((error, hash) => {
-      if (error) {
-        throw new Error('Noe gikk galt');
+    req.body.passord = 'udefinert';
+    brukerDao.lagNyAnsattBruker(req.body, (status, data) => {
+      if (status == 200) {
+        genenererEpostPollett(req.body.epost, '3d', (token) => {
+          console.log('/Ny ansatt bruker, pollett generert');
+          let link = 'https://localhost/resett-passord/' + token;
+          epostTjener.glemtPassord(req.body.epost, link);
+        });
       }
-      req.body.passord = hash;
-      brukerDao.lagNyAnsattBruker(req.body, (status, data) => {
-        res.status(status);
-        res.json(data);
-        console.log('Den nye IDen er:', data.insertId);
-      });
+      res.status(status);
+      res.json(data);
+      console.log('Den nye IDen er:', data.insertId);
     });
   } else {
     res.status(403);
-    res.json({result: false});
+    res.json({ result: false });
   }
+});
+
+router.post('/api/bruker/passord', (req, res) => {
+  passord(req.body.passord).hash((error, hash) => {
+    if (error) {
+      throw new Error('Noe gikk galt');
+    }
+    req.body.passord = hash;
+  });
 });
 
 router.post('/api/brukere/bedrift', checkToken, (req, res) => {
@@ -76,19 +87,21 @@ router.post('/api/brukere/bedrift', checkToken, (req, res) => {
   let rolle = req.decoded.role;
 
   if (rolle == 'admin' || rolle == 'ansatt') {
-    passord(req.body.passord).hash((error, hash) => {
-      if (error) {
-        throw new Error('Noe gikk galt');
+    req.body.passord = 'udefinert';
+    brukerDao.lagNyBedriftBruker(req.body, (status, data) => {
+      if (status == 200) {
+        genenererEpostPollett(req.body.epost, '3d', (token) => {
+          console.log('/Ny bedrift bruker, pollett generert');
+          let link = 'https://localhost/resett-passord/' + token;
+          epostTjener.glemtPassord(req.body.epost, link);
+        });
       }
-      req.body.passord = hash;
-      brukerDao.lagNyBedriftBruker(req.body, (status, data) => {
-        res.status(status);
-        res.json(data);
-      });
+      res.status(status);
+      res.json(data);
     });
   } else {
     res.status(403);
-    res.json({result: false});
+    res.json({ result: false });
   }
 });
 
@@ -97,20 +110,22 @@ router.post('/api/brukere/admin', checkToken, (req, res) => {
   let rolle = req.decoded.role;
 
   if (rolle == 'admin') {
-    passord(req.body.passord).hash((error, hash) => {
-      if (error) {
-        throw new Error('Noe gikk galt');
+    req.body.passord = 'udefinert';
+    brukerDao.lagNyAdminBruker(req.body, (status, data) => {
+      if (status == 200) {
+        genenererEpostPollett(req.body.epost, '3d', (token) => {
+          console.log('/Ny admin bruker, pollett generert');
+          let link = 'https://localhost/resett-passord/' + token;
+          epostTjener.glemtPassord(req.body.epost, link);
+        });
       }
-      req.body.passord = hash;
-      brukerDao.lagNyAdminBruker(req.body, (status, data) => {
-        res.status(status);
-        res.json(data);
-        console.log('Den nye IDen er:', data.insertId);
-      });
+      res.status(status);
+      res.json(data);
+      console.log('Den nye IDen er:', data.insertId);
     });
   } else {
     res.status(403);
-    res.json({result: false});
+    res.json({ result: false });
   }
 });
 
@@ -118,7 +133,7 @@ router.get('/api/brukere/:bruker_id', (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk penis fra klienten');
 
-  let a = {bruker_id: req.params.bruker_id};
+  let a = { bruker_id: req.params.bruker_id };
 
   brukerDao.hentBrukerPaaid(a, (status, data) => {
     res.status(status);
@@ -133,7 +148,7 @@ router.post('/api/brukere/nyttpassord', checkToken, (req, res) => {
       throw new Error('Noe gikk galt');
     }
     req.body.passord = hash;
-    brukerDao.endrePassord({passord: req.body.passord, epost: req.decoded.user.epost}, (status, data) => {
+    brukerDao.endrePassord({ passord: req.body.passord, epost: req.decoded.user.epost }, (status, data) => {
       res.status(status);
       res.json(data);
     });
@@ -156,7 +171,7 @@ router.put('/api/brukere/endrepassord', checkToken, (req, res) => {
                 throw new Error('/brukere/endrepassord - Hashing feilet');
               }
               req.body.nyttPass = hash;
-              brukerDao.endrePassord({passord: req.body.nyttPass, epost: req.decoded.user.epost}, (status, data) => {
+              brukerDao.endrePassord({ passord: req.body.nyttPass, epost: req.decoded.user.epost }, (status, data) => {
                 res.status(status);
                 res.json(data);
               });
@@ -164,13 +179,13 @@ router.put('/api/brukere/endrepassord', checkToken, (req, res) => {
           }
           else {
             res.status(403);
-            res.json({result: false});
+            res.json({ result: false });
           }
         });
       }
     });
   } else {
-    throw new Error ('/brukere/endrepassord - Passord ikke like eller for korte')
+    throw new Error('/brukere/endrepassord - Passord ikke like eller for korte')
   }
 });
 
@@ -180,9 +195,9 @@ router.post('/api/brukere/glemtpassord', (req, res) => {
     res.json(data);
     console.log('/glemtpassord - hentet bruker');
     if (data[0].epost === req.body.epost) {
-      genenererEpostPollett(req.body.epost, (token) => {
+      genenererEpostPollett(req.body.epost, 900, (token) => {
         console.log('/glemtpassord - epost matcher, pollett generert');
-        let link = 'http://localhost:3000/resett-passord/' + token;
+        let link = 'https://localhost/resett-passord/' + token;
         epostTjener.glemtPassord(req.body.epost, link);
       });
     } else {
@@ -202,7 +217,7 @@ router.get('/api/brukere/minside', checkToken, (req, res) => {
     });
   } else {
     res.status(403);
-    res.json({result: false});
+    res.json({ result: false });
   }
 });
 
@@ -217,7 +232,7 @@ router.get('/api/bruker/minside/gamle', checkToken, (req, res) => {
     });
   } else {
     res.status(403);
-    res.json({result: false});
+    res.json({ result: false });
   }
 });
 
@@ -232,7 +247,7 @@ router.get('/api/bruker/minside/sist/innlogget', checkToken, (req, res) => {
     });
   } else {
     res.status(403);
-    res.json({result: false});
+    res.json({ result: false });
   }
 });
 
@@ -247,7 +262,7 @@ router.get('/api/brukerfeil', checkToken, (req, res) => {
     });
   } else {
     res.status(403);
-    res.json({result: false});
+    res.json({ result: false });
   }
 });
 
@@ -262,19 +277,19 @@ router.get('/api/brukerhendelser', checkToken, (req, res) => {
     });
   } else {
     res.status(403);
-    res.json({result: false});
+    res.json({ result: false });
   }
 });
 
 router.put('/api/brukere', checkToken, (req, res) => {
-  let rolle = {bruker_id: req.decoded.user.bruker_id, rolle: req.decoded.role};
+  let rolle = { bruker_id: req.decoded.user.bruker_id, rolle: req.decoded.role };
   console.log(rolle);
 
   brukerDao.oppdaterSpesifisertBruker(req.body, rolle, (status, data) => {
     let payload = req.decoded;
     payload.user.epost = req.body.epost;
     payload.user.kommune_id = req.body.kommune_id;
-    jwt.sign({user: payload.user, role: payload.role}, secret.secret, {expiresIn: '1d'}, (err, token) => {
+    jwt.sign({ user: payload.user, role: payload.role }, secret.secret, { expiresIn: '1d' }, (err, token) => {
       console.log(err);
       res.status(200);
       res.json({
@@ -303,11 +318,13 @@ router.get('/api/mininfo', checkToken, (req, res) => {
   });
 });
 
+
+
 module.exports = router;
 
-const genenererEpostPollett = (epost, callback) => {
+const genenererEpostPollett = (epost, tid, callback) => {
   console.log(secret.secret);
-  jwt.sign({user: {epost: epost}}, secret.secret, {expiresIn: 900}, (err, token) => {
+  jwt.sign({ user: { epost: epost } }, secret.secret, { expiresIn: tid }, (err, token) => {
     console.log(err);
     callback(token);
   });

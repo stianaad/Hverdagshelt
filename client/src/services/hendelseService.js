@@ -31,6 +31,16 @@ class HendelseService {
     return api.delete('/api/hendelser/:hendelse_id', hendelse);
   }
 
+  slettHendelseKategori(hendelse_id){
+    console.log("Service");
+    let token = sessionStorage.getItem('pollett');
+    if(token) {
+      return api.delete('/api/hendelser/hendelseskategorier/'+hendelse_id,{headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return null;
+    }
+  }
+
   filtrerHendelserPaaKategori(hek_id) {
     return api.get('/api/hendelser/kategorier/:hendelseskategori_id', hek_id);
   }
@@ -40,7 +50,8 @@ class HendelseService {
   }
 
   hentAlleHovedkategorier() {
-    return api.get('/api/hendelser/hovedkategorier');
+    console.log("service")
+    return api.get('/api/hendelser/hoved/kategorier');
   }
 
   hentAlleKategorier(){
