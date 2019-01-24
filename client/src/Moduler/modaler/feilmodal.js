@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { Component } from 'react-simplified';
-import { Card, Grid, Image, Modal, Input, List } from 'semantic-ui-react';
+import { Card, Grid, Modal, Input, List } from 'semantic-ui-react';
 import { ShowMarkerMap } from '../kart/map';
 import { feilService } from '../../services/feilService';
+import { AbonnerKnapp } from '../abonner/abonner';
 
 export class FeilModal extends Component {
   open = false;
@@ -33,9 +34,11 @@ export class FeilModal extends Component {
                   <h1 className="feilModalTittel">
                     {this.props.feil.overskrift}
                   </h1>
-                  <h6>
-                    Status: {this.props.feil.status} <img src="/warningicon.png" width="30" height="30" />
-                  </h6>
+                  <span>
+                    Status: {this.props.feil.status}
+                  <img src="/warningicon.png" width="30" height="30" />
+                  <AbonnerKnapp style={{float:"right", width:"90px"}} key={this.props.feil.feil_id} feil_id={this.props.feil.feil_id} />
+                  </span>
                   <img
                       onClick={this.props.onClose}
                       className="feilModalX"

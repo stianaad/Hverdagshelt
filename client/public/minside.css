@@ -1,34 +1,30 @@
 .feilCardImage{
-    width: 250px !important;
+    /*width: 250px !important;*/
     height: auto;
-    max-height: 300px;
+    max-height: 250px;
     
     object-fit: cover;
 }
 
 .feilCard{
-    width:250px !important;
+    /*width:250px !important;*/
+    margin:5px 0!important;
 }
 
 /*.slettFeil:hover{
     
 }*/
 
-.columnCenter{
-    width:250px;
-    margin: 0 auto;
+.minSideUtKolonne {
+  width: 325px;
 }
 
-#sideListe, #sideListeH {
-    min-width: 270px;
+.minSideInKolonne {
+  width: 250px;
 }
 
 #sideListeH {
   margin-right: 15px;
-}
-
-.minRow > div {
-    min-width: 250px;
 }
 
 .highlight {
