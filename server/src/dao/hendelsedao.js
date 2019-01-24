@@ -44,6 +44,14 @@ module.exports = class HendelseDao extends Dao {
     );
   }
 
+  hentVarsledeBrukere(json, callback) {
+    super.query(
+      'SELECT epost FROM privat p INNER JOIN bruker b ON p.bruker_id = b.bruker_id INNER JOIN kommuner k ON b.kommune_id = k.kommune_id INNER JOIN fylker f ON k.fylke_navn = f.fylke_navn WHERE k.kommune_id = ? AND p.hendelsevarsling = 1',
+      [json.kommune_id],
+      callback
+    );
+  }
+
   oppdaterHendelse(json, callback) {
     var hendelse = [
       json.hendelseskategori_id,
@@ -112,8 +120,8 @@ module.exports = class HendelseDao extends Dao {
     super.query('UPDATE hendelseskategori SET kategorinavn = ? WHERE hendelseskategori_id = ?', [json.kategorinavn, json.hendelseskategori_id], callback);
   }
 
-  slettHendelseskategori(json, callback) {
-    super.query('DELETE FROM hendelseskategori WHERE hendelseskategori_id = ?', [json.hendelseskategori_id], callback);
+  slettHendelseskategori(hendelseskategori_id, callback) {
+    super.query('DELETE FROM hendelseskategori WHERE hendelseskategori_id = ?', [hendelseskategori_id], callback);
   }
 
   //testes

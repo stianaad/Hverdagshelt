@@ -53,10 +53,28 @@ router.post('/api/hendelser', checkToken, (req, res) => {
       breddegrad: req.body.breddegrad,
     };
 
+    let nyID = -1;
+
     hendelseDao.lagNyHendelse(a, (status, data) => {
       console.log('Opprettet en ny hendelse');
+      nyID = data.insertId;
+      console.log(nyID);
       res.status(status);
     });
+    if (nyID > 0) {
+      hendelseDao.hentVarsledeBrukere(nyID, (status, data) => {
+        if (data.length > 0) {
+          console.log('Fant brukere');
+          console.log(data.epost);
+          //epostTjener.hendelse(a.overskrift, a.tid, a.beskrivelse, a.sted, a.bilde, data.epost);
+        } else {
+          console.log('Fant ikke brukere');
+        }
+      });
+    }
+
+
+    
   } else {
     res.status(403);
     res.json({result: false});
@@ -127,14 +145,13 @@ router.get('/api/hendelser/kommuner/:kommune_id', (req, res) => {
   });
 });
 
-router.get('/api/hendelser/hovedkategorier', (req, res) => {
+router.get('/api/hendelser/hoved/kategorier', (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk GET-request fra klienten');
-
-  hendelseDao.hentAlleHovedkategorier((status, data) => {
+  hendelseDao.hentAlleHendelseskategorier((status, data) => {
     res.status(status);
     res.json(data);
-    console.log('/hentAlleHovedkategorier lengde: ' + data.length);
+    console.log('/hentAlleHendelseskategorier lengde: ' + data.length);
   });
 });
 
@@ -206,9 +223,9 @@ router.put('/api/hendelser/hendelseskategorier/:hendelseskategori_id', checkToke
 
 router.delete('/api/hendelser/hendelseskategorier/:hendelseskategori_id', checkToken, (req, res) => {
   let role = req.decoded.role;
-  console.log(req.params);
+  console.log("tetetetetet");
   if (role == 'admin') {
-    hendelseDao.slettHendelseskategori(req.params, (status, data) => {
+    hendelseDao.slettHendelseskategori(req.params.hendelseskategori_id, (status, data) => {
       res.status(status);
       res.json(data);
     });

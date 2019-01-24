@@ -244,8 +244,9 @@ module.exports = class epost {
       '</p><p>' +
       sted +
       '</p><p>' +
-      beskrivelse +
-      '</p><img src="cid:bilde"/></div><div style="float:left;margin-top:45px">' +
+      beskrivelse + 
+      '.</p><br>' +
+      '<p>Dette er en varsel om at en hendelse skjer i ditt fylke. Dersom du ønsker å ikke få mail på dette kan du endre innstillingene dine på Min Side.</p><img src="cid:bilde"/></div><div style="float:left;margin-top:45px">' +
       '<img src="http://drive.google.com/uc?export=view&id=1FTiZHS4274x2VpVfjt2jj7aIfBbvVfBg" width="280"/></div><div style="margin-left:15px;margin-top:80px">' +
       '<p>E-post: contact@HverdagsHelt.no</p><p>tlf: +47 00 00 00 00</p><p>Prosjekt HverdagsHelt</p></div>';
 

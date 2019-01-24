@@ -399,7 +399,6 @@ router.post('/api/bedrift/feil', checkToken, (req, res) => {
         res.json(data);
       });
     })
-
   } else {
     res.status(403);
     res.json({result: false});
@@ -556,7 +555,7 @@ router.post('/api/hovedkategorier', checkToken, (req, res) => {
   let role = req.decoded.role;
   console.log('ny hovedkategori, rolle:' + role)
   if (role == 'admin') {
-    feilDao.nySubkategori(req.body, (status, data) => {
+    feilDao.nyHovedkategori(req.body, (status, data) => {
       console.log('ny hovedkategori data: ' + data);
       res.status(status);
       res.json(data);
