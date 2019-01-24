@@ -324,13 +324,13 @@ export class Minside extends Component {
                       <div className="form-group row">
                         <div className="form-check checkMinSide">
                           <input 
-                          className="form-check-input" 
+                          className="form-check-input checkVarsling" 
                           type="checkbox" 
                           id ="hendelsevarsling" 
                           checked={!!this.brukerInfoDummy.hendelsevarsling} 
                           onChange={this.endreVerdi}
                           name="hendelsevarsling"/>
-                          <label className="form-check-label" htmlFor="hendelsevarsling">
+                          <label className="form-check-label labelVarsling" htmlFor="hendelsevarsling">
                             Hendelsesvarsling i fylket ditt
                           </label>
                         </div>
