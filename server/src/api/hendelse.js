@@ -3,12 +3,17 @@ const router = express.Router();
 import mysql from 'mysql';
 import bodyParser from 'body-parser';
 import HendelseDao from '../dao/hendelsedao.js';
+import path from 'path';
+import multer from 'multer';
+var upload = multer({ dest: path.join(__dirname, '/../../temp') });
+import BildeOpplasting from '../opplasting/bildeopplasting.js';
 import { pool } from '../../test/poolsetup';
 import { checkToken } from '../middleware';
 import Epost from '../epost.js';
 
 let epostTjener = new Epost();
 let hendelseDao = new HendelseDao(pool);
+let bildeOpplasting = new BildeOpplasting();
 
 router.get('/api/hendelser', (req, res) => {
 	console.log('Fikk GET-request fra klienten');
@@ -36,47 +41,58 @@ router.get('/api/hendelser/:hendelse_id', (req, res) => {
 	});
 });
 
-router.post('/api/hendelser', checkToken, (req, res) => {
-	if (!(req.body instanceof Object)) return res.sendStatus(400);
-	console.log('Fikk POST-request fra klienten');
-	let rolle = req.decoded.role;
+//Dette endepunktet krever multipart/form-data istedet for json for å håndtere bildeopplasting
+router.post('/api/hendelser', upload.array('bilder', 1), checkToken, (req, res) => {
+  console.log('Fikk POST-request fra klienten');
+  let rolle = req.decoded.role;
 
-	if ((rolle == 'ansatt' && req.decoded.user.kommune_id == req.body.kommune_id) || rolle == 'admin') {
-		let a = {
-			bruker_id: req.decoded.user.bruker_id,
-			hendelseskategori_id: req.body.hendelseskategori_id,
-			kommune_id: req.body.kommune_id,
-			overskrift: req.body.overskrift,
-			tid: req.body.tid,
-			beskrivelse: req.body.beskrivelse,
-			sted: req.body.sted,
-			bilde: req.body.bilde,
-			billett: req.body.billett
-		};
-
-		let nyID = -1;
-
-		hendelseDao.lagNyHendelse(a, (status, data) => {
-			console.log('Opprettet en ny hendelse');
-			nyID = data.insertId;
-			if (nyID > 0) {
-				hendelseDao.hentVarsledeBrukere({ hendelse_id: nyID }, (status, data) => {
-					if (data.length > 0) {
-						console.log('Fant brukere');
-						let eposter = data.map((eposten) => eposten.epost);
-						epostTjener.hendelse(a.overskrift, a.tid, a.beskrivelse, a.sted, a.bilde, eposter);
-					} else {
-						console.log('Fant ikke brukere');
-					}
-				});
-			}
-			res.status(status);
-		});
-	} else {
-		res.status(403);
-		res.json({ result: false });
-	}
+  if (rolle == 'ansatt' || rolle == 'admin') {
+    let a = {
+      bruker_id: req.decoded.user.bruker_id,
+      hendelseskategori_id: req.body.hendelseskategori_id,
+      kommune_id: req.decoded.user.kommune_id,
+      overskrift: req.body.overskrift,
+      tid: req.body.tid,
+      beskrivelse: req.body.beskrivelse,
+      sted: req.body.sted,
+    };
+    if (req.files && req.files.length > 0) {
+      bildeOpplasting.lastOpp(req.files, (bilder) => {
+        a.bilde = bilder[0];
+        laghendelse(a, res);
+      });
+    } else {
+      laghendelse(a, res);
+    }
+  } else {
+    res.status(403);
+    res.json({ result: false });
+  }
 });
+
+const laghendelse = (a, res) => {
+  hendelseDao.lagNyHendelse(a, (status, data) => {
+    console.log('Opprettet en ny hendelse');
+    let hendelse_id = data.insertId;
+
+    res.status(status);
+    res.json({ "resultat": (status == 200) ? "vellykket" : "feilet" });
+
+    if (status == 200) {
+      hendelseDao.hentVarsledeBrukere({ hendelse_id: hendelse_id }, (status, data) => {
+        if (data.length > 0) {
+          console.log('Fant brukere');
+          let eposter = data.map((eposten) => (
+            eposten.epost
+          ));
+          epostTjener.hendelse(a.overskrift, a.tid, a.beskrivelse, a.sted, a.bilde, eposter);
+        } else {
+          console.log('Fant ikke brukere');
+        }
+      });
+    }
+  });
+};
 
 router.put('/api/hendelser/:hendelse_id', checkToken, (req, res) => {
 	if (!(req.body instanceof Object)) return res.sendStatus(400);

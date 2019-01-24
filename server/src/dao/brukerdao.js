@@ -94,7 +94,6 @@ module.exports = class BrukerDao extends Dao {
 
   //testes
   lagNyPrivatBruker(json, callback) {
-    console.log(json);
     let self = this;
     self.finnBruker_id(json, (status, data) => {
       if (data.length == 0) {
