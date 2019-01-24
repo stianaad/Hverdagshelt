@@ -305,7 +305,7 @@ const routes = () => {
           <Route exact path="/headertest" component={PageHeader} history={history} />
           <Route exact path="/bedriftsoppgaver" component={Bedrift} history={history} />
 
-          <Route exact path="/genpdf" component={Statistikk} history={history} />
+          <Route exact path="/statistikk" component={Statistikk} history={history} />
 
           {/*Siden eksisterer ikke/ingen tilgang*/}
           <Route component={FireNullFire} />

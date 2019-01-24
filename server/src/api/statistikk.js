@@ -14,4 +14,9 @@ router.get('/api/feilperkommune', (req, res) => {
   });
 });
 
+router.post('/api/filstreng', (req, res) => {
+  console.log("I apiet");
+  console.log(req.body);
+});
+
 module.exports = router;

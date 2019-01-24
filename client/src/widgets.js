@@ -301,12 +301,12 @@ export class FormInput extends Component {
   }
 }
 
-export class StatBar extends Component <{elementID: string, label: string, data: number}> {
+export class StatBar extends Component <{text: string, label: string, maks: number, elementID: string, labels: string, data: number}> {
 
   render() {
     return (
       <>
-        <div>
+        <div id={"barDiv" + this.props.elementID} style={{width: "2000px"}}>
           <canvas id={this.props.elementID}></canvas>
         </div>
       </>
@@ -324,9 +324,9 @@ export class StatBar extends Component <{elementID: string, label: string, data:
     let barChart = new Chart(myChart, {
       type:'bar',
       data: {
-        labels: this.props.label,
+        labels: this.props.labels,
         datasets: [{
-          label: 'Antall feil',
+          label: this.props.label,
           data: this.props.data,
           backgroundColor: '#777',
           borderWidth: 1,
@@ -338,13 +338,13 @@ export class StatBar extends Component <{elementID: string, label: string, data:
       options: {
         title: {
           display: true,
-          text: 'Feil per kommune',
+          text: this.props.text,
           fontSize: 25
         },
         scales: {
           yAxes: [{
             ticks: {
-              suggestedMax: 25,
+              suggestedMax: this.props.maks,
               suggestedMin: 0
             }
           }]
