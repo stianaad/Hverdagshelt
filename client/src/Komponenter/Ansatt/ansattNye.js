@@ -14,6 +14,7 @@ import {feilService} from '../../services/feilService';
 import {brukerService} from '../../services/brukerService';
 import {AnsattMeny} from './ansattMeny';
 import {ShowMarkerMap} from '../../Moduler/kart/map';
+import {InfoBoks} from '../../Moduler/info/info';
 
 export class NyeFeil extends Component {
   nyefeil = [];
@@ -118,7 +119,8 @@ export class NyeFeil extends Component {
                   <Card color="red" fluid>
                     <Card.Content>
                       <Card.Header>
-                        Nye innsendinger
+                        <h3 style={{display: 'inline'}}>Nye innsendinger</h3>
+                        <InfoBoks style={{display: 'inline'}} tekst="Trykk på en feil for å gjøre endringer og godkjenne en sak. En sak må godkjennes før den legges ut på hovedsiden til kommunen"/>
                       </Card.Header>
                     </Card.Content>
                     <Card.Content className={this.className}>
@@ -143,11 +145,16 @@ export class NyeFeil extends Component {
                           <div>
                             <Grid fluid columns={2} verticalAlign="middle">
                               <Grid.Column>
-                                <h5>Overskrift:</h5>
-                                <Input value={this.valgtfeil.overskrift} onChange={(e) => (this.valgtfeil.overskrift = e.target.value)}></Input>
+                                <h5 >Overskrift:</h5>
+                                <TextArea rows={1} value={this.valgtfeil.overskrift} onChange={(e) => (this.valgtfeil.overskrift = e.target.value)}></TextArea>
                               </Grid.Column>
-                              <Grid.Column textAlign="right" fluid>
-                                <h6>{this.valgtfeil.tid}</h6>
+                              <Grid.Column fluid textAlign="right">
+                                <InfoBoks tekst="Her kan du endre overskrift, beskrivelse og kategorier. Når du trykker på godkjenn vil endringene bli lagret og feilen vil bli gjort offentlig"/>
+                                <br/>
+                                <div>
+                                  <h5 style={{display: 'inline'}} >Sendt inn: </h5>
+                                  <h6 style={{display: 'inline'}}>{this.valgtfeil.tid}</h6>
+                                </div>
                               </Grid.Column>
                               <Grid.Column textAlign="left">
                                 <h6>Status: {this.valgtfeil.status}</h6>
