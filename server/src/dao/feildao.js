@@ -205,7 +205,7 @@ module.exports = class FeilDao extends Dao {
 
   sendFeilTilBedrift(json, callback) {
     super.query(
-      "INSERT into jobbSoknad VALUES (?,?)"
+      "INSERT INTO jobbSoknad (bruker_id, feil_id) VALUES (?,?)",
       [json.bruker_id, json.feil_id],
       callback
     );
