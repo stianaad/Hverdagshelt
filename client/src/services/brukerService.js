@@ -87,7 +87,6 @@ class BrukerService {
 
   finnOppdaterteFeilTilBruker() {
     let token = sessionStorage.getItem('pollett');
-    console.log("HEEEEEEEEEEEEEEEEEEEEEEEEE");
     if (token) {
       return api.get('/api/brukere/minside/nye', {headers: {'x-access-token': 'Bearer ' + token}});
     } else {

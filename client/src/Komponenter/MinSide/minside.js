@@ -13,6 +13,8 @@ import {InfoBoks} from '../../Moduler/info/info';
 import { HendelseModal } from '../../Moduler/modaler/hendelsemodal';
 
 export class Minside extends Component {
+  alleOppdaterteFeil = [];
+  alleIkkeOppdaterteFeil = [];
   oppdaterteFeil = [];
   ikkeOppdaterteFeil = [];
   folgteFeil = [];
@@ -112,10 +114,10 @@ export class Minside extends Component {
                 <Card.Header>
                   Dine rapporterte feil<InfoBoks key = {'rapportertefeil'} tekst="Trykk på knappen under for å se dine rapporterte feil."/>
                   <Button basic color="green" onClick={this.visRapporterteFeil}>
-                    {this.oppdaterteFeil.length === 0 ? (
+                    {this.alleOppdaterteFeil.length === 0 ? (
                       <span>Ingen nye oppdateringer</span>
                     ) : (
-                      <span>{this.oppdaterteFeil.length} ny(e) oppdateringer</span>
+                      <span>{this.alleOppdaterteFeil.length} ny(e) oppdateringer</span>
                     )}
                   </Button>
                 </Card.Header>
@@ -423,10 +425,18 @@ export class Minside extends Component {
     this.visFeil = !this.visFeil;
     console.log(this.visFeil);
     if (this.visFeil) {
-      this.finnIkkeOppdaterteFeil();
+      if(this.ikkeOppdaterteFeil.length.length > 0 ){
+        this.ikkeOppdaterteFeil = this.alleIkkeOppdaterteFeil;
+      } else {
+        this.finnIkkeOppdaterteFeil();
+      }
+      this.oppdaterteFeil = this.alleOppdaterteFeil;
       await this.scrollFeil();
       await brukerService.oppdaterSistInnloggetPrivat();
-    } 
+    } else {
+      this.ikkeOppdaterteFeil = [];
+      this.oppdaterteFeil = [];
+    }
   }
 
   scrollFeil() {
@@ -438,11 +448,13 @@ export class Minside extends Component {
   async finnOppdaterteFeilBruker() {
     let res1 = await brukerService.finnOppdaterteFeilTilBruker();
     this.oppdaterteFeil = await res1.data;
+    this.alleOppdaterteFeil = await res1.data;
   }
 
   async finnIkkeOppdaterteFeil() {
     let res1 = await brukerService.finnIkkeOppdaterteFeilTilBruker();
     this.ikkeOppdaterteFeil = await res1.data;
+    this.alleIkkeOppdaterteFeil = await res1.data;
     await this.scrollFeil();
   }
 
@@ -456,7 +468,7 @@ export class Minside extends Component {
     let res1 = await feilService.slettFeil(id);
     //await this.finnFeilBruker(this.props.match.params.bruker_id);
     await this.finnOppdaterteFeilBruker();
-    this.finnIkkeOppdaterteFeil();
+    await this.finnIkkeOppdaterteFeil();
     await this.scrollFeil();
   }
 
