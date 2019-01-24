@@ -1,6 +1,6 @@
 import Dao from './dao.js';
 
-module.exports = class GenPDFDao extends Dao {
+module.exports = class StatistikkDao extends Dao {
 
   feilPerKommune(callback){
     super.query(

@@ -1,10 +1,10 @@
 import api from './api';
 
-class GenPDFService {
+class StatistikkService {
   hentFeilPerKommune(){
     return api.get('/api/feilperkommune');
   }
 
 }
 
-export let genPDFService = new GenPDFService();
+export let statistikkService = new StatistikkService();

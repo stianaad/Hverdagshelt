@@ -5,7 +5,7 @@ import {Router, Route, NavLink, Redirect, Switch} from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import {BildeTest} from './bildetest';
 import {MeldFeil} from './Komponenter/MeldFeil/meldFeil';
-import {GenPDF} from './Komponenter/genPDF/genPDF';
+import {Statistikk} from './Komponenter/Statistikk/statistikk';
 import Popup from 'reactjs-popup';
 import {Registrering} from './Komponenter/Registrering/registrering';
 import {RegistrerBedrift} from './Komponenter/Registrering/registrerBedrift';
@@ -305,7 +305,7 @@ const routes = () => {
           <Route exact path="/headertest" component={PageHeader} history={history} />
           <Route exact path="/bedriftsoppgaver" component={Bedrift} history={history} />
 
-          <Route exact path="/genpdf" component={GenPDF} history={history} />
+          <Route exact path="/genpdf" component={Statistikk} history={history} />
 
           {/*Siden eksisterer ikke/ingen tilgang*/}
           <Route component={FireNullFire} />

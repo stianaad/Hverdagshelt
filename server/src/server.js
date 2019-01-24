@@ -15,8 +15,8 @@ import feil from './api/feil.js';
 app.use(feil);
 const hendelse = require('./api/hendelse.js');
 app.use(hendelse);
-import genpdf from './api/genpdf.js';
-app.use(genpdf);
+import statistikk from './api/statistikk.js';
+app.use(statistikk);
 
 import jwt from 'jsonwebtoken';
 import secret from './config.json';

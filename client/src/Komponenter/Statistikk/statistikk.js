@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
-import {genPDFService} from '../../services/genPDFService';
+import {statistikkService} from '../../services/statistikkService';
 import {generellServices} from '../../services/generellServices.js';
 import {feilService} from '../../services/feilService.js';
 import {GronnKnapp, StatBar} from '../../widgets.js';
 import * as html2canvas from 'html2canvas';
 
-export class GenPDF extends Component {
+export class Statistikk extends Component {
 
   resultat = [];
 
@@ -57,7 +57,7 @@ export class GenPDF extends Component {
   }
 
   async mounted(){
-    let info = await genPDFService.hentFeilPerKommune();
+    let info = await statistikkService.hentFeilPerKommune();
     let kom = await generellServices.hentAlleKommuner();
 
     let informasjon =  {
