@@ -211,6 +211,10 @@ module.exports = class FeilDao extends Dao {
     );
   }
 
+  hentJobbSoknadStatus(feil_id, callback) {
+    super.query('SELECT * FROM jobbSoknad WHERE feil_id = ?', [feil_id], callback);
+  }
+
   finnKommuneidPaaFeil(feil_id, callback) {
     super.query('SELECT kommune_id FROM feil WHERE feil_id = ?', [feil_id], callback);
   }
