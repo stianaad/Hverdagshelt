@@ -5,14 +5,14 @@ module.exports = class HendelseDao extends Dao {
   //testes
   hentAlleHendelser(callback) {
     super.query(
-      "SELECT hendelse_id,overskrift,kommune_navn, hendelser.kommune_id,fylke_navn,DATE_FORMAT(tid, '%Y-%m-%d %H:%i') AS tid,beskrivelse,sted,bilde, lengdegrad, breddegrad,kategorinavn FROM hendelser,hendelseskategori,kommuner WHERE hendelser.hendelseskategori_id = hendelseskategori.hendelseskategori_id AND kommuner.kommune_id=hendelser.kommune_id",
+      "SELECT hendelse_id,overskrift,kommune_navn, hendelser.kommune_id,fylke_navn,DATE_FORMAT(tid, '%Y-%m-%d %H:%i') AS tid,beskrivelse,sted,bilde, billett,kategorinavn FROM hendelser,hendelseskategori,kommuner WHERE hendelser.hendelseskategori_id = hendelseskategori.hendelseskategori_id AND kommuner.kommune_id=hendelser.kommune_id",
       null,
       callback
     );
   }
 
   hentHendelseForKommune(kommune_id, callback) {
-    super.query("SELECT hendelse_id,overskrift,kommune_navn, hendelser.kommune_id,fylke_navn,DATE_FORMAT(tid, '%Y-%m-%d %H:%i') AS tid,beskrivelse,sted,bilde, lengdegrad, breddegrad,kategorinavn FROM hendelser,hendelseskategori,kommuner WHERE hendelser.hendelseskategori_id = hendelseskategori.hendelseskategori_id AND kommuner.kommune_id=hendelser.kommune_id AND hendelser.kommune_id=?",
+    super.query("SELECT hendelse_id,overskrift,kommune_navn, hendelser.kommune_id,fylke_navn,DATE_FORMAT(tid, '%Y-%m-%d %H:%i') AS tid,beskrivelse,sted,bilde, billett,kategorinavn FROM hendelser,hendelseskategori,kommuner WHERE hendelser.hendelseskategori_id = hendelseskategori.hendelseskategori_id AND kommuner.kommune_id=hendelser.kommune_id AND hendelser.kommune_id=?",
      [kommune_id], 
      callback);
   }
@@ -34,11 +34,10 @@ module.exports = class HendelseDao extends Dao {
       json.beskrivelse,
       json.sted,
       json.bilde,
-      json.lengdegrad,
-      json.breddegrad,
+      json.billett
     ];
     super.query(
-      'INSERT INTO hendelser (bruker_id, hendelseskategori_id, kommune_id, overskrift, tid, beskrivelse, sted, bilde, lengdegrad, breddegrad) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO hendelser (bruker_id, hendelseskategori_id, kommune_id, overskrift, tid, beskrivelse, sted, bilde, billett) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
       hendelse,
       callback
     );
@@ -67,12 +66,11 @@ module.exports = class HendelseDao extends Dao {
       json.beskrivelse,
       json.sted,
       json.bilde,
-      json.lengdegrad,
-      json.breddegrad,
-      json.hendelse_id,
+      json.billett,
+      json.hendelse_id
     ];
     super.query(
-      'UPDATE feil SET hendelseskategori_id = ?, SET kommune_id = ?, SET overskrift = ?, SET tid = ?, SET beskrivelse = ?, SET sted = ?, SET bilde = ?, SET lengdegrad = ?, SET breddegrad = ? WHERE kategori_id = ?',
+      'UPDATE hendelse SET hendelseskategori_id = ?, SET kommune_id = ?, SET overskrift = ?, SET tid = ?, SET beskrivelse = ?, SET sted = ?, SET bilde = ?, SET billett = ? WHERE kategori_id = ?',
       hendelse,
       callback
     );
@@ -87,7 +85,7 @@ module.exports = class HendelseDao extends Dao {
   filtrerHendelserPaaKategori(json, callback) {
     var kat = json.hendelseskategori_id;
     super.query(
-      "SELECT hendelse_id, overskrift, DATE_FORMAT(tid, '%Y-%m-%d %H:%i') AS tid, sted, bilde FROM hendelser WHERE hendelseskategori_id = ?",
+      "SELECT hendelse_id, overskrift, billett, DATE_FORMAT(tid, '%Y-%m-%d %H:%i') AS tid, sted, bilde FROM hendelser WHERE hendelseskategori_id = ?",
       [kat],
       callback
     );
@@ -95,7 +93,7 @@ module.exports = class HendelseDao extends Dao {
 
   filtrerHendelserPaaTid(callback) {
     super.query(
-      "SELECT hendelse_id, overskrift, DATE_FORMAT(tid, '%Y-%m-%d %H:%i') AS tid, sted, bilde FROM hendelser ORDER BY tid ASC",
+      "SELECT hendelse_id, overskrift, billett, DATE_FORMAT(tid, '%Y-%m-%d %H:%i') AS tid, sted, bilde FROM hendelser ORDER BY tid ASC",
       null,
       callback
     );
@@ -105,7 +103,7 @@ module.exports = class HendelseDao extends Dao {
   filtrerHendelserPaaKommune(json, callback) {
     var k_id = json.kommune_id;
     super.query(
-      "SELECT hendelse_id, overskrift, DATE_FORMAT(tid, '%Y-%m-%d %H:%i') AS tid, sted, bilde FROM hendelser WHERE kommune_id = ? ORDER BY tid ASC",
+      "SELECT hendelse_id, overskrift, billett, DATE_FORMAT(tid, '%Y-%m-%d %H:%i') AS tid, sted, bilde FROM hendelser WHERE kommune_id = ? ORDER BY tid ASC",
       [k_id],
       callback
     );
