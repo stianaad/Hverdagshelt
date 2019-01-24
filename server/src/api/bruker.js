@@ -210,6 +210,7 @@ router.get('/api/brukere/minside', checkToken, (req, res) => {
   console.log('/bruker/minside fikk get request fra klient');
   let role = req.decoded.role;
   let bruker_id = req.decoded.user.bruker_id;
+
   if (role == 'privat') {
     brukerDao.finnOppdaterteFeilTilBruker(bruker_id, (status, data) => {
       res.status(status);

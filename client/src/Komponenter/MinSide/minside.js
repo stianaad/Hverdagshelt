@@ -136,8 +136,7 @@ export class Minside extends Component {
                           onClick={() => {
                             this.feilModal = true;
                             this.feil = feil;
-                          }}
-                        >
+                          }}>
                           {feil.overskrift}
                         </FeedMinside>
                       ))}
@@ -424,6 +423,8 @@ export class Minside extends Component {
       this.finnIkkeOppdaterteFeil();
       await this.scrollFeil();
       await brukerService.oppdaterSistInnloggetPrivat();
+    } else {
+
     }
   }
 
@@ -437,7 +438,8 @@ export class Minside extends Component {
   async finnOppdaterteFeilBruker() {
     let res1 = await brukerService.finnOppdaterteFeilTilBruker();
     this.oppdaterteFeil = await res1.data;
-    //await console.log(res1.data);
+    await console.log("DETTETET EE OPPDATERTE DAT",res1.data);
+    await console.log(global.payload.user.bruker_id);
   }
 
   async finnIkkeOppdaterteFeil() {
@@ -456,7 +458,10 @@ export class Minside extends Component {
   async fjernFeil(id) {
     console.log(id);
     let res1 = await feilService.slettFeil(id);
-    await this.finnFeilBruker(this.props.match.params.bruker_id);
+    //await this.finnFeilBruker(this.props.match.params.bruker_id);
+    await this.finnOppdaterteFeilBruker();
+    this.finnIkkeOppdaterteFeil();
+    await this.scrollFeil();
   }
 
   async mounted() {
