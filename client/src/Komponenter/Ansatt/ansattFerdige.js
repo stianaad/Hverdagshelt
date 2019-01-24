@@ -7,6 +7,7 @@ import {feilService} from '../../services/feilService';
 import {markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
 import {NavLink} from 'react-router-dom';
 import {AnsattMeny} from './ansattMeny';
+import { FeilVisning } from '../../Moduler/AnsattModuler/feilvisning';
 
 export class AnsattFerdig extends Component{
     fullforteFeil = [];
@@ -16,6 +17,23 @@ export class AnsattFerdig extends Component{
         overskrift: '',
         beskrivelse: ''
     };
+    bilder = []; 
+    oppdateringer = [];
+    feilApen = false; 
+
+    async hentInfo(feil){
+        let res = await feilService.hentBilderTilFeil(feil.feil_id); 
+        this.bilder = await res.data; 
+
+        let opp = await feilService.hentAlleOppdateringerPaaFeil(feil.feil_id); 
+        this.oppdateringer = await opp.data; 
+    }
+
+    visFeil(feil){
+        this.valgtfeil = {...feil};
+        this.hentInfo(feil);
+        this.feilApen = true; 
+    }
 
     render(){
         return(
@@ -52,55 +70,10 @@ export class AnsattFerdig extends Component{
                             <div className="col-sm-8">
                                 {this.feilApen ? (
                                     <div className="ansattFeilVindu">
-                                        <Card fluid>
-                                            <Card.Content>
-                                                <div>
-                                                    <Grid fluid columns={2} verticalAlign="middle">
-                                                    <Grid.Column textAlign="left">
-                                                        <h1>{this.valgtfeil.overskrift}</h1>
-                                                    </Grid.Column>
-                                                    <Grid.Column textAlign="right" fluid>
-                                                        <h6>{this.valgtfeil.tid}</h6>
-                                                    </Grid.Column>
-                                                    <Grid.Column textAlign="left">
-                                                        <h6>Status: {this.valgtfeil.status}</h6>
-                                                    </Grid.Column>
-                                                    <Grid.Column>
-                                                        <Button floated="right" color="red">
-                                                        Slett feil
-                                                        </Button>
-                                                        <Button floated="right" color="green" onClick={() => this.godkjenn(this.valgtfeil.feil_id, "test", 2)}>
-                                                        Godkjenn
-                                                        </Button>
-                                                    </Grid.Column>
-                                                    </Grid>
-                                                </div>
-                                            </Card.Content>
-                                            <Card.Content extra>
-                                                <div>
-                                                    <Grid columns={3} fluid stackable>
-                                                    <Grid.Column>
-                                                        <TextArea value={this.valgtfeil.beskrivelse} rows="18" />
-                                                    </Grid.Column>
-                                                    <Grid.Column>KART</Grid.Column>
-                                                    <Grid.Column>
-                                                        <Grid columns={2} fluid>
-                                                        {this.bilder.map((bilde) => (
-                                                            <Grid.Column>
-                                                            <div onClick={() => this.visBilde(bilde.url)}>
-                                                                <img src={bilde.url} className="bilder" />
-                                                            </div>
-                                                            </Grid.Column>
-                                                        ))}
-                                                        </Grid>
-                                                    </Grid.Column>
-                                                    </Grid>
-                                                </div>
-                                            </Card.Content>
-                                        </Card>
-                                        </div>
-                                    ) : (
-                                    <div>Trykk på feil</div>
+                                       <FeilVisning feil={this.valgtfeil} bilder={this.bilder} opp={this.oppdateringer}/>
+                                    </div>
+                                ) : (
+                                <div>Trykk på feil</div>
                                 )}
                             </div>
                         </div>

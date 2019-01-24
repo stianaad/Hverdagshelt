@@ -24,6 +24,7 @@ export class AnsattUnder extends Component{
         this.valgtfeil = {...feil};
         this.hentInfo(feil);
         this.feilApen = true; 
+        console.log(this.valgtfeil);
     }
 
     async hentInfo(feil){

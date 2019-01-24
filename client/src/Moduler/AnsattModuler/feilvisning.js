@@ -14,24 +14,24 @@ export class FeilVisning extends Component {
             <div>
                 <Card fluid>
                     <Card.Content>
-                        <Grid columns={3}>
+                        <Grid columns={2}>
                             <Grid.Column><h1>{this.props.feil.overskrift}</h1></Grid.Column>
-                            <Grid.Column/>
                             <Grid.Column textAlign="right">{this.props.feil.tid}</Grid.Column>
                             <Grid.Column>Status: {this.props.feil.status}</Grid.Column>
+                            <Grid.Column><Button floated="right" color="red">Slett</Button></Grid.Column>
                         </Grid>
                     </Card.Content>
                     <Card.Content extra>
                         <Grid fluid columns={3}>
                             <Grid.Column>
                                 <h5>Beskrivelse</h5>
-                                <p style={{maxHeight: '100px'}}>{this.props.feil.beskrivelse}</p>
+                                <p  style={{overflowY: 'auto', maxHeight: '100px'}}>{this.props.feil.beskrivelse}</p>
                                 <h5>Posisjon:</h5>
                                 <ShowMarkerMap key={this.props.feil.feil_id} width="100%" height="50%" id="posmap" feil={this.props.feil}/>
                             </Grid.Column>
                             <Grid.Column>
                                 <h5>Kategori: </h5>
-                                <p>{this.props.feil.kategori}</p>
+                                <p>{this.props.feil.kategorinavn}</p>
                                 <h5>Bilder:</h5>
                                 <div className="feilModalFyll" style={{height: '80px'}}>
                                     {this.props.bilder.map((bilde) => (
@@ -43,7 +43,7 @@ export class FeilVisning extends Component {
                             </Grid.Column>
                             <Grid.Column>
                                 <h5>Oppdateringer</h5>
-                                <List>
+                                <List style={{overflowY: 'auto', maxHeight: '50px'}}>
                                     {this.props.opp.map((oppdatering) => (
                                         <List.Item>
                                             <List.Content>
@@ -55,8 +55,8 @@ export class FeilVisning extends Component {
                                 </List>
                                 <h5>Oppdater: </h5>
                                 <div className="form-group">
-                                    <label>Kommentar: </label>
-                                    <input type="text" className="form-control"
+                                    
+                                    <input type="text" className="form-control" placeholder="Kommentar..."
                                         onChange={(e) => (this.kommentar = e.target.value)}
                                     />
                                 </div>
