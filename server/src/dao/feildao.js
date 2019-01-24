@@ -258,6 +258,10 @@ module.exports = class FeilDao extends Dao {
   ikkeAbonnerFeil(json, callback) {
     super.query("DELETE FROM feilfolg WHERE feil_id=? AND bruker_id=?", [json.feil_id, json.bruker_id], callback);
   }
+
+  hentEpostFraFeilID(json, callback) {
+    super.query('SELECT epost FROM bruker b INNER JOIN feil f ON b.bruker_id = f.bruker_id WHERE f.feil_id = ?', [json.feil_id], callback);
+  }
 };
 
 
