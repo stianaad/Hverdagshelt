@@ -131,7 +131,7 @@ class FeilService {
   sendFeilTilBedrift(k) {
     let token = sessionStorage.getItem('pollett');
     if (token) {
-      return api.put('/api/bedrift/feil', k, { headers: { 'x-access-token': 'Bearer ' + token } });
+      return api.post('/api/bedrift/feil', k, { headers: { 'x-access-token': 'Bearer ' + token } });
     } else {
       console.log('sendFeilTilBedrift failed');
       return [];
@@ -243,6 +243,8 @@ class FeilService {
     console.log('Opprett ny hovedkategori service:');
     if (token) {
       return api.post('/api/hovedkategorier',nyHk, { headers: { 'x-access-token': 'Bearer ' + token } });
+    } else {
+      return null;
     }
   }
 
@@ -251,6 +253,8 @@ class FeilService {
     console.log('Opprett ny subkategori service:');
     if (token) {
       return api.post('/api/subkategorier',nySk, { headers: { 'x-access-token': 'Bearer ' + token } });
+    } else {
+      return null;
     }
   }
 }

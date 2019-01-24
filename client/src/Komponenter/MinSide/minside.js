@@ -102,7 +102,7 @@ export class Minside extends Component {
       <div>
         <PageHeader history={this.props.history} location={this.props.location} />
         <EndrePassordModal key={this.endrePassordModal} open={this.endrePassordModal} onClose={() => {this.endrePassordModal = false}} />
-        <FeilModal key={this.feil.feil_id+this.feilModal} open={this.feilModal} feil={this.feil} onClose={() => {this.feilModal = false}} />
+        <FeilModal abonner={true} key={this.feil.feil_id+this.feilModal} open={this.feilModal} feil={this.feil} onClose={() => {this.feilModal = false}} />
         {/*
         <Modal open={this.state.open} onClose={this.handleClose} size="small" centered dimmer="blurring">
           {!this.visHendelse ? (
@@ -287,7 +287,7 @@ export class Minside extends Component {
           <div className="col minSideUtKolonne" id="sideListeH">
             <Card fluid>
               <Card.Content>
-                <Card.Header>Brukerinformasjon<InfoBoks tekst="Her kan du både se og redigere din personlige informasjon. Du kan også endre passord ved: 'Rediger bruker' > 'Endre passord'."/></Card.Header>
+                <Card.Header>Brukerinformasjon<InfoBoks tekst="Her kan du både se og redigere din personlige informasjon.&#10;Du kan også endre passord ved: 'Rediger bruker' > 'Endre passord'."/></Card.Header>
               </Card.Content>
               <Card.Content>
                 <div id="container">

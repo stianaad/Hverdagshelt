@@ -11,7 +11,8 @@ export class Administrasjon extends Component {
             <div className="container">
                 <PageHeader history={this.props.history} location={this.props.location} />
                 <p>test</p>
-                <SlettKategori overskrift="Slett hovedkategori/subkategori"/>
+                <RegistrerNyKategori overskrift="Registrer ny hovedkat" label="hovedkat" placeholder="vann" id={3}/>
+                <SlettKategori overskrift="Slett hendelsekategori" visHendKat={"true"}/>
             </div>
         );
     }

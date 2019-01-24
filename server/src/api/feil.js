@@ -47,7 +47,7 @@ router.get('/api/kommuner/:kommune_id/feil', checkToken, (req, res) => {
     });
   } else {
     res.status(403);
-    res.json({ resultat: "ingen tilgang" });
+    res.json({ resultat: "ingen tilgang"});
   }
 });
 
@@ -391,7 +391,7 @@ router.post('/api/bedrift/feil', checkToken, (req, res) => {
   console.log('Inne i post bedrift feil');
   let role = req.decoded.role;
   if (role == 'ansatt' || role == 'admin') {
-    hentBedriftPaaOrgnr(req.body.orgnr, (status, data) => {
+    feilDao.hentBedriftPaaOrgnr(req.body.orgnr, (status, data) => {
       let a = {bruker_id: data[0].bruker_id, feil_id: req.body.feil_id}
       console.log(a);
       feilDao.sendFeilTilBedrift(a, (status, data) => {
@@ -399,7 +399,6 @@ router.post('/api/bedrift/feil', checkToken, (req, res) => {
         res.json(data);
       });
     })
-
   } else {
     res.status(403);
     res.json({result: false});
@@ -556,7 +555,7 @@ router.post('/api/hovedkategorier', checkToken, (req, res) => {
   let role = req.decoded.role;
   console.log('ny hovedkategori, rolle:' + role)
   if (role == 'admin') {
-    feilDao.nySubkategori(req.body, (status, data) => {
+    feilDao.nyHovedkategori(req.body, (status, data) => {
       console.log('ny hovedkategori data: ' + data);
       res.status(status);
       res.json(data);
