@@ -42,11 +42,11 @@ class HendelseService {
   }
 
   filtrerHendelserPaaKategori(hek_id) {
-    return api.get('/api/hendelser/kategorier/:hendelseskategori_id', hek_id);
+    return api.get('/api/hendelser/kategorier/'+hek_id);
   }
 
   filtrerHendelserPaaKommune(k_id) {
-    return api.get('/api/hendelser/kommuner/:kommune_id', k_id);
+    return api.get('/api/hendelser/kommuner/:kommune_id'+k_id);
   }
 
   hentAlleHovedkategorier() {

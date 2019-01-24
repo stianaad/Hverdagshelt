@@ -86,8 +86,7 @@ let testhendelse = {
   beskrivelse: 'testbeskrivelse',
   sted: 'teststed',
   bilde: 'https://bjornost.tihlde.org/hverdagshelt/19af4f8c745a62973e2cd615eaf329fa',
-  lengdegrad: 0.1,
-  breddegrad: 0.2,
+  billett: 'https://tihlde.hoopla.no/sales/bowlingkveld'
 };
 /*
 beforeAll((done) => {
@@ -403,7 +402,7 @@ test('Lag ny hendelse', (done) => {
     expect(data.affectedRows).toBe(1);
     done();
   }
-  hendelsedao.lagNyHendelse(testhendelse, callback);
+  hendelsedao.oppdaterHendelse(testhendelse, callback);
 });
 
 test('Filtrer hendelser på kategori', (done) => {

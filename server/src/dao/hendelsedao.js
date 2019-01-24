@@ -76,17 +76,15 @@ module.exports = class HendelseDao extends Dao {
     );
   }
 
-  slettHendelse(json, callback) {
-    var id = json.hendelse_id;
-    super.query('DELETE FROM hendelser WHERE hendelse_id = ?', [id], callback);
+  slettHendelse(h_id, callback) {
+    super.query('DELETE FROM hendelser WHERE hendelse_id = ?', [h_id], callback);
   }
 
   //testes
-  filtrerHendelserPaaKategori(json, callback) {
-    var kat = json.hendelseskategori_id;
+  filtrerHendelserPaaKategori(hk_id, callback) {
     super.query(
       "SELECT hendelse_id, overskrift, billett, DATE_FORMAT(tid, '%Y-%m-%d %H:%i') AS tid, sted, bilde FROM hendelser WHERE hendelseskategori_id = ?",
-      [kat],
+      [hk_id],
       callback
     );
   }
