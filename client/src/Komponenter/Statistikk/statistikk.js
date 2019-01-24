@@ -34,26 +34,13 @@ export class Statistikk extends Component {
     let big = this.large;
 
     function skriv(){
-      if(runs === 1){
-        let data = pdf.output('datauristring');
-        console.log(data);
-        //pdf.save(filename);
-
-        fetch("http://localhost:3000/api/filstreng", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        body: JSON.stringify({"info": data})
-        })
-        .then(response => response.json())
-        .then(json => JSON.stringify(json))
-        .catch(error => console.error("Error " + error));
+      if(runs === big){
+        pdf.save(filename);
       }
     }
 
-    //for(let i = 0; i < this.large; i++){
-      let input = document.getElementById('barDiv' + 0);
+    for(let i = 0; i < this.large; i++){
+      let input = document.getElementById('barDiv' + i);
 
       await html2canvas(input, {
         scale: 1
@@ -67,7 +54,7 @@ export class Statistikk extends Component {
     	});
 
       skriv();
-    //}
+    }
   }
 
   render(){

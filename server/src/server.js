@@ -2,9 +2,9 @@ import express from 'express';
 import bodyParser from 'body-parser';
 var app = express();
 import path from 'path';
-//app.use(bodyParser.json()); // for å tolke JSON
-app.use(bodyParser.json({limit: '1000mb', extended: true}))
-app.use(bodyParser.urlencoded({limit: '1000mb', extended: true}))
+app.use(bodyParser.json()); // for å tolke JSON
+//app.use(bodyParser.json({limit: '1000mb', extended: true}))
+//app.use(bodyParser.urlencoded({limit: '1000mb', extended: true}))
 
 const public_path = path.join(__dirname, '/../../client/public');
 app.use(express.static(public_path));

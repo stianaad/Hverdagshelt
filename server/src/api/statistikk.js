@@ -5,6 +5,8 @@ import bodyParser from 'body-parser';
 import {pool} from '../../test/poolsetup.js';
 import StatistikkDao from '../dao/statistikkdao.js';
 
+var fs = require('fs');
+
 const statistikkDao = new StatistikkDao(pool);
 
 router.get('/api/feilperkommune', (req, res) => {
@@ -12,11 +14,6 @@ router.get('/api/feilperkommune', (req, res) => {
     res.status(status);
     res.json(data);
   });
-});
-
-router.post('/api/filstreng', (req, res) => {
-  console.log("I apiet");
-  console.log(req.body);
 });
 
 module.exports = router;
