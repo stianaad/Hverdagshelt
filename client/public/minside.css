@@ -1,4 +1,4 @@
-.feilCardImage{
+#minRow .feilCardImage{
     /*width: 250px !important;*/
     height: auto;
     max-height: 250px;
@@ -6,7 +6,7 @@
     object-fit: cover;
 }
 
-.feilCard{
+#minRow .feilCard{
     /*width:250px !important;*/
     margin:5px 0!important;
 }
@@ -16,7 +16,11 @@
 }*/
 
 .minSideUtKolonne {
-  width: 325px;
+  width: 100%;
+}
+
+.minSideUtKolonne > .card {
+  width: 325px !important;
 }
 
 .minSideInKolonne {
@@ -24,7 +28,15 @@
 }
 
 #sideListeH {
-  margin-right: 15px;
+  margin-right: 1.5em;
+}
+
+#sideListe {
+  margin-left: 1.5em;
+}
+
+#sideListe > .card {
+  float: right;
 }
 
 .highlight {

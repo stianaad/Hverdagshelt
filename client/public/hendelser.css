@@ -64,17 +64,22 @@
   margin-top: 20px; 
 }
 
-.feilCard {
-  /*max-width: 250px !important;
-  margin: 10px !important;*/
+.hendelseContainer .feilCard {
+  max-width: 250px !important;
+  margin: 10px !important;
 }
 
-.feilCard button {
+.hendelseContainer .feilCard button {
   margin: 10px 0 10px 0;
 }
 
-.feilCardImage {
+.hendelseContainer .feilCardImage {
+  height:200px;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
   object-fit: cover;
 }
+
+.hendelseContainer a > .content {
+  margin: 5px;
+} 

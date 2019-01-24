@@ -6,9 +6,13 @@ import passord from 'password-hash-and-salt';
 
 let brukerdao = new BrukerDao(pool);
 
+/**
+ * Sjekker om token som ligger i request-headeren er en valid token.
+ * Slette først Bearer taggen først i token
+ */
+
 export let checkToken = (req, res, next) => {
   let token = req.headers['x-access-token']; // Express headers are auto converted to lowercase
-  console.log(token);
   if (token.startsWith('Bearer ')) {
     // Remove Bearer from string
     token = token.slice(7, token.length);
@@ -36,6 +40,13 @@ export let checkToken = (req, res, next) => {
   }
 };
 
+/**
+ * Oppretter en token på person.
+ * Sjekker først om det er registrert bruker på epost fra request body.
+ * Deretter vil den validere det innskrevne passordet mot det i databasen.
+ * Hvis passordet bli validert vil den hente brukerrollen til personen.
+ * Deretter opprettes en token med brukerinformasjonen og rollen som payload.
+ */
 export let createToken = (req, res, next) => {
   console.log('Inne i createToken');
   brukerdao.hentBrukerPaaEpost(req.body, (status, info) => {
@@ -85,6 +96,14 @@ export let createToken = (req, res, next) => {
   });
 };
 
+/**
+ * Sjekker passordet opp mot det lagrede i databasen.
+ * Finner først brukerinfo med hentBruker funksjonen som tar inn en json med eposten. 
+ * Bruker jwt.verifyAgainst som hasher det innskrevne passordet og sammenligner det med det lagrede.
+ * Returnerer true og bruker id hvis passordene er like.
+ * @example
+ * middleware.sjekkPassord({passord: 'hemmelig', epost: 'eksempel@e.com'}, (callback) => {} )
+ */
 function sjekkPassord(json, callback) {
   console.log(json);
   brukerDao.hentBruker(json, (status, data) => {

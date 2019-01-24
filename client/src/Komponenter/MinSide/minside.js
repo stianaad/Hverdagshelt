@@ -9,6 +9,7 @@ import {KommuneInput} from '../../Moduler/kommuneInput/kommuneInput';
 import { FeilModal } from '../../Moduler/modaler/feilmodal';
 import { EndrePassordModal } from '../../Moduler/modaler/endrepassordmodal';
 import {InfoBoks} from '../../Moduler/info/info';
+import { HendelseModal } from '../../Moduler/modaler/hendelsemodal';
 
 export class Minside extends Component {
   oppdaterteFeil = [];
@@ -16,15 +17,14 @@ export class Minside extends Component {
   folgteFeil = [];
   folgteHendelser = [];
   komin = React.createRef();
-  valgtFeil = {
-    overskrift: '',
-    bilde: '',
-    beskrivelse: '',
-  };
 
-  feil = {feil_id:0}
+  feil = {feil_id:0};
   feilModal = false;
 
+  hendelse = {hendelse_id:0};
+  hendelseModal = false;
+
+  mobView = "#mintittelanchor"
   endrePassordModal = false;
 
   brukerInfo = {
@@ -43,37 +43,31 @@ export class Minside extends Component {
     kommune_navn: '',
   };
 
-  valgteHendelse = {
-    overskrift: '',
-    bilde: '',
-    tid: '',
-    sted: '',
-    kommune_navn: '',
-  };
-
-  visHendelse = false;
-  visFeil = false;
-
   redigerer = false;
 
   classFeil = 'hovedsideTabeller';
 
-  state = {open: false};
+  mobileView(view) {
+    let q = (id) => document.querySelector(id);
+    console.log("view: "+view);
+    if (view == this.mobView) return;
 
-  handleOpen = (feil) => {
-    if (this.visHendelse) {
-      this.valgteHendelse = {...feil};
-      console.log(this.valgteHendelse);
-      console.log('ehehheh');
-    } else {
-      this.valgtFeil = {...feil};
+    if (view == "#mintittelanchor") {
+      q(this.mobView).style.display = "none";
+      q("#mintittelanchor").style.display = "block";
+      q("#sideListe").style.display = "block";
     }
-    this.setState({open: true});
-  };
-
-  handleClose = () => {
-    this.setState({open: false});
-  };
+    else if (this.mobView == "#mintittelanchor") {
+      q("#mintittelanchor").style.display = "none";
+      q("#sideListe").style.display = "none";
+      q(view).style.display = "block";
+    }
+    else {
+      q(this.mobView).style.display = "none";
+      q(view).style.display = "block";
+    }
+    this.mobView = view;
+  }
 
   render() {
     return (
@@ -81,30 +75,35 @@ export class Minside extends Component {
         <PageHeader history={this.props.history} location={this.props.location} />
         <EndrePassordModal key={this.endrePassordModal} open={this.endrePassordModal} onClose={() => {this.endrePassordModal = false}} />
         <FeilModal abonner={true} key={this.feil.feil_id+this.feilModal} open={this.feilModal} feil={this.feil} onClose={() => {this.feilModal = false}} />
-        {/*
-        <Modal open={this.state.open} onClose={this.handleClose} size="small" centered dimmer="blurring">
-          {!this.visHendelse ? (
-          ) : (
-            <ModalHendelse
-              overskrift={this.valgteHendelse.overskrift}
-              url={this.valgteHendelse.bilde}
-              tid={this.valgteHendelse.tid}
-              sted={this.valgteHendelse.sted}
-              kommune_navn={this.valgteHendelse.kommune_navn}
-            />
-          )}
-          </Modal>*/}
-        <div className="mt-3 hovedTittel">
-          <h1 className="text-center text-capitalize display-4">Min side </h1>
+        <HendelseModal abonner={true} key={this.hendelse.hendelse_id+this.hendelseModal} open={this.hendelseModal} hendelse={this.hendelse} onClose={() => {this.hendelseModal = false}} />
+        <div className="mt-3 hovedTittel" id="mintittelanchor">
+          <h1 className="text-center text-capitalize display-4">Min side</h1>
           <Link to="/meldfeil">
             <Button color="red" size="large">
               Meld inn feil
             </Button>
           </Link>
         </div>
-        <div className="row">
-          <div className="col"></div>
-          <div className="col-md-auto ml-3 mr-1 minSideUtKolonne" id="sideListe">
+
+        <div className="mobileButtons">
+          <div>
+            <a onClick={() => this.mobileView("#mintittelanchor")}>
+              <div className={this.mobView=="#mintittelanchor"?"mobActive":""}><p className="text-capitalize">Min side</p></div>
+            </a>
+            <a onClick={() => this.mobileView("#hendelseListe")}>
+              <div className={this.mobView=="#hendelseListe"?"mobActive":""}><p>Hendelser</p></div>
+            </a>
+            <a onClick={() => this.mobileView("#feilListe")}>
+              <div className={this.mobView=="#feilListe"?"mobActive":""}><p>Feil</p></div>
+            </a>
+            <a onClick={() => this.mobileView("#sideListeH")}>
+              <div className={this.mobView=="#sideListeH"?"mobActive":""}><p>Bruker</p></div>
+            </a>
+          </div>
+        </div>
+
+        <div className="row" id="minRow">
+          <div className="col minSideUtKolonne" id="sideListe">
             <Card fluid>
               <Card.Content>
                 <Card.Header>
@@ -132,8 +131,8 @@ export class Minside extends Component {
                             this.fjernFeil(feil.feil_id);
                           }}
                           onClick={() => {
-                            this.visHendelse = false;
-                            this.handleOpen(feil);
+                            this.feilModal = true;
+                            this.feil = feil;
                           }}
                         >
                           {feil.overskrift}
@@ -167,7 +166,7 @@ export class Minside extends Component {
               ) : null}
             </Card>
           </div>
-          <div className="col-md-auto mx-1 minSideInKolonne">
+          <div className="col-md-auto mx-1 minSideInKolonne" id="hendelseListe">
               <h2>Hendelser du følger</h2>
               {this.folgteHendelser.length > 0 ? (
                 <Card.Group itemsPerRow={1}>
@@ -175,8 +174,8 @@ export class Minside extends Component {
                     <Card
                       className="feilCard"
                       onClick={() => {
-                        this.visHendelse = true;
-                        this.handleOpen(hendelse);
+                        this.hendelse = hendelse;
+                        this.hendelseModal = true;
                       }}
                     >
                       <Image src={hendelse.bilde} className="feilCardImage" />
@@ -206,7 +205,7 @@ export class Minside extends Component {
                 </Card>
               )}
             </div>
-          <div className="col-md-auto mx-1 minSideInKolonne">
+          <div className="col-md-auto mx-1 minSideInKolonne" id="feilListe">
               <h2>Feil/mangler du følger</h2>
               {this.folgteFeil.length > 0 ? (
                 <Card.Group itemsPerRow={1}>
@@ -214,8 +213,8 @@ export class Minside extends Component {
                     <Card
                       className="feilCard"
                       onClick={() => {
-                        this.feilModal = true;
                         this.feil = feil;
+                        this.feilModal = true;
                       }}
                     >
                       <Image src={feil.url} className="feilCardImage" />
@@ -245,15 +244,15 @@ export class Minside extends Component {
                 </Card>
               )}
             </div>
-          <div className="col-md-auto mr-3 ml-1 minSideUtKolonne" id="sideListeH">
+          <div className="col minSideUtKolonne" id="sideListeH">
             <Card fluid>
               <Card.Content>
-                <Card.Header>Brukerinformasjon<InfoBoks tekst="Her kan du både se og redigere din personlige informasjon. Du kan også endre passord ved: 'Rediger bruker' > 'Endre passord'."/></Card.Header>
+                <Card.Header>Brukerinformasjon<InfoBoks tekst="Her kan du både se og redigere din personlige informasjon.&#10;Du kan også endre passord ved: 'Rediger bruker' > 'Endre passord'."/></Card.Header>
               </Card.Content>
               <Card.Content>
                 <div id="container">
                   {this.redigerer ? (
-                    <div id="innhold">
+                    <div id="redInnhold">
                       <div className="form-group row">
                         <label className="col-sm-4 col-form-label venstreForm" htmlFor="fornavn">
                           Fornavn:{' '}
@@ -362,7 +361,7 @@ export class Minside extends Component {
               </Card.Content>
             </Card>
           </div>
-          <div className="col"></div>
+          
         </div>
       </div>
     );

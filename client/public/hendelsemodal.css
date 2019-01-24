@@ -1,0 +1,55 @@
+.hendelseModalBoks {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+
+.hendelseModalHeader {
+    flex: 0 1 auto;
+    padding: 14px;
+}
+
+.hendelseModalX {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    cursor: pointer;
+}
+
+.hendelseModalTittel {
+    margin-right:30px;
+}
+
+.hendelseModalBilde {
+    width:100%;
+    max-height: 263px;
+    object-fit: cover;
+}
+
+.hendelseModalInnhold {
+    -webkit-overflow-scrolling: touch;
+    flex: 1 1 auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.hendelseModalBeskrivelse {
+    overflow-y: auto;
+    height: 371px;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    word-break: break-word;
+}
+
+.hendelseModalSpace {
+    width: 100%;
+    display: block;
+    height: 60px;
+}
+
+@media only screen and (max-width: 767px) {
+    .hendelseModalBeskrivelse {
+        overflow-y: visible;
+        height: inherit;
+    }
+}

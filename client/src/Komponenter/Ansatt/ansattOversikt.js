@@ -12,6 +12,7 @@ import {FeilModal} from '../../Moduler/modaler/feilmodal';
 
 export class AnsattOversikt extends Component {
   nyefeil = [];
+  godkjente = [];
   utførte = [];
   underBehandling = [];
   alleFeil = [];
@@ -27,6 +28,7 @@ export class AnsattOversikt extends Component {
   feilModal = false; 
 
   classNye = 'hoyde-tabell';
+  classGodkjent = 'hoyde-tabell';
   classUnderB = 'hoyde-tabell';
   classFerdig = 'hoyde-tabell';
 
@@ -47,7 +49,7 @@ export class AnsattOversikt extends Component {
             </div>
             <div className="ansattContent">
                 <div className="row justify-content-md-center">
-                    <div className="col-sm-4">
+                    <div className="col-sm-3">
                         <Card color="red" fluid>
                             <Card.Content>
                             <Card.Header>
@@ -69,7 +71,29 @@ export class AnsattOversikt extends Component {
                             </Card.Content>
                         </Card>
                     </div>
-                    <div className="col-sm-4">
+                    <div className="col-sm-3">
+                        <Card color="red" fluid>
+                            <Card.Content>
+                            <Card.Header>
+                                <h3 style={{display: 'inline'}}>Godkjente feil</h3>
+                                <InfoBoks style={{display: 'inline'}} tekst="Velg Nye Feil i menyen for å gjøre endringer på feilene"/>
+                            </Card.Header>
+                            </Card.Content>
+                            <Card.Content className={this.classNye}>
+                            {this.godkjente.map((feil) => (
+                                <FeedEvent
+                                onClick={() => this.openModal(feil)}
+                                status={feil.status}
+                                tid={feil.tid}
+                                kategori={feil.kategorinavn}
+                                >
+                                {feil.overskrift}
+                                </FeedEvent>
+                            ))}
+                            </Card.Content>
+                        </Card>
+                    </div>
+                    <div className="col-sm-3">
                         <Card color="yellow fluid">
                             <Card.Content>
                                 <Card.Header>
@@ -92,7 +116,7 @@ export class AnsattOversikt extends Component {
                             </Card.Content>
                         </Card>
                     </div>
-                    <div className="col-sm-4">
+                    <div className="col-sm-3">
                         <Card color="green" fluid>
                             <Card.Content>
                             <Card.Header>
@@ -128,6 +152,12 @@ export class AnsattOversikt extends Component {
     }
   }
 
+  scrollGodkjent(){
+      if(this.godkjente.length > 4){
+          this.classGodkjent = 'scroll-tabell';
+      }
+  }
+
   scrollUnderB() {
     if (this.underBehandling.length > 4) {
       this.classUnderB = 'scroll-tabell';
@@ -148,6 +178,9 @@ export class AnsattOversikt extends Component {
     this.nyefeil = await feil.data.filter((e) => e.status === 'Ikke godkjent');
     await this.scrollNye();
     await console.log(this.nyefeil);
+
+    this.godkjente = await feil.data.filter((e) => e.status === 'Godkjent');
+    await this.scrollGodkjent();
 
     this.underBehandling = await feil.data.filter((e) => e.status === 'Under behandling');
     await this.scrollUnderB();
