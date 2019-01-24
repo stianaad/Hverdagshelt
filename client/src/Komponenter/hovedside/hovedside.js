@@ -465,8 +465,8 @@ f                      id="test"
                           />
                           <br />
                           <div id="hendelseKnapper">
-                            <a href={this.hendelse.billett} target="_blank"><Button color="green">Kjøp billetter</Button></a>
-                            <AbonnerKnapp style={{float:"right", width:"90px"}} key={this.hendelse.hendelse_id} hendelse_id={this.hendelse.hendelse_id} />
+                            {this.hendelse.billett && <a href={this.hendelse.billett} target="_blank"><Button color="green" style={{height:"33.5px"}}>Kjøp billetter</Button></a>}
+                            {(global.payload && global.payload.role == 'privat') && <AbonnerKnapp style={{float:"right", width:"90px"}} key={this.hendelse.hendelse_id} hendelse_id={this.hendelse.hendelse_id} />}
                           </div>
                           <br />
 

@@ -1,9 +1,14 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
 import {Card, Feed, Grid, Button, Header, Icon, Input, Image, Modal, List, CardContent} from 'semantic-ui-react';
+import { ShowMarkerMap } from '../kart/map';
+import { feilService } from '../../services/feilService';
 
 
 export class FeilVisning extends Component {
+    statuser = [];
+    bilderTilFeil = [];
+
     render(){
         return(
             <div>
@@ -16,8 +21,71 @@ export class FeilVisning extends Component {
                             <Grid.Column>Status: {this.props.feil.status}</Grid.Column>
                         </Grid>
                     </Card.Content>
+                    <Card.Content extra>
+                        <Grid fluid columns={3}>
+                            <Grid.Column>
+                                <h5>Beskrivelse</h5>
+                                <p style={{maxHeight: '100px'}}>{this.props.feil.beskrivelse}</p>
+                                <h5>Posisjon:</h5>
+                                <ShowMarkerMap key={this.props.feil.feil_id} width="100%" height="50%" id="posmap" feil={this.props.feil}/>
+                            </Grid.Column>
+                            <Grid.Column>
+                                <h5>Kategori: </h5>
+                                <p>{this.props.feil.kategori}</p>
+                                <h5>Bilder:</h5>
+                                <div className="feilModalFyll" style={{height: '80px'}}>
+                                    {this.props.bilder.map((bilde) => (
+                                    <div className="feilModalBilde" key={bilde.bilde_id} onClick={() => this.visBilde(bilde.url)}>
+                                        <img src={bilde.url} key={bilde.bilde_id} className="bilder" onClick={() => { this.bildeModal = bilde.url; this.bildeOpen = true; }} />
+                                    </div>
+                                    ))}
+                                </div>
+                            </Grid.Column>
+                            <Grid.Column>
+                                <h5>Oppdateringer</h5>
+                                <List>
+                                    {this.props.opp.map((oppdatering) => (
+                                        <List.Item>
+                                            <List.Content>
+                                                <List.Header>{oppdatering.status}<span className="float-right font-weight-light font-italic">{oppdatering.tid}</span></List.Header>
+                                                <List.Description>{oppdatering.kommentar}</List.Description>
+                                            </List.Content>
+                                        </List.Item>
+                                    ))}
+                                </List>
+                                <h5>Oppdater: </h5>
+                                <div className="form-group">
+                                    <label>Kommentar: </label>
+                                    <input type="text" className="form-control"
+                                        onChange={(e) => (this.kommentar = e.target.value)}
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label>Status: </label>
+                                    <select
+                                        className="form-control"
+                                        onChange={(e) => this.handterStatuser(e.target.value)}
+                                        >
+                                        <option hidden>{this.props.feil.status}</option>
+                                        {this.statuser.map((status) => (
+                                            <option value={status.status} key={status.status}>
+                                            {' '}
+                                            {status.status}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <Button basic color="green">Oppdater</Button>
+                            </Grid.Column>
+                        </Grid> 
+                    </Card.Content>
                 </Card>
             </div>
         ); 
+    }
+
+    async mounted(){
+        let res = await feilService.hentAlleStatuser();
+        this.statuser = await res.data; 
     }
 }

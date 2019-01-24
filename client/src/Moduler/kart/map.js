@@ -84,7 +84,9 @@ export class Marker {
         ? 'warningicon'
         : feil.status == 'Under behandling'
         ? 'processingicon'
-        : 'successicon';
+        : feil.status == 'Ferdig'
+        ? 'successicon'
+        : 'warningicon';
     let statusText =
       feil.status == 0 ? (
         ''
@@ -139,11 +141,13 @@ export class Marker {
     let iconName =
       feil.status == 0
         ? null
-        : feil.status == 'Ikke godkjent'
+        : feil.status == 'Godkjent'
         ? 'warningicon'
         : feil.status == 'Under behandling'
         ? 'processingicon'
-        : 'successicon';
+        : feil.status == 'Ferdig'
+        ? 'successicon'
+        : 'warningicon';
     let statusText =
       feil.status == 0 ? (
         ''

@@ -496,8 +496,10 @@ export class Hendelse extends Component{
             
             <div className="text-center "><AbonnerKnapp key={this.props.hendelse_id} hendelse_id={this.props.hendelse_id} /></div>
           
+        ) :(global.payload && (global.payload.role === 'ansatt' || global.payload.role === 'admin')) ? (
+            <Button color="green" onClick={this.props.rediger}>Rediger</Button>
         ) : (
-          <Button color="green" onClick={this.props.rediger}>Rediger</Button>
+          null
         )}
         </Card>
               /*<Card className="h-100" fluid>

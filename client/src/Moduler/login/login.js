@@ -101,16 +101,20 @@ export class Login extends Component {
       let base64 = base64Url.replace('-', '+').replace('_', '/');
       global.payload = JSON.parse(window.atob(base64));
       sessionStorage.setItem('pollett', res.token);
-
-      if (global.payload.role == 'privat') {
-        if (this.props.location.pathname == '/') global.sidePush('/minside', true);
-        else global.sideRefresh(true);
-      } else if (global.payload.role == 'ansatt' || global.payload.role == 'bedrift') {
-        if (this.props.location.pathname == '/') global.sidePush('/mineoppgaver', true);
-        else global.sideRefresh(true);
-      } else if (global.payload.role == 'admin') {
-        if (this.props.location.pathname == '/') global.sidePush('/administrasjon', true);
-        else global.sideRefresh(true);
+      
+      let p = window.location.pathname;
+      if (p.startsWith("/hovedside/") || p.startsWith("/hendelser") || p.startsWith("/resett-passord/")) {
+          global.sideRefresh(true);
+      } else {
+        if (global.payload.role == 'privat') {
+          global.sidePush('/minside', true);
+        } else if (global.payload.role == 'ansatt') {
+          global.sidePush('/ansatt/oversikt', true);
+        } else if (global.payload.role == 'bedrift') {
+          global.sidePush('/mineoppgaver', true);
+        } else if (global.payload.role == 'admin') {
+          global.sidePush('/administrasjon', true);
+        }
       }
     } else {
       console.log(res.result);

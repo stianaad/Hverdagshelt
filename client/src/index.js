@@ -43,6 +43,7 @@ import {AnsattGodkjent} from './Komponenter/Ansatt/ansattGodkjent';
 import { AlleBedrifter } from './Komponenter/Ansatt/alleBedrifter';
 
 import { Administrasjon } from './Komponenter/Admin/admin';
+import 'semantic-ui-css/semantic.min.css';
 
 //<PositionMap width="100%" height="500px" id="posmap" center="Oslo" position={this.posisjon}></PositionMap>
 class Menu extends Component {
@@ -197,7 +198,6 @@ const routes = () => {
             : global.payload.role == 'ansatt'
             ? //Ansatt routes
               [
-                <Route exact path="/mineoppgaver" key="mineoppgaver" component={MineOppgaver} history={history} />,
                 <Route exact path="/registrerBedrift" key="registrerbedrift"component={RegistrerBedrift} history={history} />,
                 <Route exact path="/ansatt/nyefeil" key="nyefeil" component={NyeFeil} history={history}/>,
                 <Route exact path="/ansatt/nyhendelse" key="nyhendelse" component={NyHendelse} history={history}/>,
