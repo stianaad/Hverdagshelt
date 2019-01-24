@@ -299,8 +299,8 @@ export class Hovedside extends Component {
                           height="20"
                           className="hovedSideX"
                         />
-                      <h6>
-                        Status: {(this.feil.status=== "Godkjent") ? (<span>Mottatt</span>) : (this.feil.status)} <img src={this.statusIkon} width="30" height="30" />
+                      <h6><b>
+                        Status:</b> {(this.feil.status=== "Godkjent") ? (<span>Mottatt</span>) : (this.feil.status)} <img src={this.statusIkon} width="30" height="30" />
                         {(global.payload && global.payload.role == 'privat') ? (
                         <AbonnerKnapp style={{float:"right", width:"90px"}} key={this.feil.feil_id} feil_id={this.feil.feil_id} />
                         ) : null}
@@ -309,17 +309,19 @@ export class Hovedside extends Component {
                   </Card.Content>
                   <Card.Content extra style={{height: '100%', color:"black"}}>
                     <Grid  columns={3} stackable style={{height: '100%'}}>
-                      <Grid.Column style={{overflowY: 'auto'}}>
-                        <h6>Beskrivelse: </h6>
-                        <p>{this.feil.beskrivelse}</p>
+                      <Grid.Column>
+                        <h6><b>Beskrivelse:</b></h6>
+                        <div class="hovedSideFeilBeskrivelse">{this.feil.beskrivelse.split("\n").map((tekst) => (
+                          <p key={tekst}>{tekst}</p>))}
+                        </div>
                       </Grid.Column>
                       <Grid.Column>
-                        <h6>Posisjon</h6>
+                        <h6><b>Posisjon:</b></h6>
                         <ShowMarkerMap key={this.feil.feil_id} width="100%" height="100%" id="posmap" feil={this.feil} />
                       </Grid.Column>
                       <Grid.Column>
                         <div className="oppdateringScroll">
-                        <h6>Oppdateringer: </h6>
+                        <h6><b>Oppdateringer:</b></h6>
                           <List className="p-2">
                             {this.oppTilFeil.map((opp) => (
                             <List.Item>
@@ -333,7 +335,7 @@ export class Hovedside extends Component {
                         </div>
                         <br />
                         <div className="oppdateringScroll">
-                          <h6>Bilder:</h6>
+                          <h6><b>Bilder:</b></h6>
                           <div>
                             {this.bilderTilFeil.map((bilde) => (
                                 <div className="feilModalBilde" onClick={() => this.visBilde(bilde.url)}>
@@ -482,9 +484,9 @@ f                      id="test"
                           </div>
                         </Grid.Column>
                         <Grid.Column>
-                          <p id="hendelseBeskrivelse">
-                            {this.hendelse.beskrivelse}
-                          </p>
+                          <div id="hendelseBeskrivelse">{this.hendelse.beskrivelse.split("\n").map((tekst) => (
+                            <p key={tekst}>{tekst}</p>))}
+                          </div>
                         </Grid.Column>
                       </Grid>
                     </div>
