@@ -37,7 +37,7 @@ export class FeilModal extends Component {
                   <span>
                     Status: {this.props.feil.status}
                   <img src="/warningicon.png" width="30" height="30" />
-                  <AbonnerKnapp style={{float:"right", width:"90px"}} key={this.props.feil.feil_id} feil_id={this.props.feil.feil_id} />
+                  {this.props.abonner && (<AbonnerKnapp style={{float:"right", width:"90px"}} key={this.props.feil.feil_id} feil_id={this.props.feil.feil_id} />)}
                   </span>
                   <img
                       onClick={this.props.onClose}

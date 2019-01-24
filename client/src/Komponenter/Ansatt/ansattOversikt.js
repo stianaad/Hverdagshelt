@@ -7,6 +7,8 @@ import {feilService} from '../../services/feilService';
 import {markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
 import {NavLink} from 'react-router-dom';
 import {AnsattMeny} from './ansattMeny';
+import {InfoBoks} from '../../Moduler/info/info';
+import {FeilModal} from '../../Moduler/modaler/feilmodal';
 
 export class AnsattOversikt extends Component {
   nyefeil = [];
@@ -22,41 +24,22 @@ export class AnsattOversikt extends Component {
     beskrivelse: '',
   };
 
+  feilModal = false; 
+
   classNye = 'hoyde-tabell';
   classUnderB = 'hoyde-tabell';
   classFerdig = 'hoyde-tabell';
 
-  state = {
-    open: false,
-  };
-
-  handleOpen = (feil) => {
+  openModal(feil){
     this.valgtFeil = {...feil};
-    this.opneFeil(feil);
-    console.log(this.valgtFeil);
-    this.setState({open: true});
-    console.log(this.state);
-  };
-
-  async opneFeil(feil) {
-    let res = await feilService.hentBilderTilFeil(feil.feil_id);
-    this.bilderTilFeil = await res.data;
-    console.log('Bilder: ' + this.bilderTilFeil);
-
-    let res2 = await feilService.hentAlleOppdateringerPaaFeil(feil.feil_id);
-    this.oppdateringer = await res2.data;
-    await console.log(this.oppdateringer);
-    await console.log('res2: ' + res2);
+    this.feilModal = true; 
   }
-
-  handleClose = () => {
-    this.setState({open: false});
-  };
-
+  
   render() {
     return (
       <>
         <PageHeader history={this.props.history} location={this.props.location} />
+        <FeilModal key={this.valgtFeil.feil_id+this.feilModal} open={this.feilModal} feil={this.valgtFeil} onClose={() => {this.feilModal = false}} />
         <div className="vinduansatt container-fluid">
             <AnsattMeny/>
             <div className="row justify-content-md-center mt-3 mb-3">
@@ -68,13 +51,14 @@ export class AnsattOversikt extends Component {
                         <Card color="red" fluid>
                             <Card.Content>
                             <Card.Header>
-                                Nye innsendinger
+                                <h3 style={{display: 'inline'}}>Nye innsendinger</h3>
+                                <InfoBoks style={{display: 'inline'}} tekst="Velg Nye Feil i menyen for å gjøre endringer på feilene"/>
                             </Card.Header>
                             </Card.Content>
                             <Card.Content className={this.classNye}>
                             {this.nyefeil.map((feil) => (
                                 <FeedEvent
-                                onClick={() => this.handleOpen(feil)}
+                                onClick={() => this.openModal(feil)}
                                 status={feil.status}
                                 tid={feil.tid}
                                 kategori={feil.kategorinavn}
@@ -89,13 +73,15 @@ export class AnsattOversikt extends Component {
                         <Card color="yellow fluid">
                             <Card.Content>
                                 <Card.Header>
-                                    Under behandling
+                                    <h3 style={{display: 'inline'}}>Under behandling</h3>
+                                    <InfoBoks style={{display: 'inline'}} 
+                                    tekst="Trykk på en feil for å lese mer om den. Hvis du ønsker å gjøre endringer kan du gjøre dette under 'Under behandling' i menyen til venstre"/>
                                 </Card.Header>
                             </Card.Content>
                             <Card.Content className={this.classUnderB}>
                             {this.underBehandling.map((feil) => (
                                 <FeedEvent
-                                onClick={() => this.handleOpen(feil)}
+                                onClick={() => this.openModal(feil)}
                                 status={feil.status}
                                 tid={feil.tid}
                                 kategori={feil.kategorinavn}
@@ -110,14 +96,15 @@ export class AnsattOversikt extends Component {
                         <Card color="green" fluid>
                             <Card.Content>
                             <Card.Header>
-                                Avsluttede saker
+                                <h3 style={{display: 'inline'}}>Avsluttede saker</h3>
+                                <InfoBoks style={{display: 'inline'}} tekst="Trykk på en sak for å lese mer om den"/>
                             </Card.Header>
                             </Card.Content>
 
                             <Card.Content className={this.classFerdig}>
                             {this.utførte.map((feil) => (
                                 <FeedEvent
-                                onClick={() => this.handleOpen(feil)}
+                                onClick={() => this.openModal(feil)}
                                 status={feil.status}
                                 tid={feil.tid}
                                 kategori={feil.kategorinavn}

@@ -85,13 +85,13 @@ export class AnsattUnder extends Component{
                                                     <Grid.Column>KART</Grid.Column>
                                                     <Grid.Column>
                                                         <Grid columns={2} fluid>
-                                                        {this.bilder.map((bilde) => (
-                                                            <Grid.Column>
-                                                            <div onClick={() => this.visBilde(bilde.url)}>
-                                                                <img src={bilde.url} className="bilder" />
-                                                            </div>
-                                                            </Grid.Column>
-                                                        ))}
+                                                            {this.bilder.map((bilde) => (
+                                                                <Grid.Column>
+                                                                <div onClick={() => this.visBilde(bilde.url)}>
+                                                                    <img src={bilde.url} className="bilder" />
+                                                                </div>
+                                                                </Grid.Column>
+                                                            ))}
                                                         </Grid>
                                                     </Grid.Column>
                                                     </Grid>
