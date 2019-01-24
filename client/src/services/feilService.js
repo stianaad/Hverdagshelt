@@ -89,12 +89,13 @@ class FeilService {
     return api.get('/api/hovedkategorier/subkategorier');
   }
 
-  slettBildeFraFeil(info, feil_id, bilde_id) {
+  slettBildeFraFeil(json) {
     let token = sessionStorage.getItem('pollett');
+    console.log(token);
     if (token) {
-      return api.delete('/api/feil/' + feil_id + '/bilder/' + bilde_id, info, { headers: { 'x-access-token': 'Bearer ' + token } });
+      return api.delete('/api/feil/' + json.feil_id + '/bilder/' + json.bilde_id, { headers: { 'x-access-token': 'Bearer ' + token } });
     } else {
-
+      return [];
     }
   }
 

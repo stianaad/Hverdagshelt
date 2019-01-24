@@ -310,10 +310,9 @@ router.get('/api/hovedkategorier/subkategorier', (req, res) => {
 router.delete('/api/feil/:feil_id/bilder/:bilde_id', checkToken, (req, res) => {
   console.log('Fikk DELETE-request fra klienten');
   let rolle = req.decoded.role;
-  let a = { url: req.body.url, feil_id: req.body.feil_id };
 
-  if (rolle == 'admin' || rolle == 'ansatt' && req.decoded.user.kommune_id == req.body.kommune_id) {
-    feilDao.slettBildeFraFeil(a, (status, data) => {
+  if (rolle == 'admin' || rolle == 'ansatt' /*&& req.decoded.user.kommune_id == req.body.kommune_id*/) {
+    feilDao.slettBildeFraFeil(req.params.bilde_id, req.params.feil_id, (status, data) => {
       res.status(status);
       res.json(data);
       console.log('Admin eller ansatt slettet bilde fra feil');

@@ -234,7 +234,7 @@ module.exports = class epost {
   }
 
   //Sender ut hendelse til alle i området
-  hendelse(overskrift, tid, beskrivelse, sted, bilde, mottaker) {
+  hendelse(overskrift, tid, beskrivelse, sted, bilde, eposter) {
     let subject = overskrift;
     let html =
       '<div style="margin-left:36px"><p>' +
@@ -250,7 +250,9 @@ module.exports = class epost {
       '<img src="http://drive.google.com/uc?export=view&id=1FTiZHS4274x2VpVfjt2jj7aIfBbvVfBg" width="280"/></div><div style="margin-left:15px;margin-top:80px">' +
       '<p>E-post: contact@HverdagsHelt.no</p><p>tlf: +47 00 00 00 00</p><p>Prosjekt HverdagsHelt</p></div>';
 
-    let mailOptions = {
+      let mottaker = eposter.join((', '))
+    
+      let mailOptions = {
       from: avsender,
       to: mottaker, //hendelser skal sendes ut til mange, dermed må strengen av mottakere være i formatet "test1@test.test, test2@test.test... osv."
       subject: subject,
