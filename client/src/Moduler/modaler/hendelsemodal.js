@@ -41,8 +41,10 @@ export class HendelseModal extends Component {
                         <p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Simple_icon_time.svg/750px-Simple_icon_time.svg.png" height="20" width="25" />&nbsp;{this.props.hendelse.tid}</p>
                       </Grid.Column>
                       <Grid.Column>
-                        <h6>Detaljer:</h6>
-                        <Input className="hendelseModalBeskrivelse">{this.props.hendelse.beskrivelse}</Input>
+                        <h6><b>Detaljer:</b></h6>
+                        <div className="hendelseModalBeskrivelse">{this.props.hendelse.beskrivelse.split("\n").map((tekst) => (
+                          <p key={tekst}>{tekst}</p>))}
+                        </div>
                       </Grid.Column>
                     </Grid>
                   </Card.Content>

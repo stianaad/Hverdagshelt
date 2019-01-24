@@ -75,6 +75,7 @@
 
 .hendelseContainer .feilCardImage {
   height:200px;
+  width: 250px;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
   object-fit: cover;

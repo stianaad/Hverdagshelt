@@ -52,7 +52,6 @@ export class Minside extends Component {
 
   mobileView(view) {
     let q = (id) => document.querySelector(id);
-    console.log("view: "+view);
     if (view == this.mobView) return;
 
     if (view == "#mintittelanchor") {
