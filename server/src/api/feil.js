@@ -18,9 +18,16 @@ let epostTjener = new Epost();
 let brukerDao = new BrukerDao(pool);
 let bildeOpplasting = new BildeOpplasting();
 
+router.get('/api/kommuner/:kommune_id/godkjentefeil', (req, res) => {
+  feilDao.hentGodkjenteFeilForKommune(req.params.kommune_id, (status, data) => {
+    res.status(status);
+    res.json(data);
+  });
+});
+
 router.get('/api/feil', checkToken, (req, res) => {
   console.log('Fikk GET-request fra klienten');
-  if (req.decoded.role == 'admin' || req.decoded.role == 'ansatt' && req.decoded.user.kommune_id == req.params.kommune_id) {
+  if (req.decoded.role == 'admin' || req.decoded.role == 'ansatt') {
     feilDao.hentAlleFeil((status, data) => {
       res.status(status);
       res.json(data);
@@ -30,13 +37,6 @@ router.get('/api/feil', checkToken, (req, res) => {
     res.status(403);
     res.json({ resultat: "ingen tilgang" });
   }
-});
-
-router.get('/api/kommuner/:kommune_id/godkjentefeil', (req, res) => {
-  feilDao.hentGodkjenteFeilForKommune(req.params.kommune_id, (status, data) => {
-    res.status(status);
-    res.json(data);
-  });
 });
 
 router.get('/api/kommuner/:kommune_id/feil', checkToken, (req, res) => {
@@ -52,12 +52,9 @@ router.get('/api/kommuner/:kommune_id/feil', checkToken, (req, res) => {
 });
 
 router.get('/api/feil/:feil_id', (req, res) => {
-  if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk GET-request fra klienten');
 
-  let a = { feil_id: req.body.feil_id };
-
-  feilDao.hentEnFeil(a, (status, data) => {
+  feilDao.hentEnFeil(req.params.feil_id, (status, data) => {
     res.status(status);
     res.json(data);
     console.log('/hentEnFeil resultat:' + data);
@@ -185,7 +182,7 @@ router.delete('/api/feil/:feil_id', checkToken, (req, res) => {
       res.json(data);
     });
   } else if (rolle == 'privat') {
-    let b = { bruker_id: req.decoded.user.bruker_id, feil_id: req.params.feil_id };
+    let b = {bruker_id: req.decoded.user.bruker_id, feil_id: req.params.feil_id};
     console.log(b);
     feilDao.sjekkFeilPaaBruker(b, (status, data) => {
       if (data[0].length == 0) {
@@ -218,11 +215,10 @@ router.get('/api/hovedkategorier', (req, res) => {
   });
 });
 
-router.get('/api/feil/:kategori_id', (req, res) => {
-  if (!(req.body instanceof Object)) return res.sendStatus(400);
+router.get('/api/feil/:hovedkategori_id', (req, res) => {
   console.log('Fikk GET-request fra klienten');
 
-  feilDao.hentFeilFiltrertKategori(req.body, (status, data) => {
+  feilDao.hentFeilFiltrertKategori(req.params.hovedkategori_id, (status, data) => {
     res.status(status);
     res.json(data);
     console.log('/hent feil filtrert på kategori lengde: ' + data.length);
@@ -254,25 +250,26 @@ router.post('/api/feil/oppdateringer/bedrift', checkToken, (req, res) => {
 });
 
 router.get('/api/feil/:feil_id/oppdatering', (req, res) => {
-  if (!(req.body instanceof Object)) return res.sendStatus(400);
-  console.log('Fikk GET-request fra klienten');
+ console.log('Fikk GET-request fra klienten');
 
-  let a = { feil_id: req.params.feil_id };
-
-  feilDao.hentAlleOppdateringerPaaFeil(a, (status, data) => {
+  feilDao.hentAlleOppdateringerPaaFeil(req.params.feil_id, (status, data) => {
     res.status(status);
     res.json(data);
     console.log('/oppdateringer med feil_id ' + a.feil_id + ' lengde: ' + data.length);
   });
 });
 
+router.delete('/api/oppdateringer/:oppdatering_id', (req, res) => {
+  console.log('Fikk DELETE-request fra klient');
+  feilDao.slettOppdatering(req.params.oppdatering_id, (status, data) => {
+    res.status(status);
+    res.json(data);
+  });
+});
+
 router.get('/api/statuser/:status_id', (req, res) => {
-  if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk GET-request fra klienten');
-
-  let a = { status_id: req.params.status_id };
-
-  feilDao.hentEnStatus(a, (status, data) => {
+  feilDao.hentEnStatus(req.params.status_id , (status, data) => {
     res.status(status);
     res.json(data);
     console.log('hent en status gir:' + data);
@@ -301,8 +298,7 @@ router.get('/api/hovedkategorier', (req, res) => {
 
 router.get('/api/hovedkategorier/:hovedkategori_id/subkategorier', (req, res) => {
   console.log('Fikk GET-request fra klienten');
-
-  feilDao.hentAlleSubKategorierPaaHovedkategori(req.body, (status, data) => {
+  feilDao.hentAlleSubKategorierPaaHovedkategori(req.params.hovedkategori_id, (status, data) => {
     res.status(status);
     res.json(data);
     console.log('subkategorier under hovedkategori lengde:' + data.length);
@@ -311,7 +307,6 @@ router.get('/api/hovedkategorier/:hovedkategori_id/subkategorier', (req, res) =>
 
 router.get('/api/hovedkategorier/subkategorier', (req, res) => {
   console.log('Fikk GET-request fra klienten');
-
   feilDao.hentAlleSubkategorier((status, data) => {
     res.status(status);
     res.json(data);
@@ -322,9 +317,8 @@ router.get('/api/hovedkategorier/subkategorier', (req, res) => {
 router.delete('/api/feil/:feil_id/bilder/:bilde_id', checkToken, (req, res) => {
   console.log('Fikk DELETE-request fra klienten');
   let rolle = req.decoded.role;
-
   if (rolle == 'ansatt') {
-    feilDao.finnKommuneidPaaFeil(req.params.id, (status, data) => {
+    feilDao.finnKommuneidPaaFeil(req.params.feil_id, (status, data) => {
       if(data[0].kommune_id == req.decoded.user.kommune_id) {
         feilDao.slettBildeFraFeil(req.params.bilde_id, req.params.feil_id, (status, data) => {
           res.status(status);
@@ -334,7 +328,7 @@ router.delete('/api/feil/:feil_id/bilder/:bilde_id', checkToken, (req, res) => {
       }
     })
   } else if (rolle == 'privat') {
-    let b = { bruker_id: req.decoded.user.bruker_id, feil_id: req.params.feil_id };
+    let b = {bruker_id: req.decoded.user.bruker_id, feil_id: req.params.feil_id};
     feilDao.sjekkFeilPaaBruker(b, (status, data) => {
       if (data[0].length == 0) {
         res.status(403);
@@ -355,7 +349,7 @@ router.delete('/api/feil/:feil_id/bilder/:bilde_id', checkToken, (req, res) => {
     });
   } else {
     res.status(403);
-    res.json({ result: false });
+    res.json({result: false});
   }
 });
 
@@ -576,7 +570,7 @@ router.post('/api/hovedkategorier', checkToken, (req, res) => {
   let role = req.decoded.role;
   console.log('ny hovedkategori, rolle:' + role)
   if (role == 'admin') {
-    feilDao.nyHovedkategori(req.body, (status, data) => {
+    feilDao.nyHovedkategori(req.body.kategorinavn, (status, data) => {
       console.log('ny hovedkategori data: ' + data);
       res.status(status);
       res.json(data);
@@ -591,7 +585,7 @@ router.delete('/api/hovedkategorier/:hovedkategori_id', checkToken, (req, res) =
   let role = req.decoded.role;
   console.log('slette hovedkategori, rolle:' + role);
   if (role == 'admin') {
-    feilDao.slettHovedkategori({ hovedkategori_id: req.params.hovedkategori_id }, (status, data) => {
+    feilDao.slettHovedkategori(req.params.hovedkategori_id, (status, data) => {
       console.log('slett hovedkategori data:' + data);
       res.status(status);
       res.json(data);
@@ -606,7 +600,7 @@ router.delete('/api/subkategorier/:subkategori_id', checkToken, (req, res) => {
   let role = req.decoded.role;
   console.log('slette subkategori, rolle:' + role);
   if (role == 'admin') {
-    feilDao.slettSubkategori({ subkategori_id: req.params.subkategori_id }, (status, data) => {
+    feilDao.slettSubkategori(req.params.subkategori_id, (status, data) => {
       console.log('slett subkategori data:' + data);
       res.status(status);
       res.json(data);
