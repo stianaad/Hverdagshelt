@@ -113,9 +113,9 @@ export class Minside extends Component {
                   Dine rapporterte feil<InfoBoks tekst="Trykk på knappen under for å se dine rapporterte feil."/>
                   <Button basic color="green" onClick={this.visRapporterteFeil}>
                     {this.oppdaterteFeil.length === 0 ? (
-                      <span>Ingen ny(e) oppdateringer</span>
+                      <span>Ingen nye oppdateringer</span>
                     ) : (
-                      <span>{this.oppdaterteFeil.length} nye oppdateringer</span>
+                      <span>{this.oppdaterteFeil.length} ny(e) oppdateringer</span>
                     )}
                   </Button>
                 </Card.Header>
@@ -438,8 +438,6 @@ export class Minside extends Component {
   async finnOppdaterteFeilBruker() {
     let res1 = await brukerService.finnOppdaterteFeilTilBruker();
     this.oppdaterteFeil = await res1.data;
-    await console.log("DETTETET EE OPPDATERTE DAT",res1.data);
-    await console.log(global.payload.user.bruker_id);
   }
 
   async finnIkkeOppdaterteFeil() {
