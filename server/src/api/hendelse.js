@@ -3,6 +3,9 @@ const router = express.Router();
 import mysql from 'mysql';
 import bodyParser from 'body-parser';
 import HendelseDao from '../dao/hendelsedao.js';
+import path from 'path';
+import multer from 'multer';
+var upload = multer({ dest: path.join(__dirname, '/../../temp') });
 import { pool } from '../../test/poolsetup';
 import { checkToken } from '../middleware';
 import Epost from '../epost.js';
@@ -36,52 +39,50 @@ router.get('/api/hendelser/:hendelse_id', (req, res) => {
 	});
 });
 
-router.post('/api/hendelser', checkToken, (req, res) => {
-  if (!(req.body instanceof Object)) return res.sendStatus(400);
+//Dette endepunktet krever multipart/form-data istedet for json for å håndtere bildeopplasting
+router.post('/api/hendelser', upload.array('bilder', 1), checkToken, (req, res) => {
   console.log('Fikk POST-request fra klienten');
   let rolle = req.decoded.role;
 
-  if(rolle == 'ansatt' && req.decoded.user.kommune_id == req.body.kommune_id || rolle == 'admin') {
+  if (rolle == 'ansatt' || rolle == 'admin') {
     let a = {
       bruker_id: req.decoded.user.bruker_id,
       hendelseskategori_id: req.body.hendelseskategori_id,
-      kommune_id: req.body.kommune_id,
+      kommune_id: req.decoded.user.kommune_id,
       overskrift: req.body.overskrift,
       tid: req.body.tid,
       beskrivelse: req.body.beskrivelse,
       sted: req.body.sted,
-      bilde: req.body.bilde,
-      lengdegrad: req.body.lengdegrad,
-      breddegrad: req.body.breddegrad,
     };
+    if (req.files && req.files.length > 0) {
+      bildeOpplasting.lastOpp(req.files, (bilder) => {
+        a.bilde = bilder[0];
+        hendelseDao.lagNyHendelse(a, (status, data) => {
+          console.log('Opprettet en ny hendelse');
+          let hendelse_id = data.insertId;
 
-    let nyID = -1;
+          res.status(status);
+          res.json({ "resultat": (status == 200) ? "vellykket" : "feilet" });
 
-    hendelseDao.lagNyHendelse(a, (status, data) => {
-      console.log('Opprettet en ny hendelse');
-      nyID = data.insertId;
-      if (nyID > 0) {
-        hendelseDao.hentVarsledeBrukere({hendelse_id: nyID}, (status, data) => {
-          if (data.length > 0) {
-            console.log('Fant brukere');
-            let eposter = data.map((eposten) => (
-              eposten.epost
-            ));
-            epostTjener.hendelse(a.overskrift, a.tid, a.beskrivelse, a.sted, a.bilde, eposter);
-          } else {
-            console.log('Fant ikke brukere');
+          if (status == 200) {
+            hendelseDao.hentVarsledeBrukere({ hendelse_id: hendelse_id }, (status, data) => {
+              if (data.length > 0) {
+                console.log('Fant brukere');
+                let eposter = data.map((eposten) => (
+                  eposten.epost
+                ));
+                epostTjener.hendelse(a.overskrift, a.tid, a.beskrivelse, a.sted, a.bilde, eposter);
+              } else {
+                console.log('Fant ikke brukere');
+              }
+            });
           }
         });
-      }
-      res.status(status);
-    });
-    
-
-
-    
+      });
+    }
   } else {
     res.status(403);
-    res.json({result: false});
+    res.json({ result: false });
   }
 });
 
