@@ -128,3 +128,8 @@ nav ul{
 #hendelseBeskrivelse {
    overflow-y: auto;
 }
+
+.hovedSideFeilBeskrivelse {
+   overflow-y: auto;
+   height: 100%;
+}

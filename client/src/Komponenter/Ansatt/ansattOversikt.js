@@ -96,7 +96,7 @@ export class AnsattOversikt extends Component {
                         </Card>
                     </div>
                     <div className="col-sm-3">
-                        <Card color="yellow fluid">
+                        <Card color="yellow" fluid>
                             <Card.Content>
                                 <Card.Header>
                                     <h3 style={{display: 'inline'}}>Under behandling</h3>
