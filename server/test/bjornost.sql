@@ -1429,7 +1429,7 @@ ALTER TABLE `privat`
 -- Begrensninger for tabell `subkategori`
 --
 ALTER TABLE `subkategori`
-  ADD CONSTRAINT `subkategori_ibfk_1` FOREIGN KEY (`hovedkategori_id`) REFERENCES `hovedkategori` (`hovedkategori_id`);
+  ADD CONSTRAINT `subkategori_ibfk_1` FOREIGN KEY (`hovedkategori_id`) REFERENCES `hovedkategori` (`hovedkategori_id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
