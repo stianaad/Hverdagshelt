@@ -20,6 +20,11 @@
     margin-right:30px;
 }
 
+.feilModalOppdateringScroll {
+    overflow-y: auto;
+    height:150px;
+}
+
 .feilModalInnhold {
     -webkit-overflow-scrolling: touch;
     flex: 1 1 auto;

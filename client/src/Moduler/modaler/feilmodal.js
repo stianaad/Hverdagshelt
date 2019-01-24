@@ -59,7 +59,7 @@ export class FeilModal extends Component {
                   </Grid.Column>
                   <Grid.Column>
                     <h6>Oppdateringer: </h6>
-                    <div className="oppdateringScroll">
+                    <div className="feilModalOppdateringScroll">
                       <List className="p-2">
                         {this.oppTilFeil.map((opp) => (
                           <List.Item>
