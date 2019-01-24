@@ -148,9 +148,7 @@ export class Hovedside extends Component {
       }
       if (view == "#hovedKart") {
         if (!window.closedObj.isClosed) {
-          console.log(window.closedObj);
           window.setClosed();
-          
         }
 
         q(this.mobView).style.display = "none";
@@ -554,7 +552,7 @@ f                      id="test"
 
   async mounted() {
     this.visFeil = false;
-
+    console.log("mounted");
     let res = await generellServices.sokKommune(this.props.match.params.kommune);
     let res4 = await hendelseService.hentAlleHovedkategorier();
     this.hendelseKategori = res4.data;
@@ -573,10 +571,22 @@ f                      id="test"
           res3.data,
         ]);
     
-        await Promise.all([res1.data]).then(() => {
-          console.log("got here");
-          if (this.mobView != "#hovedKart" && L.Browser.mobile) window.setClosed();
-          this.kart.addMarkers(res1.data);
+        await Promise.all([res1.data/*, res2.data, res3.data, res4.data, res.data*/]).then(() => {
+          if (this.kart.loaded) {
+            this.kart.addMarkers(res1.data);
+            if (this.mobView != "#hovedKart" && L.Browser.mobile) {window.setClosed();}
+          }
+          else {
+            let listenfunc = () => {
+              if (this.kart.loaded) {
+                if (this.mobView != "#hovedKart" && L.Browser.mobile) {window.setClosed();}
+              }
+              else {
+                setTimeout(()=>listenfunc(), 100);
+              }
+            }
+            listenfunc();
+          }
         });
 
       } else {

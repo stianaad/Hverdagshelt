@@ -202,7 +202,7 @@ export class Marker {
  */
 export class MarkerMap extends Component {
   map = null;
-
+  loaded = false;
   componentDidMount() {
     this.props.onRef(this);
 
@@ -232,6 +232,7 @@ export class MarkerMap extends Component {
           ],
         });
         this.map.on('load', () => {
+          this.loaded = true;
           this.props.callback();
         });
         this.map.fitBounds(this.coords).setZoom(10);
