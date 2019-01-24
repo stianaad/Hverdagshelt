@@ -185,6 +185,8 @@ export class Hovedside extends Component {
               className="meldFeilHoved"
               onClick={() => {
                 clearInterval(this.shakeInterval);
+                this.shakeDir = 5;
+                this.shake = 0;
                 this.shakeInterval = setInterval(() => {
                   if (Math.abs(this.shake) > 20) this.shakeDir*=-1;
                   this.shake += this.shakeDir;
