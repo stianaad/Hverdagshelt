@@ -243,6 +243,8 @@ class FeilService {
     console.log('Opprett ny hovedkategori service:');
     if (token) {
       return api.post('/api/hovedkategorier',nyHk, { headers: { 'x-access-token': 'Bearer ' + token } });
+    } else {
+      return null;
     }
   }
 
@@ -251,6 +253,8 @@ class FeilService {
     console.log('Opprett ny subkategori service:');
     if (token) {
       return api.post('/api/subkategorier',nySk, { headers: { 'x-access-token': 'Bearer ' + token } });
+    } else {
+      return null;
     }
   }
 }
