@@ -5,7 +5,9 @@ import bodyParser from 'body-parser';
 import HendelseDao from '../dao/hendelsedao.js';
 import { pool } from '../../test/poolsetup';
 import { checkToken } from '../middleware';
+import Epost from '../epost.js';
 
+let epostTjener = new Epost();
 let hendelseDao = new HendelseDao(pool);
 
 router.get('/api/hendelser', (req, res) => {
