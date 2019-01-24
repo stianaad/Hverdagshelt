@@ -102,8 +102,8 @@ module.exports = class BrukerDao extends Dao {
           let gyldig = (json.fornavn != null) && (json.etternavn != null);
           if (status == 200 && gyldig) {
             super.query(
-              'INSERT INTO privat (bruker_id, fornavn, etternavn) VALUES(?,?,?)',
-              [data.insertId, json.fornavn, json.etternavn],
+              'INSERT INTO privat (bruker_id, fornavn, etternavn, hendelsevarsling) VALUES(?,?,?,?)',
+              [data.insertId, json.fornavn, json.etternavn, json.hendelsevarsling],
               callback
             );
           } else {

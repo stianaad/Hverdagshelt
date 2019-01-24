@@ -23,10 +23,11 @@ class Bruker {
 }
 
 export class Privat extends Bruker {
-  constructor(bruker_id, epost, passord, kommune_id, fornavn, etternavn) {
+  constructor(bruker_id, epost, passord, kommune_id, fornavn, etternavn, hendelsevarsling) {
     super(bruker_id, epost, passord, kommune_id);
     this.fornavn = fornavn;
     this.etternavn = etternavn;
+    this.hendelsevarsling = hendelsevarsling;
   }
 }
 
