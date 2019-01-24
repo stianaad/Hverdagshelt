@@ -99,7 +99,7 @@ export class AnsattGodkjent extends Component{
                                                         <Grid.Column>
                                                             <div>
                                                                 <h5>Beskrivelse: </h5>
-                                                                <p style={{overflowY: 'auto'}}>{this.valgtfeil.beskrivelse}</p>
+                                                                <p className="feilModalBeskrivelse" style={{maxHeight: '100px'}}>{this.valgtfeil.beskrivelse}</p>
                                                                 <h5>Posisjon: </h5>
                                                                 <ShowMarkerMap key={this.valgtfeil.feil_id} width="100%" height="50%" id="posmap" feil={this.valgtfeil} />
                                                             </div>
