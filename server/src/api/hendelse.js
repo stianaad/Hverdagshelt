@@ -5,7 +5,9 @@ import bodyParser from 'body-parser';
 import HendelseDao from '../dao/hendelsedao.js';
 import { pool } from '../../test/poolsetup';
 import { checkToken } from '../middleware';
+import Epost from '../epost.js';
 
+let epostTjener = new Epost();
 let hendelseDao = new HendelseDao(pool);
 
 router.get('/api/hendelser', (req, res) => {
@@ -35,47 +37,52 @@ router.get('/api/hendelser/:hendelse_id', (req, res) => {
 });
 
 router.post('/api/hendelser', checkToken, (req, res) => {
-	if (!(req.body instanceof Object)) return res.sendStatus(400);
-	console.log('Fikk POST-request fra klienten');
-	let rolle = req.decoded.role;
+  if (!(req.body instanceof Object)) return res.sendStatus(400);
+  console.log('Fikk POST-request fra klienten');
+  let rolle = req.decoded.role;
 
-	if ((rolle == 'ansatt' && req.decoded.user.kommune_id == req.body.kommune_id) || rolle == 'admin') {
-		let a = {
-			bruker_id: req.decoded.user.bruker_id,
-			hendelseskategori_id: req.body.hendelseskategori_id,
-			kommune_id: req.body.kommune_id,
-			overskrift: req.body.overskrift,
-			tid: req.body.tid,
-			beskrivelse: req.body.beskrivelse,
-			sted: req.body.sted,
-			bilde: req.body.bilde,
-			lengdegrad: req.body.lengdegrad,
-			breddegrad: req.body.breddegrad
-		};
+  if(rolle == 'ansatt' && req.decoded.user.kommune_id == req.body.kommune_id || rolle == 'admin') {
+    let a = {
+      bruker_id: req.decoded.user.bruker_id,
+      hendelseskategori_id: req.body.hendelseskategori_id,
+      kommune_id: req.body.kommune_id,
+      overskrift: req.body.overskrift,
+      tid: req.body.tid,
+      beskrivelse: req.body.beskrivelse,
+      sted: req.body.sted,
+      bilde: req.body.bilde,
+      lengdegrad: req.body.lengdegrad,
+      breddegrad: req.body.breddegrad,
+    };
 
-		let nyID = -1;
+    let nyID = -1;
 
-		hendelseDao.lagNyHendelse(a, (status, data) => {
-			console.log('Opprettet en ny hendelse');
-			nyID = data.insertId;
-			console.log(nyID);
-			if (nyID > 0) {
-				hendelseDao.hentVarsledeBrukere({ hendelse_id: nyID }, (status, data) => {
-					if (data.length > 0) {
-						console.log('Fant brukere');
-						console.log(data);
-						//epostTjener.hendelse(a.overskrift, a.tid, a.beskrivelse, a.sted, a.bilde, data.epost);
-					} else {
-						console.log('Fant ikke brukere');
-					}
-				});
-			}
-			res.status(status);
-		});
-	} else {
-		res.status(403);
-		res.json({ result: false });
-	}
+    hendelseDao.lagNyHendelse(a, (status, data) => {
+      console.log('Opprettet en ny hendelse');
+      nyID = data.insertId;
+      if (nyID > 0) {
+        hendelseDao.hentVarsledeBrukere({hendelse_id: nyID}, (status, data) => {
+          if (data.length > 0) {
+            console.log('Fant brukere');
+            let eposter = data.map((eposten) => (
+              eposten.epost
+            ));
+            epostTjener.hendelse(a.overskrift, a.tid, a.beskrivelse, a.sted, a.bilde, eposter);
+          } else {
+            console.log('Fant ikke brukere');
+          }
+        });
+      }
+      res.status(status);
+    });
+    
+
+
+    
+  } else {
+    res.status(403);
+    res.json({result: false});
+  }
 });
 
 router.put('/api/hendelser/:hendelse_id', checkToken, (req, res) => {

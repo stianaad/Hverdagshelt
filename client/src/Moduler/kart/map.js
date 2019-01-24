@@ -80,7 +80,7 @@ export class Marker {
     let iconName =
       feil.status == 0
         ? null
-        : feil.status == 'Ikke godkjent'
+        : feil.status == 'Godkjent'
         ? 'warningicon'
         : feil.status == 'Under behandling'
         ? 'processingicon'
@@ -88,8 +88,8 @@ export class Marker {
     let statusText =
       feil.status == 0 ? (
         ''
-      ) : feil.status == 'Ikke godkjent' ? (
-        <span style={{color: 'red', fontStyle: 'italic'}}>Ikke godkjent</span>
+      ) : feil.status == 'Godkjent' ? (
+        <span style={{color: 'red', fontStyle: 'italic'}}>Mottatt</span>
       ) : feil.status == 'Under behandling' ? (
         <span style={{color: 'orange', fontStyle: 'italic'}}>Under behandling</span>
       ) : (

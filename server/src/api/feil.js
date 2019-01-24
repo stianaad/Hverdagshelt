@@ -163,6 +163,15 @@ router.put('/api/feil/:feil_id', checkToken, (req, res) => {
   }
 });
 
+router.get('/api/ansatt/bedrifter/:feil_id', (req, res) => {
+  console.log('Fikk GET-request fra klienten');
+  feilDao.hentJobbSoknadStatus(req.params.feil_id, (status, data) => {
+    console.log(data);
+    res.status(status);
+    res.json(data);
+  });
+});
+
 router.delete('/api/feil/:feil_id', checkToken, (req, res) => {
   console.log('Fikk POST-request fra klienten');
   let rolle = req.decoded.rolle;
@@ -311,25 +320,35 @@ router.delete('/api/feil/:feil_id/bilder/:bilde_id', checkToken, (req, res) => {
   console.log('Fikk DELETE-request fra klienten');
   let rolle = req.decoded.role;
 
-  if (rolle == 'admin' || rolle == 'ansatt' /*&& req.decoded.user.kommune_id == req.body.kommune_id*/) {
-    feilDao.slettBildeFraFeil(req.params.bilde_id, req.params.feil_id, (status, data) => {
-      res.status(status);
-      res.json(data);
-      console.log('Admin eller ansatt slettet bilde fra feil');
-    });
+  if (rolle == 'ansatt') {
+    feilDao.finnKommuneidPaaFeil(req.params.id, (status, data) => {
+      if(data[0].kommune_id == req.decoded.user.kommune_id) {
+        feilDao.slettBildeFraFeil(req.params.bilde_id, req.params.feil_id, (status, data) => {
+          res.status(status);
+          res.json(data);
+          console.log('Admin eller ansatt slettet bilde fra feil');
+        });
+      }
+    })
   } else if (rolle == 'privat') {
-    let b = { bruker_id: req.decoded.user.bruker_id, feil_id: req.body.feil_id };
+    let b = { bruker_id: req.decoded.user.bruker_id, feil_id: req.params.feil_id };
     feilDao.sjekkFeilPaaBruker(b, (status, data) => {
       if (data[0].length == 0) {
         res.status(403);
-        res.json({ result: false });
+        res.json({result: false});
       } else {
-        feilDao.slettBildeFraFeil(a, (status, data) => {
+        feilDao.slettBildeFraFeil(req.params.bilde_id, req.params.feil_id, (status, data) => {
           res.status(status);
           res.json(data);
           console.log('Privat slettet bilde fra feil');
         });
       }
+    });
+  } else if (rolle == 'admin') {
+    feilDao.slettBildeFraFeil(req.params.bilde_id, req.params.feil_id, (status, data) => {
+      res.status(status);
+      res.json(data);
+      console.log('Admin slettet bilde fra feil');
     });
   } else {
     res.status(403);
