@@ -244,15 +244,18 @@ router.post('/api/feil/oppdateringer/bedrift', checkToken, (req, res) => {
   if (role == 'bedrift' || role == 'admin' || role == 'ansatt') {
     feilDao.lagOppdatering(a, (status, data) => {
       console.log('Ny oppdatering laget:');
-      feilDao.hentEnFeil(a.feil_id, (status, data) => {
+      console.log(data);
+      feilDao.hentEnFeil(a.feil_id, (status, feil) => {
         if (status == 200) {
+          /*
           brukerDao.hentBrukerPaaid(data[0].bruker_id, (status, data) => {
             if (status == 200) {
               epostTjener.feilGodkjent(a.feil_id, data[0].epost);
             } else {
               console.log('fant ikke bruker');
             }
-          })
+          })*/
+          console.log(feil);
         } else {
           console.log('Fant ikke feilen');
         }

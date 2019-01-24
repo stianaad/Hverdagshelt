@@ -43,6 +43,7 @@ import {AnsattGodkjent} from './Komponenter/Ansatt/ansattGodkjent';
 import { AlleBedrifter } from './Komponenter/Ansatt/alleBedrifter';
 
 import { Administrasjon } from './Komponenter/Admin/admin';
+import 'semantic-ui-css/semantic.min.css';
 
 //<PositionMap width="100%" height="500px" id="posmap" center="Oslo" position={this.posisjon}></PositionMap>
 class Menu extends Component {
