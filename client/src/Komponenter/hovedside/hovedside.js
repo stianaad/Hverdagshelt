@@ -119,7 +119,7 @@ export class Hovedside extends Component {
   }
 
   endreStatusIkon(status) {
-    if (status === 'Ikke godkjent') {
+    if (status === 'Godkjent') {
       this.statusIkon = '/warningicon.png';
     } else if (status === 'Under behandling') {
       this.statusIkon = '/processingicon.png';
@@ -304,7 +304,7 @@ export class Hovedside extends Component {
                         {/*</Link>*/}
                       </h1>
                       <h6>
-                        Status: {this.feil.status} <img src={this.statusIkon} width="30" height="30" />
+                        Status: {(this.feil.status=== "Godkjent") ? (<span>Mottatt</span>) : (this.feil.status)} <img src={this.statusIkon} width="30" height="30" />
                         {(global.payload && global.payload.role == 'privat') ? (
                         <AbonnerKnapp style={{float:"right", width:"90px"}} key={this.feil.feil_id} feil_id={this.feil.feil_id} />
                         ) : null}
