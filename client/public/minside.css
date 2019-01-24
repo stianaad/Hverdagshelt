@@ -16,7 +16,11 @@
 }*/
 
 .minSideUtKolonne {
-  width: 325px;
+  width: 100%;
+}
+
+.minSideUtKolonne > .card {
+  width: 325px !important;
 }
 
 .minSideInKolonne {
@@ -24,7 +28,15 @@
 }
 
 #sideListeH {
-  margin-right: 15px;
+  margin-right: 1.5em;
+}
+
+#sideListe {
+  margin-left: 1.5em;
+}
+
+#sideListe > .card {
+  float: right;
 }
 
 .highlight {
