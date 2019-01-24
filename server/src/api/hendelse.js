@@ -55,6 +55,7 @@ router.post('/api/hendelser', upload.array('bilder', 1), checkToken, (req, res) 
       tid: req.body.tid,
       beskrivelse: req.body.beskrivelse,
       sted: req.body.sted,
+      billett: req.body.billett,
     };
     if (req.files && req.files.length > 0) {
       bildeOpplasting.lastOpp(req.files, (bilder) => {
