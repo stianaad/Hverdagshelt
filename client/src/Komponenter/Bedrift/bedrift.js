@@ -108,9 +108,9 @@ export class Bedrift extends Component {
                       {this.nyefeil.map((feil) => (
                         <FeedEvent
                           onClick={() => {
-                            this.feilModal = true;
                             this.feil = feil;
                             this.visGodkjennJobb = true;
+                            this.feilModal = true;
                           }}
                           key={feil.feil_id}
                           status={feil.status}
@@ -139,9 +139,9 @@ export class Bedrift extends Component {
                       {this.underBehandling.map((feil) => (
                         <FeedEvent
                           onClick={() => {
-                            this.feilModal = true;
                             this.feil = feil;
                             this.visGodkjennJobb = false;
+                            this.feilModal = true;
                           }}
                           key={feil.feil_id}
                           status={feil.status}
@@ -172,9 +172,9 @@ export class Bedrift extends Component {
                       {this.utførte.map((feil) => (
                         <FeedEvent
                           onClick={() => {
-                            this.feilModal = true;
                             this.feil = feil;
                             this.visGodkjennJobb = false;
+                            this.feilModal = true;
                           }}
                           key={feil.feil_id}
                           visSakID={true}
