@@ -31,7 +31,7 @@ export class NyHendelse extends Component{
     render(){
         return(
             <div>
-                <PageHeader/>
+                <PageHeader history={this.props.history} location={this.props.location}/>
                 <div className="vinduansatt">
                     <AnsattMeny/>
                     <div className="row justify-content-md-center mt-3 mb-3">
