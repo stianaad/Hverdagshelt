@@ -12,7 +12,7 @@ export class FeilVisning extends Component {
                         <Grid columns={3}>
                             <Grid.Column><h1>{this.props.feil.overskrift}</h1></Grid.Column>
                             <Grid.Column/>
-                            <Grid.Column>{this.props.feil.tid}</Grid.Column>
+                            <Grid.Column textAlign="right">{this.props.feil.tid}</Grid.Column>
                             <Grid.Column>Status: {this.props.feil.status}</Grid.Column>
                         </Grid>
                     </Card.Content>
