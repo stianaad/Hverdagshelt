@@ -18,18 +18,29 @@ import {
   import {hendelseService} from '../../services/hendelseService';
 
   export class SlettKategori extends Component{
+      //EKSEMPEL <SlettKategori overskrift="Slett hendelsekategori" visHendKat={"true"}/>
     open = false;
     kategorier = [];
     velgKatergori = "";
     kategoriID = "";
     slettFeil = true;
     hovedSub = "";
+    hendelseVerdi = "";
+    hendelseKategori = [];
 
     handleOpen = () => {
 		if (!this.open) {
 			this.open = true;
-		}
-	};
+        }
+        if(this.props.visHendKat){
+            this.hentHendelse();
+        }
+    };
+    
+    async hentHendelse(){
+        let res1 = await hendelseService.hentAlleHovedkategorier();
+        this.hendelseKategori = res1.data;
+    }
 	
 	handleClose = () => {
 		if (this.open) {
@@ -61,6 +72,12 @@ import {
         this.slettFeil = false;
     }
 
+    verdiHendelse(e){
+        this.hendelseVerdi = e.target.value;
+        console.log(this.hendelseVerdi);
+        this.slettFeil = false;
+    }
+
       render(){
           return(
               <div>
@@ -72,7 +89,19 @@ import {
                 onClose={this.handleClose}
                 position="right center">
                 <Header as="h3" >{this.props.overskrift}</Header>
-                <select onChange={this.verdiKat} placeholder="Velg hovedkategori" className="w-100">
+                {(this.props.visHendKat) ? (<span>
+                    <select onChange={this.verdiHendelse} placeholder="Velg hendelseskategori" className="w-100">
+                        <option hidden>
+                        Velg hendelseskategori
+                        </option>
+                        {this.hendelseKategori.map(kat => (
+                            <option key={kat.hendelseskategori_id} value={kat.hendelseskategori_id}>{kat.kategorinavn} </option>
+                        ))}
+                    </select>
+                    <br/>
+                    <br/>
+                    <Button disabled={this.slettFeil} onClick={this.slettHendelse}  color="red" fluid> Slett hendelsekategori</Button>
+                </span>) : (<span><select onChange={this.verdiKat} placeholder="Velg hovedkategori" className="w-100">
                     <option hidden> Velg kategori</option>
                     <option key="1" value="1">
                         Hovedkategori
@@ -93,11 +122,24 @@ import {
                 </select></span>) : (null)}
                 <br/>
                 <br/>
-                <Button onClick={this.slettKategori} disabled={this.slettFeil} color="red" fluid>Slett feil</Button>
+                <Button onClick={this.slettKategori} disabled={this.slettFeil} color="red" fluid>Slett feil</Button></span>)}
                 </Popup>
               </div>
-
           )
+      }
+
+      async slettHendelse(){
+        this.handleClose();
+        console.log(this.hendelseVerdi);
+        let res1 = await hendelseService.slettHendelseKategori(this.hendelseVerdi);
+        if(res1.data.affectedRows === 1){
+            alert("Du har slettet en hendelseskategori");
+            //let res2 = await hendelseService.hentAlleHovedkategorier();
+            //this.hendelseKategori = res2.data;
+            this.slettFeil = true;
+        } else {
+            alert("Noe gikk galt");
+        }
       }
 
       async slettKategori(){
@@ -110,8 +152,13 @@ import {
         }
         if(res1.data.affectedRows == 1){
             alert("Du har slettet en kategori");
+            this.slettFeil = true;
+            this.kategorier = [];
         } else {
             alert("Noe gikk galt");
         }
+      }
+
+      async mounted(){
       }
   }
