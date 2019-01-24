@@ -78,16 +78,18 @@ export class FeilModal extends Component {
               </Card.Header>
                 <Grid fluid columns={3} stackable className="feilModalInnhold" style={{margin:"0", overflowY:"auto"}}>
                   <Grid.Column>
-                    <h6>Beskrivelse:</h6>
-                    <Input className="feilModalBeskrivelse">{this.props.feil.beskrivelse}</Input>
+                    <h6><b>Beskrivelse:</b></h6>
+                    <div className="hendelseModalBeskrivelse">{this.props.feil.beskrivelse.split("\n").map((tekst) => (
+                        <p key={tekst}>{tekst}</p>))}
+                    </div>
                   </Grid.Column>
                   <Grid.Column>
-                    <h6>Posisjon:</h6>
+                    <h6><b>Posisjon:</b></h6>
                     <ShowMarkerMap width="100%" height="300px" id="posmap" feil={this.props.feil} />
                   </Grid.Column>
                   <Grid.Column>
                     <div className="feilModalBoks feilModalRad">
-                      <h6>Oppdateringer: </h6>
+                      <h6><b>Oppdateringer:</b></h6>
                       <div className="feilModalFyll">
                         <List className="p-2">
                           {this.oppTilFeil.map((opp) => (
@@ -103,7 +105,7 @@ export class FeilModal extends Component {
                     </div>
 
                     <div className="feilModalBoks feilModalRad">
-                      <h6>Bilder:</h6>
+                      <h6><b>Bilder:</b></h6>
                       <div className="feilModalFyll">
                         {this.bilderTilFeil.map((bilde) => (
                           <div className="feilModalBilde" key={bilde.bilde_id} onClick={() => this.visBilde(bilde.url)}>
