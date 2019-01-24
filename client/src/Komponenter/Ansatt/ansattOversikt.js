@@ -4,9 +4,11 @@ import {PageHeader} from '../../Moduler/header/header';
 import {Card, Feed, Grid, Button, Header, Icon, Input, Image, Modal, List, CardContent} from 'semantic-ui-react';
 import {FeedEvent, Filtrer, Info} from '../../Moduler/cardfeed';
 import {feilService} from '../../services/feilService';
+import {generellServices} from '../../services/generellServices';
 import {markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
 import {NavLink} from 'react-router-dom';
 import {AnsattMeny} from './ansattMeny';
+import {AdminMeny} from '../Admin/adminMeny';
 import {InfoBoks} from '../../Moduler/info/info';
 import {FeilModal} from '../../Moduler/modaler/feilmodal';
 
@@ -43,7 +45,7 @@ export class AnsattOversikt extends Component {
         <PageHeader history={this.props.history} location={this.props.location} />
         <FeilModal key={this.valgtFeil.feil_id+this.feilModal} open={this.feilModal} feil={this.valgtFeil} onClose={() => {this.feilModal = false}} />
         <div className="vinduansatt container-fluid">
-            <AnsattMeny/>
+            {global.payload.role == 'ansatt' ? <AnsattMeny/> : (global.payload.role == 'admin' && this.kommune) ? <AdminMeny kommune={this.kommune}/> : null}
             <div className="row justify-content-md-center mt-3 mb-3">
                 <h1>Oversikt</h1>
             </div>
@@ -174,24 +176,38 @@ export class AnsattOversikt extends Component {
   }
 
   async mounted() {
-    let feil = await feilService.hentFeilForKommune(global.payload.user.kommune_id);
-    this.alleFeil = await feil.data;
-    await console.log(this.alleFeil);
 
-    this.nyefeil = await feil.data.filter((e) => e.status === 'Ikke godkjent');
-    await this.scrollNye();
-    await console.log(this.nyefeil);
+    const load = async (kommune_id) => {
+        let feil = await feilService.hentFeilForKommune(kommune_id);
+        this.alleFeil = await feil.data;
+        await console.log(this.alleFeil);
 
-    this.godkjente = await feil.data.filter((e) => e.status === 'Godkjent');
-    await this.scrollGodkjent();
+        this.nyefeil = await feil.data.filter((e) => e.status === 'Ikke godkjent');
+        await this.scrollNye();
+        await console.log(this.nyefeil);
 
-    this.underBehandling = await feil.data.filter((e) => e.status === 'Under behandling');
-    await this.scrollUnderB();
-    await console.log(this.underBehandling);
+        this.godkjente = await feil.data.filter((e) => e.status === 'Godkjent');
+        await this.scrollGodkjent();
 
-    this.utførte = await feil.data.filter((e) => e.status === 'Ferdig');
-    await this.scrollFerdig();
-    await console.log(this.utførte);
+        this.underBehandling = await feil.data.filter((e) => e.status === 'Under behandling');
+        await this.scrollUnderB();
+        await console.log(this.underBehandling);
+
+        this.utførte = await feil.data.filter((e) => e.status === 'Ferdig');
+        await this.scrollFerdig();
+        await console.log(this.utførte);
+    }
+
+    if (global.payload.role == 'ansatt') load(global.payload.user.kommune_id);
+    else if (global.payload.role == 'admin') {
+        let res = await generellServices.sokKommune(this.props.match.params.kommune);
+        await Promise.resolve(res.data).then(async () => {
+            if (res.data.length > 0) {
+                this.kommune = res.data[0];
+                load(this.kommune.kommune_id);
+            }
+        });
+    }
   }
 }
 

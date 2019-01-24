@@ -122,7 +122,7 @@ export class ProfileButton extends Component {
             >
               <div className="arrow" />
               <div className="arrowborder" />
-              <Link to="/administrasjon">
+              <Link to="/admin/startside">
                 <div className="dropdown-item">Administrasjon</div>
               </Link>
               <div onClick={this.loggut} className="dropdown-item">
