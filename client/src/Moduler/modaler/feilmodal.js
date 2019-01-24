@@ -47,8 +47,7 @@ export class FeilModal extends Component {
                       height="20"
                     />
               </Card.Header>
-              <Card.Content className="feilModalInnhold">
-                <Grid fluid columns={3} stackable style={{margin:"0"}}>
+                <Grid fluid columns={3} stackable className="feilModalInnhold" style={{margin:"0", overflowY:"auto"}}>
                   <Grid.Column>
                     <h6>Beskrivelse:</h6>
                     <Input className="feilModalBeskrivelse">{this.props.feil.beskrivelse}</Input>
@@ -58,32 +57,34 @@ export class FeilModal extends Component {
                     <ShowMarkerMap width="100%" height="300px" id="posmap" feil={this.props.feil} />
                   </Grid.Column>
                   <Grid.Column>
-                    <h6>Oppdateringer: </h6>
-                    <div className="feilModalOppdateringScroll">
-                      <List className="p-2">
-                        {this.oppTilFeil.map((opp) => (
-                          <List.Item>
-                            <List.Content>
-                              <List.Header>{opp.status}<span className="float-right font-weight-light font-italic">{opp.tid}</span></List.Header>
-                              <List.Description>{opp.kommentar}</List.Description>
-                            </List.Content>
-                          </List.Item>
-                        ))}
-                      </List>
+                    <div className="feilModalBoks feilModalRad">
+                      <h6>Oppdateringer: </h6>
+                      <div className="feilModalFyll">
+                        <List className="p-2">
+                          {this.oppTilFeil.map((opp) => (
+                            <List.Item>
+                              <List.Content>
+                                <List.Header>{opp.status}<span className="float-right font-weight-light font-italic">{opp.tid}</span></List.Header>
+                                <List.Description>{opp.kommentar}</List.Description>
+                              </List.Content>
+                            </List.Item>
+                          ))}
+                        </List>
+                      </div>
                     </div>
-                    <div>
+
+                    <div className="feilModalBoks feilModalRad">
                       <h6>Bilder:</h6>
-                      <div>
+                      <div className="feilModalFyll">
                         {this.bilderTilFeil.map((bilde) => (
-                            <div className="feilModalBilde" key={bilde.bilde_id} onClick={() => this.visBilde(bilde.url)}>
-                              <img src={bilde.url} key={bilde.bilde_id} className="bilder" onClick={() => { this.bildeModal = bilde.url; this.bildeOpen = true; }} />
+                          <div className="feilModalBilde" key={bilde.bilde_id} onClick={() => this.visBilde(bilde.url)}>
+                            <img src={bilde.url} key={bilde.bilde_id} className="bilder" onClick={() => { this.bildeModal = bilde.url; this.bildeOpen = true; }} />
                           </div>
                         ))}
                       </div>
                     </div>
                   </Grid.Column>
                 </Grid>
-              </Card.Content>
             </div>
           </Modal>
         ) : null}
