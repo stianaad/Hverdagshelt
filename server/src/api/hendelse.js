@@ -58,20 +58,22 @@ router.post('/api/hendelser', checkToken, (req, res) => {
     hendelseDao.lagNyHendelse(a, (status, data) => {
       console.log('Opprettet en ny hendelse');
       nyID = data.insertId;
-      console.log(nyID);
+      if (nyID > 0) {
+        hendelseDao.hentVarsledeBrukere({hendelse_id: nyID}, (status, data) => {
+          if (data.length > 0) {
+            console.log('Fant brukere');
+            let eposter = data.map((eposten) => (
+              eposten.epost
+            ));
+            epostTjener.hendelse(a.overskrift, a.tid, a.beskrivelse, a.sted, a.bilde, eposter);
+          } else {
+            console.log('Fant ikke brukere');
+          }
+        });
+      }
       res.status(status);
     });
-    if (nyID > 0) {
-      hendelseDao.hentVarsledeBrukere({hendelse_id: nyID}, (status, data) => {
-        if (data.length > 0) {
-          console.log('Fant brukere');
-          console.log(data.epost);
-          //epostTjener.hendelse(a.overskrift, a.tid, a.beskrivelse, a.sted, a.bilde, data.epost);
-        } else {
-          console.log('Fant ikke brukere');
-        }
-      });
-    }
+    
 
 
     
