@@ -7,15 +7,21 @@ import {feilService} from '../../services/feilService';
 import {markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
 import {NavLink} from 'react-router-dom';
 import {AnsattMeny} from './ansattMeny';
+import { FeilVisning } from '../../Moduler/AnsattModuler/feilvisning';
 
 export class AnsattUnder extends Component{
-    fullforteFeil = [];
+    underB = [];
     alleFeil = [];
     className = '';
     valgtfeil = {
         overskrift: '',
         beskrivelse: ''
     };
+
+    visFeil(feil){
+        this.valgtfeil = {...feil};
+        this.feilApen = true; 
+    }
 
     render(){
         return(
@@ -24,7 +30,7 @@ export class AnsattUnder extends Component{
                 <div className="vinduansatt containter-fluid">
                     <AnsattMeny/>
                     <div className="row justify-content-md-center mt-3 mb-3">
-                        <h1>Fullførte feil</h1>
+                        <h1>Under behandling</h1>
                     </div>
                     <div className="ansattContent">
                         <div className="row">
@@ -36,7 +42,7 @@ export class AnsattUnder extends Component{
                                         </Card.Header>
                                     </Card.Content>
                                     <Card.Content className={this.className}>
-                                        {this.fullforteFeil.map((feil) => (
+                                        {this.underB.map((feil) => (
                                             <FeedEvent
                                             onClick={() => this.visFeil(feil)}
                                             status={feil.status}
@@ -52,54 +58,9 @@ export class AnsattUnder extends Component{
                             <div className="col-sm-8">
                                 {this.feilApen ? (
                                     <div className="ansattFeilVindu">
-                                        <Card fluid>
-                                            <Card.Content>
-                                                <div>
-                                                    <Grid fluid columns={2} verticalAlign="middle">
-                                                    <Grid.Column textAlign="left">
-                                                        <h1>{this.valgtfeil.overskrift}</h1>
-                                                    </Grid.Column>
-                                                    <Grid.Column textAlign="right" fluid>
-                                                        <h6>{this.valgtfeil.tid}</h6>
-                                                    </Grid.Column>
-                                                    <Grid.Column textAlign="left">
-                                                        <h6>Status: {this.valgtfeil.status}</h6>
-                                                    </Grid.Column>
-                                                    <Grid.Column>
-                                                        <Button floated="right" color="red">
-                                                        Slett feil
-                                                        </Button>
-                                                        <Button floated="right" color="green" onClick={() => this.godkjenn(this.valgtfeil.feil_id, "test", 2)}>
-                                                        Godkjenn
-                                                        </Button>
-                                                    </Grid.Column>
-                                                    </Grid>
-                                                </div>
-                                            </Card.Content>
-                                            <Card.Content extra>
-                                                <div>
-                                                    <Grid columns={3} fluid stackable>
-                                                    <Grid.Column>
-                                                        <TextArea value={this.valgtfeil.beskrivelse} rows="18" />
-                                                    </Grid.Column>
-                                                    <Grid.Column>KART</Grid.Column>
-                                                    <Grid.Column>
-                                                        <Grid columns={2} fluid>
-                                                            {this.bilder.map((bilde) => (
-                                                                <Grid.Column>
-                                                                <div onClick={() => this.visBilde(bilde.url)}>
-                                                                    <img src={bilde.url} className="bilder" />
-                                                                </div>
-                                                                </Grid.Column>
-                                                            ))}
-                                                        </Grid>
-                                                    </Grid.Column>
-                                                    </Grid>
-                                                </div>
-                                            </Card.Content>
-                                        </Card>
-                                        </div>
-                                    ) : (
+                                        <FeilVisning feil={this.valgtfeil}/>
+                                    </div>
+                                ) : (
                                     <div>Trykk på feil</div>
                                 )}
                             </div>
@@ -111,7 +72,7 @@ export class AnsattUnder extends Component{
     }
 
     scroll() {
-        if (this.fullforteFeil.length > 5) {
+        if (this.underB.length > 5) {
           this.className = 'ansattScroll';
         }
       }
@@ -120,7 +81,7 @@ export class AnsattUnder extends Component{
         let feil = await feilService.hentFeilForKommune(global.payload.user.kommune_id);
         this.alleFeil = await feil.data;
     
-        this.fullforteFeil = await feil.data.filter(e => (e.status === 'Ferdig'));
+        this.underB = await feil.data.filter(e => (e.status === 'Under behandling'));
         
         await this.scroll();
       }
