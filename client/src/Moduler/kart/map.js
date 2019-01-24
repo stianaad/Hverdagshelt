@@ -139,7 +139,7 @@ export class Marker {
     let iconName =
       feil.status == 0
         ? null
-        : feil.status == 'Ikke godkjent'
+        : feil.status == 'Godkjent'
         ? 'warningicon'
         : feil.status == 'Under behandling'
         ? 'processingicon'
