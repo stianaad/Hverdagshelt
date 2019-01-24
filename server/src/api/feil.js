@@ -245,6 +245,7 @@ router.post('/api/feil/oppdateringer/bedrift', checkToken, (req, res) => {
     feilDao.lagOppdatering(a, (status, data) => {
       console.log('Ny oppdatering laget:');
       res.status(status);
+      epostTjener.feilGodkjent(a.feil_id, req.decoded.user.epost);
       res.json(data);
     });
   } else {
