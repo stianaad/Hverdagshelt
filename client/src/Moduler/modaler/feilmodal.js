@@ -23,7 +23,6 @@ export class FeilModal extends Component {
     }
   }
 
-
   render() {
     return (
       <>
