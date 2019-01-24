@@ -4,7 +4,7 @@ import { hendelseService } from '../../services/hendelseService';
 import { generellServices } from '../../services/generellServices';
 import { HashRouter, Route, NavLink, Redirect, Switch, Link } from 'react-router-dom';
 import { FeedEvent, FeedHendelse, Filtrer, Info, Hendelse, ModalHendelse } from '../../Moduler/cardfeed';
-import { Card, Feed, Grid, Button, Header, Icon, Image, Modal, Dropdown, Popup } from 'semantic-ui-react';
+import { Card, Feed, Grid, Button, Header, Icon, Image, Modal, Dropdown, Popup, Label, Divider } from 'semantic-ui-react';
 import { PageHeader } from '../../Moduler/header/header';
 import { KommuneVelger } from '../../Moduler/KommuneVelger/kommuneVelger';
 import { isNullOrUndefined, isUndefined, isNumber } from 'util';
@@ -34,14 +34,32 @@ export class Hendelser extends Component {
   hendelseModal = false;
 
 
+
   tilbakestill() {
     this.aktiveHendelser = this.hendelser;
     this.skrivAlleKommuner = "Alle kommuner";
+    this.skrivKategori = "Kategori"
     this.skrivKommuneID = "";
-    this.skrivKategori = "Alle kategorier";
+    this.skrivFraTid = ""
+    this.skrivTilTid = ""
     this.skrivFylke = "Fylke";
+    this.visFylke = false;
     document.getElementById("fylke").value = 0;
-    this.hentData();
+    document.getElementById("kategori").value = 0;
+    console.log(this.skrivKategori);
+    document.getElementById("til").valueAsDate = null;
+    document.getElementById("fra").valueAsDate = null;
+    //var dateControl = document.querySelector('input[type="date"]');
+    //dateControl.value = 'mm/dd/yyyy';
+    this.filterAlle();
+    //this.hentData();
+    //this.mounted();
+  }
+
+  filterAlle() {
+    this.aktiveHendelser = this.hendelser.filter((h) => ((h.kategorinavn === this.skrivKategori) || this.skrivKategori == "Kategori"))
+      .filter(h => ((h.kommune_id === this.skrivKommuneID) || this.skrivKommuneID == "")).filter(h => ((h.tid >= this.skrivFraTid) || this.skrivFraTid == "")).filter(h => ((h.tid <= this.skrivTilTid) || this.skrivTilTid == ""))
+      .filter(h => ((h.fylke_navn === this.skrivFylke) || this.skrivFylke == "Fylke"));
   }
 
 
@@ -121,13 +139,6 @@ export class Hendelser extends Component {
     }
   };
 
-  filterAlle() {
-    this.aktiveHendelser = this.hendelser.filter((h) => ((h.kategorinavn === this.skrivKategori) || this.skrivKategori == "Kategori"))
-      .filter(h => ((h.kommune_id === this.skrivKommuneID) || this.skrivKommuneID == "")).filter(h => ((h.tid >= this.skrivFraTid) || this.skrivFraTid == "")).filter(h => ((h.tid <= this.skrivTilTid) || this.skrivTilTid == ""))
-      .filter(h => ((h.fylke_navn === this.skrivFylke) || this.skrivFylke == "Fylke"));
-  }
-
-
   render() {
     return (
       <div className="hendelseContainer" >
@@ -135,21 +146,13 @@ export class Hendelser extends Component {
         <HendelseModal abonner={true} key={this.hendelse.hendelse_id + this.hendelseModal} open={this.hendelseModal} hendelse={this.hendelse} onClose={() => { this.hendelseModal = false }} />
         <h1 className="text-center b-5" >Hendelser</h1>
         <div className="row">
-          <Popup
-            trigger={
-              <Button className="mb-2" onClick={this.hentData}>Filtrer <img src="https://png.pngtree.com/svg/20160828/filter_45418.png" height="20" width="20" /> </Button>}
-            flowing
-            on="click"
-            open={this.isOpen}
-            onOpen={this.handleOpen}
-            onClose={this.handleClose}
-          >
-            <Grid centered columns={3}>
+          <Grid centered columns={3} divided="vertically" stackable>
+            <Grid.Row>
               <Grid.Column>
                 <select
                   onChange={this.filterKategori}
                   className="form-control right floated meta m-2"
-                  style={{ height: 30, width: 150 }}>
+                  style={{ height: 30, width: 150 }} id="kategori">
                   <option hidden> {this.skrivKategori} </option>
                   <option value="0"> Alle kategorier </option>
                   {this.alleKategorier.map((kategori) => (
@@ -161,7 +164,6 @@ export class Hendelser extends Component {
                     </option>
                   ))}
                 </select>
-                <br />
                 <select
                   onChange={this.filterKommune}
                   className="form-control right floated meta m-2"
@@ -179,7 +181,6 @@ export class Hendelser extends Component {
                       {sted.kommune_navn}
                     </option>
                   ))}
-
                 </select>
               </Grid.Column>
               <Grid.Column>
@@ -188,13 +189,23 @@ export class Hendelser extends Component {
                     <input
                       onChange={this.filterFraTid}
                       type="date"
-                      style={{ height: 30, width: 110, display: 'inline' }}
+                      style={{ height: 30, width: 150, display: 'inline' }}
                       className="mt-2 form-control"
                       id="fra"
                     />
                   </label>
                 </div>}
-                <br />
+                {<label className="ml-1" style={{ display: 'inline' }}>Til: {' '}
+                  <input
+                    onChange={this.filterTilTid}
+                    type="date"
+                    style={{ height: 30, width: 150, display: 'inline' }}
+                    className="mt-2 form-control"
+                    id="til"
+                  />
+                </label>}
+              </Grid.Column>
+              <Grid.Column>
                 <select
                   onChange={this.filterFylke}
                   className="form-control right floated meta m-2"
@@ -212,29 +223,18 @@ export class Hendelser extends Component {
                     </option>
                   ))}
                 </select>
+                <span className="ml-2">
+                  <Button
+                    style={{ width: 150 }}
+                    size="mini"
+                    primary
+                    onClick={() => { this.tilbakestill() }}>
+                    Tilbakestill
+						</Button>
+                </span>
               </Grid.Column>
-              <Grid.Column>
-                {<label className="ml-1" style={{ display: 'inline' }}>Til: {' '}
-                  <input
-                    onChange={this.filterTilTid}
-                    type="date"
-                    style={{ height: 30, width: 110, display: 'inline' }}
-                    className="mt-2 form-control"
-                    id="til"
-                  />
-                </label>}
-                <br />
-                <Button
-                  className="mt-4"
-                  fluid
-                  size="mini"
-                  primary
-                  onClick={() => { this.tilbakestill() }}>
-                  Tilbakestill
-					</Button>
-              </Grid.Column>
-            </Grid>
-          </Popup>
+            </Grid.Row>
+          </Grid>
         </div>
         <Card.Group stackable>
           {this.aktiveHendelser.map(hendelse => (
@@ -291,20 +291,6 @@ export class Hendelser extends Component {
     this.hendelser = await res1.data;
     this.aktiveHendelser = await res1.data;
     console.log(this.hendelser);
-		/*this.tider = this.aktiveHendelser.map(
-			kat => kat.tid
-		);
-		this.navn = this.kommuner.map(
-			navn =>navn.kommune_navn
-			);
-
-			this.fylkekommune = this.kommuner*/
-    //console.log(this.alleKategorier);
-    //console.log(this.tider);
-    //console.log(this.kommuner);
-    //console.log(this.aktiveHendelser);
-    //console.log(this.navn);
-    //console.log(this.fylker);
+    this.hentData();
   }
-
 }

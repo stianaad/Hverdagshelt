@@ -14,12 +14,18 @@
     position: absolute;
     top: 14px;
     right: 14px;
+    cursor: pointer;
  }
 
  .hovedSideFeilOverskrift {
     width: calc(100% - 28px);
     height: calc(1em + 6px);
     overflow: hidden;
+ }
+
+ .hovedSideFeilBeskrivelse {
+    overflow-y: visible;
+    height: inherit;
  }
 
 .hovedTittel h1 {

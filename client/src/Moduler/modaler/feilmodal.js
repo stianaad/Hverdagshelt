@@ -27,7 +27,7 @@ export class FeilModal extends Component {
     return (
       <>
         {this.open ? (
-          <Modal open={true} size="medium" centered onClose={this.props.onClose}>
+          <Modal open={true} centered onClose={this.props.onClose}>
             <div className="feilModalBoks">
               <Card.Header className="feilModalHeader">
                   <h1 className="feilModalTittel">
@@ -76,10 +76,10 @@ export class FeilModal extends Component {
                       height="20"
                     />
               </Card.Header>
-                <Grid fluid columns={3} stackable className="feilModalInnhold" style={{margin:"0", overflowY:"auto"}}>
+                <Grid fluid="true" columns={3} stackable className="feilModalInnhold" style={{margin:"0", overflowY:"auto"}}>
                   <Grid.Column>
                     <h6><b>Beskrivelse:</b></h6>
-                    <div className="hendelseModalBeskrivelse">{this.props.feil.beskrivelse.split("\n").map((tekst) => (
+                    <div className="feilModalBeskrivelse">{this.props.feil.beskrivelse.split("\n").map((tekst) => (
                         <p key={tekst}>{tekst}</p>))}
                     </div>
                   </Grid.Column>
@@ -93,7 +93,7 @@ export class FeilModal extends Component {
                       <div className="feilModalFyll">
                         <List className="p-2">
                           {this.oppTilFeil.map((opp) => (
-                            <List.Item>
+                            <List.Item key={opp.tid}>
                               <List.Content>
                                 <List.Header>{opp.status}<span className="float-right font-weight-light font-italic">{opp.tid}</span></List.Header>
                                 <List.Description>{opp.kommentar}</List.Description>
