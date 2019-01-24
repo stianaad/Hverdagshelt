@@ -91,6 +91,7 @@ module.exports = class FeilDao extends Dao {
 
   //testes, men trenger on delete cascade
   slettFeil(json, callback) {
+    console.log('Sletter en feil');
     super.query('DELETE FROM feil WHERE feil_id = ?', [json.feil_id], callback);
   }
 
