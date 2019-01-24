@@ -4,9 +4,11 @@ import {PageHeader} from '../../Moduler/header/header';
 import {Card, Feed, Grid, Button, Header, Icon, Input, Image, Modal, List, CardContent} from 'semantic-ui-react';
 import {FeedEvent, Filtrer, Info} from '../../Moduler/cardfeed';
 import {feilService} from '../../services/feilService';
+import {generellServices} from '../../services/generellServices';
 import {markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
 import {NavLink} from 'react-router-dom';
 import {AnsattMeny} from './ansattMeny';
+import {AdminMeny} from '../Admin/adminMeny';
 import { brukerService } from '../../services/brukerService';
 
 export class AnsattGodkjent extends Component{
@@ -59,7 +61,7 @@ export class AnsattGodkjent extends Component{
             <div>
                 <PageHeader history={this.props.history} location={this.props.location} />
                 <div className="container-fluid vinduansatt">
-                    <AnsattMeny/>
+                {global.payload.role == 'ansatt' ? <AnsattMeny/> : (global.payload.role == 'admin' && this.kommune) ? <AdminMeny kommune={this.kommune}/> : null}
                     <div className="row justify-content-md-center mt-3 mb-3">
                         <h1>Godkjente feil</h1>
                     </div>
@@ -189,18 +191,32 @@ export class AnsattGodkjent extends Component{
       }
     
       async mounted() {
-        let feil = await feilService.hentFeilForKommune(global.payload.user.kommune_id);
-        this.alleFeil = await feil.data;
-    
-        this.godkjente = await feil.data.filter(e => (e.status === 'Godkjent'));
+
+        const load = async (kommune_id) => {
+            let feil = await feilService.hentFeilForKommune(kommune_id);
+            this.alleFeil = await feil.data;
         
-        await this.scroll();
+            this.godkjente = await feil.data.filter(e => (e.status === 'Godkjent'));
+            
+            await this.scroll();
 
-        let status = await feilService.hentAlleStatuser();
-        this.statuser = await status.data; 
+            let status = await feilService.hentAlleStatuser();
+            this.statuser = await status.data; 
 
-        let bed = await brukerService.hentBedrifter();
-        this.alleBedrifter = await bed.data; 
+            let bed = await brukerService.hentBedrifter();
+            this.alleBedrifter = await bed.data; 
+        }
+
+        if (global.payload.role == 'ansatt') load(global.payload.user.kommune_id);
+        else if (global.payload.role == 'admin') {
+            let res = await generellServices.sokKommune(this.props.match.params.kommune);
+            await Promise.resolve(res.data).then(async () => {
+                if (res.data.length > 0) {
+                    this.kommune = res.data[0];
+                    load(this.kommune.kommune_id);
+                }
+            });
+        }
       }
     
 }

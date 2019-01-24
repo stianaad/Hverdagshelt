@@ -13,7 +13,9 @@ import {
 import {FeedEvent, Filtrer, KatDropdown} from '../../Moduler/cardfeed';
 import {feilService} from '../../services/feilService';
 import {brukerService} from '../../services/brukerService';
+import {generellServices} from '../../services/generellServices';
 import {AnsattMeny} from './ansattMeny';
+import {AdminMeny} from '../Admin/adminMeny';
 import {ShowMarkerMap} from '../../Moduler/kart/map';
 import {InfoBoks} from '../../Moduler/info/info';
 
@@ -119,7 +121,7 @@ export class NyeFeil extends Component {
           </Modal.Content>
         </Modal>
         <div className="container-fluid vinduansatt">
-            <AnsattMeny/>
+        {global.payload.role == 'ansatt' ? <AnsattMeny/> : (global.payload.role == 'admin' && this.kommune) ? <AdminMeny kommune={this.kommune}/> : null}
             <div className="row mt-3 mb-3 justify-content-md-center">
                 <h1 >Nye feil og mangler</h1>
               </div>
@@ -278,18 +280,33 @@ export class NyeFeil extends Component {
   }
 
   async mounted() {
-    let feil = await feilService.hentFeilForKommune(global.payload.user.kommune_id);
-    this.alleFeil = await feil.data;
 
-    this.nyefeil = await feil.data.filter((e) => e.status === 'Ikke godkjent');
+    const load = async (kommune_id) => {
+      let feil = await feilService.hentFeilForKommune(kommune_id);
+      this.alleFeil = await feil.data;
 
-    let hoved = await feilService.hentAlleHovedkategorier();
-    this.hovedkat = await hoved.data;
+      this.nyefeil = await feil.data.filter((e) => e.status === 'Ikke godkjent');
 
-    let under = await feilService.hentAlleSubkategorier();
-    this.alleSubKat = await under.data;
+      let hoved = await feilService.hentAlleHovedkategorier();
+      this.hovedkat = await hoved.data;
 
-    await this.scroll();
+      let under = await feilService.hentAlleSubkategorier();
+      this.alleSubKat = await under.data;
+
+      await this.scroll();
+    }
+
+    if (global.payload.role == 'ansatt') load(global.payload.user.kommune_id);
+    else if (global.payload.role == 'admin') {
+        let res = await generellServices.sokKommune(this.props.match.params.kommune);
+        await Promise.resolve(res.data).then(async () => {
+            if (res.data.length > 0) {
+                this.kommune = res.data[0];
+                load(this.kommune.kommune_id);
+            }
+        });
+    }
+
   }
 }
 
