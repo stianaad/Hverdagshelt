@@ -12,6 +12,7 @@ export class Registrering extends Component {
     epost: '',
     passord: '',
     bekreftPass: '',
+    hendelsevarsling: 0,
   };
   passAdvarsel = '';
   advarsel = '';
@@ -113,56 +114,31 @@ export class Registrering extends Component {
               </div>
             </div>
           </div>
-          {/*
-
-        <div className="valg">
-          <p>Hva ønsker du å bli varslet om i din kommune?</p>
-          <br />
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value=""
-              id="defaultCheck1"
-            />
-            <label className="form-check-label" htmlFor="defaultCheck1">
-              Planlagt strømbrudd
-            </label>
-          </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value=""
-              id="defaultCheck2"
-            />
-            <label className="form-check-label" htmlFor="defaultCheck3">
-              Planlagt vann- og avløpsarbeid
-            </label>
-          </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value=""
-              id="defaultCheck3"
-            />
-            <label className="form-check-label" htmlFor="defaultCheck3">
-              Konserter
-            </label>
-          </div>
-          <br />
-          <p>Du kan endre varselinnstillinger på MinSide senere.</p>
-        </div>
-        */}
-          <br />
-          <div className="row knappDiv">
-            <button id="registrer" className="btn btn-primary" onClick={this.lagre}>
-              Registrer deg
-            </button>
-            <button id="avbryt" onClick={this.reRoute} className="btn btn-secondary">
-              Avbryt
-            </button>
+          <div className="row">
+            <div className="col">
+              <div className="form-group row">
+                <div className="form-check checkMinSide">
+                  <input 
+                  className="form-check-input checkVarsling" 
+                  type="checkbox" 
+                  id ="hendelsevarsling" 
+                  checked={!!this.brukerInput.hendelsevarsling} 
+                  onChange={this.endreVerdi}
+                  name="hendelsevarsling"/>
+                  <label className="form-check-label labelVarsling" htmlFor="hendelsevarsling">
+                    Hendelsesvarsling i fylket ditt
+                  </label>
+                </div>
+              </div>
+              <div className="row knappDiv">
+                <button id="registrer" className="btn btn-primary" onClick={this.lagre}>
+                  Registrer deg
+                </button>
+                <button id="avbryt" onClick={this.reRoute} className="btn btn-secondary">
+                  Avbryt
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -183,7 +159,8 @@ export class Registrering extends Component {
       this.brukerInput.passord,
       this.kommune.current.verdi,
       this.brukerInput.fornavn,
-      this.brukerInput.etternavn
+      this.brukerInput.etternavn,
+      this.brukerInput.hendelsevarsling,
     );
 
     if (!bruker.kommune_id) {

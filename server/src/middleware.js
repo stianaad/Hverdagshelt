@@ -10,7 +10,6 @@ let brukerdao = new BrukerDao(pool);
  * Sjekker om token som ligger i request-headeren er en valid token.
  * Slette først Bearer taggen først i token
  */
-
 export let checkToken = (req, res, next) => {
   let token = req.headers['x-access-token']; // Express headers are auto converted to lowercase
   if (token.startsWith('Bearer ')) {
