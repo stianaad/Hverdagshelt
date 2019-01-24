@@ -1,9 +1,20 @@
+/**
+ * Superklasse for daoklassene. Har en konstruktør og en funksjon.
+ * @example
+ * let dao = new Dao(eksempelPool);
+ */
+
 module.exports = class Dao {
   constructor(pool) {
     // Dependency Injection
     this.pool = pool;
   }
 
+  /**
+   * Funksjon som kjører en sql setning mot databasepoolen definert i konstruktør.
+   * @example 
+   * dao.query('SELECT * FROM eksempel WHERE eksemple_id = ?', [12], (callback) => {})
+   */
   query(sql, params, callback) {
     this.pool.getConnection((err, connection) => {
       console.log('dao: connected to database');
