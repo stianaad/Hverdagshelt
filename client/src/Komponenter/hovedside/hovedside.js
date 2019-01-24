@@ -86,11 +86,7 @@ export class Hovedside extends Component {
       }, 200);*/
     }
     this.visHendelser = true;
-    this.hendelse.overskrift = hendelse.overskrift;
-    this.hendelse.beskrivelse = hendelse.beskrivelse;
-    this.hendelse.sted = hendelse.sted;
-    this.hendelse.bilde = hendelse.bilde;
-    this.hendelse.tid = hendelse.tid;
+    this.hendelse = hendelse;
     // <Tabell tabell={this.alleHendelser} hovedOverskrift="Kommende hendelser" metode={this.visEnHendelse} kommune={this.props.match.params.kommune} tema="konsert"/>
   }
 
@@ -468,9 +464,7 @@ f                      id="test"
                           <br />
                           <div id="hendelseKnapper">
                             <Button color="green">Kjøp billetter</Button>
-                            <Button floated="right" color="red">
-                              Abonner
-                            </Button>
+                            <AbonnerKnapp style={{float:"right", width:"90px"}} key={this.hendelse.hendelse_id} hendelse_id={this.hendelse.hendelse_id} />
                           </div>
                           <br />
 
