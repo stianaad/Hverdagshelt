@@ -4,6 +4,7 @@ import {Component} from 'react-simplified';
 import {Card, Feed, Button, Header, Image} from 'semantic-ui-react';
 import {FeedMinside, ModalHendelse} from '../../Moduler/cardfeed';
 import {brukerService} from '../../services/brukerService';
+import {feilService} from '../../services/feilService';
 import {Link} from 'react-router-dom';
 import {KommuneInput} from '../../Moduler/kommuneInput/kommuneInput';
 import { FeilModal } from '../../Moduler/modaler/feilmodal';
@@ -454,8 +455,8 @@ export class Minside extends Component {
 
   async fjernFeil(id) {
     console.log(id);
-    /*let res1 = await feilService.slettFeil(id);
-        await this.finnFeilBruker(this.props.match.params.bruker_id);*/
+    let res1 = await feilService.slettFeil(id);
+    await this.finnFeilBruker(this.props.match.params.bruker_id);
   }
 
   async mounted() {

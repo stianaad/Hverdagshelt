@@ -128,7 +128,7 @@ router.post('/api/feil', upload.array('bilder', 10), checkToken, (req, res) => {
 router.put('/api/feil/:feil_id', checkToken, (req, res) => {
   let rolle = req.decoded.role;
   if (!(req.body instanceof Object)) return res.sendStatus(400);
-  console.log('Fikk POST-request fra klienten');
+  console.log('Fikk PUT-request fra klienten');
   let a = {
     kommune_id: req.body.kommune_id,
     subkategori_id: req.body.subkategori_id,
@@ -173,10 +173,11 @@ router.get('/api/ansatt/bedrifter/:feil_id', (req, res) => {
 });
 
 router.delete('/api/feil/:feil_id', checkToken, (req, res) => {
-  console.log('Fikk POST-request fra klienten');
-  let rolle = req.decoded.rolle;
-  let feil_id = { feil_id: req.body.feil_id };
+  console.log('Fikk DELETE-request fra klienten');
+  let rolle = req.decoded.role;
+  let feil_id = { feil_id: req.params.feil_id };
 
+  console.log(rolle);
   if (rolle == 'admin') {
     feilDao.slettFeil(feil_id, (status, data) => {
       console.log('Slettet en feil');
@@ -184,21 +185,23 @@ router.delete('/api/feil/:feil_id', checkToken, (req, res) => {
       res.json(data);
     });
   } else if (rolle == 'privat') {
-    let b = { bruker_id: req.decoded.bruker_id, feil_id: req.body.feil_id };
+    let b = { bruker_id: req.decoded.user.bruker_id, feil_id: req.params.feil_id };
+    console.log(b);
     feilDao.sjekkFeilPaaBruker(b, (status, data) => {
       if (data[0].length == 0) {
+        console.log('Ikke registrert');
         res.status(403);
         res.json({ result: false, message: 'Privatbruker har ikke registrert denne feilen' });
       } else {
         feilDao.slettFeil(feil_id, (status, data) => {
-          console.log('Privatbruker har slettet feil med id =' + req.body.feil_id);
+          console.log('Privatbruker har slettet feil med id = ' + req.params.feil_id);
           res.status(status);
         });
       }
     });
   } else if (rolle == 'ansatt' && req.decoded.user.kommune_id == req.body.kommune_id) {
     feilDao.slettFeil(feil_id, (status, data) => {
-      console.log('Ansatt har slettet feil med id =' + req.body.feil_id);
+      console.log('Ansatt har slettet feil med id =' + req.params.feil_id);
       res.status(status);
     });
   }
