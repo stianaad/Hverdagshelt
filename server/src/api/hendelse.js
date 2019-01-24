@@ -62,7 +62,7 @@ router.post('/api/hendelser', checkToken, (req, res) => {
       res.status(status);
     });
     if (nyID > 0) {
-      hendelseDao.hentVarsledeBrukere(nyID, (status, data) => {
+      hendelseDao.hentVarsledeBrukere({hendelse_id: nyID}, (status, data) => {
         if (data.length > 0) {
           console.log('Fant brukere');
           console.log(data.epost);
