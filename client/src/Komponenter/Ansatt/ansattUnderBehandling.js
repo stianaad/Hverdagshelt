@@ -17,10 +17,17 @@ export class AnsattUnder extends Component{
         overskrift: '',
         beskrivelse: ''
     };
+    bilder = [];
 
     visFeil(feil){
         this.valgtfeil = {...feil};
         this.feilApen = true; 
+        hentInfo(feil);
+    }
+
+    async hentInfo(feil){
+        let res = await feilService.hentBilderTilFeil(feil.feil_id);
+        this.bilder = await res.data; 
     }
 
     render(){
@@ -58,7 +65,7 @@ export class AnsattUnder extends Component{
                             <div className="col-sm-8">
                                 {this.feilApen ? (
                                     <div className="ansattFeilVindu">
-                                        <FeilVisning feil={this.valgtfeil}/>
+                                        <FeilVisning feil={this.valgtfeil} bilder={this.bilder}/>
                                     </div>
                                 ) : (
                                     <div>Trykk på feil</div>
