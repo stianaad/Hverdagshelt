@@ -49,7 +49,7 @@ export class AnsattGodkjent extends Component{
     }
 
     handterBedrift(bed){
-        let res = this.alleBedrifter.find(e => (e.navn = bed));
+        let res = this.alleBedrifter.find(e => (e.navn === bed));
         this.valgtBedrift = res;
         console.log(this.valgtBedrift);
     }
@@ -99,7 +99,7 @@ export class AnsattGodkjent extends Component{
                                                         <Grid.Column>
                                                             <div>
                                                                 <h5>Beskrivelse: </h5>
-                                                                <p>{this.valgtfeil.beskrivelse}</p>
+                                                                <p style={{overflowY: 'auto'}}>{this.valgtfeil.beskrivelse}</p>
                                                                 <h5>Posisjon: </h5>
                                                                 <ShowMarkerMap key={this.valgtfeil.feil_id} width="100%" height="50%" id="posmap" feil={this.valgtfeil} />
                                                             </div>
@@ -146,7 +146,7 @@ export class AnsattGodkjent extends Component{
                                                                     ))}
                                                                 </select>
                                                             </div>
-                                                            <Button basic color="blue">Send</Button>
+                                                            <Button basic color="blue" onClick={this.sendTilBed}>Send</Button>
                                                         </Grid.Column>                                                
                                                     </Grid>
                                                 </div>
@@ -172,6 +172,14 @@ export class AnsattGodkjent extends Component{
         });
 
         await this.mounted(); 
+    }
+
+    async sendTilBed(){
+        console.log("orgnr: " + this.valgtBedrift.orgnr + ", id: " + this.valgtfeil.feil_id);
+        await feilService.sendFeilTilBedrift({
+            orgnr: this.valgtBedrift.orgnr,
+            feil_id: this.valgtfeil.feil_id
+        });
     }
 
     scroll() {
