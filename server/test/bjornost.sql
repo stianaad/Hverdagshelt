@@ -1341,33 +1341,33 @@ ALTER TABLE `subkategori`
 -- Begrensninger for tabell `admin`
 --
 ALTER TABLE `admin`
-  ADD CONSTRAINT `admin_ibfk_1` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`);
+  ADD CONSTRAINT `admin_ibfk_1` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`) ON DELETE CASCADE;
 
 --
 -- Begrensninger for tabell `ansatt`
 --
 ALTER TABLE `ansatt`
-  ADD CONSTRAINT `ansatt_ibfk_1` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`);
+  ADD CONSTRAINT `ansatt_ibfk_1` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`) ON DELETE CASCADE;
 
 --
 -- Begrensninger for tabell `bedrift`
 --
 ALTER TABLE `bedrift`
-  ADD CONSTRAINT `bedrift_ibfk_1` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`);
+  ADD CONSTRAINT `bedrift_ibfk_1` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`) ON DELETE CASCADE;
 
 --
 -- Begrensninger for tabell `bruker`
 --
 ALTER TABLE `bruker`
-  ADD CONSTRAINT `bruker_ibfk_1` FOREIGN KEY (`kommune_id`) REFERENCES `kommuner` (`kommune_id`);
+  ADD CONSTRAINT `bruker_ibfk_1` FOREIGN KEY (`kommune_id`) REFERENCES `kommuner` (`kommune_id`) ON DELETE CASCADE;
 
 --
 -- Begrensninger for tabell `feil`
 --
 ALTER TABLE `feil`
-  ADD CONSTRAINT `feil_ibfk_1` FOREIGN KEY (`kommune_id`) REFERENCES `kommuner` (`kommune_id`),
-  ADD CONSTRAINT `feil_ibfk_2` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`),
-  ADD CONSTRAINT `feil_ibfk_3` FOREIGN KEY (`subkategori_id`) REFERENCES `subkategori` (`subkategori_id`);
+  ADD CONSTRAINT `feil_ibfk_1` FOREIGN KEY (`kommune_id`) REFERENCES `kommuner` (`kommune_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `feil_ibfk_2` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `feil_ibfk_3` FOREIGN KEY (`subkategori_id`) REFERENCES `subkategori` (`subkategori_id`) ON DELETE CASCADE;
 
 --
 -- Begrensninger for tabell `feilbilder`
@@ -1380,50 +1380,50 @@ ALTER TABLE `feilbilder`
 --
 ALTER TABLE `feilfolg`
   ADD CONSTRAINT `feilfolg_ibfk_1` FOREIGN KEY (`feil_id`) REFERENCES `feil` (`feil_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `feilfolg_ibfk_2` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`);
+  ADD CONSTRAINT `feilfolg_ibfk_2` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`) ON DELETE CASCADE;
 
 --
 -- Begrensninger for tabell `hendelser`
 --
 ALTER TABLE `hendelser`
   ADD CONSTRAINT `hendelser_ibfk_1` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`),
-  ADD CONSTRAINT `hendelser_ibfk_2` FOREIGN KEY (`hendelseskategori_id`) REFERENCES `hendelseskategori` (`hendelseskategori_id`),
-  ADD CONSTRAINT `hendelser_ibfk_3` FOREIGN KEY (`kommune_id`) REFERENCES `kommuner` (`kommune_id`);
+  ADD CONSTRAINT `hendelser_ibfk_2` FOREIGN KEY (`hendelseskategori_id`) REFERENCES `hendelseskategori` (`hendelseskategori_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `hendelser_ibfk_3` FOREIGN KEY (`kommune_id`) REFERENCES `kommuner` (`kommune_id`) ON DELETE CASCADE;
 
 --
 -- Begrensninger for tabell `hendfolg`
 --
 ALTER TABLE `hendfolg`
-  ADD CONSTRAINT `hendfolg_ibfk_1` FOREIGN KEY (`hendelse_id`) REFERENCES `hendelser` (`hendelse_id`),
-  ADD CONSTRAINT `hendfolg_ibfk_2` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`);
+  ADD CONSTRAINT `hendfolg_ibfk_1` FOREIGN KEY (`hendelse_id`) REFERENCES `hendelser` (`hendelse_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `hendfolg_ibfk_2` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`) ON DELETE CASCADE;
 
 --
 -- Begrensninger for tabell `jobbSoknad`
 --
 ALTER TABLE `jobbSoknad`
-  ADD CONSTRAINT `jobbSoknad_ibfk_1` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`),
-  ADD CONSTRAINT `jobbSoknad_ibfk_2` FOREIGN KEY (`feil_id`) REFERENCES `feil` (`feil_id`),
-  ADD CONSTRAINT `jobbSoknad_ibfk_3` FOREIGN KEY (`status`) REFERENCES `status` (`status_id`);
+  ADD CONSTRAINT `jobbSoknad_ibfk_1` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `jobbSoknad_ibfk_2` FOREIGN KEY (`feil_id`) REFERENCES `feil` (`feil_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `jobbSoknad_ibfk_3` FOREIGN KEY (`status`) REFERENCES `status` (`status_id`) ON DELETE CASCADE;
 
 --
 -- Begrensninger for tabell `kommuner`
 --
 ALTER TABLE `kommuner`
-  ADD CONSTRAINT `kommuner_ibfk_1` FOREIGN KEY (`fylke_navn`) REFERENCES `fylker` (`fylke_navn`);
+  ADD CONSTRAINT `kommuner_ibfk_1` FOREIGN KEY (`fylke_navn`) REFERENCES `fylker` (`fylke_navn`) ON DELETE CASCADE;
 
 --
 -- Begrensninger for tabell `oppdatering`
 --
 ALTER TABLE `oppdatering`
   ADD CONSTRAINT `oppdatering_ibfk_1` FOREIGN KEY (`feil_id`) REFERENCES `feil` (`feil_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `oppdatering_ibfk_2` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`),
-  ADD CONSTRAINT `oppdatering_ibfk_3` FOREIGN KEY (`status_id`) REFERENCES `status` (`status_id`);
+  ADD CONSTRAINT `oppdatering_ibfk_2` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `oppdatering_ibfk_3` FOREIGN KEY (`status_id`) REFERENCES `status` (`status_id`) ON DELETE CASCADE;
 
 --
 -- Begrensninger for tabell `privat`
 --
 ALTER TABLE `privat`
-  ADD CONSTRAINT `privat_ibfk_1` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`);
+  ADD CONSTRAINT `privat_ibfk_1` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`) ON DELETE CASCADE;
 
 --
 -- Begrensninger for tabell `subkategori`
