@@ -195,6 +195,8 @@ export class AnsattGodkjent extends Component{
         const load = async (kommune_id) => {
             let feil = await feilService.hentFeilForKommune(kommune_id);
             this.alleFeil = await feil.data;
+
+            await console.log(feil.data)
         
             this.godkjente = await feil.data.filter(e => (e.status === 'Godkjent'));
             

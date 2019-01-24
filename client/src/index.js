@@ -219,6 +219,7 @@ const routes = () => {
               
               <Route exact path="/admin/startside" key="administrasjon" component={Administrasjon} history={history} />,
               <Route exact path="/admin/kategori" key="kategori" component={RegistrerNyKategori} history={history} />,
+              <Route exact path='/admin/bedrifter' key='bedrifter' component={AlleBedrifter} history={history}/>,
               <Route exact path="/admin/:kommune/oversikt" key="oversikt" component={AnsattOversikt} history={history}/>,
               <Route exact path="/admin/:kommune/nyefeil" key="nyefeil" component={NyeFeil} history={history}/>,
               <Route exact path="/admin/:kommune/nyhendelse" key="nyhendelse" component={NyHendelse} history={history}/>,
@@ -226,7 +227,6 @@ const routes = () => {
               <Route exact path="/admin/:kommune/ferdig" key="ferdig" component={AnsattFerdig} history={history}/>,
               <Route exact path="/admin/:kommune/hendelser" key="hendelser"component={AnsattHendelser} history={history}/>,
               <Route exact path="/admin/:kommune/godkjent" key="godkjent"component={AnsattGodkjent} history={history}/>,
-              <Route exact path='/admin/bedrifter' key='bedrifter' component={AlleBedrifter} history={history}/>,
               ]
             : null}
 
