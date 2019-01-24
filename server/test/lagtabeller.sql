@@ -42,6 +42,7 @@ CREATE TABLE privat (
     bruker_id INT(11) NOT NULL,
     fornavn VARCHAR(255) NOT NULL,
     etternavn VARCHAR(255) NOT NULL,
+    hendelsevarsling BIT(1) DEFAULT 0,
     PRIMARY KEY (bruker_id),
     FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

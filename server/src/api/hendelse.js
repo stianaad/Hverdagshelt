@@ -53,10 +53,28 @@ router.post('/api/hendelser', checkToken, (req, res) => {
       breddegrad: req.body.breddegrad,
     };
 
+    let nyID = -1;
+
     hendelseDao.lagNyHendelse(a, (status, data) => {
       console.log('Opprettet en ny hendelse');
+      nyID = data.insertId;
+      console.log(nyID);
       res.status(status);
     });
+    if (nyID > 0) {
+      hendelseDao.hentVarsledeBrukere(nyID, (status, data) => {
+        if (data.length > 0) {
+          console.log('Fant brukere');
+          console.log(data.epost);
+          //epostTjener.hendelse(a.overskrift, a.tid, a.beskrivelse, a.sted, a.bilde, data.epost);
+        } else {
+          console.log('Fant ikke brukere');
+        }
+      });
+    }
+
+
+    
   } else {
     res.status(403);
     res.json({result: false});
