@@ -172,6 +172,7 @@ export class AnsattGodkjent extends Component{
         });
 
         await this.mounted(); 
+        this.feilApen = await false;
     }
 
     async sendTilBed(){

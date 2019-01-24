@@ -96,6 +96,7 @@ export class AnsattFerdig extends Component{
         this.fullforteFeil = await feil.data.filter(e => (e.status === 'Ferdig'));
         
         await this.scroll();
+        await console.log(this.fullforteFeil);
       }
     
 }

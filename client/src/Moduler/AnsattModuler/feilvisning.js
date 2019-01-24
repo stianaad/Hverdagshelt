@@ -8,6 +8,19 @@ import { feilService } from '../../services/feilService';
 export class FeilVisning extends Component {
     statuser = [];
     bilderTilFeil = [];
+    valgtStatus = {
+        status_id: '',
+        status: this.props.feil.status
+    }
+    kommentar = '';
+
+    handterStatuser(status){
+        console.log(status);
+        let stat = this.statuser.find(e => (e.status === status));
+        console.log(stat);
+        this.valgtStatus = {...stat};
+        console.log(this.valgtStatus);
+    }
 
     render(){
         return(
@@ -66,7 +79,7 @@ export class FeilVisning extends Component {
                                         className="form-control"
                                         onChange={(e) => this.handterStatuser(e.target.value)}
                                         >
-                                        <option hidden>{this.props.feil.status}</option>
+                                        <option hidden>{this.valgtStatus.status}</option>
                                         {this.statuser.map((status) => (
                                             <option value={status.status} key={status.status}>
                                             {' '}
@@ -75,7 +88,7 @@ export class FeilVisning extends Component {
                                         ))}
                                     </select>
                                 </div>
-                                <Button basic color="green">Oppdater</Button>
+                                <Button basic color="green" onClick={this.oppdatering}>Oppdater</Button>
                             </Grid.Column>
                         </Grid> 
                     </Card.Content>
@@ -83,7 +96,17 @@ export class FeilVisning extends Component {
             </div>
         ); 
     }
+    async oppdatering(){
+        console.log("Starter oppdatering");
+        await feilService.lagOppdatering({
+            "feil_id": this.props.feil.feil_id,
+            "kommentar": this.kommentar, 
+            "status_id": this.valgtStatus.status_id
+        });
 
+        await this.props.oppdater;  
+        console.log("Oppdatering sendt");
+    }
     async mounted(){
         let res = await feilService.hentAlleStatuser();
         this.statuser = await res.data; 
