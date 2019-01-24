@@ -203,7 +203,7 @@ export class MeldFeil extends Component {
       formData.append('lengdegrad', this.data.lengdegrad);
       formData.append('breddegrad', this.data.breddegrad);
       formData.append('abonner', this.data.abonner);
-      Array.from(document.querySelector('#bil').files).forEach((file) => {if (file.type.match('image.*')) formData.append('bilder', file, file.name);})
+      Array.from(document.querySelector('#bil').files).forEach((file) => {if (file.type.match('image.*')) formData.append('bilder', file, file.name);});
 
       let token = sessionStorage.getItem('pollett');
       if (token) {
