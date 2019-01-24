@@ -86,11 +86,7 @@ export class Hovedside extends Component {
       }, 200);*/
     }
     this.visHendelser = true;
-    this.hendelse.overskrift = hendelse.overskrift;
-    this.hendelse.beskrivelse = hendelse.beskrivelse;
-    this.hendelse.sted = hendelse.sted;
-    this.hendelse.bilde = hendelse.bilde;
-    this.hendelse.tid = hendelse.tid;
+    this.hendelse = hendelse;
     // <Tabell tabell={this.alleHendelser} hovedOverskrift="Kommende hendelser" metode={this.visEnHendelse} kommune={this.props.match.params.kommune} tema="konsert"/>
   }
 
@@ -286,9 +282,11 @@ export class Hovedside extends Component {
                 <Card fluid>
                   <Card.Content extra style={{height:"120px", color:"black"}}>
                     <div>
-                      <h1>
+                      <h1 className="hovedSideFeilOverskrift">
                         {this.feil.overskrift}
-                        <img
+                        {/*</Link>*/}
+                      </h1>
+                      <img
                           onClick={() => {
                             if (this.mobView == "#hovedFeil") {
                               //document.querySelector("#hovedFeil").style.display="block";
@@ -301,10 +299,8 @@ export class Hovedside extends Component {
                           src="https://image.freepik.com/free-icon/x_318-27992.jpg"
                           width="20"
                           height="20"
-                          style={{cursor:"pointer", float:"right"}}
+                          className="hovedSideX"
                         />
-                        {/*</Link>*/}
-                      </h1>
                       <h6>
                         Status: {(this.feil.status=== "Godkjent") ? (<span>Mottatt</span>) : (this.feil.status)} <img src={this.statusIkon} width="30" height="30" />
                         {(global.payload && global.payload.role == 'privat') ? (
@@ -324,8 +320,8 @@ export class Hovedside extends Component {
                         <ShowMarkerMap key={this.feil.feil_id} width="100%" height="100%" id="posmap" feil={this.feil} />
                       </Grid.Column>
                       <Grid.Column>
-                        <h6>Oppdateringer: </h6>
                         <div className="oppdateringScroll">
+                        <h6>Oppdateringer: </h6>
                           <List className="p-2">
                             {this.oppTilFeil.map((opp) => (
                             <List.Item>
@@ -338,17 +334,15 @@ export class Hovedside extends Component {
                           </List>
                         </div>
                         <br />
-                        <div className="bildeBoks">
+                        <div className="oppdateringScroll">
                           <h6>Bilder:</h6>
-                          <Grid columns={5}>
+                          <div>
                             {this.bilderTilFeil.map((bilde) => (
-                              <Grid.Column key={bilde.bilde_id}>
-                                <div onClick={() => this.visBilde(bilde.url)}>
+                                <div className="feilModalBilde" onClick={() => this.visBilde(bilde.url)}>
                                   <img src={bilde.url} key={bilde.bilde_id} className="bilder" onClick={() => {this.handleOpen(bilde.url)}}/>
                                 </div>
-                              </Grid.Column>
                             ))}
-                          </Grid>
+                          </div>
                         </div>
                       </Grid.Column>
                     </Grid>
@@ -470,9 +464,7 @@ f                      id="test"
                           <br />
                           <div id="hendelseKnapper">
                             <Button color="green">Kjøp billetter</Button>
-                            <Button floated="right" color="red">
-                              Abonner
-                            </Button>
+                            <AbonnerKnapp style={{float:"right", width:"90px"}} key={this.hendelse.hendelse_id} hendelse_id={this.hendelse.hendelse_id} />
                           </div>
                           <br />
 

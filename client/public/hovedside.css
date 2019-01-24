@@ -51,6 +51,18 @@ nav ul{
    z-index: 700 !important;
 }
 
+.hovedSideX {
+   position: absolute;
+    top: 14px;
+    right: 14px;
+}
+
+.hovedSideFeilOverskrift {
+   width: calc(100% - 28px);
+   height: 36px;
+   overflow: hidden;
+}
+
 .oppdateringScroll{
    height: 50%;
    overflow-y: auto;
