@@ -211,6 +211,10 @@ module.exports = class FeilDao extends Dao {
     );
   }
 
+  finnKommuneidPaaFeil(feil_id, callback) {
+    super.query('SELECT kommune_id FROM feil WHERE feil_id = ?', [feil_id], callback);
+  }
+
   hentUnderBehandlingFeilTilBedrift(bruker_id, callback) {
     super.query(
       "SELECT feil.*, hovedkategori.kategorinavn, DATE_FORMAT(f.tid, '%Y.%m.%d %H:%i') AS tid, kommuner.kommune_navn, kommuner.fylke_navn FROM feil INNER JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id INNER JOIN hovedkategori ON subkategori.hovedkategori_id = hovedkategori.hovedkategori_id INNER JOIN(SELECT feil_id, MAX(tid) AS tid FROM oppdatering GROUP BY feil_id) AS f ON feil.feil_id = f.feil_id INNER JOIN (SELECT feil_id, Max(status_id) AS status_id, MAX(tid) AS tid FROM oppdatering GROUP BY feil_id) AS s ON feil.feil_id = s.feil_id INNER JOIN status ON status.status_id = s.status_id INNER JOIN kommuner ON kommuner.kommune_id = feil.kommune_id INNER JOIN jobbSoknad ON feil.feil_id=jobbSoknad.feil_id AND jobbSoknad.bruker_id=? AND jobbSoknad.status=4 AND status.status_id=3",
