@@ -210,7 +210,7 @@ export class MarkerMap extends Component {
 
     let coords, map;
 
-    fetch('https://nominatim.openstreetmap.org/?format=json&q=' + this.props.center + '&limit=1', {
+    fetch('https://nominatim.openstreetmap.org/?format=json&q=' + this.props.center + ' Norway&limit=1', {
       method: 'GET',
     })
       .then((res) => res.json())
@@ -264,7 +264,7 @@ export class MarkerMap extends Component {
 }
 
 /**
- * Trenger id, width, height, og feil obkjekt
+ * Trenger id, width, height, og feil objekt
  */
 export class ShowMarkerMap extends Component {
   map = null;
@@ -374,7 +374,7 @@ export class PositionMap extends Component {
 
   componentDidMount() {
     let coords, map;
-    fetch('https://nominatim.openstreetmap.org/?format=json&q=' + this.props.center + '&limit=1', {
+    fetch('https://nominatim.openstreetmap.org/?format=json&q=' + this.props.center + ' Norway&limit=1', {
       method: 'GET',
     })
       .then((res) => res.json())

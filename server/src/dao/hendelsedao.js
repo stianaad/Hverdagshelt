@@ -120,8 +120,8 @@ module.exports = class HendelseDao extends Dao {
     super.query('UPDATE hendelseskategori SET kategorinavn = ? WHERE hendelseskategori_id = ?', [json.kategorinavn, json.hendelseskategori_id], callback);
   }
 
-  slettHendelseskategori(json, callback) {
-    super.query('DELETE FROM hendelseskategori WHERE hendelseskategori_id = ?', [json.hendelseskategori_id], callback);
+  slettHendelseskategori(hendelseskategori_id, callback) {
+    super.query('DELETE FROM hendelseskategori WHERE hendelseskategori_id = ?', [hendelseskategori_id], callback);
   }
 
   //testes

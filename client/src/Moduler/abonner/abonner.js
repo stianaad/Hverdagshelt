@@ -14,14 +14,13 @@ export class AbonnerKnapp extends Component {
     }
 
     klikk() {
+        this.abonnert = null;
         if (this.props.feil_id) {
-            if (this.abonnert) feilService.ikkeAbonner(this.props.feil_id);
-            else feilService.abonner(this.props.feil_id);
-            this.mounted();
+            if (this.abonnert) feilService.ikkeAbonner(this.props.feil_id).then(this.mounted);
+            else feilService.abonner(this.props.feil_id).then(this.mounted);
         } else if (this.props.hendelse_id) {
-            if (this.abonnert) hendelseService.ikkeAbonner(this.props.hendelse_id);
-            else hendelseService.abonner(this.props.hendelse_id);
-            this.mounted();
+            if (this.abonnert) hendelseService.ikkeAbonner(this.props.hendelse_id).then(this.mounted);
+            else hendelseService.abonner(this.props.hendelse_id).then(this.mounted);
         }
     }
 

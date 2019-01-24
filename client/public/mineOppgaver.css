@@ -176,3 +176,7 @@
     align-content: center;
     width: 70%;
 }
+
+.bedrifterVindu{
+    min-height: 400px;
+}
