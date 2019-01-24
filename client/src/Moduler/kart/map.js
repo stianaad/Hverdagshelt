@@ -264,7 +264,7 @@ export class MarkerMap extends Component {
 }
 
 /**
- * Trenger id, width, height, og feil obkjekt
+ * Trenger id, width, height, og feil objekt
  */
 export class ShowMarkerMap extends Component {
   map = null;

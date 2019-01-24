@@ -399,7 +399,6 @@ router.post('/api/bedrift/feil', checkToken, (req, res) => {
         res.json(data);
       });
     })
-
   } else {
     res.status(403);
     res.json({result: false});
