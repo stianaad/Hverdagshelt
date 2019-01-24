@@ -1,4 +1,4 @@
-.feilCardImage{
+#minRow .feilCardImage{
     /*width: 250px !important;*/
     height: auto;
     max-height: 250px;
@@ -6,7 +6,7 @@
     object-fit: cover;
 }
 
-.feilCard{
+#minRow .feilCard{
     /*width:250px !important;*/
     margin:5px 0!important;
 }
