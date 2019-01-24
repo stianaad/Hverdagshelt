@@ -496,7 +496,9 @@ export class Hendelse extends Component{
             
             <div className="text-center "><AbonnerKnapp key={this.props.hendelse_id} hendelse_id={this.props.hendelse_id} /></div>
           
-        ) : null}
+        ) : (
+          <Button color="green" onClick={this.props.rediger}>Rediger</Button>
+        )}
         </Card>
               /*<Card className="h-100" fluid>
               <Image src={this.props.bilde} className="hendelseBilde"/>
