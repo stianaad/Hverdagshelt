@@ -29,6 +29,7 @@ let testprivatBruker = {
   kommune_id: 1,
   fornavn: 'Øivind',
   etternavn: 'Larsson',
+  hendelsevarsling: 1
 };
 
 let testBedriftbruker = {

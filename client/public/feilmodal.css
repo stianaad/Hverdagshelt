@@ -20,11 +20,20 @@
     margin-right:30px;
 }
 
+.feilModalOppdateringScroll {
+    overflow-y: auto;
+    height:150px;
+}
+
 .feilModalInnhold {
     -webkit-overflow-scrolling: touch;
-    flex: 1 1 auto;
+    margin:0;
     overflow-y: auto;
-    overflow-x: hidden;
+}
+
+.feilModalFyll {
+    -webkit-overflow-scrolling: touch;
+    overflow-y: auto;
 }
 
 .feilModalBeskrivelse {
@@ -38,9 +47,26 @@
     display: inline-block;
 }
 
+.feilModalRad {
+    height: 50% !important;
+}
+
 @media only screen and (max-width: 767px) {
     .feilModalBeskrivelse {
         overflow-y: visible;
         height: inherit;
+    }
+
+    .feilModalOppdateringScroll {
+        overflow-y: visible;
+        height:inherit;
+    }
+
+    .feilModalFyll {
+        overflow-y: visible;
+    }
+
+    .feilModalRad {
+        height: inherit !important;
     }
 }

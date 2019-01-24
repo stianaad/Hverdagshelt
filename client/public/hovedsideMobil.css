@@ -10,6 +10,18 @@
     margin-bottom: 300px;
 }
 
+.hovedSideX {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+ }
+
+ .hovedSideFeilOverskrift {
+    width: calc(100% - 28px);
+    height: calc(1em + 6px);
+    overflow: hidden;
+ }
+
 .hovedTittel h1 {
     margin-top: 20vh;
 }
@@ -25,6 +37,7 @@
 .hovedsideTabeller{
     height: calc(75vh - 200px);
     overflow-y: auto;
+    overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
 }
 

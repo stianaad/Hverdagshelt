@@ -94,6 +94,7 @@ module.exports = class BrukerDao extends Dao {
 
   //testes
   lagNyPrivatBruker(json, callback) {
+    console.log(json);
     let self = this;
     self.finnBruker_id(json, (status, data) => {
       if (data.length == 0) {
@@ -102,8 +103,8 @@ module.exports = class BrukerDao extends Dao {
           let gyldig = (json.fornavn != null) && (json.etternavn != null);
           if (status == 200 && gyldig) {
             super.query(
-              'INSERT INTO privat (bruker_id, fornavn, etternavn) VALUES(?,?,?)',
-              [data.insertId, json.fornavn, json.etternavn],
+              'INSERT INTO privat (bruker_id, fornavn, etternavn, hendelsevarsling) VALUES(?,?,?,?)',
+              [data.insertId, json.fornavn, json.etternavn, json.hendelsevarsling],
               callback
             );
           } else {
@@ -225,8 +226,8 @@ module.exports = class BrukerDao extends Dao {
       this.oppdaterBruker(json, rolle, (status, data) => {
         console.log('oppdaterer privat');
         super.query(
-          'UPDATE privat SET fornavn = ?, etternavn = ? WHERE bruker_id = ?',
-          [json.fornavn, json.etternavn, rolle.bruker_id],
+          'UPDATE privat SET fornavn = ?, etternavn = ?, hendelsevarsling = ? WHERE bruker_id = ?',
+          [json.fornavn, json.etternavn, json.hendelsevarsling, rolle.bruker_id],
           callback
         );
       });
@@ -286,7 +287,7 @@ module.exports = class BrukerDao extends Dao {
   hentBrukerInfo(bruker_id, rolle, callback) {
     switch (rolle) {
       case 'privat':
-        super.query('SELECT fornavn, etternavn, epost, kommune_id, kommune_navn, sist_innlogget FROM bruker INNER JOIN privat USING (bruker_id) INNER JOIN kommuner USING(kommune_id) WHERE bruker_id = ?', [bruker_id], callback);
+        super.query('SELECT fornavn, etternavn, epost, kommune_id, kommune_navn, sist_innlogget, hendelsevarsling FROM bruker INNER JOIN privat USING (bruker_id) INNER JOIN kommuner USING(kommune_id) WHERE bruker_id = ?', [bruker_id], callback);
         break;
       case 'ansatt':
         super.query('SELECT fornavn, etternavn, epost, telefon, kommune_id, kommune_navn FROM bruker INNER JOIN ansatt USING (bruker_id) INNER JOIN kommuner USING(kommune_id) WHERE bruker_id = ?', [bruker_id], callback);
