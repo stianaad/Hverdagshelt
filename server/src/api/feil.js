@@ -264,7 +264,7 @@ router.get('/api/feil/:feil_id/oppdatering', (req, res) => {
   feilDao.hentAlleOppdateringerPaaFeil(req.params.feil_id, (status, data) => {
     res.status(status);
     res.json(data);
-    console.log('/oppdateringer med feil_id ' + a.feil_id + ' lengde: ' + data.length);
+    console.log('/oppdateringer med feil_id ' + req.params.feil_id + ' lengde: ' + data.length);
   });
 });
 
