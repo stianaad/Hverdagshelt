@@ -185,7 +185,7 @@ export class NyeFeil extends Component {
                             <Grid columns={3} fluid stackable>
                               <Grid.Column>
                                 <h6>Beskrivelse: </h6>
-                                <TextArea value={this.valgtfeil.beskrivelse} rows="18" 
+                                <TextArea value={this.valgtfeil.beskrivelse} className="feilModalBeskrivelse"
                                   onChange={(event) => (this.valgtfeil.beskrivelse = event.target.value)}
                                 />
                               </Grid.Column>
@@ -196,15 +196,13 @@ export class NyeFeil extends Component {
                               <Grid.Column>
                                 <h6>Bilder: </h6>
                                 {this.bilder.length > 0 ? (
-                                  <Grid columns={2}>
+                                  <div className="feilModalFyll" style={{height: '160px'}}>
                                     {this.bilder.map((bilde) => (
-                                      <Grid.Column>
-                                        <div onClick={() => this.visBilde(bilde)}>
-                                          <img src={bilde.url} className="bilder" />
-                                        </div>
-                                      </Grid.Column>
+                                      <div className="feilModalBilde" key={bilde.bilde_id} onClick={() => this.visBilde(bilde)}>
+                                        <img src={bilde.url} key={bilde.bilde_id} className="bilder" onClick={() => this.visBilde(bilde)} />
+                                      </div>
                                     ))}
-                                  </Grid> 
+                                  </div>
                                 ):(
                                   <p>Ingen bilder</p>
                                 )}

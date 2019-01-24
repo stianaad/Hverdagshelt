@@ -86,7 +86,7 @@ module.exports = class BrukerDao extends Dao {
   //testes
   finnFolgteHendelserTilBruker(bruker_id, callback) {
     super.query(
-      "SELECT hendfolg.hendelse_id, hendfolg.bruker_id, hendelser.hendelse_id, kommuner.kommune_navn ,DATE_FORMAT(hendelser.tid, '%Y-%m-%d %H:%i') AS tid,overskrift, beskrivelse,bilde,sted,billett,hendfolg.bruker_id FROM hendelser,hendfolg,kommuner WHERE hendelser.hendelse_id=hendfolg.hendelse_id and hendelser.kommune_id=kommuner.kommune_id AND hendfolg.bruker_id=? ORDER BY hendelser.tid DESC",
+      "SELECT hendfolg.hendelse_id, hendfolg.bruker_id, hendelser.hendelse_id, kommuner.kommune_navn ,DATE_FORMAT(hendelser.tid, '%Y-%m-%d %H:%i') AS tid,overskrift, beskrivelse,bilde,sted,billett,hendfolg.bruker_id FROM hendelser,hendfolg,kommuner WHERE hendelser.hendelse_id=hendfolg.hendelse_id and hendelser.kommune_id=kommuner.kommune_id AND hendfolg.bruker_id=? ORDER BY hendelser.tid ASC",
       [bruker_id],
       callback
     );
@@ -94,7 +94,6 @@ module.exports = class BrukerDao extends Dao {
 
   //testes
   lagNyPrivatBruker(json, callback) {
-    console.log(json);
     let self = this;
     self.finnBruker_id(json, (status, data) => {
       if (data.length == 0) {

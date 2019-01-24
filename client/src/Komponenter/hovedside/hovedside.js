@@ -461,7 +461,7 @@ f                      id="test"
                           />
                           <br />
                           <div id="hendelseKnapper">
-                            <Button color="green">Kjøp billetter</Button>
+                            <a href={this.hendelse.billett} target="_blank"><Button color="green">Kjøp billetter</Button></a>
                             <AbonnerKnapp style={{float:"right", width:"90px"}} key={this.hendelse.hendelse_id} hendelse_id={this.hendelse.hendelse_id} />
                           </div>
                           <br />
