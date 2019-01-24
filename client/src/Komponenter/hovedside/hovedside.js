@@ -148,9 +148,7 @@ export class Hovedside extends Component {
       }
       if (view == "#hovedKart") {
         if (!window.closedObj.isClosed) {
-          console.log(window.closedObj);
           window.setClosed();
-          
         }
 
         q(this.mobView).style.display = "none";
@@ -187,6 +185,8 @@ export class Hovedside extends Component {
               className="meldFeilHoved"
               onClick={() => {
                 clearInterval(this.shakeInterval);
+                this.shakeDir = 5;
+                this.shake = 0;
                 this.shakeInterval = setInterval(() => {
                   if (Math.abs(this.shake) > 20) this.shakeDir*=-1;
                   this.shake += this.shakeDir;
@@ -301,8 +301,8 @@ export class Hovedside extends Component {
                           height="20"
                           className="hovedSideX"
                         />
-                      <h6>
-                        Status: {(this.feil.status=== "Godkjent") ? (<span>Mottatt</span>) : (this.feil.status)} <img src={this.statusIkon} width="30" height="30" />
+                      <h6><b>
+                        Status:</b> {(this.feil.status=== "Godkjent") ? (<span>Mottatt</span>) : (this.feil.status)} <img src={this.statusIkon} width="30" height="30" />
                         {(global.payload && global.payload.role == 'privat') ? (
                         <AbonnerKnapp style={{float:"right", width:"90px"}} key={this.feil.feil_id} feil_id={this.feil.feil_id} />
                         ) : null}
@@ -311,17 +311,19 @@ export class Hovedside extends Component {
                   </Card.Content>
                   <Card.Content extra style={{height: '100%', color:"black"}}>
                     <Grid  columns={3} stackable style={{height: '100%'}}>
-                      <Grid.Column style={{overflowY: 'auto'}}>
-                        <h6>Beskrivelse: </h6>
-                        <p>{this.feil.beskrivelse}</p>
+                      <Grid.Column>
+                        <h6><b>Beskrivelse:</b></h6>
+                        <div class="hovedSideFeilBeskrivelse">{this.feil.beskrivelse.split("\n").map((tekst) => (
+                          <p key={tekst}>{tekst}</p>))}
+                        </div>
                       </Grid.Column>
                       <Grid.Column>
-                        <h6>Posisjon</h6>
+                        <h6><b>Posisjon:</b></h6>
                         <ShowMarkerMap key={this.feil.feil_id} width="100%" height="100%" id="posmap" feil={this.feil} />
                       </Grid.Column>
                       <Grid.Column>
                         <div className="oppdateringScroll">
-                        <h6>Oppdateringer: </h6>
+                        <h6><b>Oppdateringer:</b></h6>
                           <List className="p-2">
                             {this.oppTilFeil.map((opp) => (
                             <List.Item>
@@ -335,7 +337,7 @@ export class Hovedside extends Component {
                         </div>
                         <br />
                         <div className="oppdateringScroll">
-                          <h6>Bilder:</h6>
+                          <h6><b>Bilder:</b></h6>
                           <div>
                             {this.bilderTilFeil.map((bilde) => (
                                 <div className="feilModalBilde" onClick={() => this.visBilde(bilde.url)}>
@@ -463,7 +465,7 @@ f                      id="test"
                           />
                           <br />
                           <div id="hendelseKnapper">
-                            <Button color="green">Kjøp billetter</Button>
+                            <a href={this.hendelse.billett} target="_blank"><Button color="green">Kjøp billetter</Button></a>
                             <AbonnerKnapp style={{float:"right", width:"90px"}} key={this.hendelse.hendelse_id} hendelse_id={this.hendelse.hendelse_id} />
                           </div>
                           <br />
@@ -471,7 +473,7 @@ f                      id="test"
                           <div>
                             <p>
                               <img src="https://image.flaticon.com/icons/svg/33/33622.svg" height="20" width="20" />
-                              {this.hendelse.sted}, Trondheim, Norge{' '}
+                              {this.hendelse.sted}, {this.kommune.kommune_navn}, Norge
                             </p>
                             <p>
                               <img
@@ -484,9 +486,9 @@ f                      id="test"
                           </div>
                         </Grid.Column>
                         <Grid.Column>
-                          <p id="hendelseBeskrivelse">
-                            {this.hendelse.beskrivelse}
-                          </p>
+                          <div id="hendelseBeskrivelse">{this.hendelse.beskrivelse.split("\n").map((tekst) => (
+                            <p key={tekst}>{tekst}</p>))}
+                          </div>
                         </Grid.Column>
                       </Grid>
                     </div>
@@ -554,7 +556,7 @@ f                      id="test"
 
   async mounted() {
     this.visFeil = false;
-
+    console.log("mounted");
     let res = await generellServices.sokKommune(this.props.match.params.kommune);
     let res4 = await hendelseService.hentAlleHovedkategorier();
     this.hendelseKategori = res4.data;
@@ -573,10 +575,22 @@ f                      id="test"
           res3.data,
         ]);
     
-        await Promise.all([res1.data]).then(() => {
-          console.log("got here");
-          if (this.mobView != "#hovedKart" && L.Browser.mobile) window.setClosed();
-          this.kart.addMarkers(res1.data);
+        await Promise.all([res1.data/*, res2.data, res3.data, res4.data, res.data*/]).then(() => {
+          if (this.kart.loaded) {
+            this.kart.addMarkers(res1.data);
+            if (this.mobView != "#hovedKart" && L.Browser.mobile) {window.setClosed();}
+          }
+          else {
+            let listenfunc = () => {
+              if (this.kart.loaded) {
+                if (this.mobView != "#hovedKart" && L.Browser.mobile) {window.setClosed();}
+              }
+              else {
+                setTimeout(()=>listenfunc(), 100);
+              }
+            }
+            listenfunc();
+          }
         });
 
       } else {

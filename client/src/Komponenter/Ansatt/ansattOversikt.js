@@ -54,7 +54,8 @@ export class AnsattOversikt extends Component {
                             <Card.Content>
                             <Card.Header>
                                 <h3 style={{display: 'inline'}}>Nye innsendinger</h3>
-                                <InfoBoks style={{display: 'inline'}} tekst="Velg Nye Feil i menyen for å gjøre endringer på feilene"/>
+                                <InfoBoks style={{display: 'inline'}} 
+                                tekst="Trykk på en feil for mer informasjon om den.&#10;Velg Nye Feil i menyen for å gjøre endringer på feilene"/>
                             </Card.Header>
                             </Card.Content>
                             <Card.Content className={this.classNye}>
@@ -76,7 +77,8 @@ export class AnsattOversikt extends Component {
                             <Card.Content>
                             <Card.Header>
                                 <h3 style={{display: 'inline'}}>Godkjente feil</h3>
-                                <InfoBoks style={{display: 'inline'}} tekst="Velg Nye Feil i menyen for å gjøre endringer på feilene"/>
+                                <InfoBoks style={{display: 'inline'}} 
+                                tekst="Trykk på en feil for mer informasjon om den.&#10;Velg 'Godkjent' i menyen for å endre status eller sende til bedrift"/>
                             </Card.Header>
                             </Card.Content>
                             <Card.Content className={this.classNye}>
@@ -94,12 +96,12 @@ export class AnsattOversikt extends Component {
                         </Card>
                     </div>
                     <div className="col-sm-3">
-                        <Card color="yellow fluid">
+                        <Card color="yellow" fluid>
                             <Card.Content>
                                 <Card.Header>
                                     <h3 style={{display: 'inline'}}>Under behandling</h3>
                                     <InfoBoks style={{display: 'inline'}} 
-                                    tekst="Trykk på en feil for å lese mer om den. Hvis du ønsker å gjøre endringer kan du gjøre dette under 'Under behandling' i menyen til venstre"/>
+                                    tekst="Trykk på en feil for mer informasjon om den.&#10;Velg 'Under Behandling' i menyen for å endre statuser"/>
                                 </Card.Header>
                             </Card.Content>
                             <Card.Content className={this.classUnderB}>
@@ -119,10 +121,11 @@ export class AnsattOversikt extends Component {
                     <div className="col-sm-3">
                         <Card color="green" fluid>
                             <Card.Content>
-                            <Card.Header>
-                                <h3 style={{display: 'inline'}}>Avsluttede saker</h3>
-                                <InfoBoks style={{display: 'inline'}} tekst="Trykk på en sak for å lese mer om den"/>
-                            </Card.Header>
+                                <Card.Header>
+                                    <h3 style={{display: 'inline'}}>Avsluttede saker</h3>
+                                    <InfoBoks style={{display: 'inline'}} 
+                                        tekst="Trykk på en feil for mer informasjon om den.&#10;Velg 'Under Behandling' i menyen for å endre statuser"/>
+                                </Card.Header>
                             </Card.Content>
 
                             <Card.Content className={this.classFerdig}>

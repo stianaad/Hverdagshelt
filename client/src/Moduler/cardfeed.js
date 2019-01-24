@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
 import {feilService} from '../services/feilService';
-import {AbonnerKnapp} from '../Moduler/abonner/abonner';
+import {AbonnerKnapp} from './abonner/abonner';
 import {
   Card,
   Feed,

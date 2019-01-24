@@ -13,6 +13,8 @@ import {InfoBoks} from '../../Moduler/info/info';
 import { HendelseModal } from '../../Moduler/modaler/hendelsemodal';
 
 export class Minside extends Component {
+  alleOppdaterteFeil = [];
+  alleIkkeOppdaterteFeil = [];
   oppdaterteFeil = [];
   ikkeOppdaterteFeil = [];
   folgteFeil = [];
@@ -52,7 +54,6 @@ export class Minside extends Component {
 
   mobileView(view) {
     let q = (id) => document.querySelector(id);
-    console.log("view: "+view);
     if (view == this.mobView) return;
 
     if (view == "#mintittelanchor") {
@@ -76,9 +77,9 @@ export class Minside extends Component {
     return (
       <div>
         <PageHeader history={this.props.history} location={this.props.location} />
-        <EndrePassordModal key={this.endrePassordModal} open={this.endrePassordModal} onClose={() => {this.endrePassordModal = false}} />
-        <FeilModal abonner={true} key={this.feil.feil_id+this.feilModal} open={this.feilModal} feil={this.feil} onClose={() => {this.feilModal = false}} />
-        <HendelseModal abonner={true} key={this.hendelse.hendelse_id+this.hendelseModal} open={this.hendelseModal} hendelse={this.hendelse} onClose={() => {this.hendelseModal = false}} />
+        <EndrePassordModal key={'endrepassordmodal'+this.endrePassordModal} open={this.endrePassordModal} onClose={() => {this.endrePassordModal = false}} />
+        <FeilModal abonner={true} key={'feilmodal'+this.feil.feil_id+this.feilModal} open={this.feilModal} feil={this.feil} onClose={() => {this.feilModal = false}} />
+        <HendelseModal abonner={true} key={'hendelsemodal'+this.hendelse.hendelse_id+this.hendelseModal} open={this.hendelseModal} hendelse={this.hendelse} onClose={() => {this.hendelseModal = false}} />
         <div className="mt-3 hovedTittel" id="mintittelanchor">
           <h1 className="text-center text-capitalize display-4">Min side</h1>
           <Link to="/meldfeil">
@@ -107,20 +108,20 @@ export class Minside extends Component {
 
         <div className="row" id="minRow">
           <div className="col minSideUtKolonne" id="sideListe">
-            <Card fluid>
+            <Card key ={'sideListe'} fluid>
               <Card.Content>
                 <Card.Header>
-                  Dine rapporterte feil<InfoBoks tekst="Trykk på knappen under for å se dine rapporterte feil."/>
+                  Dine rapporterte feil<InfoBoks key = {'rapportertefeil'} tekst="Trykk på knappen under for å se dine rapporterte feil."/>
                   <Button basic color="green" onClick={this.visRapporterteFeil}>
-                    {this.oppdaterteFeil.length === 0 ? (
-                      <span>Ingen ny(e) oppdateringer</span>
+                    {this.alleOppdaterteFeil.length === 0 ? (
+                      <span>Ingen nye oppdateringer</span>
                     ) : (
-                      <span>{this.oppdaterteFeil.length} nye oppdateringer</span>
+                      <span>{this.alleOppdaterteFeil.length} ny(e) oppdateringer</span>
                     )}
                   </Button>
                 </Card.Header>
               </Card.Content>
-              {this.visFeil ? (
+              {(this.visFeil) ? (
                 <Card.Content className={this.classFeil}>
                   {this.oppdaterteFeil.length + this.ikkeOppdaterteFeil.length > 0 ? (
                     <Feed>
@@ -136,8 +137,7 @@ export class Minside extends Component {
                           onClick={() => {
                             this.feilModal = true;
                             this.feil = feil;
-                          }}
-                        >
+                          }}>
                           {feil.overskrift}
                         </FeedMinside>
                       ))}
@@ -166,7 +166,7 @@ export class Minside extends Component {
                     </Card>
                   )}
                 </Card.Content>
-              ) : null}
+              ) : (null)}
             </Card>
           </div>
           <div className="col-md-auto mx-1 minSideInKolonne" id="hendelseListe">
@@ -175,6 +175,7 @@ export class Minside extends Component {
                 <Card.Group itemsPerRow={1}>
                   {this.folgteHendelser.map((hendelse) => (
                     <Card
+                      key = {'feilCard'+hendelse.hendelse_id}
                       className="feilCard"
                       onClick={() => {
                         this.hendelse = hendelse;
@@ -198,7 +199,7 @@ export class Minside extends Component {
                   ))}
                 </Card.Group>
               ) : (
-                <Card>
+                <Card key = {'folgerikke'}>
                   <Card.Content>
                     <Header as="h4">
                       Du følger for øyeblikket ingen hendelser. Finn hendelser i kommunesider eller hovedsiden for
@@ -214,6 +215,7 @@ export class Minside extends Component {
                 <Card.Group itemsPerRow={1}>
                   {this.folgteFeil.map((feil) => (
                     <Card
+                      key = {'feilCard'+feil.feil_id}
                       className="feilCard"
                       onClick={() => {
                         this.feil = feil;
@@ -237,7 +239,7 @@ export class Minside extends Component {
                   ))}
                 </Card.Group>
               ) : (
-                <Card>
+                <Card key = {'folgerikkefeil'}>
                   <Card.Content>
                     <Header as="h4">
                       Du følger for øyeblikket ingen feil. Finn feil i kommunesider for å følge de du interesserer deg
@@ -248,9 +250,9 @@ export class Minside extends Component {
               )}
             </div>
           <div className="col minSideUtKolonne" id="sideListeH">
-            <Card fluid>
+            <Card fluid key = {'sideListeH'}>
               <Card.Content>
-                <Card.Header>Brukerinformasjon<InfoBoks tekst="Her kan du både se og redigere din personlige informasjon.&#10;Du kan også endre passord ved: 'Rediger bruker' > 'Endre passord'."/></Card.Header>
+                <Card.Header>Brukerinformasjon<InfoBoks key={'brukerinfo'} tekst="Her kan du både se og redigere din personlige informasjon.&#10;Du kan også endre passord ved: 'Rediger bruker' > 'Endre passord'."/></Card.Header>
               </Card.Content>
               <Card.Content>
                 <div id="container">
@@ -421,15 +423,22 @@ export class Minside extends Component {
   async visRapporterteFeil() {
     this.visFeil = !this.visFeil;
     if (this.visFeil) {
-      this.finnIkkeOppdaterteFeil();
+      if(this.alleIkkeOppdaterteFeil.length.length > 0 ){
+        this.ikkeOppdaterteFeil = this.alleIkkeOppdaterteFeil;
+      } else {
+        this.finnIkkeOppdaterteFeil();
+      }
+      this.oppdaterteFeil = this.alleOppdaterteFeil;
       await this.scrollFeil();
       await brukerService.oppdaterSistInnloggetPrivat();
+    } else {
+      this.ikkeOppdaterteFeil = [];
+      this.oppdaterteFeil = [];
     }
   }
 
   scrollFeil() {
     if (this.oppdaterteFeil.length + this.ikkeOppdaterteFeil.length > 4) {
-      console.log(this.oppdaterteFeil.length + this.ikkeOppdaterteFeil.length);
       this.classFeil = 'rapporterteFeilScroll';
     }
   }
@@ -437,12 +446,13 @@ export class Minside extends Component {
   async finnOppdaterteFeilBruker() {
     let res1 = await brukerService.finnOppdaterteFeilTilBruker();
     this.oppdaterteFeil = await res1.data;
-    //await console.log(res1.data);
+    this.alleOppdaterteFeil = await res1.data;
   }
 
   async finnIkkeOppdaterteFeil() {
     let res1 = await brukerService.finnIkkeOppdaterteFeilTilBruker();
     this.ikkeOppdaterteFeil = await res1.data;
+    this.alleIkkeOppdaterteFeil = await res1.data;
     await this.scrollFeil();
   }
 
@@ -450,13 +460,18 @@ export class Minside extends Component {
     let res4 = await brukerService.minInfo();
     this.brukerInfo = await res4.data[0];
     this.brukerInfo.hendelsevarsling = this.brukerInfo.hendelsevarsling.data[0];
-    await console.log(res4.data);
   }
 
   async fjernFeil(id) {
-    console.log(id);
     let res1 = await feilService.slettFeil(id);
-    await this.finnFeilBruker(this.props.match.params.bruker_id);
+    //await this.finnFeilBruker(this.props.match.params.bruker_id);
+    await this.finnOppdaterteFeilBruker();
+    await this.finnIkkeOppdaterteFeil();
+    await this.scrollFeil();
+    //this.ikkeOppdaterteFeil = this.ikkeOppdaterteFeil.filter(e => e.feil_id != id);
+    //this.oppdaterteFeil = this.oppdaterteFeil.filter(e => e.feil_id != id);
+    await console.log(this.ikkeOppdaterteFeil);
+    await console.log(this.oppdaterteFeil);
   }
 
   async mounted() {
@@ -465,10 +480,8 @@ export class Minside extends Component {
 
     let res2 = await brukerService.finnFolgteFeilTilBruker();
     this.folgteFeil = await res2.data;
-    //await console.log(res2.data);
 
     let res3 = await brukerService.finnFolgteHendelserTilBruker();
     this.folgteHendelser = await res3.data;
-    //await console.log(res3.data);
   }
 }

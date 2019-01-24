@@ -140,7 +140,7 @@ CREATE TABLE hendelser(
     hendelseskategori_id INT(11) NOT NULL,
     kommune_id INT(11) NOT NULL,
     overskrift VARCHAR(255) NOT NULL,
-    tid TIMESTAMP NOT NULL,
+    tid TIMESTAMP,
     beskrivelse TEXT,
     sted VARCHAR(255) NOT NULL,
     bilde VARCHAR(255),
