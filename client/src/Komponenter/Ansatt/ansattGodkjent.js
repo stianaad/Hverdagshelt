@@ -109,7 +109,7 @@ export class AnsattGodkjent extends Component{
                                                             <div className="form-group">
                                                                 <label>Kommentar: </label>
                                                                 <input type="text" className="form-control"
-                                                                    required={true}
+                                                                    onChange={(e) => (this.kommentar = e.target.value)}
                                                                 />
                                                             </div>
                                                             <div className="form-group">
@@ -167,7 +167,7 @@ export class AnsattGodkjent extends Component{
     async oppdatering(){
         await feilService.lagOppdatering({
             "feil_id": this.valgtfeil.feil_id,
-            "kommentar": 'Ansatt har godkjent feil', 
+            "kommentar": this.kommentar, 
             "status_id": this.valgtStatus.status_id
         });
 

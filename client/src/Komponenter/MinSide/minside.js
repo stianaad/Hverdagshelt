@@ -33,6 +33,7 @@ export class Minside extends Component {
     epost: '',
     kommune_id: -1,
     kommune_navn: '',
+    hendelsevarsling: -1,
   };
 
   brukerInfoDummy = {
@@ -41,6 +42,7 @@ export class Minside extends Component {
     epost: '',
     kommune_id: -1,
     kommune_navn: '',
+    hendelsevarsling: -1,
   };
 
   redigerer = false;
@@ -319,6 +321,20 @@ export class Minside extends Component {
                           />
                         </div>
                       </div>
+                      <div className="form-group row">
+                        <div className="form-check checkMinSide">
+                          <input 
+                          className="form-check-input" 
+                          type="checkbox" 
+                          id ="hendelsevarsling" 
+                          checked={!!this.brukerInfoDummy.hendelsevarsling} 
+                          onChange={this.endreVerdi}
+                          name="hendelsevarsling"/>
+                          <label className="form-check-label" htmlFor="hendelsevarsling">
+                            Hendelsesvarsling i fylket ditt
+                          </label>
+                        </div>
+                      </div>
                       <p className="modalPopup" onClick={() => {this.endrePassordModal = true;}}>
                         Endre passord?
                       </p>
@@ -377,6 +393,7 @@ export class Minside extends Component {
   }
 
   async rediger() {
+    
     if (this.redigerer) {
       this.redigerer = false;
       this.brukerInfo = {...this.brukerInfoDummy};
@@ -431,6 +448,7 @@ export class Minside extends Component {
   async hentMinInfo() {
     let res4 = await brukerService.minInfo();
     this.brukerInfo = await res4.data[0];
+    this.brukerInfo.hendelsevarsling = this.brukerInfo.hendelsevarsling.data[0];
     await console.log(res4.data);
   }
 
