@@ -45,7 +45,7 @@ export class AnsattOversikt extends Component {
         <PageHeader history={this.props.history} location={this.props.location} />
         <FeilModal key={this.valgtFeil.feil_id+this.feilModal} open={this.feilModal} feil={this.valgtFeil} onClose={() => {this.feilModal = false}} />
         <div className="vinduansatt container-fluid">
-            {global.payload.role == 'ansatt' ? <AnsattMeny/> : (global.payload.role == 'admin' && this.kommune) ? <AdminMeny kommune={this.kommune}/> : null}
+            {global.payload.role == 'ansatt' ? <AnsattMeny/> : (global.payload.role == 'admin') ? <AdminMeny kommune={this.kommune}/> : null}
             <div className="row justify-content-md-center mt-3 mb-3">
                 <h1>Oversikt</h1>
             </div>

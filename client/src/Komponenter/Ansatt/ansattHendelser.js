@@ -5,9 +5,11 @@ import {Card, Feed, Grid, Button, Header, Icon, Input, Image, Modal, List, CardC
 import {FeedEvent, Filtrer, Info, Hendelse} from '../../Moduler/cardfeed';
 import {feilService} from '../../services/feilService';
 import { hendelseService } from '../../services/hendelseService';
+import {generellServices} from '../../services/generellServices';
 import {markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
 import {NavLink} from 'react-router-dom';
 import {AnsattMeny} from './ansattMeny';
+import {AdminMeny} from '../Admin/adminMeny';
 
 export class AnsattHendelser extends Component{
     open = false; 
@@ -47,7 +49,7 @@ export class AnsattHendelser extends Component{
             <div>
                 <PageHeader history={this.props.history} location={this.props.location}/>
                 <div className="container-fluid vinduansatt">
-                    <AnsattMeny/>
+                {global.payload.role == 'ansatt' ? <AnsattMeny/> : (global.payload.role == 'admin') ? <AdminMeny kommune={this.kommune}/> : null}
                     <div className="row mt-3 mb-3 justify-content-md-center">
                         <h1 >Hendelser</h1>
                     </div>
@@ -158,11 +160,25 @@ export class AnsattHendelser extends Component{
     }
 
     async mounted(){
-        let res = await hendelseService.hentAlleHendelser(); 
-        this.hendelser = await res.data; 
-        await console.log(this.hendelser);
 
-        let kat = await hendelseService.hentAlleKategorier(); 
-        this.kategorier = await kat.data; 
+        const load = async (kommune_id) => {
+            let res = await hendelseService.hentHendelserForKommune(kommune_id); 
+            this.hendelser = await res.data; 
+            await console.log(this.hendelser);
+
+            let kat = await hendelseService.hentAlleKategorier(); 
+            this.kategorier = await kat.data;
+        }
+
+        if (global.payload.role == 'ansatt') load(global.payload.user.kommune_id);
+        else if (global.payload.role == 'admin') {
+            let res = await generellServices.sokKommune(this.props.match.params.kommune);
+            await Promise.resolve(res.data).then(async () => {
+                if (res.data.length > 0) {
+                    this.kommune = res.data[0];
+                    load(this.kommune.kommune_id);
+                }
+            });
+        }
     }
 }

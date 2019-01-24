@@ -61,7 +61,7 @@ export class AnsattGodkjent extends Component{
             <div>
                 <PageHeader history={this.props.history} location={this.props.location} />
                 <div className="container-fluid vinduansatt">
-                {global.payload.role == 'ansatt' ? <AnsattMeny/> : (global.payload.role == 'admin' && this.kommune) ? <AdminMeny kommune={this.kommune}/> : null}
+                {global.payload.role == 'ansatt' ? <AnsattMeny/> : (global.payload.role == 'admin') ? <AdminMeny kommune={this.kommune}/> : null}
                     <div className="row justify-content-md-center mt-3 mb-3">
                         <h1>Godkjente feil</h1>
                     </div>

@@ -41,7 +41,7 @@ export class AnsattUnder extends Component{
             <div>
                 <PageHeader/>
                 <div className="vinduansatt containter-fluid">
-                {global.payload.role == 'ansatt' ? <AnsattMeny/> : (global.payload.role == 'admin' && this.kommune) ? <AdminMeny kommune={this.kommune}/> : null}
+                {global.payload.role == 'ansatt' ? <AnsattMeny/> : (global.payload.role == 'admin') ? <AdminMeny kommune={this.kommune}/> : null}
                     <div className="row justify-content-md-center mt-3 mb-3">
                         <h1>Under behandling</h1>
                     </div>

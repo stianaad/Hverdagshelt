@@ -121,7 +121,7 @@ export class NyeFeil extends Component {
           </Modal.Content>
         </Modal>
         <div className="container-fluid vinduansatt">
-        {global.payload.role == 'ansatt' ? <AnsattMeny/> : (global.payload.role == 'admin' && this.kommune) ? <AdminMeny kommune={this.kommune}/> : null}
+        {global.payload.role == 'ansatt' ? <AnsattMeny/> : (global.payload.role == 'admin') ? <AdminMeny kommune={this.kommune}/> : null}
             <div className="row mt-3 mb-3 justify-content-md-center">
                 <h1 >Nye feil og mangler</h1>
               </div>
