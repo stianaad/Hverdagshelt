@@ -6,6 +6,7 @@ import {FeedEvent, Filtrer, Info} from '../../Moduler/cardfeed';
 import {feilService} from '../../services/feilService';
 import {markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
 import {NavLink} from 'react-router-dom';
+import { FeilModal } from '../../Moduler/modaler/feilmodal';
 
 export class Bedrift extends Component {
   nyefeil = [];
@@ -56,35 +57,9 @@ export class Bedrift extends Component {
     this.setState({open: false});
   };
 
-  render() {
-    return (
-      <>
-        <PageHeader history={this.props.history} location={this.props.location} />
-        <div className="bedriftContainer">
-          <Modal open={this.state.open} onClose={this.handleClose} size="small" centered={true} dimmer="blurring">
-            {/*<Modal.Header>
-                        {this.valgtFeil.overskrift}
-                    </Modal.Header>*/}
-            <Modal.Content>
-              <div>
-                <Card fluid>
-                  <Card.Content>
-                    <div>
-                      <h1>
-                        {this.valgtFeil.overskrift}
-                        <NavLink to={'/mineoppgaver'} onClick={this.handleClose}>
-                          <img
-                            className="float-right"
-                            src="https://image.freepik.com/free-icon/x_318-27992.jpg"
-                            width="20"
-                            height="20"
-                          />
-                        </NavLink>
-                      </h1>
-                      <h6>
-                        Status: {this.valgtFeil.status} <img src="/warningicon.png" width="30" height="30" />
-                        {this.visGodkjennJobb ? (
-                          <span>
+  feil = {feil_id:0}
+  feilModal = false;
+  /* <span>
                             <Button
                               floated="right"
                               color="red"
@@ -105,56 +80,18 @@ export class Bedrift extends Component {
                             >
                               Godta jobb
                             </Button>
-                          </span>
-                        ) : null}
-                      </h6>
-                    </div>
-                  </Card.Content>
-                  <Card.Content extra>
-                    <Grid fluid columns={3}>
-                      <Grid.Column>
-                        <h6>Beskrivelse</h6>
-                        <Input>{this.valgtFeil.beskrivelse}</Input>
-                      </Grid.Column>
-                      <Grid.Column>
-                        <h6>Posisjon</h6>
-                        <ShowMarkerMap width="100%" height="300px" id="posmap" feil={this.valgtFeil} />
-                      </Grid.Column>
-                      <Grid.Column>
-                        <div className="oppdateringScroll">
-                          <List>
-                              {this.oppdateringer.map(oppdatering =>(
-                                  <List.Item key={oppdatering.tid}>
-                                      <List.Content>
-                                          <List.Header>
-                                              {oppdatering.status}
-                                          </List.Header>
-                                          <List.Description>
-                                              {oppdatering.tid}
-                                              <br/>
-                                              {oppdatering.kommentar}
-                                          </List.Description>
-                                      </List.Content>
-                                  </List.Item>
-                              ))}
-                          </List>
-                        </div>
-                        <Image.Group size="tiny">
-                          <Image src="/lofoten.jpg" />
-                          <Image src="/lofoten.jpg" />
-                          <Image src="/lofoten.jpg" />
-                          <Image src="/lofoten.jpg" />
-                          <Image src="/lofoten.jpg" />
-                          <Image src="/lofoten.jpg" />
-                        </Image.Group>
-                      </Grid.Column>
-                    </Grid>
-                  </Card.Content>
-                </Card>
-              </div>
-              <div />
-            </Modal.Content>
-          </Modal>
+                          </span>*/ 
+
+  render() {
+    return (
+      <>
+        <PageHeader history={this.props.history} location={this.props.location} />
+        <div className="bedriftContainer">
+          {/*<Modal.Header>
+                        {this.valgtFeil.overskrift}
+                    </Modal.Header>*/}
+            <FeilModal abonner={false} aksepter={this.visGodkjennJobb} godtaJobb={this.godtaJobb} avslaJobb={this.avslaJobb}
+            key={this.feil.feil_id+this.feilModal} open={this.feilModal} feil={this.feil} onClose={() => {this.feilModal = false}} />
           <h1>Mine oppgaver</h1>
           <div>
             <div className="row mt-5">
@@ -171,11 +108,12 @@ export class Bedrift extends Component {
                       {this.nyefeil.map((feil) => (
                         <FeedEvent
                           onClick={() => {
-                            this.handleOpen(feil);
+                            this.feil = feil;
                             this.visGodkjennJobb = true;
+                            this.feilModal = true;
                           }}
                           key={feil.feil_id}
-                          status={'Ikke godkjent'}
+                          status={feil.status}
                           tid={feil.tid}
                           visSakID={true}
                           feil_id={feil.feil_id}
@@ -201,11 +139,12 @@ export class Bedrift extends Component {
                       {this.underBehandling.map((feil) => (
                         <FeedEvent
                           onClick={() => {
-                            this.handleOpen(feil);
+                            this.feil = feil;
                             this.visGodkjennJobb = false;
+                            this.feilModal = true;
                           }}
                           key={feil.feil_id}
-                          status={'Under behandling'}
+                          status={feil.status}
                           visSakID={true}
                           tid={feil.tid}
                           visRedigering="true"
@@ -229,13 +168,13 @@ export class Bedrift extends Component {
                         <Filtrer alleKategorier={this.alleKategorier} onChange={this.filterUtførte}/>
                       </Card.Header>
                     </Card.Content>
-
                     <Card.Content className={this.classFerdig}>
                       {this.utførte.map((feil) => (
                         <FeedEvent
                           onClick={() => {
-                            this.handleOpen(feil);
+                            this.feil = feil;
                             this.visGodkjennJobb = false;
+                            this.feilModal = true;
                           }}
                           key={feil.feil_id}
                           visSakID={true}
@@ -297,10 +236,11 @@ export class Bedrift extends Component {
 
   async godtaJobb(feil_id) {
     //console.log(feil_id);
-    this.handleClose();
+    console.log(feil_id)
     let res = await feilService.oppdaterStatusFeilTilBedrift({feil_id: feil_id, status: 4});
     await feilService.lagOppdatering({"feil_id": feil_id,"kommentar":"Bedrift godtok jobben og begynner arbeidet straks","status_id":3});
     //console.log(res.data);
+    this.feilModal = false;
     await this.hentNyeFeil();
     await this.hentUnderBehandlingFeil();
   }
@@ -309,6 +249,7 @@ export class Bedrift extends Component {
     await feilService.oppdaterStatusFeilTilBedrift({feil_id: feil_id, status: 1});
     await this.hentNyeFeil();
     //console.log(feil_id);
+    this.feilModal = false;
     this.handleClose();
   }
 

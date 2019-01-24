@@ -48,7 +48,6 @@ export class RegistrerNyKategori extends Component {
     render(){
         return(
             <div className="text-center">
-                <PageHeader history={this.props.history} location={this.props.location} />
                 <Popup trigger={<Button>Knapp</Button>} flowing
                 size="huge"
                 on="click"
