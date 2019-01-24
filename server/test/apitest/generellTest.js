@@ -345,7 +345,7 @@ test('slett bilde fra feil', (done) => {
     expect(data.affectedRows).toBe(1);
     done();
   }
-  feildao.slettBildeFraFeil({url: 'https://bjornost.tihlde.org/hverdagshelt/cafa241c9903a3994aab66230db15a74', feil_id: 43}, callback);
+  feildao.slettBildeFraFeil({bilde_id: 31, feil_id: 27}, callback);
 });
 
 test('hent ferdige feil til bedrift', (done) => {
