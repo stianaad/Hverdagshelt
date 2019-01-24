@@ -185,6 +185,8 @@ export class Hovedside extends Component {
               className="meldFeilHoved"
               onClick={() => {
                 clearInterval(this.shakeInterval);
+                this.shakeDir = 5;
+                this.shake = 0;
                 this.shakeInterval = setInterval(() => {
                   if (Math.abs(this.shake) > 20) this.shakeDir*=-1;
                   this.shake += this.shakeDir;
@@ -471,7 +473,7 @@ f                      id="test"
                           <div>
                             <p>
                               <img src="https://image.flaticon.com/icons/svg/33/33622.svg" height="20" width="20" />
-                              {this.hendelse.sted}, Trondheim, Norge{' '}
+                              {this.hendelse.sted}, {this.kommune.kommune_navn}, Norge
                             </p>
                             <p>
                               <img

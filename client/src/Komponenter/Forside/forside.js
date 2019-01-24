@@ -5,9 +5,6 @@ import {Link} from 'react-router-dom';
 import {ProfileButton} from '../../Moduler/header/header';
 export class Forside extends Component {
 
-shake = 0;
-shakeDir = 5;
-
   render() {
     return (
       <div>
@@ -27,6 +24,8 @@ shakeDir = 5;
               className="main-header-button btn btn-danger border border-dark mr-4"
               onClick={() => {
                 clearInterval(this.shakeInterval);
+                this.shake = 0;
+                this.shakeDir = 5;
                 this.shakeInterval = setInterval(() => {
                   if (Math.abs(this.shake) > 20) this.shakeDir*=-1;
                   this.shake += this.shakeDir;
