@@ -11,8 +11,10 @@ router.use(bodyParser.json());
 import { pool } from '../../test/poolsetup';
 import { checkToken } from '../middleware';
 import BrukerDao from '../dao/brukerdao.js';
+import Epost from '../epost.js';
 
 let feilDao = new FeilDao(pool);
+let epostTjener = new Epost();
 let brukerDao = new BrukerDao(pool);
 let bildeOpplasting = new BildeOpplasting();
 
@@ -113,6 +115,7 @@ router.post('/api/feil', upload.array('bilder', 10), checkToken, (req, res) => {
             feilDao.leggTilBilder(feil_id, bilder);
           });
         }
+        epostTjener.innsendtFeil(o.feil_id, req.decoded.user.epost);
       }
 
     });
