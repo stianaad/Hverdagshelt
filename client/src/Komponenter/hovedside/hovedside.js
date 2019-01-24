@@ -30,6 +30,8 @@ export class Hovedside extends Component {
   statusIkon = '';
   markers = [];
   mobView = "#hovedtittelanchor";
+  hendelsesKategori = [];
+  filterHendelse = "0";
 
   feil = {
     overskrift: '',
@@ -119,7 +121,7 @@ export class Hovedside extends Component {
   }
 
   endreStatusIkon(status) {
-    if (status === 'Ikke godkjent') {
+    if (status === 'Godkjent') {
       this.statusIkon = '/warningicon.png';
     } else if (status === 'Under behandling') {
       this.statusIkon = '/processingicon.png';
@@ -304,7 +306,7 @@ export class Hovedside extends Component {
                         {/*</Link>*/}
                       </h1>
                       <h6>
-                        Status: {this.feil.status} <img src={this.statusIkon} width="30" height="30" />
+                        Status: {(this.feil.status=== "Godkjent") ? (<span>Mottatt</span>) : (this.feil.status)} <img src={this.statusIkon} width="30" height="30" />
                         {(global.payload && global.payload.role == 'privat') ? (
                         <AbonnerKnapp style={{float:"right", width:"90px"}} key={this.feil.feil_id} feil_id={this.feil.feil_id} />
                         ) : null}
@@ -391,13 +393,13 @@ f                      id="test"
                     Kommende hendelser
                     <InfoBoks tekst="Her finner du kulturarrangementer og planlagt arbeid på infrastruktur for kommunen." />
                     <select
-                      onChange={(e) => {this.feilKategori = e.target.value;}}
+                      onChange={(e) => {this.filterHendelse = e.target.value;}}
                       className="form-control right floated meta"
                       style={{height: "30px", width: "100%", marginTop:"10px"}}
                     >
                       <option hidden> Filter </option>
                       <option value="0"> Alle kategorier </option>
-                      {this.alleKategorier.map((kategori) => (
+                      {this.hendelseKategori.map((kategori) => (
                         <option value={kategori.kategorinavn} key={kategori.kategorinavn}>
                           {' '}
                           {kategori.kategorinavn}
@@ -408,7 +410,7 @@ f                      id="test"
                     </Card.Content>
                     <Card.Content className='hovedsideTabeller'>
                       <Feed>
-                        {this.alleHendelser.map((hendelse) => (
+                        {this.alleHendelser.filter(kat => ((kat.kategorinavn == this.filterHendelse) || this.filterHendelse == "0")).map((hendelse) => (
                           <FeedHendelse
                             onClick={() => {
                               this.visEnHendelse(hendelse);
@@ -417,8 +419,7 @@ f                      id="test"
                             //status ={feil.status}
                             tid={hendelse.tid}
                             kategori={hendelse.kategorinavn}
-                            key={hendelse.hendelse_id}
-                          >
+                            key={hendelse.hendelse_id}>
                             {hendelse.overskrift}
                           </FeedHendelse>
                         ))}
@@ -563,6 +564,8 @@ f                      id="test"
     this.visFeil = false;
 
     let res = await generellServices.sokKommune(this.props.match.params.kommune);
+    let res4 = await hendelseService.hentAlleHovedkategorier();
+    this.hendelseKategori = res4.data;
     await Promise.resolve(res.data).then(async () => {
       if (res.data.length > 0) {
         this.kommune = res.data[0];

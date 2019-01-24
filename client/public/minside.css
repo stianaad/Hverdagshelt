@@ -67,7 +67,9 @@
   text-align: right;
 }
 
-
+.checkMinSide {
+  padding-left: 2.0rem;
+}
 
 .venstreForm {
   text-align: left;

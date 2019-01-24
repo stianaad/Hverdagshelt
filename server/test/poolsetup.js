@@ -1,5 +1,8 @@
 import mysql from 'mysql';
 
+/**
+ * Pool brukt av dao klasser for å gi tilkobling til databasen - bruker mysql serveren gitt av ntnu
+ */
 export var pool = mysql.createPool({
   connectionLimit: 5,
   host: 'mysql.stud.iie.ntnu.no',
@@ -10,6 +13,9 @@ export var pool = mysql.createPool({
   multipleStatements: true,
 });
 
+/**
+ * @deprecated ble kun brukt for å kjøre tester lokalt. 
+ */
 export var localTestPool = mysql.createPool({
   connectionLimit: 5,
   host: 'mysql.stud.iie.ntnu.no',
