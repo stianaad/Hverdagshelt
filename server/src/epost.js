@@ -239,7 +239,7 @@ module.exports = class epost {
   hendelse(overskrift, tid, beskrivelse, sted, bilde, eposter) {
     let subject = overskrift;
     let html =
-      '<div style="margin-left:36px"><p>' +
+      '<div style="margin-left:36px"><p>Ny hendelse i ditt fylke!</p><p>' +
       overskrift +
       '</p><p>' +
       tid +
@@ -248,7 +248,8 @@ module.exports = class epost {
       '</p><p>' +
       beskrivelse +
       '.</p><br>' +
-      '<p>Dette er en varsel om at en hendelse skjer i ditt fylke. Dersom du ønsker å ikke få mail på dette kan du endre innstillingene dine på Min Side.</p><img src="cid:bilde"/></div><div style="float:left;margin-top:45px">' +
+      '<img src="cid:bilde"/></div><div style="float:left;margin-top:45px">' +
+      '<p>Dette er en varsel om at en hendelse skjer i ditt fylke. Dersom du ønsker å ikke få mail på dette kan du endre innstillingene dine på Min Side.</p>' +
       '<img src="http://drive.google.com/uc?export=view&id=1FTiZHS4274x2VpVfjt2jj7aIfBbvVfBg" width="280"/></div><div style="margin-left:15px;margin-top:80px">' +
       '<p>E-post: contact@HverdagsHelt.no</p><p>tlf: +47 00 00 00 00</p><p>Prosjekt HverdagsHelt</p></div>';
 
@@ -256,7 +257,7 @@ module.exports = class epost {
 
     let mailOptions = {
       from: avsender,
-      to: mottaker, //hendelser skal sendes ut til mange, dermed må strengen av mottakere være i formatet "test1@test.test, test2@test.test... osv."
+      bcc: mottaker, //hendelser skal sendes ut til mange, dermed må strengen av mottakere være i formatet "test1@test.test, test2@test.test... osv."
       subject: subject,
       html: html,
       attachments: [
