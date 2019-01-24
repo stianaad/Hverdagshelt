@@ -173,8 +173,9 @@
 .ansattHendelser{
     margin-left: 160px; 
     margin-right: 10px;
-    align-content: center;
-    width: 70%;
+    width: 100vw;
+  margin: 0 auto;
+  margin-top: 10px;
 }
 
 .bedrifterVindu{
