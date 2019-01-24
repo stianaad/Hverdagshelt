@@ -128,7 +128,7 @@ export class Bedrift extends Component {
               </div>
               <div className="col-sm-4">
                 <div className="m1-3">
-                  <Card color="yellow" fluid="true">
+                  <Card color="yellow" fluid>
                     <Card.Content>
                       <Card.Header>
                         Under behandling
@@ -161,7 +161,7 @@ export class Bedrift extends Component {
               </div>
               <div className="col-sm-4">
                 <div className="m1-3">
-                  <Card color="green" fluid="true">
+                  <Card color="green" fluid>
                     <Card.Content>
                       <Card.Header>
                         Avsluttede feil

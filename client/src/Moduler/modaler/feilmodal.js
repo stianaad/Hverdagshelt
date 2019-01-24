@@ -93,7 +93,7 @@ export class FeilModal extends Component {
                       <div className="feilModalFyll">
                         <List className="p-2">
                           {this.oppTilFeil.map((opp) => (
-                            <List.Item>
+                            <List.Item key={opp.tid}>
                               <List.Content>
                                 <List.Header>{opp.status}<span className="float-right font-weight-light font-italic">{opp.tid}</span></List.Header>
                                 <List.Description>{opp.kommentar}</List.Description>
