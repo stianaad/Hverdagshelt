@@ -248,7 +248,7 @@ export class Minside extends Component {
           <div className="col-md-auto mr-3 ml-1 minSideUtKolonne" id="sideListeH">
             <Card fluid>
               <Card.Content>
-                <Card.Header>Brukerinformasjon<InfoBoks tekst="Her kan du både se og redigere din personlige informasjon. Du kan også endre passord ved: 'Rediger bruker' > 'Endre passord'."/></Card.Header>
+                <Card.Header>Brukerinformasjon<InfoBoks tekst="Her kan du både se og redigere din personlige informasjon.&#10;Du kan også endre passord ved: 'Rediger bruker' > 'Endre passord'."/></Card.Header>
               </Card.Content>
               <Card.Content>
                 <div id="container">
