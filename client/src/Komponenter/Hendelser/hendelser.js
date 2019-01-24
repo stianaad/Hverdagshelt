@@ -327,7 +327,6 @@ export class Hendelser extends Component {
 		this.navn = this.kommuner.map(
 			navn =>navn.kommune_navn
 			);
-
 			this.fylkekommune = this.kommuner*/
 		//console.log(this.alleKategorier);
 		//console.log(this.tider);
@@ -336,5 +335,4 @@ export class Hendelser extends Component {
 		//console.log(this.navn);
 		//console.log(this.fylker);
 	}
-
 }
