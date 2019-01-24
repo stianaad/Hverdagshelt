@@ -167,7 +167,7 @@ export class MeldFeil extends Component {
     let hjelpData = this.data;
     let gyldig = true;
 
-    if (!hjelpData.kommune_id) {
+    if (!this.komin.current.verdi) {
       this.advarsel = 'Vennligst oppgi gyldig kommune';
       gyldig = false;
     }
