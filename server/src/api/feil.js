@@ -196,6 +196,7 @@ router.delete('/api/feil/:feil_id', checkToken, (req, res) => {
         feilDao.slettFeil(feil_id, (status, data) => {
           console.log('Privatbruker har slettet feil med id = ' + req.params.feil_id);
           res.status(status);
+          res.json(data);
         });
       }
     });
