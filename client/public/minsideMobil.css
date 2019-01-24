@@ -1,0 +1,117 @@
+.feilCardImage{
+    /*width: 250px !important;*/
+    height: auto;
+    max-height: 250px;
+    
+    object-fit: cover;
+}
+
+.feilCard{
+    /*width:250px !important;*/
+    margin:5px 0!important;
+}
+
+#mintittelanchor {
+    margin: 25px 0;
+    height: fit-content;
+}
+
+#mintittelanchor h1{
+    margin: 0 0 10px 0;
+}
+
+/*.slettFeil:hover{
+    
+}*/
+
+.row {
+    width: 100vw;
+    margin:0 !important;
+}
+
+.row > div[class*="col"] {
+    width: 100%;
+    margin-bottom: 100px;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.row > div[class*="col"]:not(#sideListe) {
+    display:none;
+    margin-top: 35px;
+}
+
+.minSideUtKolonne {
+  width: 100%;
+}
+
+.minSideInKolonne {
+    width: 100%;
+    padding: 0 !important;
+}
+
+.minSideUtKolonne > .card {
+  width: 90vw !important;
+}
+
+.minSideInKolonne .card {
+  width: 250px !important;
+  margin: 0.5em auto !important;
+}
+
+.minSideInKolonne .cards {
+    width: 100%;
+}
+
+.minSideInKolonne .cards:first-child {
+    margin-top:20px;
+}
+
+.minSideInKolonne h2 {
+    margin: 0 auto;
+    margin-bottom: 20px;
+    width: fit-content;
+}
+
+/*----------------*/
+
+.highlight {
+    color: yellowgreen;
+}
+
+.rapporterteFeilScroll {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#container > div {
+  display:inline-block;
+}
+
+#keys {
+  font-weight: 600;
+}
+
+#innhold {
+  float:right;
+  text-align: right;
+  word-break: break-all;
+}
+
+.hoyreForm, .hoyreForm div input, .hoyreForm div ul{
+  text-align: right;
+}
+
+.venstreForm {
+  text-align: left;
+  font-weight: 600;
+}
+
+.modalPopup {
+  color: #0645AD;
+  
+}
+
+.modalPopup:hover{
+  cursor: pointer;
+}
