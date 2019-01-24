@@ -18,6 +18,7 @@ import {
   import {hendelseService} from '../../services/hendelseService';
 
   export class SlettKategori extends Component{
+      //EKSEMPEL <SlettKategori overskrift="Slett hendelsekategori" visHendKat={"true"}/>
     open = false;
     kategorier = [];
     velgKatergori = "";
