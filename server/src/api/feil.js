@@ -163,6 +163,15 @@ router.put('/api/feil/:feil_id', checkToken, (req, res) => {
   }
 });
 
+router.get('/api/ansatt/bedrifter/:feil_id', (req, res) => {
+  console.log('Fikk GET-request fra klienten');
+  feilDao.hentJobbSoknadStatus(req.params.feil_id, (status, data) => {
+    console.log(data);
+    res.status(status);
+    res.json(data);
+  });
+});
+
 router.delete('/api/feil/:feil_id', checkToken, (req, res) => {
   console.log('Fikk POST-request fra klienten');
   let rolle = req.decoded.rolle;

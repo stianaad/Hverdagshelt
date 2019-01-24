@@ -199,6 +199,10 @@ class FeilService {
     }
   }
 
+  hentJobbSoknadStatus(feil_id) {
+    return api.get('/api/ansatt/bedrifter/'+feil_id);
+  }
+
   slettHovedkategori(hk_id) {
     let token = sessionStorage.getItem('pollett');
     console.log('Slett hovedkategori service:');

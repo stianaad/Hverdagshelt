@@ -8,6 +8,7 @@ import {
   Modal,
   TextArea,
   Input,
+  Popup,
 } from 'semantic-ui-react';
 import {FeedEvent, Filtrer, KatDropdown} from '../../Moduler/cardfeed';
 import {feilService} from '../../services/feilService';
@@ -107,8 +108,12 @@ export class NyeFeil extends Component {
                     <img src={this.valgtBilde.url} className="bildevisning"/>
                   </Grid.Row>
                   <Grid.Row centered>
-                    <Button basic color="red" inverted onClick={this.slettBilde}>Slett</Button>
-                    <Button color="green" inverted onClick={() => (this.bildeApen = false)}>Behold</Button>
+                    <Popup 
+                      trigger={<Button basic color="red" inverted onClick={this.slettBilde}>Slett</Button>} 
+                      content='Hvis du sletter bildet vil du ikke få det tilbake' />
+                    <Popup 
+                      trigger={<Button id="behold" color="green" inverted onClick={() => (this.bildeApen = false)}>Behold</Button>} 
+                      content='Trykk her for å godkjenne bildet' />
                   </Grid.Row>
               </Grid>
           </Modal.Content>
