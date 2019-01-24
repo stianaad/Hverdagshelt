@@ -24,6 +24,7 @@ export class Login extends Component {
           <div className="form-group">
             <label htmlFor="epost">E-post:</label>
             <input
+              onKeyUp={(e) => {if (e.key === 'Enter') this.login()}}
               type="text"
               value={this.data.epost}
               onChange={this.endre}
@@ -34,6 +35,7 @@ export class Login extends Component {
             />
             <label htmlFor="passord">Passord:</label>
             <input
+              onKeyUp={(e) => {if (e.key === 'Enter') this.login()}}
               type="password"
               value={this.data.passord}
               onChange={this.endre}
