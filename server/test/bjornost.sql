@@ -3,14 +3,14 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: 24. Jan, 2019 13:30 PM
+-- Generation Time: 24. Jan, 2019 14:14 PM
 -- Tjener-versjon: 5.7.24-0ubuntu0.18.04.1
 -- PHP Version: 7.2.10-0ubuntu0.18.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
-SET time_zone = "+01:00";
+SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -191,7 +191,6 @@ INSERT INTO `feil` (`feil_id`, `bruker_id`, `kommune_id`, `subkategori_id`, `ove
 (46, 16, 289, 1, 'Willliam smasher penis om kvelden', 'Kuk i trynet', 10.38941571545074, 63.42847992582167),
 (47, 18, 69, 4, 'Kan det gå?', 'plissss', 9.960981704650994, 45.686995566120395),
 (48, 14, 289, 1, 'heheh', 'hfhfhfhhf', 10.388408169666935, 63.42856951018813),
-(49, 31, 289, 2, 'Hitler er i byen', 'Hdhdbdbd', 10.39434801919733, 63.42894064193499),
 (50, 31, 4, 2, 'Våt lyktestolpe', 'STORT PROBLEM', 10.4485288, 63.4414929),
 (51, 20, 289, 1, 'DU har en fågel', 'Ka farsken, du här en fååågel mannen', 10.453035730517442, 63.43715550214721),
 (52, 16, 289, 1, 'william andersson eksploderte', 'kølla til william (the giant) andersson eksploderte nå nettopp, den var for stor. Dere fra kommunen må komme og rydde med en gang.', 10.4485288, 63.4414929),
@@ -352,7 +351,6 @@ INSERT INTO `feilfolg` (`feil_id`, `bruker_id`) VALUES
 (34, 31),
 (35, 31),
 (37, 31),
-(49, 31),
 (50, 31),
 (36, 32);
 
@@ -406,33 +404,32 @@ CREATE TABLE `hendelser` (
   `beskrivelse` text,
   `sted` varchar(255) NOT NULL,
   `bilde` varchar(255) DEFAULT NULL,
-  `lengdegrad` double DEFAULT NULL,
-  `breddegrad` double DEFAULT NULL
+  `billett` varchar(256) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dataark for tabell `hendelser`
 --
 
-INSERT INTO `hendelser` (`hendelse_id`, `bruker_id`, `hendelseskategori_id`, `kommune_id`, `overskrift`, `tid`, `beskrivelse`, `sted`, `bilde`, `lengdegrad`, `breddegrad`) VALUES
-(1, 5, 1, 197, 'Overskrift1', '2019-01-22 10:14:00', 'Beskrivelse1', 'Sted1', 'https://bjornost.tihlde.org/hverdagshelt/135d6d0f44a6ba73e3782c243663b90a', 0, 0),
-(2, 6, 2, 12, 'Overskrift2', '2019-12-19 23:00:00', 'Beskrivelse2', 'Sted2', 'https://bjornost.tihlde.org/hverdagshelt/19af4f8c745a62973e2cd615eaf329fa', 1, 0.1),
-(3, 5, 1, 19, 'Overskrift3', '2019-01-21 21:23:35', 'Beskrivelse 3', 'Sted3', 'https://bjornost.tihlde.org/hverdagshelt/b013fad50c0d518f4384d842ab451547?fbclid=IwAR02mau81HfcUbchFiCpPZSLE1BAkE1lxM8zzmsnt9QSp8GCQHwVPIpulxI', 0, 0),
-(4, 33, 1, 289, 'Samene KOMMER!', '2019-01-22 12:41:16', 'SAMENE ER FUCKINGS PÅ VEI', 'Samfundet', 'https://www.gannett-cdn.com/-mm-/79b31a65f53604ed7457a9c5d965d3080d3871c8/c=2-0-564-423/local/-/media/2017/06/15/DetroitFreeP/DetroitFreePress/636331136177408398-big-boy.jpg?width=534&height=401&fit=crop', 59, 39),
-(5, 33, 1, 69, 'Test', '2019-01-25 20:04:00', 'Test', 'Adresse 1', 'lofoten.jpg', 0, 0),
-(6, 33, 1, 289, 'Yoga for støle menn!', '2019-01-22 13:05:18', 'Er du støl? Er du mann? Svarte du ja på to av to spørsmål MÅ du på yoga', 'Stjørdal', 'https://nvio.no/wp-content/uploads/2019/01/youga.jpg', 59, 39),
-(7, 33, 2, 69, 'SCRUM TAR OVEEEEEEEEEEEEER', '2019-01-24 01:57:00', 'HJEEEEEEEEEEEEEEEEEEELP', 'Klasserom 404', 'lofoten.jpg', 0, 0),
-(8, 33, 1, 69, 'Test', '2019-01-25 22:32:00', 'test', 'tjoho', 'lofoten.jpg', 0, 0),
-(9, 32, 1, 289, 'OMG SJUKT', '2019-11-19 23:00:00', 'Jeg gikk en tur på stien og hørte skogens ro, så hørte jeg fra STIAN: KA E DE FORNO', 'Din mor', 'https://media.giphy.com/media/bz7Lkscqm6mrK/giphy.gif', 1, 7),
-(10, 32, 1, 289, 'OMG SJUKT', '2019-11-19 23:00:00', 'Jeg gikk en tur på stien og hørte skogens ro, så hørte jeg fra STIAN: KA E DE FORNO', 'Din mor', 'https://media.giphy.com/media/bz7Lkscqm6mrK/giphy.gif', 1, 7),
-(11, 32, 2, 289, 'OMG SJUKT 1', '2019-11-19 23:00:00', 'Jeg gikk en tur på stien og hørte skogens ro, så hørte jeg fra STIAN: KA E DE FORNO', 'Din mor', 'https://media.giphy.com/media/bz7Lkscqm6mrK/giphy.gif', 1, 7),
-(12, 32, 2, 289, 'OMG SJUKT 1', '2019-11-19 23:00:00', 'Jeg gikk en tur på stien og hørte skogens ro, så hørte jeg fra STIAN: KA E DE FORNO', 'Din mor', 'https://media.giphy.com/media/bz7Lkscqm6mrK/giphy.gif', 1, 7),
-(13, 32, 2, 289, 'OMG SJUKT 1', '2019-11-19 23:00:00', 'Jeg gikk en tur på stien og hørte skogens ro, så hørte jeg fra STIAN: KA E DE FORNO', 'Din mor', 'https://media.giphy.com/media/bz7Lkscqm6mrK/giphy.gif', 1, 7),
-(14, 32, 2, 289, 'OMG SJUKT 1', '2019-11-19 23:00:00', 'Jeg gikk en tur på stien og hørte skogens ro, så hørte jeg fra STIAN: KA E DE FORNO', 'Din mor', 'https://media.giphy.com/media/bz7Lkscqm6mrK/giphy.gif', 1, 7),
-(15, 32, 2, 289, 'OMG SJUKT 1', '2019-11-19 23:00:00', 'Jeg gikk en tur på stien og hørte skogens ro, så hørte jeg fra STIAN: KA E DE FORNO', 'Din mor', 'https://media.giphy.com/media/bz7Lkscqm6mrK/giphy.gif', 1, 7),
-(16, 32, 2, 289, 'OMG SJUKT 1', '2019-11-19 23:00:00', 'Jeg gikk en tur på stien og hørte skogens ro, så hørte jeg fra STIAN: KA E DE FORNO', 'Din mor', 'https://media.giphy.com/media/bz7Lkscqm6mrK/giphy.gif', 1, 7),
-(17, 32, 2, 289, 'OMG SJUKT 1', '2019-11-19 23:00:00', 'Jeg gikk en tur på stien og hørte skogens ro, så hørte jeg fra STIAN: KA E DE FORNO', 'Din mor', 'https://media1.tenor.com/images/a76369732eb43b3c9a7987bac00adcd9/tenor.gif?itemid=5595661', 1, 7),
-(18, 32, 2, 289, 'OMG SJUKT 1', '2019-11-19 23:00:00', 'Jeg gikk en tur på stien og hørte skogens ro, så hørte jeg fra STIAN: KA E DE FORNO', 'Din mor', 'https://media1.tenor.com/images/a76369732eb43b3c9a7987bac00adcd9/tenor.gif?itemid=5595661', 1, 7);
+INSERT INTO `hendelser` (`hendelse_id`, `bruker_id`, `hendelseskategori_id`, `kommune_id`, `overskrift`, `tid`, `beskrivelse`, `sted`, `bilde`, `billett`) VALUES
+(1, 5, 1, 197, 'Overskrift1', '2019-01-22 10:14:00', 'Beskrivelse1', 'Sted1', 'https://bjornost.tihlde.org/hverdagshelt/135d6d0f44a6ba73e3782c243663b90a', NULL),
+(2, 6, 2, 12, 'Overskrift2', '2019-12-19 23:00:00', 'Beskrivelse2', 'Sted2', 'https://bjornost.tihlde.org/hverdagshelt/19af4f8c745a62973e2cd615eaf329fa', NULL),
+(3, 5, 1, 19, 'Overskrift3', '2019-01-21 21:23:35', 'Beskrivelse 3', 'Sted3', 'https://bjornost.tihlde.org/hverdagshelt/b013fad50c0d518f4384d842ab451547?fbclid=IwAR02mau81HfcUbchFiCpPZSLE1BAkE1lxM8zzmsnt9QSp8GCQHwVPIpulxI', NULL),
+(4, 33, 1, 289, 'Samene KOMMER!', '2019-01-22 12:41:16', 'SAMENE ER FUCKINGS PÅ VEI', 'Samfundet', 'https://www.gannett-cdn.com/-mm-/79b31a65f53604ed7457a9c5d965d3080d3871c8/c=2-0-564-423/local/-/media/2017/06/15/DetroitFreeP/DetroitFreePress/636331136177408398-big-boy.jpg?width=534&height=401&fit=crop', NULL),
+(5, 33, 1, 69, 'Test', '2019-01-25 20:04:00', 'Test', 'Adresse 1', 'lofoten.jpg', NULL),
+(6, 33, 1, 289, 'Yoga for støle menn!', '2019-01-22 13:05:18', 'Er du støl? Er du mann? Svarte du ja på to av to spørsmål MÅ du på yoga', 'Stjørdal', 'https://nvio.no/wp-content/uploads/2019/01/youga.jpg', NULL),
+(7, 33, 2, 69, 'SCRUM TAR OVEEEEEEEEEEEEER', '2019-01-24 01:57:00', 'HJEEEEEEEEEEEEEEEEEEELP', 'Klasserom 404', 'lofoten.jpg', NULL),
+(8, 33, 1, 69, 'Test', '2019-01-25 22:32:00', 'test', 'tjoho', 'lofoten.jpg', NULL),
+(9, 32, 1, 289, 'OMG SJUKT', '2019-11-19 23:00:00', 'Jeg gikk en tur på stien og hørte skogens ro, så hørte jeg fra STIAN: KA E DE FORNO', 'Din mor', 'https://media.giphy.com/media/bz7Lkscqm6mrK/giphy.gif', NULL),
+(10, 32, 1, 289, 'OMG SJUKT', '2019-11-19 23:00:00', 'Jeg gikk en tur på stien og hørte skogens ro, så hørte jeg fra STIAN: KA E DE FORNO', 'Din mor', 'https://media.giphy.com/media/bz7Lkscqm6mrK/giphy.gif', NULL),
+(11, 32, 2, 289, 'OMG SJUKT 1', '2019-11-19 23:00:00', 'Jeg gikk en tur på stien og hørte skogens ro, så hørte jeg fra STIAN: KA E DE FORNO', 'Din mor', 'https://media.giphy.com/media/bz7Lkscqm6mrK/giphy.gif', NULL),
+(12, 32, 2, 289, 'OMG SJUKT 1', '2019-11-19 23:00:00', 'Jeg gikk en tur på stien og hørte skogens ro, så hørte jeg fra STIAN: KA E DE FORNO', 'Din mor', 'https://media.giphy.com/media/bz7Lkscqm6mrK/giphy.gif', NULL),
+(13, 32, 2, 289, 'OMG SJUKT 1', '2019-11-19 23:00:00', 'Jeg gikk en tur på stien og hørte skogens ro, så hørte jeg fra STIAN: KA E DE FORNO', 'Din mor', 'https://media.giphy.com/media/bz7Lkscqm6mrK/giphy.gif', NULL),
+(14, 32, 2, 289, 'OMG SJUKT 1', '2019-11-19 23:00:00', 'Jeg gikk en tur på stien og hørte skogens ro, så hørte jeg fra STIAN: KA E DE FORNO', 'Din mor', 'https://media.giphy.com/media/bz7Lkscqm6mrK/giphy.gif', NULL),
+(15, 32, 2, 289, 'OMG SJUKT 1', '2019-11-19 23:00:00', 'Jeg gikk en tur på stien og hørte skogens ro, så hørte jeg fra STIAN: KA E DE FORNO', 'Din mor', 'https://media.giphy.com/media/bz7Lkscqm6mrK/giphy.gif', NULL),
+(16, 32, 2, 289, 'OMG SJUKT 1', '2019-11-19 23:00:00', 'Jeg gikk en tur på stien og hørte skogens ro, så hørte jeg fra STIAN: KA E DE FORNO', 'Din mor', 'https://media.giphy.com/media/bz7Lkscqm6mrK/giphy.gif', NULL),
+(17, 32, 2, 289, 'OMG SJUKT 1', '2019-11-19 23:00:00', 'Jeg gikk en tur på stien og hørte skogens ro, så hørte jeg fra STIAN: KA E DE FORNO', 'Din mor', 'https://media1.tenor.com/images/a76369732eb43b3c9a7987bac00adcd9/tenor.gif?itemid=5595661', NULL),
+(18, 32, 2, 289, 'OMG SJUKT 1', '2019-11-19 23:00:00', 'Jeg gikk en tur på stien og hørte skogens ro, så hørte jeg fra STIAN: KA E DE FORNO', 'Din mor', 'https://media1.tenor.com/images/a76369732eb43b3c9a7987bac00adcd9/tenor.gif?itemid=5595661', NULL);
 
 -- --------------------------------------------------------
 
@@ -1056,7 +1053,6 @@ INSERT INTO `oppdatering` (`feil_id`, `tid`, `kommentar`, `status_id`, `bruker_i
 (47, '2019-01-23 09:17:07', 'Sak opprettet', 1, 18),
 (47, '2019-01-23 09:35:22', 'Ansatt har godkjent feil', 2, 33),
 (48, '2019-01-23 11:34:57', 'Sak opprettet', 1, 14),
-(49, '2019-01-23 15:43:00', 'Sak opprettet', 1, 31),
 (50, '2019-01-23 19:54:31', 'Sak opprettet', 1, 31),
 (51, '2019-01-23 21:05:48', 'Sak opprettet', 1, 20),
 (51, '2019-01-24 07:40:38', 'Ansatt har godkjent feil', 2, 33),
@@ -1099,12 +1095,12 @@ INSERT INTO `privat` (`bruker_id`, `fornavn`, `etternavn`, `sist_innlogget`, `he
 (4, 'ForPrivat4', 'EtterPrivat4', '2019-01-21 07:51:48', b'0'),
 (13, 'Stian', 'Ådnanes', '2019-01-21 10:25:41', b'0'),
 (14, 'Juni', 'Leirvik', '2019-01-21 07:51:48', b'1'),
-(16, 'Bjørnar', 'Østtveit', '2019-01-24 12:11:01', b'0'),
-(17, 'Stian', 'Ådnanes', '2019-01-23 08:20:42', b'0'),
+(16, 'Bjørnar', 'Østtveit', '2019-01-24 13:04:19', b'0'),
+(17, 'Stian', 'Ådnanes', '2019-01-24 13:04:04', b'0'),
 (18, 'Sara', 'Hjelle', '2019-01-24 10:41:55', b'1'),
 (20, 'Øivind', 'Larsson', '2019-01-24 10:38:08', b'1'),
 (22, 'Anders', 'Iversen', '2019-01-21 07:51:48', b'0'),
-(31, 'Spaghetti', 'Andersson', '2019-01-24 12:29:46', b'1'),
+(31, 'Spaghetti', 'Andersson', '2019-01-24 12:38:07', b'1'),
 (34, 'Rune', 'Vedøy', '2019-01-22 07:50:49', b'0'),
 (35, 'Stor', 'tiss', '2019-01-23 11:53:13', b'0');
 
@@ -1341,33 +1337,33 @@ ALTER TABLE `subkategori`
 -- Begrensninger for tabell `admin`
 --
 ALTER TABLE `admin`
-  ADD CONSTRAINT `admin_ibfk_1` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`);
+  ADD CONSTRAINT `admin_ibfk_1` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`) ON DELETE CASCADE;
 
 --
 -- Begrensninger for tabell `ansatt`
 --
 ALTER TABLE `ansatt`
-  ADD CONSTRAINT `ansatt_ibfk_1` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`);
+  ADD CONSTRAINT `ansatt_ibfk_1` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`) ON DELETE CASCADE;
 
 --
 -- Begrensninger for tabell `bedrift`
 --
 ALTER TABLE `bedrift`
-  ADD CONSTRAINT `bedrift_ibfk_1` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`);
+  ADD CONSTRAINT `bedrift_ibfk_1` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`) ON DELETE CASCADE;
 
 --
 -- Begrensninger for tabell `bruker`
 --
 ALTER TABLE `bruker`
-  ADD CONSTRAINT `bruker_ibfk_1` FOREIGN KEY (`kommune_id`) REFERENCES `kommuner` (`kommune_id`);
+  ADD CONSTRAINT `bruker_ibfk_1` FOREIGN KEY (`kommune_id`) REFERENCES `kommuner` (`kommune_id`) ON DELETE CASCADE;
 
 --
 -- Begrensninger for tabell `feil`
 --
 ALTER TABLE `feil`
-  ADD CONSTRAINT `feil_ibfk_1` FOREIGN KEY (`kommune_id`) REFERENCES `kommuner` (`kommune_id`),
-  ADD CONSTRAINT `feil_ibfk_2` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`),
-  ADD CONSTRAINT `feil_ibfk_3` FOREIGN KEY (`subkategori_id`) REFERENCES `subkategori` (`subkategori_id`);
+  ADD CONSTRAINT `feil_ibfk_1` FOREIGN KEY (`kommune_id`) REFERENCES `kommuner` (`kommune_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `feil_ibfk_2` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `feil_ibfk_3` FOREIGN KEY (`subkategori_id`) REFERENCES `subkategori` (`subkategori_id`) ON DELETE CASCADE;
 
 --
 -- Begrensninger for tabell `feilbilder`
@@ -1380,50 +1376,50 @@ ALTER TABLE `feilbilder`
 --
 ALTER TABLE `feilfolg`
   ADD CONSTRAINT `feilfolg_ibfk_1` FOREIGN KEY (`feil_id`) REFERENCES `feil` (`feil_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `feilfolg_ibfk_2` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`);
+  ADD CONSTRAINT `feilfolg_ibfk_2` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`) ON DELETE CASCADE;
 
 --
 -- Begrensninger for tabell `hendelser`
 --
 ALTER TABLE `hendelser`
-  ADD CONSTRAINT `hendelser_ibfk_1` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`),
-  ADD CONSTRAINT `hendelser_ibfk_2` FOREIGN KEY (`hendelseskategori_id`) REFERENCES `hendelseskategori` (`hendelseskategori_id`),
-  ADD CONSTRAINT `hendelser_ibfk_3` FOREIGN KEY (`kommune_id`) REFERENCES `kommuner` (`kommune_id`);
+  ADD CONSTRAINT `hendelser_ibfk_1` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `hendelser_ibfk_2` FOREIGN KEY (`hendelseskategori_id`) REFERENCES `hendelseskategori` (`hendelseskategori_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `hendelser_ibfk_3` FOREIGN KEY (`kommune_id`) REFERENCES `kommuner` (`kommune_id`) ON DELETE CASCADE;
 
 --
 -- Begrensninger for tabell `hendfolg`
 --
 ALTER TABLE `hendfolg`
-  ADD CONSTRAINT `hendfolg_ibfk_1` FOREIGN KEY (`hendelse_id`) REFERENCES `hendelser` (`hendelse_id`),
-  ADD CONSTRAINT `hendfolg_ibfk_2` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`);
+  ADD CONSTRAINT `hendfolg_ibfk_1` FOREIGN KEY (`hendelse_id`) REFERENCES `hendelser` (`hendelse_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `hendfolg_ibfk_2` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`) ON DELETE CASCADE;
 
 --
 -- Begrensninger for tabell `jobbSoknad`
 --
 ALTER TABLE `jobbSoknad`
-  ADD CONSTRAINT `jobbSoknad_ibfk_1` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`),
-  ADD CONSTRAINT `jobbSoknad_ibfk_2` FOREIGN KEY (`feil_id`) REFERENCES `feil` (`feil_id`),
-  ADD CONSTRAINT `jobbSoknad_ibfk_3` FOREIGN KEY (`status`) REFERENCES `status` (`status_id`);
+  ADD CONSTRAINT `jobbSoknad_ibfk_1` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `jobbSoknad_ibfk_2` FOREIGN KEY (`feil_id`) REFERENCES `feil` (`feil_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `jobbSoknad_ibfk_3` FOREIGN KEY (`status`) REFERENCES `status` (`status_id`) ON DELETE CASCADE;
 
 --
 -- Begrensninger for tabell `kommuner`
 --
 ALTER TABLE `kommuner`
-  ADD CONSTRAINT `kommuner_ibfk_1` FOREIGN KEY (`fylke_navn`) REFERENCES `fylker` (`fylke_navn`);
+  ADD CONSTRAINT `kommuner_ibfk_1` FOREIGN KEY (`fylke_navn`) REFERENCES `fylker` (`fylke_navn`) ON DELETE CASCADE;
 
 --
 -- Begrensninger for tabell `oppdatering`
 --
 ALTER TABLE `oppdatering`
   ADD CONSTRAINT `oppdatering_ibfk_1` FOREIGN KEY (`feil_id`) REFERENCES `feil` (`feil_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `oppdatering_ibfk_2` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`),
-  ADD CONSTRAINT `oppdatering_ibfk_3` FOREIGN KEY (`status_id`) REFERENCES `status` (`status_id`);
+  ADD CONSTRAINT `oppdatering_ibfk_2` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `oppdatering_ibfk_3` FOREIGN KEY (`status_id`) REFERENCES `status` (`status_id`) ON DELETE CASCADE;
 
 --
 -- Begrensninger for tabell `privat`
 --
 ALTER TABLE `privat`
-  ADD CONSTRAINT `privat_ibfk_1` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`);
+  ADD CONSTRAINT `privat_ibfk_1` FOREIGN KEY (`bruker_id`) REFERENCES `bruker` (`bruker_id`) ON DELETE CASCADE;
 
 --
 -- Begrensninger for tabell `subkategori`

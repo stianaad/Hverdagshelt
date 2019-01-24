@@ -37,52 +37,45 @@ router.get('/api/hendelser/:hendelse_id', (req, res) => {
 });
 
 router.post('/api/hendelser', checkToken, (req, res) => {
-  if (!(req.body instanceof Object)) return res.sendStatus(400);
-  console.log('Fikk POST-request fra klienten');
-  let rolle = req.decoded.role;
+	if (!(req.body instanceof Object)) return res.sendStatus(400);
+	console.log('Fikk POST-request fra klienten');
+	let rolle = req.decoded.role;
 
-  if(rolle == 'ansatt' && req.decoded.user.kommune_id == req.body.kommune_id || rolle == 'admin') {
-    let a = {
-      bruker_id: req.decoded.user.bruker_id,
-      hendelseskategori_id: req.body.hendelseskategori_id,
-      kommune_id: req.body.kommune_id,
-      overskrift: req.body.overskrift,
-      tid: req.body.tid,
-      beskrivelse: req.body.beskrivelse,
-      sted: req.body.sted,
-      bilde: req.body.bilde,
-      lengdegrad: req.body.lengdegrad,
-      breddegrad: req.body.breddegrad,
-    };
+	if ((rolle == 'ansatt' && req.decoded.user.kommune_id == req.body.kommune_id) || rolle == 'admin') {
+		let a = {
+			bruker_id: req.decoded.user.bruker_id,
+			hendelseskategori_id: req.body.hendelseskategori_id,
+			kommune_id: req.body.kommune_id,
+			overskrift: req.body.overskrift,
+			tid: req.body.tid,
+			beskrivelse: req.body.beskrivelse,
+			sted: req.body.sted,
+			bilde: req.body.bilde,
+			billett: req.body.billett
+		};
 
-    let nyID = -1;
+		let nyID = -1;
 
-    hendelseDao.lagNyHendelse(a, (status, data) => {
-      console.log('Opprettet en ny hendelse');
-      nyID = data.insertId;
-      if (nyID > 0) {
-        hendelseDao.hentVarsledeBrukere({hendelse_id: nyID}, (status, data) => {
-          if (data.length > 0) {
-            console.log('Fant brukere');
-            let eposter = data.map((eposten) => (
-              eposten.epost
-            ));
-            epostTjener.hendelse(a.overskrift, a.tid, a.beskrivelse, a.sted, a.bilde, eposter);
-          } else {
-            console.log('Fant ikke brukere');
-          }
-        });
-      }
-      res.status(status);
-    });
-    
-
-
-    
-  } else {
-    res.status(403);
-    res.json({result: false});
-  }
+		hendelseDao.lagNyHendelse(a, (status, data) => {
+			console.log('Opprettet en ny hendelse');
+			nyID = data.insertId;
+			if (nyID > 0) {
+				hendelseDao.hentVarsledeBrukere({ hendelse_id: nyID }, (status, data) => {
+					if (data.length > 0) {
+						console.log('Fant brukere');
+						let eposter = data.map((eposten) => eposten.epost);
+						epostTjener.hendelse(a.overskrift, a.tid, a.beskrivelse, a.sted, a.bilde, eposter);
+					} else {
+						console.log('Fant ikke brukere');
+					}
+				});
+			}
+			res.status(status);
+		});
+	} else {
+		res.status(403);
+		res.json({ result: false });
+	}
 });
 
 router.put('/api/hendelser/:hendelse_id', checkToken, (req, res) => {
@@ -99,8 +92,7 @@ router.put('/api/hendelser/:hendelse_id', checkToken, (req, res) => {
 			beskrivelse: req.body.beskrivelse,
 			sted: req.body.sted,
 			bilde: req.body.bilde,
-			lengdegrad: req.body.lengdegrad,
-			breddegrad: req.body.breddegrad,
+			billett: req.body.billett,
 			hendelse_id: req.body.hendelse_id
 		};
 
@@ -115,14 +107,9 @@ router.put('/api/hendelser/:hendelse_id', checkToken, (req, res) => {
 });
 
 router.delete('/api/hendelser/:hendelse_id', checkToken, (req, res) => {
-	if (!(req.body instanceof Object)) return res.sendStatus(400);
 	console.log('Fikk POST-request fra klienten');
-
-	if (
-		req.decoded.role == 'admin' ||
-		(req.decoded.role == 'ansatt' && req.decoded.user.kommune_id == req.body.kommune_id)
-	) {
-		hendelseDao.slettHendelse(req.body, (status, data) => {
+	if (req.decoded.role == 'admin' || req.decoded.role == 'ansatt') {
+		hendelseDao.slettHendelse(req.params.hendelse_id, (status, data) => {
 			console.log('Slettet en hendelse');
 			res.status(status);
 		});
@@ -134,8 +121,7 @@ router.delete('/api/hendelser/:hendelse_id', checkToken, (req, res) => {
 
 router.get('/api/hendelser/kategorier/:hendelseskategori_id', (req, res) => {
 	console.log('Fikk GET-request fra klienten');
-
-	hendelseDao.filtrerHendelserPaaKategori(req.body, (status, data) => {
+	hendelseDao.filtrerHendelserPaaKategori(req.params.hendelseskategori_id, (status, data) => {
 		res.status(status);
 		res.json(data);
 		console.log('/hendelser/:hk_id lengde' + data.length);
@@ -144,8 +130,7 @@ router.get('/api/hendelser/kategorier/:hendelseskategori_id', (req, res) => {
 
 router.get('/api/hendelser/kommuner/:kommune_id', (req, res) => {
 	console.log('Fikk GET-request fra klienten');
-
-	hendelseDao.filtrerHendelserPaaKommune(req.body, (status, data) => {
+	hendelseDao.filtrerHendelserPaaKommune(req.params.kommune_id, (status, data) => {
 		res.status(status);
 		res.json(data);
 		console.log('/hendelser/:k_id lengde' + data.length);

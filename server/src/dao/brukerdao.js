@@ -77,7 +77,7 @@ module.exports = class BrukerDao extends Dao {
   //testes
   finnFolgteFeilTilBruker(bruker_id, callback) {
     super.query(
-      "SELECT feil.*, feilfolg.feil_id, feilfolg.bruker_id, feil.overskrift, DATE_FORMAT(s.tid, '%Y-%m-%d %H:%i') AS tid, s.status_id, b.url FROM feil LEFT JOIN (SELECT feil_id, MAX(status_id) as status_id, max(tid) as tid from oppdatering group by feil_id) as s ON s.feil_id=feil.feil_id LEFT JOIN (SELECT feil_id, ANY_VALUE(url) as url, min(bilde_id) as bilde_id from feilbilder group by feil_id) as b ON b.feil_id=feil.feil_id INNER JOIN feilfolg ON feilfolg.feil_id = feil.feil_id WHERE feilfolg.bruker_id = ?",
+      "SELECT feil.*, feilfolg.feil_id, feilfolg.bruker_id, feil.overskrift, DATE_FORMAT(s.tid, '%Y-%m-%d %H:%i') AS tid, s.status_id, b.url FROM feil LEFT JOIN (SELECT feil_id, MAX(status_id) as status_id, max(tid) as tid from oppdatering group by feil_id) as s ON s.feil_id=feil.feil_id LEFT JOIN (SELECT feil_id, ANY_VALUE(url) as url, min(bilde_id) as bilde_id from feilbilder group by feil_id) as b ON b.feil_id=feil.feil_id INNER JOIN feilfolg ON feilfolg.feil_id = feil.feil_id WHERE feilfolg.bruker_id = ? ORDER BY s.tid DESC",
       [bruker_id],
       callback
     );
@@ -86,7 +86,7 @@ module.exports = class BrukerDao extends Dao {
   //testes
   finnFolgteHendelserTilBruker(bruker_id, callback) {
     super.query(
-      "SELECT hendfolg.hendelse_id, hendfolg.bruker_id, hendelser.hendelse_id, kommuner.kommune_navn ,DATE_FORMAT(hendelser.tid, '%Y-%m-%d %H:%i') AS tid,overskrift, beskrivelse,bilde,sted,lengdegrad,breddegrad,hendfolg.bruker_id FROM hendelser,hendfolg,kommuner WHERE hendelser.hendelse_id=hendfolg.hendelse_id and hendelser.kommune_id=kommuner.kommune_id AND hendfolg.bruker_id=?",
+      "SELECT hendfolg.hendelse_id, hendfolg.bruker_id, hendelser.hendelse_id, kommuner.kommune_navn ,DATE_FORMAT(hendelser.tid, '%Y-%m-%d %H:%i') AS tid,overskrift, beskrivelse,bilde,sted,billett,hendfolg.bruker_id FROM hendelser,hendfolg,kommuner WHERE hendelser.hendelse_id=hendfolg.hendelse_id and hendelser.kommune_id=kommuner.kommune_id AND hendfolg.bruker_id=? ORDER BY hendelser.tid DESC",
       [bruker_id],
       callback
     );
