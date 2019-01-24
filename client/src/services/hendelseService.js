@@ -17,16 +17,6 @@ class HendelseService {
     return api.put('/api/hendelser/:hendelse_id', oppdatertHendelse);
   }
 
-  lagNyHendelse(nyHendelse) {
-    let token = sessionStorage.getItem('pollett');
-    if (token) {
-      return api.post('/api/hendelser', nyHendelse, {headers: {'x-access-token': 'Bearer ' + token}});
-    }else{
-      console.log('ikkje braa');
-      return [];
-    }
-  }
-
   slettHendelse(hendelse) {
     return api.delete('/api/hendelser/:hendelse_id', hendelse);
   }
@@ -42,11 +32,11 @@ class HendelseService {
   }
 
   filtrerHendelserPaaKategori(hek_id) {
-    return api.get('/api/hendelser/kategorier/:hendelseskategori_id', hek_id);
+    return api.get('/api/hendelser/kategorier/'+hek_id);
   }
 
   filtrerHendelserPaaKommune(k_id) {
-    return api.get('/api/hendelser/kommuner/:kommune_id', k_id);
+    return api.get('/api/hendelser/kommuner/:kommune_id'+k_id);
   }
 
   hentAlleHovedkategorier() {
