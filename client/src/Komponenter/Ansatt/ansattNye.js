@@ -26,7 +26,12 @@ export class NyeFeil extends Component {
     beskrivelse: '',
   };
 
-  valgtBilde = '';
+  valgtBilde = {
+    bilde_id: '',
+    feil_id: '',
+    url: ''
+  };
+  
   bilder = [];
 
   hovedkat = [];
@@ -38,8 +43,8 @@ export class NyeFeil extends Component {
   feilApen = false;
   bildeApen = false;
 
-  visBilde(url) {
-    this.valgtBilde = url;
+  visBilde(bilde) {
+    this.valgtBilde = {...bilde};
     this.bildeApen = true;
   }
 
@@ -60,7 +65,7 @@ export class NyeFeil extends Component {
   async hentFeil(feil) {
     let res = await feilService.hentBilderTilFeil(feil.feil_id);
     this.bilder = await res.data;
-    console.log('bilder: ' + this.bilder);
+    console.log(this.bilder);
   }
 
   finnKategorier(feil){
@@ -99,11 +104,11 @@ export class NyeFeil extends Component {
           <Modal.Content>
               <Grid>
                   <Grid.Row centered>
-                    <img src={this.valgtBilde} className="bildevisning"/>
+                    <img src={this.valgtBilde.url} className="bildevisning"/>
                   </Grid.Row>
                   <Grid.Row centered>
-                    <Button basic color="red" inverted>No</Button>
-                    <Button color="green" inverted>Yes</Button>
+                    <Button basic color="red" inverted onClick={this.slettBilde}>Slett</Button>
+                    <Button color="green" inverted onClick={() => (this.bildeApen = false)}>Behold</Button>
                   </Grid.Row>
               </Grid>
           </Modal.Content>
@@ -146,7 +151,7 @@ export class NyeFeil extends Component {
                             <Grid fluid columns={2} verticalAlign="middle">
                               <Grid.Column>
                                 <h5 >Overskrift:</h5>
-                                <TextArea rows={1} value={this.valgtfeil.overskrift} onChange={(e) => (this.valgtfeil.overskrift = e.target.value)}></TextArea>
+                                <TextArea rows={2} value={this.valgtfeil.overskrift} onChange={(e) => (this.valgtfeil.overskrift = e.target.value)}></TextArea>
                               </Grid.Column>
                               <Grid.Column fluid textAlign="right">
                                 <InfoBoks tekst="Her kan du endre overskrift, beskrivelse og kategorier. Når du trykker på godkjenn vil endringene bli lagret og feilen vil bli gjort offentlig"/>
@@ -189,7 +194,7 @@ export class NyeFeil extends Component {
                                   <Grid columns={2}>
                                     {this.bilder.map((bilde) => (
                                       <Grid.Column>
-                                        <div onClick={() => this.visBilde(bilde.url)}>
+                                        <div onClick={() => this.visBilde(bilde)}>
                                           <img src={bilde.url} className="bilder" />
                                         </div>
                                       </Grid.Column>
@@ -230,6 +235,15 @@ export class NyeFeil extends Component {
 
   async slett(){
     await feilService.slettFeil(this.valgtfeil.feil_id);
+  }
+
+  async slettBilde(){
+    let a = {bilde_id: this.valgtBilde.bilde_id, feil_id: this.valgtBilde.feil_id, kommune_id: this.valgtfeil.kommune_id}
+    let res = await feilService.slettBildeFraFeil(a);
+
+    await console.log(res);
+    await this.visFeil(this.valgtfeil);
+    this.bildeApen = await false;
   }
 
   async godkjenn(){
