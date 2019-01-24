@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react-simplified';
-import { Card, Grid, Modal, Input, List } from 'semantic-ui-react';
+import { Card, Grid, Modal, Input, List,Button } from 'semantic-ui-react';
 import { ShowMarkerMap } from '../kart/map';
 import { feilService } from '../../services/feilService';
 import { AbonnerKnapp } from '../abonner/abonner';
@@ -36,7 +36,37 @@ export class FeilModal extends Component {
                   </h1>
                   <span>
                     Status: {this.props.feil.status}
-                  <img src="/warningicon.png" width="30" height="30" />
+                    {this.props.feil.status !== 'Under behandling' ? (
+                      this.props.feil.status === 'Ferdig' ? (
+                        <img src="/successicon.png" width="30" height="30" />
+                      ) : (
+                        <img src="/warningicon.png" width="30" height="30" />
+                      )
+                    ) : (
+                      <img src="/processingicon.png" width="30" height="30" />
+                    )}
+                  {this.props.aksepter && (<span>
+                            <Button
+                              floated="right"
+                              color="red"
+                              size="small"
+                              onClick={() => {
+                                this.props.avslaJobb(this.props.feil.feil_id);
+                              }}
+                            >
+                              Ikke godta
+                            </Button>
+                            <Button
+                              floated="right"
+                              color="green"
+                              size="small"
+                              onClick={() => {
+                                this.props.godtaJobb(this.props.feil.feil_id);
+                              }}
+                            >
+                              Godta jobb
+                            </Button>
+                          </span>)}
                   {this.props.abonner && (<AbonnerKnapp style={{float:"right", width:"90px"}} key={this.props.feil.feil_id} feil_id={this.props.feil.feil_id} />)}
                   </span>
                   <img
