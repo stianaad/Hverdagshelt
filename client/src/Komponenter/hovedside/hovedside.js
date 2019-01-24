@@ -306,7 +306,7 @@ export class Hovedside extends Component {
                       <h6>
                         Status: {this.feil.status} <img src={this.statusIkon} width="30" height="30" />
                         {(global.payload && global.payload.role == 'privat') ? (
-                        <div className="float-right"><AbonnerKnapp key={this.feil.feil_id} feil_id={this.feil.feil_id} /></div>
+                        <AbonnerKnapp style={{float:"right", width:"90px"}} key={this.feil.feil_id} feil_id={this.feil.feil_id} />
                         ) : null}
                       </h6>
                     </div>
@@ -491,7 +491,7 @@ f                      id="test"
                           </div>
                         </Grid.Column>
                         <Grid.Column>
-                          <p>
+                          <p id="hendelseBeskrivelse">
                             {this.hendelse.beskrivelse}
                           </p>
                         </Grid.Column>

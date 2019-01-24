@@ -6,6 +6,12 @@
     display: inline-block;
 }
 
+.infoKnapp:hover + .infoBoks {
+    pointer-events: inherit !important;
+    opacity: 1;
+    transition: opacity 0.15s;
+}
+
 .infoWrapper {
     position: relative;
     display: inline-block;
@@ -24,12 +30,7 @@
     border-radius: 5px;
     box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5, 0 0 20px rgba(0,0,0,0.15);
     pointer-events: none;
-}
-
-.infoVisible {
-    pointer-events: inherit !important;
-    opacity: 1;
-    transition: opacity 0.15s;
+    z-index:1300;
 }
 
 .infoArrow {

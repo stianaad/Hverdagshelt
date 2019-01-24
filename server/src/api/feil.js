@@ -11,8 +11,10 @@ router.use(bodyParser.json());
 import { pool } from '../../test/poolsetup';
 import { checkToken } from '../middleware';
 import BrukerDao from '../dao/brukerdao.js';
+import Epost from '../epost.js';
 
 let feilDao = new FeilDao(pool);
+let epostTjener = new Epost();
 let brukerDao = new BrukerDao(pool);
 let bildeOpplasting = new BildeOpplasting();
 
@@ -45,7 +47,7 @@ router.get('/api/kommuner/:kommune_id/feil', checkToken, (req, res) => {
     });
   } else {
     res.status(403);
-    res.json({ resultat: "ingen tilgang" });
+    res.json({ resultat: "ingen tilgang"});
   }
 });
 
@@ -113,6 +115,7 @@ router.post('/api/feil', upload.array('bilder', 10), checkToken, (req, res) => {
             feilDao.leggTilBilder(feil_id, bilder);
           });
         }
+        epostTjener.innsendtFeil(o.feil_id, req.decoded.user.epost);
       }
 
     });
@@ -388,7 +391,7 @@ router.post('/api/bedrift/feil', checkToken, (req, res) => {
   console.log('Inne i post bedrift feil');
   let role = req.decoded.role;
   if (role == 'ansatt' || role == 'admin') {
-    hentBedriftPaaOrgnr(req.body.orgnr, (status, data) => {
+    feilDao.hentBedriftPaaOrgnr(req.body.orgnr, (status, data) => {
       let a = {bruker_id: data[0].bruker_id, feil_id: req.body.feil_id}
       console.log(a);
       feilDao.sendFeilTilBedrift(a, (status, data) => {
@@ -396,7 +399,6 @@ router.post('/api/bedrift/feil', checkToken, (req, res) => {
         res.json(data);
       });
     })
-
   } else {
     res.status(403);
     res.json({result: false});

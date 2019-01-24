@@ -14,6 +14,33 @@ const transporter = nodemailer.createTransport({
 });
 
 module.exports = class epost {
+  //Melding om innsendt feil
+  innsendtFeil(feil_id, mottaker) {
+    let subject = 'Melding av feil';
+    let html =
+      '<div style="margin-left:36px"><p>Meldt feil med saksnummer ' +
+      feil_id +
+      ' er innsendt og avventer respons fra en kommuneansatt. Når feilen blir avslått/godkjent vil du bli varslet per mail.</p></div><div style="float:left;margin-top:45px">' +
+      '<img src="http://drive.google.com/uc?export=view&id=1FTiZHS4274x2VpVfjt2jj7aIfBbvVfBg" width="280"/></div>' +
+      '<div style="margin-left:15px;margin-top:80px"><p>E-post: contact@HverdagsHelt.no</p>' +
+      '<p>tlf: +47 00 00 00 00</p><p>Prosjekt HverdagsHelt</p></div>';
+
+    let mailOptions = {
+      from: avsender,
+      to: mottaker,
+      subject: subject,
+      html: html,
+    };
+
+    transporter.sendMail(mailOptions, function(err, info) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(info);
+      }
+    });
+  }
+
   //Response på en innlagt feil med saksnummer og bekreftelse på at den er registrert
   feilGodkjent(saksnummer, mottaker) {
     let subject = 'Melding av feil';

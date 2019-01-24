@@ -9,19 +9,18 @@ export class AbonnerKnapp extends Component {
 
     render() {
         return (
-            <button disabled={this.abonnert==null} onClick={()=>{this.klikk()}} style={{width: "90px"}} className={this.abonnert ? "btn btn-success" : "btn btn-danger"}>{this.abonnert ? "Abonnerer" : "Abonner"}</button>
+            <button disabled={this.abonnert==null} onClick={()=>{this.klikk()}} style={this.props.style} className={this.abonnert ? "btn btn-success" : "btn btn-danger"}>{this.abonnert ? "Abonnerer" : "Abonner"}</button>
         );
     }
 
     klikk() {
+        this.abonnert = null;
         if (this.props.feil_id) {
-            if (this.abonnert) feilService.ikkeAbonner(this.props.feil_id);
-            else feilService.abonner(this.props.feil_id);
-            this.mounted();
+            if (this.abonnert) feilService.ikkeAbonner(this.props.feil_id).then(this.mounted);
+            else feilService.abonner(this.props.feil_id).then(this.mounted);
         } else if (this.props.hendelse_id) {
-            if (this.abonnert) hendelseService.ikkeAbonner(this.props.hendelse_id);
-            else hendelseService.abonner(this.props.hendelse_id);
-            this.mounted();
+            if (this.abonnert) hendelseService.ikkeAbonner(this.props.hendelse_id).then(this.mounted);
+            else hendelseService.abonner(this.props.hendelse_id).then(this.mounted);
         }
     }
 
