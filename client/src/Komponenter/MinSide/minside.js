@@ -120,7 +120,7 @@ export class Minside extends Component {
                   </Button>
                 </Card.Header>
               </Card.Content>
-              {this.visFeil ? (
+              {(this.visFeil) ? (
                 <Card.Content className={this.classFeil}>
                   {this.oppdaterteFeil.length + this.ikkeOppdaterteFeil.length > 0 ? (
                     <Feed>
@@ -165,7 +165,7 @@ export class Minside extends Component {
                     </Card>
                   )}
                 </Card.Content>
-              ) : null}
+              ) : (null)}
             </Card>
           </div>
           <div className="col-md-auto mx-1 minSideInKolonne" id="hendelseListe">
@@ -419,13 +419,12 @@ export class Minside extends Component {
 
   async visRapporterteFeil() {
     this.visFeil = !this.visFeil;
+    console.log(this.visFeil);
     if (this.visFeil) {
       this.finnIkkeOppdaterteFeil();
       await this.scrollFeil();
       await brukerService.oppdaterSistInnloggetPrivat();
-    } else {
-
-    }
+    } 
   }
 
   scrollFeil() {
