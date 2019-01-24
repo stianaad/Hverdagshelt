@@ -237,12 +237,12 @@ export class Bedrift extends Component {
   async godtaJobb(feil_id) {
     //console.log(feil_id);
     console.log(feil_id)
-    let res = await feilService.oppdaterStatusFeilTilBedrift({feil_id: feil_id, status: 4});
+    await feilService.oppdaterStatusFeilTilBedrift({feil_id: feil_id, status: 4});
     await feilService.lagOppdatering({"feil_id": feil_id,"kommentar":"Bedrift godtok jobben og begynner arbeidet straks","status_id":3});
     //console.log(res.data);
-    this.feilModal = false;
     await this.hentNyeFeil();
     await this.hentUnderBehandlingFeil();
+    this.feilModal = false;
   }
 
   async avslaJobb(feil_id) {
