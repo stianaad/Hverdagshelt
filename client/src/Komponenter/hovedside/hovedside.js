@@ -314,7 +314,7 @@ export class Hovedside extends Component {
                       <Grid.Column>
                         <h6><b>Beskrivelse:</b></h6>
                         <div class="hovedSideFeilBeskrivelse">{this.feil.beskrivelse.split("\n").map((tekst) => (
-                          <p key={tekst}>{tekst}</p>))}
+                          <p >{tekst}</p>))}
                         </div>
                       </Grid.Column>
                       <Grid.Column>
@@ -487,7 +487,7 @@ f                      id="test"
                         </Grid.Column>
                         <Grid.Column>
                           <div id="hendelseBeskrivelse">{this.hendelse.beskrivelse.split("\n").map((tekst) => (
-                            <p key={tekst}>{tekst}</p>))}
+                            <p >{tekst}</p>))}
                           </div>
                         </Grid.Column>
                       </Grid>

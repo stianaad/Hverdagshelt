@@ -245,10 +245,12 @@ router.post('/api/feil/oppdateringer/bedrift', checkToken, (req, res) => {
   if (role == 'bedrift' || role == 'admin' || role == 'ansatt') {
     feilDao.lagOppdatering(a, (status, data) => {
       console.log('Ny oppdatering laget:');
-      feilDao.hentEnFeil(a.feil_id, (status, data) => {
+      feilDao.hentEnFeil(a, (status, data) => {
         if (status == 200) {
-          brukerDao.hentBrukerPaaid(data[0].bruker_id, (status, data) => {
+          console.log(data[0].bruker_id);
+          brukerDao.hentBrukerPaaid(data[0], (status, data) => {
             if (status == 200) {
+              console.log(data);
               epostTjener.feilGodkjent(a.feil_id, data[0].epost);
             } else {
               console.log('fant ikke bruker');

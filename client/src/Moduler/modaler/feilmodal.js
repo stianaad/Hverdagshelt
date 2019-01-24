@@ -61,8 +61,7 @@ export class FeilModal extends Component {
                               size="small"
                               onClick={() => {
                                 this.props.godtaJobb(this.props.feil.feil_id);
-                              }}
-                            >
+                              }}>
                               Godta jobb
                             </Button>
                           </span>)}
@@ -79,8 +78,8 @@ export class FeilModal extends Component {
                 <Grid fluid="true" columns={3} stackable className="feilModalInnhold" style={{margin:"0", overflowY:"auto"}}>
                   <Grid.Column>
                     <h6><b>Beskrivelse:</b></h6>
-                    <div className="feilModalBeskrivelse">{this.props.feil.beskrivelse.split("\n").map((tekst) => (
-                        <p key={tekst}>{tekst}</p>))}
+                    <div className="feilModalBeskrivelse">{this.props.feil.beskrivelse.split("\n").map((tekst,i) => (
+                        <p key={i}>{tekst}</p>))}
                     </div>
                   </Grid.Column>
                   <Grid.Column>

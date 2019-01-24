@@ -101,6 +101,7 @@ class FeilService {
 
   hentNyeFeilTilBedrift() {
     let token = sessionStorage.getItem('pollett');
+    console.log(global.payload.user.bruker_id);
     if (token) {
       return api.get('/api/feil/bedrift/nyeOppgaver', { headers: { 'x-access-token': 'Bearer ' + token } });
     } else {
