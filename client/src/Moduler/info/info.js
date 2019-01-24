@@ -10,7 +10,7 @@ export class InfoBoks extends Component {
                     <div className="infoArrow" />
                     <div className="infoArrowBorder" />
                     {this.props.tekst.split("\n").map((tekst) => (
-                        <p className="infoTekst">{tekst}</p>
+                        <p key = {tekst} className="infoTekst">{tekst}</p>
                     ))}
                 </div>
             </div>
