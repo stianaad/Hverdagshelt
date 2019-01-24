@@ -1,21 +1,20 @@
 import * as React from 'react';
 import {PageHeader} from '../../Moduler/header/header';
-import {Component, sharedComponentData} from 'react-simplified';
-import {feilService} from '../../services/feilService';
-import {Card, Feed, Grid, Button, Header, Icon, Image, Popup, Modal, Input, List, Dropdown} from 'semantic-ui-react';
-import {FeedEvent, FeedHendelse, Filtrer, Info, FeedMinside, ModalHendelse} from '../../Moduler/cardfeed';
+import {Component} from 'react-simplified';
+import {Card, Feed, Button, Header, Image} from 'semantic-ui-react';
+import {FeedMinside, ModalHendelse} from '../../Moduler/cardfeed';
 import {brukerService} from '../../services/brukerService';
-import {NavLink, Link} from 'react-router-dom';
-import {markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
+import {Link} from 'react-router-dom';
 import {KommuneInput} from '../../Moduler/kommuneInput/kommuneInput';
 import { FeilModal } from '../../Moduler/modaler/feilmodal';
+import { EndrePassordModal } from '../../Moduler/modaler/endrepassordmodal';
+import {InfoBoks} from '../../Moduler/info/info';
 
 export class Minside extends Component {
   oppdaterteFeil = [];
   ikkeOppdaterteFeil = [];
   folgteFeil = [];
   folgteHendelser = [];
-  advarsel = '';
   komin = React.createRef();
   valgtFeil = {
     overskrift: '',
@@ -24,12 +23,9 @@ export class Minside extends Component {
   };
 
   feil = {feil_id:0}
+  feilModal = false;
 
-  passord = {
-    gammeltPass: '',
-    nyttPass: '',
-    nyttPassSjekk: '',
-  }
+  endrePassordModal = false;
 
   brukerInfo = {
     fornavn: '',
@@ -56,12 +52,9 @@ export class Minside extends Component {
   };
 
   visHendelse = false;
-  feilModal = false;
   visFeil = false;
 
   redigerer = false;
-
-  passordModalOpen = false;
 
   classFeil = 'hovedsideTabeller';
 
@@ -82,157 +75,15 @@ export class Minside extends Component {
     this.setState({open: false});
   };
 
-  openPassordModal() {
-    this.passordModalOpen = true;
-  }
-
-  closePassordModal() {
-    this.passordModalOpen = false;
-  }
-
   render() {
     return (
       <div>
         <PageHeader history={this.props.history} location={this.props.location} />
-        <Modal open={this.passordModalOpen} onClose={this.closePassordModal} size="small" centered>
-          <Modal.Content>
-            <div className="container">
-              <h1 className="text-center">Endre passord</h1>
-              <div className="card">
-                <div className="card-body">
-                  <div className="form-group row">
-                    <label htmlFor='gammeltPass' className="col-sm-4 col-form-label venstreForm"> Gammelt passord:</label>
-                    <div className="col-sm-8">
-                      <input
-                        type="password"
-                        id="gammeltPass"
-                        name="gammeltPass"
-                        className="form-control hoyreForm"
-                        value={this.passord.gammeltPass}
-                        required={true}
-                        placeholder="Gammelt passord"
-                        onChange={this.endrePassVerdi}
-                      />
-                      <small className="form-text text-muted">Skriv inn din ditt gamle passord</small>
-                    </div>
-                  </div>
-                  <div className="form-group row">
-                    <label htmlFor='nyttPass' className="col-sm-4 col-form-label venstreForm"> Nytt passord:</label>
-                    <div className="col-sm-8">
-                      <input
-                        type="password"
-                        id="nyttPass"
-                        name="nyttPass"
-                        className="form-control hoyreForm"
-                        value={this.passord.nyttPass}
-                        required={true}
-                        placeholder="Nytt passord"
-                        onChange={this.endrePassVerdi}
-                      />
-                      <small className="form-text text-muted">Skriv inn din ditt nye passord. Minst 8 tegn langt</small>
-                    </div>
-                  </div>
-                  <div className="form-group row">
-                    <label htmlFor='nyttPassSjekk'className="col-sm-4 col-form-label venstreForm"> Gjenta nytt passord:</label>
-                    <div className="col-sm-8">
-                      <input
-                        type="password"
-                        id="nyttPassSjekk"
-                        name="nyttPassSjekk"
-                        className="form-control hoyreForm"
-                        value={this.passord.nyttPassSjekk}
-                        placeholder="Gjenta passord"
-                        required={true}
-                        onChange={this.endrePassVerdi}
-                      />
-                      <small className="form-text text-muted">Gjenta ditt nye passord</small>
-                    </div>
-                  </div>
-                  <Button basic color="green" onClick={this.lagrePass}>
-                    Endre Passord
-                  </Button>
-                  <p>{this.advarsel}</p>
-                </div>
-              </div>
-            </div>
-          </Modal.Content>
-        </Modal>
+        <EndrePassordModal key={this.endrePassordModal} open={this.endrePassordModal} onClose={() => {this.endrePassordModal = false}} />
         <FeilModal key={this.feil.feil_id+this.feilModal} open={this.feilModal} feil={this.feil} onClose={() => {this.feilModal = false}} />
         {/*
         <Modal open={this.state.open} onClose={this.handleClose} size="small" centered dimmer="blurring">
           {!this.visHendelse ? (
-            <Modal.Content>
-              <div>
-                <Card fluid>
-                  <Card.Content>
-                    <div>
-                      <h1>
-                        {this.valgtFeil.overskrift}
-                        <NavLink to={'/minside'} onClick={this.handleClose}>
-                          <img
-                            className="float-right"
-                            src="https://image.freepik.com/free-icon/x_318-27992.jpg"
-                            width="20"
-                            height="20"
-                          />
-                        </NavLink>
-                      </h1>
-                      <h6>
-                        Status: {this.valgtFeil.status} <img src="/warningicon.png" width="30" height="30" />
-                      </h6>
-                    </div>
-                  </Card.Content>
-                  <Card.Content extra>
-                    <Grid fluid columns={3}>
-                      <Grid.Column>
-                        <h6>Beskrivelse</h6>
-                        <Input>{this.valgtFeil.beskrivelse}</Input>
-                      </Grid.Column>
-                      <Grid.Column>
-                        <h6>Posisjon</h6>
-                        <ShowMarkerMap width="100%" height="300px" id="posmap" feil={this.valgtFeil} />
-                      </Grid.Column>
-                      <Grid.Column>
-                        <List>
-                          <List.Item>
-                            <List.Content>
-                              <List.Header>Godkjent</List.Header>
-                              <List.Description>01.01.18 19:00</List.Description>
-                            </List.Content>
-                          </List.Item>
-                          <List.Item>
-                            <List.Content>
-                              <List.Header>Godkjent</List.Header>
-                              <List.Description>01.01.18 19:00</List.Description>
-                            </List.Content>
-                          </List.Item>
-                          <List.Item>
-                            <List.Content>
-                              <List.Header>Godkjent</List.Header>
-                              <List.Description>01.01.18 19:00</List.Description>
-                            </List.Content>
-                          </List.Item>
-                          <List.Item>
-                            <List.Content>
-                              <List.Header>Godkjent</List.Header>
-                              <List.Description>01.01.18 19:00</List.Description>
-                            </List.Content>
-                          </List.Item>
-                        </List>
-                        <Image.Group size="tiny">
-                          <Image src="/lofoten.jpg" />
-                          <Image src="/lofoten.jpg" />
-                          <Image src="/lofoten.jpg" />
-                          <Image src="/lofoten.jpg" />
-                          <Image src="/lofoten.jpg" />
-                          <Image src="/lofoten.jpg" />
-                        </Image.Group>
-                      </Grid.Column>
-                    </Grid>
-                  </Card.Content>
-                </Card>
-              </div>
-            </Modal.Content>
           ) : (
             <ModalHendelse
               overskrift={this.valgteHendelse.overskrift}
@@ -251,12 +102,13 @@ export class Minside extends Component {
             </Button>
           </Link>
         </div>
-        <div className="row minRow">
-          <div className="col-sm mt-3 ml-3" id="sideListe">
+        <div className="row">
+          <div className="col"></div>
+          <div className="col-md-auto ml-3 mr-1 minSideUtKolonne" id="sideListe">
             <Card fluid>
               <Card.Content>
                 <Card.Header>
-                  Dine rapporterte feil
+                  Dine rapporterte feil<InfoBoks tekst="Trykk på knappen under for å se dine rapporterte feil."/>
                   <Button basic color="green" onClick={this.visRapporterteFeil}>
                     {this.oppdaterteFeil.length === 0 ? (
                       <span>Ingen ny(e) oppdateringer</span>
@@ -295,7 +147,10 @@ export class Minside extends Component {
                           fjern={() => {
                             this.fjernFeil(feil.feil_id);
                           }}
-                          onClick={() => this.handleOpen(feil)}
+                          onClick={() => {
+                            this.feilModal = true;
+                            this.feil = feil;
+                          }}
                         >
                           {feil.overskrift}
                         </FeedMinside>
@@ -312,8 +167,7 @@ export class Minside extends Component {
               ) : null}
             </Card>
           </div>
-          <div className="col-sm mt-3">
-            <div className="columnCenter">
+          <div className="col-md-auto mx-1 minSideInKolonne">
               <h2>Hendelser du følger</h2>
               {this.folgteHendelser.length > 0 ? (
                 <Card.Group itemsPerRow={1}>
@@ -352,9 +206,7 @@ export class Minside extends Component {
                 </Card>
               )}
             </div>
-          </div>
-          <div className="col-sm mt-3">
-            <div className="columnCenter">
+          <div className="col-md-auto mx-1 minSideInKolonne">
               <h2>Feil/mangler du følger</h2>
               {this.folgteFeil.length > 0 ? (
                 <Card.Group itemsPerRow={1}>
@@ -393,11 +245,10 @@ export class Minside extends Component {
                 </Card>
               )}
             </div>
-          </div>
-          <div className="col-sm mt-3 ml-3" id="sideListeH">
+          <div className="col-md-auto mr-3 ml-1 minSideUtKolonne" id="sideListeH">
             <Card fluid>
               <Card.Content>
-                <Card.Header>Brukerinformasjon</Card.Header>
+                <Card.Header>Brukerinformasjon<InfoBoks tekst="Her kan du både se og redigere din personlige informasjon. Du kan også endre passord ved: 'Rediger bruker' > 'Endre passord'."/></Card.Header>
               </Card.Content>
               <Card.Content>
                 <div id="container">
@@ -469,7 +320,7 @@ export class Minside extends Component {
                           />
                         </div>
                       </div>
-                      <p className="modalPopup" onClick={this.openPassordModal}>
+                      <p className="modalPopup" onClick={() => {this.endrePassordModal = true;}}>
                         Endre passord?
                       </p>
                     </div>
@@ -511,6 +362,7 @@ export class Minside extends Component {
               </Card.Content>
             </Card>
           </div>
+          <div className="col"></div>
         </div>
       </div>
     );
@@ -537,31 +389,11 @@ export class Minside extends Component {
     }
   }
 
-  endrePassVerdi(e) {
-    const target = e.target;
-    const value = target.type === 'checkbox' ? (target.checked ? 1 : 0) : target.value;
-    const name = target.name;
-    this.passord[name] = value;
-  }
-
   endreVerdi(e) {
     const target = e.target;
     const value = target.type === 'checkbox' ? (target.checked ? 1 : 0) : target.value;
     const name = target.name;
     this.brukerInfoDummy[name] = value;
-  }
-
-  lagrePass() {
-    if (this.passord.nyttPass.length < 8 || this.passord.nyttPass !== this.passord.nyttPassSjekk) {
-      this.advarsel = 'Feil ved innsending. Nytt passord må være 8 tegn langt og passordene må være like.';
-    } else {
-      if (brukerService.endrePassord(this.passord)) {
-        this.advarsel = 'Gammelt passord er ikke korrekt, eller noe gikk galt ved innmelding.';
-      } else {
-        alert('Passord er endret');
-        this.closePassordModal();
-      }
-    }
   }
 
   async finnFeilBruker() {

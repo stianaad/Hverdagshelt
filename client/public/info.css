@@ -24,6 +24,7 @@
     border-radius: 5px;
     box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5, 0 0 20px rgba(0,0,0,0.15);
     pointer-events: none;
+    z-index:1300;
 }
 
 .infoVisible {
