@@ -79,7 +79,7 @@ export class FeilModal extends Component {
                 <Grid fluid columns={3} stackable className="feilModalInnhold" style={{margin:"0", overflowY:"auto"}}>
                   <Grid.Column>
                     <h6><b>Beskrivelse:</b></h6>
-                    <div className="hendelseModalBeskrivelse">{this.props.feil.beskrivelse.split("\n").map((tekst) => (
+                    <div className="feilModalBeskrivelse">{this.props.feil.beskrivelse.split("\n").map((tekst) => (
                         <p key={tekst}>{tekst}</p>))}
                     </div>
                   </Grid.Column>
