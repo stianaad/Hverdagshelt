@@ -49,6 +49,8 @@ export class AnsattGodkjent extends Component{
         this.feilApen = true;
         this.valgtfeil = {...feil};
         this.hosBedrift(feil);
+        this.handterStatuser(feil.status);
+        console.log(this.valgtStatus);
     }
 
     handterStatuser(status){
@@ -100,7 +102,8 @@ export class AnsattGodkjent extends Component{
                                 <Card color="red" fluid>
                                     <Card.Content>
                                         <Card.Header>
-                                            Godkjente feil
+                                            <h3 style={{display: 'inline'}}>Godkjente feil</h3>
+                                            <InfoBoks style={{display: 'inline'}} tekst="Trykk på en feil for å oppdatere og sende til bedrift."/>
                                         </Card.Header>
                                     </Card.Content>
                                     <Card.Content className="hoydeTabell">
@@ -154,21 +157,27 @@ export class AnsattGodkjent extends Component{
                                                                     }}}
                                                                 />
                                                             </div>
-                                                            <div className="form-group">
-                                                                <label>Status: </label>
-                                                                <select
-                                                                    className="form-control"
-                                                                    onChange={(e) => this.handterStatuser(e.target.value)}>
-                                                                    <option hidden>{this.valgtfeil.status}</option>
-                                                                    {this.statuser.map((status) => (
-                                                                        <option value={status.status} key={status.status}>
-                                                                        {' '}
-                                                                        {status.status}
-                                                                        </option>
-                                                                    ))}
-                                                                </select>
-                                                            </div>
-                                                            <Button basic color="green" disabled={this.visLagre} onClick={this.oppdatering}>Lagre</Button>
+                                                            {this.sendtTilBedrift ? (
+                                                                <Button basic color="green" disabled={this.visLagre} onClick={this.oppdatering}>Lagre</Button>
+                                                            ):(
+                                                                <div>
+                                                                    <div className="form-group">
+                                                                        <label>Status: </label>
+                                                                        <select
+                                                                            className="form-control"
+                                                                            onChange={(e) => this.handterStatuser(e.target.value)}>
+                                                                            <option hidden>{this.valgtfeil.status}</option>
+                                                                            {this.statuser.map((status) => (
+                                                                                <option value={status.status} key={status.status}>
+                                                                                {' '}
+                                                                                {status.status}
+                                                                                </option>
+                                                                            ))}
+                                                                        </select>
+                                                                    </div>
+                                                                    <Button basic color="green" disabled={this.visLagre} onClick={this.oppdatering}>Lagre</Button>
+                                                                </div>
+                                                            )}
                                                         </Grid.Column>
                                                         <Grid.Column>
                                                             {(!this.sendtTilBedrift ? (
