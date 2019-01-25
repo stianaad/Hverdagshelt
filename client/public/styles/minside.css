@@ -1,3 +1,5 @@
+
+
 #minRow .feilCardImage{
     /*width: 250px !important;*/
     height: auto;
@@ -16,7 +18,7 @@
 }*/
 
 .minSideUtKolonne {
-  width: 100%;
+  width: fit-content;
   margin-top:2.71428571rem;
 }
 
@@ -26,14 +28,6 @@
 
 .minSideInKolonne {
   width: 250px;
-}
-
-#sideListeH {
-  margin-right: 1.5em;
-}
-
-#sideListe {
-  margin-left: 1.5em;
 }
 
 #sideListe > .card {
@@ -97,4 +91,35 @@
 
 .modalPopup:hover{
   cursor: pointer;
+}
+
+@media screen and (min-width:900px) and (max-width: 1200px) {
+  #minRow {
+    width: 700px !important;
+    margin: 0 auto !important;
+  }
+
+  #hendelseListe {
+    margin-left: 100px !important;
+  }
+
+  .minSideUtKolonne {
+    position: absolute;
+    z-index: 900;
+    padding:0 !important;
+    top: 150px;
+  }
+
+  #sideListeH {
+    left: calc(((100vw - 690px)/2) + 365px);
+  }
+
+  #sideListe {
+    left: calc((100vw - 690px)/2);
+  }
+
+  .minSideInKolonne {
+    position: relative;
+    top: 350px;
+  }
 }
