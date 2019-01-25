@@ -171,7 +171,7 @@ export class Minside extends Component {
             </Card>
           </div>
           <div className="col-md-auto mx-1 minSideInKolonne" id="hendelseListe">
-              <h1>Hendelser du følger</h1>
+              <h2>Hendelser du følger</h2>
               {this.folgteHendelser.length > 0 ? (
                 <Card.Group itemsPerRow={1}>
                   {this.folgteHendelser.map((hendelse) => (
@@ -212,7 +212,7 @@ export class Minside extends Component {
               )}
             </div>
           <div className="col-md-auto mx-1 minSideInKolonne" id="feilListe">
-              <h1>Feil du følger</h1>
+              <h2>Feil du følger</h2>
               {this.folgteFeil.length > 0 ? (
                 <Card.Group itemsPerRow={1}>
                   {this.folgteFeil.map((feil) => (
