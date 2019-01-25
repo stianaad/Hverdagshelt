@@ -57,11 +57,20 @@ export class Statistikk extends Component {
     }
   }
 
+  hide(){
+    let x = document.getElementById('bar');
+    if(x.style.display === 'none'){
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
+  }
+
   render(){
     return(
       <>
-        <div>
-          <GronnKnapp onClick={this.print}>Last ned PDF</GronnKnapp>
+        <div id="lastNedBtn">
+          <GronnKnapp onClick={this.print}>Last ned som PDF</GronnKnapp>
         </div>
         <div id="bar">
         {this.resultat.map(e => (
