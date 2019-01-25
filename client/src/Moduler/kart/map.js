@@ -20,11 +20,11 @@ export function markerTabell(feiltabell, popup) {
 /**
  * Genererer HTML som skal vises i popups på markers
  * @access private
- * @param {!string} tid - Tiden som skal vises på popup
- * @param {!string} overskrift - Overskrift som skal vises på popup
- * @param {!string} statusText - Statusen som skal vises på popup
- * @param {!string} beskrivelse - Beskrivelsen som skal vises på popup
- * @param {!string} kategori - Kategorien som skal vises på popup
+ * @reactProps {!string} tid - Tiden som skal vises på popup
+ * @reactProps {!string} overskrift - Overskrift som skal vises på popup
+ * @reactProps {!string} statusText - Statusen som skal vises på popup
+ * @reactProps {!string} beskrivelse - Beskrivelsen som skal vises på popup
+ * @reactProps {!string} kategori - Kategorien som skal vises på popup
  */
 class PopupContent extends Component {
   render() {
@@ -60,8 +60,6 @@ class PopupContent extends Component {
 
 /**
  * Marker for kart, må legges til i en MarkerMap. Sendes vanligvis til karter og den legger det til automatisk.
- * @param {!Object} feil - Feilobjektet som skal representeres som marker
- * @param {!boolean} visPopup - Boolean verdi som bestemmer om markeren skal ha popup på hover event.
  * @example
  * let feil = {feil_id: 1, overskrift: "yo", ...};
  * let myMarker = new Marker(this.feil, true);
@@ -82,7 +80,10 @@ export class Marker {
     this.marker.removeEventListener('mouseout');
     this.marker.bindPopup(this.clickPopup, {maxWidth: 800}).openPopup();
   };
-
+  /**
+   * @param {!Object} feil - Feilobjektet som skal representeres som marker
+   * @param {!boolean} popup - Boolean verdi som bestemmer om markeren skal ha popup på hover event.
+   */
   constructor(feil, popup) {
     this.popup = popup;
     let iconName =
@@ -208,11 +209,11 @@ export class Marker {
  * Må spesifisere props.center for å sentrere kartet på det gitte stedsnavnet.
  * For å flytte på kartet med nye breddegrad og lengdegrad tall må man inkludere onRef={ref => (this.kart = ref)}
  * Da kan man bruke this.kart.flyttKart(breddegrad, lengdegrad) for å flytte kartet.
- * @param {!string} width - Bredden på kartet gitt som en CSS verdi
- * @param {!string} height - Høyden på kartet gitt som en CSS verdi
- * @param {!string} id - CSS id for kartet, brukes for å identifisere kartet
- * @param {!Marker[]} markers - Tabell med Marker objekter som skal vises på kartet
- * @param {!string} center - Stedsnavn som skal sentreres i kartet
+ * @reactProps {!string} width - Bredden på kartet gitt som en CSS verdi
+ * @reactProps {!string} height - Høyden på kartet gitt som en CSS verdi
+ * @reactProps {!string} id - CSS id for kartet, brukes for å identifisere kartet
+ * @reactProps {!Marker[]} markers - Tabell med Marker objekter som skal vises på kartet
+ * @reactProps {!string} center - Stedsnavn som skal sentreres i kartet
  * @example
  * let myMarkers = [new Marker(), new Marker, new Marker()];
  * <MarkerMap width="1000px" height="500px" id="map3" markers={myMarkers} center="Trondheim,Trøndelag" onRef={ref => (this.kart = ref)}/>
@@ -283,10 +284,10 @@ export class MarkerMap extends Component {
 
 /**
  * Kart som viser en feil på et kart
- * @param {!string} width - Bredden på kartet gitt som en CSS verdi
- * @param {!string} height - Høyden på kartet gitt som en CSS verdi
- * @param {!string} id - CSS id for kartet, brukes for å identifisere kartet
- * @param {!Object} feil - Objektet av feilen som skal vises på kartet
+ * @reactProps {!string} width - Bredden på kartet gitt som en CSS verdi
+ * @reactProps {!string} height - Høyden på kartet gitt som en CSS verdi
+ * @reactProps {!string} id - CSS id for kartet, brukes for å identifisere kartet
+ * @reactProps {!Object} feil - Objektet av feilen som skal vises på kartet
  * @example
  * feil = {feil_id: 1, overskrift: "yo", ...};
  * <ShowMarkerMap width="50%" height="400px" id="visfeilkart" feil={this.feil} />
@@ -348,11 +349,11 @@ export class ShowMarkerMap extends Component {
 
 /**
  * Kart for å velge posisjon for en hendelse/feil. Bredde, høyde, id, stedsnavn, og en callback funksjon for å sende posisjon, sendes som props.
- * @param {!string} width - Bredden på kartet gitt som en CSS verdi
- * @param {!string} height - Høyden på kartet gitt som en CSS verdi
- * @param {!string} id - CSS id for kartet, brukes for å identifisere kartet
- * @param {!string} center - Stedsnavn som skal sentreres i kartet
- * @param {function(posisjon: number[]): void} position - funksjon som kartet bruker for å sende posisjon.
+ * @reactProps {!string} width - Bredden på kartet gitt som en CSS verdi
+ * @reactProps {!string} height - Høyden på kartet gitt som en CSS verdi
+ * @reactProps {!string} id - CSS id for kartet, brukes for å identifisere kartet
+ * @reactProps {!string} center - Stedsnavn som skal sentreres i kartet
+ * @reactProps {function(posisjon: number[]): void} position - funksjon som kartet bruker for å sende posisjon.
  * @example
  * let pos = [0, 0]; // [breddegrad, lengdegrad]
  * let posFunkjson = (posisjon) => this.pos = posisjon;
