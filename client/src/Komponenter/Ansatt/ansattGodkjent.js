@@ -4,9 +4,11 @@ import {PageHeader} from '../../Moduler/header/header';
 import {Card, Feed, Grid, Button, Header, Icon, Input, Image, Modal, List, CardContent, Popup} from 'semantic-ui-react';
 import {FeedEvent, Filtrer, Info} from '../../Moduler/cardfeed';
 import {feilService} from '../../services/feilService';
+import {generellServices} from '../../services/generellServices';
 import {markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
 import {NavLink} from 'react-router-dom';
 import {AnsattMeny} from './ansattMeny';
+import {AdminMeny} from '../Admin/adminMeny';
 import { brukerService } from '../../services/brukerService';
 import { InfoBoks } from '../../Moduler/info/info';
 import { RedigerModal } from '../../Moduler/AnsattModuler/redigerModal';
@@ -87,7 +89,7 @@ export class AnsattGodkjent extends Component{
                 <PageHeader history={this.props.history} location={this.props.location} />
                 <RedigerModal key={this.valgtfeil.feil_id+this.redigerModal} open={this.redigerModal} feil={this.valgtfeil} onClose={() => {this.redigerModal = false}} />
                 <div className="container-fluid vinduansatt">
-                    <AnsattMeny/>
+                {global.payload.role == 'ansatt' ? <AnsattMeny/> : (global.payload.role == 'admin') ? <AdminMeny kommune={this.kommune}/> : null}
                     <div className="row justify-content-md-center mt-3 mb-3">
                         <h1>Godkjente feil</h1>
                     </div>
@@ -237,20 +239,34 @@ export class AnsattGodkjent extends Component{
       }
     
       async mounted() {
-        let feil = await feilService.hentFeilForKommune(global.payload.user.kommune_id);
-        this.alleFeil = await feil.data;
-    
-        this.godkjente = await feil.data.filter(e => (e.status === 'Godkjent'));
-        this.valgtfeil = {...this.godkjente[0]}
+
+        const load = async (kommune_id) => {
+            let feil = await feilService.hentFeilForKommune(kommune_id);
+            this.alleFeil = await feil.data;
+
+            await console.log(feil.data)
         
-        await this.scroll();
+            this.godkjente = await feil.data.filter(e => (e.status === 'Godkjent'));
+            
+            await this.scroll();
 
-        let status = await feilService.hentAlleStatuser();
-        let alle = await status.data; 
-        this.statuser = await alle.filter(e => e.status_id !== 1);
+            let status = await feilService.hentAlleStatuser();
+            this.statuser = await status.data; 
 
-        let bed = await brukerService.hentBedrifter();
-        this.alleBedrifter = await bed.data;
+            let bed = await brukerService.hentBedrifter();
+            this.alleBedrifter = await bed.data; 
+        }
+
+        if (global.payload.role == 'ansatt') load(global.payload.user.kommune_id);
+        else if (global.payload.role == 'admin') {
+            let res = await generellServices.sokKommune(this.props.match.params.kommune);
+            await Promise.resolve(res.data).then(async () => {
+                if (res.data.length > 0) {
+                    this.kommune = res.data[0];
+                    load(this.kommune.kommune_id);
+                }
+            });
+        }
       }
     
 }

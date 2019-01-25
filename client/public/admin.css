@@ -1,0 +1,17 @@
+.adminBrukerScroll {
+    height: calc(100vh - 500px);
+    overflow-y: auto;
+}
+
+.adminBrukerScroll div {
+    cursor: pointer;
+}
+
+.adminBrukerSok {
+    width: calc(100% - 74px);
+    margin-right:5px;
+}
+
+.adminBrukerSok input {
+    width:100%;
+}
