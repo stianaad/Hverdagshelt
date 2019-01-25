@@ -115,7 +115,7 @@ export class Minside extends Component {
                   Dine rapporterte feil<InfoBoks key = {'rapportertefeil'} tekst="Trykk på knappen under for å se dine rapporterte feil."/>
                     <br/>
                     {this.alleOppdaterteFeil.length === 0 ? (
-                      <p className="ingenNyeOppdateringer mt-2">Ingen nye oppdateringer <a className="float-right" basic onClick={this.visRapporterteFeil}><img src={this.dropdownPil} height="20" width="20"/> </a></p>
+                      <p className="ingenNyeOppdateringer mt-2">Ingen nye oppdateringer<a className="float-right" basic onClick={this.visRapporterteFeil}><img src={this.dropdownPil} height="20" width="20"/> </a></p>
                     ) : (
                       <p className="highlight nyeOppdateringer mt-2">{this.alleOppdaterteFeil.length} ny(e) oppdateringer  <a className="float-right" basic onClick={this.visRapporterteFeil}><img src={this.dropdownPil} height="20" width="20"/> </a></p>
                     )}
@@ -393,6 +393,7 @@ export class Minside extends Component {
       let base64 = base64Url.replace('-', '+').replace('_', '/');
       global.payload = JSON.parse(window.atob(base64));
       sessionStorage.setItem('pollett', res.token);
+      global.sideRefresh();
     }
   }
 
@@ -403,6 +404,7 @@ export class Minside extends Component {
       this.brukerInfo = {...this.brukerInfoDummy};
       let res = await brukerService.oppdaterSpesifisertBruker(this.brukerInfo);
       await this.oppdaterInfo(res.data);
+
     } else {
       this.brukerInfoDummy = {...this.brukerInfo};
       this.redigerer = true;
