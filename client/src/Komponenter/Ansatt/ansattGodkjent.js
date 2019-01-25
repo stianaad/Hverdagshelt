@@ -16,6 +16,7 @@ import { RedigerModal } from '../../Moduler/AnsattModuler/redigerModal';
 export class AnsattGodkjent extends Component{
     godkjente = [];
     alleFeil = [];
+    visLagre = true;
     valgtfeil = {
         feil_id: '',
         overskrift: '',
@@ -145,15 +146,19 @@ export class AnsattGodkjent extends Component{
                                                             <div className="form-group">
                                                                 <label>Kommentar: </label>
                                                                 <input type="text" className="form-control"
-                                                                    onChange={(e) => (this.kommentar = e.target.value)}
+                                                                    onChange={(e) => {this.kommentar = e.target.value;
+                                                                        if(this.kommentar.length>0){
+                                                                            this.visLagre = false;
+                                                                        } else {
+                                                                            this.visLagre = true;
+                                                                    }}}
                                                                 />
                                                             </div>
                                                             <div className="form-group">
                                                                 <label>Status: </label>
                                                                 <select
                                                                     className="form-control"
-                                                                    onChange={(e) => this.handterStatuser(e.target.value)}
-                                                                    >
+                                                                    onChange={(e) => this.handterStatuser(e.target.value)}>
                                                                     <option hidden>{this.valgtfeil.status}</option>
                                                                     {this.statuser.map((status) => (
                                                                         <option value={status.status} key={status.status}>
@@ -163,7 +168,7 @@ export class AnsattGodkjent extends Component{
                                                                     ))}
                                                                 </select>
                                                             </div>
-                                                            <Button basic color="green" onClick={this.oppdatering}>Lagre</Button>
+                                                            <Button basic color="green" disabled={this.visLagre} onClick={this.oppdatering}>Lagre</Button>
                                                         </Grid.Column>
                                                         <Grid.Column>
                                                             {(!this.sendtTilBedrift ? (
@@ -254,6 +259,9 @@ export class AnsattGodkjent extends Component{
             
             let status = await feilService.hentAlleStatuser();
             this.statuser = await status.data; 
+
+            let res = await this.statuser.find(e => (e.status === 'Godkjent'));
+            this.valgtStatus = await res;
 
             let bed = await brukerService.hentBedrifter();
             this.alleBedrifter = await bed.data; 

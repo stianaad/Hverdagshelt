@@ -238,7 +238,10 @@ export class NyeFeil extends Component {
   }
 
   async slett(){
+    this.feilApen = false;
     await feilService.slettFeil(this.valgtfeil.feil_id);
+    let feil = await feilService.hentFeilForKommune(global.payload.user.kommune_id);
+    this.nyefeil = await feil.data.filter((e) => e.status === 'Ikke godkjent');
   }
 
   async slettBilde(){

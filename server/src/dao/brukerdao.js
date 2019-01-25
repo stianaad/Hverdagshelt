@@ -1,6 +1,6 @@
 import Dao from './dao.js';
 
-//  11 av 22 funksjoner testes
+//  14 av 27 funksjoner testes
 module.exports = class BrukerDao extends Dao {
 	/**
    * Metode for å kontrollere organisasjonsnummer.
@@ -29,7 +29,7 @@ module.exports = class BrukerDao extends Dao {
 		return kontroll == parseInt(tall.charAt(8));
 	}
 
-  /**
+	/**
    * Metode for å slette en bruker fra brukertabellen i databasen.
    * @param {number} bruker_id - Iden til brukeren du vil slette.
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
@@ -38,7 +38,7 @@ module.exports = class BrukerDao extends Dao {
 		super.query('DELETE FROM bruker WHERE bruker_id = ?', [ bruker_id ], callback);
 	}
 
-  /**
+	/**
    * Metode for å kunne søke på en vilkårlig tekst blant alle brukere i databasen.
    * @param {string} sokTekst - Teksten det skal søkes på.
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
@@ -53,7 +53,7 @@ module.exports = class BrukerDao extends Dao {
 	}
 
 	//testes
-  /**
+	/**
    * Metode for å opprette en ny bruker.
    * @param {json} json - En json med epost, hashet passord og kommuneiden til brukeren.
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
@@ -70,7 +70,7 @@ module.exports = class BrukerDao extends Dao {
 	}
 
 	//testes
-  /**
+	/**
    * En metode for å finne bruker-iden til en bruker ved hjelp av eposten.
    * @param {json} json - En json som inneholde eposten til brukeren.
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
@@ -81,7 +81,7 @@ module.exports = class BrukerDao extends Dao {
 	}
 
 	//testes
-  /**
+	/**
    * En metode som finner alle feil en spesifisert bruker har opprettet.
    * @param {number} bruker_id - Iden til brukeren som vil finne sine feil.
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
@@ -94,7 +94,7 @@ module.exports = class BrukerDao extends Dao {
 		);
 	}
 
-  /**
+	/**
    * En metode for å finne alle feil som en bruker har opprettet som har blitt oppdatert siden sist innlogging.
    * @param {number} bruker_id - Iden til brukeren som vil finne oppdaterte feil.
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
@@ -107,7 +107,7 @@ module.exports = class BrukerDao extends Dao {
 		);
 	}
 
-  /**
+	/**
    * Metode som finner alle feil som brukeren har opprettet som ikke har blitt oppdatert siden sist innlogging.
    * @param {number} bruker_id - Iden til brukeren.
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
@@ -120,7 +120,7 @@ module.exports = class BrukerDao extends Dao {
 		);
 	}
 
-  /**
+	/**
    * Metode som oppdaterer tidspunktet for innlogging i databasen. Brukes for å finne oppdaterte feil siden sist innlogging.
    * @param {number} bruker_id - Iden til brukeren.
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
@@ -130,7 +130,7 @@ module.exports = class BrukerDao extends Dao {
 	}
 
 	//testes
-  /**
+	/**
    * Metode for å finne alle feilene som en bruker abonnerer på.
    * @param {number} bruker_id - Iden til brukeren
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
@@ -144,7 +144,7 @@ module.exports = class BrukerDao extends Dao {
 	}
 
 	//testes
-  /**
+	/**
    * Finner alle hendelsene som en bruker abonnerer på.
    * @param {number} bruker_id - Iden til brukeren.
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
@@ -158,7 +158,7 @@ module.exports = class BrukerDao extends Dao {
 	}
 
 	//testes
-  /**
+	/**
    * Metode for å opprette en ny privatbruker.
    * @param {json} json - En json med all informasjonen til den nye privatbrukeren.
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
@@ -187,7 +187,7 @@ module.exports = class BrukerDao extends Dao {
 	}
 
 	//testes
-  /**
+	/**
    * Metode for å opprette en ny ansattbruker.
    * @param {json} json - En json med all informasjonen til den nye ansattbrukeren.
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
@@ -216,7 +216,7 @@ module.exports = class BrukerDao extends Dao {
 	}
 
 	//testes
-  /**
+	/**
    * Metode for å opprette en ny bedriftbruker.
    * @param {json} json - En json med all informasjonen til den nye bedriftbrukeren.
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
@@ -244,7 +244,7 @@ module.exports = class BrukerDao extends Dao {
 	}
 
 	//testes
-  /**
+	/**
    * Metode for å opprette en ny adminbruker.
    * @param {json} json - En json med all informasjonen til den nye adminbrukeren.
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
@@ -271,7 +271,7 @@ module.exports = class BrukerDao extends Dao {
 		});
 	}
 
-  /**
+	/**
    * Metode for å finne en bruker ved å søke på eposten.
    * @param {json} json - en json med eposten til brukeren.
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
@@ -284,16 +284,16 @@ module.exports = class BrukerDao extends Dao {
 	}
 
 	//testes
-  /**
+	/**
    * Metode for å hente brukerinformasjon ved hjelp av bruker-iden.
    * @param {number} bruker_id - Iden til brukeren.
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
    */
 	hentBrukerPaaid(bruker_id, callback) {
-		super.query('SELECT * FROM bruker WHERE bruker_id = ?', [bruker_id], callback);
+		super.query('SELECT * FROM bruker WHERE bruker_id = ?', [ bruker_id ], callback);
 	}
 
-  /**
+	/**
    * Metode for å hente en liste med alle brukere.
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
    */
@@ -302,7 +302,7 @@ module.exports = class BrukerDao extends Dao {
 	}
 
 	//testes
-  /**
+	/**
    * Metode for å endre passord for en bruker.
    * @param {json} json - En json med den nye hashede passordet og eposten til brukeren.
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
@@ -312,7 +312,7 @@ module.exports = class BrukerDao extends Dao {
 		super.query('UPDATE bruker SET passord=? WHERE epost=?', tabell, callback);
 	}
 
-  /**
+	/**
    * Metode for å hente rollen til en bruker.
    * @param {json} json - en json med eposten til brukeren.
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
@@ -328,7 +328,7 @@ module.exports = class BrukerDao extends Dao {
 		);
 	}
 
-  /**
+	/**
    * Metode for adminbrukere så de kan oppdatere alle brukere. 
    * @param {json} json - Tar en json med rolle, og all annen informasjon som trengs for å oppdatere en bruker.
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
@@ -377,7 +377,8 @@ module.exports = class BrukerDao extends Dao {
 		}
 	}
 
-  /**
+  //TESTES
+	/**
    * Metode for en innlogget bruker så de kan oppdatere egne kontoinnstillinger.
    * @param {json} json - En json med all ny informasjon.
    * @param {json} rolle - En json med rollen og iden til brukeren.
@@ -385,7 +386,7 @@ module.exports = class BrukerDao extends Dao {
    */
 	oppdaterSpesifisertBruker(json, rolle, callback) {
 		console.log('inne i oppdaterSpesifisertBruker');
-		if (rolle.rolle == 'privat' || rolle == 'admin') {
+		if (rolle.rolle == 'privat' || rolle.rolle == 'admin') {
 			console.log('oppdaterer bruker');
 			this.oppdaterBruker(json, rolle, (status, data) => {
 				console.log('oppdaterer privat');
@@ -395,7 +396,7 @@ module.exports = class BrukerDao extends Dao {
 					callback
 				);
 			});
-		} else if (rolle.rolle == 'bedrift' || rolle == 'admin') {
+		} else if (rolle.rolle == 'bedrift' || rolle.rolle == 'admin') {
 			console.log('oppdaterer bruker');
 			this.oppdaterBruker(json, rolle, (status, data) => {
 				console.log('oppdaterer bedrift');
@@ -405,7 +406,7 @@ module.exports = class BrukerDao extends Dao {
 					callback
 				);
 			});
-		} else if (rolle.rolle == 'ansatt' || rolle == 'admin') {
+		} else if (rolle.rolle == 'ansatt' || rolle.rolle == 'admin') {
 			console.log('oppdaterer bruker');
 			this.oppdaterBruker(json, rolle, (status, data) => {
 				console.log('oppdaterer ansatt');
@@ -427,8 +428,8 @@ module.exports = class BrukerDao extends Dao {
 			});
 		}
 	}
-  
-  /**
+
+	/**
    * Metode for å oppdatere brukertabellen. Blir brukt i {@link oppdaterSpesifisertBrukerAdmin}
    * @param {json} json - En json med all ny informasjon til brukeren.
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
@@ -441,7 +442,8 @@ module.exports = class BrukerDao extends Dao {
 		);
 	}
 
-  /**
+	//TESTES
+	/** 
    * Metode for å oppdatere brukertabellen. Blir brukt i {@link oppdaterSpesifisertBruker}
    * @param {json} json - En json med all ny informasjon til brukeren.
    * @param {json} rolle - En json med rollen og iden til brukeren.
@@ -455,7 +457,7 @@ module.exports = class BrukerDao extends Dao {
 		);
 	}
 
-  /**
+	/**
    * Metode for å sjekke om en spesifisert feil er registrert i en spesifisert kommune.
    * @param {json} json - En json med iden til kommunen og feilen.
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
@@ -468,7 +470,7 @@ module.exports = class BrukerDao extends Dao {
 		);
 	}
 
-  /**
+	/**
    * En metode for å hente alle bedriftsbrukere.
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
    */
@@ -476,7 +478,7 @@ module.exports = class BrukerDao extends Dao {
 		super.query('SELECT * FROM bedrift', [], callback);
 	}
 
-  /**
+	/**
    * Metode for å hente all brukerinformasjonen til en spesifisert bruker med en spesifisert rolle.
    * @param {number} bruker_id - Iden til brukeren
    * @param {string} rolle - Rollen til brukeren
