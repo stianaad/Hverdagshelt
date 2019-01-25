@@ -293,6 +293,18 @@ router.get('/api/brukerhendelser', checkToken, (req, res) => {
   }
 });
 
+router.put('/api/admin/brukere', checkToken, (req ,res) => {
+  if (req.decoded.role == 'admin') {
+    brukerDao.oppdaterSpesifisertBrukerAdmin(req.body, (status, data) => {
+      res.status(status);
+      res.json(data);
+    });
+  } else {
+    res.status(403);
+    res.json({resultat: false});
+  }
+});
+
 router.put('/api/brukere', checkToken, (req, res) => {
   let rolle = { bruker_id: req.decoded.user.bruker_id, rolle: req.decoded.role };
   console.log(rolle);

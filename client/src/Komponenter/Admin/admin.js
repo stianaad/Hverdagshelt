@@ -8,6 +8,7 @@ import { Grid, Button, Input, Select, List, Card, Feed } from 'semantic-ui-react
 import { KommuneInput } from '../../Moduler/kommuneInput/kommuneInput';
 import { brukerService } from '../../services/brukerService';
 import { InfoBoks } from '../../Moduler/info/info';
+import { EndreBrukerModal } from '../../Moduler/modaler/endrebrukermodal';
 
 export class Administrasjon extends Component {
   kommune_navn = null;
@@ -27,6 +28,9 @@ export class Administrasjon extends Component {
     { key: 'a', text: 'Administrator', value: 'admin' }];
   brukerType = 'alle';
 
+  bruker = {}
+  brukerModal = false;
+
   async sokBrukere() {
     let res = await brukerService.sokBrukere(this.brukerSok);
     this.brukere = await res.data;
@@ -37,6 +41,7 @@ export class Administrasjon extends Component {
     return (
       <div className="container">
         <PageHeader history={this.props.history} location={this.props.location} />
+        <EndreBrukerModal key={this.bruker+this.brukerModal} bruker={this.bruker} open={this.brukerModal} onLagre={this.sokBrukere} onClose={() => {this.brukerModal = false}} />
         <h1 style={{ textAlign: "center" }}>Administrasjon</h1>
         <Grid columns={3} centered>
           <Grid.Column>
@@ -64,9 +69,9 @@ export class Administrasjon extends Component {
               <Card.Content className="adminBrukerScroll">
                 {this.brukere.filter((bruker) => (this.brukerType == 'alle' || this.brukerType == 'privat' && !!bruker.privat || this.brukerType == 'ansatt' && !!bruker.ansatt || this.brukerType == 'bedrift' && !!bruker.bedrift || this.brukerType == 'admin' && !!bruker.admin)).map((bruker) => (
                   <Feed>
-                    <Feed.Event onClick={() => alert("test")}>
+                    <Feed.Event onClick={() => {this.bruker = bruker; this.brukerModal = true;}}>
                       <Feed.Content>
-                        <Feed.Summary>{!!bruker.admin ? bruker.navn : !!bruker.ansatt ? bruker.fornavn + " " + bruker.etternavn : !!bruker.bedrift ? bruker.navn : !!bruker.privat ? bruker.fornavn + " " + bruker.etternavn : "udefinert"}</Feed.Summary>
+                        <Feed.Summary>{!!bruker.admin ? bruker.anavn : !!bruker.ansatt ? bruker.afnavn + " " + bruker.aenavn : !!bruker.bedrift ? bruker.bnavn : !!bruker.privat ? bruker.pfnavn + " " + bruker.penavn : "udefinert"}</Feed.Summary>
                         <Feed.Date content={bruker.epost} />
                         <Feed.Label>{!!bruker.admin ? "Administrator" : !!bruker.ansatt ? "Kommuneansatt" : !!bruker.bedrift ? "Bedrift" : !!bruker.privat ? "Privatbruker" : "udefinert"}</Feed.Label>
                       </Feed.Content>
