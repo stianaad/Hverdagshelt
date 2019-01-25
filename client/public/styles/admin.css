@@ -26,10 +26,18 @@
 }
 
 .adminRedigerInput {
-    width: calc(100% - 100px);
+    width: calc(100% - 82px);
     margin-right:5px;
 }
 
 .adminRedigerInput input {
+    width:100%;
+}
+
+.adminInput {
+    width:100%;
+}
+
+.adminInput input {
     width:100%;
 }

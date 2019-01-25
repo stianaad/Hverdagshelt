@@ -48,13 +48,8 @@ class BrukerService {
     }
   }
 
-  resettPassord(nyInformasjon) {
-    let token = sessionStorage.getItem('pollett');
-    if(token) {
+  resettPassord(nyInformasjon, token) {
       return api.post('/api/brukere/nyttpassord', nyInformasjon, {headers: {'x-access-token': 'Bearer ' + token}});
-    } else {
-      return [];
-    }
   }
 
   oppdaterSpesifisertBruker(oppdatertBruker) {

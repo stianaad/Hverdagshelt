@@ -116,9 +116,9 @@ export class Minside extends Component {
                   Dine rapporterte feil<InfoBoks key = {'rapportertefeil'} tekst="Trykk på knappen under for å se dine rapporterte feil."/>
                     <br/>
                     {this.alleOppdaterteFeil.length === 0 ? (
-                      <p className="ingenNyeOppdateringer mt-2">Ingen nye oppdateringer<a className="float-right" basic onClick={this.visRapporterteFeil}><img src={this.dropdownPil} height="20" width="20"/> </a></p>
+                      <p className="ingenNyeOppdateringer mt-2">Ingen nye oppdateringer<a className="float-right" basic="true" onClick={this.visRapporterteFeil}><img src={this.dropdownPil} height="20" width="20"/> </a></p>
                     ) : (
-                      <p className="highlight nyeOppdateringer mt-2">{this.alleOppdaterteFeil.length} ny(e) oppdateringer  <a className="float-right" basic onClick={this.visRapporterteFeil}><img src={this.dropdownPil} height="20" width="20"/> </a></p>
+                      <p className="highlight nyeOppdateringer mt-2">{this.alleOppdaterteFeil.length} ny(e) oppdateringer  <a className="float-right" basic="true" onClick={this.visRapporterteFeil}><img src={this.dropdownPil} height="20" width="20"/> </a></p>
                     )}
                 </Card.Header>
               </Card.Content>

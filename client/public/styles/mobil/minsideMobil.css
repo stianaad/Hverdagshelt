@@ -120,3 +120,16 @@
 .modalPopup:hover{
   cursor: pointer;
 }
+
+.highlight {
+    color: yellowgreen;
+}
+
+.ingenNyeOppdateringer {
+  color: red;
+  font-size: 15px;
+}
+
+.nyeOppdateringer{
+  font-size: 15px;
+}

@@ -157,6 +157,14 @@ global.sidePush = (path, hard) => {
   }, 0);
 };
 
+setInterval(()=>{
+  if (global.payload && global.payload.exp < (new Date().getTime()/1000)) {
+    sessionStorage.removeItem('pollett');
+    global.payload = null;
+    global.sidePush("/", true);
+  }
+},60000);
+
 let token = sessionStorage.getItem('pollett');
 if (token) {
   let base64Url = token.split('.')[1];
@@ -179,7 +187,6 @@ const routes = () => {
           />
           <Route exact path="/" component={Forside} history={history} />
           <Route exact path="/hovedside/:kommune" component={Hovedside} history={history} />
-          <Route exact path="/resett-passord/:token" component={ResettPassord} />
           <Route exact path="/hendelser" component={Hendelser}/>
 
           {/*Under ligger spesielle routes*/}
@@ -188,6 +195,7 @@ const routes = () => {
               [
                 <Route exact path="/registrering" key="registrering" component={Registrering} history={history} />,
                 <Route exact path="/glemt-passord" key="glemt-passord" component={GlemtPassord} />,
+                <Route exact path="/resett-passord/:token" key="resett-passord" component={ResettPassord} />,
                 <Redirect from="/meldfeil" key="meldfeil" to="/" />,
                 <Redirect from="/minside" key="minside" to="/" />,
                 <Redirect from="/mineoppgaver" key="mineoppgaver" to="/" />,
