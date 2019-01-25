@@ -9,6 +9,8 @@ import { KommuneInput } from '../../Moduler/kommuneInput/kommuneInput';
 import { brukerService } from '../../services/brukerService';
 import { InfoBoks } from '../../Moduler/info/info';
 import { EndreBrukerModal } from '../../Moduler/modaler/endrebrukermodal';
+import { hendelseService } from '../../services/hendelseService';
+import { feilService } from '../../services/feilService';
 
 export class Administrasjon extends Component {
   kommune_navn = null;
@@ -31,6 +33,65 @@ export class Administrasjon extends Component {
   bruker = {}
   brukerModal = false;
   brukerLaster = false;
+
+  hendelseKategorier = [];
+  hovedKategorier = [];
+  subKategorier = [];
+
+  hendelseKategori = null;
+  hovedKategori = null;
+  subKategori = null;
+
+  nyHendelseKategori = '';
+  nyHovedKategori = '';
+  nySubHovedKategori = null;
+  nySubKategori = '';
+
+  mounted() {
+    this.lastInnKategorier();
+  }
+
+  async lastInnKategorier() {
+    console.log("yeet")
+    let hres = await hendelseService.hentAlleKategorier();
+    this.hendelseKategorier = await hres.data;
+
+    let hfres = await feilService.hentAlleHovedkategorier();
+    this.hovedKategorier = await hfres.data;
+
+    let sfres = await feilService.hentAlleSubkategorier();
+    this.subKategorier = await sfres.data;
+  }
+
+  async lagHendelseKategori() {
+    let res = await hendelseService.opprettHendelseskategori({kategorinavn: this.nyHendelseKategori});
+    Promise.resolve(res.data).then(() => {this.nyHendelseKategori = ''; this.lastInnKategorier()});
+  }
+
+  async lagHovedKategori() {
+    let res = await feilService.opprettHovedkategori({kategorinavn: this.nyHovedKategori});
+    Promise.resolve(res.data).then(() => {this.nyHovedKategori = ''; this.lastInnKategorier()});
+  }
+
+  async lagSubKategori() {
+    let res = await feilService.opprettSubkategori({kategorinavn: this.nySubKategori, hovedkategori_id: this.nySubHovedKategori});
+    Promise.resolve(res.data).then(() => {this.nySubKategori = ''; this.lastInnKategorier()});
+  }
+
+  async slettHendelseKategori() {
+    let res = await hendelseService.slettHendelseKategori(this.hendelseKategori);
+    Promise.resolve(res.data).then(() => {this.hendelseKategori = null; this.lastInnKategorier()});
+  }
+
+  async slettHovedKategori() {
+    let res = await feilService.slettHovedkategori(this.hovedKategori);
+    Promise.resolve(res.data).then(() => {this.hovedKategori = null; this.lastInnKategorier()});
+  }
+
+  async slettSubKategori() {
+    let res = await feilService.slettSubkategori(this.subKategori);
+    Promise.resolve(res.data).then(() => {this.subKategori = null; this.lastInnKategorier()});
+  }
 
   async sokBrukere() {
     if (this.brukerSok.length > 0) {
@@ -95,18 +156,19 @@ export class Administrasjon extends Component {
             <h2>Kategorier</h2>
             <h3>Hendelseskategorier</h3>
             <h5>Ny kategori:</h5>
-            <Input className="adminSendInput" placeholder="Kategorinavn" /><Button>Send</Button>
-            <h5>Rediger kategorier:</h5>
-            <Select className="adminRedigerInput" placeholder="Kategorier" /><Button>Rediger</Button>
+            <Input className="adminSendInput" value={this.nyHendelseKategori} onChange={(e,{value}) => this.nyHendelseKategori = value} placeholder="Kategorinavn" /><Button onClick={this.lagHendelseKategori} disabled={this.nyHendelseKategori==''}>Send</Button>
+            <h5>Slett kategorier:</h5>
+            <Select className="adminRedigerInput" value={this.hendelseKategori} onChange={(e,{value}) => this.hendelseKategori=value} placeholder="Kategorier" options={this.hendelseKategorier.map((kat) => ({key:kat.hendelseskategori_id, text: kat.kategorinavn, value: kat.hendelseskategori_id}))} /><Button onClick={this.slettHendelseKategori} disabled={this.hendelseKategori==null}>Slett</Button>
             <h3>Feilkategorier</h3>
             <h5>Ny hovedkategori:</h5>
-            <Input className="adminSendInput" placeholder="Kategorinavn" /><Button>Send</Button>
-            <h5>Rediger hovedkategorier:</h5>
-            <Select className="adminRedigerInput" placeholder="Kategorier" /><Button>Rediger</Button>
+            <Input className="adminSendInput" value={this.nyHovedKategori} onChange={(e,{value}) => this.nyHovedKategori = value} placeholder="Kategorinavn" /><Button onClick={this.lagHovedKategori} disabled={this.nyHovedKategori==''}>Send</Button>
+            <h5>Slett hovedkategorier:</h5>
+            <Select className="adminRedigerInput" placeholder="Hovedkategorier" value={this.hovedKategori} onChange={(e,{value}) => this.hovedKategori=value} options={this.hovedKategorier.map((kat) => ({key:kat.hovedkategori_id, text: kat.kategorinavn, value: kat.hovedkategori_id}))}/><Button onClick={this.slettHovedKategori} disabled={this.hovedKategori==null}>Slett</Button>
             <h5>Ny subkategori:</h5>
-            <Input className="adminSendInput" placeholder="Kategorinavn" /><Button>Send</Button>
-            <h5>Rediger subkategorier:</h5>
-            <Select className="adminRedigerInput" placeholder="Kategorier" /><Button>Rediger</Button>
+            <Select style={{marginBottom:"5px"}} className="adminInput" value={this.nySubHovedKategori} onChange={(e,{value}) => this.nySubHovedKategori=value} placeholder="Hovedkategorier" options={this.hovedKategorier.map((kat) => ({key:kat.hovedkategori_id, text: kat.kategorinavn, value: kat.hovedkategori_id}))} />
+            <Input className="adminSendInput" value={this.nySubKategori} onChange={(e,{value}) => this.nySubKategori = value} placeholder="Subkategorier" /><Button onClick={this.lagSubKategori} disabled={this.nySubKategori==''||this.nySubHovedKategori==null}>Send</Button>
+            <h5>Slett subkategorier:</h5>
+            <Select className="adminRedigerInput" placeholder="Subkategorier" value={this.subKategori} onChange={(e,{value}) => this.subKategori=value} options={this.subKategorier.filter((kat) => true).map((kat) => ({key:kat.subkategori_id, text: kat.hovednavn + " > " + kat.kategorinavn, value: kat.subkategori_id}))} /><Button onClick={this.slettSubKategori} disabled={this.subKategori==null}>Slett</Button>
           </Grid.Column>
         </Grid>
       </div>
