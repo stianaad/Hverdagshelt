@@ -314,7 +314,7 @@ export class Hovedside extends Component {
                       <Grid.Column>
                         <h6><b>Beskrivelse:</b></h6>
                         <div class="hovedSideFeilBeskrivelse">{this.feil.beskrivelse.split("\n").map((tekst) => (
-                          <p key={tekst}>{tekst}</p>))}
+                          <p >{tekst}</p>))}
                         </div>
                       </Grid.Column>
                       <Grid.Column>
@@ -465,8 +465,8 @@ f                      id="test"
                           />
                           <br />
                           <div id="hendelseKnapper">
-                            <a href={this.hendelse.billett} target="_blank"><Button color="green">Kjøp billetter</Button></a>
-                            <AbonnerKnapp style={{float:"right", width:"90px"}} key={this.hendelse.hendelse_id} hendelse_id={this.hendelse.hendelse_id} />
+                            {this.hendelse.billett && <a href={this.hendelse.billett} target="_blank"><Button color="green" style={{height:"33.5px"}}>Kjøp billetter</Button></a>}
+                            {(global.payload && global.payload.role == 'privat') && <AbonnerKnapp style={{float:"right", width:"90px"}} key={this.hendelse.hendelse_id} hendelse_id={this.hendelse.hendelse_id} />}
                           </div>
                           <br />
 
@@ -487,7 +487,7 @@ f                      id="test"
                         </Grid.Column>
                         <Grid.Column>
                           <div id="hendelseBeskrivelse">{this.hendelse.beskrivelse.split("\n").map((tekst) => (
-                            <p key={tekst}>{tekst}</p>))}
+                            <p >{tekst}</p>))}
                           </div>
                         </Grid.Column>
                       </Grid>

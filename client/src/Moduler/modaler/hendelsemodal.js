@@ -43,7 +43,7 @@ export class HendelseModal extends Component {
                       <Grid.Column>
                         <h6><b>Detaljer:</b></h6>
                         <div className="hendelseModalBeskrivelse">{this.props.hendelse.beskrivelse.split("\n").map((tekst) => (
-                          <p key={tekst}>{tekst}</p>))}
+                          <p >{tekst}</p>))}
                         </div>
                       </Grid.Column>
                     </Grid>

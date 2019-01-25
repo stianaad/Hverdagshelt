@@ -256,6 +256,7 @@ export class NyeFeil extends Component {
         "kommentar": 'Ansatt har godkjent feil', 
         "status_id": 2
       });
+      
       await console.log("oppdaterer");
       await feilService.oppdaterFeil({
         kommune_id : global.payload.user.kommune_id, 
@@ -269,13 +270,6 @@ export class NyeFeil extends Component {
       await console.log("ferdig");
   }
 
-  /*async lagre(){
-    await feilService.lagOppdatering({
-      "feil_id": this.valgtfeil.feil_id,
-      "kommentar": 'Ansatt har godkjent feil', 
-      "status_id": 2
-    });
-  }*/
 
   scroll() {
     if (this.nyefeil.length > 5) {

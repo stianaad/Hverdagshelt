@@ -5,6 +5,7 @@ import {Router, Route, NavLink, Redirect, Switch} from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import {BildeTest} from './bildetest';
 import {MeldFeil} from './Komponenter/MeldFeil/meldFeil';
+import {Statistikk} from './Komponenter/Statistikk/statistikk';
 import Popup from 'reactjs-popup';
 import {Registrering} from './Komponenter/Registrering/registrering';
 import {RegistrerBedrift} from './Komponenter/Registrering/registrerBedrift';
@@ -43,6 +44,7 @@ import {AnsattGodkjent} from './Komponenter/Ansatt/ansattGodkjent';
 import { AlleBedrifter } from './Komponenter/Ansatt/alleBedrifter';
 
 import { Administrasjon } from './Komponenter/Admin/admin';
+import 'semantic-ui-css/semantic.min.css';
 
 //<PositionMap width="100%" height="500px" id="posmap" center="Oslo" position={this.posisjon}></PositionMap>
 class Menu extends Component {
@@ -233,6 +235,8 @@ const routes = () => {
 
           <Route exact path="/headertest" component={PageHeader} history={history} />
           <Route exact path="/bedriftsoppgaver" component={Bedrift} history={history} />
+
+          <Route exact path="/statistikk" component={Statistikk} history={history} />
 
           {/*Siden eksisterer ikke/ingen tilgang*/}
           <Route component={FireNullFire} history={history} />
