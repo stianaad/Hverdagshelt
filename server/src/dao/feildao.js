@@ -419,12 +419,3 @@ module.exports = class FeilDao extends Dao {
     super.query('SELECT epost FROM bruker b INNER JOIN feil f ON b.bruker_id = f.bruker_id WHERE f.feil_id = ?', [json.feil_id], callback);
   }
 };
-
-
-
-/*
-kategori(kategori_id, hoved, kategori)
-feil(feil_id, kommune_id*, kategori_id*, status_id*, beskrivelse, bilde, lengdegrad, breddegrad)
-status(status_id, status)
-oppdatering(feil_id*, tid, kommentar, status*, bruker_id*)
-*/

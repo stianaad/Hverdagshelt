@@ -314,7 +314,7 @@ export class Hovedside extends Component {
                       <Grid.Column>
                         <h6><b>Beskrivelse:</b></h6>
                         <div class="hovedSideFeilBeskrivelse">{this.feil.beskrivelse.split("\n").map((tekst) => (
-                          <p key={tekst}>{tekst}</p>))}
+                          <p >{tekst}</p>))}
                         </div>
                       </Grid.Column>
                       <Grid.Column>
@@ -487,7 +487,7 @@ f                      id="test"
                         </Grid.Column>
                         <Grid.Column>
                           <div id="hendelseBeskrivelse">{this.hendelse.beskrivelse.split("\n").map((tekst) => (
-                            <p key={tekst}>{tekst}</p>))}
+                            <p >{tekst}</p>))}
                           </div>
                         </Grid.Column>
                       </Grid>
@@ -508,13 +508,13 @@ f                      id="test"
                     Kommende hendelser
                     <InfoBoks tekst="Her finner du kulturarrangementer og planlagt arbeid på infrastruktur for kommunen." />
                     <select
-                      onChange={(e) => {this.feilKategori = e.target.value;}}
+                      onChange={(e) => {this.filterHendelse = e.target.value;}}
                       className="form-control right floated meta"
                       style={{height: "30px", width: "100%", marginTop:"10px"}}
                     >
                       <option hidden> Filter </option>
                       <option value="0"> Alle kategorier </option>
-                      {this.alleKategorier.map((kategori) => (
+                      {this.hendelseKategori.map((kategori) => (
                         <option value={kategori.kategorinavn} key={kategori.kategorinavn}>
                           {' '}
                           {kategori.kategorinavn}
@@ -524,8 +524,8 @@ f                      id="test"
                   </Card.Header>
                     </Card.Content>
                     <Card.Content className='hovedsideTabeller'>
-                      <Feed>
-                        {this.alleHendelser.map((hendelse) => (
+                    <Feed>
+                        {this.alleHendelser.filter(kat => ((kat.kategorinavn == this.filterHendelse) || this.filterHendelse == "0")).map((hendelse) => (
                           <FeedHendelse
                             onClick={() => {
                               this.visEnHendelse(hendelse);
@@ -534,8 +534,7 @@ f                      id="test"
                             //status ={feil.status}
                             tid={hendelse.tid}
                             kategori={hendelse.kategorinavn}
-                            key={hendelse.hendelse_id}
-                          >
+                            key={hendelse.hendelse_id}>
                             {hendelse.overskrift}
                           </FeedHendelse>
                         ))}

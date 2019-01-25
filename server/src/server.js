@@ -6,6 +6,8 @@ import fs from 'fs';
 var app = express();
 import path from 'path';
 app.use(bodyParser.json()); // for å tolke JSON
+//app.use(bodyParser.json({limit: '1000mb', extended: true}))
+//app.use(bodyParser.urlencoded({limit: '1000mb', extended: true}))
 
 const public_path = path.join(__dirname, '/../../client/public');
 app.use(express.static(public_path));
@@ -18,6 +20,8 @@ import feil from './api/feil.js';
 app.use(feil);
 import hendelse from './api/hendelse.js';
 app.use(hendelse);
+import statistikk from './api/statistikk.js';
+app.use(statistikk);
 
 import jwt from 'jsonwebtoken';
 import secret from './config.json';
