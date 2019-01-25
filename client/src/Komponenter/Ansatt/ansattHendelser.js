@@ -90,7 +90,7 @@ export class AnsattHendelser extends Component {
             <Footer/>
           </div>
         </div>
-        <Modal open={this.open} onClose={() => (this.open = false)}>
+        <Modal open={this.open} onClose={() => (this.open = false)} style={{height: '90vh'}}>
           <Modal.Content scrolling>
             <div className="row justify-content-md-center mt-3 mb-3">
               <div className="col-sm-6 ansattContent">
