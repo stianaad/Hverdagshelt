@@ -1,12 +1,9 @@
-#bar {
-  overflow-x: scroll;
-  zoom: 65%;
-  margin-left: 15%;
-  margin-right: 10%;
-}
-
-#lastNedBtn {
+#statMeny {
   position: fixed;
   top: 50%;
-  left: 2%;
+  right: 1%;
+}
+
+#lastNedPDFBtn {
+  float: right;
 }

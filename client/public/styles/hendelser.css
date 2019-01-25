@@ -4,6 +4,16 @@
   margin-top: 10px;
 }
 
+/*#ansattHendelser > div > div > button {
+  position: absolute;
+  bottom: 0;
+}*/
+
+#ansattHendelser {
+  width: 100% !important;
+}
+
+
 .dato {
   height: 5%;
   width: 15%;

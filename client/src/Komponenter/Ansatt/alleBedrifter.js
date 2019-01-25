@@ -13,6 +13,8 @@ import { brukerService } from '../../services/brukerService';
 
 export class AlleBedrifter extends Component{
     bedrifter = [];
+    aktivBedrift = [];
+    className = '';
     bedApen = false; 
     feilApen = false; 
     valgtBed = '';
@@ -35,12 +37,14 @@ export class AlleBedrifter extends Component{
 
     async hentFeil(bed){
         let res1 = await feilService.hentFerdigeFeilForAnsatt(bed.orgnr);
-        this.feilHosBedrift = await res1.data; 
+        this.feilHosBedrift = await res1.data;
+
+        this.aktivBedrift = this.bedrifter.find(bedrift => (bed.orgn=bedrift.orgnr));
 
         if(this.feilHosBedrift.length > 0){
             this.tekst = "Trykk på en feil for å se mer informasjon";
         }else{
-            this.tekst = "Denne bedriften har fullført noen oppgaver i denne kommunen."
+            this.tekst = "Denne bedriften har ikke fullført noen oppgaver i denne kommunen."
         }
     }
 
@@ -75,15 +79,14 @@ export class AlleBedrifter extends Component{
                                     </Card.Content>
                                     <Card.Content className="hoydeTabell">
                                         {this.bedrifter.map((bed) => (
-                                            <Feed>
+                                            <Feed style={{cursor:"pointer"}}>
                                                 <Feed.Event onClick={() => this.openBed(bed)}>
                                                     <Feed.Content>
                                                         <Feed.Summary>{bed.navn}</Feed.Summary>
                                                         <Feed.Date content={bed.telefon}/>
                                                     </Feed.Content>
                                                 </Feed.Event>  
-                                            </Feed>
-                                                                 
+                                            </Feed>           
                                         ))}
                                     </Card.Content>
                                 </Card>
@@ -99,7 +102,7 @@ export class AlleBedrifter extends Component{
                                                     <div>
                                                         <List divided relaxed style={{height: '50%', overflow: 'auto'}}>
                                                             {this.feilHosBedrift.map((feil) => (
-                                                                <List.Item onClick={() => this.visFeil(feil)}>
+                                                                <List.Item style={{cursor:"pointer"}} onClick={() => this.visFeil(feil)}>
                                                                     <List.Content>
                                                                         <List.Header>{feil.overskrift}</List.Header>
                                                                         <List.Description>{feil.tid}</List.Description>
@@ -135,7 +138,12 @@ export class AlleBedrifter extends Component{
                                                             </Grid.Column>
                                                         </Grid>
                                                     ):(
-                                                        <p>{this.tekst}</p>
+                                                        <span>
+                                                            <p>{this.tekst} </p>
+                                                            <p><strong>Kontaktinformasjon:</strong></p>
+                                                            <p>Telefonnr: {this.aktivBedrift.telefon}</p>
+                                                            <p>E-post: {this.aktivBedrift.epost}</p>
+                                                        </span>
                                                     )}
                                                 </Grid.Column>
                                             </Grid>

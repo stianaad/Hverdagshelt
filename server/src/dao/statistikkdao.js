@@ -22,7 +22,7 @@ module.exports = class StatistikkDao extends Dao {
 
   //TESTES
   /**
-   * Teller alle feilene og returnerer antallet. 
+   * Teller alle feilene og returnerer antallet.
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
    */
   hentAlleFeil(callback) {
@@ -33,7 +33,7 @@ module.exports = class StatistikkDao extends Dao {
 
   //TESTES
   /**
-   * Teller alle feilene i en valgt kommune. 
+   * Teller alle feilene i en valgt kommune.
    * @param {number} kommune_id - Iden til kommunen du vil finne feilene til.
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
    */
@@ -111,12 +111,12 @@ module.exports = class StatistikkDao extends Dao {
   }
 
   /**
-   * Henter og teller alle feilene som blir gjort per fylke. 
+   * Henter og teller alle feilene som blir gjort per fylke.
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
    */
   feilPerFylke(callback) {
     super.query(
-      'SELECT kommuner.fylke_navn, COUNT(*) as antall FROM feil JOIN kommuner ON feil.kommune_id = kommuner.kommune_id GROUP BY kommuner.fylke_navn ORDER BY kommuner.fylke_navn ASC', null, callback
+      'SELECT kommuner.fylke_navn as navn, COUNT(*) as antall FROM feil JOIN kommuner ON feil.kommune_id = kommuner.kommune_id GROUP BY kommuner.fylke_navn ORDER BY kommuner.fylke_navn ASC', null, callback
     );
   }
 
@@ -127,7 +127,7 @@ module.exports = class StatistikkDao extends Dao {
    */
   hentFeilPerSubkategori(callback) {
     super.query(
-      'SELECT subkategori.kategorinavn, COUNT(*) as antall FROM feil JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id GROUP BY subkategori.kategorinavn ORDER BY subkategori.kategorinavn ASC', null, callback
+      'SELECT subkategori.kategorinavn as navn, COUNT(*) as antall FROM feil JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id GROUP BY subkategori.kategorinavn ORDER BY subkategori.kategorinavn ASC', null, callback
     );
   }
 
@@ -148,7 +148,7 @@ module.exports = class StatistikkDao extends Dao {
    */
   hentFeilPerHovedkategori(callback) {
     super.query(
-      'SELECT hovedkategori.kategorinavn, COUNT(*) as antall FROM feil JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id JOIN hovedkategori ON subkategori.hovedkategori_id = hovedkategori.hovedkategori_id GROUP BY hovedkategori.kategorinavn ORDER BY hovedkategori.kategorinavn ASC', null, callback
+      'SELECT hovedkategori.kategorinavn as navn, COUNT(*) as antall FROM feil JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id JOIN hovedkategori ON subkategori.hovedkategori_id = hovedkategori.hovedkategori_id GROUP BY hovedkategori.kategorinavn ORDER BY hovedkategori.kategorinavn ASC', null, callback
     );
   }
 
@@ -165,7 +165,7 @@ module.exports = class StatistikkDao extends Dao {
   }
 
   /**
-   * Henter antall feil i alle fylker i et valgt intervall. 
+   * Henter antall feil i alle fylker i et valgt intervall.
    * @example
    * statistikkDao.hentFeilPerFylkePaaIntervall(365, (status, data) => {dinFunksjon})
    * @param {number} intervall - antall dager intervallet skal gå bakover i tid.
@@ -176,9 +176,9 @@ module.exports = class StatistikkDao extends Dao {
       'SELECT kommuner.fylke_navn, COUNT(DISTINCT feil.feil_id) as antall FROM feil JOIN kommuner ON feil.kommune_id = kommuner.kommune_id JOIN oppdatering ON feil.feil_id = oppdatering.feil_id WHERE oppdatering.tid > CURRENT_TIMESTAMP - INTERVAL ? day GROUP BY kommuner.fylke_navn ORDER BY kommuner.fylke_navn ASC', [intervall], callback
     );
   }
-  
+
   /**
-   * Henter antall feil i alle kommuner i et valgt intervall. 
+   * Henter antall feil i alle kommuner i et valgt intervall.
    * @example
    * statistikkDao.hentFeilPerKommunePaaIntervall(7, (status, data) => {dinFunksjon})
    * @param {number} intervall - antall dager intervallet skal gå tilbake i tid.

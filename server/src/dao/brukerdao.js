@@ -475,7 +475,7 @@ module.exports = class BrukerDao extends Dao {
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
    */
 	hentBedrifter(callback) {
-		super.query('SELECT * FROM bedrift', [], callback);
+		super.query("SELECT bedrift.*,bruker.epost FROM `bedrift`,bruker WHERE bedrift.bruker_id=bruker.bruker_id", [], callback);
 	}
 
 	/**
