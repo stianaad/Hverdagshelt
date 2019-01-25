@@ -83,6 +83,11 @@ nav ul{
    bottom: 0px;
 }
 
+.adminHoved {
+   position: absolute;
+   left:18.5px;
+}
+
 .hovedKort {
    height: 100%;
    width: 325px !important;

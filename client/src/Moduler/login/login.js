@@ -113,7 +113,7 @@ export class Login extends Component {
         } else if (global.payload.role == 'bedrift') {
           global.sidePush('/mineoppgaver', true);
         } else if (global.payload.role == 'admin') {
-          global.sidePush('/administrasjon', true);
+          global.sidePush('/admin/startside', true);
         }
       }
     } else {

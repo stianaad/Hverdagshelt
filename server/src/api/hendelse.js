@@ -50,7 +50,7 @@ router.post('/api/hendelser', upload.array('bilder', 1), checkToken, (req, res) 
     let a = {
       bruker_id: req.decoded.user.bruker_id,
       hendelseskategori_id: req.body.hendelseskategori_id,
-      kommune_id: req.decoded.user.kommune_id,
+      kommune_id: (rolle == 'ansatt') ? req.decoded.user.kommune_id : req.body.kommune_id,
       overskrift: req.body.overskrift,
       tid: req.body.tid,
       beskrivelse: req.body.beskrivelse,

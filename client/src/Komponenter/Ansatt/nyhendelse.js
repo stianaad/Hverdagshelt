@@ -7,10 +7,13 @@ import {
   Popup,
 } from 'semantic-ui-react';
 import { AnsattMeny } from './ansattMeny';
-import { hendelseService } from '../../services/hendelseService'
+import { hendelseService } from '../../services/hendelseService';
+import {generellServices} from '../../services/generellServices';
+import {AdminMeny} from '../Admin/adminMeny';
 
 
 export class NyHendelse extends Component {
+  kommune = null;
   kategorier = [];
   overskrift = "";
   beskrivelse = "";
@@ -33,7 +36,7 @@ export class NyHendelse extends Component {
       <div>
         <PageHeader history={this.props.history} location={this.props.location} />
         <div className="vinduansatt">
-          <AnsattMeny />
+        {global.payload.role == 'ansatt' ? <AnsattMeny/> : (global.payload.role == 'admin') ? <AdminMeny kommune={this.kommune}/> : null}
           <div className="row justify-content-md-center mt-3 mb-3">
             <div className="col-sm-6 ansattContent">
               <h1 className="mt-3">Ny hendelse</h1>
@@ -126,6 +129,7 @@ export class NyHendelse extends Component {
     formData.append("sted", this.adresse);
     formData.append("billett", this.url);
     formData.append('bilder', file, file.name);
+    if (global.payload.role == 'admin') formData.append("kommune_id",this.kommune.kommune_id);
 
     let token = sessionStorage.getItem('pollett');
     if (token) {
@@ -147,5 +151,15 @@ export class NyHendelse extends Component {
     let kat = await hendelseService.hentAlleKategorier();
     this.kategorier = await kat.data;
     await console.log(kat.data);
+
+    if (global.payload.role == 'admin') {
+      let res = await generellServices.sokKommune(this.props.match.params.kommune);
+      await Promise.resolve(res.data).then(async () => {
+          if (res.data.length > 0) {
+              this.kommune = res.data[0];
+              console.log(this.kommune)
+          }
+      });
+    }
   }
 }
