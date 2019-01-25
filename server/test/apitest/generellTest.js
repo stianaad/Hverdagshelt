@@ -76,25 +76,17 @@ let oppdaterFeil1 = {
 };
 
 let testhendelse = {
+  bruker_id = 10,
   hendelseskategori_id: 1,
   kommune_id: 54,
   overskrift: 'testoverskrift',
-  tid: '2019-11-20',
   beskrivelse: 'testbeskrivelse',
   sted: 'teststed',
   bilde: 'https://bjornost.tihlde.org/hverdagshelt/19af4f8c745a62973e2cd615eaf329fa',
   billett: 'https://tihlde.hoopla.no/sales/bowlingkveld',
   hendelse_id: 1
 };
-/*
-beforeAll((done) => {
-  runsqlfile('lagtabeller.sql', pool, () => {
-    runsqlfile('fylkekommunedata.sql', pool, () => {
-      runsqlfile('datatest.sql', pool, done);
-    });
-  });
-});
-*/
+
 beforeAll((done) => {
   runsqlfile('bjornost.sql', pool, done);
 });
