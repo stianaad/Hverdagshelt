@@ -427,7 +427,6 @@ export class Minside extends Component {
 
   async visRapporterteFeil() {
     this.visFeil = !this.visFeil;
-    console.log(this.oppdaterteFeil);
     if (this.visFeil) {
       if(this.alleIkkeOppdaterteFeil.length.length > 0 ){
         this.ikkeOppdaterteFeil = this.alleIkkeOppdaterteFeil;

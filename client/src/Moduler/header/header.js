@@ -12,7 +12,6 @@ export class ProfileButton extends Component {
   mounted() {
     this.loggetInn = global.payload != undefined;
     this.brukerType = global.payload != undefined ? global.payload.role : null;
-    console.log(this.brukerType);
   }
 
   loggut() {

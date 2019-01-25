@@ -34,7 +34,7 @@ export class AbonnerKnapp extends Component {
             let res = await brukerService.finnFolgteHendelserTilBruker();
             this.abonnert = await (res.data.filter((a) => a.hendelse_id == this.props.hendelse_id).length > 0);
         } else {
-            console.log("ERROR VENNLIGST GI MEG EN ID");
+          
         }
     }
 

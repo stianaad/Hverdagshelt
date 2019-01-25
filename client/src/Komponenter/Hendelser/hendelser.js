@@ -50,7 +50,6 @@ export class Hendelser extends Component {
     this.visFylke = false;
     document.getElementById("fylke").value = 0;
     document.getElementById("kategori").value = 0;
-    console.log(this.skrivKategori);
     document.getElementById("til").valueAsDate = null;
     document.getElementById("fra").valueAsDate = null;
     //var dateControl = document.querySelector('input[type="date"]');
@@ -308,7 +307,6 @@ export class Hendelser extends Component {
     }
     this.hendelser = await res1.data;
     this.aktiveHendelser = await res1.data;
-    console.log(this.hendelser);
     this.hentData();
   }
 }

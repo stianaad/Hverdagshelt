@@ -117,15 +117,12 @@ export class Login extends Component {
         }
       }
     } else {
-      console.log(res.result);
       this.advarsel = 'Feil brukernavn eller passord!';
     }
   }
 
   async login() {
-    console.log(this.data);
     let res = await brukerService.loggInn(this.data);
-    //await console.log(res.data.result);
     await this.sjekkPassord(res.data);
   }
 }

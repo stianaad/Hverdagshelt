@@ -22,7 +22,6 @@ class HendelseService {
   }
 
   slettHendelseKategori(hendelse_id){
-    console.log("Service");
     let token = sessionStorage.getItem('pollett');
     if(token) {
       return api.delete('/api/hendelser/hendelseskategorier/'+hendelse_id,{headers: {'x-access-token': 'Bearer ' + token}});
@@ -40,7 +39,6 @@ class HendelseService {
   }
 
   hentAlleHovedkategorier() {
-    console.log("service")
     return api.get('/api/hendelser/hoved/kategorier');
   }
 

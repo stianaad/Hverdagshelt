@@ -26,12 +26,10 @@ export class RedigerModal extends Component {
     let res = await feilService.hentBilderTilFeil(this.props.feil.feil_id);
     this.bilderTilFeil = res.data; 
     this.feil = await {...this.props.feil};
-    await console.log(this.feil);
   }
 
   async slett(bilde){
     let res = await feilService.slettBildeFraFeil({bilde_id: bilde.bilde_id, feil_id: this.props.feil.feil_id, kommune_id: this.props.feil.kommune_id});
-    await console.log(res);
     await this.mounted();
     this.bildeOpen = await false;
   }
@@ -39,7 +37,6 @@ export class RedigerModal extends Component {
   visBilde(bilde){
     this.valgtBilde = {...bilde};
     this.bildeOpen = true; 
-    console.log(this.valgtBilde);
   }
 
   async lagre(){
