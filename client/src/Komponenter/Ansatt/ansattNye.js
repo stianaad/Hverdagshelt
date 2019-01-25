@@ -268,6 +268,9 @@ export class NyeFeil extends Component {
         feil_id: this.valgtfeil.feil_id
       });
       await console.log("ferdig");
+
+      this.feilApen = await false; 
+      await this.mounted();
   }
 
 

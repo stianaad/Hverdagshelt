@@ -3,6 +3,7 @@ import {Component} from 'react-simplified';
 import {KommuneVelger} from '../KommuneVelger/kommuneVelger';
 import {Link} from 'react-router-dom';
 import {Login} from '../../Moduler/login/login';
+import { brukerService } from '../../services/brukerService';
 
 export class ProfileButton extends Component {
   loggetInn = null;
@@ -137,8 +138,15 @@ export class ProfileButton extends Component {
 }
 
 export class PageHeader extends Component {
-  loggetinn = false;
+  loggetInn = null;
   brukertype = null;
+  kommune_navn = '';
+
+  async mounted() {
+    this.loggetInn = global.payload != undefined;
+    let brukerInfo = await brukerService.minInfo();
+    this.kommune_navn = brukerInfo.data[0].kommune_navn;
+  }
 
   render() {
     return (
@@ -154,6 +162,14 @@ export class PageHeader extends Component {
             </button>
           </Link>
           <div className="pageHeaderRight">
+            {this.loggetInn ? (
+            <Link to={"/hovedside/"+this.kommune_navn.charAt(0).toLowerCase() + this.kommune_navn.slice(1)}>
+              {' '}
+              <button type="button" className="pageHeaderButton">
+                {this.kommune_navn}
+              </button>
+            </Link>
+            ) : null}
             <div className="headKomWrapper">
               <KommuneVelger history={this.props.history} />
             </div>

@@ -34,7 +34,7 @@ export class FeilModal extends Component {
                     {this.props.feil.overskrift}
                   </h1>
                   <span>
-                    Status: {this.props.feil.status}
+                    Status: {(this.props.feil.status== "Godkjent") ? (<span>Mottatt</span>) : (this.props.feil.status)}
                     {this.props.feil.status !== 'Under behandling' ? (
                       this.props.feil.status === 'Ferdig' ? (
                         <img src="/successicon.png" width="30" height="30" />
@@ -92,7 +92,7 @@ export class FeilModal extends Component {
                       <div className="feilModalFyll">
                         <List className="p-2">
                           {this.oppTilFeil.map((opp) => (
-                            <List.Item key={opp.tid}>
+                            <List.Item key={opp.tid + ' '+ opp.status}>
                               <List.Content>
                                 <List.Header>{opp.status}<span className="float-right font-weight-light font-italic">{opp.tid}</span></List.Header>
                                 <List.Description>{opp.kommentar}</List.Description>

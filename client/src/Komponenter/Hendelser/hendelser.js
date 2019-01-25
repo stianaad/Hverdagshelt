@@ -236,7 +236,7 @@ export class Hendelser extends Component {
             </Grid.Row>
           </Grid>
         </div>
-        <Card.Group stackable>
+        <Card.Group stackable> 
           {this.aktiveHendelser.map(hendelse => (
             <Hendelse
               onClick={() => {

@@ -9,7 +9,7 @@ import {NavLink} from 'react-router-dom';
 import {AnsattMeny} from './ansattMeny';
 import { FeilVisning } from '../../Moduler/AnsattModuler/feilvisning';
 
-export class AnsattUnder extends Component{
+export class FeilHosBedrift extends Component{
     underB = [];
     alleFeil = [];
     className = '';

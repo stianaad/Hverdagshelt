@@ -3,6 +3,12 @@ import * as React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import {Component} from 'react-simplified';
 
+/**
+ * Funksjon som tar en tabell med feil og gir en tabell med Marker for å vise feilene.
+ * @param {!Feil[]} feiltabell - Tabell med feilobjekter
+ * @param {!boolean} popup  - Boolean verdi som bestemmer om Marker objektene skal ha popup på hover
+ * @return {Marker[]} Tabell med Marker objekter som representerer feilene
+ */
 export function markerTabell(feiltabell, popup) {
   let tabell = [];
   for (let i = 0; i < feiltabell.length; i++) {
@@ -11,6 +17,15 @@ export function markerTabell(feiltabell, popup) {
   return tabell;
 }
 
+/**
+ * Genererer HTML som skal vises i popups på markers
+ * @access private
+ * @reactProps {!string} tid - Tiden som skal vises på popup
+ * @reactProps {!string} overskrift - Overskrift som skal vises på popup
+ * @reactProps {!string} statusText - Statusen som skal vises på popup
+ * @reactProps {!string} beskrivelse - Beskrivelsen som skal vises på popup
+ * @reactProps {!string} kategori - Kategorien som skal vises på popup
+ */
 class PopupContent extends Component {
   render() {
     return (
@@ -46,7 +61,8 @@ class PopupContent extends Component {
 /**
  * Marker for kart, må legges til i en MarkerMap. Sendes vanligvis til karter og den legger det til automatisk.
  * @example
- * let myMarker = new Marker("tittel", "beskrivelse", 1, "10/21/30", "kategori", 59.456, 10.712);
+ * let feil = {feil_id: 1, overskrift: "yo", ...};
+ * let myMarker = new Marker(this.feil, true);
  * myMarker.addTo(map);
  */
 export class Marker {
@@ -65,15 +81,8 @@ export class Marker {
     this.marker.bindPopup(this.clickPopup, {maxWidth: 800}).openPopup();
   };
   /**
-   *
-   * @param {string} overskrift
-   * @param {string} beskrivelse
-   * @param {string} bildeurl
-   * @param {integer} status
-   * @param {string} tid
-   * @param {string} kategori
-   * @param {double} breddegrad
-   * @param {double} lengdegrad
+   * @param {!Object} feil - Feilobjektet som skal representeres som marker
+   * @param {!boolean} popup - Boolean verdi som bestemmer om markeren skal ha popup på hover event.
    */
   constructor(feil, popup) {
     this.popup = popup;
@@ -200,6 +209,11 @@ export class Marker {
  * Må spesifisere props.center for å sentrere kartet på det gitte stedsnavnet.
  * For å flytte på kartet med nye breddegrad og lengdegrad tall må man inkludere onRef={ref => (this.kart = ref)}
  * Da kan man bruke this.kart.flyttKart(breddegrad, lengdegrad) for å flytte kartet.
+ * @reactProps {!string} width - Bredden på kartet gitt som en CSS verdi
+ * @reactProps {!string} height - Høyden på kartet gitt som en CSS verdi
+ * @reactProps {!string} id - CSS id for kartet, brukes for å identifisere kartet
+ * @reactProps {!Marker[]} markers - Tabell med Marker objekter som skal vises på kartet
+ * @reactProps {!string} center - Stedsnavn som skal sentreres i kartet
  * @example
  * let myMarkers = [new Marker(), new Marker, new Marker()];
  * <MarkerMap width="1000px" height="500px" id="map3" markers={myMarkers} center="Trondheim,Trøndelag" onRef={ref => (this.kart = ref)}/>
@@ -269,7 +283,14 @@ export class MarkerMap extends Component {
 }
 
 /**
- * Trenger id, width, height, og feil objekt
+ * Kart som viser en feil på et kart
+ * @reactProps {!string} width - Bredden på kartet gitt som en CSS verdi
+ * @reactProps {!string} height - Høyden på kartet gitt som en CSS verdi
+ * @reactProps {!string} id - CSS id for kartet, brukes for å identifisere kartet
+ * @reactProps {!Object} feil - Objektet av feilen som skal vises på kartet
+ * @example
+ * feil = {feil_id: 1, overskrift: "yo", ...};
+ * <ShowMarkerMap width="50%" height="400px" id="visfeilkart" feil={this.feil} />
  */
 export class ShowMarkerMap extends Component {
   map = null;
@@ -328,10 +349,15 @@ export class ShowMarkerMap extends Component {
 
 /**
  * Kart for å velge posisjon for en hendelse/feil. Bredde, høyde, id, stedsnavn, og en callback funksjon for å sende posisjon, sendes som props.
+ * @reactProps {!string} width - Bredden på kartet gitt som en CSS verdi
+ * @reactProps {!string} height - Høyden på kartet gitt som en CSS verdi
+ * @reactProps {!string} id - CSS id for kartet, brukes for å identifisere kartet
+ * @reactProps {!string} center - Stedsnavn som skal sentreres i kartet
+ * @reactProps {function(posisjon: number[]): void} position - funksjon som kartet bruker for å sende posisjon.
  * @example
  * let pos = [0, 0]; // [breddegrad, lengdegrad]
- * let posFunkjson = (posisjon) => pos = posisjon;
- * <PositionMap width="50%" height="500px" id="posmap" center="Oslo" position={posFunksjon}/>
+ * let posFunkjson = (posisjon) => this.pos = posisjon;
+ * <PositionMap width="50%" height="500px" id="posmap" center="Oslo" position={this.posFunksjon}/>
  */
 export class PositionMap extends Component {
   map = null;
@@ -352,18 +378,6 @@ export class PositionMap extends Component {
     }, (err) => {
       //alert(err.code);
     });
-    
-    /*this.map.locate({setView: true, maxZoom: 14});
-    this.map.on('locationfound', () => {
-      if (this.marker == undefined) {
-        this.marker = L.marker(this.map.getCenter(), {
-          draggable: !L.Browser.mobile,
-        }).addTo(this.map);
-      }
-      else {
-        this.marker.setLatLng(this.map.getCenter());
-      }
-    });*/
   }
 
   clicked(e) {
@@ -415,7 +429,6 @@ export class PositionMap extends Component {
           style={{position: 'absolute', top: '10px', right: '10px', zIndex: '900', height: '35px', cursor: 'pointer', backgroundColor:"white", borderRadius:"5px"}}
           
           id="locatebtn"
-          //type="button"
           onClick={this.locateMe}
           onTouchStart={this.locateMe}
           >

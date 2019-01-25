@@ -26,3 +26,5 @@ yarn-error.log*
 client/public/bundle.js
 .vscode/
 temp/
+
+/public

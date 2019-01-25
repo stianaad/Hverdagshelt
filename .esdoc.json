@@ -1,7 +1,11 @@
 {
-    "source": "./server",
-    "destination": "./docs",
+    "source": "../",
+    "destination": "../public",
+    "excludes": ["node_modules"],
     "plugins": [
-      {"name": "esdoc-standard-plugin"}
+      {"name": "esdoc-standard-plugin"},
+      {"name": "esdoc-ecmascript-proposal-plugin", "option": {"all": true}},
+      {"name": "esdoc-react-plugin"},
+      {"name": "esdoc-jsx-plugin", "option": {"enable": true}}
     ]
   }

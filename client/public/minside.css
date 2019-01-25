@@ -43,6 +43,15 @@
     color: yellowgreen;
 }
 
+.ingenNyeOppdateringer {
+  color: red;
+  font-size: 15px;
+}
+
+.nyeOppdateringer{
+  font-size: 15px;
+}
+
 .rapporterteFeilScroll {
     height: 50vh !important;
     overflow-y: auto;

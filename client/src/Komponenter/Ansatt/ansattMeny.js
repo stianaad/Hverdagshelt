@@ -62,12 +62,12 @@ export class AnsattMeny extends Component {
                 <Menu.Item
                   name='Alle bedrifter'
                   as={NavLink}
-                  to='/ansatt/bedrifter'
+                  to='/ansatt/bedrifter/fullforte'
                 />
               <Menu.Item
                 name='Feil hos bedrifter'
                 as={NavLink}
-                to='/ansatt/nyhendelse'
+                to='/ansatt/bedrifter/feil'
               />
               </Menu.Menu>
             </Menu.Item>
