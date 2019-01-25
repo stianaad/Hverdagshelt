@@ -80,6 +80,16 @@ export class AdminMeny extends Component {
               />
             </Menu.Menu>
           </Menu.Item>
+          <Menu.Item>
+              <Menu.Header>Statistikk</Menu.Header>
+              <Menu.Menu>
+                <Menu.Item 
+                name='Nasjonal statistikk'
+                as={NavLink}
+                to='/statistikk'
+                />
+              </Menu.Menu>
+            </Menu.Item>
         </Menu>
       </div>
     )
