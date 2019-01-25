@@ -4,7 +4,7 @@ import {generellServices} from '../../services/generellServices';
 import {Link} from 'react-router-dom';
 
 /**
- * Søkefelt for å søke etter kommuner
+ * Søkefelt for å søke etter kommuner, til bruk i <form> og lignende. For søkefelt for å komme seg til en viss kommuneside se: {@link KommuneVelger}
  * @reactProps {Object} style - CSS objekt for styling av søkefeltet
  * @reactProps {?function(kommune: Object)} onChange - Hvis ingen referanse til klassen er lagd, brukes denne funksjonen for å sende den valgte kommunen.
  * @reactProps {?number} kommune_id - Hvis søkefeltet skal starte på en viss kommune kan ID-en bli sendt som prop
