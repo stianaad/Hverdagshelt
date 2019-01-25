@@ -119,7 +119,7 @@ test('legg til ny privatbruker', (done) => {
     done();
   }
   brukerdao.lagNyPrivatBruker(testprivatBruker, callback);
-}, 1000000);
+}, 20000);
 
 test('hent fulgte feil til bruker', (done) => {
   function callback(status, data) {
