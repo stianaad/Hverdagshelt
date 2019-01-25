@@ -1,3 +1,5 @@
+image: 'node:latest'
+
 variables:
   MYSQL_DATABASE: oivindhl
   MYSQL_USER: root
