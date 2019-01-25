@@ -102,7 +102,8 @@ export class AnsattGodkjent extends Component{
                                 <Card color="red" fluid>
                                     <Card.Content>
                                         <Card.Header>
-                                            Godkjente feil
+                                            <h3 style={{display: 'inline'}}>Godkjente feil</h3>
+                                            <InfoBoks style={{display: 'inline'}} tekst="Trykk på en feil for å oppdatere og sende til bedrift."/>
                                         </Card.Header>
                                     </Card.Content>
                                     <Card.Content className="hoydeTabell">

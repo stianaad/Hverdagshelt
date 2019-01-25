@@ -4,6 +4,7 @@ import {Card, Feed, Grid, Button, Header, Icon, Input, Image, Modal, List, Popup
 import { ShowMarkerMap } from '../kart/map';
 import { feilService } from '../../services/feilService';
 import { RedigerModal } from './redigerModal';
+import { InfoBoks } from '../info/info';
 
 
 export class FeilVisning extends Component {
@@ -43,17 +44,13 @@ export class FeilVisning extends Component {
                 <RedigerModal key={this.valgtfeil.feil_id+this.redigerModal} open={this.redigerModal} lukk={this.refresh} feil={this.valgtfeil} onClose={() => {this.redigerModal = false}} />
                 <Card fluid>
                     <Card.Content>
-                        <Grid columns={2}>
-                            <Grid.Column><h1>{this.props.feil.overskrift}</h1></Grid.Column>
-                            <Grid.Column textAlign="right">{this.props.feil.tid}</Grid.Column>
-                            <Grid.Column>Status: {this.props.feil.status}</Grid.Column>
-                            <Grid.Column>
-                                <div style={{textAlign: 'right'}}>
-                                    <Popup trigger={<Button color="red" onClick={() => {this.slett();}} className="float-rigth">Slett</Button>} content="Hvis du trykker her så sletter du feilen"/>   
-                                    <Popup trigger={<Button color="blue" onClick={() => {this.openRedigering();}}>Rediger</Button>} content="Trykk her for å redigere feilen"/>
-                                </div>
-                            </Grid.Column>
-                        </Grid>
+                        <h3 style={{display: 'inline'}}>{this.props.feil.overskrift}</h3>
+                        <InfoBoks style={{display: 'inline'}} 
+                            tekst="Her kan du se informasjon om en feil, og oppdatere statusen.&#10;For å redigere informasjon eller slette bilder: trykk på rediger."/>
+                        <div style={{textAlign: 'right'}}>
+                            <Popup trigger={<Button color="red" onClick={() => {this.slett();}} className="float-rigth">Slett</Button>} content="Hvis du trykker her så sletter du feilen"/>   
+                            <Popup trigger={<Button color="blue" onClick={() => {this.openRedigering();}}>Rediger</Button>} content="Trykk her for å redigere feilen"/>
+                        </div>
                     </Card.Content>
                     <Card.Content extra>
                         <Grid fluid columns={3}>
