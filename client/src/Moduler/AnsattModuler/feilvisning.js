@@ -124,5 +124,6 @@ export class FeilVisning extends Component {
         let res = await feilService.hentAlleStatuser();
         let alle = await res.data; 
         this.statuser = await alle.filter(e => e.status_id !== 1);
+        this.valgtStatus = this.statuser.find(e => e.status === this.props.feil.status);
     }
 }
