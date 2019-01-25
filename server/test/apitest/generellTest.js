@@ -110,7 +110,7 @@ afterAll(() => {
 
 //BRUKERTESTER
 
-
+jest.setTimeout(30000);
 
 test('legg til ny privatbruker', (done) => {
   function callback(status, data) {
@@ -119,7 +119,7 @@ test('legg til ny privatbruker', (done) => {
     done();
   }
   brukerdao.lagNyPrivatBruker(testprivatBruker, callback);
-}, 20000);
+});
 
 test('hent fulgte feil til bruker', (done) => {
   function callback(status, data) {
@@ -229,10 +229,10 @@ test('oppdater spesifisert', (done) => {
     expect(data.affectedRows).toBe(1);
     done();
   }
-  brukerdao.oppdaterSpesifisertBrukerBruker(oppdaterSpesifisertBrukerTest, {rolle: privat, bruker_id: 5} ,callback);
+  brukerdao.oppdaterSpesifisertBrukerBruker(oppdaterSpesifisertBrukerTest, {rolle: 'privat', bruker_id: 5} ,callback);
 });
 
-test('oppdater spesifisert', (done) => {
+test('hent alle bedrifter', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
     expect(data.length).toBeGreaterThanOrEqual(1);
@@ -384,7 +384,7 @@ test('bruker oppretter abonnement', (done) => {
     expect(data.affectedRows).toBe(1);
     done();
   }
-  feildao.abonnerFeil({feil_id: 2, bruker_id: 1}, callback);
+  feildao.abonnerFeil({feil_id: 2, bruker_id: 7}, callback);
 });
 
 test('bruker kansellerer abonnement', (done) => {
@@ -400,7 +400,7 @@ test('hent epost fra feil_id', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
     expect(data.length).toBeGreaterThanOrEqual(1);
-    expect(data[0].epost).toBe('epost2@hotmail.com');
+    expect(data[0].epost).toBe('epost@test.com');
     done();
   }
   feildao.hentEpostFraFeilID({feil_id: 2}, callback);
@@ -410,7 +410,7 @@ test('hente bedrift på orgnanisasjonsnummer', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
     expect(data.length).toBeGreaterThanOrEqual(1);
-    expect(data[0].epost).toBe('epost2@hotmail.com');
+    expect(data[0].navn).toBe('Deodeodeo');
     done();
   }
   feildao.hentBedriftPaaOrgnr(120060080, callback);
@@ -511,7 +511,7 @@ test('hent alle kommuner', (done) => {
     done();
   }
   generelldao.hentAlleKommuner(callback);
-}, 10000);
+});
 
 test('søk på kommune', (done) => {
   function callback(status, data) {
@@ -519,8 +519,8 @@ test('søk på kommune', (done) => {
     expect(data[0].kommune_navn).toBe('Gran');
     done();
   }
-  generelldao.hentAlleKommuner('Gran', callback);
-}, 10000);
+  generelldao.sokKommune('Gran', callback);
+});
 
 // STATISTIKKTESTER
 
