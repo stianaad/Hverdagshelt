@@ -1,0 +1,8 @@
+.adminBrukerScroll {
+    height: calc(100vh - 500px);
+    overflow-y: auto;
+}
+
+.adminBrukerScroll div {
+    cursor: pointer;
+}

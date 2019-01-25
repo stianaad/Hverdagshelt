@@ -82,6 +82,18 @@ router.post('/api/bruker/passord', (req, res) => {
   });
 });
 
+router.get('/api/brukere/sok/:soktekst', checkToken, (req, res) => {
+  if (req.decoded.role == 'admin') {
+    brukerDao.sokBrukere(req.params.soktekst, (status, data) => {
+      res.status(status);
+      res.json(data);
+    });
+  } else {
+    res.status(403);
+    res.json({ result: false });
+  }
+});
+
 router.post('/api/brukere/bedrift', checkToken, (req, res) => {
   console.log('Fikk POST-request fra klienten');
   let rolle = req.decoded.role;
@@ -278,6 +290,18 @@ router.get('/api/brukerhendelser', checkToken, (req, res) => {
   } else {
     res.status(403);
     res.json({ result: false });
+  }
+});
+
+router.put('/api/admin/brukere', checkToken, (req ,res) => {
+  if (req.decoded.role == 'admin') {
+    brukerDao.oppdaterSpesifisertBrukerAdmin(req.body, (status, data) => {
+      res.status(status);
+      res.json(data);
+    });
+  } else {
+    res.status(403);
+    res.json({resultat: false});
   }
 });
 

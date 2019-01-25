@@ -23,6 +23,12 @@ module.exports = class BrukerDao extends Dao {
     return kontroll == parseInt(tall.charAt(8));
   }
 
+  sokBrukere(sokTekst, callback) {
+    const tabell = Array(13).fill(sokTekst+"%");
+    super.query("SELECT bruker.bruker_id, bruker.epost, bruker.kommune_id, privat.fornavn as pfnavn, privat.etternavn as penavn, privat.hendelsevarsling, ansatt.fornavn as afnavn, ansatt.etternavn as aenavn, ansatt.telefon as atlf, bedrift.navn as bnavn, bedrift.orgnr, bedrift.telefon as btlf, admin.navn as anavn, admin.telefon as adtlf, rolle.admin, rolle.privat, rolle.bedrift, rolle.ansatt FROM bruker LEFT OUTER JOIN admin ON admin.bruker_id = bruker.bruker_id LEFT OUTER JOIN ansatt ON ansatt.bruker_id = bruker.bruker_id LEFT OUTER JOIN bedrift ON bedrift.bruker_id = bruker.bruker_id LEFT OUTER JOIN privat ON privat.bruker_id = bruker.bruker_id LEFT OUTER JOIN kommuner ON bruker.kommune_id = kommuner.kommune_id LEFT OUTER JOIN(SELECT bruker_id, EXISTS( SELECT * FROM admin WHERE admin.bruker_id = bruker.bruker_id) AS admin, EXISTS( SELECT * FROM ansatt WHERE ansatt.bruker_id = bruker.bruker_id) AS ansatt, EXISTS( SELECT * FROM bedrift WHERE bedrift.bruker_id = bruker.bruker_id) AS bedrift, EXISTS( SELECT * FROM privat WHERE privat.bruker_id = bruker.bruker_id) AS privat FROM bruker) AS rolle ON rolle.bruker_id = bruker.bruker_id WHERE privat.fornavn LIKE ? OR privat.etternavn LIKE ? OR ansatt.fornavn LIKE ? OR ansatt.etternavn LIKE ? OR epost LIKE ? OR ansatt.telefon LIKE ? OR admin.telefon LIKE ? OR bedrift.telefon LIKE ? OR bedrift.orgnr LIKE ? OR admin.navn LIKE ? OR bedrift.navn LIKE ? OR kommuner.kommune_navn LIKE ? OR kommuner.fylke_navn LIKE ?",
+    tabell, callback);
+  }
+
   //testes
   lagNyBruker(json, callback) {
     const tabell = [json.epost, json.passord, json.kommune_id];
@@ -218,6 +224,50 @@ module.exports = class BrukerDao extends Dao {
     );
   }
 
+  oppdaterSpesifisertBrukerAdmin(json, callback) {
+    if (!!json.privat) {
+      console.log('oppdaterer bruker');
+      this.oppdaterAnnenBruker(json, (status, data) => {
+        console.log('oppdaterer privat');
+        super.query(
+          'UPDATE privat SET fornavn = ?, etternavn = ?, hendelsevarsling = ? WHERE bruker_id = ?',
+          [json.pfnavn, json.penavn, json.hendelsevarsling, json.bruker_id],
+          callback
+        );
+      });
+    } else if (!!json.bedrift) {
+      console.log('oppdaterer bruker');
+      this.oppdaterAnnenBruker(json, (status, data) => {
+        console.log('oppdaterer bedrift');
+        super.query(
+          'UPDATE bedrift SET orgnr = ?, navn = ?, telefon = ? WHERE bruker_id = ?',
+          [json.orgnr, json.bnavn, json.btlf, json.bruker_id],
+          callback
+        );
+      });
+    } else if (!!json.ansatt) {
+      console.log('oppdaterer bruker');
+      this.oppdaterAnnenBruker(json, (status, data) => {
+        console.log('oppdaterer ansatt');
+        super.query(
+          'UPDATE ansatt SET fornavn = ?, etternavn = ?, telefon = ? WHERE bruker_id = ?',
+          [json.afnavn, json.aenavn, json.atlf, json.bruker_id],
+          callback
+        );
+      });
+    } else if (!!json.admin) {
+      console.log('oppdaterer bruker');
+      this.oppdaterAnnenBruker(json, (status, data) => {
+        console.log('oppdaterer admin');
+        super.query(
+          'UPDATE admin SET telefon = ?, navn = ? WHERE bruker_id = ?',
+          [json.adtlf, json.anavn, json.bruker_id],
+          callback
+        );
+      });
+    }
+  }
+
   oppdaterSpesifisertBruker(json, rolle, callback) {
     console.log('inne i oppdaterSpesifisertBruker');
     if (rolle.rolle == 'privat' || rolle == 'admin') {
@@ -261,6 +311,14 @@ module.exports = class BrukerDao extends Dao {
         );
       });
     }
+  }
+
+  oppdaterAnnenBruker(json, callback) {
+    super.query(
+      'UPDATE bruker SET epost = ?, kommune_id = ? WHERE bruker_id = ?',
+      [json.epost, json.kommune_id, json.bruker_id],
+      callback
+    );
   }
 
   oppdaterBruker(json, rolle, callback) {

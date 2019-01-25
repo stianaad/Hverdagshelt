@@ -21,7 +21,7 @@ export class KommuneInput extends Component {
 
   render() {
     return (
-      <div className="komBoks">
+      <div className="komBoks" style={this.props.style}>
         <input
           ref={this.in}
           onFocus={() => {
@@ -136,5 +136,7 @@ export class KommuneInput extends Component {
     } else {
       this.listesyn = false;
     }
+
+    this.props.onInputChange && this.props.onInputChange({navn: this.sok, id: this.verdi});
   }
 }

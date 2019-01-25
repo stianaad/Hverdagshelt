@@ -206,13 +206,15 @@ export class Hovedside extends Component {
             </Button>
             ) : global.payload.role == 'admin' || global.payload.role == 'privat' ? (
               <Link to={this.kommune ? "/meldfeil?k="+this.kommune.kommune_id : "/meldfeil"}>
-                <Button className="meldFeilHoved" color="red" size="large">
-                  Meld inn feil
-                </Button>
+                <Button className="meldFeilHoved" color="red" size="large">Meld inn feil</Button>
               </Link>
             ) : null}
 
-          
+          {global.payload && (global.payload.role == 'admin' || (global.payload.role == 'ansatt' && (global.payload.user.kommune_id == this.kommune.kommune_id))) ? ( 
+          <Link to={global.payload && (global.payload.role == 'admin' ? ("/admin/"+this.kommune.kommune_navn.toLowerCase()+"/oversikt") : global.payload.role=='ansatt' ? ("/ansatt/oversikt") : null)}>
+            <Button className="adminHoved" color="blue" size="large">Administrer</Button>
+          </Link>
+          ) : null}
 
         </div>
         <div className="mobileButtons">
