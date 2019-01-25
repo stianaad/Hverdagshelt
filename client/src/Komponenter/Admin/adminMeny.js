@@ -13,7 +13,7 @@ export class AdminMeny extends Component {
           <Menu.Item>
             <Menu.Header>Administrasjon</Menu.Header>
             <Menu.Menu>
-            <Menu.Item
+              <Menu.Item
                 name='Startside'
                 as={Link}
                 to='/admin/startside'
@@ -25,27 +25,27 @@ export class AdminMeny extends Component {
               <Menu.Item
                 name='Oversikt'
                 as={NavLink}
-                to={'/admin/'+(this.props.kommune && this.props.kommune.kommune_navn.toLowerCase())+'/oversikt'}
+                to={'/admin/' + (this.props.kommune && this.props.kommune.kommune_navn.toLowerCase()) + '/oversikt'}
               />
               <Menu.Item
                 name='Nye feil'
                 as={NavLink}
-                to={'/admin/'+(this.props.kommune && this.props.kommune.kommune_navn.toLowerCase())+'/nyefeil'}
+                to={'/admin/' + (this.props.kommune && this.props.kommune.kommune_navn.toLowerCase()) + '/nyefeil'}
               />
               <Menu.Item
                 name='Godkjent'
                 as={NavLink}
-                to={'/admin/'+(this.props.kommune && this.props.kommune.kommune_navn.toLowerCase())+'/godkjent'}
+                to={'/admin/' + (this.props.kommune && this.props.kommune.kommune_navn.toLowerCase()) + '/godkjent'}
               />
               <Menu.Item
                 name='Under arbeid'
                 as={NavLink}
-                to={'/admin/'+(this.props.kommune && this.props.kommune.kommune_navn.toLowerCase())+'/underbehandling'}
+                to={'/admin/' + (this.props.kommune && this.props.kommune.kommune_navn.toLowerCase()) + '/underbehandling'}
               />
               <Menu.Item
                 name='Ferdig'
                 as={NavLink}
-                to={'/admin/'+(this.props.kommune && this.props.kommune.kommune_navn.toLowerCase())+'/ferdig'}
+                to={'/admin/' + (this.props.kommune && this.props.kommune.kommune_navn.toLowerCase()) + '/ferdig'}
               />
             </Menu.Menu>
           </Menu.Item>
@@ -56,23 +56,27 @@ export class AdminMeny extends Component {
               <Menu.Item
                 name='Alle hendelser'
                 as={NavLink}
-                to={'/admin/'+(this.props.kommune && this.props.kommune.kommune_navn.toLowerCase())+'/hendelser'}
+                to={'/admin/' + (this.props.kommune && this.props.kommune.kommune_navn.toLowerCase()) + '/hendelser'}
               />
               <Menu.Item
                 name='Ny hendelse'
                 as={NavLink}
-                to={'/admin/'+(this.props.kommune && this.props.kommune.kommune_navn.toLowerCase())+'/nyhendelse'}
+                to={'/admin/' + (this.props.kommune && this.props.kommune.kommune_navn.toLowerCase()) + '/nyhendelse'}
               />
             </Menu.Menu>
           </Menu.Item>
           <Menu.Item>
             <Menu.Header>Bedrifter</Menu.Header>
             <Menu.Menu>
-
+              <Menu.Item
+                name='Alle bedrifter'
+                as={NavLink}
+                to={'/admin/' + (this.props.kommune && this.props.kommune.kommune_navn.toLowerCase()) + '/bedrifter/fullforte'}
+              />
               <Menu.Item
                 name='Feil hos bedrifter'
                 as={NavLink}
-                to={'/admin/'+(this.props.kommune && this.props.kommune.kommune_navn.toLowerCase())+'/nyhendelse'}
+                to={'/admin/' + (this.props.kommune && this.props.kommune.kommune_navn.toLowerCase()) + '/bedrifter/feil'}
               />
             </Menu.Menu>
           </Menu.Item>

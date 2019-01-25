@@ -5,7 +5,7 @@ import {PageHeader} from '../../Moduler/header/header';
 import {Ansatt} from '../../objekter.js';
 import {KommuneInput} from '../../Moduler/kommuneInput/kommuneInput';
 
-export class RegistreringAnsatt extends Component {
+export class RegistrerAnsatt extends Component {
   ansattInput = {
     fornavn: '',
     etternavn: '',
