@@ -252,27 +252,24 @@ export class NyeFeil extends Component {
   }
 
   async godkjenn(){
-      await console.log("lagrer");
-      await feilService.lagOppdatering({
+      this.feilApen = false; 
+
+      let res1 = await feilService.lagOppdatering({
         "feil_id": this.valgtfeil.feil_id,
         "kommentar": 'Ansatt har godkjent feil', 
         "status_id": 2
       });
       
-      await console.log("oppdaterer");
-      await feilService.oppdaterFeil({
-        kommune_id : global.payload.user.kommune_id, 
+      let res2 = await feilService.oppdaterFeil({
         subkategori_id: this.valgtUnderKat.subkategori_id,
         overskrift: this.valgtfeil.overskrift,
         beskrivelse: this.valgtfeil.beskrivelse,
         lengdegrad: this.valgtfeil.lengdegrad,
         breddegrad: this.valgtfeil.breddegrad,
         feil_id: this.valgtfeil.feil_id
-      });
-      await console.log("ferdig");
+      }, this.valgtfeil.feil_id);
 
-      this.feilApen = await false; 
-      await this.mounted();
+      Promise.all([res1.data, res2.data]).then(this.mounted);
   }
 
 
