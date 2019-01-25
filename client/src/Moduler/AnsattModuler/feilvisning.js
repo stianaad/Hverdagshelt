@@ -96,7 +96,7 @@ export class FeilVisning extends Component {
                                         ))}
                                     </select>
                                 </div>
-                                <Button basic color="green" onClick={this.oppdatering}>Oppdater</Button>
+                                <Button basic color="green" onClick={() => {this.oppdatering();this.props.lukk()}}>Oppdater</Button>
                             </Grid.Column>
                         </Grid> 
                     </Card.Content>
@@ -117,7 +117,7 @@ export class FeilVisning extends Component {
             "status_id": this.valgtStatus.status_id
         });
 
-        await this.props.oppdater;  
+        //await this.props.oppdater;  
         console.log("Oppdatering sendt");
     }
     async mounted(){

@@ -418,4 +418,17 @@ module.exports = class FeilDao extends Dao {
   hentEpostFraFeilID(json, callback) {
     super.query('SELECT epost FROM bruker b INNER JOIN feil f ON b.bruker_id = f.bruker_id WHERE f.feil_id = ?', [json.feil_id], callback);
   }
+  
+  /**
+   * Oppdaterer statusen til en feil som er sendt til bedrift.
+   * @param {number} kommune_id - Iden til bedriftsbrukeren som skal oppdatere status.
+   * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
+   */
+  hentUnderBehandlingOgVenterPaaSvarAnsatt(kommune_id,callback){
+    super.query(
+      "SELECT feil.*, hovedkategori.kategorinavn,status.status, navn, DATE_FORMAT(f.tid, '%Y.%m.%d %H:%i') AS tid, kommuner.kommune_navn, kommuner.fylke_navn FROM feil INNER JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id INNER JOIN hovedkategori ON subkategori.hovedkategori_id = hovedkategori.hovedkategori_id INNER JOIN(SELECT feil_id, MAX(tid) AS tid FROM oppdatering GROUP BY feil_id) AS f ON feil.feil_id = f.feil_id INNER JOIN (SELECT feil_id, Max(status_id) AS status_id, MAX(tid) AS tid FROM oppdatering GROUP BY feil_id) AS s ON feil.feil_id = s.feil_id INNER JOIN status ON status.status_id = s.status_id INNER JOIN kommuner ON kommuner.kommune_id = feil.kommune_id INNER JOIN jobbSoknad ON feil.feil_id=jobbSoknad.feil_id INNER JOIN bedrift ON jobbSoknad.bruker_id=bedrift.bruker_id AND ((jobbSoknad.status=3 AND status.status_id=2) OR (jobbSoknad.status=4 AND status.status_id=3) ) AND feil.kommune_id=?",
+      [kommune_id],
+      callback
+    );
+  }
 };

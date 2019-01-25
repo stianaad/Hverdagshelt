@@ -618,4 +618,19 @@ router.delete('/api/subkategorier/:subkategori_id', checkToken, (req, res) => {
     res.json({ result: false });
   }
 });
+
+router.get('/api/ansatt/bedrift/:kommune_id/behandling/godkjent', checkToken, (req, res) => {
+  console.log('Fikk Get-request fra klienten');
+  let role = req.decoded.role;
+  if (role == 'ansatt' || role == 'admin') {
+    feilDao.hentUnderBehandlingOgVenterPaaSvarAnsatt(req.params.kommune_id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+  } else {
+    res.status(403);
+    res.json({result: false});
+  }
+});
+
 module.exports = router;
