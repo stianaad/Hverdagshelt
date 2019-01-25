@@ -72,7 +72,7 @@ export class AnsattFerdig extends Component{
                             <div className="col-sm-8">
                                 {this.feilApen ? (
                                     <div className="ansattFeilVindu">
-                                       <FeilVisning feil={this.valgtfeil} bilder={this.bilder} opp={this.oppdateringer}/>
+                                       <FeilVisning feil={this.valgtfeil} bilder={this.bilder} lukk={this.oppdater} opp={this.oppdateringer}/>
                                     </div>
                                 ) : (
                                 <div>Trykk på feil</div>
@@ -83,6 +83,12 @@ export class AnsattFerdig extends Component{
                 </div>
             </div>
         ); 
+    }
+
+    oppdater(){
+        this.feilApen = false;
+        this.mounted();
+        console.log(this.feilApen);
     }
 
     scroll() {
