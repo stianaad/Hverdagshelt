@@ -2,6 +2,7 @@ import * as React from 'react';
 import {Component} from 'react-simplified';
 import {brukerService} from '../../services/brukerService';
 import {PageHeader} from '../../Moduler/header/header';
+import {Footer} from '../../Moduler/footer/footer';
 
 export class ResettPassord extends Component {
   passord = '';
@@ -64,12 +65,12 @@ export class ResettPassord extends Component {
             </div>
           </div>
         </div>
+        <Footer/>
       </React.Fragment>
     );
   }
 
   lagre() {
-    console.log('lala');
     if (this.passord !== this.bekreftPassord) {
       alert('Passordene er ikke like');
       return false;

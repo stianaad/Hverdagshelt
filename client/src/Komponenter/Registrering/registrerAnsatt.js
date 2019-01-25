@@ -129,9 +129,9 @@ export class RegistrerAnsatt extends Component {
       0,
       this.ansattInput.epost,
       '',
+      this.kommune.current.verdi,
       this.ansattInput.fornavn,
       this.ansattInput.etternavn,
-      this.kommune.current.verdi,
       this.ansattInput.telefon
     );
 
@@ -145,7 +145,7 @@ export class RegistrerAnsatt extends Component {
       gyldig = false;
     }
 
-    if (!bedrift.telefon || bedrift.telefon.length != 8) {
+    if (!ansatt.telefon || ansatt.telefon.length != 8) {
       this.advarsel = 'Telefonnummer må være 8 siffer langt';
       gyldig = false;
     }
@@ -156,7 +156,7 @@ export class RegistrerAnsatt extends Component {
     }
     if (gyldig) {
       brukerService.lagNyAnsattBruker(ansatt).then((res) => {
-        this.props.history.push('/');
+        this.props.history.push('/admin/startside');
       });
     }
   }

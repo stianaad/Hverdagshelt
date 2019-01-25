@@ -37,24 +37,16 @@ class BrukerService {
   }
 
   endrePassord(passord) {
-    console.log('endre');
     let token = sessionStorage.getItem('pollett');
     if (token) {
-      console.log('token ok i endrepassord')
       return api.put('/api/brukere/endrepassord', passord, {headers: {'x-access-token': 'Bearer ' + token}});
     } else {
-      console.log('token ikke ok i endrepassord');
       return false;
     }
   }
 
-  resettPassord(nyInformasjon) {
-    let token = sessionStorage.getItem('pollett');
-    if(token) {
+  resettPassord(nyInformasjon, token) {
       return api.post('/api/brukere/nyttpassord', nyInformasjon, {headers: {'x-access-token': 'Bearer ' + token}});
-    } else {
-      return [];
-    }
   }
 
   oppdaterSpesifisertBruker(oppdatertBruker) {
@@ -85,12 +77,10 @@ class BrukerService {
   }
 
   loggInn(informasjon) {
-    //console.log(informasjon);
     return api.post('/api/innlogging', informasjon);
   }
 
   glemtPassord(input) {
-    console.log('brukerservice');
     return api.post('/api/brukere/glemtpassord', input);
   }
 
@@ -104,7 +94,7 @@ class BrukerService {
   }
 
   hentbrukere() {
-    console.log('hente brukere');
+
     return api.get('/api/hentbrukere');
   }
 

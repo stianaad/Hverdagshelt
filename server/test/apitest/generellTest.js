@@ -17,7 +17,6 @@ var pool = mysql.createPool({
   multipleStatements: true,
 });
 
-
 let generelldao = new Generelldao(pool);
 let feildao = new FeilDao(pool);
 let brukerdao = new BrukerDao(pool);
@@ -77,8 +76,6 @@ let oppdaterFeil1 = {
 };
 
 let testhendelse = {
-  bruker_id: 2,
-  hendelse_id: 1,
   hendelseskategori_id: 1,
   kommune_id: 54,
   overskrift: 'testoverskrift',
@@ -86,7 +83,8 @@ let testhendelse = {
   beskrivelse: 'testbeskrivelse',
   sted: 'teststed',
   bilde: 'https://bjornost.tihlde.org/hverdagshelt/19af4f8c745a62973e2cd615eaf329fa',
-  billett: 'https://tihlde.hoopla.no/sales/bowlingkveld'
+  billett: 'https://tihlde.hoopla.no/sales/bowlingkveld',
+  hendelse_id: 1
 };
 /*
 beforeAll((done) => {
@@ -110,29 +108,30 @@ afterAll(() => {
 test('legg til ny privatbruker', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
-    expect(data.affectedRows).toBe(1);
+    expect(data.affectedRows).toBeGreaterThanOrEqual(1);
     done();
   }
   brukerdao.lagNyPrivatBruker(testprivatBruker, callback);
+});
+
+test('hent fulgte feil til bruker', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
+    expect(data.length).toBeGreaterThanOrEqual(1);
+    expect(data[0].overskrift).toBe('STIAN SPISER MAT TIL LUNSJ');
+    done();
+  }
+  brukerdao.finnFolgteFeilTilBruker(17, callback);
 });
 
 test('hent ikke oppdaterte feil til bruker', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
     expect(data[0].overskrift).toBe('Test2');
+    expect(data.length).toBeGreaterThanOrEqual(1);
     done();
   }
   brukerdao.finnIkkeOppdaterteFeilTilBruker(1, callback);
-});
-
-test('hent fulgte feil til bruker', (done) => {
-  function callback(status, data) {
-    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
-    expect(data[0].overskrift).toBe('Hull i veien ved Torvbyen');
-    expect(data[0].kommune_id).toBe(4);
-    done();
-  }
-  brukerdao.finnFolgteFeilTilBruker(17, callback);
 });
 
 test('legg til ny adminbruker', (done) => {
@@ -147,7 +146,8 @@ test('legg til ny adminbruker', (done) => {
 test('hent hendelser til bruker', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
-    expect(data[0].beskrivelse).toBe('Beskrivelse2');
+    expect(data.length).toBe(1);
+    expect(data[0].beskrivelse).toBe('Beskrivelse1');
     done();
   }
   brukerdao.finnFolgteHendelserTilBruker(17, callback);
@@ -159,7 +159,7 @@ test('hent bruker på id', (done) => {
     expect(data[0].epost).toBe('epost3@hotmail.com');
     done();
   }
-  brukerdao.hentBrukerPaaid({bruker_id: 3}, callback);
+  brukerdao.hentBrukerPaaid(3, callback);
 });
 
 test('lag ny bruker', (done) => {
@@ -230,12 +230,11 @@ test('hent alle feil', (done) => {
 test('hent en feil', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
-    expect(data.length).toBe(1);
-    //expect(data.overskrift).toBe('Overskrift1');
-    //sjekk at feilen er som den burde være^
+    expect(data.length).toBeGreaterThanOrEqual(1);
+    expect(data[0].overskrift).toBe('HeiHei');
     done();
   }
-  feildao.hentEnFeil({feil_id: 1}, callback);
+  feildao.hentEnFeil(1, callback);
 });
 
 test('Lag ny feil', (done) => {
@@ -253,7 +252,7 @@ test('slett feil', done => {
     expect(data.affectedRows).toBe(1);
     done();
   }
-  feildao.slettFeil({feil_id: 1}, callback);
+  feildao.slettFeil(1, callback);
 })
 
 test('hentAlleOppdateringerPaaFeil', (done) => {
@@ -262,16 +261,17 @@ test('hentAlleOppdateringerPaaFeil', (done) => {
     expect(data[0].kommentar).toBe('Sak opprettet');
     done();
   }
-  feildao.hentAlleOppdateringerPaaFeil({feil_id: 17}, callback);
+  feildao.hentAlleOppdateringerPaaFeil(17, callback);
 });
 
 test('Hent en status', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
     expect(data.length).toBe(1);
+    expect(data[0].status).toBe('Godkjent');
     done();
   }
-  feildao.hentEnStatus({status_id: 2}, callback);
+  feildao.hentEnStatus(2, callback);
 });
 
 test('Hent alle statuser', (done) => {
@@ -309,7 +309,7 @@ test('Hent alle subkategorier på hovedkategori', (done) => {
     expect(data[0].kategorinavn).toBe('Subkat6');
     done();
   }
-  feildao.hentAlleSubKategorierPaaHovedkategori({hovedkategori_id: 3}, callback);
+  feildao.hentAlleSubKategorierPaaHovedkategori(3, callback);
 });
 
 test('opprett ny subkategori', (done) => {
@@ -321,33 +321,14 @@ test('opprett ny subkategori', (done) => {
   feildao.nySubkategori({kategorinavn: 'subkategoritest', hovedkategori_id: 3}, callback);
 });
 
-test('oppdater hovedkategori', (done) => {
-  function callback(status, data) {
-    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
-    expect(data.affectedRows).toBe(1);
-    done();
-  }
-  feildao.oppdaterHovedkategori({kategorinavn: 'oppdatertkategoritest', hovedkategori_id: 1}, callback);
-});
-
 test('slett hovedkategori', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
     expect(data.affectedRows).toBe(1);
     done();
   }
-  feildao.slettHovedkategori({hovedkategori_id: 2}, callback);
+  feildao.slettHovedkategori(2, callback);
 });
-
-/*
-test('slett bilde fra feil', (done) => {
-  function callback(status, data) {
-    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
-    expect(data.affectedRows).toBe(1);
-    done();
-  }
-  feildao.slettBildeFraFeil({bilde_id: 31, feil_id: 27}, callback);
-});*/
 
 test('hent ferdige feil til bedrift', (done) => {
   function callback(status, data) {
@@ -394,10 +375,10 @@ test('Hent en hendelse', (done) => {
     expect(data[0].overskrift).toBe('Overskrift2');
     done();
   }
-  hendelsedao.hentEnHendelse({hendelse_id: 2}, callback);
+  hendelsedao.hentEnHendelse(2, callback);
 });
 
-test('Lag ny hendelse', (done) => {
+test('Oppdater en hendelse', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
     expect(data.affectedRows).toBe(1);

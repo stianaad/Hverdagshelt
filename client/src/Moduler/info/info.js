@@ -1,6 +1,10 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
 
+/**
+ * Liten info-knapp som viser en popup med informasjon ved hover event
+ * @reactProps {string} tekst - Teksten som skal vises av infoboksen
+ */
 export class InfoBoks extends Component {
     render() {
         return (

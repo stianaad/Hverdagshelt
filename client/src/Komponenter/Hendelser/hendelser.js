@@ -6,6 +6,7 @@ import { HashRouter, Route, NavLink, Redirect, Switch, Link } from 'react-router
 import { FeedEvent, FeedHendelse, Filtrer, Info, Hendelse, ModalHendelse } from '../../Moduler/cardfeed';
 import { Card, Feed, Grid, Button, Header, Icon, Image, Modal, Dropdown, Popup, Label, Divider } from 'semantic-ui-react';
 import { PageHeader } from '../../Moduler/header/header';
+import {Footer} from '../../Moduler/footer/footer';
 import { KommuneVelger } from '../../Moduler/KommuneVelger/kommuneVelger';
 import { isNullOrUndefined, isUndefined, isNumber } from 'util';
 import { brukerService } from '../../services/brukerService';
@@ -49,14 +50,10 @@ export class Hendelser extends Component {
     this.visFylke = false;
     document.getElementById("fylke").value = 0;
     document.getElementById("kategori").value = 0;
-    console.log(this.skrivKategori);
     document.getElementById("til").valueAsDate = null;
     document.getElementById("fra").valueAsDate = null;
-    //var dateControl = document.querySelector('input[type="date"]');
-    //dateControl.value = 'mm/dd/yyyy';
+    document.getElementById("kommuner").value = 0;
     this.filterAlle();
-    //this.hentData();
-    //this.mounted();
   }
 
   filterAlle() {
@@ -168,6 +165,7 @@ export class Hendelser extends Component {
               <select 
                 onChange={this.filterKommune}
                 className="ui fluid dropdown"
+                id="kommuner"
               >
                 <option hidden> {this.skrivAlleKommuner}</option>
                 <option value="0">Alle kommuner</option>
@@ -244,15 +242,16 @@ export class Hendelser extends Component {
             <div className="field">
               <label>Tilbakestill filter</label>
               <Button
+              type="button"
                 primary
-                onClick={() => { this.tilbakestill() }}>
+                onClick={() => {this.tilbakestill();}}>
                 Tilbakestill
               </Button>
             </div>
             <div className="field"></div>
           </div>
         </form>
-        <Card.Group stackable> 
+        {(this.aktiveHendelser.length >0) ? (<Card.Group stackable> 
           {this.aktiveHendelser.map(hendelse => (
             <Hendelse
               onClick={() => {
@@ -267,7 +266,13 @@ export class Hendelser extends Component {
               key={hendelse.hendelse_id}
               hendelse_id={hendelse.hendelse_id}
             />))}
-        </Card.Group>
+        </Card.Group>) : 
+        (<Card centered>
+          <Card.Content>
+            <Header as="h4">Det er for øyeblikket ingen hendelser i denne kommunen. Filtrer hendelser over dersom du ønsker å titte andre steder.</Header>
+          </Card.Content>
+        </Card>)}
+        <Footer/>
       </div>
     );
   }
@@ -306,7 +311,6 @@ export class Hendelser extends Component {
     }
     this.hendelser = await res1.data;
     this.aktiveHendelser = await res1.data;
-    console.log(this.hendelser);
     this.hentData();
   }
 }

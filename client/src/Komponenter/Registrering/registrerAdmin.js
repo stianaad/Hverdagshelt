@@ -106,9 +106,8 @@ export class RegistrerAdmin extends Component {
       this.adminInput.epost,
       '',
       this.kommune.current.verdi,
-      this.adminInput.orgnr,
-      this.adminInput.navn,
-      this.adminInput.telefon
+      this.adminInput.telefon,
+      this.adminInput.navn
     );
 
     if (!admin.kommune_id) {
@@ -130,9 +129,10 @@ export class RegistrerAdmin extends Component {
       this.advarsel = 'E-post er ikke gyldig';
       gyldig = false;
     }
+
     if (gyldig) {
       brukerService.lagNyAdminBruker(admin).then((res) => {
-        this.props.history.push('/');
+        this.props.history.push('/admin/startside');
       });
     }
   }

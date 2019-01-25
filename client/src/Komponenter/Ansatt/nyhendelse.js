@@ -150,14 +150,12 @@ export class NyHendelse extends Component {
   async mounted() {
     let kat = await hendelseService.hentAlleKategorier();
     this.kategorier = await kat.data;
-    await console.log(kat.data);
 
     if (global.payload.role == 'admin') {
       let res = await generellServices.sokKommune(this.props.match.params.kommune);
       await Promise.resolve(res.data).then(async () => {
           if (res.data.length > 0) {
               this.kommune = res.data[0];
-              console.log(this.kommune)
           }
       });
     }

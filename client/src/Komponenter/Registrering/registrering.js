@@ -2,6 +2,7 @@ import * as React from 'react';
 import {Component} from 'react-simplified';
 import {brukerService} from '../../services/brukerService';
 import {PageHeader} from '../../Moduler/header/header';
+import {Footer} from '../../Moduler/footer/footer';
 import {Privat} from '../../objekter.js';
 import {KommuneInput} from '../../Moduler/kommuneInput/kommuneInput';
 
@@ -27,6 +28,7 @@ export class Registrering extends Component {
     return (
       <div>
         <PageHeader history={this.props.history} location={this.props.location} />
+        <Footer/>
         <h1 className="text-center text-capitalize display-4" id="regTittel">Registrering</h1>
         <div className="regContainer">
           <div className="row">

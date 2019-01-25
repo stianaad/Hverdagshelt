@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {PageHeader} from '../../Moduler/header/header';
+import {Footer} from '../../Moduler/footer/footer';
 import {Component} from 'react-simplified';
 import {Card, Feed, Button, Header, Image} from 'semantic-ui-react';
 import {FeedMinside, ModalHendelse} from '../../Moduler/cardfeed';
@@ -253,7 +254,7 @@ export class Minside extends Component {
           <div className="col minSideUtKolonne" id="sideListeH">
             <Card fluid key = {'sideListeH'}>
               <Card.Content>
-                <Card.Header>Brukerinformasjon<InfoBoks key={'brukerinfo'} tekst="Her kan du både se og redigere din personlige informasjon.&#10;Du kan også endre passord ved: 'Rediger bruker' > 'Endre passord'."/></Card.Header>
+                <Card.Header>Brukerinformasjon<InfoBoks key={'brukerinfo'} tekst="Her kan du både se og redigere din personlige informasjon.&#10;Du kan også endre hvorvidt du ønsker å bli informert om hendelser i ditt fylke.&#10;Passord kan du endre ved: 'Rediger bruker' > 'Endre passord'."/></Card.Header>
               </Card.Content>
               <Card.Content>
                 <div id="container">
@@ -383,6 +384,7 @@ export class Minside extends Component {
           </div>
           
         </div>
+        <Footer/>
       </div>
     );
   }
@@ -425,7 +427,6 @@ export class Minside extends Component {
 
   async visRapporterteFeil() {
     this.visFeil = !this.visFeil;
-    console.log(this.oppdaterteFeil);
     if (this.visFeil) {
       if(this.alleIkkeOppdaterteFeil.length.length > 0 ){
         this.ikkeOppdaterteFeil = this.alleIkkeOppdaterteFeil;

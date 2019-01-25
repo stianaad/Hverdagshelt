@@ -18,11 +18,8 @@ export class FeilVisning extends Component {
     bildeApen = false; 
 
     handterStatuser(status){
-        console.log(status);
         let stat = this.statuser.find(e => (e.status === status));
-        console.log(stat);
         this.valgtStatus = {...stat};
-        console.log(this.valgtStatus);
     }
 
     visBilde(){
