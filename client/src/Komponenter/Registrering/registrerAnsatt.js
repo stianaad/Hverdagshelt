@@ -119,7 +119,7 @@ export class RegistrerAnsatt extends Component {
 
   reRoute() {
     //Her skal vi sjekke hvor de kom fra, men dette er en temporær løsning
-    this.props.history.push('/');
+    this.props.history.push('/admin/startside');
   }
 
   lagre() {
