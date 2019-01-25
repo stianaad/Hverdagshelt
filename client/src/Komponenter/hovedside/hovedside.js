@@ -263,7 +263,7 @@ export class Hovedside extends Component {
                   </Card.Header>
                 </Card.Content>
                 <Card.Content className='hovedsideTabeller'>
-                  <Feed>
+                {(this.alleFeil.length > 0) ? (<Feed>
                     {this.alleFeil.filter((feil) => (this.feilKategori == feil.kategorinavn) || this.feilKategori == "0").map((feil) => (
                       <FeedEvent
                         onClick={() => this.merInfo(feil)}
@@ -275,7 +275,13 @@ export class Hovedside extends Component {
                         {feil.overskrift}
                       </FeedEvent>
                     ))}
-                  </Feed>
+                  </Feed>) : (
+                    <Card centered>
+                    <Card.Content>
+                      <Header as="h4">Det er ingen feil i denne kommunen.</Header>
+                    </Card.Content>
+                  </Card>
+                  )}
                 </Card.Content>
               </Card>
             </div>
@@ -408,7 +414,7 @@ f                      id="test"
                   </Card.Header>
                     </Card.Content>
                     <Card.Content className='hovedsideTabeller'>
-                      <Feed>
+                    {(this.alleHendelser.length > 0) ? (<Feed>
                         {this.alleHendelser.filter(kat => ((kat.kategorinavn == this.filterHendelse) || this.filterHendelse == "0")).map((hendelse) => (
                           <FeedHendelse
                             onClick={() => {
@@ -422,7 +428,12 @@ f                      id="test"
                             {hendelse.overskrift}
                           </FeedHendelse>
                         ))}
-                      </Feed>
+                      </Feed>):
+                      (<Card centered>
+                    <Card.Content>
+                      <Header as="h4">Det er ingen hendelser i denne kommunen.</Header>
+                    </Card.Content>
+                  </Card>)}
                     </Card.Content>
                   </Card>
                   
