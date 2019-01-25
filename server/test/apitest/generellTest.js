@@ -119,7 +119,7 @@ test('legg til ny privatbruker', (done) => {
     done();
   }
   brukerdao.lagNyPrivatBruker(testprivatBruker, callback);
-}, 10000);
+}, 1000000);
 
 test('hent fulgte feil til bruker', (done) => {
   function callback(status, data) {
@@ -513,7 +513,14 @@ test('hent alle kommuner', (done) => {
   generelldao.hentAlleKommuner(callback);
 }, 10000);
 
-
+test('søk på kommune', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data[0]));
+    expect(data[0].kommune_navn).toBe('Gran');
+    done();
+  }
+  generelldao.hentAlleKommuner('Gran', callback);
+}, 10000);
 
 // STATISTIKKTESTER
 
