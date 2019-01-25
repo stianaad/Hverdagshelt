@@ -8,6 +8,7 @@ import {markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
 import {NavLink} from 'react-router-dom';
 import {AnsattMeny} from './ansattMeny';
 import { brukerService } from '../../services/brukerService';
+import { InfoBoks } from '../../Moduler/info/info';
 
 export class AnsattGodkjent extends Component{
     godkjente = [];
@@ -41,7 +42,8 @@ export class AnsattGodkjent extends Component{
 
     visFeil(feil){
         this.feilApen = true;
-        this.valgtfeil = feil; 
+        this.valgtfeil = {...feil};
+        this.hosBedrift(feil);
     }
 
     handterStatuser(status){
@@ -54,6 +56,26 @@ export class AnsattGodkjent extends Component{
         let res = this.alleBedrifter.find(e => (e.navn === bed));
         this.valgtBedrift = res;
         console.log(this.valgtBedrift);
+    }
+
+    async hosBedrift(feil){
+        let res = await feilService.hentJobbSoknadStatus(feil.feil_id);
+        let svar =  await res.data; 
+
+        let venter = await svar.find(e => (e.status === 3));
+        await this.erDenSendt(venter);
+
+    }
+
+    erDenSendt(tabell){
+        if(tabell === undefined){
+            this.sendtTilBedrift = false; 
+        }
+
+        else{
+            this.valgtBedrift = this.alleBedrifter.find(e => e.bruker_id === tabell.bruker_id);
+            this.sendtTilBedrift  = true; 
+        }
     }
 
     render(){
@@ -93,7 +115,9 @@ export class AnsattGodkjent extends Component{
                                     <div className="ansattFeilVindu">
                                         <Card fluid>
                                             <Card.Content>
-                                                <h3>{this.valgtfeil.overskrift}</h3>
+                                                <h3 style={{display: 'inline'}}>{this.valgtfeil.overskrift}</h3>
+                                                <InfoBoks style={{display: 'inline'}} 
+                                                    tekst="Her ser du informasjon om alle feil som alt er godkjent og gjort offentlig&#10;Du kan endre statusen på feil, da vil de bli flyttet til den kategorien du velger (du finner alle i menyen)&#10;Du kan sende en feil til en bedrift ved å velge en bedrift fra nedtreksmenyen og trykke send"/>
                                             </Card.Content>
                                             <Card.Content extra>
                                                 <div>
@@ -153,7 +177,11 @@ export class AnsattGodkjent extends Component{
                                                                     <Button basic color="blue" onClick={this.sendTilBed}>Send</Button>
                                                                 </div>
                                                             ):(
-                                                                <p>Sendt</p>
+                                                                <div>
+                                                                    <p>Feilen er sendt videre til: {this.valgtBedrift.navn}</p>
+                                                                    <p>Hvis bedriften godtar oppdraget vil feilen bli flyttet til 'Under Behandling'</p>
+                                                                    <p>Dersom bedriften ikke godtar oppdraget vil du kunne sende til en ny bedrift</p>
+                                                                </div>
                                                             ))}
                                                             
                                                         </Grid.Column>                                                
@@ -212,7 +240,7 @@ export class AnsattGodkjent extends Component{
         this.statuser = await status.data; 
 
         let bed = await brukerService.hentBedrifter();
-        this.alleBedrifter = await bed.data; 
+        this.alleBedrifter = await bed.data;
       }
     
 }
