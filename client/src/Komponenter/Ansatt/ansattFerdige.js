@@ -52,7 +52,7 @@ export class AnsattFerdig extends Component{
                                 <Card color="red" fluid>
                                     <Card.Content>
                                         <Card.Header>
-                                            Nye innsendinger
+                                            Fullførte feil
                                         </Card.Header>
                                     </Card.Content>
                                     <Card.Content className={this.className}>

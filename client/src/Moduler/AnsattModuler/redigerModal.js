@@ -44,7 +44,7 @@ export class RedigerModal extends Component {
 
   async lagre(){
     await feilService.oppdaterFeil({
-        kommune_id : this.props.feil.kommune_id, 
+        kommune_id : this.feil.kommune_id, 
         subkategori_id: this.feil.subkategori_id,
         overskrift: this.overskrift,
         beskrivelse: this.beskrivelse,
@@ -52,8 +52,7 @@ export class RedigerModal extends Component {
         breddegrad: this.feil.breddegrad,
         feil_id: this.feil.feil_id
       });
-    
-    await this.props.onClose; 
+    //this.props.lukk();  
   }
 
   render() {
@@ -93,7 +92,7 @@ export class RedigerModal extends Component {
                                 ))}
                             </div>
                         </div>
-                        <Button color="blue" onClick={this.lagre}>Lagre</Button>
+                        <Button color="blue" onClick={() => {this.lagre(); this.props.lukk(); this.props.onClose()}}>Lagre</Button>
                     </div>
                 </div>
             </Modal.Content>
