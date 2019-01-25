@@ -99,7 +99,7 @@ export class Ansatt extends Bruker {
    * @param {string} etternavn 
    * @param {string} telefon 
    */
-  constructor(bruker_id, epost, passord, fornavn, etternavn, telefon) {
+  constructor(bruker_id, epost, passord, kommune_id, fornavn, etternavn, telefon) {
     super(bruker_id, epost, passord, kommune_id);
 
     /**
