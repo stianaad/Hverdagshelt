@@ -172,11 +172,10 @@ router.get('/api/ansatt/bedrifter/:feil_id', (req, res) => {
 router.delete('/api/feil/:feil_id', checkToken, (req, res) => {
   console.log('Fikk DELETE-request fra klienten');
   let rolle = req.decoded.role;
-  let feil_id = { feil_id: req.params.feil_id };
 
   console.log(rolle);
   if (rolle == 'admin') {
-    feilDao.slettFeil(feil_id, (status, data) => {
+    feilDao.slettFeil(req.params.feil_id, (status, data) => {
       console.log('Slettet en feil');
       res.status(status);
       res.json(data);
@@ -190,7 +189,7 @@ router.delete('/api/feil/:feil_id', checkToken, (req, res) => {
         res.status(403);
         res.json({ result: false, message: 'Privatbruker har ikke registrert denne feilen' });
       } else {
-        feilDao.slettFeil(feil_id, (status, data) => {
+        feilDao.slettFeil(req.params.feil_id, (status, data) => {
           console.log('Privatbruker har slettet feil med id = ' + req.params.feil_id);
           res.status(status);
           res.json(data);
@@ -198,7 +197,7 @@ router.delete('/api/feil/:feil_id', checkToken, (req, res) => {
       }
     });
   } else if (rolle == 'ansatt' && req.decoded.user.kommune_id == req.body.kommune_id) {
-    feilDao.slettFeil(feil_id, (status, data) => {
+    feilDao.slettFeil(req.params.feil_id, (status, data) => {
       console.log('Ansatt har slettet feil med id =' + req.params.feil_id);
       res.status(status);
     });
