@@ -87,7 +87,11 @@ export class FeedEvent extends Component {
           <Feed.Content>
             <a onClick={this.props.onClick}>
               {this.dato(this.props.tid)}
-              <Feed.Summary>{this.props.children}</Feed.Summary>
+              <Feed.Summary>
+                <h4 style={{overflow: 'hidden', whiteSpace: 'nowrap', maxWidth: '250px'}}>
+                  {this.props.children}
+                </h4>
+                </Feed.Summary>
               <span>
                 <i>{this.props.kategori}</i>
               </span>

@@ -23,8 +23,11 @@ export class AlleBedrifter extends Component{
     }
     oppdateringer = [];
 
+    tekst = "";
+
     openBed(bed){
         this.valgtBed = {...bed};
+        this.feilApen = false;
         this.bedApen = true;
         this.hentFeil(bed);
     }
@@ -32,6 +35,12 @@ export class AlleBedrifter extends Component{
     async hentFeil(bed){
         let res1 = await feilService.hentFerdigeFeilForAnsatt(bed.orgnr);
         this.feilHosBedrift = await res1.data; 
+
+        if(this.feilHosBedrift.length > 0){
+            this.tekst = "Trykk på en feil for å se mer informasjon";
+        }else{
+            this.tekst = "Denne bedriften har fullført noen oppgaver i denne kommunen."
+        }
         await console.log(this.feilHosBedrift);
         
     }
@@ -87,10 +96,10 @@ export class AlleBedrifter extends Component{
                                        <Card fluid className="bedrifterVindu">
                                             <Card.Header textAlign="center"><h3>{this.valgtBed.navn}</h3></Card.Header>
                                             <Card.Content>
-                                            <Grid fluid>
+                                            <Grid fluid divided>
                                                 <Grid.Column width={4}>
-                                                    <div className="oppdateringScroll">
-                                                        <List divided relaxed>
+                                                    <div>
+                                                        <List divided relaxed style={{height: '50%', overflow: 'auto'}}>
                                                             {this.feilHosBedrift.map((feil) => (
                                                                 <List.Item onClick={() => this.visFeil(feil)}>
                                                                     <List.Content>
@@ -109,8 +118,8 @@ export class AlleBedrifter extends Component{
                                                                 <h5>Overskrift: </h5>
                                                                 {this.valgtFeil.overskrift}
                                                                 <h5>Beskrivelse:</h5>
-                                                                {this.valgtFeil.beskrivelse}
-                                                                <ShowMarkerMap key={this.valgtFeil.feil_id} width="100%" height="85%" id="posmap" feil={this.valgtFeil} />
+                                                                <p style={{maxHeight:'100px', overflow: 'auto'}}>{this.valgtFeil.beskrivelse}</p>
+                                                                <ShowMarkerMap key={this.valgtFeil.feil_id} width="100%" height="30%" id="posmap" feil={this.valgtFeil} />
                                                             </Grid.Column>
                                                             <Grid.Column>
                                                                 <div className="oppdateringScroll">
@@ -128,7 +137,7 @@ export class AlleBedrifter extends Component{
                                                             </Grid.Column>
                                                         </Grid>
                                                     ):(
-                                                        <div>Trykk på en feil i lista for å se mer informasjon</div>
+                                                        <p>{this.tekst}</p>
                                                     )}
                                                 </Grid.Column>
                                             </Grid>
