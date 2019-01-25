@@ -229,7 +229,7 @@ test('oppdater spesifisert', (done) => {
     expect(data.affectedRows).toBe(1);
     done();
   }
-  brukerdao.oppdaterSpesifisertBrukerBruker(oppdaterSpesifisertBrukerTest, {rolle: privat, bruker_id: 5} ,callback);
+  brukerdao.oppdaterSpesifisertBrukerBruker(oppdaterSpesifisertBrukerTest, {rolle: 'privat', bruker_id: 5} ,callback);
 });
 
 test('hent alle bedrifter', (done) => {
@@ -400,7 +400,7 @@ test('hent epost fra feil_id', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
     expect(data.length).toBeGreaterThanOrEqual(1);
-    expect(data[0].epost).toBe('epost2@hotmail.com');
+    expect(data[0].epost).toBe('epost@test.com');
     done();
   }
   feildao.hentEpostFraFeilID({feil_id: 2}, callback);
@@ -410,7 +410,7 @@ test('hente bedrift på orgnanisasjonsnummer', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
     expect(data.length).toBeGreaterThanOrEqual(1);
-    expect(data[0].epost).toBe('epost2@hotmail.com');
+    expect(data[0].navn).toBe('Deodeodeo');
     done();
   }
   feildao.hentBedriftPaaOrgnr(120060080, callback);
@@ -519,7 +519,7 @@ test('søk på kommune', (done) => {
     expect(data[0].kommune_navn).toBe('Gran');
     done();
   }
-  generelldao.hentAlleKommuner('Gran', callback);
+  generelldao.sokKommune('Gran', callback);
 });
 
 // STATISTIKKTESTER
