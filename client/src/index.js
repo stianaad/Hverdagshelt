@@ -156,6 +156,14 @@ global.sidePush = (path, hard) => {
   }, 0);
 };
 
+setInterval(()=>{
+  if (global.payload && global.payload.exp < (new Date().getTime()/1000)) {
+    sessionStorage.removeItem('pollett');
+    global.payload = null;
+    global.sidePush("/", true);
+  }
+},60000);
+
 let token = sessionStorage.getItem('pollett');
 if (token) {
   let base64Url = token.split('.')[1];
