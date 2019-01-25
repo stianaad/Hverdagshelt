@@ -161,7 +161,7 @@ export class Minside extends Component {
                   ) : (
                     <Card>
                       <Card.Content>
-                        <Header as="h4">Du har desverre ikke rapportert inn noen feil:( </Header>
+                        <Header as="h4">Du har ingen rapporterte feil</Header>
                       </Card.Content>
                     </Card>
                   )}
@@ -210,7 +210,7 @@ export class Minside extends Component {
               )}
             </div>
           <div className="col-md-auto mx-1 minSideInKolonne" id="feilListe">
-              <h2>Feil/mangler du følger</h2>
+              <h2>Feil du følger</h2>
               {this.folgteFeil.length > 0 ? (
                 <Card.Group itemsPerRow={1}>
                   {this.folgteFeil.map((feil) => (
