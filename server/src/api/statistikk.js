@@ -93,8 +93,22 @@ router.get('/api/statistikk/feil/hovedkategorier', (req, res) => {
   });
 });
 
+router.get('/api/statistikk/feil/hovedkategorier/:intervall', (req, res) => {
+  statistikkDao.hentFeilPerHovedkategoriPaaIntervall(req.params.intervall, (status, data) => {
+    res.status(status);
+    res.json(data);
+  });
+});
+
 router.get('/api/statistikk/feil/subkategorier', (req, res) => {
   statistikkDao.hentFeilPerSubkategori((status, data) => {
+    res.status(status);
+    res.json(data);
+  });
+});
+
+router.get('/api/statistikk/feil/subkategorier/:intervall', (req, res) => {
+  statistikkDao.hentFeilPerSubkategoriPaaIntervall(req.params.intervall, (status, data) => {
     res.status(status);
     res.json(data);
   });
