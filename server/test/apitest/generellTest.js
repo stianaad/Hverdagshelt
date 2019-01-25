@@ -76,7 +76,6 @@ let oppdaterFeil1 = {
 };
 
 let testhendelse = {
-  bruker_id: 10,
   hendelseskategori_id: 1,
   kommune_id: 54,
   overskrift: 'testoverskrift',
