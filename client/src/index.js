@@ -33,6 +33,7 @@ import {relative} from 'path';
 import {KommuneVelger} from './Moduler/KommuneVelger/kommuneVelger';
 import {KommuneInput} from './Moduler/kommuneInput/kommuneInput';
 import {enHendelse} from './Komponenter/Hendelser/enHendelse';
+import {Footer} from './Moduler/footer/footer'
 
 import {NyeFeil} from './Komponenter/Ansatt/ansattNye';
 import {AnsattFerdig} from './Komponenter/Ansatt/ansattFerdige';
@@ -166,6 +167,7 @@ const routes = () => {
   return (
     <Router history={history}>
       <div>
+        <Footer></Footer>
         <Switch>
           {/*Routes som er tilgjengelige for alle*/}
           <Route

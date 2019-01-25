@@ -12,6 +12,7 @@ import { brukerService } from '../../services/brukerService';
 import { AbonnerKnapp } from '../../Moduler/abonner/abonner';
 import {FireNullFire} from '../firenullfire/firenullfire';
 import { InfoBoks } from '../../Moduler/info/info';
+import {Footer} from '../../Moduler/footer/footer'
 
 export class Hovedside extends Component {
   kommune = 0;
@@ -175,6 +176,7 @@ export class Hovedside extends Component {
     return (
       <div>
         <PageHeader history={this.props.history} location={this.props.location} />
+        <Footer className="footer"/>
         <div className="hovedTittel" id="hovedtittelanchor">
 
           <h1 className="text-center text-capitalize display-4">{this.props.match.params.kommune} </h1>
