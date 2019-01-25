@@ -1,5 +1,6 @@
 import Dao from './dao.js';
 
+// 1 av 4 funksjoner testes
 module.exports = class Generelldao extends Dao {
 
   /**

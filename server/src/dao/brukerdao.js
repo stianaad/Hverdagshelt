@@ -1,6 +1,6 @@
 import Dao from './dao.js';
 
-//  11 av 22 funksjoner testes
+//  11 av 27 funksjoner testes
 module.exports = class BrukerDao extends Dao {
 	/**
    * Metode for å kontrollere organisasjonsnummer.

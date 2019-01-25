@@ -70,12 +70,18 @@ export class ResettPassord extends Component {
     );
   }
 
-  lagre() {
+  async lagre() {
     if (this.passord !== this.bekreftPassord) {
       alert('Passordene er ikke like');
       return false;
     } else {
-      brukerService.resettPassord({passord: this.passord}, this.props.match.params.token);
+      let res1 = await brukerService.resettPassord({passord: this.passord}, this.props.match.params.token);
+      if(res1.data.affectedRows > 0){
+        alert("Passordet ditt har blitt resett");
+        this.props.history.push("/");
+      } else {
+        alert("Noe gikk galt, prøv på nytt");
+      }
     }
   }
 
