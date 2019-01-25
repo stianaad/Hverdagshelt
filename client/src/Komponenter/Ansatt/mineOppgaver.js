@@ -54,7 +54,7 @@ export class MineOppgaver extends Component {
 
   render() {
     return (
-      <>
+      <React.Fragment>
         <PageHeader history={this.props.history} location={this.props.location} />
         <div className="container">
           <Modal open={this.state.open} onClose={this.handleClose} size="small" centered={true} dimmer="blurring">
@@ -214,7 +214,7 @@ export class MineOppgaver extends Component {
             </div>
           </div>
         </div>
-      </>
+      </React.Fragment>
     );
   }
 

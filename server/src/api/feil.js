@@ -127,7 +127,6 @@ router.put('/api/feil/:feil_id', checkToken, (req, res) => {
   if (!(req.body instanceof Object)) return res.sendStatus(400);
   console.log('Fikk PUT-request fra klienten');
   let a = {
-    kommune_id: req.body.kommune_id,
     subkategori_id: req.body.subkategori_id,
     overskrift: req.body.overskrift,
     beskrivelse: req.body.beskrivelse,

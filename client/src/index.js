@@ -9,6 +9,8 @@ import {Statistikk} from './Komponenter/Statistikk/statistikk';
 import Popup from 'reactjs-popup';
 import {Registrering} from './Komponenter/Registrering/registrering';
 import {RegistrerBedrift} from './Komponenter/Registrering/registrerBedrift';
+import {RegistrerAnsatt} from './Komponenter/Registrering/registrerAnsatt';
+import {RegistrerAdmin} from './Komponenter/Registrering/registrerAdmin';
 import {MineOppgaver} from './Komponenter/Ansatt/mineOppgaver';
 import {generellServices} from './services/generellServices';
 import {RodKnapp} from './widgets';
@@ -123,13 +125,13 @@ class komtest extends Component {
 
   render() {
     return (
-      <>
+      <React.Fragment>
         <div style={{width: '300px'}}>
           <KommuneInput ref={this.kominput} />
           {this.komm}
         </div>
         <button onClick={this.test}>test</button>
-      </>
+      </React.Fragment>
     );
   }
 
@@ -208,8 +210,8 @@ const routes = () => {
                 <Route exact path="/ansatt/ferdig" key="ferdig" component={AnsattFerdig} history={history}/>,
                 <Route exact path="/ansatt/hendelser" key="hendelser"component={AnsattHendelser} history={history}/>,
                 <Route exact path="/ansatt/godkjent" key="godkjent"component={AnsattGodkjent} history={history}/>,
-                <Route exact path='/ansatt/bedrifter/fullforte' key='bedrifter' component={AlleBedrifter} history={history}/>,
-                <Route exact path='/ansatt/bedrifter/feil' key='bedrifter' component={FeilHosBedrift} history={history}/>
+                <Route exact path='/ansatt/bedrifter/fullforte' key='bedrifterfull' component={AlleBedrifter} history={history}/>,
+                <Route exact path='/ansatt/bedrifter/feil' key='bedrifterfeil' component={FeilHosBedrift} history={history}/>
               ]
             : global.payload.role == 'bedrift'
             ? //Bedrift routes
@@ -217,10 +219,24 @@ const routes = () => {
             : global.payload.role == 'admin'
             ? //Admin routes
               [
-              <Route exact path="/registrerBedrift" key="registrerbedrift"component={RegistrerBedrift} history={history} />,
               <Route exact path="/meldfeil" key="meldfeil" component={MeldFeil} history={history} />,
-              <Route exact path="/administrasjon" key="administrasjon" component={Administrasjon} history={history} />,
-              <Route exact path="/administrasjon/kategori" key="kategori" component={RegistrerNyKategori} history={history} />
+
+              <Route exact path="/registreransatt" key="registreransatt"component={RegistrerAnsatt} history={history} />,
+              <Route exact path="/registrerbedrift" key="registrerbedrift"component={RegistrerBedrift} history={history} />,
+              <Route exact path="/registreradmin" key="registreradmin"component={RegistrerAdmin} history={history} />,
+              
+              <Route exact path="/admin/startside" key="administrasjon" component={Administrasjon} history={history} />,
+              <Route exact path="/admin/kategori" key="kategori" component={RegistrerNyKategori} history={history} />,
+              <Route exact path='/admin/bedrifter' key='bedrifter' component={AlleBedrifter} history={history}/>,
+              <Route exact path="/admin/:kommune/oversikt" key="oversikt" component={AnsattOversikt} history={history}/>,
+              <Route exact path="/admin/:kommune/nyefeil" key="nyefeil" component={NyeFeil} history={history}/>,
+              <Route exact path="/admin/:kommune/nyhendelse" key="nyhendelse" component={NyHendelse} history={history}/>,
+              <Route exact path="/admin/:kommune/underbehandling" key="underbehandling" component={AnsattUnder} history={history}/>,
+              <Route exact path="/admin/:kommune/ferdig" key="ferdig" component={AnsattFerdig} history={history}/>,
+              <Route exact path="/admin/:kommune/hendelser" key="hendelser"component={AnsattHendelser} history={history}/>,
+              <Route exact path="/admin/:kommune/godkjent" key="godkjent"component={AnsattGodkjent} history={history}/>,
+              <Route exact path='/admin/:kommune/bedrifter/fullforte' key='bedrifterfull' component={AlleBedrifter} history={history}/>,
+              <Route exact path='/admin/:kommune/bedrifter/feil' key='bedrifterfeil' component={FeilHosBedrift} history={history}/>,
               ]
             : null}
 

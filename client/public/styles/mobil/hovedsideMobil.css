@@ -17,6 +17,10 @@
     cursor: pointer;
  }
 
+ .adminHoved {
+    margin-top:10px !important;
+ }
+
  .hovedSideFeilOverskrift {
     width: calc(100% - 28px);
     height: calc(1em + 6px);

@@ -68,7 +68,7 @@ export class Statistikk extends Component {
 
   render(){
     return(
-      <>
+      <React.Fragment>
         <div id="lastNedBtn">
           <GronnKnapp onClick={this.print}>Last ned som PDF</GronnKnapp>
         </div>
@@ -77,7 +77,7 @@ export class Statistikk extends Component {
           <StatBar maks={this.maks} text="Feil per kommune" label="Antall feil" elementID={e.id} text="Feil per kommune" labels={e.navn} data={e.antall} ></StatBar>
         ))}
         </div>
-      </>
+      </React.Fragment>
     );
   }
 

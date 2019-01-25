@@ -9,7 +9,7 @@ export class ResettPassord extends Component {
 
   render() {
     return (
-      <>
+      <React.Fragment>
         <PageHeader history={this.props.history} location={this.props.location} />
         <div className="container">
           <h1 className="text-center">Resett passord</h1>
@@ -64,7 +64,7 @@ export class ResettPassord extends Component {
             </div>
           </div>
         </div>
-      </>
+      </React.Fragment>
     );
   }
 
