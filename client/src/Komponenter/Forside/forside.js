@@ -3,6 +3,10 @@ import {Login} from '../../Moduler/login/login';
 import {KommuneVelger} from '../../Moduler/KommuneVelger/kommuneVelger';
 import {Link} from 'react-router-dom';
 import {ProfileButton} from '../../Moduler/header/header';
+
+/**
+ * @ignore
+ */
 export class Forside extends Component {
 
   render() {

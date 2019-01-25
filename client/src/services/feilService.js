@@ -264,6 +264,18 @@ class FeilService {
 			return null;
 		}
 	}
+
+	hentUnderBehandlingOgVenterPaaSvarAnsatt(kommune_id) {
+		let token = sessionStorage.getItem('pollett');
+		console.log('Fekk kommune_id');
+		if (token) {
+			return api.get('/api/ansatt/bedrift/'+kommune_id+'/behandling/godkjent', { headers: { 'x-access-token': 'Bearer ' + token } });
+		} else {
+			return null;
+		}
+	}
+
+
 }
 
 export let feilService = new FeilService();

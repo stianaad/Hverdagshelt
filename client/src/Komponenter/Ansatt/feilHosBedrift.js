@@ -19,6 +19,7 @@ export class FeilHosBedrift extends Component{
     };
     bilder = [];
     oppdateringer = [];
+    underBOgGodkjenning = [];
 
     visFeil(feil){
         this.valgtfeil = {...feil};
@@ -54,12 +55,12 @@ export class FeilHosBedrift extends Component{
                                         </Card.Header>
                                     </Card.Content>
                                     <Card.Content className={this.className}>
-                                        {this.underB.map((feil) => (
+                                        {this.underBOgGodkjenning.map((feil) => (
                                             <FeedEvent
                                             onClick={() => this.visFeil(feil)}
                                             status={feil.status}
                                             tid={feil.tid}
-                                            kategori={feil.kategorinavn}
+                                            kategori={(feil.status == "Godkjent") ? (<span>Sendt til {feil.navn}</span>) : (<span>Under behandling av {feil.navn}</span>)}
                                             >
                                             {feil.overskrift}
                                             </FeedEvent>
@@ -71,7 +72,7 @@ export class FeilHosBedrift extends Component{
                                 {this.feilApen ? (
                                     <div>
                                         <FeilVisning feil={this.valgtfeil} bilder={this.bilder} 
-                                        opp={this.oppdateringer} oppdater={() => this.oppdater()}/>
+                                        opp={this.oppdateringer}  lukk={this.oppdater} visStatus={true}/>
                                     </div>
                                 ) : (
                                     <div>Trykk på feil</div>
@@ -85,8 +86,9 @@ export class FeilHosBedrift extends Component{
     }
     
     oppdater(){
-        this.mounted();
         this.feilApen = false;
+        this.mounted();
+        console.log(this.feilApen);
     }
 
     scroll() {
@@ -98,9 +100,12 @@ export class FeilHosBedrift extends Component{
       async mounted() {
         let feil = await feilService.hentFeilForKommune(global.payload.user.kommune_id);
         this.alleFeil = await feil.data;
-    
+
+        let res1 = await feilService.hentUnderBehandlingOgVenterPaaSvarAnsatt(global.payload.user.kommune_id);
+        this.underBOgGodkjenning = await res1.data;
+        await console.log(res1.data);
+
         this.underB = await feil.data.filter(e => (e.status === 'Under behandling'));
-        
         await this.scroll();
       }
     

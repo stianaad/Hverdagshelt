@@ -73,7 +73,7 @@ export class AnsattUnder extends Component{
                                 {this.feilApen ? (
                                     <div>
                                         <FeilVisning feil={this.valgtfeil} bilder={this.bilder} 
-                                        opp={this.oppdateringer} oppdater={() => this.oppdater()}/>
+                                        opp={this.oppdateringer}  lukk={this.oppdater}/>
                                     </div>
                                 ) : (
                                     <div>Trykk på feil</div>
