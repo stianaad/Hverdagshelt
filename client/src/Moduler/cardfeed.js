@@ -16,6 +16,11 @@ import {
   TextArea,
 } from 'semantic-ui-react';
 
+/**
+ * Feedevent blir brukt til å vise en liste med feil. 
+ * 
+ */
+
 export class FeedEvent extends Component {
   klikk = false;
   tekstverdi = '';
