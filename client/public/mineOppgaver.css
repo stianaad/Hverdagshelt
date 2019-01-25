@@ -137,6 +137,11 @@
     max-width: 70vw;
 }
 
+.godkjennBildeVisning{
+    max-height: 300px; 
+    max-width: 300px;
+}
+
 .modalwidth {
     width: max-content !important;
     height: max-content !important;
