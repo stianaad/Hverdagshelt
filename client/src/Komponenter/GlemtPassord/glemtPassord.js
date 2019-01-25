@@ -2,6 +2,7 @@ import * as React from 'react';
 import {Component} from 'react-simplified';
 import {brukerService} from '../../services/brukerService';
 import {PageHeader} from '../../Moduler/header/header';
+import {Footer} from '../../Moduler/footer/footer';
 
 export class GlemtPassord extends Component {
   epost = '';
@@ -11,6 +12,7 @@ export class GlemtPassord extends Component {
     return (
       <React.Fragment>
         <PageHeader history={this.props.history} location={this.props.location} />
+        <Footer/>
         <div className="container">
           <h1 className="text-center">Glemt passord</h1>
           <p className="font-weight-bold" />

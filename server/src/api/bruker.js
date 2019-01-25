@@ -190,7 +190,7 @@ router.put('/api/brukere/endrepassord', checkToken, (req, res) => {
             });
           }
           else {
-            res.status(403);
+            //res.status(403);
             res.json({ result: false });
           }
         });

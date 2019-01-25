@@ -9,6 +9,8 @@ import {Statistikk} from './Komponenter/Statistikk/statistikk';
 import Popup from 'reactjs-popup';
 import {Registrering} from './Komponenter/Registrering/registrering';
 import {RegistrerBedrift} from './Komponenter/Registrering/registrerBedrift';
+import {RegistrerAnsatt} from './Komponenter/Registrering/registrerAnsatt';
+import {RegistrerAdmin} from './Komponenter/Registrering/registrerAdmin';
 import {MineOppgaver} from './Komponenter/Ansatt/mineOppgaver';
 import {generellServices} from './services/generellServices';
 import {RodKnapp} from './widgets';
@@ -32,7 +34,6 @@ const history = createBrowserHistory(); // Use history.push(...) to programmatic
 import {relative} from 'path';
 import {KommuneVelger} from './Moduler/KommuneVelger/kommuneVelger';
 import {KommuneInput} from './Moduler/kommuneInput/kommuneInput';
-import {enHendelse} from './Komponenter/Hendelser/enHendelse';
 import {Footer} from './Moduler/footer/footer'
 
 import {NyeFeil} from './Komponenter/Ansatt/ansattNye';
@@ -167,7 +168,6 @@ const routes = () => {
   return (
     <Router history={history}>
       <div>
-        <Footer></Footer>
         <Switch>
           {/*Routes som er tilgjengelige for alle*/}
           <Route
@@ -181,7 +181,6 @@ const routes = () => {
           <Route exact path="/hovedside/:kommune" component={Hovedside} history={history} />
           <Route exact path="/resett-passord/:token" component={ResettPassord} />
           <Route exact path="/hendelser" component={Hendelser}/>
-          <Route exact path="/hendelser/:id" component={enHendelse} />
 
           {/*Under ligger spesielle routes*/}
           {global.payload == null
@@ -210,8 +209,8 @@ const routes = () => {
                 <Route exact path="/ansatt/ferdig" key="ferdig" component={AnsattFerdig} history={history}/>,
                 <Route exact path="/ansatt/hendelser" key="hendelser"component={AnsattHendelser} history={history}/>,
                 <Route exact path="/ansatt/godkjent" key="godkjent"component={AnsattGodkjent} history={history}/>,
-                <Route exact path='/ansatt/bedrifter/fullforte' key='bedrifter' component={AlleBedrifter} history={history}/>,
-                <Route exact path='/ansatt/bedrifter/feil' key='bedrifter' component={FeilHosBedrift} history={history}/>
+                <Route exact path='/ansatt/bedrifter/fullforte' key='bedrifterfull' component={AlleBedrifter} history={history}/>,
+                <Route exact path='/ansatt/bedrifter/feil' key='bedrifterfeil' component={FeilHosBedrift} history={history}/>
               ]
             : global.payload.role == 'bedrift'
             ? //Bedrift routes
@@ -219,8 +218,11 @@ const routes = () => {
             : global.payload.role == 'admin'
             ? //Admin routes
               [
-              <Route exact path="/registrerBedrift" key="registrerbedrift"component={RegistrerBedrift} history={history} />,
               <Route exact path="/meldfeil" key="meldfeil" component={MeldFeil} history={history} />,
+
+              <Route exact path="/registreransatt" key="registreransatt"component={RegistrerAnsatt} history={history} />,
+              <Route exact path="/registrerbedrift" key="registrerbedrift"component={RegistrerBedrift} history={history} />,
+              <Route exact path="/registreradmin" key="registreradmin"component={RegistrerAdmin} history={history} />,
               
               <Route exact path="/admin/startside" key="administrasjon" component={Administrasjon} history={history} />,
               <Route exact path="/admin/kategori" key="kategori" component={RegistrerNyKategori} history={history} />,
@@ -232,6 +234,8 @@ const routes = () => {
               <Route exact path="/admin/:kommune/ferdig" key="ferdig" component={AnsattFerdig} history={history}/>,
               <Route exact path="/admin/:kommune/hendelser" key="hendelser"component={AnsattHendelser} history={history}/>,
               <Route exact path="/admin/:kommune/godkjent" key="godkjent"component={AnsattGodkjent} history={history}/>,
+              <Route exact path='/admin/:kommune/bedrifter/fullforte' key='bedrifterfull' component={AlleBedrifter} history={history}/>,
+              <Route exact path='/admin/:kommune/bedrifter/feil' key='bedrifterfeil' component={FeilHosBedrift} history={history}/>,
               ]
             : null}
 

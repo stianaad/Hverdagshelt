@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {PageHeader} from '../../Moduler/header/header';
+import {Footer} from '../../Moduler/footer/footer';
 import {Component} from 'react-simplified';
 import {Card, Feed, Button, Header, Image} from 'semantic-ui-react';
 import {FeedMinside, ModalHendelse} from '../../Moduler/cardfeed';
@@ -383,6 +384,7 @@ export class Minside extends Component {
           </div>
           
         </div>
+        <Footer/>
       </div>
     );
   }

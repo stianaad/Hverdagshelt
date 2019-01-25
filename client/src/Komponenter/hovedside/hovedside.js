@@ -5,6 +5,7 @@ import {generellServices} from '../../services/generellServices';
 import {feilService} from '../../services/feilService';
 import {hendelseService} from '../../services/hendelseService';
 import {PageHeader} from '../../Moduler/header/header';
+import {Footer} from '../../Moduler/footer/footer';
 import {PositionMap, Marker, MarkerMap, markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
 import {Card, Feed, Grid, Button, Header, Icon, Image, Modal, GridColumn, List} from 'semantic-ui-react';
 import {FeedEvent, FeedHendelse, Filtrer, Info} from '../../Moduler/cardfeed';
@@ -12,7 +13,6 @@ import { brukerService } from '../../services/brukerService';
 import { AbonnerKnapp } from '../../Moduler/abonner/abonner';
 import {FireNullFire} from '../firenullfire/firenullfire';
 import { InfoBoks } from '../../Moduler/info/info';
-import {Footer} from '../../Moduler/footer/footer'
 
 export class Hovedside extends Component {
   kommune = 0;
@@ -176,7 +176,6 @@ export class Hovedside extends Component {
     return (
       <div>
         <PageHeader history={this.props.history} location={this.props.location} />
-        <Footer className="footer"/>
         <div className="hovedTittel" id="hovedtittelanchor">
 
           <h1 className="text-center text-capitalize display-4">{this.props.match.params.kommune} </h1>
@@ -550,6 +549,7 @@ f                      id="test"
                 </div>
           </div>
         )}
+        <Footer/>
       </div>
     );
   }
