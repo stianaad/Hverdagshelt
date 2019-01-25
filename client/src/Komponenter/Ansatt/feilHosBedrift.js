@@ -72,7 +72,7 @@ export class FeilHosBedrift extends Component{
                                 {this.feilApen ? (
                                     <div>
                                         <FeilVisning feil={this.valgtfeil} bilder={this.bilder} 
-                                        opp={this.oppdateringer}  lukk={this.oppdater}/>
+                                        opp={this.oppdateringer}  lukk={this.oppdater} visStatus={true}/>
                                     </div>
                                 ) : (
                                     <div>Trykk på feil</div>
@@ -86,8 +86,8 @@ export class FeilHosBedrift extends Component{
     }
     
     oppdater(){
-        this.mounted();
         this.feilApen = false;
+        this.mounted();
         console.log(this.feilApen);
     }
 

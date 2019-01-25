@@ -81,7 +81,7 @@ export class FeilVisning extends Component {
                                         onChange={(e) => (this.kommentar = e.target.value)}
                                     />
                                 </div>
-                                <div className="form-group">
+                                {(this.props.visStatus) ? (null) : ( <div className="form-group">
                                     <label>Status: </label>
                                     <select
                                         className="form-control"
@@ -95,8 +95,8 @@ export class FeilVisning extends Component {
                                             </option>
                                         ))}
                                     </select>
-                                </div>
-                                <Button basic color="green" onClick={() => {this.oppdatering();this.props.lukk()}}>Oppdater</Button>
+                                </div>)}
+                                <Button basic color="green" onClick={() => {this.oppdatering();}}>Oppdater</Button>
                             </Grid.Column>
                         </Grid> 
                     </Card.Content>
@@ -117,7 +117,7 @@ export class FeilVisning extends Component {
             "kommentar": this.kommentar, 
             "status_id": this.valgtStatus.status_id
         });
-
+        this.props.lukk(this.valgtStatus.status_id);
         //await this.props.oppdater;  
         await console.log("Oppdatering sendt");
     }
