@@ -209,7 +209,7 @@ const routes = () => {
             : global.payload.role == 'ansatt'
             ? //Ansatt routes
               [
-                <Route exact path="/registrerBedrift" key="registrerbedrift"component={RegistrerBedrift} history={history} />,
+                <Route exact path="/registrerbedrift" key="registrerbedrift"component={RegistrerBedrift} history={history} />,
                 <Route exact path="/ansatt/nyefeil" key="nyefeil" component={NyeFeil} history={history}/>,
                 <Route exact path="/ansatt/nyhendelse" key="nyhendelse" component={NyHendelse} history={history}/>,
                 <Route exact path="/ansatt/oversikt" key="oversikt" component={AnsattOversikt} history={history}/>,
