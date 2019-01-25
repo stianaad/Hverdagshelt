@@ -107,7 +107,7 @@ export class FeilModal extends Component {
                       <h6><b>Bilder:</b></h6>
                       <div className="feilModalFyll">
                         {this.bilderTilFeil.map((bilde) => (
-                          <div className="feilModalBilde" key={bilde.bilde_id} onClick={() => this.visBilde(bilde.url)}>
+                          <div className="feilModalBilde" key={bilde.bilde_id}>
                             <img src={bilde.url} key={bilde.bilde_id} className="bilder" onClick={() => { this.bildeModal = bilde.url; this.bildeOpen = true; }} />
                           </div>
                         ))}

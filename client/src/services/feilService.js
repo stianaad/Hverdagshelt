@@ -38,7 +38,6 @@ class FeilService {
 		if (token) {
 			return api.put('/api/feil/' + feil_id, oppdatertFeil, { headers: { 'x-access-token': 'Bearer ' + token } });
 		} else {
-			console.log('oppdatertfeil, token feil');
 			return [];
 		}
 	}
@@ -49,7 +48,6 @@ class FeilService {
 			return api.delete('/api/feil/' + feil_id, { headers: { 'x-access-token': 'Bearer ' + token } });
 		} else {
 			return [];
-			console.log('æsjebæsj, token dæsj');
 		}
 	}
 
@@ -64,7 +62,6 @@ class FeilService {
 				headers: { 'x-access-token': 'Bearer ' + token }
 			});
 		} else {
-			console.log('oeifjeoif');
 			return [];
 		}
 	}
@@ -99,7 +96,6 @@ class FeilService {
 
 	slettBildeFraFeil(json) {
 		let token = sessionStorage.getItem('pollett');
-		console.log(token);
 		if (token) {
 			return api.delete('/api/feil/' + json.feil_id + '/bilder/' + json.bilde_id, {
 				headers: { 'x-access-token': 'Bearer ' + token }
@@ -114,7 +110,6 @@ class FeilService {
 		if (token) {
 			return api.get('/api/feil/bedrift/nyeOppgaver', { headers: { 'x-access-token': 'Bearer ' + token } });
 		} else {
-			console.log('oeifjeoif');
 			return [];
 		}
 	}
@@ -124,7 +119,6 @@ class FeilService {
 		if (token) {
 			return api.get('api/feil/bedrift/underBehandling', { headers: { 'x-access-token': 'Bearer ' + token } });
 		} else {
-			console.log('foeifj');
 			return [];
 		}
 	}
@@ -134,7 +128,6 @@ class FeilService {
 		if (token) {
 			return api.get('/api/bedrift/feil/ferdig', { headers: { 'x-access-token': 'Bearer ' + token } });
 		} else {
-			console.log('foeifj');
 			return [];
 		}
 	}
@@ -144,46 +137,39 @@ class FeilService {
 		if (token) {
 			return api.post('/api/bedrift/feil', k, { headers: { 'x-access-token': 'Bearer ' + token } });
 		} else {
-			console.log('sendFeilTilBedrift failed');
 			return [];
 		}
 	}
 
 	hentFerdigeFeilForAnsatt(orgnr) {
 		let token = sessionStorage.getItem('pollett');
-		console.log(token);
 		if (token) {
 			return api.get('/api/ansatt/bedrift/' + orgnr + '/feil/ferdig', {
 				headers: { 'x-access-token': 'Bearer ' + token }
 			});
 		} else {
-			console.log('hentFerdigeFeilForAnsatt failed');
 			return [];
 		}
 	}
 
 	hentFeilUnderbehandlingForAnsatt(orgnr) {
 		let token = sessionStorage.getItem('pollett');
-		console.log(token);
 		if (token) {
 			return api.get('/api/ansatt/bedrift/' + orgnr + '/feil/underbehandling', {
 				headers: { 'x-access-token': 'Bearer ' + token }
 			});
 		} else {
-			console.log('hentFeilUnderbehandlingForAnsatt failed');
 			return [];
 		}
 	}
 
 	hentNyeFeilForAnsatt(orgnr) {
 		let token = sessionStorage.getItem('pollett');
-		console.log(token);
 		if (token) {
 			return api.get('/api/ansatt/bedrift/' + orgnr + '/feil/nyeoppgaver', {
 				headers: { 'x-access-token': 'Bearer ' + token }
 			});
-		} else {
-			console.log('hentNyeFeilForAnsatt failed');
+		} else {;
 			return [];
 		}
 	}
@@ -227,7 +213,6 @@ class FeilService {
 
 	slettHovedkategori(hk_id) {
 		let token = sessionStorage.getItem('pollett');
-		console.log('Slett hovedkategori service:');
 		if (token) {
 			return api.delete('/api/hovedkategorier/' + hk_id, { headers: { 'x-access-token': 'Bearer ' + token } });
 		} else {
@@ -237,7 +222,6 @@ class FeilService {
 
 	slettSubkategori(sk_id) {
 		let token = sessionStorage.getItem('pollett');
-		console.log('Slett subkategori service:');
 		if (token) {
 			return api.delete('/api/subkategorier/' + sk_id, { headers: { 'x-access-token': 'Bearer ' + token } });
 		} else {
@@ -247,7 +231,6 @@ class FeilService {
 
 	opprettHovedkategori(nyHk) {
 		let token = sessionStorage.getItem('pollett');
-		console.log('Opprett ny hovedkategori service:');
 		if (token) {
 			return api.post('/api/hovedkategorier', nyHk, { headers: { 'x-access-token': 'Bearer ' + token } });
 		} else {
@@ -257,13 +240,23 @@ class FeilService {
 
 	opprettSubkategori(nySk) {
 		let token = sessionStorage.getItem('pollett');
-		console.log('Opprett ny subkategori service:');
 		if (token) {
 			return api.post('/api/subkategorier', nySk, { headers: { 'x-access-token': 'Bearer ' + token } });
 		} else {
 			return null;
 		}
 	}
+
+	hentUnderBehandlingOgVenterPaaSvarAnsatt(kommune_id) {
+		let token = sessionStorage.getItem('pollett');
+		if (token) {
+			return api.get('/api/ansatt/bedrift/'+kommune_id+'/behandling/godkjent', { headers: { 'x-access-token': 'Bearer ' + token } });
+		} else {
+			return null;
+		}
+	}
+
+
 }
 
 export let feilService = new FeilService();

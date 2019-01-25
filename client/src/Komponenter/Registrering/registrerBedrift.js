@@ -26,7 +26,7 @@ export class RegistrerBedrift extends Component {
       <div>
         <PageHeader history={this.props.history} location={this.props.location} />
         <div className="container">
-          <h2 className="text-center text-capitalize display-4">Registrer en bedrift</h2>
+          <h1 className="text-center text-capitalize display-4">Registrer en bedrift</h1>
           <div>
             <div className="row">
               <div className="col">
@@ -109,8 +109,8 @@ export class RegistrerBedrift extends Component {
   }
 
   reRoute() {
-    //Her skal vi sjekke hvor de kom fra, men dette er en temporær løsning
-    this.props.history.push('/');
+    if (global.payload.role == 'admin') this.props.history.push('/admin/startside');
+    else if (global.payload.role == 'ansatt') this.props.history.push('/ansatt/oversikt');
   }
 
   lagre() {
@@ -152,7 +152,8 @@ export class RegistrerBedrift extends Component {
     }
     if (gyldig) {
       brukerService.lagNyBedriftBruker(bedrift).then((res) => {
-        this.props.history.push('/');
+        if (global.payload.role == 'admin') this.props.history.push('/admin/startside');
+        else if (global.payload.role == 'ansatt') this.props.history.push('/ansatt/oversikt');
       });
     }
   }

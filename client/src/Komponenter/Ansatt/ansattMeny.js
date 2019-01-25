@@ -69,6 +69,21 @@ export class AnsattMeny extends Component {
                 as={NavLink}
                 to='/ansatt/bedrifter/feil'
               />
+              <Menu.Item
+                name='Registrer ny bedrift'
+                as={NavLink}
+                to='/registrerbedrift'
+              />
+              </Menu.Menu>
+            </Menu.Item>
+            <Menu.Item>
+              <Menu.Header>Statistikk</Menu.Header>
+              <Menu.Menu>
+                <Menu.Item 
+                name='Nasjonal statistikk'
+                as={NavLink}
+                to='/statistikk'
+                />
               </Menu.Menu>
             </Menu.Item>
           </Menu>

@@ -2,6 +2,7 @@ import * as React from 'react';
 import {Component} from 'react-simplified';
 import {brukerService} from '../../services/brukerService';
 import {PageHeader} from '../../Moduler/header/header';
+import {Footer} from '../../Moduler/footer/footer';
 import {Privat} from '../../objekter.js';
 import {KommuneInput} from '../../Moduler/kommuneInput/kommuneInput';
 
@@ -27,6 +28,7 @@ export class Registrering extends Component {
     return (
       <div>
         <PageHeader history={this.props.history} location={this.props.location} />
+        <Footer/>
         <h1 className="text-center text-capitalize display-4" id="regTittel">Registrering</h1>
         <div className="regContainer">
           <div className="row">
@@ -150,7 +152,7 @@ export class Registrering extends Component {
     this.props.history.push('/');
   }
 
-  lagre() {
+  async lagre() {
     let gyldig = true;
 
     let bruker = new Privat(
@@ -188,9 +190,34 @@ export class Registrering extends Component {
       gyldig = false;
     }
     if (gyldig) {
-      brukerService.lagNyPrivatBruker(bruker).then((res) => {
-        this.props.history.push('/');
-      });
+      let res = await brukerService.lagNyPrivatBruker(bruker);
+      await this.sjekkPassord(res.data);
+    }
+  }
+
+  sjekkPassord(res) {
+    if (res.result) {
+      let base64Url = res.token.split('.')[1];
+      let base64 = base64Url.replace('-', '+').replace('_', '/');
+      global.payload = JSON.parse(window.atob(base64));
+      sessionStorage.setItem('pollett', res.token);
+      
+      let p = window.location.pathname;
+      if (p.startsWith("/hovedside/") || p.startsWith("/hendelser")) {
+          global.sideRefresh(true);
+      } else {
+        if (global.payload.role == 'privat') {
+          global.sidePush('/minside', true);
+        } else if (global.payload.role == 'ansatt') {
+          global.sidePush('/ansatt/oversikt', true);
+        } else if (global.payload.role == 'bedrift') {
+          global.sidePush('/mineoppgaver', true);
+        } else if (global.payload.role == 'admin') {
+          global.sidePush('/admin/startside', true);
+        }
+      }
+    } else {
+      this.advarsel = 'Noe gikk galt under registreringen';
     }
   }
 

@@ -112,8 +112,10 @@
     height: 310px; 
 }  
 
-.hoyde-tabell{
-    height: 310px;
+.hoydeTabell{
+    height: 60vh;
+    overflow-y: auto; 
+    overflow-x: hidden; 
 }
 
 .ansattScroll{
@@ -140,6 +142,7 @@
 .godkjennBildeVisning{
     max-height: 300px; 
     max-width: 300px;
+    object-fit: fill;
 }
 
 .modalwidth {

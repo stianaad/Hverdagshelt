@@ -8,7 +8,7 @@ let brukerdao = new BrukerDao(pool);
 
 /**
  * Sjekker om token som ligger i request-headeren er en valid token.
- * Slette først Bearer taggen først i token
+ * Sletter først Bearer taggen fra tokenen.
  */
 export let checkToken = (req, res, next) => {
   let token = req.headers['x-access-token']; // Express headers are auto converted to lowercase
@@ -56,12 +56,14 @@ export let createToken = (req, res, next) => {
         epost: info[0].epost,
         kommune_id: info[0].kommune_id,
       };
+      
+      if (info[0].passord.startsWith("pbkdf2$")) {
 
       passord(req.body.passord).verifyAgainst(info[0].passord, (error, verified) => {
         if (error) {
           throw new Error('Error på verifisering');
         }
-
+        console.log(verified)
         if (verified) {
           brukerdao.hentBrukerRolle(aa, (status, data) => {
             let roller = {
@@ -86,14 +88,17 @@ export let createToken = (req, res, next) => {
             });
           });
         } else {
-          res.json({result1: false});
+          res.json({result: false});
         }
       });
     } else {
-      res.json({result2: false});
+      res.json({result: false});
     }
+  } else {
+    res.json({result: false});
+  }
   });
-};
+}
 
 /**
  * Sjekker passordet opp mot det lagrede i databasen.

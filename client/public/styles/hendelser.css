@@ -4,6 +4,16 @@
   margin-top: 10px;
 }
 
+/*#ansattHendelser > div > div > button {
+  position: absolute;
+  bottom: 0;
+}*/
+
+#ansattHendelser {
+  width: 100% !important;
+}
+
+
 .dato {
   height: 5%;
   width: 15%;
@@ -35,7 +45,7 @@
 @media screen and (min-width: 0px) and (max-width: 767px) {
   .hendelseContainer .stackable {
     width: 270px;
-    margin: 0 auto !important;
+    margin: 20px auto !important;
   }
 }
 
@@ -58,6 +68,19 @@
     width: 1080px;
     margin: 0 auto !important;
   }
+}
+
+#hendelseFilter {
+  width: 70vw;
+  padding: 10px;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+  margin: 0 auto;
+  display: none;
+}
+
+#hendelseFilter button {
+  width: 100%;
 }
 
 .hendelseContainer .stackable {

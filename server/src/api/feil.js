@@ -135,10 +135,11 @@ router.put('/api/feil/:feil_id', checkToken, (req, res) => {
     feil_id: req.body.feil_id,
   };
 
-  if (rolle == 'ansatt' && req.decoded.user.kommune_id == req.body.kommune_id || rolle == 'admin') {
+  if (rolle == 'ansatt' || rolle == 'admin') {
     feilDao.oppdaterFeil(a, (status, data) => {
       console.log('Admin eller ansatt har oppdatert feil med id =' + req.body.feil_id);
       res.status(status);
+      res.json(data);
     });
   } else if (rolle == 'privat') {
     let b = { bruker_id: req.decoded.user.bruker_id, feil_id: req.body.feil_id };
@@ -150,6 +151,7 @@ router.put('/api/feil/:feil_id', checkToken, (req, res) => {
         feilDao.oppdaterFeil(a, (status, data) => {
           console.log('Privatbruker har oppdatert feil med id =' + req.body.feil_id);
           res.status(status);
+          res.json(data);
         });
       }
     });
@@ -195,10 +197,11 @@ router.delete('/api/feil/:feil_id', checkToken, (req, res) => {
         });
       }
     });
-  } else if (rolle == 'ansatt' && req.decoded.user.kommune_id == req.body.kommune_id) {
+  } else if (rolle == 'ansatt') {
     feilDao.slettFeil(req.params.feil_id, (status, data) => {
       console.log('Ansatt har slettet feil med id =' + req.params.feil_id);
       res.status(status);
+      res.json(data);
     });
   }
 });
@@ -617,4 +620,19 @@ router.delete('/api/subkategorier/:subkategori_id', checkToken, (req, res) => {
     res.json({ result: false });
   }
 });
+
+router.get('/api/ansatt/bedrift/:kommune_id/behandling/godkjent', checkToken, (req, res) => {
+  console.log('Fikk Get-request fra klienten');
+  let role = req.decoded.role;
+  if (role == 'ansatt' || role == 'admin') {
+    feilDao.hentUnderBehandlingOgVenterPaaSvarAnsatt(req.params.kommune_id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+  } else {
+    res.status(403);
+    res.json({result: false});
+  }
+});
+
 module.exports = router;

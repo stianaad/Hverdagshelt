@@ -6,11 +6,15 @@ import { HashRouter, Route, NavLink, Redirect, Switch, Link } from 'react-router
 import { FeedEvent, FeedHendelse, Filtrer, Info, Hendelse, ModalHendelse } from '../../Moduler/cardfeed';
 import { Card, Feed, Grid, Button, Header, Icon, Image, Modal, Dropdown, Popup, Label, Divider } from 'semantic-ui-react';
 import { PageHeader } from '../../Moduler/header/header';
+import {Footer} from '../../Moduler/footer/footer';
 import { KommuneVelger } from '../../Moduler/KommuneVelger/kommuneVelger';
 import { isNullOrUndefined, isUndefined, isNumber } from 'util';
 import { brukerService } from '../../services/brukerService';
 import { HendelseModal } from '../../Moduler/modaler/hendelsemodal';
 
+/**
+ * @ignore
+ */
 export class Hendelser extends Component {
   isOpen = false;
   hendelser = [];
@@ -46,14 +50,10 @@ export class Hendelser extends Component {
     this.visFylke = false;
     document.getElementById("fylke").value = 0;
     document.getElementById("kategori").value = 0;
-    console.log(this.skrivKategori);
     document.getElementById("til").valueAsDate = null;
     document.getElementById("fra").valueAsDate = null;
-    //var dateControl = document.querySelector('input[type="date"]');
-    //dateControl.value = 'mm/dd/yyyy';
+    document.getElementById("kommuner").value = 0;
     this.filterAlle();
-    //this.hentData();
-    //this.mounted();
   }
 
   filterAlle() {
@@ -139,104 +139,119 @@ export class Hendelser extends Component {
     }
   };
 
+  toggleFilter() {
+    let filter = document.querySelector("#hendelseFilter");
+    if (filter.style.display == "none" || filter.style.display == "") {
+      filter.style.display = "block";
+    }
+    else if (filter.style.display == "block") {
+      filter.style.display = "none";
+    }
+  }
+
   render() {
     return (
       <div className="hendelseContainer" >
         <PageHeader history={this.props.history} />
         <HendelseModal abonner={true} key={this.hendelse.hendelse_id + this.hendelseModal} open={this.hendelseModal} hendelse={this.hendelse} onClose={() => { this.hendelseModal = false }} />
         <h1 className="text-center b-5" >Hendelser</h1>
-        <div className="row">
-          <Grid centered columns={3} divided="vertically" stackable>
-            <Grid.Row>
-              <Grid.Column>
-                <select
-                  onChange={this.filterKategori}
-                  className="form-control right floated meta m-2"
-                  style={{ height: 30, width: 150 }} id="kategori">
-                  <option hidden> {this.skrivKategori} </option>
-                  <option value="0"> Alle kategorier </option>
-                  {this.alleKategorier.map((kategori) => (
-                    <option
-                      value={kategori.kategorinavn}
-                      key={kategori.kategorinavn}>
-                      {' '}
-                      {kategori.kategorinavn}
-                    </option>
-                  ))}
-                </select>
-                <select
-                  onChange={this.filterKommune}
-                  className="form-control right floated meta m-2"
-                  style={{ height: 30, width: 150 }}
-                  value="hehehe"
-                >
-                  <option hidden> {this.skrivAlleKommuner}</option>
-                  <option value="0"> Alle kommuner </option>
-                  {this.kommuner.map((sted) => (
-                    <option
-                      value={sted.kommune_id}
-                      key={sted.kommune_navn}
-                    >
-                      {' '}
-                      {sted.kommune_navn}
-                    </option>
-                  ))}
-                </select>
-              </Grid.Column>
-              <Grid.Column>
-                {<div>
-                  <label style={{ display: 'inline' }}> Fra: {' '}
-                    <input
-                      onChange={this.filterFraTid}
-                      type="date"
-                      style={{ height: 30, width: 150, display: 'inline' }}
-                      className="mt-2 form-control"
-                      id="fra"
-                    />
-                  </label>
-                </div>}
-                {<label className="ml-1" style={{ display: 'inline' }}>Til: {' '}
-                  <input
-                    onChange={this.filterTilTid}
-                    type="date"
-                    style={{ height: 30, width: 150, display: 'inline' }}
-                    className="mt-2 form-control"
-                    id="til"
-                  />
-                </label>}
-              </Grid.Column>
-              <Grid.Column>
-                <select
-                  onChange={this.filterFylke}
-                  className="form-control right floated meta m-2"
-                  disabled={this.visFylke}
-                  id="fylke"
-                  style={{ height: 30, width: 150 }}>
-                  <option hidden> {this.skrivFylke} </option>
-                  <option value="0"> Alle Fylker </option>
-                  {this.fylker.map((sted) => (
-                    <option
-                      value={sted.fylke_navn}
-                      key={sted.fylke_navn}>
-                      {' '}
-                      {sted.fylke_navn}
-                    </option>
-                  ))}
-                </select>
-                <span className="ml-2">
-                  <Button
-                    style={{ width: 150 }}
-                    size="mini"
-                    primary
-                    onClick={() => { this.tilbakestill() }}>
-                    Tilbakestill
-						</Button>
-                </span>
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
+        <div style={{width:"70vw", margin:"0 auto"}}>
+          <button className="fluid ui button" onClick={()=>this.toggleFilter()}>Filtrer hendelser</button>
         </div>
-        <Card.Group stackable> 
+        <form className="ui equal width form" id="hendelseFilter">
+          <div className="two fields">
+            <div className="field">
+              <label>Kommune</label>
+              <select 
+                onChange={this.filterKommune}
+                className="ui fluid dropdown"
+                id="kommuner"
+              >
+                <option hidden> {this.skrivAlleKommuner}</option>
+                <option value="0">Alle kommuner</option>
+                {this.kommuner.map((sted) => (
+                  <option
+                    value={sted.kommune_id}
+                    key={sted.kommune_navn}
+                  >
+                    {' '}
+                    {sted.kommune_navn}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="field">
+              <label>Fylke</label>
+              <select
+                onChange={this.filterFylke}
+                className="ui fluid dropdown"
+                disabled={this.visFylke}
+                id="fylke"
+              >
+                <option hidden> {this.skrivFylke} </option>
+                <option value="0"> Alle Fylker </option>
+                {this.fylker.map((sted) => (
+                  <option
+                    value={sted.fylke_navn}
+                    key={sted.fylke_navn}>
+                    {' '}
+                    {sted.fylke_navn}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <div className="two fields">
+            <div className="field">
+              <label>Fra</label>
+              <input
+                onChange={this.filterFraTid}
+                type="date"
+                id="fra"
+              />
+            </div>
+            <div className="field">
+              <label>Til</label>
+              <input
+                onChange={this.filterTilTid}
+                type="date"
+                id="til"
+              />
+            </div>
+          </div>
+          <div className="fields">
+            <div className="field"></div>
+            <div className="field">
+              <label>Kategori</label>
+              <select
+                onChange={this.filterKategori}
+                className="ui fluid dropdown"
+                id="kategori">
+                <option hidden> {this.skrivKategori} </option>
+                <option value="0"> Alle kategorier </option>
+                {this.alleKategorier.map((kategori) => (
+                  <option
+                    value={kategori.kategorinavn}
+                    key={kategori.kategorinavn}>
+                    {' '}
+                    {kategori.kategorinavn}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="field">
+              <label>Tilbakestill filter</label>
+              <Button
+              type="button"
+                primary
+                onClick={() => {this.tilbakestill();}}>
+                Tilbakestill
+              </Button>
+            </div>
+            <div className="field"></div>
+          </div>
+        </form>
+        {(this.aktiveHendelser.length >0) ? (<Card.Group stackable> 
           {this.aktiveHendelser.map(hendelse => (
             <Hendelse
               onClick={() => {
@@ -251,7 +266,13 @@ export class Hendelser extends Component {
               key={hendelse.hendelse_id}
               hendelse_id={hendelse.hendelse_id}
             />))}
-        </Card.Group>
+        </Card.Group>) : 
+        (<Card centered>
+          <Card.Content>
+            <Header as="h4">Det er for øyeblikket ingen hendelser i denne kommunen. Filtrer hendelser over dersom du ønsker å titte andre steder.</Header>
+          </Card.Content>
+        </Card>)}
+        <Footer/>
       </div>
     );
   }
@@ -290,7 +311,6 @@ export class Hendelser extends Component {
     }
     this.hendelser = await res1.data;
     this.aktiveHendelser = await res1.data;
-    console.log(this.hendelser);
     this.hentData();
   }
 }

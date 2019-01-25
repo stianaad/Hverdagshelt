@@ -65,7 +65,7 @@
     margin-top:20px;
 }
 
-.minSideInKolonne h2 {
+.minSideInKolonne h1 {
     margin: 0 auto;
     margin-bottom: 20px;
     width: fit-content;
@@ -119,4 +119,17 @@
 
 .modalPopup:hover{
   cursor: pointer;
+}
+
+.highlight {
+    color: yellowgreen;
+}
+
+.ingenNyeOppdateringer {
+  color: red;
+  font-size: 15px;
+}
+
+.nyeOppdateringer{
+  font-size: 15px;
 }

@@ -5,7 +5,7 @@ import {PageHeader} from '../../Moduler/header/header';
 import {Ansatt} from '../../objekter.js';
 import {KommuneInput} from '../../Moduler/kommuneInput/kommuneInput';
 
-export class RegistreringAnsatt extends Component {
+export class RegistrerAnsatt extends Component {
   ansattInput = {
     fornavn: '',
     etternavn: '',
@@ -119,7 +119,7 @@ export class RegistreringAnsatt extends Component {
 
   reRoute() {
     //Her skal vi sjekke hvor de kom fra, men dette er en temporær løsning
-    this.props.history.push('/');
+    this.props.history.push('/admin/startside');
   }
 
   lagre() {
@@ -129,9 +129,9 @@ export class RegistreringAnsatt extends Component {
       0,
       this.ansattInput.epost,
       '',
+      this.kommune.current.verdi,
       this.ansattInput.fornavn,
       this.ansattInput.etternavn,
-      this.kommune.current.verdi,
       this.ansattInput.telefon
     );
 
@@ -145,7 +145,7 @@ export class RegistreringAnsatt extends Component {
       gyldig = false;
     }
 
-    if (!bedrift.telefon || bedrift.telefon.length != 8) {
+    if (!ansatt.telefon || ansatt.telefon.length != 8) {
       this.advarsel = 'Telefonnummer må være 8 siffer langt';
       gyldig = false;
     }
@@ -156,7 +156,7 @@ export class RegistreringAnsatt extends Component {
     }
     if (gyldig) {
       brukerService.lagNyAnsattBruker(ansatt).then((res) => {
-        this.props.history.push('/');
+        this.props.history.push('/admin/startside');
       });
     }
   }

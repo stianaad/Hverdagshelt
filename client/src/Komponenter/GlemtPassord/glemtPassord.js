@@ -2,6 +2,7 @@ import * as React from 'react';
 import {Component} from 'react-simplified';
 import {brukerService} from '../../services/brukerService';
 import {PageHeader} from '../../Moduler/header/header';
+import {Footer} from '../../Moduler/footer/footer';
 
 export class GlemtPassord extends Component {
   epost = '';
@@ -51,14 +52,22 @@ export class GlemtPassord extends Component {
             </div>
           </div>
         </div>
+        <Footer/>
       </React.Fragment>
     );
   }
 
-  lagre() {
+  async lagre() {
     let epost = this.epost;
     if (epost) {
-      brukerService.glemtPassord({epost: epost}).catch((error) => Alert.danger(error.message));
+      let res1 = await brukerService.glemtPassord({epost: epost});
+      if(res1.data.result){
+        await alert("Du har blitt tilsendt link på e-post.");
+        await this.props.history.push('/');
+      } else {
+        await alert("Noe gikk galt, prøv på nytt");
+        await window.location.reload();
+      }
     }
   }
 }

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react-simplified';
-import { Card, Grid, Modal, Input, List,Button } from 'semantic-ui-react';
+import { Card, Grid, Modal, Input, List,Button, Popup } from 'semantic-ui-react';
 import { ShowMarkerMap } from '../kart/map';
 import { feilService } from '../../services/feilService';
 import { AbonnerKnapp } from '../abonner/abonner';
@@ -11,16 +11,47 @@ export class RedigerModal extends Component {
   oppTilFeil = [];
 
   bildeOpen = false;
-  bildeModal = "";
+  valgtBilde = {
+      bilde_id: '',
+      url: ''
+  }
 
-  overskrift = "";
-  beskrivelse = "";
+  feil = "";
+
+  overskrift = ''; 
+  beskrivelse = '';
 
   async mounted() {
+    this.overskrift = this.props.feil.overskrift; 
+    this.beskrivelse = this.props.feil.beskrivelse;
     this.open = this.props.open;
-
     let res = await feilService.hentBilderTilFeil(this.props.feil.feil_id);
     this.bilderTilFeil = res.data; 
+    this.feil = await {...this.props.feil};
+  }
+
+  async slett(bilde){
+    let res = await feilService.slettBildeFraFeil({bilde_id: bilde.bilde_id, feil_id: this.props.feil.feil_id, kommune_id: this.props.feil.kommune_id});
+    await this.mounted();
+    this.bildeOpen = await false;
+  }
+
+  visBilde(bilde){
+    this.valgtBilde = {...bilde};
+    this.bildeOpen = true; 
+  }
+
+  async lagre(){
+    await feilService.oppdaterFeil({
+        kommune_id : this.feil.kommune_id, 
+        subkategori_id: this.feil.subkategori_id,
+        overskrift: this.overskrift,
+        beskrivelse: this.beskrivelse,
+        lengdegrad: this.feil.lengdegrad,
+        breddegrad: this.feil.breddegrad,
+        feil_id: this.feil.feil_id
+      });
+    //this.props.lukk();  
   }
 
   render() {
@@ -38,27 +69,29 @@ export class RedigerModal extends Component {
                     <div className="col-sm-6">
                         <div className="form-group">
                             <label>Overskrift</label>
-                            <input type="text" className="form-control" value={this.props.feil.overskrift}
+                            <input type="text" className="form-control"
                             required={true}
-                            onChange={(event) => (this.overskrift = event.target.value)} />
+                            onChange={(event) => (this.overskrift=event.target.value)} 
+                            value={this.overskrift}/>
                         </div>
                         <div className="form-group">
                             <label>Beskrivelse</label>
-                            <textarea type="text" className="form-control" value={this.props.feil.beskrivelse}
+                            <textarea type="text" className="form-control" 
                             required={true}
-                            onChange={(event) => (this.beskrivelse = event.target.value)} />
+                            onChange={(event) => (this.beskrivelse = event.target.value)} 
+                            value={this.beskrivelse}/>
                         </div>
                         <div>
                             <h6><b>Bilder:</b></h6>
                             <div className="feilModalFyll">
                                 {this.bilderTilFeil.map((bilde) => (
-                                <div className="feilModalBilde" key={bilde.bilde_id} onClick={() => this.visBilde(bilde.url)}>
-                                    <img src={bilde.url} key={bilde.bilde_id} className="bilder" onClick={() => { this.bildeModal = bilde.url; this.bildeOpen = true; }} />
+                                <div className="feilModalBilde" key={bilde.bilde_id} onClick={() => this.visBilde(bilde)}>
+                                    <img src={bilde.url} key={bilde.bilde_id} className="bilder" onClick={() => this.visBilde(bilde)} />
                                 </div>
                                 ))}
                             </div>
                         </div>
-                        <Button color="blue">Lagre</Button>
+                        <Button color="blue" onClick={() => {this.lagre(); this.props.lukk(); this.props.onClose()}}>Lagre</Button>
                     </div>
                 </div>
             </Modal.Content>
@@ -66,16 +99,15 @@ export class RedigerModal extends Component {
         ) : null}
         <Modal open={this.bildeOpen} onClose={() => { this.bildeOpen = false; }} basic centered className="modalwidth">
           <Modal.Content>
-              <div className="godkjennBildeVisning">
-                <img src={this.bildeModal}/>
-                <div>
-                    <Button color="red">Slett</Button>
-                    <Button color="green">Behold</Button>
+              <div className="bildevisning">
+                <img src={this.valgtBilde.url} className="godkjennBildeVisning"/>
+                <div style={{alignContent: 'center'}}>
+                    <Popup trigger={<Button color="red" onClick={() => this.slett(this.valgtBilde)}>Slett</Button>} content="Hvis du trykker her slettes bildet automatisk."/>
+                    <Button color="green" onClick={() => {this.bildeOpen = false; }}>Behold</Button>
                 </div>
               </div>
           </Modal.Content>
         </Modal>
-        
       </>
     );
   }

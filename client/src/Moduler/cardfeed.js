@@ -39,7 +39,6 @@ export class FeedEvent extends Component {
     }
     iDag = yyyy + '-' + mm + '-' + dd;
     let iGaar = yyyy + '-' + mm + '-' + (dd - 1);
-    //console.log(tid);
     if (innKommendeDato === iDag) {
       iDag = 'I dag ' + innKommendeKlokkeslett;
     } else if (iGaar === innKommendeDato) {
@@ -64,14 +63,11 @@ export class FeedEvent extends Component {
     this.setState({modalOpen: true});
     let res1 = await feilService.hentAlleStatuser();
     this.statuser = await res1.data.filter((status) => status.status_id > 2);
-    await console.log(this.statuser);
   }
 
   lukk = () => this.setState({modalOpen: false});
 
   render() {
-    //this.dato();
-    //console.log("hehe");
     return (
       <Feed>
         <Feed.Event>
@@ -185,7 +181,6 @@ export class FeedHendelse extends Component {
     //iDag = yyyy + '-' + mm + '-' + dd;
     iDag = '2019-08-07';
     let iGaar = yyyy + '-' + mm + '-' + (dd + 1);
-    //console.log(tid);
     if (innKommendeDato === iDag) {
       iDag = 'I dag ' + innKommendeKlokkeslett;
     } else if (iGaar === innKommendeDato) {
@@ -196,8 +191,6 @@ export class FeedHendelse extends Component {
     return <Feed.Date content={iDag} />;
   }
   render() {
-    //this.dato();
-    //console.log("hehe");
     return (
       <Feed>
         <Feed.Event>
@@ -250,7 +243,6 @@ export class FeedMinside extends Component {
     //iDag = yyyy + '-' + mm + '-' + dd;
     iDag = yyyy + '-' + mm + '-' + dd;
     let iGaar = yyyy + '-' + mm + '-' + (dd - 1);
-    //console.log(tid);
     if (innKommendeDato === iDag) {
       iDag = 'I dag ' + innKommendeKlokkeslett;
     } else if (iGaar === innKommendeDato) {
@@ -273,8 +265,6 @@ export class FeedMinside extends Component {
     }
   };
   render() {
-    //this.dato();
-    //console.log("hehe");
     return (
       <Feed>
         <Feed.Event>

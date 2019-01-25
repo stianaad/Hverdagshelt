@@ -7,10 +7,13 @@ import {feilService} from '../../services/feilService';
 import {markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
 import {NavLink} from 'react-router-dom';
 import {AnsattMeny} from './ansattMeny';
+import {AdminMeny} from '../Admin/adminMeny';
+import {generellServices} from '../../services/generellServices';
 import { brukerService } from '../../services/brukerService';
 
 export class AlleBedrifter extends Component{
     bedrifter = [];
+    aktivBedrift = [];
     className = '';
     bedApen = false; 
     feilApen = false; 
@@ -34,21 +37,20 @@ export class AlleBedrifter extends Component{
 
     async hentFeil(bed){
         let res1 = await feilService.hentFerdigeFeilForAnsatt(bed.orgnr);
-        this.feilHosBedrift = await res1.data; 
+        this.feilHosBedrift = await res1.data;
+
+        this.aktivBedrift = this.bedrifter.find(bedrift => (bed.orgn=bedrift.orgnr));
 
         if(this.feilHosBedrift.length > 0){
             this.tekst = "Trykk på en feil for å se mer informasjon";
         }else{
-            this.tekst = "Denne bedriften har fullført noen oppgaver i denne kommunen."
+            this.tekst = "Denne bedriften har ikke fullført noen oppgaver i denne kommunen."
         }
-        await console.log(this.feilHosBedrift);
-        
     }
 
     async hentOppdateringer(feil){
         let res = await feilService.hentAlleOppdateringerPaaFeil(feil.feil_id);
-        this.oppdateringer = await res.data; 
-        await console.log(this.oppdateringer);
+        this.oppdateringer = await res.data;
     }
 
     visFeil(feil){
@@ -62,7 +64,7 @@ export class AlleBedrifter extends Component{
             <div>
                 <PageHeader/>
                 <div className="vinduansatt containter-fluid">
-                    <AnsattMeny/>
+                {global.payload.role == 'ansatt' ? <AnsattMeny/> : (global.payload.role == 'admin') ? <AdminMeny kommune={this.kommune}/> : null}
                     <div className="row justify-content-md-center mt-3 mb-3">
                         <h1>Alle bedrifter</h1>
                     </div>
@@ -75,17 +77,16 @@ export class AlleBedrifter extends Component{
                                             Nye innsendinger
                                         </Card.Header>
                                     </Card.Content>
-                                    <Card.Content className={this.className}>
+                                    <Card.Content className="hoydeTabell">
                                         {this.bedrifter.map((bed) => (
-                                            <Feed>
+                                            <Feed style={{cursor:"pointer"}}>
                                                 <Feed.Event onClick={() => this.openBed(bed)}>
                                                     <Feed.Content>
                                                         <Feed.Summary>{bed.navn}</Feed.Summary>
                                                         <Feed.Date content={bed.telefon}/>
                                                     </Feed.Content>
                                                 </Feed.Event>  
-                                            </Feed>
-                                                                 
+                                            </Feed>           
                                         ))}
                                     </Card.Content>
                                 </Card>
@@ -101,7 +102,7 @@ export class AlleBedrifter extends Component{
                                                     <div>
                                                         <List divided relaxed style={{height: '50%', overflow: 'auto'}}>
                                                             {this.feilHosBedrift.map((feil) => (
-                                                                <List.Item onClick={() => this.visFeil(feil)}>
+                                                                <List.Item style={{cursor:"pointer"}} onClick={() => this.visFeil(feil)}>
                                                                     <List.Content>
                                                                         <List.Header>{feil.overskrift}</List.Header>
                                                                         <List.Description>{feil.tid}</List.Description>
@@ -137,7 +138,12 @@ export class AlleBedrifter extends Component{
                                                             </Grid.Column>
                                                         </Grid>
                                                     ):(
-                                                        <p>{this.tekst}</p>
+                                                        <span>
+                                                            <p>{this.tekst} </p>
+                                                            <p><strong>Kontaktinformasjon:</strong></p>
+                                                            <p>Telefonnr: {this.aktivBedrift.telefon}</p>
+                                                            <p>E-post: {this.aktivBedrift.epost}</p>
+                                                        </span>
                                                     )}
                                                 </Grid.Column>
                                             </Grid>
@@ -158,18 +164,20 @@ export class AlleBedrifter extends Component{
         ); 
     }
 
-    scroll() {
-        if (this.bedrifter.length > 5) {
-          this.className = 'ansattScroll';
-        }
-      }
-    
-      async mounted() {
+    async mounted() {
         let bed = await brukerService.hentBedrifter();
         this.bedrifter = await bed.data; 
-        await console.log(this.bedrifter);
         
-        await this.scroll();
+
+          if (global.payload.role == 'ansatt') load(global.payload.user.kommune_id);
+          else if (global.payload.role == 'admin') {
+              let res = await generellServices.sokKommune(this.props.match.params.kommune);
+              await Promise.resolve(res.data).then(async () => {
+                  if (res.data.length > 0) {
+                      this.kommune = res.data[0];
+                  }
+              });
+          }
       }
     
 }

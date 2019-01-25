@@ -1,0 +1,9 @@
+#statMeny {
+  position: fixed;
+  top: 50%;
+  right: 1%;
+}
+
+#lastNedPDFBtn {
+  float: right;
+}

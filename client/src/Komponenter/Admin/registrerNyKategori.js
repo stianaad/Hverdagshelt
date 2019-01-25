@@ -41,7 +41,6 @@ export class RegistrerNyKategori extends Component {
     };
 
     verdiSubKat(e){
-        console.log(e.target.value);
         this.hovedkategoriID = e.target.value;
     }
     
@@ -85,7 +84,6 @@ export class RegistrerNyKategori extends Component {
     async registrer(){
         this.handleClose();
         let res1 = "";
-        console.log(this.props.id);
         if(this.props.id === 1) {
             res1 = await feilService.opprettHovedkategori({"kategorinavn": this.kategori});
         } else if(this.props.id === 2){

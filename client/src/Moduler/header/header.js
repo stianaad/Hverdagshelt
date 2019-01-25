@@ -5,6 +5,9 @@ import {Link} from 'react-router-dom';
 import {Login} from '../../Moduler/login/login';
 import { brukerService } from '../../services/brukerService';
 
+/**
+ * @ignore
+ */
 export class ProfileButton extends Component {
   loggetInn = null;
   brukerType = null;
@@ -12,14 +15,13 @@ export class ProfileButton extends Component {
   mounted() {
     this.loggetInn = global.payload != undefined;
     this.brukerType = global.payload != undefined ? global.payload.role : null;
-    console.log(this.brukerType);
   }
 
   loggut() {
     sessionStorage.removeItem('pollett');
     global.payload = null;
     let p = window.location.pathname;
-    if (p == "/" || p.startsWith("/hovedside/") || p.startsWith("/hendelser") || p.startsWith("/resett-passord/")) {
+    if (p == "/" || p.startsWith("/hovedside/") || p.startsWith("/hendelser")) {
       global.sideRefresh(true);
     } else {
       global.sidePush("/",true);
@@ -137,15 +139,33 @@ export class ProfileButton extends Component {
   }
 }
 
+/**
+ * Sideheader til bruk på alle sider (ikke forsiden)
+ * @reactProps {!Object} history - history objektet til komponenten header skal brukes i
+ * @reactProps {!Object} location - location objektet til komponenten header skal brukes i
+ */
 export class PageHeader extends Component {
+  /**
+   * @type {?boolean}
+   */
   loggetInn = null;
+
+  /**
+   * Tar verdier: privat, ansatt, bedrift, eller admin
+   * @type {?string}
+   */
   brukertype = null;
+
+  /**
+   * Navn på hjemkommunen til brukeren hvis innlogget
+   * @type {string}
+   */
   kommune_navn = '';
 
   async mounted() {
     this.loggetInn = global.payload != undefined;
     let brukerInfo = await brukerService.minInfo();
-    this.kommune_navn = brukerInfo.data[0].kommune_navn;
+    this.kommune_navn = brukerInfo.data ? brukerInfo.data[0].kommune_navn : '';
   }
 
   render() {
@@ -180,14 +200,4 @@ export class PageHeader extends Component {
       </React.Fragment>
     );
   }
-
-  /*mounted() {
-        if (global.payload) {
-            this.loggetinn = true;
-            this.brukertype = global.payload.role;
-        } else {
-            this.loggetinn = false;
-            this.brukertype = null;
-        }
-    }*/
 }

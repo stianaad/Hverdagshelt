@@ -14,7 +14,6 @@ import {AdminMeny} from '../Admin/adminMeny';
 export class AnsattFerdig extends Component{
     fullforteFeil = [];
     alleFeil = [];
-    className = '';
     valgtfeil = {
         overskrift: '',
         beskrivelse: ''
@@ -43,19 +42,20 @@ export class AnsattFerdig extends Component{
                 <PageHeader history={this.props.history} location={this.props.location} />
                 <div className="container-fluid vinduansatt">
                 {global.payload.role == 'ansatt' ? <AnsattMeny/> : (global.payload.role == 'admin') ? <AdminMeny kommune={this.kommune}/> : null}
-                    <div className="row justify-content-md-center mt-3 mb-3">
-                        <h1>Fullførte feil</h1>
-                    </div>
+                    
                     <div className="ansattContent">
+                        <div className="row justify-content-md-center mt-3 mb-3">
+                            <h1>Fullførte feil</h1>
+                        </div>
                         <div className="row">
                             <div className="col-sm-4">
-                                <Card color="red" fluid>
+                                <Card color="green" fluid>
                                     <Card.Content>
                                         <Card.Header>
-                                            Nye innsendinger
+                                            Fullførte feil
                                         </Card.Header>
                                     </Card.Content>
-                                    <Card.Content className={this.className}>
+                                    <Card.Content className="hoydeTabell">
                                         {this.fullforteFeil.map((feil) => (
                                             <FeedEvent
                                             onClick={() => this.visFeil(feil)}
@@ -72,7 +72,7 @@ export class AnsattFerdig extends Component{
                             <div className="col-sm-8">
                                 {this.feilApen ? (
                                     <div className="ansattFeilVindu">
-                                       <FeilVisning feil={this.valgtfeil} bilder={this.bilder} opp={this.oppdateringer}/>
+                                       <FeilVisning feil={this.valgtfeil} bilder={this.bilder} lukk={this.oppdater} opp={this.oppdateringer}/>
                                     </div>
                                 ) : (
                                 <div>Trykk på feil</div>
@@ -85,11 +85,11 @@ export class AnsattFerdig extends Component{
         ); 
     }
 
-    scroll() {
-        if (this.fullforteFeil.length > 5) {
-          this.className = 'ansattScroll';
-        }
-      }
+    oppdater(){
+        this.feilApen = false;
+        this.mounted();
+        console.log(this.feilApen);
+    }
     
       async mounted() {
         const load = async (kommune_id) => {
@@ -98,7 +98,6 @@ export class AnsattFerdig extends Component{
         
             this.fullforteFeil = await feil.data.filter(e => (e.status === 'Ferdig'));
             
-            await this.scroll();
         }
 
         if (global.payload.role == 'ansatt') load(global.payload.user.kommune_id);
