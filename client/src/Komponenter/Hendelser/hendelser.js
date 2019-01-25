@@ -11,6 +11,9 @@ import { isNullOrUndefined, isUndefined, isNumber } from 'util';
 import { brukerService } from '../../services/brukerService';
 import { HendelseModal } from '../../Moduler/modaler/hendelsemodal';
 
+/**
+ * @ignore
+ */
 export class Hendelser extends Component {
   isOpen = false;
   hendelser = [];
