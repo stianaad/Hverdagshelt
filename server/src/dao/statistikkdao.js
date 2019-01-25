@@ -3,6 +3,7 @@ import Dao from './dao.js';
 // 0 av 17 funksjoner testes
 module.exports = class StatistikkDao extends Dao {
 
+  //TESTES
   /**
    * Finner antallet feil per kommune
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
@@ -19,6 +20,7 @@ module.exports = class StatistikkDao extends Dao {
     );
   }
 
+  //TESTES
   /**
    * Teller alle feilene og returnerer antallet. 
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
@@ -29,6 +31,7 @@ module.exports = class StatistikkDao extends Dao {
     );
   }
 
+  //TESTES
   /**
    * Teller alle feilene i en valgt kommune. 
    * @param {number} kommune_id - Iden til kommunen du vil finne feilene til.
@@ -40,6 +43,7 @@ module.exports = class StatistikkDao extends Dao {
     );
   }
 
+  //TESTES
   /**
    * Teller alle feilene i et valgt fylke.
    * @param {string} fylke_navn - Navnet på fylket du vil ha antall feil fra.
@@ -62,6 +66,7 @@ module.exports = class StatistikkDao extends Dao {
     );
   }
 
+  //TESTES
   /**
    * Teller alle feilene på en valgt subkategori
    * @param {string} kategorinavn - Navnet på subkategorien du vil ha antall feil fra.
@@ -99,9 +104,9 @@ module.exports = class StatistikkDao extends Dao {
    * Henter alle feil som er blitt behandlet innenfor et intervall, altså feil med status_id større enn 1.
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
    */
-  hentBehandledeFeilPaaIntervall(callback) {
+  hentBehandledeFeil(callback) {
     super.query(
-      'SELECT COUNT(DISTINCT feil.feil_id) as antall FROM feil JOIN oppdatering ON feil.feil_id = oppdatering.feil_id WHERE oppdatering.status_id > 1', [intervall], callback
+      'SELECT COUNT(DISTINCT feil.feil_id) as antall FROM feil JOIN oppdatering ON feil.feil_id = oppdatering.feil_id WHERE oppdatering.status_id > 1', null, callback
     );
   }
 
@@ -115,6 +120,7 @@ module.exports = class StatistikkDao extends Dao {
     );
   }
 
+  //TESTES
   /**
    * Skriver ut alle subkategoriene med antall feil.
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
@@ -146,6 +152,7 @@ module.exports = class StatistikkDao extends Dao {
     );
   }
 
+  //TESTES
   /**
    * Henter antallet feil per hovedkategori på et valgt intervall.
    * @param {number} intervall - Antall dager bakover i tid intervallet skal være.
@@ -183,6 +190,7 @@ module.exports = class StatistikkDao extends Dao {
     );
   }
 
+  //TESTES
   /**
    * Teller hver unike feil som ligger i oppdateringstabellen med valgt status
    * @param {number} status_id - Iden til statusen du vil filtrere på.
