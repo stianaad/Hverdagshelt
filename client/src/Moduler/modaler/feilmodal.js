@@ -34,7 +34,7 @@ export class FeilModal extends Component {
                     {this.props.feil.overskrift}
                   </h1>
                   <span>
-                    Status: {this.props.feil.status}
+                    Status: {(this.props.feil.status== "Godkjent") ? (<span>Mottatt</span>) : (this.props.feil.status)}
                     {this.props.feil.status !== 'Under behandling' ? (
                       this.props.feil.status === 'Ferdig' ? (
                         <img src="/successicon.png" width="30" height="30" />

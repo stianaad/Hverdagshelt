@@ -16,4 +16,11 @@ router.get('/api/feilperkommune', (req, res) => {
   });
 });
 
+router.get('/api/allefeil', (req, res) => {
+  statistikkDao.hentAlleFeil((status, data) => {
+    res.status(status);
+    res.json(data);
+  });
+});
+
 module.exports = router;

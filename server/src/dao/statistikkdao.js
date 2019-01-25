@@ -13,4 +13,10 @@ module.exports = class StatistikkDao extends Dao {
       callback
     );
   }
+
+  hentAlleFeil(callback) {
+    super.query(
+      'SELECT COUNT(*) as antall FROM feil', null, callback
+    );
+  }
 }

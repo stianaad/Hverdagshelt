@@ -278,7 +278,15 @@ export class FeedMinside extends Component {
     return (
       <Feed>
         <Feed.Event>
-          <Feed.Label image={'/warningicon.png'} />
+        {this.props.status !== 'Under behandling' ? (
+            this.props.status === 'Ferdig' ? (
+              <Feed.Label image={'/successicon.png'} />
+            ) : (
+              <Feed.Label image={'/warningicon.png'} />
+            )
+          ) : (
+            <Feed.Label image={'/processingicon.png'} />
+          )}
           <Feed.Content color="green">
             <a onClick={this.props.onClick}>
               {this.dato(this.props.tid)}

@@ -15,7 +15,7 @@ module.exports = class Dao {
    * @example 
    * dao.query('SELECT * FROM eksempel WHERE eksemple_id = ?', [12], (callback) => {})
    * @param {string} sql - din sql setning
-   * @param {array} params - dine parametere for sql setningen
+   * @param {Array} params - dine parametere for sql setningen
    * @param {function} callback - den funksjonen som kalles etter gjennomført spørring
    */
   query(sql, params, callback) {
