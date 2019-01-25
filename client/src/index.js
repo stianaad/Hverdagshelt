@@ -23,7 +23,6 @@ import {PageHeader} from './Moduler/header/header';
 import {FireNullFire} from './Komponenter/firenullfire/firenullfire';
 
 import {GlemtPassord} from '../src/Komponenter/GlemtPassord/glemtPassord';
-import {ResettPassord} from '../src/Komponenter/GlemtPassord/resettPassord';
 import {Hendelser} from '../src/Komponenter/Hendelser/hendelser';
 import {Bedrift} from '../src/Komponenter/Bedrift/bedrift';
 import {RegistrerNyKategori} from '../src/Komponenter/Admin/registrerNyKategori';
@@ -34,7 +33,6 @@ const history = createBrowserHistory(); // Use history.push(...) to programmatic
 import {relative} from 'path';
 import {KommuneVelger} from './Moduler/KommuneVelger/kommuneVelger';
 import {KommuneInput} from './Moduler/kommuneInput/kommuneInput';
-import {enHendelse} from './Komponenter/Hendelser/enHendelse';
 
 import {NyeFeil} from './Komponenter/Ansatt/ansattNye';
 import {AnsattFerdig} from './Komponenter/Ansatt/ansattFerdige';
@@ -179,9 +177,7 @@ const routes = () => {
           />
           <Route exact path="/" component={Forside} history={history} />
           <Route exact path="/hovedside/:kommune" component={Hovedside} history={history} />
-          <Route exact path="/resett-passord/:token" component={ResettPassord} />
           <Route exact path="/hendelser" component={Hendelser}/>
-          <Route exact path="/hendelser/:id" component={enHendelse} />
 
           {/*Under ligger spesielle routes*/}
           {global.payload == null

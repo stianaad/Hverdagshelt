@@ -3,6 +3,9 @@ import {Component} from 'react-simplified';
 import {brukerService} from '../../services/brukerService';
 import {PageHeader} from '../../Moduler/header/header';
 
+/**
+ * @ignore
+ */
 export class GlemtPassord extends Component {
   epost = '';
   eksisterendeEpost = [];
