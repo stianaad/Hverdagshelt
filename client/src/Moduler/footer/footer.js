@@ -1,6 +1,10 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
 
+/**
+ * Meget enkel footer for å vise frem e-posten til HverdagsHelt og fylle bånn av siden.
+ */
+
 export class Footer extends Component {
   render() {
     return (
