@@ -109,6 +109,7 @@ export class FeilVisning extends Component {
             </div>
         ); 
     }
+
     async oppdatering(){
         console.log("Starter oppdatering");
         await feilService.lagOppdatering({
@@ -118,7 +119,7 @@ export class FeilVisning extends Component {
         });
 
         //await this.props.oppdater;  
-        console.log("Oppdatering sendt");
+        await console.log("Oppdatering sendt");
     }
     async mounted(){
         let res = await feilService.hentAlleStatuser();
