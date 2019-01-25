@@ -28,10 +28,10 @@ module.exports = class Generelldao extends Dao {
   hentAlleFylker(callback){
     super.query('SELECT * FROM fylker ORDER BY fylke_navn ASC', [], callback);
   }
-  
+
   //TESTES
   /**
-   * Brukes til å søke på kommunenavn i databasen. 
+   * Brukes til å søke på kommunenavn i databasen.
    * @param {string} kommune_navn - Navnet på kommunen du vil søke på.
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
    */
