@@ -96,6 +96,8 @@ afterAll(() => {
 
 //BRUKERTESTER
 
+
+
 test('legg til ny privatbruker', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
@@ -103,7 +105,7 @@ test('legg til ny privatbruker', (done) => {
     done();
   }
   brukerdao.lagNyPrivatBruker(testprivatBruker, callback);
-});
+}, 10000);
 
 test('hent fulgte feil til bruker', (done) => {
   function callback(status, data) {
@@ -198,7 +200,13 @@ test('legg til ny ansattbruker', (done) => {
   brukerdao.lagNyAnsattBruker(testAnsattbruker, callback);
 });
 
+
+
+
+
 //FEILTESTER
+
+
 
 test('oppdater feil', (done) => {
   function callback(status, data) {
@@ -348,7 +356,13 @@ test('bruker kansellerer abonnement', (done) => {
   feildao.ikkeAbonnerFeil({feil_id: 33, bruker_id: 16}, callback);
 });
 
+
+
+
 //HENDELSETESTER
+
+
+
 test('Hent alle hendelser', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
@@ -425,7 +439,13 @@ test('abonner på en hendelse', (done) => {
   hendelsedao.abonnerHendelse({hendelse_id: 1, bruker_id: 5}, callback);
 });
 
+
+
+
 //GENERELLTESTER
+
+
+
 test('hent alle kommuner', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
@@ -434,4 +454,4 @@ test('hent alle kommuner', (done) => {
     done();
   }
   generelldao.hentAlleKommuner(callback);
-});
+}, 10000);
