@@ -98,7 +98,7 @@ module.exports = class HendelseDao extends Dao {
       json.hendelse_id
     ];
     super.query(
-      'UPDATE hendelse SET hendelseskategori_id = ?, kommune_id = ?, overskrift = ?, tid = ?, beskrivelse = ?, sted = ?, bilde = ?, billett = ? WHERE hendelse_id = ?',
+      'UPDATE hendelser SET hendelseskategori_id = ?, kommune_id = ?, overskrift = ?, tid = ?, beskrivelse = ?, sted = ?, bilde = ?, billett = ? WHERE hendelse_id = ?',
       hendelse,
       callback
     );
