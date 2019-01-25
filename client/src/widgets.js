@@ -27,27 +27,6 @@ export class GronnKnapp extends Component {
   }
 }
 
-export class FormInput extends Component {
-  render() {
-    return (
-      <div id="radene" className="form-group row">
-        <div id="hode">{this.props.label}</div>
-        <div id="tekstrad" className="col-sm-12">
-          <input
-            className="form-control"
-            type={this.props.type}
-            value={this.props.value}
-            onChange={this.props.onChange}
-            required={this.props.required}
-            placeholder={this.props.placeholder}
-            pattern={this.props.pattern}
-          />
-        </div>
-      </div>
-    );
-  }
-}
-
 export class StatBar extends Component <{text: string, label: string, maks: number, elementID: string, labels: string, data: number}> {
 
   render() {
