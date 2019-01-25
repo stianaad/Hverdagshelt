@@ -37,7 +37,6 @@ export class EndreBrukerModal extends Component {
     this.bruker = this.props.bruker;
     if (!!this.bruker.privat) this.bruker.hendelsevarsling = this.bruker.hendelsevarsling.data[0];
     this.laster = false;
-    console.log(this.bruker)
   }
 
   rediger(e, a) {

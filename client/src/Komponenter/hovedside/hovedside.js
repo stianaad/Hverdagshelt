@@ -69,8 +69,6 @@ export class Hovedside extends Component {
         res2 = await feilService.hentAlleOppdateringerPaaFeil(feil.feil_id);
     this.bilderTilFeil = await res1.data;
     this.oppTilFeil = await res2.data;
-    await console.log(res1.data);
-    await console.log(res2.data);
 
     this.endreStatusIkon(feil.status);
   }
@@ -80,12 +78,6 @@ export class Hovedside extends Component {
       setTimeout(()=>{
         document.querySelector("#hovedHendelser").style.display="none";
       },100);
-      
-      /*setTimeout(() => {
-        document.querySelector("#hovedHendelser").style.display="none";
-        setTimeout(()=>{document.querySelector(".hendelseFeil").style.display="block";}, 100);
-        console.log("yeet");
-      }, 200);*/
     }
     this.visHendelser = true;
     this.hendelse = hendelse;
@@ -94,14 +86,10 @@ export class Hovedside extends Component {
 
   filter(e) {
     let verdi = e.target.value;
-    console.log(verdi);
     if (verdi == 0) {
       this.aktiveFeil = this.alleFeil;
-      console.log('FEEEIl', this.alleFeil);
     } else {
-      console.log(this.alleFeil);
       this.aktiveFeil = this.alleFeil.filter((kat) => kat.kategorinavn === verdi);
-      console.log(this.aktivKategori);
     }
   }
   /*hentKommuner(){
@@ -109,7 +97,6 @@ export class Hovedside extends Component {
             .hentAlleKategorier()
             .then(alleKategorier => {
               this.alleKategorier = alleKategorier;
-              console.log(alleKategorier.length);
             })
             onClick={() => {this.hentKommuner()}}
     }*/
@@ -264,7 +251,7 @@ export class Hovedside extends Component {
                   </Card.Header>
                 </Card.Content>
                 <Card.Content className='hovedsideTabeller'>
-                  <Feed>
+                {(this.alleFeil.length > 0) ? (<Feed>
                     {this.alleFeil.filter((feil) => (this.feilKategori == feil.kategorinavn) || this.feilKategori == "0").map((feil) => (
                       <FeedEvent
                         onClick={() => this.merInfo(feil)}
@@ -276,7 +263,13 @@ export class Hovedside extends Component {
                         {feil.overskrift}
                       </FeedEvent>
                     ))}
-                  </Feed>
+                  </Feed>) : (
+                    <Card centered>
+                    <Card.Content>
+                      <Header as="h4">Det er ingen feil i denne kommunen.</Header>
+                    </Card.Content>
+                  </Card>
+                  )}
                 </Card.Content>
               </Card>
             </div>
@@ -409,12 +402,11 @@ f                      id="test"
                   </Card.Header>
                     </Card.Content>
                     <Card.Content className='hovedsideTabeller'>
-                      <Feed>
+                    {(this.alleHendelser.length > 0) ? (<Feed>
                         {this.alleHendelser.filter(kat => ((kat.kategorinavn == this.filterHendelse) || this.filterHendelse == "0")).map((hendelse) => (
                           <FeedHendelse
                             onClick={() => {
                               this.visEnHendelse(hendelse);
-                              console.log(hendelse);
                             }}
                             //status ={feil.status}
                             tid={hendelse.tid}
@@ -423,7 +415,12 @@ f                      id="test"
                             {hendelse.overskrift}
                           </FeedHendelse>
                         ))}
-                      </Feed>
+                      </Feed>):
+                      (<Card centered>
+                    <Card.Content>
+                      <Header as="h4">Det er ingen hendelser i denne kommunen.</Header>
+                    </Card.Content>
+                  </Card>)}
                     </Card.Content>
                   </Card>
                   
@@ -533,7 +530,6 @@ f                      id="test"
                           <FeedHendelse
                             onClick={() => {
                               this.visEnHendelse(hendelse);
-                              console.log(hendelse);
                             }}
                             //status ={feil.status}
                             tid={hendelse.tid}
@@ -560,7 +556,6 @@ f                      id="test"
 
   async mounted() {
     this.visFeil = false;
-    console.log("mounted");
     let res = await generellServices.sokKommune(this.props.match.params.kommune);
     let res4 = await hendelseService.hentAlleHovedkategorier();
     this.hendelseKategori = res4.data;
@@ -580,7 +575,6 @@ f                      id="test"
         ]);
     
         await Promise.all([res1.data/*, res2.data, res3.data, res4.data, res.data*/]).then(() => {
-          console.log(res1.data[0]);
           if (this.kart.loaded) {
             this.kart.addMarkers(res1.data);
             if (this.mobView != "#hovedKart" && L.Browser.mobile) {window.setClosed();}

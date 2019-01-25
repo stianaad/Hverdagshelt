@@ -52,7 +52,6 @@ export class Administrasjon extends Component {
   }
 
   async lastInnKategorier() {
-    console.log("yeet")
     let hres = await hendelseService.hentAlleKategorier();
     this.hendelseKategorier = await hres.data;
 
@@ -99,7 +98,6 @@ export class Administrasjon extends Component {
       let res = await brukerService.sokBrukere(this.brukerSok);
       this.brukere = await res.data;
       Promise.resolve(res.data).then(() => { this.brukerLaster = false })
-      await console.log(res.data);
     } else {
       this.brukere = [];
     }

@@ -110,8 +110,6 @@ export class RegistrerAdmin extends Component {
       this.adminInput.navn
     );
 
-    console.log(admin)
-
     if (!admin.kommune_id) {
       this.advarsel = 'Vennligst oppgi gyldig kommune';
       gyldig = false;
