@@ -5,6 +5,9 @@ import {Link} from 'react-router-dom';
 import {Login} from '../../Moduler/login/login';
 import { brukerService } from '../../services/brukerService';
 
+/**
+ * ignore
+ */
 export class ProfileButton extends Component {
   loggetInn = null;
   brukerType = null;
@@ -136,9 +139,25 @@ export class ProfileButton extends Component {
   }
 }
 
+/**
+ * Sideheader til bruk på alle sider (ikke forsiden)
+ * @reactProps {!Object} history - history objektet til komponenten header skal brukes i
+ * @reactProps {!Object} location - location objektet til komponenten header skal brukes i
+ */
 export class PageHeader extends Component {
+  /**
+   * @type {?boolean}
+   */
   loggetInn = null;
+
+  /**
+   * @type {?string}
+   */
   brukertype = null;
+
+  /**
+   * @type {string}
+   */
   kommune_navn = '';
 
   async mounted() {
@@ -179,14 +198,4 @@ export class PageHeader extends Component {
       </React.Fragment>
     );
   }
-
-  /*mounted() {
-        if (global.payload) {
-            this.loggetinn = true;
-            this.brukertype = global.payload.role;
-        } else {
-            this.loggetinn = false;
-            this.brukertype = null;
-        }
-    }*/
 }
