@@ -14,12 +14,20 @@ export class FeilVisning extends Component {
     }
     kommentar = '';
 
+    valgtBilde = "";
+    bildeApen = false; 
+
     handterStatuser(status){
         console.log(status);
         let stat = this.statuser.find(e => (e.status === status));
         console.log(stat);
         this.valgtStatus = {...stat};
         console.log(this.valgtStatus);
+    }
+
+    visBilde(){
+        this.valgtBilde = this.props.bilder[0].url; 
+        this.visBilde = true; 
     }
 
     render(){
@@ -48,8 +56,8 @@ export class FeilVisning extends Component {
                                 <h5>Bilder:</h5>
                                 <div className="feilModalFyll" style={{height: '80px'}}>
                                     {this.props.bilder.map((bilde) => (
-                                    <div className="feilModalBilde" key={bilde.bilde_id} onClick={() => this.visBilde(bilde.url)}>
-                                        <img src={bilde.url} key={bilde.bilde_id} className="bilder" onClick={() => { this.bildeModal = bilde.url; this.bildeOpen = true; }} />
+                                    <div className="feilModalBilde" key={bilde.bilde_id}>
+                                        <img src={bilde.url} key={bilde.bilde_id} className="bilder" onClick={() => this.visBilde} />
                                     </div>
                                     ))}
                                 </div>
@@ -93,6 +101,11 @@ export class FeilVisning extends Component {
                         </Grid> 
                     </Card.Content>
                 </Card>
+                <Modal open={this.bildeApen} onClose={() => { this.bildeOpen = false; }} basic centered className="modalwidth">
+                    <Modal.Content>
+                        <img src={this.valgtBilde} className="bildevisning" />
+                    </Modal.Content>
+                </Modal>
             </div>
         ); 
     }
