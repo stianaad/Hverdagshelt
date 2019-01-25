@@ -69,6 +69,11 @@ export class AnsattMeny extends Component {
                 as={NavLink}
                 to='/ansatt/bedrifter/feil'
               />
+              <Menu.Item
+                name='Registrer ny bedrift'
+                as={NavLink}
+                to='/ansatt/bedrifter/feil'
+              />
               </Menu.Menu>
             </Menu.Item>
           </Menu>
