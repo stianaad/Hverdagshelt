@@ -23,6 +23,10 @@ module.exports = class BrukerDao extends Dao {
     return kontroll == parseInt(tall.charAt(8));
   }
 
+  slettBruker(bruker_id, callback) {
+    super.query("DELETE FROM bruker WHERE bruker_id = ?", [bruker_id], callback);
+  }
+
   sokBrukere(sokTekst, callback) {
     const tabell = Array(13).fill(sokTekst+"%");
     super.query("SELECT bruker.bruker_id, bruker.epost, bruker.kommune_id, privat.fornavn as pfnavn, privat.etternavn as penavn, privat.hendelsevarsling, ansatt.fornavn as afnavn, ansatt.etternavn as aenavn, ansatt.telefon as atlf, bedrift.navn as bnavn, bedrift.orgnr, bedrift.telefon as btlf, admin.navn as anavn, admin.telefon as adtlf, rolle.admin, rolle.privat, rolle.bedrift, rolle.ansatt FROM bruker LEFT OUTER JOIN admin ON admin.bruker_id = bruker.bruker_id LEFT OUTER JOIN ansatt ON ansatt.bruker_id = bruker.bruker_id LEFT OUTER JOIN bedrift ON bedrift.bruker_id = bruker.bruker_id LEFT OUTER JOIN privat ON privat.bruker_id = bruker.bruker_id LEFT OUTER JOIN kommuner ON bruker.kommune_id = kommuner.kommune_id LEFT OUTER JOIN(SELECT bruker_id, EXISTS( SELECT * FROM admin WHERE admin.bruker_id = bruker.bruker_id) AS admin, EXISTS( SELECT * FROM ansatt WHERE ansatt.bruker_id = bruker.bruker_id) AS ansatt, EXISTS( SELECT * FROM bedrift WHERE bedrift.bruker_id = bruker.bruker_id) AS bedrift, EXISTS( SELECT * FROM privat WHERE privat.bruker_id = bruker.bruker_id) AS privat FROM bruker) AS rolle ON rolle.bruker_id = bruker.bruker_id WHERE privat.fornavn LIKE ? OR privat.etternavn LIKE ? OR ansatt.fornavn LIKE ? OR ansatt.etternavn LIKE ? OR epost LIKE ? OR ansatt.telefon LIKE ? OR admin.telefon LIKE ? OR bedrift.telefon LIKE ? OR bedrift.orgnr LIKE ? OR admin.navn LIKE ? OR bedrift.navn LIKE ? OR kommuner.kommune_navn LIKE ? OR kommuner.fylke_navn LIKE ?",
