@@ -22,7 +22,6 @@ import {InfoBoks} from '../../Moduler/info/info';
 export class NyeFeil extends Component {
   nyefeil = [];
   alleFeil = [];
-  className = '';
 
   valgtfeil = {
     overskrift: '',
@@ -122,10 +121,10 @@ export class NyeFeil extends Component {
         </Modal>
         <div className="container-fluid vinduansatt">
         {global.payload.role == 'ansatt' ? <AnsattMeny/> : (global.payload.role == 'admin') ? <AdminMeny kommune={this.kommune}/> : null}
-            <div className="row mt-3 mb-3 justify-content-md-center">
+            <div className="ansattContent">
+              <div className="row mt-3 mb-3 justify-content-md-center">
                 <h1 >Nye feil og mangler</h1>
               </div>
-            <div className="ansattContent">
               <div className="row">
                 <div className="col-sm-4">
                   <Card color="red" fluid>
@@ -135,7 +134,7 @@ export class NyeFeil extends Component {
                         <InfoBoks style={{display: 'inline'}} tekst="Trykk på en feil for å gjøre endringer og godkjenne en sak. En sak må godkjennes før den legges ut på hovedsiden til kommunen"/>
                       </Card.Header>
                     </Card.Content>
-                    <Card.Content className={this.className}>
+                    <Card.Content className="hoydeTabell">
                       {this.nyefeil.map((feil) => (
                         <FeedEvent
                           onClick={() => this.visFeil(feil)}
@@ -239,7 +238,10 @@ export class NyeFeil extends Component {
   }
 
   async slett(){
+    this.feilApen = false;
     await feilService.slettFeil(this.valgtfeil.feil_id);
+    let feil = await feilService.hentFeilForKommune(global.payload.user.kommune_id);
+    this.nyefeil = await feil.data.filter((e) => e.status === 'Ikke godkjent');
   }
 
   async slettBilde(){
@@ -272,13 +274,6 @@ export class NyeFeil extends Component {
       Promise.all([res1.data, res2.data]).then(this.mounted);
   }
 
-
-  scroll() {
-    if (this.nyefeil.length > 5) {
-      this.className = 'ansattScroll';
-    }
-  }
-
   async mounted() {
 
     const load = async (kommune_id) => {
@@ -292,8 +287,6 @@ export class NyeFeil extends Component {
 
       let under = await feilService.hentAlleSubkategorier();
       this.alleSubKat = await under.data;
-
-      await this.scroll();
     }
 
     if (global.payload.role == 'ansatt') load(global.payload.user.kommune_id);

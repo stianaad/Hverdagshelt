@@ -72,7 +72,7 @@ export class AnsattMeny extends Component {
               <Menu.Item
                 name='Registrer ny bedrift'
                 as={NavLink}
-                to='/ansatt/bedrifter/feil'
+                to='/registrerbedrift'
               />
               </Menu.Menu>
             </Menu.Item>

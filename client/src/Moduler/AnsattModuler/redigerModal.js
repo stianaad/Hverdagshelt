@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react-simplified';
-import { Card, Grid, Modal, Input, List,Button } from 'semantic-ui-react';
+import { Card, Grid, Modal, Input, List,Button, Popup } from 'semantic-ui-react';
 import { ShowMarkerMap } from '../kart/map';
 import { feilService } from '../../services/feilService';
 import { AbonnerKnapp } from '../abonner/abonner';
@@ -18,10 +18,12 @@ export class RedigerModal extends Component {
 
   feil = "";
 
-  overskrift = this.props.feil.overskrift; 
-  beskrivelse = this.props.feil.beskrivelse;
+  overskrift = ''; 
+  beskrivelse = '';
 
   async mounted() {
+    this.overskrift = this.props.feil.overskrift; 
+    this.beskrivelse = this.props.feil.beskrivelse;
     this.open = this.props.open;
     let res = await feilService.hentBilderTilFeil(this.props.feil.feil_id);
     this.bilderTilFeil = res.data; 
@@ -100,13 +102,12 @@ export class RedigerModal extends Component {
               <div className="bildevisning">
                 <img src={this.valgtBilde.url} className="godkjennBildeVisning"/>
                 <div style={{alignContent: 'center'}}>
-                    <Button color="red" onClick={() => this.slett(this.valgtBilde)}>Slett</Button>
+                    <Popup trigger={<Button color="red" onClick={() => this.slett(this.valgtBilde)}>Slett</Button>} content="Hvis du trykker her slettes bildet automatisk."/>
                     <Button color="green" onClick={() => {this.bildeOpen = false; }}>Behold</Button>
                 </div>
               </div>
           </Modal.Content>
         </Modal>
-        
       </>
     );
   }

@@ -3,39 +3,23 @@ import * as React from 'react';
 import {Component, sharedComponentData} from 'react-simplified';
 import {Router, Route, NavLink, Redirect, Switch} from 'react-router-dom';
 import ReactDOM from 'react-dom';
-import {BildeTest} from './bildetest';
 import {MeldFeil} from './Komponenter/MeldFeil/meldFeil';
 import {Statistikk} from './Komponenter/Statistikk/statistikk';
-import Popup from 'reactjs-popup';
 import {Registrering} from './Komponenter/Registrering/registrering';
 import {RegistrerBedrift} from './Komponenter/Registrering/registrerBedrift';
 import {RegistrerAnsatt} from './Komponenter/Registrering/registrerAnsatt';
 import {RegistrerAdmin} from './Komponenter/Registrering/registrerAdmin';
 import {MineOppgaver} from './Komponenter/Ansatt/mineOppgaver';
-import {generellServices} from './services/generellServices';
-import {RodKnapp} from './widgets';
-import {Login} from './Moduler/login/login';
 import {Forside} from './Komponenter/Forside/forside';
-import {PositionMap, Marker, MarkerMap, markerTabell} from './Moduler/kart/map';
 import {Hovedside} from './Komponenter/hovedside/hovedside';
 import {Minside} from './Komponenter/MinSide/minside';
-import {PageHeader} from './Moduler/header/header';
 import {FireNullFire} from './Komponenter/firenullfire/firenullfire';
-
 import {GlemtPassord} from '../src/Komponenter/GlemtPassord/glemtPassord';
 import {ResettPassord} from '../src/Komponenter/GlemtPassord/resettPassord';
 import {Hendelser} from '../src/Komponenter/Hendelser/hendelser';
 import {Bedrift} from '../src/Komponenter/Bedrift/bedrift';
 import {RegistrerNyKategori} from '../src/Komponenter/Admin/registrerNyKategori';
-
 import createBrowserHistory from 'history/createBrowserHistory';
-const history = createBrowserHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
-
-import {relative} from 'path';
-import {KommuneVelger} from './Moduler/KommuneVelger/kommuneVelger';
-import {KommuneInput} from './Moduler/kommuneInput/kommuneInput';
-import {Footer} from './Moduler/footer/footer'
-
 import {NyeFeil} from './Komponenter/Ansatt/ansattNye';
 import {AnsattFerdig} from './Komponenter/Ansatt/ansattFerdige';
 import {NyHendelse} from './Komponenter/Ansatt/nyhendelse';
@@ -44,101 +28,9 @@ import {AnsattUnder} from './Komponenter/Ansatt/ansattUnderBehandling';
 import {AnsattHendelser } from './Komponenter/Ansatt/ansattHendelser';
 import {AnsattGodkjent} from './Komponenter/Ansatt/ansattGodkjent';
 import { AlleBedrifter } from './Komponenter/Ansatt/alleBedrifter';
-
 import { Administrasjon } from './Komponenter/Admin/admin';
-import 'semantic-ui-css/semantic.min.css';
 import { FeilHosBedrift } from './Komponenter/Ansatt/feilHosBedrift';
-
-//<PositionMap width="100%" height="500px" id="posmap" center="Oslo" position={this.posisjon}></PositionMap>
-class Menu extends Component {
-  tekst = '';
-  feil = [
-    {
-      overskrift: 'Det er et problem her',
-      beskrivelse:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-      bildeurl: 'https://bjornost.tihlde.org/hverdagshelt/135d6d0f44a6ba73e3782c243663b90a',
-      status: 'Ikke godkjent',
-      tid: '10/12/2018, 10:53',
-      hovedkategori: 'Veiarbeid',
-      kategorinavn: 'Hull i veien',
-      breddegrad: 59.913777,
-      lengdegrad: 10.722702,
-    },
-  ];
-  markers = markerTabell(this.feil);
-  markers2 = [
-    new Marker(
-      'Det er et problem her',
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-      'https://bjornost.tihlde.org/hverdagshelt/135d6d0f44a6ba73e3782c243663b90a',
-      1,
-      '10/12/2018, 10:53',
-      'Veiarbeid',
-      59.911599,
-      10.743839
-    ),
-    new Marker(
-      'Det er et problem her',
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-      'https://bjornost.tihlde.org/hverdagshelt/ac78b6d904ceb783e9da802a5c84ea7b',
-      2,
-      '10/12/2018, 10:53',
-      'Veiarbeid',
-      59.913777,
-      10.722702
-    ),
-  ];
-
-  breddegrad = 59.913777;
-  lengdegrad = 10.722702;
-
-  flytt() {
-    this.kart.flyttKart(this.breddegrad, this.lengdegrad);
-  }
-
-  render() {
-    return (
-      <div>
-        <p>hehehehe</p>
-        <MarkerMap
-          width="100%"
-          height="500px"
-          id="mapr"
-          markers={this.markers}
-          center="Oslo"
-          onRef={(ref) => (this.kart = ref)}
-        />
-        <button onClick={this.flytt} />
-      </div>
-    );
-  }
-}
-
-class komtest extends Component {
-  kominput;
-
-  constructor(props) {
-    super(props);
-    this.kominput = React.createRef();
-  }
-
-  render() {
-    return (
-      <React.Fragment>
-        <div style={{width: '300px'}}>
-          <KommuneInput ref={this.kominput} />
-          {this.komm}
-        </div>
-        <button onClick={this.test}>test</button>
-      </React.Fragment>
-    );
-  }
-
-  test() {
-    alert(this.kominput.current.verdi);
-  }
-}
+const history = createBrowserHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
 
 global.sideRefresh = (hard) => {
   setTimeout(() => {
@@ -194,8 +86,8 @@ const routes = () => {
             ? //Ikke logget inn
               [
                 <Route exact path="/registrering" key="registrering" component={Registrering} history={history} />,
-                <Route exact path="/glemt-passord" key="glemt-passord" component={GlemtPassord} />,
-                <Route exact path="/resett-passord/:token" key="resett-passord" component={ResettPassord} />,
+                <Route exact path="/glemt-passord" key="glemt-passord" component={GlemtPassord} history={history}/>,
+                <Route exact path="/resett-passord/:token" key="resett-passord" component={ResettPassord} history={history}/>,
                 <Redirect from="/meldfeil" key="meldfeil" to="/" />,
                 <Redirect from="/minside" key="minside" to="/" />,
                 <Redirect from="/mineoppgaver" key="mineoppgaver" to="/" />,
@@ -209,7 +101,7 @@ const routes = () => {
             : global.payload.role == 'ansatt'
             ? //Ansatt routes
               [
-                <Route exact path="/registrerBedrift" key="registrerbedrift"component={RegistrerBedrift} history={history} />,
+                <Route exact path="/registrerbedrift" key="registrerbedrift"component={RegistrerBedrift} history={history} />,
                 <Route exact path="/ansatt/nyefeil" key="nyefeil" component={NyeFeil} history={history}/>,
                 <Route exact path="/ansatt/nyhendelse" key="nyhendelse" component={NyHendelse} history={history}/>,
                 <Route exact path="/ansatt/oversikt" key="oversikt" component={AnsattOversikt} history={history}/>,
@@ -248,17 +140,9 @@ const routes = () => {
             : null}
 
           {/*legg test-routes under*/}
-          <Route exact path="/kommunevalgtest" component={KommuneVelger} history={history} />
-          <Route exact path="/kinput" component={komtest} />
-          <Route exact path="/bildetest" component={BildeTest} />
-          <Route exact path="/nyheter" component={Menu} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/headertest" component={PageHeader} history={history} />
           <Route exact path="/ansattest" component={NyeFeil} history={history} />
           <Route exact path="/ferdigtest" component={AnsattFerdig} history={history}/>
           <Route exact path="/nyhendelsetest" component={NyHendelse} history={history}/>
-
-          <Route exact path="/headertest" component={PageHeader} history={history} />
           <Route exact path="/bedriftsoppgaver" component={Bedrift} history={history} />
 
           <Route exact path="/statistikk" component={Statistikk} history={history} />
