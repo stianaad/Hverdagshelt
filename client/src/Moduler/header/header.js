@@ -6,7 +6,7 @@ import {Login} from '../../Moduler/login/login';
 import { brukerService } from '../../services/brukerService';
 
 /**
- * ignore
+ * @ignore
  */
 export class ProfileButton extends Component {
   loggetInn = null;
@@ -151,11 +151,13 @@ export class PageHeader extends Component {
   loggetInn = null;
 
   /**
+   * Tar verdier: privat, ansatt, bedrift, eller admin
    * @type {?string}
    */
   brukertype = null;
 
   /**
+   * Navn på hjemkommunen til brukeren hvis innlogget
    * @type {string}
    */
   kommune_navn = '';

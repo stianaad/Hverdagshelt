@@ -9,7 +9,8 @@ import {Link} from 'react-router-dom';
  * Logg inn knapp med dropdown som viser skjema for innlogging
  */
 export class Login extends Component {
-  /** Advarsel tekst hvis bruker skriver feil email/passord osv. @type {string}*/
+  /** Advarsel tekst hvis bruker skriver feil email/passord osv. 
+   * @type {string}*/
   advarsel = '';
 
   /**
