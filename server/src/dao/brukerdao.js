@@ -23,6 +23,12 @@ module.exports = class BrukerDao extends Dao {
     return kontroll == parseInt(tall.charAt(8));
   }
 
+  sokBrukere(sokTekst, callback) {
+    const tabell = Array(13).fill(sokTekst+"%");
+    super.query("SELECT * FROM bruker LEFT OUTER JOIN admin ON admin.bruker_id = bruker.bruker_id LEFT OUTER JOIN ansatt ON ansatt.bruker_id = bruker.bruker_id LEFT OUTER JOIN bedrift ON bedrift.bruker_id = bruker.bruker_id LEFT OUTER JOIN privat ON privat.bruker_id = bruker.bruker_id LEFT OUTER JOIN kommuner ON bruker.kommune_id = kommuner.kommune_id LEFT OUTER JOIN(SELECT bruker_id, EXISTS( SELECT * FROM admin WHERE admin.bruker_id = bruker.bruker_id) AS admin, EXISTS( SELECT * FROM ansatt WHERE ansatt.bruker_id = bruker.bruker_id) AS ansatt, EXISTS( SELECT * FROM bedrift WHERE bedrift.bruker_id = bruker.bruker_id) AS bedrift, EXISTS( SELECT * FROM privat WHERE privat.bruker_id = bruker.bruker_id) AS privat FROM bruker) AS rolle ON rolle.bruker_id = bruker.bruker_id WHERE privat.fornavn LIKE ? OR privat.etternavn LIKE ? OR ansatt.fornavn LIKE ? OR ansatt.etternavn LIKE ? OR epost LIKE ? OR ansatt.telefon LIKE ? OR admin.telefon LIKE ? OR bedrift.telefon LIKE ? OR bedrift.orgnr LIKE ? OR admin.navn LIKE ? OR bedrift.navn LIKE ? OR kommuner.kommune_navn LIKE ? OR kommuner.fylke_navn LIKE ?",
+    tabell, callback);
+  }
+
   //testes
   lagNyBruker(json, callback) {
     const tabell = [json.epost, json.passord, json.kommune_id];
