@@ -3,13 +3,38 @@ import {Component} from 'react-simplified';
 import {generellServices} from '../../services/generellServices';
 import {Link} from 'react-router-dom';
 
+/**
+ * Søkefelt for å komme seg til en viss kommuneside. For søkefelt for å velge en kommune i en <form> eller lignende se: {@link KommuneInput}
+ * @reactProps {Object} history - history objektet til komponenten som skal bruke KommuneVelger
+ */
 export class KommuneVelger extends Component {
+  /** 
+   * Søketeksten 
+   * @type {string} */
   sok = '';
+
+  /** 
+   * Om listen over kommuner skal vises
+   * @type {boolean} 
+   * @default false */
   listesyn = false;
+
+  /** Liste over alle kommuner 
+   * @type {Kommune[]} */
   kommuner = [];
+
+  /** Liste over kommuner som matcher med søketeksten 
+   * @type {Kommune[]}*/
   kommuner_filtrert = [];
+
+  /** Index til kommunen som er valgt i listen 
+   * @type {number} */
   valgt_index = 0;
+
+  /** Referanse til input boks */
   in;
+
+  /** Referanse til kommunelisten */
   boks;
 
   constructor(props) {
@@ -47,7 +72,7 @@ export class KommuneVelger extends Component {
       </div>
     );
   }
-
+  /**@ignore */
   async mounted() {
     this.in.current.addEventListener('keydown', (e) => {
       this.inputup(e);
@@ -55,7 +80,7 @@ export class KommuneVelger extends Component {
     let res = await generellServices.hentAlleKommuner();
     this.kommuner = await res.data;
   }
-
+  /**@ignore */
   navigate(path) {
     this.sok = '';
     this.listesyn = false;
@@ -63,7 +88,7 @@ export class KommuneVelger extends Component {
     this.valgt_index = 0;
     this.props.history.push(path);
   }
-
+  /**@ignore */
   inputup(e) {
     if (e.key == 'Enter') {
       if (this.kommuner_filtrert.length > 0) {
@@ -96,7 +121,7 @@ export class KommuneVelger extends Component {
       }
     }
   }
-
+  /**@ignore */
   oppdaterSok(e) {
     this.sok = e.target.value;
 

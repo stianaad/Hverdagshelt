@@ -17,7 +17,6 @@ var pool = mysql.createPool({
   multipleStatements: true,
 });
 
-
 let generelldao = new Generelldao(pool);
 let feildao = new FeilDao(pool);
 let brukerdao = new BrukerDao(pool);
@@ -114,6 +113,16 @@ test('legg til ny privatbruker', (done) => {
     done();
   }
   brukerdao.lagNyPrivatBruker(testprivatBruker, callback);
+});
+
+test('hent fulgte feil til bruker', (done) => {
+  function callback(status, data) {
+    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
+    expect(data.length).toBe(1);
+    expect(data[0].overskrift).toBe('STIAN SPISER MAT TIL LUNSJ');
+    done();
+  }
+  brukerdao.finnFolgteFeilTilBruker(17, callback);
 });
 
 test('hent ikke oppdaterte feil til bruker', (done) => {
@@ -320,16 +329,6 @@ test('slett hovedkategori', (done) => {
     done();
   }
   feildao.slettHovedkategori(2, callback);
-});
-
-
-test('slett bilde fra feil', (done) => {
-  function callback(status, data) {
-    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
-    expect(data.affectedRows).toBe(1);
-    done();
-  }
-  feildao.slettBildeFraFeil({bilde_id: 31, feil_id: 27}, callback);
 });
 
 test('hent ferdige feil til bedrift', (done) => {
