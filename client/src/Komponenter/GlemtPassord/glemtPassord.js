@@ -64,7 +64,6 @@ export class GlemtPassord extends Component {
     let epost = this.epost;
     if (epost) {
       let res1 = await brukerService.glemtPassord({epost: epost});
-      console.log(res1.data.result);
       if(res1.data.result){
         await alert("Du har blitt tilsendt link på e-post.");
         await this.props.history.push('/');
