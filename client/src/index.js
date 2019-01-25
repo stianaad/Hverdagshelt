@@ -194,8 +194,8 @@ const routes = () => {
             ? //Ikke logget inn
               [
                 <Route exact path="/registrering" key="registrering" component={Registrering} history={history} />,
-                <Route exact path="/glemt-passord" key="glemt-passord" component={GlemtPassord} />,
-                <Route exact path="/resett-passord/:token" key="resett-passord" component={ResettPassord} />,
+                <Route exact path="/glemt-passord" key="glemt-passord" component={GlemtPassord} history={history}/>,
+                <Route exact path="/resett-passord/:token" key="resett-passord" component={ResettPassord} history={history}/>,
                 <Redirect from="/meldfeil" key="meldfeil" to="/" />,
                 <Redirect from="/minside" key="minside" to="/" />,
                 <Redirect from="/mineoppgaver" key="mineoppgaver" to="/" />,
