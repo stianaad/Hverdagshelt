@@ -14,7 +14,7 @@ export class AnsattHendelser extends Component{
     hendelser = [];
     kategorier = [];    
     valgtHendelse = {
-        hendelseskategori_id: '',
+        kategorinavn: '',
         kommune_id: '',
         overskrift:'',
         tid:'',
@@ -22,11 +22,13 @@ export class AnsattHendelser extends Component{
         sted: '',
         bilde: '',
         lengdegrad: '',
-        breddegrad: '',
-        hendelse_id: ''
+        billett: ''
     } 
 
-    valgtKat = '';
+    valgtKat = {
+        hendelse_id: '',
+        kategorinavn: ''
+    }
     dato = '';
     kl = '';
 
@@ -38,8 +40,16 @@ export class AnsattHendelser extends Component{
         this.dato = res[0];
         this.kl = res[1];
         this.open = true;
-
+        console.log(this.valgtHendelse);
         console.log("dato: " + this.dato + " tid: " + this.kl);
+
+        let kat = this.kategorier.find(e => (e.kategorinavn === this.valgtHendelse.kategorinavn));
+        this.valgtKat = {...kat};
+    }
+
+    handleKategori(kategori){
+        let kat = this.kategorier.find(e => e.kategorinavn === kategori);
+        this.valgtKat = {...kat};
     }
 
     render(){
@@ -97,7 +107,7 @@ export class AnsattHendelser extends Component{
                                             className="form-control"
                                             onChange={(e) => this.handleKategori(e.target.value)}
                                             >
-                                            <option hidden>{this.valgtHendelse.kategorinavn}</option>
+                                            <option hidden>{this.valgtKat.kategorinavn}</option>
                                             {this.kategorier.map((kategori) => (
                                                 <option value={kategori.kategorinavn} key={kategori.kategorinavn}>
                                                 {' '}
@@ -134,7 +144,8 @@ export class AnsattHendelser extends Component{
                                     <label>Link til billetter: </label>
                                     <input type="text" className="form-control" placeholder="eks.billetter.com"
                                         required={true}
-                                        onChange={(event) => (this.url = event.target.value)}
+                                        value={this.valgtHendelse.billett}
+                                        onChange={(event) => (this.valgtHendelse.billett = event.target.value)}
                                     />
                                 </div>
                                 <div className="form-group">
@@ -156,6 +167,36 @@ export class AnsattHendelser extends Component{
             </div>
         );
     }
+
+    async lagre() {
+        let datotid = this.dato + " " + this.kl + ":00";
+        let file = document.querySelector('#bil').files[0];
+    
+        let formData = new FormData();
+        formData.append("hendelseskategori_id", this.valgtKat.hendelseskategori_id);
+        formData.append("overskrift", this.valgtHendelse.overskrift);
+        formData.append("tid", datotid);
+        formData.append("beskrivelse", this.valgtHendelse.beskrivelse);
+        formData.append("sted", this.valgtHendelse.sted);
+        formData.append("billett", this.valgtHendelse.billett);
+        formData.append('bilder', file, file.name);
+        formData.append("hendelses_id", this.valgtHendelse.hendelse_id);
+    
+        let token = sessionStorage.getItem('pollett');
+        if (token) {
+          let xhr = new XMLHttpRequest();
+          xhr.open('PUT', '/api/hendelser/' + this.valgtHendelse.hendelse_id, true);
+          xhr.setRequestHeader("x-access-token", 'Bearer ' + token)
+          xhr.onreadystatechange = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+              this.props.history.push('/');
+            }
+          };
+          xhr.send(formData);
+        } else {
+          global.sidePush("/", true);
+        }
+      }
 
     async mounted(){
         let res = await hendelseService.hentAlleHendelser(); 
