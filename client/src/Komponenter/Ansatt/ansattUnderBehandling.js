@@ -14,7 +14,6 @@ import { FeilVisning } from '../../Moduler/AnsattModuler/feilvisning';
 export class AnsattUnder extends Component{
     underB = [];
     alleFeil = [];
-    className = '';
     valgtfeil = {
         overskrift: '',
         beskrivelse: ''
@@ -43,19 +42,20 @@ export class AnsattUnder extends Component{
                 <PageHeader/>
                 <div className="vinduansatt containter-fluid">
                 {global.payload.role == 'ansatt' ? <AnsattMeny/> : (global.payload.role == 'admin') ? <AdminMeny kommune={this.kommune}/> : null}
-                    <div className="row justify-content-md-center mt-3 mb-3">
-                        <h1>Under behandling</h1>
-                    </div>
+                
                     <div className="ansattContent">
+                        <div className="row justify-content-md-center mt-3 mb-3">
+                            <h1>Under behandling</h1>
+                        </div>
                         <div className="row">
                             <div className="col-sm-4">
-                                <Card color="red" fluid>
+                                <Card color="yellow" fluid>
                                     <Card.Content>
                                         <Card.Header>
                                             Under behandling
                                         </Card.Header>
                                     </Card.Content>
-                                    <Card.Content className={this.className}>
+                                    <Card.Content className="hoydeTabell">
                                         {this.underB.map((feil) => (
                                             <FeedEvent
                                             onClick={() => this.visFeil(feil)}
@@ -91,12 +91,6 @@ export class AnsattUnder extends Component{
         this.feilApen = false;
     }
 
-    scroll() {
-        if (this.underB.length > 5) {
-          this.className = 'ansattScroll';
-        }
-      }
-    
       async mounted() {
 
         const load = async (kommune_id) => {
@@ -105,7 +99,6 @@ export class AnsattUnder extends Component{
         
             this.underB = await feil.data.filter(e => (e.status === 'Under behandling'));
             
-            await this.scroll();
         }
 
         if (global.payload.role == 'ansatt') load(global.payload.user.kommune_id);
