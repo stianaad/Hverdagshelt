@@ -19,7 +19,7 @@ export class ProfileButton extends Component {
     sessionStorage.removeItem('pollett');
     global.payload = null;
     let p = window.location.pathname;
-    if (p == "/" || p.startsWith("/hovedside/") || p.startsWith("/hendelser") || p.startsWith("/resett-passord/")) {
+    if (p == "/" || p.startsWith("/hovedside/") || p.startsWith("/hendelser")) {
       global.sideRefresh(true);
     } else {
       global.sidePush("/",true);

@@ -23,6 +23,7 @@ import {PageHeader} from './Moduler/header/header';
 import {FireNullFire} from './Komponenter/firenullfire/firenullfire';
 
 import {GlemtPassord} from '../src/Komponenter/GlemtPassord/glemtPassord';
+import {ResettPassord} from '../src/Komponenter/GlemtPassord/resettPassord';
 import {Hendelser} from '../src/Komponenter/Hendelser/hendelser';
 import {Bedrift} from '../src/Komponenter/Bedrift/bedrift';
 import {RegistrerNyKategori} from '../src/Komponenter/Admin/registrerNyKategori';
@@ -185,6 +186,7 @@ const routes = () => {
               [
                 <Route exact path="/registrering" key="registrering" component={Registrering} history={history} />,
                 <Route exact path="/glemt-passord" key="glemt-passord" component={GlemtPassord} />,
+                <Route exact path="/resett-passord/:token" key="resett-passord" component={ResettPassord} />,
                 <Redirect from="/meldfeil" key="meldfeil" to="/" />,
                 <Redirect from="/minside" key="minside" to="/" />,
                 <Redirect from="/mineoppgaver" key="mineoppgaver" to="/" />,
