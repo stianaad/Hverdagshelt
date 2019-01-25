@@ -3,7 +3,6 @@ import * as React from 'react';
 import {Component, sharedComponentData} from 'react-simplified';
 import {Router, Route, NavLink, Redirect, Switch} from 'react-router-dom';
 import ReactDOM from 'react-dom';
-import {BildeTest} from './bildetest';
 import {MeldFeil} from './Komponenter/MeldFeil/meldFeil';
 import {Statistikk} from './Komponenter/Statistikk/statistikk';
 import Popup from 'reactjs-popup';
@@ -48,97 +47,6 @@ import { AlleBedrifter } from './Komponenter/Ansatt/alleBedrifter';
 import { Administrasjon } from './Komponenter/Admin/admin';
 import 'semantic-ui-css/semantic.min.css';
 import { FeilHosBedrift } from './Komponenter/Ansatt/feilHosBedrift';
-
-//<PositionMap width="100%" height="500px" id="posmap" center="Oslo" position={this.posisjon}></PositionMap>
-class Menu extends Component {
-  tekst = '';
-  feil = [
-    {
-      overskrift: 'Det er et problem her',
-      beskrivelse:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-      bildeurl: 'https://bjornost.tihlde.org/hverdagshelt/135d6d0f44a6ba73e3782c243663b90a',
-      status: 'Ikke godkjent',
-      tid: '10/12/2018, 10:53',
-      hovedkategori: 'Veiarbeid',
-      kategorinavn: 'Hull i veien',
-      breddegrad: 59.913777,
-      lengdegrad: 10.722702,
-    },
-  ];
-  markers = markerTabell(this.feil);
-  markers2 = [
-    new Marker(
-      'Det er et problem her',
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-      'https://bjornost.tihlde.org/hverdagshelt/135d6d0f44a6ba73e3782c243663b90a',
-      1,
-      '10/12/2018, 10:53',
-      'Veiarbeid',
-      59.911599,
-      10.743839
-    ),
-    new Marker(
-      'Det er et problem her',
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-      'https://bjornost.tihlde.org/hverdagshelt/ac78b6d904ceb783e9da802a5c84ea7b',
-      2,
-      '10/12/2018, 10:53',
-      'Veiarbeid',
-      59.913777,
-      10.722702
-    ),
-  ];
-
-  breddegrad = 59.913777;
-  lengdegrad = 10.722702;
-
-  flytt() {
-    this.kart.flyttKart(this.breddegrad, this.lengdegrad);
-  }
-
-  render() {
-    return (
-      <div>
-        <p>hehehehe</p>
-        <MarkerMap
-          width="100%"
-          height="500px"
-          id="mapr"
-          markers={this.markers}
-          center="Oslo"
-          onRef={(ref) => (this.kart = ref)}
-        />
-        <button onClick={this.flytt} />
-      </div>
-    );
-  }
-}
-
-class komtest extends Component {
-  kominput;
-
-  constructor(props) {
-    super(props);
-    this.kominput = React.createRef();
-  }
-
-  render() {
-    return (
-      <React.Fragment>
-        <div style={{width: '300px'}}>
-          <KommuneInput ref={this.kominput} />
-          {this.komm}
-        </div>
-        <button onClick={this.test}>test</button>
-      </React.Fragment>
-    );
-  }
-
-  test() {
-    alert(this.kominput.current.verdi);
-  }
-}
 
 global.sideRefresh = (hard) => {
   setTimeout(() => {
@@ -249,9 +157,6 @@ const routes = () => {
 
           {/*legg test-routes under*/}
           <Route exact path="/kommunevalgtest" component={KommuneVelger} history={history} />
-          <Route exact path="/kinput" component={komtest} />
-          <Route exact path="/bildetest" component={BildeTest} />
-          <Route exact path="/nyheter" component={Menu} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/headertest" component={PageHeader} history={history} />
           <Route exact path="/ansattest" component={NyeFeil} history={history} />

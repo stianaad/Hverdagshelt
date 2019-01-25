@@ -13,7 +13,6 @@ import { brukerService } from '../../services/brukerService';
 
 export class AlleBedrifter extends Component{
     bedrifter = [];
-    className = '';
     bedApen = false; 
     feilApen = false; 
     valgtBed = '';
@@ -74,7 +73,7 @@ export class AlleBedrifter extends Component{
                                             Nye innsendinger
                                         </Card.Header>
                                     </Card.Content>
-                                    <Card.Content className={this.className}>
+                                    <Card.Content className="hoydeTabell">
                                         {this.bedrifter.map((bed) => (
                                             <Feed>
                                                 <Feed.Event onClick={() => this.openBed(bed)}>
@@ -157,17 +156,10 @@ export class AlleBedrifter extends Component{
         ); 
     }
 
-    scroll() {
-        if (this.bedrifter.length > 5) {
-          this.className = 'ansattScroll';
-        }
-      }
-    
-      async mounted() {
+    async mounted() {
         let bed = await brukerService.hentBedrifter();
         this.bedrifter = await bed.data; 
         
-        await this.scroll();
 
           if (global.payload.role == 'ansatt') load(global.payload.user.kommune_id);
           else if (global.payload.role == 'admin') {

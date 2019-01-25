@@ -14,7 +14,6 @@ import { FeilVisning } from '../../Moduler/AnsattModuler/feilvisning';
 export class FeilHosBedrift extends Component{
     underB = [];
     alleFeil = [];
-    className = '';
     valgtfeil = {
         overskrift: '',
         beskrivelse: ''
@@ -55,7 +54,7 @@ export class FeilHosBedrift extends Component{
                                             Nye innsendinger
                                         </Card.Header>
                                     </Card.Content>
-                                    <Card.Content className={this.className}>
+                                    <Card.Content className="hoydeTabell">
                                         {this.underBOgGodkjenning.map((feil) => (
                                             <FeedEvent
                                             onClick={() => this.visFeil(feil)}
@@ -90,12 +89,6 @@ export class FeilHosBedrift extends Component{
         this.feilApen = false;
         this.mounted();
     }
-
-    scroll() {
-        if (this.underB.length > 5) {
-          this.className = 'ansattScroll';
-        }
-      }
     
     async mounted() {
         const load = async (kommune_id) => {
@@ -106,7 +99,6 @@ export class FeilHosBedrift extends Component{
             this.underBOgGodkjenning = await res1.data;
 
             this.underB = await feil.data.filter(e => (e.status === 'Under behandling'));
-            await this.scroll();
         }
 
         if (global.payload.role == 'ansatt') load(global.payload.user.kommune_id);

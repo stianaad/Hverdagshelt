@@ -29,11 +29,6 @@ export class AnsattOversikt extends Component {
 
   feilModal = false; 
 
-  classNye = 'hoyde-tabell';
-  classGodkjent = 'hoyde-tabell';
-  classUnderB = 'hoyde-tabell';
-  classFerdig = 'hoyde-tabell';
-
   openModal(feil){
     this.valgtFeil = {...feil};
     this.feilModal = true; 
@@ -46,10 +41,10 @@ export class AnsattOversikt extends Component {
         <FeilModal key={this.valgtFeil.feil_id+this.feilModal} open={this.feilModal} feil={this.valgtFeil} onClose={() => {this.feilModal = false}} />
         <div className="vinduansatt container-fluid">
             {global.payload.role == 'ansatt' ? <AnsattMeny/> : (global.payload.role == 'admin') ? <AdminMeny kommune={this.kommune}/> : null}
-            <div className="row justify-content-md-center mt-3 mb-3">
-                <h1>Oversikt</h1>
-            </div>
             <div className="ansattContent">
+                <div className="row justify-content-md-center mt-3 mb-3">
+                    <h1>Oversikt</h1>
+                </div>
                 <div className="row justify-content-md-center">
                     <div className="col-sm-4">
                         <Card fluid>
@@ -60,7 +55,7 @@ export class AnsattOversikt extends Component {
                                 tekst="Trykk på en feil for mer informasjon om den.&#10;Velg Nye Feil i menyen for å gjøre endringer på feilene"/>
                             </Card.Header>
                             </Card.Content>
-                            <Card.Content className={this.classNye}>
+                            <Card.Content style={{height: '250px', overflow: 'auto'}}>
                             {this.nyefeil.map((feil) => (
                                 <FeedEvent
                                 onClick={() => this.openModal(feil)}
@@ -83,7 +78,7 @@ export class AnsattOversikt extends Component {
                                 tekst="Trykk på en feil for mer informasjon om den.&#10;Velg 'Godkjent' i menyen for å endre status eller sende til bedrift"/>
                             </Card.Header>
                             </Card.Content>
-                            <Card.Content className={this.classGodkjent}>
+                            <Card.Content style={{height: '250px', overflow: 'auto'}}>
                             {this.godkjente.map((feil) => (
                                 <FeedEvent
                                 onClick={() => this.openModal(feil)}
@@ -108,7 +103,7 @@ export class AnsattOversikt extends Component {
                                     tekst="Trykk på en feil for mer informasjon om den.&#10;Velg 'Under Behandling' i menyen for å endre statuser"/>
                                 </Card.Header>
                             </Card.Content>
-                            <Card.Content className={this.classUnderB}>
+                            <Card.Content style={{height: '250px', overflow: 'auto'}}>
                             {this.underBehandling.map((feil) => (
                                 <FeedEvent
                                 onClick={() => this.openModal(feil)}
@@ -132,7 +127,7 @@ export class AnsattOversikt extends Component {
                                 </Card.Header>
                             </Card.Content>
 
-                            <Card.Content className={this.classFerdig}>
+                            <Card.Content style={{height: '250px', overflow: 'auto'}}>
                             {this.utførte.map((feil) => (
                                 <FeedEvent
                                 onClick={() => this.openModal(feil)}
@@ -153,51 +148,19 @@ export class AnsattOversikt extends Component {
     );
   }
 
-  scrollNye() {
-    if (this.nyefeil.length > 4) {
-      this.classNye = 'scroll-tabell';
-    }
-  }
-
-  scrollGodkjent(){
-      if(this.godkjente.length > 4){
-          this.classGodkjent = 'scroll-tabell';
-      }
-  }
-
-  scrollUnderB() {
-    if (this.underBehandling.length > 4) {
-      this.classUnderB = 'scroll-tabell';
-    }
-  }
-
-  scrollFerdig() {
-    if (this.utførte.length > 4) {
-      this.classFerdig = 'scroll-tabell';
-    }
-  }
-
   async mounted() {
 
     const load = async (kommune_id) => {
         let feil = await feilService.hentFeilForKommune(kommune_id);
         this.alleFeil = await feil.data;
-        await console.log(this.alleFeil);
 
         this.nyefeil = await feil.data.filter((e) => e.status === 'Ikke godkjent');
-        await this.scrollNye();
-        await console.log(this.nyefeil);
 
         this.godkjente = await feil.data.filter((e) => e.status === 'Godkjent');
-        await this.scrollGodkjent();
 
         this.underBehandling = await feil.data.filter((e) => e.status === 'Under behandling');
-        await this.scrollUnderB();
-        await console.log(this.underBehandling);
 
         this.utførte = await feil.data.filter((e) => e.status === 'Ferdig');
-        await this.scrollFerdig();
-        await console.log(this.utførte);
     }
 
     if (global.payload.role == 'ansatt') load(global.payload.user.kommune_id);
