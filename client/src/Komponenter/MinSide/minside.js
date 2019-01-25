@@ -254,7 +254,7 @@ export class Minside extends Component {
           <div className="col minSideUtKolonne" id="sideListeH">
             <Card fluid key = {'sideListeH'}>
               <Card.Content>
-                <Card.Header>Brukerinformasjon<InfoBoks key={'brukerinfo'} tekst="Her kan du både se og redigere din personlige informasjon.&#10;Du kan også endre passord ved: 'Rediger bruker' > 'Endre passord'."/></Card.Header>
+                <Card.Header>Brukerinformasjon<InfoBoks key={'brukerinfo'} tekst="Her kan du både se og redigere din personlige informasjon.&#10;Du kan også endre hvorvidt du ønsker å bli informert om hendelser i ditt fylke.&#10;Passord kan du endre ved: 'Rediger bruker' > 'Endre passord'."/></Card.Header>
               </Card.Content>
               <Card.Content>
                 <div id="container">

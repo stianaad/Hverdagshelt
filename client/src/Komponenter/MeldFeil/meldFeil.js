@@ -8,6 +8,7 @@ import {feilService} from '../../services/feilService';
 import {PageHeader} from '../../Moduler/header/header';
 import {Footer} from '../../Moduler/footer/footer';
 import queryString from 'query-string'
+import { InfoBoks } from '../../Moduler/info/info';
 
 export class MeldFeil extends Component {
   kategoriene = [];
@@ -36,7 +37,7 @@ export class MeldFeil extends Component {
         <PageHeader history={this.props.history} location={this.props.location} />
         <div id="blokk">
           <div>
-            <h1 id="overskrift">Meld inn feil</h1>
+            <h1 id="overskrift">Meld inn feil<InfoBoks tekst="Her kan du melde inn feil i en kommune. Alle felt er obligatoriske unntatt bilder." /></h1>
           </div>
           <div>
             <div id="kommuneblokk">
