@@ -3,6 +3,17 @@ variables:
   MYSQL_USER: root
   MYSQL_ROOT_PASSWORD: '123'
 
+# Install node libraries
+pages:
+  script:
+  - cd client && npm install
+  - ./node_modules/.bin/esdoc -c ../.esdoc.json
+  artifacts:
+    paths:
+    - public
+  only:
+  - master
+
 test:
   stage: test
   image: node:latest
