@@ -77,7 +77,7 @@ module.exports = class BrukerDao extends Dao {
   //testes
   finnFolgteFeilTilBruker(bruker_id, callback) {
     super.query(
-      "SELECT feil.*, feilfolg.feil_id, feilfolg.bruker_id, feil.overskrift, DATE_FORMAT(s.tid, '%Y-%m-%d %H:%i') AS tid, s.status_id, b.url FROM feil LEFT JOIN (SELECT feil_id, MAX(status_id) as status_id, max(tid) as tid from oppdatering group by feil_id) as s ON s.feil_id=feil.feil_id LEFT JOIN (SELECT feil_id, ANY_VALUE(url) as url, min(bilde_id) as bilde_id from feilbilder group by feil_id) as b ON b.feil_id=feil.feil_id INNER JOIN feilfolg ON feilfolg.feil_id = feil.feil_id WHERE feilfolg.bruker_id = ? ORDER BY s.tid DESC",
+      "SELECT feil.*, feilfolg.feil_id, feilfolg.bruker_id, feil.overskrift, DATE_FORMAT(s.tid, '%Y-%m-%d %H:%i') AS tid, status.status, b.url FROM feil LEFT JOIN (SELECT feil_id, MAX(status_id) as status_id, max(tid) as tid from oppdatering group by feil_id) as s ON s.feil_id=feil.feil_id LEFT JOIN (SELECT feil_id, ANY_VALUE(url) as url, min(bilde_id) as bilde_id from feilbilder group by feil_id) as b ON b.feil_id=feil.feil_id INNER JOIN feilfolg ON feilfolg.feil_id = feil.feil_id INNER JOIN status ON s.status_id=status.status_id WHERE feilfolg.bruker_id = ? ORDER BY s.tid DESC",
       [bruker_id],
       callback
     );
