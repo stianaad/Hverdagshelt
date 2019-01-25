@@ -7,6 +7,8 @@ import {feilService} from '../../services/feilService';
 import {markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
 import {NavLink} from 'react-router-dom';
 import {AnsattMeny} from './ansattMeny';
+import {AdminMeny} from '../Admin/adminMeny';
+import {generellServices} from '../../services/generellServices';
 import { brukerService } from '../../services/brukerService';
 
 export class AlleBedrifter extends Component{
@@ -59,7 +61,7 @@ export class AlleBedrifter extends Component{
             <div>
                 <PageHeader/>
                 <div className="vinduansatt containter-fluid">
-                    <AnsattMeny/>
+                {global.payload.role == 'ansatt' ? <AnsattMeny/> : (global.payload.role == 'admin') ? <AdminMeny kommune={this.kommune}/> : null}
                     <div className="row justify-content-md-center mt-3 mb-3">
                         <h1>Alle bedrifter</h1>
                     </div>
@@ -166,6 +168,16 @@ export class AlleBedrifter extends Component{
         this.bedrifter = await bed.data; 
         
         await this.scroll();
+
+          if (global.payload.role == 'ansatt') load(global.payload.user.kommune_id);
+          else if (global.payload.role == 'admin') {
+              let res = await generellServices.sokKommune(this.props.match.params.kommune);
+              await Promise.resolve(res.data).then(async () => {
+                  if (res.data.length > 0) {
+                      this.kommune = res.data[0];
+                  }
+              });
+          }
       }
     
 }

@@ -105,7 +105,7 @@ test('legg til ny privatbruker', (done) => {
     done();
   }
   brukerdao.lagNyPrivatBruker(testprivatBruker, callback);
-});
+}, 10000);
 
 test('hent fulgte feil til bruker', (done) => {
   function callback(status, data) {
@@ -454,4 +454,4 @@ test('hent alle kommuner', (done) => {
     done();
   }
   generelldao.hentAlleKommuner(callback);
-});
+}, 10000);

@@ -10,7 +10,7 @@ import Epost from '../epost.js';
 import jwt from 'jsonwebtoken';
 import secret from '../config.json';
 import async from 'async';
-import mdw from '../middleware.js';
+import mdw, { createToken } from '../middleware.js';
 import { checkToken } from '../middleware';
 
 let brukerDao = new BrukerDao(pool);
@@ -37,14 +37,15 @@ router.post('/api/brukere/', (req, res) => {
 
 router.post('/api/brukere/privat', (req, res) => {
   console.log('Fikk POST-request fra klienten');
+  let b = {epost: req.body.epost, passord: req.body.passord}
   passord(req.body.passord).hash((error, hash) => {
     if (error) {
       throw new Error('Noe gikk galt');
     }
-    req.body.passord = hash;
-    brukerDao.lagNyPrivatBruker(req.body, (status, data) => {
-      res.status(status);
-      res.json(data);
+    let a = req.body;
+    a.passord = hash;
+    brukerDao.lagNyPrivatBruker(a, (status, data) => {
+      createToken({body: b}, res);
       epostTjener.registreringsBekreftelse(req.body.fornavn + ' ' + req.body.etternavn, req.body.epost);
     });
   });
