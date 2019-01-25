@@ -19,6 +19,8 @@ export class AdminMeny extends Component {
                 to='/admin/startside'
               />
             </Menu.Menu>
+          </Menu.Item>
+          <Menu.Item>
             <Menu.Header>Feil og mangler</Menu.Header>
 
             <Menu.Menu>
@@ -77,6 +79,16 @@ export class AdminMeny extends Component {
                 name='Feil hos bedrifter'
                 as={NavLink}
                 to={'/admin/' + (this.props.kommune && this.props.kommune.kommune_navn.toLowerCase()) + '/bedrifter/feil'}
+              />
+            </Menu.Menu>
+          </Menu.Item>
+          <Menu.Item>
+            <Menu.Header>Statistikk</Menu.Header>
+            <Menu.Menu>
+              <Menu.Item
+                name='Nasjonal statistikk'
+                as={NavLink}
+                to='/statistikk'
               />
             </Menu.Menu>
           </Menu.Item>

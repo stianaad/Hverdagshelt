@@ -101,6 +101,7 @@ const routes = () => {
             : global.payload.role == 'ansatt'
             ? //Ansatt routes
               [
+                <Route exact path="/statistikk" component={Statistikk} history={history} />,
                 <Route exact path="/registrerbedrift" key="registrerbedrift"component={RegistrerBedrift} history={history} />,
                 <Route exact path="/ansatt/nyefeil" key="nyefeil" component={NyeFeil} history={history}/>,
                 <Route exact path="/ansatt/nyhendelse" key="nyhendelse" component={NyHendelse} history={history}/>,
@@ -119,6 +120,7 @@ const routes = () => {
             ? //Admin routes
               [
               <Route exact path="/meldfeil" key="meldfeil" component={MeldFeil} history={history} />,
+              <Route exact path="/statistikk" component={Statistikk} history={history} />,
 
               <Route exact path="/registreransatt" key="registreransatt"component={RegistrerAnsatt} history={history} />,
               <Route exact path="/registrerbedrift" key="registrerbedrift"component={RegistrerBedrift} history={history} />,

@@ -5,8 +5,6 @@ import bodyParser from 'body-parser';
 import {pool} from '../../test/poolsetup.js';
 import StatistikkDao from '../dao/statistikkdao.js';
 
-var fs = require('fs');
-
 const statistikkDao = new StatistikkDao(pool);
 
 router.get('/api/statistikk/feil/kommuner', (req, res) => {
@@ -16,7 +14,7 @@ router.get('/api/statistikk/feil/kommuner', (req, res) => {
   });
 });
 
-router.get('/api/statistikk/feil/fylker', (req, res) => { 
+router.get('/api/statistikk/feil/fylker', (req, res) => {
   statistikkDao.feilPerFylke((status, data) => {
     res.status(status);
     res.json(data);
@@ -118,7 +116,7 @@ router.get('/api/statistikk/feil/status/:status_id', (req, res) => {
   statistikkDao.hentFeilPaaStatus(req.params.status_id, (status, data) => {
     res.status(status);
     res.json(data);
-  }); 
+  });
 });
 
 module.exports = router;
