@@ -306,7 +306,7 @@ export class StatBar extends Component <{text: string, label: string, maks: numb
   render() {
     return (
       <React.Fragment>
-        <div id={"barDiv" + this.props.elementID} style={{width: "2000px"}}>
+        <div id={"barDiv" + this.props.elementID} style={{width: '2000px'}}>
           <canvas id={this.props.elementID}></canvas>
         </div>
       </React.Fragment>

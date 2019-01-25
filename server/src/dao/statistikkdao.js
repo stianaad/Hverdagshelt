@@ -110,7 +110,7 @@ module.exports = class StatistikkDao extends Dao {
    */
   feilPerFylke(callback) {
     super.query(
-      'SELECT kommuner.fylke_navn, COUNT(*) as antall FROM feil JOIN kommuner ON feil.kommune_id = kommuner.kommune_id GROUP BY kommuner.fylke_navn ORDER BY kommuner.fylke_navn ASC', null, callback
+      'SELECT kommuner.fylke_navn as navn, COUNT(*) as antall FROM feil JOIN kommuner ON feil.kommune_id = kommuner.kommune_id GROUP BY kommuner.fylke_navn ORDER BY kommuner.fylke_navn ASC', null, callback
     );
   }
 
@@ -120,7 +120,7 @@ module.exports = class StatistikkDao extends Dao {
    */
   hentFeilPerSubkategori(callback) {
     super.query(
-      'SELECT subkategori.kategorinavn, COUNT(*) as antall FROM feil JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id GROUP BY subkategori.kategorinavn ORDER BY subkategori.kategorinavn ASC', null, callback
+      'SELECT subkategori.kategorinavn as navn, COUNT(*) as antall FROM feil JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id GROUP BY subkategori.kategorinavn ORDER BY subkategori.kategorinavn ASC', null, callback
     );
   }
 
@@ -141,7 +141,7 @@ module.exports = class StatistikkDao extends Dao {
    */
   hentFeilPerHovedkategori(callback) {
     super.query(
-      'SELECT hovedkategori.kategorinavn, COUNT(*) as antall FROM feil JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id JOIN hovedkategori ON subkategori.hovedkategori_id = hovedkategori.hovedkategori_id GROUP BY hovedkategori.kategorinavn ORDER BY hovedkategori.kategorinavn ASC', null, callback
+      'SELECT hovedkategori.kategorinavn as navn, COUNT(*) as antall FROM feil JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id JOIN hovedkategori ON subkategori.hovedkategori_id = hovedkategori.hovedkategori_id GROUP BY hovedkategori.kategorinavn ORDER BY hovedkategori.kategorinavn ASC', null, callback
     );
   }
 

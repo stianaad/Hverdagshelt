@@ -10,7 +10,6 @@ import * as html2canvas from 'html2canvas';
 export class Statistikk extends Component {
 
   resultat = [];
-  teller = 0;
   total = 0;
   maks = 0;
   large = 0;
@@ -33,74 +32,26 @@ export class Statistikk extends Component {
     return tempArray;
   }
 
-  async print(){
-
-    const filename = "Statistikk.pdf";
-    let pdf = new jsPDF('p', 'mm', 'a4');
-
-    let runs = 0;
-    let big = this.large;
-
-    function skriv(){
-      if(runs === big){
-        pdf.save(filename);
-      }
-    }
-
-    for(let i = 0; i < this.large; i++){
-      let input = document.getElementById('barDiv' + i);
-      this.teller++;
-      if(this.teller === this.total){
-        this.teller = 0;
-      }
-
-      await html2canvas(input, {
-        scale: 1
-      }
-        ).then(canvas => {
-          runs++;
-          pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 200, 150);
-          if(runs != big){
-            pdf.addPage();
-          }
-    	});
-
-      skriv();
-    }
-  }
-
-  hide(){
-
-    this.maks = this.ymse[this.menyID.value].resultat.maks;
+  handleChange(){
     this.large = this.ymse[this.menyID.value].resultat.large;
+    this.maks = this.ymse[this.menyID.value].resultat.maks;
     this.resultat = this.ymse[this.menyID.value].resultat.resultat;
     let streng = this.menyValg[this.menyID.value].type;
     this.divNavn = streng.replace(/\s/g, "");
-
-    let blokk = document.getElementById(this.divNavn);
-    if(blokk.style.display === 'none'){
-      blokk.style.display = "block";
-    } else {
-      blokk.style.display = "none";
-    }
-
   }
 
   render(){
     return(
-      <>
+      <React.Fragment>
         <div id="statMeny">
-          <div>
-            <GronnKnapp onClick={this.hide}>Knapp</GronnKnapp>
-          </div>
-          <div>
-            <progress value={this.teller} max={this.total} ></progress>
+          <div id="lastNedPDFBtn">
+            <GronnKnapp onClick={() => {document.querySelector("#statMeny").style.display = "none"; setTimeout(() => {window.print(); document.querySelector("#statMeny").style.display = "inherit";},500);}}>Last ned som PDF</GronnKnapp>
           </div>
           <div>
             <FormGroup controlId="formControlsSelect">
               <FormControl
                 componentClass="select"
-                onChange={this.hide}
+                onChange={this.handleChange}
                 inputRef={(node) => {
                   this.menyID = node;
                 }}
@@ -114,32 +65,94 @@ export class Statistikk extends Component {
             </FormGroup>
           </div>
         </div>
-        <div id={this.divNavn} style={{display: 'block', overflowX: 'scroll', zoom: '65%', marginLeft: '15%', marginRight: '10%'}}>
+        <div key={this.menyID.value} id={this.divNavn} style={{ zoom: '50%'}}>
         {this.resultat.map(e => (
-          <StatBar maks={this.maks} text={this.menyValg[this.menyID.value].type} label="Antall feil" elementID={e.id} labels={e.navn} data={e.antall} ></StatBar>
+          <StatBar key={e.id} maks={this.maks} text={this.menyValg[this.menyID.value].type} label="Antall feil" elementID={e.id} labels={e.navn} data={e.antall} ></StatBar>
         ))}
         </div>
-      </>
+      </React.Fragment>
     );
   }
 
   async mounted(){
 
     //feil per kommune
-    let info = await statistikkService.hentFeilPerKommune();
     let kom = await generellServices.hentAlleKommuner();
+    let feilperkommune = await statistikkService.hentFeilPerKommune();
+    this.splittFeilPerKommune(feilperkommune, kom, 'Feil per kommune');
 
-    this.splitt(info, kom, 'Feil per kommune');
+    //feil per fylker
+    let feilperfylke  = await statistikkService.hentAlleFeilPerFylke();
+    this.splitt(feilperfylke, 'Feil per fylke');
+
+    //feil per hovedkategori
+    let feilperhovedkat = await statistikkService.hentFeilPerHovedkategori();
+    this.splitt(feilperhovedkat, 'Feil per hovedkategori');
+
+    //feil per underkategori
+    let feilpersubkat = await statistikkService.hentFeilPerSubkategori();
+    this.splitt(feilpersubkat, 'Feil per underkategori');
 
     this.maks = this.ymse[this.menyID.value].resultat.maks;
     this.large = this.ymse[this.menyID.value].resultat.large;
     this.resultat = this.ymse[this.menyID.value].resultat.resultat;
-
-    let feilPerAar = await statistikkService.hentFeilPerAar();
-    console.log(feilPerAar.data);
   }
 
-  splitt(info, kom, grafnavn){
+  splitt(info, grafnavn){
+
+    let verdier = [];
+    let tags = [];
+
+    let largest = 0;
+
+    for(let i = 0; i < verdier.length; i++){
+      if(verdier[i] > largest){
+        largest = verdier[i];
+      }
+    }
+
+    let deler = this.chunkArray(info.data, 15);
+
+    for(let i = 0; i < info.data.length; i++){
+      verdier[i] = info.data[i].antall;
+      tags[i] = info.data[i].navn;
+    }
+
+    let verdierChunk = this.chunkArray(verdier, 15);
+    let tagsChunk = this.chunkArray(tags, 15);
+
+    let stats = [];
+
+    for(let i = this.total; i < this.total + deler.length; i++){
+      stats.push({
+        "id": i,
+        "navn": tagsChunk[i - this.total],
+        "antall": verdierChunk[i - this.total]
+      })
+    }
+
+    this.total += deler.length;
+
+    let res =  {
+      "maks": largest + 5,
+      "large": deler.length,
+      "resultat": stats
+    };
+
+    this.ymse.push({
+      "id": this.mengde,
+      "resultat": res
+    });
+
+    this.menyValg.push({
+      "id": this.mengde,
+      "type": grafnavn
+    });
+
+    this.mengde++;
+  }
+
+  splittFeilPerKommune(info, kom, grafnavn){
     let informasjon =  {
       data: []
     }
