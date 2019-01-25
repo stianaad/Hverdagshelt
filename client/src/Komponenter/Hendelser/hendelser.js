@@ -269,7 +269,7 @@ export class Hendelser extends Component {
         </Card.Group>) : 
         (<Card centered>
           <Card.Content>
-            <Header as="h4">Det er ingen hendelser i denne kommunen. Gå til filtrer hendelser for å skifte kommune.</Header>
+            <Header as="h4">Det er for øyeblikket ingen hendelser i denne kommunen. Filtrer hendelser over dersom du ønsker å titte andre steder.</Header>
           </Card.Content>
         </Card>)}
         <Footer/>
