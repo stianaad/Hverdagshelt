@@ -87,7 +87,6 @@ module.exports = class HendelseDao extends Dao {
    */
   oppdaterHendelse(json, callback) {
     var h = [
-      json.bruker_id,
       json.hendelseskategori_id,
       json.kommune_id,
       json.overskrift,

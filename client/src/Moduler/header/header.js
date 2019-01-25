@@ -165,7 +165,7 @@ export class PageHeader extends Component {
   async mounted() {
     this.loggetInn = global.payload != undefined;
     let brukerInfo = await brukerService.minInfo();
-    this.kommune_navn = brukerInfo.data[0].kommune_navn;
+    this.kommune_navn = brukerInfo.data ? brukerInfo.data[0].kommune_navn : '';
   }
 
   render() {
