@@ -17,7 +17,6 @@ export class AnsattGodkjent extends Component{
     godkjente = [];
     alleFeil = [];
     visLagre = true;
-    className = '';
     valgtfeil = {
         feil_id: '',
         overskrift: '',
@@ -91,10 +90,11 @@ export class AnsattGodkjent extends Component{
                 <RedigerModal key={this.valgtfeil.feil_id+this.redigerModal} open={this.redigerModal} lukk={this.refresh} feil={this.valgtfeil} onClose={() => {this.redigerModal = false}} />
                 <div className="container-fluid vinduansatt">
                 {global.payload.role == 'ansatt' ? <AnsattMeny/> : (global.payload.role == 'admin') ? <AdminMeny kommune={this.kommune}/> : null}
-                    <div className="row justify-content-md-center mt-3 mb-3">
-                        <h1>Godkjente feil</h1>
-                    </div>
+                    
                     <div className="ansattContent">
+                        <div className="row justify-content-md-center mt-3 mb-3">
+                            <h1>Godkjente feil</h1>
+                        </div>
                         <div className="row">
                             <div className="col-sm-4">
                                 <Card color="red" fluid>
@@ -103,7 +103,7 @@ export class AnsattGodkjent extends Component{
                                             Godkjente feil
                                         </Card.Header>
                                     </Card.Content>
-                                    <Card.Content className={this.className}>
+                                    <Card.Content className="hoydeTabell">
                                         {this.godkjente.map((feil) => (
                                             <FeedEvent
                                             onClick={() => this.visFeil(feil)}
@@ -249,12 +249,6 @@ export class AnsattGodkjent extends Component{
         this.sendtTilBedrift = await true; 
     }
 
-    scroll() {
-        if (this.godkjente.length > 5) {
-          this.className = 'ansattScroll';
-        }
-      }
-
     async mounted() {
 
         const load = async (kommune_id) => {
@@ -263,8 +257,6 @@ export class AnsattGodkjent extends Component{
         
             this.godkjente = await feil.data.filter(e => (e.status === 'Godkjent'));
             
-            await this.scroll();
-
             let status = await feilService.hentAlleStatuser();
             this.statuser = await status.data; 
 
