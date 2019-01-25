@@ -57,6 +57,7 @@ export class FeilHosBedrift extends Component{
                                     <Card.Content className="hoydeTabell">
                                         {this.underBOgGodkjenning.map((feil) => (
                                             <FeedEvent
+                                            style={{cursor:"pointer"}}
                                             onClick={() => this.visFeil(feil)}
                                             status={feil.status}
                                             tid={feil.tid}
