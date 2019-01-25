@@ -199,19 +199,25 @@ router.put('/api/brukere/endrepassord', checkToken, (req, res) => {
 
 router.post('/api/brukere/glemtpassord', (req, res) => {
   brukerDao.hentBrukerPaaEpost(req.body, (status, data) => {
-    res.status(status);
-    res.json(data);
-    console.log(data[0]);
+    //res.status(status);
+    //res.json(data);
     console.log('/glemtpassord - hentet bruker');
-    if (data[0].epost === req.body.epost) {
-      genenererEpostPollett(req.body.epost, 900, (token) => {
-        console.log('/glemtpassord - epost matcher, pollett generert');
-        let link = 'https://localhost/resett-passord/' + token;
-        epostTjener.glemtPassord(req.body.epost, link);
-      });
+    if (data.length > 0){
+      if (data[0].epost === req.body.epost) {
+        genenererEpostPollett(req.body.epost, 900, (token) => {
+          console.log('/glemtpassord - epost matcher, pollett generert');
+          let link = 'https://localhost/resett-passord/' + token;
+          epostTjener.glemtPassord(req.body.epost, link);
+          res.json({result: true});
+        });
+      } else {
+        res.json({result: false});
+      }
     } else {
-      throw new Error('/glemtpassord - Fant ikke bruker');
+      //throw new Error('/glemtpassord - Fant ikke bruker');c
+      res.json({result: false});
     }
+      
   });
 });
 

@@ -60,12 +60,18 @@ export class GlemtPassord extends Component {
     );
   }
 
-  lagre() {
+  async lagre() {
     let epost = this.epost;
     if (epost) {
-      brukerService.glemtPassord({epost: epost}).
-      then(() => {alert("Du har blitt tilsendt link på e-post.");this.props.history.push('/');}).
-      catch(() => alert("Noe gikk galt, prøv på nytt"));
+      let res1 = await brukerService.glemtPassord({epost: epost});
+      console.log(res1.data.result);
+      if(res1.data.result){
+        await alert("Du har blitt tilsendt link på e-post.");
+        await this.props.history.push('/');
+      } else {
+        await alert("Noe gikk galt, prøv på nytt");
+        await window.location.reload();
+      }
     }
   }
 }
