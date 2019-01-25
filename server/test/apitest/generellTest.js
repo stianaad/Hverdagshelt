@@ -230,7 +230,7 @@ test('oppdater spesifisert', (done) => {
     expect(data.affectedRows).toBe(1);
     done();
   }
-  brukerdao.oppdaterSpesifisertBruker(oppdaterSpesifisertBrukerTest, {rolle: 'privat', bruker_id: 5} ,callback);
+  brukerdao.oppdaterSpesifisertBruker(oppdaterSpesifisertBrukerTest, {rolle: 'privat', bruker_id: 4} ,callback);
 });
 
 test('hent alle bedrifter', (done) => {

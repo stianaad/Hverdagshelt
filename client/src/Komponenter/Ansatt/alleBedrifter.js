@@ -13,6 +13,8 @@ import { brukerService } from '../../services/brukerService';
 
 export class AlleBedrifter extends Component{
     bedrifter = [];
+    aktivBedrift = [];
+    className = '';
     bedApen = false; 
     feilApen = false; 
     valgtBed = '';
@@ -35,12 +37,14 @@ export class AlleBedrifter extends Component{
 
     async hentFeil(bed){
         let res1 = await feilService.hentFerdigeFeilForAnsatt(bed.orgnr);
-        this.feilHosBedrift = await res1.data; 
+        this.feilHosBedrift = await res1.data;
+
+        this.aktivBedrift = this.bedrifter.find(bedrift => (bed.orgn=bedrift.orgnr));
 
         if(this.feilHosBedrift.length > 0){
             this.tekst = "Trykk på en feil for å se mer informasjon";
         }else{
-            this.tekst = "Denne bedriften har fullført noen oppgaver i denne kommunen."
+            this.tekst = "Denne bedriften har ikke fullført noen oppgaver i denne kommunen."
         }
     }
 
@@ -82,8 +86,7 @@ export class AlleBedrifter extends Component{
                                                         <Feed.Date content={bed.telefon}/>
                                                     </Feed.Content>
                                                 </Feed.Event>  
-                                            </Feed>
-                                                                 
+                                            </Feed>           
                                         ))}
                                     </Card.Content>
                                 </Card>
@@ -135,7 +138,12 @@ export class AlleBedrifter extends Component{
                                                             </Grid.Column>
                                                         </Grid>
                                                     ):(
-                                                        <p>{this.tekst}</p>
+                                                        <span>
+                                                            <p>{this.tekst} </p>
+                                                            <p><strong>Kontaktinformasjon:</strong></p>
+                                                            <p>Telefonnr: {this.aktivBedrift.telefon}</p>
+                                                            <p>E-post: {this.aktivBedrift.epost}</p>
+                                                        </span>
                                                     )}
                                                 </Grid.Column>
                                             </Grid>

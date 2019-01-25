@@ -92,10 +92,12 @@ const laghendelse = (a, res) => {
 	});
 };
 
-router.put('/api/hendelser/:hendelse_id', checkToken, (req, res) => {
-	if (!(req.body instanceof Object)) return res.sendStatus(400);
-	console.log('Fikk POST-request fra klienten');
-	let role = req.decoded.role;
+router.put('/api/hendelser/:hendelse_id', upload.array('bilder', 1), checkToken, (req, res) => {
+	//if (!(req.body instanceof Object)) return res.sendStatus(400);
+	console.log('/api/hendelser/:hendelse_id Fikk PUT-request fra klienten');
+  let role = req.decoded.role;
+  console.log(role);
+  console.log(req.body);
 
 	if ((role == 'ansatt' && req.decoded.user.kommune_id == req.body.kommune_id) || role == 'admin') {
 		let a = {
@@ -105,20 +107,31 @@ router.put('/api/hendelser/:hendelse_id', checkToken, (req, res) => {
 			tid: req.body.tid,
 			beskrivelse: req.body.beskrivelse,
 			sted: req.body.sted,
-			bilde: req.body.bilde,
 			billett: req.body.billett,
 			hendelse_id: req.body.hendelse_id
-		};
-
-		hendelseDao.oppdaterHendelse(a, (status, data) => {
-			console.log('Oppdatert en hendelse');
-			res.status(status);
-		});
+    };
+    
+    if (req.files && req.files.length > 0) {
+			bildeOpplasting.lastOpp(req.files, (bilder) => {
+				a.bilde = bilder[0];
+				oppdHendelse(a, res);
+			});
+		} else {
+			oppdHendelse(a, res);
+		}
 	} else {
 		res.status(403);
 		res.json({ result: false });
 	}
 });
+
+const oppdHendelse = (a, res) => {
+  hendelseDao.oppdaterHendelse(a, (status, data) => {
+    console.log('Oppdatert en hendelse');
+    res.status(status);
+    res.json({resultat: status == 200 ? 'vellykket' : 'feilet'});
+  });
+};
 
 router.delete('/api/hendelser/:hendelse_id', checkToken, (req, res) => {
 	console.log('Fikk POST-request fra klienten');
