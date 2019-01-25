@@ -52,7 +52,8 @@ export class AnsattUnder extends Component{
                                 <Card color="yellow" fluid>
                                     <Card.Content>
                                         <Card.Header>
-                                            Under behandling
+                                            <h3 style={{display: 'inline'}}>Under behandling</h3>
+                                            <InfoBoks style={{display: 'inline'}} tekst="Trykk på en feil for å oppdatere eller redigere."/>
                                         </Card.Header>
                                     </Card.Content>
                                     <Card.Content className="hoydeTabell">
