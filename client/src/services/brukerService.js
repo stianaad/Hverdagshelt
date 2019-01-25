@@ -75,6 +75,15 @@ class BrukerService {
     }
   }
 
+  slettBruker(bruker_id) {
+    let token = sessionStorage.getItem('pollett');
+    if(token) {
+      return api.delete('/api/brukere/'+bruker_id, {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return [];
+    }
+  }
+
   loggInn(informasjon) {
     //console.log(informasjon);
     return api.post('/api/innlogging', informasjon);

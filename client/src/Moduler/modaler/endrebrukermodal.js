@@ -51,6 +51,12 @@ export class EndreBrukerModal extends Component {
     Promise.resolve(res.data).then(() => {this.props.onLagre(); this.props.onClose(); this.laster=false;});
   }
 
+  async slett() {
+    this.laster = true;
+    let res = await brukerService.slettBruker(this.bruker.bruker_id);
+    Promise.resolve(res.data).then(() => {this.props.onLagre(); this.props.onClose(); this.laster=false;});
+  }
+
   render() {
     return (
       <>
@@ -152,7 +158,8 @@ export class EndreBrukerModal extends Component {
               </Card.Content>
               <Card.Content extra style={{ padding: "25px" }}>
                 <Button color="green" onClick={this.lagre}>Lagre</Button>
-                <Button color="red" onClick={this.props.onClose}>Avbryt</Button>
+                <Button color="gray" onClick={this.props.onClose}>Avbryt</Button>
+                <Button floated="right" color="red" onClick={this.slett}>Slett bruker</Button>
               </Card.Content>
             </Card>
           </Modal>

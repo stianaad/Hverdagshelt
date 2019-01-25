@@ -4,7 +4,7 @@ import { PageHeader } from '../../Moduler/header/header';
 import { RegistrerBedrift } from '../Registrering/registrerBedrift';
 import { RegistrerNyKategori } from './registrerNyKategori';
 import { SlettKategori } from './slettKategori';
-import { Grid, Button, Input, Select, List, Card, Feed } from 'semantic-ui-react';
+import { Grid, Button, Input, Select, List, Card, Feed, Dimmer, Loader } from 'semantic-ui-react';
 import { KommuneInput } from '../../Moduler/kommuneInput/kommuneInput';
 import { brukerService } from '../../services/brukerService';
 import { InfoBoks } from '../../Moduler/info/info';
@@ -30,11 +30,16 @@ export class Administrasjon extends Component {
 
   bruker = {}
   brukerModal = false;
+  brukerLaster = false;
 
   async sokBrukere() {
-    let res = await brukerService.sokBrukere(this.brukerSok);
-    this.brukere = await res.data;
-    await console.log(res.data);
+    if (this.brukerSok.length > 0) {
+      this.brukerLaster = true;
+      let res = await brukerService.sokBrukere(this.brukerSok);
+      this.brukere = await res.data;
+      Promise.resolve(res.data).then(()=>{this.brukerLaster=false})
+      await console.log(res.data);
+    }
   }
 
   render() {
@@ -53,10 +58,10 @@ export class Administrasjon extends Component {
           <Grid.Column>
             <h2>Brukere</h2>
             <h4>Registrer en ny bruker:</h4>
-            <Select style={{ display: "inline-block", marginRight: "5px" }} value={this.registrerBruker} onChange={(e, { value }) => { this.registrerBruker = value }} options={this.registrerOptions} />
+            <Select style={{ display: "inline-block", marginRight: "5px", width: "calc(100% - 109px)"}} value={this.registrerBruker} onChange={(e, { value }) => { this.registrerBruker = value }} options={this.registrerOptions} />
             <Button color="blue" onClick={() => { this.props.history.push(this.registrerBruker) }}>Registrer</Button>
             <h4>Finn en bruker:<InfoBoks tekst="Her kan du søke på alle brukere i systemet.&#10;Du kan søke på f.eks. navn, e-post, kommune osv." /></h4>
-            <Input placeholder="Søketekst" style={{ display: "inline-block", marginRight: "5px" }} value={this.brukerSok} onChange={(e, { value }) => { this.brukerSok = value }} />
+            <Input className="adminBrukerSok" placeholder="Søketekst" value={this.brukerSok} onChange={(e, { value }) => { this.brukerSok = value }} />
             <Button color="blue" onClick={this.sokBrukere}>Søk</Button>
             <Card color="blue" fluid>
               <Card.Content>
@@ -78,6 +83,9 @@ export class Administrasjon extends Component {
                     </Feed.Event>
                   </Feed>
                 ))}
+                <Dimmer style={{zIndex:"10000"}} active={this.brukerLaster}>
+                  <Loader />
+                </Dimmer>
               </Card.Content>
             </Card>
           </Grid.Column>

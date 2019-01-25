@@ -343,6 +343,19 @@ router.get('/api/mininfo', checkToken, (req, res) => {
 });
 
 
+router.delete('/api/brukere/:bruker_id', checkToken, (req, res) => {
+  if (req.decoded.role == 'admin') {
+    brukerDao.slettBruker(req.params.bruker_id, (status, data) => {
+      res.status(status);
+      res.json(data);
+    })
+  } else {
+    res.status(403);
+    res.json({resultat: false});
+  }
+});
+
+
 
 module.exports = router;
 
