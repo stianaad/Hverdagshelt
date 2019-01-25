@@ -45,7 +45,7 @@ module.exports = class StatistikkDao extends Dao {
   }
 
   /**
-   * 
+   *
    *
    *
    */
