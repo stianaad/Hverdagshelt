@@ -310,7 +310,7 @@ export class Hovedside extends Component {
                     <Grid  columns={3} stackable style={{height: '100%'}}>
                       <Grid.Column>
                         <h6><b>Beskrivelse:</b></h6>
-                        <div class="hovedSideFeilBeskrivelse">{this.feil.beskrivelse.split("\n").map((tekst) => (
+                        <div className="hovedSideFeilBeskrivelse">{this.feil.beskrivelse.split("\n").map((tekst) => (
                           <p >{tekst}</p>))}
                         </div>
                       </Grid.Column>
@@ -337,7 +337,7 @@ export class Hovedside extends Component {
                           <h6><b>Bilder:</b></h6>
                           <div>
                             {this.bilderTilFeil.map((bilde) => (
-                                <div className="feilModalBilde" onClick={() => this.visBilde(bilde.url)}>
+                                <div className="feilModalBilde">
                                   <img src={bilde.url} key={bilde.bilde_id} className="bilder" onClick={() => {this.handleOpen(bilde.url)}}/>
                                 </div>
                             ))}
