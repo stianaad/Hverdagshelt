@@ -1,3 +1,5 @@
+-- TESTFIL IKKE SLETT
+
 -- phpMyAdmin SQL Dump
 -- version 4.8.3
 -- https://www.phpmyadmin.net/
@@ -128,7 +130,7 @@ INSERT INTO `bruker` (`bruker_id`, `epost`, `passord`, `kommune_id`) VALUES
 (32, 'zimzim@zim.com', 'pbkdf2$10000$03908cadd5c903a819f21a37310077790d1d6d21a4e66b9377462a415f6824ef12b8a43d778dbf7b33ec7068dd5c3cf506589ea5679fb0f4e910616e78c719f3$e91fe488e2df4f6fd7a6cbb61936ac6866ac4106fe979b5c6826424b23e52e71b72166e820b170e7d622d75a60a801c27e31770296b0dd97f3ec7487e27607eb', 69),
 (33, 'big@boi.com', 'pbkdf2$10000$757bfadd8d5473046fd3e0313457103cf778202bd0b1312cc687ecbc6a9df052accf29a96a869221656c354d4c90b2afe129412f2356cc398ed2d6c09df54f36$494a20c4ba4c5deedc7122570ea8e73531c919af49aa96f5f3d891d85c7ae8bd3fca47e3d24f084a619d59722f8d70d9e7d1b832f67671a2437be9cf1468b465', 289),
 (34, 'r.vedoy@gmail.com', 'pbkdf2$10000$24b9fb1511016b3d550272a6a75029c9250dc9e0ae73ff4273ec2db29c434fa6a7f896768102a9880995f1dc60b6c46682cb8ed2f09fbfc031599968f7ad285c$6331a84d10b83f4536bb11771422368a9e996480781628be6fe081e32c720b934073d55fc49f6d389a752f09d89077152368256bb0e49d9b591be818fea82fdf', 191),
-(35, 'tiss@tiss.com', 'pbkdf2$10000$fa223d0e44114e9ab27e7048fe821ee47faeffa0e606bc24be5d675e4a5a16c23442bd1ff73800a1f86a1b37e782dc01fda8a55b1159881e9e3e4e43b08e806a$dea90f455de80455653e9737546548daaf1f2ac4bd41eb74c95ae7cdf9e24cfdecf1d933f9c55f0e8bfb83e1c9677bd4083ef5030734c133b1883d461f151244', 81);
+(35, 'nam@nam.com', 'pbkdf2$10000$fa223d0e44114e9ab27e7048fe821ee47faeffa0e606bc24be5d675e4a5a16c23442bd1ff73800a1f86a1b37e782dc01fda8a55b1159881e9e3e4e43b08e806a$dea90f455de80455653e9737546548daaf1f2ac4bd41eb74c95ae7cdf9e24cfdecf1d933f9c55f0e8bfb83e1c9677bd4083ef5030734c133b1883d461f151244', 81);
 
 -- --------------------------------------------------------
 
@@ -162,41 +164,41 @@ INSERT INTO `feil` (`feil_id`, `bruker_id`, `kommune_id`, `subkategori_id`, `ove
 (16, 1, 289, 5, 'demo', 'Dette er ein test', 10.388704535817515, 63.42903422391718),
 (17, 1, 289, 6, 'Test2', 'Jeg liker superhero burger', 10.402635137528693, 63.433224519678795),
 (18, 17, 81, 5, 'GooOOOdDDAmmn', 'Nå skjer det grabbar', 10.48059962820844, 60.40181496236127),
-(19, 17, 81, 1, 'Sugpikkenmin', 'BOIIIIIIIIIIIIIIIIIIIIIIIIII', 10.478651509174828, 60.396563150942235),
-(20, 17, 4, 6, 'Hull i veien ved Torvbyen', 'FAEN I HELVETE JEG HATER DEN JÆVLA KOMMUNEN SOM ALDRI ÅRNER I VEIENE SINE JEG GÅR SÅJÆÆÆVLA LEI!!!11111EN', 10.937939909320484, 59.21496289990943),
-(21, 17, 290, 5, 'Det er snø ved bussholdeplassen', 'Dette er helt jævlig! :D', 11.489542998507007, 64.0157810425162),
+(19, 17, 81, 1, 'Kjør', 'BOIIIIIIIIIIIIIIIIIIIIIIIIII', 10.478651509174828, 60.396563150942235),
+(20, 17, 4, 6, 'Hull i veien ved Torvbyen', 'OMG', 10.937939909320484, 59.21496289990943),
+(21, 17, 290, 5, 'Det er snø ved bussholdeplassen', 'Dette er helt sjukt! :D', 11.489542998507007, 64.0157810425162),
 (22, 17, 322, 1, 'Temp', 'HVA??', 10.406860145821717, 63.4095585741489),
-(23, 17, 289, 4, 'jævla helvette!!!!!1111en', 'Nu e æ førrbainna, altså. Fy faen, førr nokko førrbainnada skjit. Kem i hælvett e det som har fuinne opp det herre satans makkverket. Det går da fan-steike-helvete ikkje ant å hoilde på å kuke med det here i vekkesvik, ....Main har da førr faen ainner ting å gjøre einn å sette der å fettle og baille med den satans musejævelen.\n\nKainn du innst inni grønnskodden tykjeræva førrtelle ka som er vitsen med nokka jernskrammel som står der og gneill og hyle med en masse hælvetes lyda og blinke og blafre uta fan, og passord og ledninge og knotta som tyt ut som han tykjen overalt. Æ måtte berre ha fådd tak i en av dokker, dokker helvetes kukklæsta av nån suppoert gakkgakka, så skuill æ vel fansøkki ha rævkjørt dokker dit dokker høre heime, satans utvrengte fette av nån hestkuka. Kom fan ikkje hit å lur mainskit på folk, åførtælle ka\n\næ skal trøkke, din satans gjeddepeis.\n\nVa det opp te mæ skulle dokker ha vært på ishave og ronka kobbekuk, førbainna søringsatana, så kunne dokker ha sotte å konfigurert dokker sjøl så utavhælvettes lang opp ide utpulte ræven dokkers at dokker måtte sjite utav æran neste gang dokker måtte på dass, og når dokker va færdi me det, så sku æ personlig ha kommen å formatert trynan dokkers, å installert skanken oppi baillhånka dokkers sånn at dokker kom tel å pesse røde serienummer.\n\nSkulle det ennu spenneliv i dokker etter dette, så sku æ ha pluga og plyd dokker så utavhælvettes langt inn i det største rævhållet æ har funne. Og da sku det ha lokta mainnskjit av dokker heilt te dokker daua. Førr faen steike innst inn i det heiteste utsvidde hævlvette for satan, la mæ få tak i omså bare en av dokker.\n\nÆ har da vel førr helvete slette hauet av hysjævla før.\n\nkommer te å måkke heile den forbainna skiten i eska og sende ho i retur. æ vil fan ikkje ha han. Så kan dokker te helvete sette der å ronke aleine i den helsikes telefin dokkers.', 10.398889163971946, 63.437692840824596),
+(23, 17, 289, 4, 'ASIAD!!!!!1111en', 'JOfejowf.', 10.398889163971946, 63.437692840824596),
 (25, 17, 81, 1, 'STILLLLLLOOONGSzzZ', 'Øyh, this is Fattern keepin\' it down for the stilongs!Jeg har stilongs på meg nå,\nfor nå skal jeg ut og gå.\nHåper jeg ikke blir slått ned,\nhåper bøllene lar meg være i fred.Nø, nø, nø, nø, nø, nø, nø, nø stilongs.\nNø, nø, nø, nø, nø, nø, nø, nø stilongs.\nNø, nø, nø, nø, nø, nø, nø, nø stilongs.\nStilongs er best, ingen protest.Ja, jeg ruker stilongs men ikke bukse,\npersonlig så mener jeg det blir å jukse, det er jo helt vanlig tankegang,\nså jeg går kun i stilongs vinter\'n lang.Stilongs er så hælvetes tøft,\nstilongs gir hele tilværelsen et løft.\nStilongs er så hælvetes tøft,\nja, stilongs gir hele tilværelsen et løft.\nGjennomsiktig stilongs er det som er best,\ndet er det jeg bruker mest.\nJeg bruker ikke særlig mange andre plagg.\nJeg kjøper dem kun på billigsalg.Har intet annet valg.\nOmtrent.\nNei.\nJeg er fattig.\nFattig som faen.\nNø, nø, nø, nø, nø, nø, nø, nø stilongs.\nNø, nø, nø, nø, nø, nø, nø, nø stilongs.\nNø, nø, nø, nø, nø, nø, nø, nø stilongs.\nStilongs er best, ingen protest.Stilongs er så hælvetes tøft,\nstilongs gir hele tilværelsen et løft.\nStilongs det er så hælvetes tøft,\nja, stilongs gir hele tilværelsen et løft.\nHei, hei, hei, hei!\nHo, ho, ho, ho!\nYo, yo, yo, yo!\nLet\'s go, go, go!\nWith the flow, yo!Check it out!\nIntroducing,\nto all yo\':\nSteinar!Hei!Nø, nø, nø, nø, nø, nø, nø, nø stilongs.\nNø, nø, nø, nø, nø, nø, nø, nø stilongs.\nNø, nø, nø, nø, nø, nø, nø, nø stilongs.\nStilongs er best, fred med en hest,\nmen jeg vil ha pung i hø, hø, eh...Ka skjer?', 0, 0),
 (26, 17, 81, 1, 'STILLLLLLOOONGSzzZ', 'Øyh, this is Fattern keepin\' it down for the stilongs!Jeg har stilongs på meg nå,\nfor nå skal jeg ut og gå.\nHåper jeg ikke blir slått ned,\nhåper bøllene lar meg være i fred.Nø, nø, nø, nø, nø, nø, nø, nø stilongs.\nNø, nø, nø, nø, nø, nø, nø, nø stilongs.\nNø, nø, nø, nø, nø, nø, nø, nø stilongs.\nStilongs er best, ingen protest.Ja, jeg ruker stilongs men ikke bukse,\npersonlig så mener jeg det blir å jukse, det er jo helt vanlig tankegang,\nså jeg går kun i stilongs vinter\'n lang.Stilongs er så hælvetes tøft,\nstilongs gir hele tilværelsen et løft.\nStilongs er så hælvetes tøft,\nja, stilongs gir hele tilværelsen et løft.\nGjennomsiktig stilongs er det som er best,\ndet er det jeg bruker mest.\nJeg bruker ikke særlig mange andre plagg.\nJeg kjøper dem kun på billigsalg.Har intet annet valg.\nOmtrent.\nNei.\nJeg er fattig.\nFattig som faen.\nNø, nø, nø, nø, nø, nø, nø, nø stilongs.\nNø, nø, nø, nø, nø, nø, nø, nø stilongs.\nNø, nø, nø, nø, nø, nø, nø, nø stilongs.\nStilongs er best, ingen protest.Stilongs er så hælvetes tøft,\nstilongs gir hele tilværelsen et løft.\nStilongs det er så hælvetes tøft,\nja, stilongs gir hele tilværelsen et løft.\nHei, hei, hei, hei!\nHo, ho, ho, ho!\nYo, yo, yo, yo!\nLet\'s go, go, go!\nWith the flow, yo!Check it out!\nIntroducing,\nto all yo\':\nSteinar!Hei!Nø, nø, nø, nø, nø, nø, nø, nø stilongs.\nNø, nø, nø, nø, nø, nø, nø, nø stilongs.\nNø, nø, nø, nø, nø, nø, nø, nø stilongs.\nStilongs er best, fred med en hest,\nmen jeg vil ha pung i hø, hø, eh...Ka skjer?', 0, 0),
-(27, 17, 81, 1, 'Telefonmaddafakka', 'Jeg er tøff', 0, 0),
-(28, 16, 289, 4, '', 'stian har en svær kuk i panna', 0, 0),
-(29, 16, 289, 1, 'Husk overskrift', 'stian har fått en stor utvekst av penis i sin panne xD', 10.39073538798559, 63.42901742723374),
-(30, 16, 289, 5, '', 'kan noen pls fikse dette', 0, 0),
-(31, 16, 289, 1, 'STIAN SPISER PIKK TIL LUNSJ', 'stian er homo men hva er det forno', 0, 0),
-(32, 16, 289, 1, 'kuk', '123 haha', 0, 0),
-(33, 16, 289, 1, 'pikk i trynet', 'lol213', 0, 0),
+(27, 17, 81, 1, 'Telefon', 'Jeg er tøff', 0, 0),
+(28, 16, 289, 4, 'Hei', 'stian har en svær kul i panna', 0, 0),
+(29, 16, 289, 1, 'Husk overskrift', 'stian har fått en stor utvekst av noe i sin panne xD', 10.39073538798559, 63.42901742723374),
+(30, 16, 289, 5, 'Jo', 'kan noen pls fikse dette', 0, 0),
+(31, 16, 289, 1, 'STIAN SPISER MAT TIL LUNSJ', 'stian er kul men hva er det forno', 0, 0),
+(32, 16, 289, 1, 'kul', '123 haha', 0, 0),
+(33, 16, 289, 1, 'i trynet', 'lol213', 0, 0),
 (34, 31, 4, 1, 'spaghetti', 'dash', 10.261159864148915, 63.42963170221657),
-(35, 31, 289, 1, 'Spaghetti i lomma fuckkkkk', 'nei nei nei ikke igjen!!!', 10.394367294216192, 63.429938834769914),
+(35, 31, 289, 1, 'Spaghetti i lomma', 'nei nei nei ikke igjen!!!', 10.394367294216192, 63.429938834769914),
 (36, 32, 289, 1, 'POST ANKOMMET', 'Melder ei litta sesh med ex on the beach Sverige, ostepop og eventyrbrus', 10.451893155753359, 63.43925362770437),
-(37, 31, 4, 6, 'Dab', 'Spaghetti faen', 10.391950335795228, 63.42958782634578),
+(37, 31, 4, 6, 'Dab', 'Spaghetti', 10.391950335795228, 63.42958782634578),
 (38, 16, 289, 1, 'Rotter på ntnu kalvskinnet', 'Der er observert rotter på skolen, kan noen vennligst destruere disse snarest.', 10.388913784591905, 63.4285375157409),
-(39, 16, 128, 1, 'Kuk', 'Hei', 10.397512731977285, 63.43116733206363),
+(39, 16, 128, 1, 'kul', 'Hei', 10.397512731977285, 63.43116733206363),
 (40, 16, 289, 1, 'Skadedyr på hytte i åre', 'Æsj', 13.177877141255504, 63.32748155667726),
 (41, 16, 289, 1, 'E', 'kult', 10.392272745716069, 63.429324566371164),
 (42, 16, 375, 1, 'e', 'e', 10.365495860316766, 63.4164218878172),
-(43, 20, 289, 1, 'The next Adolf?', 'Stepper inn på festen, lukter chæmpis og 00,\nbli med til plantasjen, du skal plukke bomull', 10.453708607361206, 63.43712991436412),
+(43, 20, 289, 1, 'The next Leader?', 'Stepper inn på festen', 10.453708607361206, 63.43712991436412),
 (44, 16, 128, 1, 'a', 'a', 10.381144899999999, 63.43390629999999),
 (45, 18, 69, 4, 'Test1234', 'TEEEEEEEEEEEEEEST', 9.966471095820935, 45.622522080362806),
-(46, 16, 289, 1, 'Willliam smasher penis om kvelden', 'Kuk i trynet', 10.38941571545074, 63.42847992582167),
+(46, 16, 289, 1, 'Willliam smasher ting om kvelden', 'Ting i trynet', 10.38941571545074, 63.42847992582167),
 (47, 18, 69, 4, 'Kan det gå?', 'plissss', 9.960981704650994, 45.686995566120395),
 (48, 14, 289, 1, 'heheh', 'hfhfhfhhf', 10.388408169666935, 63.42856951018813),
 (50, 31, 4, 2, 'Våt lyktestolpe', 'STORT PROBLEM', 10.4485288, 63.4414929),
 (51, 20, 289, 1, 'DU har en fågel', 'Ka farsken, du här en fååågel mannen', 10.453035730517442, 63.43715550214721),
-(52, 16, 289, 1, 'william andersson eksploderte', 'kølla til william (the giant) andersson eksploderte nå nettopp, den var for stor. Dere fra kommunen må komme og rydde med en gang.', 10.4485288, 63.4414929),
-(53, 20, 289, 1, 'tisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstiss', 'tisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstisstiss', 10.382316999999999, 63.4339137),
+(52, 16, 289, 1, 'william andersson eksploderte', 'Bigboi til william (the giant) andersson eksploderte nå nettopp, den var for stor. Dere fra kommunen må komme og rydde med en gang.', 10.4485288, 63.4414929),
+(53, 20, 289, 1, 'k', 'k ', 10.382316999999999, 63.4339137),
 (54, 18, 289, 6, 'TEST', 'Heihei', 10.4001389, 63.4328161),
-(55, 20, 289, 4, 'tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss ', 'tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss tiss ', 10.382316999999999, 63.4339137),
+(55, 20, 289, 4, 'neinei', 'jojo', 10.382316999999999, 63.4339137),
 (56, 16, 289, 1, 'Dårlig mat i kantina', 'Sit kafe kalvskinnet brenner fries, og fyller alt for lite i quesadilla m kylling. Ikke fornøyd :(', 10.38836730745093, 63.42831080748184),
 (57, 16, 289, 1, 'Feil med mye content Feil med mye content Feil med mye content Feil med mye content ', 'Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content Feil med mye content ', 10.3823057, 63.43379799999999);
 
@@ -415,7 +417,7 @@ INSERT INTO `hendelser` (`hendelse_id`, `bruker_id`, `hendelseskategori_id`, `ko
 (1, 5, 1, 197, 'Overskrift1', '2019-01-22 10:14:00', 'Beskrivelse1', 'Sted1', 'https://bjornost.tihlde.org/hverdagshelt/135d6d0f44a6ba73e3782c243663b90a', NULL),
 (2, 6, 2, 12, 'Overskrift2', '2019-12-19 23:00:00', 'Beskrivelse2', 'Sted2', 'https://bjornost.tihlde.org/hverdagshelt/19af4f8c745a62973e2cd615eaf329fa', NULL),
 (3, 5, 1, 19, 'Overskrift3', '2019-01-21 21:23:35', 'Beskrivelse 3', 'Sted3', 'https://bjornost.tihlde.org/hverdagshelt/b013fad50c0d518f4384d842ab451547?fbclid=IwAR02mau81HfcUbchFiCpPZSLE1BAkE1lxM8zzmsnt9QSp8GCQHwVPIpulxI', NULL),
-(4, 33, 1, 289, 'Samene KOMMER!', '2019-01-22 12:41:16', 'SAMENE ER FUCKINGS PÅ VEI', 'Samfundet', 'https://www.gannett-cdn.com/-mm-/79b31a65f53604ed7457a9c5d965d3080d3871c8/c=2-0-564-423/local/-/media/2017/06/15/DetroitFreeP/DetroitFreePress/636331136177408398-big-boy.jpg?width=534&height=401&fit=crop', NULL),
+(4, 33, 1, 289, 'Samene KOMMER!', '2019-01-22 12:41:16', 'SAMENE ER PÅ VEI', 'Samfundet', 'https://www.gannett-cdn.com/-mm-/79b31a65f53604ed7457a9c5d965d3080d3871c8/c=2-0-564-423/local/-/media/2017/06/15/DetroitFreeP/DetroitFreePress/636331136177408398-big-boy.jpg?width=534&height=401&fit=crop', NULL),
 (5, 33, 1, 69, 'Test', '2019-01-25 20:04:00', 'Test', 'Adresse 1', 'lofoten.jpg', NULL),
 (6, 33, 1, 289, 'Yoga for støle menn!', '2019-01-22 13:05:18', 'Er du støl? Er du mann? Svarte du ja på to av to spørsmål MÅ du på yoga', 'Stjørdal', 'https://nvio.no/wp-content/uploads/2019/01/youga.jpg', NULL),
 (7, 33, 2, 69, 'SCRUM TAR OVEEEEEEEEEEEEER', '2019-01-24 01:57:00', 'HJEEEEEEEEEEEEEEEEEEELP', 'Klasserom 404', 'lofoten.jpg', NULL),
@@ -1102,7 +1104,7 @@ INSERT INTO `privat` (`bruker_id`, `fornavn`, `etternavn`, `sist_innlogget`, `he
 (22, 'Anders', 'Iversen', '2019-01-21 07:51:48', b'0'),
 (31, 'Spaghetti', 'Andersson', '2019-01-24 12:38:07', b'1'),
 (34, 'Rune', 'Vedøy', '2019-01-22 07:50:49', b'0'),
-(35, 'Stor', 'tiss', '2019-01-23 11:53:13', b'0');
+(35, 'Stor', 'mann', '2019-01-23 11:53:13', b'0');
 
 -- --------------------------------------------------------
 

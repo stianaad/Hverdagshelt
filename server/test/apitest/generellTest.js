@@ -120,19 +120,10 @@ test('hent ikke oppdaterte feil til bruker', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
     expect(data[0].overskrift).toBe('Test2');
+    expect(data.length).toBe(1);
     done();
   }
   brukerdao.finnIkkeOppdaterteFeilTilBruker(1, callback);
-});
-
-test('hent fulgte feil til bruker', (done) => {
-  function callback(status, data) {
-    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
-    expect(data[0].overskrift).toBe('Hull i veien ved Torvbyen');
-    expect(data[0].kommune_id).toBe(4);
-    done();
-  }
-  brukerdao.finnFolgteFeilTilBruker(17, callback);
 });
 
 test('legg til ny adminbruker', (done) => {
@@ -147,7 +138,8 @@ test('legg til ny adminbruker', (done) => {
 test('hent hendelser til bruker', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
-    expect(data[0].beskrivelse).toBe('Beskrivelse2');
+    expect(data.length).toBe(1);
+    expect(data[0].beskrivelse).toBe('Beskrivelse1');
     done();
   }
   brukerdao.finnFolgteHendelserTilBruker(17, callback);
@@ -159,7 +151,7 @@ test('hent bruker på id', (done) => {
     expect(data[0].epost).toBe('epost3@hotmail.com');
     done();
   }
-  brukerdao.hentBrukerPaaid({bruker_id: 3}, callback);
+  brukerdao.hentBrukerPaaid(3, callback);
 });
 
 test('lag ny bruker', (done) => {
@@ -231,11 +223,10 @@ test('hent en feil', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
     expect(data.length).toBe(1);
-    //expect(data.overskrift).toBe('Overskrift1');
-    //sjekk at feilen er som den burde være^
+    expect(data[0].overskrift).toBe('Overskrift1');
     done();
   }
-  feildao.hentEnFeil({feil_id: 1}, callback);
+  feildao.hentEnFeil(1, callback);
 });
 
 test('Lag ny feil', (done) => {
@@ -253,7 +244,7 @@ test('slett feil', done => {
     expect(data.affectedRows).toBe(1);
     done();
   }
-  feildao.slettFeil({feil_id: 1}, callback);
+  feildao.slettFeil(1, callback);
 })
 
 test('hentAlleOppdateringerPaaFeil', (done) => {
@@ -262,16 +253,17 @@ test('hentAlleOppdateringerPaaFeil', (done) => {
     expect(data[0].kommentar).toBe('Sak opprettet');
     done();
   }
-  feildao.hentAlleOppdateringerPaaFeil({feil_id: 17}, callback);
+  feildao.hentAlleOppdateringerPaaFeil(17, callback);
 });
 
 test('Hent en status', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
     expect(data.length).toBe(1);
+    expect(data[0].status).toBe('Godkjent');
     done();
   }
-  feildao.hentEnStatus({status_id: 2}, callback);
+  feildao.hentEnStatus(2, callback);
 });
 
 test('Hent alle statuser', (done) => {
@@ -309,7 +301,7 @@ test('Hent alle subkategorier på hovedkategori', (done) => {
     expect(data[0].kategorinavn).toBe('Subkat6');
     done();
   }
-  feildao.hentAlleSubKategorierPaaHovedkategori({hovedkategori_id: 3}, callback);
+  feildao.hentAlleSubKategorierPaaHovedkategori(3, callback);
 });
 
 test('opprett ny subkategori', (done) => {
@@ -321,25 +313,16 @@ test('opprett ny subkategori', (done) => {
   feildao.nySubkategori({kategorinavn: 'subkategoritest', hovedkategori_id: 3}, callback);
 });
 
-test('oppdater hovedkategori', (done) => {
-  function callback(status, data) {
-    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
-    expect(data.affectedRows).toBe(1);
-    done();
-  }
-  feildao.oppdaterHovedkategori({kategorinavn: 'oppdatertkategoritest', hovedkategori_id: 1}, callback);
-});
-
 test('slett hovedkategori', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
     expect(data.affectedRows).toBe(1);
     done();
   }
-  feildao.slettHovedkategori({hovedkategori_id: 2}, callback);
+  feildao.slettHovedkategori(2, callback);
 });
 
-/*
+
 test('slett bilde fra feil', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
@@ -347,7 +330,7 @@ test('slett bilde fra feil', (done) => {
     done();
   }
   feildao.slettBildeFraFeil({bilde_id: 31, feil_id: 27}, callback);
-});*/
+});
 
 test('hent ferdige feil til bedrift', (done) => {
   function callback(status, data) {
