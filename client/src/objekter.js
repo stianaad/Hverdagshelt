@@ -32,7 +32,7 @@ export class Privat extends Bruker {
 }
 
 export class Ansatt extends Bruker {
-  constructor(bruker_id, epost, passord, fornavn, etternavn, telefon) {
+  constructor(bruker_id, epost, passord, fornavn, etternavn, kommune_id, telefon) {
     super(bruker_id, epost, passord, kommune_id);
     this.fornavn = fornavn;
     this.etternavn = etternavn;

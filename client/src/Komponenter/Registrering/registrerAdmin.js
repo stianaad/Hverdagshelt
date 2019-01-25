@@ -2,17 +2,16 @@ import * as React from 'react';
 import {Component} from 'react-simplified';
 import {brukerService} from '../../services/brukerService';
 import {PageHeader} from '../../Moduler/header/header';
-import {Bedrift} from '../../objekter.js';
+import {Admin} from '../../objekter.js';
 import {KommuneInput} from '../../Moduler/kommuneInput/kommuneInput';
 
-export class RegistrerBedrift extends Component {
-  bedriftInput = {
-    orgnr: '',
+export class RegistrerAdmin extends Component {
+  adminInput = {
+    epost: '',
     navn: '',
     telefon: '',
-    epost: '',
   };
-  
+
   advarsel = '';
   kommune;
 
@@ -26,19 +25,19 @@ export class RegistrerBedrift extends Component {
       <div>
         <PageHeader history={this.props.history} location={this.props.location} />
         <div className="container">
-          <h2 className="text-center text-capitalize display-4">Registrer en bedrift</h2>
+          <h2 className="text-center text-capitalize display-4">Registrer en administrator</h2>
           <div>
             <div className="row">
               <div className="col">
                 <div className="form-group">
-                  <label>Organisasjonsnummer:</label>
+                  <label>E-post:</label>
                   <input
-                    type="number"
+                    type="email"
                     className="form-control"
-                    placeholder="ex: 120060080"
-                    value={this.bedriftInput.orgnr}
+                    placeholder="example@host.com"
+                    value={this.adminInput.epost}
                     onChange={this.endreVerdi}
-                    name="orgnr"
+                    name="epost"
                     required={true}
                   />
                 </div>
@@ -50,23 +49,9 @@ export class RegistrerBedrift extends Component {
                     type="number"
                     className="form-control"
                     placeholder="ex: 41404040"
-                    value={this.bedriftInput.telefon}
+                    value={this.adminInput.telefon}
                     onChange={this.endreVerdi}
                     name="telefon"
-                    required={true}
-                  />
-                </div>
-              </div>
-              <div className="col">
-                <div className="form-group">
-                  <label>Bedriftsnavn:</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Bedriftsnavn"
-                    value={this.bedriftInput.navn}
-                    onChange={this.endreVerdi}
-                    name="navn"
                     required={true}
                   />
                 </div>
@@ -75,14 +60,14 @@ export class RegistrerBedrift extends Component {
             <div className="row">
               <div className="col">
                 <div className="form-group">
-                  <label>E-post:</label>
+                  <label>Administratornavn:</label>
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="E-post"
-                    value={this.bedriftInput.epost}
+                    placeholder="Brukernavn"
+                    value={this.adminInput.navn}
                     onChange={this.endreVerdi}
-                    name="epost"
+                    name="navn"
                     required={true}
                   />
                 </div>
@@ -96,7 +81,7 @@ export class RegistrerBedrift extends Component {
             </div>
             <div className="row knappDiv">
               <button id="registrer" className="btn btn-primary" onClick={this.lagre}>
-                Registrer deg
+                Registrer administrator
               </button>
               <button id="avbryt" onClick={this.reRoute} className="btn btn-secondary">
                 Avbryt
@@ -116,42 +101,37 @@ export class RegistrerBedrift extends Component {
   lagre() {
     let gyldig = true;
 
-    let bedrift = new Bedrift(
+    let admin = new Admin(
       0,
-      this.bedriftInput.epost,
+      this.adminInput.epost,
       '',
       this.kommune.current.verdi,
-      this.bedriftInput.orgnr,
-      this.bedriftInput.navn,
-      this.bedriftInput.telefon
+      this.adminInput.orgnr,
+      this.adminInput.navn,
+      this.adminInput.telefon
     );
 
-    if (!bedrift.kommune_id) {
+    if (!admin.kommune_id) {
       this.advarsel = 'Vennligst oppgi gyldig kommune';
       gyldig = false;
     }
 
-    if (bedrift.navn === '') {
-      this.advarsel = 'Fyll ut bedriftsnavn';
+    if (admin.navn === '') {
+      this.advarsel = 'Fyll ut administratornavn';
       gyldig = false;
     }
 
-    if (!bedrift.orgnr || bedrift.orgnr.length != 9) {
-      this.advarsel = 'Organisasjonsnummer må være 9 siffer langt';
-      gyldig = false;
-    }
-
-    if (!bedrift.telefon || bedrift.telefon.length != 8) {
+    if (!admin.telefon || admin.telefon.length != 8) {
       this.advarsel = 'Telefonnummer må være 8 siffer langt';
       gyldig = false;
     }
 
-    if (!bedrift.epost.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+    if (!admin.epost.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
       this.advarsel = 'E-post er ikke gyldig';
       gyldig = false;
     }
     if (gyldig) {
-      brukerService.lagNyBedriftBruker(bedrift).then((res) => {
+      brukerService.lagNyAdminBruker(admin).then((res) => {
         this.props.history.push('/');
       });
     }
@@ -161,6 +141,6 @@ export class RegistrerBedrift extends Component {
     const target = e.target;
     const value = target.type === 'checkbox' ? (target.checked ? 1 : 0) : target.value;
     const name = target.name;
-    this.bedriftInput[name] = value;
+    this.adminInput[name] = value;
   }
 }
