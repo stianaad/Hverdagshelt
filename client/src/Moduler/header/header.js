@@ -56,7 +56,7 @@ export class ProfileButton extends Component {
 
   render() {
     return (
-      <>
+      <React.Fragment>
         {!this.loggetInn ? (
           <Login history={this.props.history} location={this.props.location} />
         ) : this.brukerType == 'privat' ? (
@@ -132,7 +132,7 @@ export class ProfileButton extends Component {
             </div>
           </div>
         ) : null}
-      </>
+      </React.Fragment>
     );
   }
 }
@@ -150,7 +150,7 @@ export class PageHeader extends Component {
 
   render() {
     return (
-      <>
+      <React.Fragment>
         <header className="pageHeader unselectable">
           <Link to="/">
             <img className="pageHeaderLogo" src="/hhlogotight.svg" alt="Hverdagshelt logo" />
@@ -177,7 +177,7 @@ export class PageHeader extends Component {
           </div>
         </header>
         <div className="pageHeaderBuffer" />
-      </>
+      </React.Fragment>
     );
   }
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
 import {PageHeader} from '../../Moduler/header/header';
-import {Card, Feed, Grid, Button, Header, Icon, Input, Image, Modal, List, CardContent} from 'semantic-ui-react';
+import {Card, Feed, Grid, Button, Header, Icon, Input, Image, Modal, List, CardContent, Popup} from 'semantic-ui-react';
 import {FeedEvent, Filtrer, Info} from '../../Moduler/cardfeed';
 import {feilService} from '../../services/feilService';
 import {markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
@@ -9,12 +9,14 @@ import {NavLink} from 'react-router-dom';
 import {AnsattMeny} from './ansattMeny';
 import { brukerService } from '../../services/brukerService';
 import { InfoBoks } from '../../Moduler/info/info';
+import { RedigerModal } from '../../Moduler/AnsattModuler/redigerModal';
 
 export class AnsattGodkjent extends Component{
     godkjente = [];
     alleFeil = [];
     className = '';
     valgtfeil = {
+        feil_id: '',
         overskrift: '',
         beskrivelse: ''
     };
@@ -39,6 +41,7 @@ export class AnsattGodkjent extends Component{
     alleBedrifter = [];
 
     sendtTilBedrift = false; 
+    redigerModal = false; 
 
     visFeil(feil){
         this.feilApen = true;
@@ -77,11 +80,12 @@ export class AnsattGodkjent extends Component{
             this.sendtTilBedrift  = true; 
         }
     }
-
+    
     render(){
         return(
             <div>
                 <PageHeader history={this.props.history} location={this.props.location} />
+                <RedigerModal key={this.valgtfeil.feil_id+this.redigerModal} open={this.redigerModal} feil={this.valgtfeil} onClose={() => {this.redigerModal = false}} />
                 <div className="container-fluid vinduansatt">
                     <AnsattMeny/>
                     <div className="row justify-content-md-center mt-3 mb-3">
@@ -118,6 +122,10 @@ export class AnsattGodkjent extends Component{
                                                 <h3 style={{display: 'inline'}}>{this.valgtfeil.overskrift}</h3>
                                                 <InfoBoks style={{display: 'inline'}} 
                                                     tekst="Her ser du informasjon om alle feil som alt er godkjent og gjort offentlig&#10;Du kan endre statusen på feil, da vil de bli flyttet til den kategorien du velger (du finner alle i menyen)&#10;Du kan sende en feil til en bedrift ved å velge en bedrift fra nedtreksmenyen og trykke send"/>
+                                                <div style={{textAlign: 'right'}}>
+                                                    <Popup trigger={<Button color="red" className="float-rigth">Slett</Button>} content="Hvis du trykker her så sletter du feilen"/>
+                                                    <Popup trigger={<Button color="blue" onClick={() => {this.redigerModal = true}}>Rediger</Button>} content="Trykk her for å redigere feilen"/>
+                                                </div>
                                             </Card.Content>
                                             <Card.Content extra>
                                                 <div>
@@ -233,11 +241,13 @@ export class AnsattGodkjent extends Component{
         this.alleFeil = await feil.data;
     
         this.godkjente = await feil.data.filter(e => (e.status === 'Godkjent'));
+        this.valgtfeil = {...this.godkjente[0]}
         
         await this.scroll();
 
         let status = await feilService.hentAlleStatuser();
-        this.statuser = await status.data; 
+        let alle = await status.data; 
+        this.statuser = await alle.filter(e => e.status_id !== 1);
 
         let bed = await brukerService.hentBedrifter();
         this.alleBedrifter = await bed.data;

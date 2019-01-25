@@ -25,7 +25,7 @@ export class FeilModal extends Component {
 
   render() {
     return (
-      <>
+      <React.Fragment>
         {this.open ? (
           <Modal open={true} centered onClose={this.props.onClose}>
             <div className="feilModalBoks">
@@ -123,7 +123,7 @@ export class FeilModal extends Component {
             <img src={this.bildeModal} className="bildevisning" />
           </Modal.Content>
         </Modal>
-      </>
+      </React.Fragment>
     );
   }
 }

@@ -5,7 +5,7 @@ import { PageHeader } from '../../Moduler/header/header';
 export class FireNullFire extends Component {
   render() {
     return (
-      <>
+      <React.Fragment>
         <PageHeader history={this.props.history} location={this.props.location} />
         <h3
           style={{
@@ -54,7 +54,7 @@ export class FireNullFire extends Component {
             SICKO MODE
           </span>
         </div>
-      </>
+      </React.Fragment>
     );
   }
 }

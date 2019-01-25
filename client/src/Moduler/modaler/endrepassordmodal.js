@@ -40,7 +40,7 @@ export class EndrePassordModal extends Component {
 
   render() {
     return (
-      <>
+      <React.Fragment>
         {this.open ? (
           <Modal open={true} onClose={this.props.onClose} size="small" centered>
             <Modal.Content>
@@ -106,7 +106,7 @@ export class EndrePassordModal extends Component {
             </Modal.Content>
           </Modal>
         ) : null}
-      </>
+      </React.Fragment>
     );
   }
 }

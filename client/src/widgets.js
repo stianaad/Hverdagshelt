@@ -213,7 +213,7 @@ export class Alert extends Component {
 
   render() {
     return (
-      <>
+      <React.Fragment>
         {this.alerts.map((alert, i) => (
           <div key={i} className={'alert alert-' + alert.type} role="alert">
             {alert.text}
@@ -227,7 +227,7 @@ export class Alert extends Component {
             </button>
           </div>
         ))}
-      </>
+      </React.Fragment>
     );
   }
 
@@ -305,11 +305,11 @@ export class StatBar extends Component <{text: string, label: string, maks: numb
 
   render() {
     return (
-      <>
+      <React.Fragment>
         <div id={"barDiv" + this.props.elementID} style={{width: "2000px"}}>
           <canvas id={this.props.elementID}></canvas>
         </div>
-      </>
+      </React.Fragment>
     );
   }
 
