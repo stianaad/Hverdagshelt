@@ -344,7 +344,7 @@ export class Minside extends Component {
                       </p>
                     </div>
                   ) : (
-                    <>
+                    <React.Fragment>
                       <div id="keys">
                         <p>Fornavn:</p>
                         <p>Etternavn:</p>
@@ -357,26 +357,26 @@ export class Minside extends Component {
                         <p>{this.brukerInfo.epost}</p>
                         <p>{this.brukerInfo.kommune_navn}</p>
                       </div>
-                    </>
+                    </React.Fragment>
                   )}
                 </div>
               </Card.Content>
               <Card.Content textAlign="center">
                 {this.redigerer ? (
-                  <>
+                  <React.Fragment>
                     <Button basic color="green" onClick={this.rediger}>
                       Lagre
                     </Button>
                     <Button basic color="red" onClick={() => (this.redigerer = false)}>
                       Avbryt
                     </Button>
-                  </>
+                  </React.Fragment>
                 ) : (
-                  <>
+                  <React.Fragment>
                     <Button basic color="blue" onClick={this.rediger}>
                       Rediger bruker
                     </Button>
-                  </>
+                  </React.Fragment>
                 )}
               </Card.Content>
             </Card>

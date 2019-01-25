@@ -123,13 +123,13 @@ class komtest extends Component {
 
   render() {
     return (
-      <>
+      <React.Fragment>
         <div style={{width: '300px'}}>
           <KommuneInput ref={this.kominput} />
           {this.komm}
         </div>
         <button onClick={this.test}>test</button>
-      </>
+      </React.Fragment>
     );
   }
 

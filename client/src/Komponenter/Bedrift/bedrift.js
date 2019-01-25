@@ -84,7 +84,7 @@ export class Bedrift extends Component {
 
   render() {
     return (
-      <>
+      <React.Fragment>
         <PageHeader history={this.props.history} location={this.props.location} />
         <div className="bedriftContainer">
           {/*<Modal.Header>
@@ -193,7 +193,7 @@ export class Bedrift extends Component {
             </div>
           </div>
         </div>
-      </>
+      </React.Fragment>
     );
   }
 
