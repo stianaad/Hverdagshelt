@@ -68,6 +68,7 @@ export class Hovedside extends Component {
         res2 = await feilService.hentAlleOppdateringerPaaFeil(feil.feil_id);
     this.bilderTilFeil = await res1.data;
     this.oppTilFeil = await res2.data;
+    await console.log(res1.data);
     await console.log(res2.data);
 
     this.endreStatusIkon(feil.status);
@@ -169,7 +170,7 @@ export class Hovedside extends Component {
   }
 
   render() {
-    if (this.kommune == 0) return (<></>);
+    if (this.kommune == 0) return (<React.Fragment></React.Fragment>);
     if (this.kommune == null) return (<FireNullFire history={this.props.history} location={this.props.location}/>);
     return (
       <div>
@@ -363,7 +364,7 @@ export class Hovedside extends Component {
                 KART
                 KART
               */
-              <>
+              <React.Fragment>
                 <div className="col text-center" id="hovedKart">
                   <div id="mapContainer">
                     <MarkerMap
@@ -424,7 +425,7 @@ f                      id="test"
                   </Card>
                   
                 </div>
-              </>
+              </React.Fragment>
             )}
           </div>
           
@@ -575,6 +576,7 @@ f                      id="test"
         ]);
     
         await Promise.all([res1.data/*, res2.data, res3.data, res4.data, res.data*/]).then(() => {
+          console.log(res1.data[0]);
           if (this.kart.loaded) {
             this.kart.addMarkers(res1.data);
             if (this.mobView != "#hovedKart" && L.Browser.mobile) {window.setClosed();}

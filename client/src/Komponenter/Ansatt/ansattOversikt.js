@@ -39,7 +39,7 @@ export class AnsattOversikt extends Component {
   
   render() {
     return (
-      <>
+      <React.Fragment>
         <PageHeader history={this.props.history} location={this.props.location} />
         <FeilModal key={this.valgtFeil.feil_id+this.feilModal} open={this.feilModal} feil={this.valgtFeil} onClose={() => {this.feilModal = false}} />
         <div className="vinduansatt container-fluid">
@@ -147,7 +147,7 @@ export class AnsattOversikt extends Component {
                 </div>
             </div>
         </div>         
-      </>
+      </React.Fragment>
     );
   }
 

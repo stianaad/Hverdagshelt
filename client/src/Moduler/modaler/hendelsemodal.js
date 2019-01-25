@@ -13,7 +13,7 @@ export class HendelseModal extends Component {
 
       render() {
         return (
-          <>
+          <React.Fragment>
             {this.open ? (
               <Modal open={true} size="small" centered onClose={this.props.onClose}>
                 <div className="hendelseModalBoks">
@@ -51,7 +51,7 @@ export class HendelseModal extends Component {
                 </div>
               </Modal>
             ) : null}
-          </>
+          </React.Fragment>
         );
       }
 }

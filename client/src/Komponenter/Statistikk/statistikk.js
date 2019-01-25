@@ -88,6 +88,7 @@ export class Statistikk extends Component {
 
   render(){
     return(
+<<<<<<< HEAD
       <>
         <div id="statMeny">
           <div>
@@ -113,13 +114,18 @@ export class Statistikk extends Component {
               </FormControl>
             </FormGroup>
           </div>
+=======
+      <React.Fragment>
+        <div id="lastNedBtn">
+          <GronnKnapp onClick={this.print}>Last ned som PDF</GronnKnapp>
+>>>>>>> master
         </div>
         <div id={this.divNavn} style={{display: 'block', overflowX: 'scroll', zoom: '65%', marginLeft: '15%', marginRight: '10%'}}>
         {this.resultat.map(e => (
           <StatBar maks={this.maks} text={this.menyValg[this.menyID.value].type} label="Antall feil" elementID={e.id} labels={e.navn} data={e.antall} ></StatBar>
         ))}
         </div>
-      </>
+      </React.Fragment>
     );
   }
 

@@ -31,7 +31,7 @@ export class MeldFeil extends Component {
 
   render() {
     return (
-      <>
+      <React.Fragment>
         <PageHeader history={this.props.history} location={this.props.location} />
         <div id="blokk">
           <div>
@@ -139,7 +139,7 @@ export class MeldFeil extends Component {
           </div>
           <label id="advarsel">{this.advarsel}</label>
         </div>
-      </>
+      </React.Fragment>
     );
   }
 
