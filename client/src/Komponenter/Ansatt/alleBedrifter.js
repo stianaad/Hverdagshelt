@@ -10,6 +10,7 @@ import {AnsattMeny} from './ansattMeny';
 import {AdminMeny} from '../Admin/adminMeny';
 import {generellServices} from '../../services/generellServices';
 import { brukerService } from '../../services/brukerService';
+import { Footer } from '../../Moduler/footer/footer';
 
 export class AlleBedrifter extends Component{
     bedrifter = [];
@@ -160,6 +161,7 @@ export class AlleBedrifter extends Component{
                         </div>
                     </div>
                 </div>
+                <Footer/>
             </div>
         ); 
     }

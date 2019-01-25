@@ -167,22 +167,22 @@ router.post('/api/brukere/nyttpassord', checkToken, (req, res) => {
 
 router.put('/api/brukere/endrepassord', checkToken, (req, res) => {
   if (req.body.nyttPass === req.body.nyttPassSjekk && req.body.nyttPass.length >= 8) {
-    brukerDao.hentBrukerPaaid(req.decoded.user, (status, info) => {
+    brukerDao.hentBrukerPaaid(req.decoded.user.bruker_id, (status, info) => {
       if (info.length > 0) {
         passord(req.body.gammeltPass).verifyAgainst(info[0].passord, (error, verified) => {
           if (error) {
-            throw new Error('/brukere/endrepassord - Error på verifisering');
+            res.json({result: false});
           }
           if (verified) {
             console.log('passod verifisert');
             passord(req.body.nyttPass).hash((error, hash) => {
               if (error) {
-                throw new Error('/brukere/endrepassord - Hashing feilet');
+                res.json({result: false});
               }
               req.body.nyttPass = hash;
               brukerDao.endrePassord({ passord: req.body.nyttPass, epost: req.decoded.user.epost }, (status, data) => {
                 res.status(status);
-                res.json(data);
+                res.json({result: true});
               });
             });
           }

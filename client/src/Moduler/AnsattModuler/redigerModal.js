@@ -100,11 +100,17 @@ export class RedigerModal extends Component {
         <Modal open={this.bildeOpen} onClose={() => { this.bildeOpen = false; }} basic centered className="modalwidth">
           <Modal.Content>
               <div className="bildevisning">
-                <img src={this.valgtBilde.url} className="godkjennBildeVisning"/>
-                <div style={{alignContent: 'center'}}>
-                    <Popup trigger={<Button color="red" onClick={() => this.slett(this.valgtBilde)}>Slett</Button>} content="Hvis du trykker her slettes bildet automatisk."/>
-                    <Button color="green" onClick={() => {this.bildeOpen = false; }}>Behold</Button>
-                </div>
+                <Grid>
+                    <Grid.Row centered>
+                        <img src={this.valgtBilde.url} className="godkjennBildeVisning"/>
+                    </Grid.Row>
+                    <Grid.Row centered>
+                        <div style={{alignContent: 'center'}}>
+                            <Popup trigger={<Button color="red" onClick={() => this.slett(this.valgtBilde)}>Slett</Button>} content="Hvis du trykker her slettes bildet automatisk."/>
+                            <Button color="green" onClick={() => {this.bildeOpen = false; }}>Behold</Button>
+                        </div>
+                    </Grid.Row>
+                </Grid>
               </div>
           </Modal.Content>
         </Modal>

@@ -10,6 +10,8 @@ import {NavLink} from 'react-router-dom';
 import {AnsattMeny} from './ansattMeny';
 import { FeilVisning } from '../../Moduler/AnsattModuler/feilvisning';
 import {AdminMeny} from '../Admin/adminMeny';
+import {Footer} from '../../Moduler/footer/footer';
+import { InfoBoks } from '../../Moduler/info/info';
 
 export class AnsattFerdig extends Component{
     fullforteFeil = [];
@@ -52,7 +54,8 @@ export class AnsattFerdig extends Component{
                                 <Card color="green" fluid>
                                     <Card.Content>
                                         <Card.Header>
-                                            Fullførte feil
+                                            <h3 style={{display: 'inline'}}>Ferdig</h3>
+                                            <InfoBoks style={{display: 'inline'}} tekst="Trykk på en feil for å oppdatere eller redigere."/>
                                         </Card.Header>
                                     </Card.Content>
                                     <Card.Content className="hoydeTabell">
@@ -81,6 +84,7 @@ export class AnsattFerdig extends Component{
                         </div>
                     </div>
                 </div>
+                <Footer/>
             </div>
         ); 
     }

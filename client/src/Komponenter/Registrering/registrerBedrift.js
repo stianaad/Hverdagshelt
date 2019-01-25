@@ -4,6 +4,7 @@ import {brukerService} from '../../services/brukerService';
 import {PageHeader} from '../../Moduler/header/header';
 import {Bedrift} from '../../objekter.js';
 import {KommuneInput} from '../../Moduler/kommuneInput/kommuneInput';
+import { Footer } from '../../Moduler/footer/footer';
 
 export class RegistrerBedrift extends Component {
   bedriftInput = {
@@ -104,6 +105,7 @@ export class RegistrerBedrift extends Component {
             </div>
           </div>
         </div>
+        <Footer/>
       </div>
     );
   }

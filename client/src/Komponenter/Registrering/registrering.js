@@ -28,7 +28,6 @@ export class Registrering extends Component {
     return (
       <div>
         <PageHeader history={this.props.history} location={this.props.location} />
-        <Footer/>
         <h1 className="text-center text-capitalize display-4" id="regTittel">Registrering</h1>
         <div className="regContainer">
           <div className="row">
@@ -143,6 +142,7 @@ export class Registrering extends Component {
             </div>
           </div>
         </div>
+        <Footer/>
       </div>
     );
   }

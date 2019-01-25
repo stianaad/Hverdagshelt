@@ -10,6 +10,8 @@ import {NavLink} from 'react-router-dom';
 import {AnsattMeny} from './ansattMeny';
 import {AdminMeny} from '../Admin/adminMeny';
 import { FeilVisning } from '../../Moduler/AnsattModuler/feilvisning';
+import { InfoBoks } from '../../Moduler/info/info';
+import { Footer } from '../../Moduler/footer/footer';
 
 export class AnsattUnder extends Component{
     underB = [];
@@ -52,7 +54,8 @@ export class AnsattUnder extends Component{
                                 <Card color="yellow" fluid>
                                     <Card.Content>
                                         <Card.Header>
-                                            Under behandling
+                                            <h3 style={{display: 'inline'}}>Under behandling</h3>
+                                            <InfoBoks style={{display: 'inline'}} tekst="Trykk på en feil for å oppdatere eller redigere."/>
                                         </Card.Header>
                                     </Card.Content>
                                     <Card.Content className="hoydeTabell">
@@ -82,6 +85,7 @@ export class AnsattUnder extends Component{
                         </div>
                     </div>
                 </div>
+                <Footer/>
             </div>
         ); 
     }

@@ -18,6 +18,7 @@ import {AnsattMeny} from './ansattMeny';
 import {AdminMeny} from '../Admin/adminMeny';
 import {ShowMarkerMap} from '../../Moduler/kart/map';
 import {InfoBoks} from '../../Moduler/info/info';
+import { Footer } from '../../Moduler/footer/footer';
 
 export class NyeFeil extends Component {
   nyefeil = [];
@@ -104,19 +105,21 @@ export class NyeFeil extends Component {
         <PageHeader history={this.props.history} location={this.props.location}/>
         <Modal open={this.bildeApen} onClose={this.handleClose} basic>
           <Modal.Content>
-              <Grid>
-                  <Grid.Row centered>
-                    <img src={this.valgtBilde.url} className="bildevisning"/>
-                  </Grid.Row>
-                  <Grid.Row centered>
-                    <Popup 
-                      trigger={<Button basic color="red" inverted onClick={this.slettBilde}>Slett</Button>} 
-                      content='Hvis du sletter bildet vil du ikke få det tilbake' />
-                    <Popup 
-                      trigger={<Button id="behold" color="green" inverted onClick={() => (this.bildeApen = false)}>Behold</Button>} 
-                      content='Trykk her for å godkjenne bildet' />
-                  </Grid.Row>
-              </Grid>
+              <div className="bildevisning">
+                <Grid>
+                    <Grid.Row centered>
+                      <img src={this.valgtBilde.url} className="godkjennBildeVisning"/>
+                    </Grid.Row>
+                    <Grid.Row centered>
+                      <Popup 
+                        trigger={<Button basic color="red" inverted onClick={this.slettBilde}>Slett</Button>} 
+                        content='Hvis du sletter bildet vil du ikke få det tilbake' />
+                      <Popup 
+                        trigger={<Button id="behold" color="green" inverted onClick={() => (this.bildeApen = false)}>Behold</Button>} 
+                        content='Trykk her for å godkjenne bildet' />
+                    </Grid.Row>
+                </Grid>
+              </div>
           </Modal.Content>
         </Modal>
         <div className="container-fluid vinduansatt">
@@ -233,6 +236,7 @@ export class NyeFeil extends Component {
               </div>
             </div>
           </div>
+          <Footer/>
         </div>
     );
   }
