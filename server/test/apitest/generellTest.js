@@ -392,10 +392,10 @@ test('Filtrer hendelser på kategori', (done) => {
 test('Filtrer hendelser kommune', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
-    expect(data.length).toBe(1);
+    expect(data.length).toBeGreaterThanOrEqual(1);
     done();
   }
-  hendelsedao.filtrerHendelserPaaKommune({kommune_id: 12}, callback);
+  hendelsedao.filtrerHendelserPaaKommune(12, callback);
 });
 
 test('hent alle hendelseskategorier', (done) => {
@@ -415,15 +415,6 @@ test('opprett ny hendelseskategorier', (done) => {
     done();
   }
   hendelsedao.nyHendelseskategori({kategorinavn: 'Testkategori'}, callback);
-});
-
-test('oppdater en hendelseskategorier', (done) => {
-  function callback(status, data) {
-    console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
-    expect(data.affectedRows).toBe(1);
-    done();
-  }
-  hendelsedao.oppdaterHendelseskategori({kategorinavn: 'testnavn', hendelseskategori_id: 1}, callback);
 });
 
 test('abonner på en hendelse', (done) => {
