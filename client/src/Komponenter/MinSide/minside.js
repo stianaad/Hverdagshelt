@@ -117,7 +117,7 @@ export class Minside extends Component {
                     {this.alleOppdaterteFeil.length === 0 ? (
                       <p className="ingenNyeOppdateringer mt-2">Ingen nye oppdateringer<a className="float-right" basic onClick={this.visRapporterteFeil}><img src={this.dropdownPil} height="20" width="20"/> </a></p>
                     ) : (
-                      <p className="highlight mt-2">{this.alleOppdaterteFeil.length} ny(e) oppdateringer  <a className="float-right" basic onClick={this.visRapporterteFeil}><img src={this.dropdownPil} height="20" width="20"/> </a></p>
+                      <p className="highlight nyeOppdateringer mt-2">{this.alleOppdaterteFeil.length} ny(e) oppdateringer  <a className="float-right" basic onClick={this.visRapporterteFeil}><img src={this.dropdownPil} height="20" width="20"/> </a></p>
                     )}
                 </Card.Header>
               </Card.Content>
@@ -177,6 +177,7 @@ export class Minside extends Component {
                     <Card
                       key = {'feilCard'+hendelse.hendelse_id}
                       className="feilCard"
+                      kommune_navn={hendelse.kommune_navn}
                       onClick={() => {
                         this.hendelse = hendelse;
                         this.hendelseModal = true;
@@ -475,8 +476,6 @@ export class Minside extends Component {
     await this.scrollFeil();
     //this.ikkeOppdaterteFeil = this.ikkeOppdaterteFeil.filter(e => e.feil_id != id);
     //this.oppdaterteFeil = this.oppdaterteFeil.filter(e => e.feil_id != id);
-    await console.log(this.ikkeOppdaterteFeil);
-    await console.log(this.oppdaterteFeil);
   }
 
   async mounted() {

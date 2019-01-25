@@ -45,6 +45,11 @@
 
 .ingenNyeOppdateringer {
   color: red;
+  font-size: 15px;
+}
+
+.nyeOppdateringer{
+  font-size: 15px;
 }
 
 .rapporterteFeilScroll {
