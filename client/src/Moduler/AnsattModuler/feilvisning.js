@@ -1,8 +1,9 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
-import {Card, Feed, Grid, Button, Header, Icon, Input, Image, Modal, List, CardContent} from 'semantic-ui-react';
+import {Card, Feed, Grid, Button, Header, Icon, Input, Image, Modal, List, Popup} from 'semantic-ui-react';
 import { ShowMarkerMap } from '../kart/map';
 import { feilService } from '../../services/feilService';
+import { RedigerModal } from './redigerModal';
 
 
 export class FeilVisning extends Component {
@@ -13,9 +14,10 @@ export class FeilVisning extends Component {
         status: this.props.feil.status
     }
     kommentar = '';
-
     valgtBilde = "";
     bildeApen = false; 
+    redigerModal = false; 
+    valgtfeil = ''
 
     handterStatuser(status){
         let stat = this.statuser.find(e => (e.status === status));
@@ -27,16 +29,27 @@ export class FeilVisning extends Component {
         this.visBilde = true; 
     }
 
+    openRedigering(){
+        this.redigerModal = true; 
+        this.valgtfeil = {...this.props.feil};
+    }
+
     render(){
         return(
             <div>
+                <RedigerModal key={this.valgtfeil.feil_id+this.redigerModal} open={this.redigerModal} lukk={this.refresh} feil={this.valgtfeil} onClose={() => {this.redigerModal = false}} />
                 <Card fluid>
                     <Card.Content>
                         <Grid columns={2}>
                             <Grid.Column><h1>{this.props.feil.overskrift}</h1></Grid.Column>
                             <Grid.Column textAlign="right">{this.props.feil.tid}</Grid.Column>
                             <Grid.Column>Status: {this.props.feil.status}</Grid.Column>
-                            <Grid.Column><Button floated="right" color="red">Slett</Button></Grid.Column>
+                            <Grid.Column>
+                                <div style={{textAlign: 'right'}}>
+                                    <Popup trigger={<Button color="red" className="float-rigth">Slett</Button>} content="Hvis du trykker her så sletter du feilen"/>   
+                                    <Popup trigger={<Button color="blue" onClick={() => {this.openRedigering();}}>Rediger</Button>} content="Trykk her for å redigere feilen"/>
+                                </div>
+                            </Grid.Column>
                         </Grid>
                     </Card.Content>
                     <Card.Content extra>
@@ -105,6 +118,13 @@ export class FeilVisning extends Component {
                 </Modal>
             </div>
         ); 
+    }
+
+    refresh(){
+        this.feilApen = false;
+        this.mounted();
+        console.log(this.feilApen);
+        this.props.lukk(this.valgtStatus.status_id);
     }
 
     async oppdatering(){
