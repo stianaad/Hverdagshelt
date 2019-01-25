@@ -45,6 +45,7 @@ import { AlleBedrifter } from './Komponenter/Ansatt/alleBedrifter';
 
 import { Administrasjon } from './Komponenter/Admin/admin';
 import 'semantic-ui-css/semantic.min.css';
+import { FeilHosBedrift } from './Komponenter/Ansatt/feilHosBedrift';
 
 //<PositionMap width="100%" height="500px" id="posmap" center="Oslo" position={this.posisjon}></PositionMap>
 class Menu extends Component {
@@ -207,7 +208,8 @@ const routes = () => {
                 <Route exact path="/ansatt/ferdig" key="ferdig" component={AnsattFerdig} history={history}/>,
                 <Route exact path="/ansatt/hendelser" key="hendelser"component={AnsattHendelser} history={history}/>,
                 <Route exact path="/ansatt/godkjent" key="godkjent"component={AnsattGodkjent} history={history}/>,
-                <Route exact path='/ansatt/bedrifter' key='bedrifter' component={AlleBedrifter} history={history}/>
+                <Route exact path='/ansatt/bedrifter/fullforte' key='bedrifter' component={AlleBedrifter} history={history}/>,
+                <Route exact path='/ansatt/bedrifter/feil' key='bedrifter' component={FeilHosBedrift} history={history}/>
               ]
             : global.payload.role == 'bedrift'
             ? //Bedrift routes
