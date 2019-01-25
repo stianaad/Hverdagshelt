@@ -74,7 +74,7 @@ module.exports = class StatistikkDao extends Dao {
 
   /**
    * Henter alle feil som er registrerte innenfor et intervall, altså feil med status_id 1 - opprettet.
-   * @param {string} intervall - Intervallet du vil begrense søket med
+   * @param {number} intervall - Intervallet du vil begrense søket med
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
    */
   hentRegistrerteFeilPaaIntervall(intervall, callback) {
@@ -85,12 +85,22 @@ module.exports = class StatistikkDao extends Dao {
 
   /**
    * Henter alle feil som er blitt behandlet innenfor et intervall, altså feil med status_id større enn 1.
-   * @param {string} intervall - Intervallet du vil begrense søket med
+   * @param {number} intervall - Intervallet du vil begrense søket med
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
    */
   hentBehandledeFeilPaaIntervall(intervall, callback) {
     super.query(
       'SELECT COUNT(DISTINCT feil.feil_id) as antall FROM feil JOIN oppdatering ON feil.feil_id = oppdatering.feil_id WHERE oppdatering.status_id > 1 AND oppdatering.tid > CURRENT_TIMESTAMP - INTERVAL ? day', [intervall], callback
+    );
+  }
+
+  /**
+   * Henter alle feil som er blitt behandlet innenfor et intervall, altså feil med status_id større enn 1.
+   * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
+   */
+  hentBehandledeFeilPaaIntervall(callback) {
+    super.query(
+      'SELECT COUNT(DISTINCT feil.feil_id) as antall FROM feil JOIN oppdatering ON feil.feil_id = oppdatering.feil_id WHERE oppdatering.status_id > 1', [intervall], callback
     );
   }
 
@@ -115,12 +125,34 @@ module.exports = class StatistikkDao extends Dao {
   }
 
   /**
+   * Henter antallet feil per subkategori på et valgt intervall.
+   * @param {number} intervall - Antall dager bakover i tid intervallet skal være.
+   * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
+   */
+  hentFeilPerSubkategoriPaaIntervall(intervall, callback) {
+    super.query(
+      'SELECT subkategori.kategorinavn, COUNT(*) as antall FROM feil JOIN oppdatering ON feil.feil_id = oppdatering.feil_id JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id WHERE oppdatering.tid > CURRENT_TIMESTAMP - INTERVAL 1 day GROUP BY subkategori.kategorinavn ORDER BY subkategori.kategorinavn ASC', [intervall], callback
+    );
+  }
+
+  /**
    * Skriver ut alle hovedkategoriene med antall feil.
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
    */
   hentFeilPerHovedkategori(callback) {
     super.query(
       'SELECT hovedkategori.kategorinavn, COUNT(*) as antall FROM feil JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id JOIN hovedkategori ON subkategori.hovedkategori_id = hovedkategori.hovedkategori_id GROUP BY hovedkategori.kategorinavn ORDER BY hovedkategori.kategorinavn ASC', null, callback
+    );
+  }
+
+  /**
+   * Henter antallet feil per hovedkategori på et valgt intervall.
+   * @param {number} intervall - Antall dager bakover i tid intervallet skal være.
+   * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
+   */
+  hentFeilPerHovedkategoriPaaIntervall(intervall, callback) {
+    super.query(
+      'SELECT hovedkategori.kategorinavn, COUNT(DISTINCT feil.feil_id) as antall FROM feil JOIN oppdatering ON feil.feil_id = oppdatering.feil_id JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id JOIN hovedkategori ON subkategori.hovedkategori_id = hovedkategori.hovedkategori_id WHERE oppdatering.tid > CURRENT_TIMESTAMP - INTERVAL ? day GROUP BY hovedkategori.kategorinavn ORDER BY hovedkategori.kategorinavn', [intervall], callback
     );
   }
 
