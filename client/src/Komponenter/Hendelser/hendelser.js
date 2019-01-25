@@ -250,7 +250,7 @@ export class Hendelser extends Component {
             <div className="field"></div>
           </div>
         </form>
-        <Card.Group stackable> 
+        {(this.aktiveHendelser.length >0) ? (<Card.Group stackable> 
           {this.aktiveHendelser.map(hendelse => (
             <Hendelse
               onClick={() => {
@@ -265,7 +265,12 @@ export class Hendelser extends Component {
               key={hendelse.hendelse_id}
               hendelse_id={hendelse.hendelse_id}
             />))}
-        </Card.Group>
+        </Card.Group>) : 
+        (<Card centered>
+          <Card.Content>
+            <Header as="h4">Det er ingen hendelser i denne kommunen. Gå til filtrer hendelser for å skifte kommune.</Header>
+          </Card.Content>
+        </Card>)}
       </div>
     );
   }
