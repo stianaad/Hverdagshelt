@@ -20,6 +20,8 @@ export class FeilVisning extends Component {
     redigerModal = false; 
     valgtfeil = ''
 
+    sendtTilBedrift = false; 
+
     handterStatuser(status){
         let stat = this.statuser.find(e => (e.status === status));
         this.valgtStatus = {...stat};
@@ -47,7 +49,7 @@ export class FeilVisning extends Component {
                             <Grid.Column>Status: {this.props.feil.status}</Grid.Column>
                             <Grid.Column>
                                 <div style={{textAlign: 'right'}}>
-                                    <Popup trigger={<Button color="red" className="float-rigth">Slett</Button>} content="Hvis du trykker her så sletter du feilen"/>   
+                                    <Popup trigger={<Button color="red" onClick={() => {this.slett();}} className="float-rigth">Slett</Button>} content="Hvis du trykker her så sletter du feilen"/>   
                                     <Popup trigger={<Button color="blue" onClick={() => {this.openRedigering();}}>Rediger</Button>} content="Trykk her for å redigere feilen"/>
                                 </div>
                             </Grid.Column>
@@ -87,7 +89,6 @@ export class FeilVisning extends Component {
                                 </List>
                                 <h5>Oppdater: </h5>
                                 <div className="form-group">
-                                    
                                     <input type="text" className="form-control" placeholder="Kommentar..."
                                         onChange={(e) => {this.kommentar = e.target.value;
                                         if(this.kommentar.length > 0 ){
@@ -142,10 +143,19 @@ export class FeilVisning extends Component {
         });
         this.props.lukk(this.valgtStatus.status_id);
     }
+
+    async slett(){
+        this.feilApen=false;
+        let res = await feilService.slettFeil(this.props.feil.feil_id);
+        Promise.resolve(res.data).then(this.props.lukk(this.valgtStatus.status_id));
+    }
+
     async mounted(){
         let res = await feilService.hentAlleStatuser();
         let alle = await res.data; 
         this.statuser = await alle.filter(e => e.status_id !== 1);
         this.valgtStatus = this.statuser.find(e => e.status === this.props.feil.status);
+
+        await this.handterStatuser(this.props.feil.feil_id);
     }
 }
