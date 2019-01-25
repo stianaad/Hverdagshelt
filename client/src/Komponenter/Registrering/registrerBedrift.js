@@ -26,7 +26,7 @@ export class RegistrerBedrift extends Component {
       <div>
         <PageHeader history={this.props.history} location={this.props.location} />
         <div className="container">
-          <h2 className="text-center text-capitalize display-4">Registrer en bedrift</h2>
+          <h1 className="text-center text-capitalize display-4">Registrer en bedrift</h1>
           <div>
             <div className="row">
               <div className="col">
