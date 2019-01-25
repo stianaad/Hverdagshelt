@@ -8,8 +8,6 @@ module.exports = class Generelldao extends Dao {
     //console.log(kommune_navn);
     super.query('SELECT * FROM kommuner WHERE kommune_navn LIKE ?', [kommune_navn + '%'], callback);
   }
-<<<<<<< HEAD
-=======
 
   hentAlleFylker(callback){
     super.query('SELECT * FROM fylker ORDER BY fylke_navn ASC', [], callback);
@@ -19,5 +17,4 @@ module.exports = class Generelldao extends Dao {
     //console.log(kommune_navn);
     super.query('SELECT * FROM kommuner WHERE kommune_navn LIKE ?', [kommune_navn], callback);
   }
->>>>>>> master
 };
