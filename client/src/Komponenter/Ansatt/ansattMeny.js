@@ -29,7 +29,7 @@ export class AnsattMeny extends Component {
                   to='/ansatt/godkjent'
                 />
                 <Menu.Item
-                  name='Under arbeid'
+                  name='Under behandling'
                   as={NavLink}
                   to='/ansatt/underbehandling'
                 />
