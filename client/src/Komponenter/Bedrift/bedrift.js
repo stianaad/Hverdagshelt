@@ -100,7 +100,7 @@ export class Bedrift extends Component {
                         <Filtrer alleKategorier={this.alleKategorier} onChange={this.filterNyeFeil}/>
                       </Card.Header>
                     </Card.Content>
-                    <Card.Content className={this.classNye}>
+                    <Card.Content className={this.classNye} className="hoydeTabell">
                       {this.nyefeil.map((feil) => (
                         <FeedEvent
                           onClick={() => {
@@ -131,7 +131,7 @@ export class Bedrift extends Component {
                         <Filtrer alleKategorier = {this.alleKategorier} onChange = {this.filterUnderB}/>
                       </Card.Header>
                     </Card.Content>
-                    <Card.Content className={this.classUnderB}>
+                    <Card.Content className={this.classUnderB} className="hoydeTabell">
                       {this.underBehandling.map((feil) => (
                         <FeedEvent
                           onClick={() => {
@@ -164,7 +164,7 @@ export class Bedrift extends Component {
                         <Filtrer alleKategorier={this.alleKategorier} onChange={this.filterUtførte}/>
                       </Card.Header>
                     </Card.Content>
-                    <Card.Content className={this.classFerdig}>
+                    <Card.Content className={this.classFerdig} className="hoydeTabell">
                       {this.utførte.map((feil) => (
                         <FeedEvent
                           onClick={() => {
