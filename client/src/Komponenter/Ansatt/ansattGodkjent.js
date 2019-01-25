@@ -12,6 +12,7 @@ import {AdminMeny} from '../Admin/adminMeny';
 import { brukerService } from '../../services/brukerService';
 import { InfoBoks } from '../../Moduler/info/info';
 import { RedigerModal } from '../../Moduler/AnsattModuler/redigerModal';
+import { Footer } from '../../Moduler/footer/footer';
 
 export class AnsattGodkjent extends Component{
     godkjente = [];
@@ -221,6 +222,7 @@ export class AnsattGodkjent extends Component{
                         </div>
                     </div>
                 </div>
+                <Footer/>
             </div>
         ); 
     }

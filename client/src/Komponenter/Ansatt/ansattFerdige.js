@@ -10,6 +10,8 @@ import {NavLink} from 'react-router-dom';
 import {AnsattMeny} from './ansattMeny';
 import { FeilVisning } from '../../Moduler/AnsattModuler/feilvisning';
 import {AdminMeny} from '../Admin/adminMeny';
+import {Footer} from '../../Moduler/footer/footer';
+import { InfoBoks } from '../../Moduler/info/info';
 
 export class AnsattFerdig extends Component{
     fullforteFeil = [];
@@ -82,6 +84,7 @@ export class AnsattFerdig extends Component{
                         </div>
                     </div>
                 </div>
+                <Footer/>
             </div>
         ); 
     }

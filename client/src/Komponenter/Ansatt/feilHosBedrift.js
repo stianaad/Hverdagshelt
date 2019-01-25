@@ -10,6 +10,7 @@ import {AnsattMeny} from './ansattMeny';
 import {AdminMeny} from '../Admin/adminMeny';
 import {generellServices} from '../../services/generellServices';
 import { FeilVisning } from '../../Moduler/AnsattModuler/feilvisning';
+import { Footer } from '../../Moduler/footer/footer';
 
 export class FeilHosBedrift extends Component{
     underB = [];
@@ -81,6 +82,7 @@ export class FeilHosBedrift extends Component{
                             </div>
                         </div>
                     </div>
+                    <Footer/>
                 </div>
             </div>
         ); 

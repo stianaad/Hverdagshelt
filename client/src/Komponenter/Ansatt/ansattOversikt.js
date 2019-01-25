@@ -11,6 +11,7 @@ import {AnsattMeny} from './ansattMeny';
 import {AdminMeny} from '../Admin/adminMeny';
 import {InfoBoks} from '../../Moduler/info/info';
 import {FeilModal} from '../../Moduler/modaler/feilmodal';
+import { Footer } from '../../Moduler/footer/footer';
 
 export class AnsattOversikt extends Component {
   nyefeil = [];
@@ -143,6 +144,7 @@ export class AnsattOversikt extends Component {
                     </div>
                 </div>
             </div>
+            <Footer/>
         </div>         
       </React.Fragment>
     );

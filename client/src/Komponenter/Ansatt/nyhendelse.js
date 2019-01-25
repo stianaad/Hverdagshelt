@@ -10,6 +10,7 @@ import { AnsattMeny } from './ansattMeny';
 import { hendelseService } from '../../services/hendelseService';
 import {generellServices} from '../../services/generellServices';
 import {AdminMeny} from '../Admin/adminMeny';
+import { Footer } from '../../Moduler/footer/footer';
 
 
 export class NyHendelse extends Component {
@@ -112,6 +113,7 @@ export class NyHendelse extends Component {
               <Button onClick={this.lagre} color="green">Lagre</Button>
             </div>
           </div>
+          <Footer/>
         </div>
       </div>
     );

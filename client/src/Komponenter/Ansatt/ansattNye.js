@@ -18,6 +18,7 @@ import {AnsattMeny} from './ansattMeny';
 import {AdminMeny} from '../Admin/adminMeny';
 import {ShowMarkerMap} from '../../Moduler/kart/map';
 import {InfoBoks} from '../../Moduler/info/info';
+import { Footer } from '../../Moduler/footer/footer';
 
 export class NyeFeil extends Component {
   nyefeil = [];
@@ -235,6 +236,7 @@ export class NyeFeil extends Component {
               </div>
             </div>
           </div>
+          <Footer/>
         </div>
     );
   }

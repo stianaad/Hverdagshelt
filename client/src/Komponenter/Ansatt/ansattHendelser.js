@@ -10,6 +10,7 @@ import {markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
 import {NavLink} from 'react-router-dom';
 import {AnsattMeny} from './ansattMeny';
 import {AdminMeny} from '../Admin/adminMeny';
+import { Footer } from '../../Moduler/footer/footer';
 
 export class AnsattHendelser extends Component {
   open = false;
@@ -86,6 +87,7 @@ export class AnsattHendelser extends Component {
                 ))}
               </Card.Group>
             </div>
+            <Footer/>
           </div>
         </div>
         <Modal open={this.open} onClose={() => (this.open = false)}>
@@ -189,6 +191,7 @@ export class AnsattHendelser extends Component {
             </div>
           </Modal.Content>
         </Modal>
+        
       </div>
     );
   }
