@@ -21,7 +21,6 @@ import {
  * 
  */
 
-
 export class FeedEvent extends Component {
   klikk = false;
   tekstverdi = '';
