@@ -75,7 +75,7 @@ export class AlleBedrifter extends Component{
                                     </Card.Content>
                                     <Card.Content className="hoydeTabell">
                                         {this.bedrifter.map((bed) => (
-                                            <Feed>
+                                            <Feed style={{cursor:"pointer"}}>
                                                 <Feed.Event onClick={() => this.openBed(bed)}>
                                                     <Feed.Content>
                                                         <Feed.Summary>{bed.navn}</Feed.Summary>
@@ -99,7 +99,7 @@ export class AlleBedrifter extends Component{
                                                     <div>
                                                         <List divided relaxed style={{height: '50%', overflow: 'auto'}}>
                                                             {this.feilHosBedrift.map((feil) => (
-                                                                <List.Item onClick={() => this.visFeil(feil)}>
+                                                                <List.Item style={{cursor:"pointer"}} onClick={() => this.visFeil(feil)}>
                                                                     <List.Content>
                                                                         <List.Header>{feil.overskrift}</List.Header>
                                                                         <List.Description>{feil.tid}</List.Description>
