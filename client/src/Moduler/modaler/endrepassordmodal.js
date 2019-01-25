@@ -18,11 +18,12 @@ export class EndrePassordModal extends Component {
     this.open = this.props.open;
   }
 
-  lagrePass() {
+  async lagrePass() {
     if (this.passord.nyttPass.length < 8 || this.passord.nyttPass !== this.passord.nyttPassSjekk) {
       this.advarsel = 'Feil ved innsending. Nytt passord må være 8 tegn langt og passordene må være like.';
     } else {
-      if (!brukerService.endrePassord(this.passord)) {
+      let res = await brukerService.endrePassord(this.passord);
+      if (!res.data.result) {
         this.advarsel = 'Gammelt passord er ikke korrekt, eller noe gikk galt ved innmelding.';
       } else {
         alert('Passord er endret');

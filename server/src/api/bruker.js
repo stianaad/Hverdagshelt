@@ -142,12 +142,8 @@ router.post('/api/brukere/admin', checkToken, (req, res) => {
 });
 
 router.get('/api/brukere/:bruker_id', (req, res) => {
-  if (!(req.body instanceof Object)) return res.sendStatus(400);
-  console.log('Fikk penis fra klienten');
-
-  let a = { bruker_id: req.params.bruker_id };
-
-  brukerDao.hentBrukerPaaid(a, (status, data) => {
+  console.log('Fikk :) fra klienten');
+  brukerDao.hentBrukerPaaid(req.params.bruker_id, (status, data) => {
     res.status(status);
     res.json(data);
     console.log('/hentBrukerpaaid resultat:' + data);
@@ -190,7 +186,7 @@ router.put('/api/brukere/endrepassord', checkToken, (req, res) => {
             });
           }
           else {
-            res.status(403);
+            //res.status(403);
             res.json({ result: false });
           }
         });

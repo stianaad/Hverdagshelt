@@ -114,7 +114,7 @@ export class Login extends Component {
       sessionStorage.setItem('pollett', res.token);
       
       let p = window.location.pathname;
-      if (p.startsWith("/hovedside/") || p.startsWith("/hendelser") || p.startsWith("/resett-passord/")) {
+      if (p.startsWith("/hovedside/") || p.startsWith("/hendelser")) {
           global.sideRefresh(true);
       } else {
         if (global.payload.role == 'privat') {

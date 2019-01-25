@@ -6,6 +6,7 @@ import { HashRouter, Route, NavLink, Redirect, Switch, Link } from 'react-router
 import { FeedEvent, FeedHendelse, Filtrer, Info, Hendelse, ModalHendelse } from '../../Moduler/cardfeed';
 import { Card, Feed, Grid, Button, Header, Icon, Image, Modal, Dropdown, Popup, Label, Divider } from 'semantic-ui-react';
 import { PageHeader } from '../../Moduler/header/header';
+import {Footer} from '../../Moduler/footer/footer';
 import { KommuneVelger } from '../../Moduler/KommuneVelger/kommuneVelger';
 import { isNullOrUndefined, isUndefined, isNumber } from 'util';
 import { brukerService } from '../../services/brukerService';
@@ -268,6 +269,7 @@ export class Hendelser extends Component {
               hendelse_id={hendelse.hendelse_id}
             />))}
         </Card.Group>
+        <Footer/>
       </div>
     );
   }
