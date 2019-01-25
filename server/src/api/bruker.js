@@ -198,9 +198,10 @@ router.put('/api/brukere/endrepassord', checkToken, (req, res) => {
 });
 
 router.post('/api/brukere/glemtpassord', (req, res) => {
-  brukerDao.hentBrukerPaaid(req.body, (status, data) => {
+  brukerDao.hentBrukerPaaEpost(req.body, (status, data) => {
     res.status(status);
     res.json(data);
+    console.log(data[0]);
     console.log('/glemtpassord - hentet bruker');
     if (data[0].epost === req.body.epost) {
       genenererEpostPollett(req.body.epost, 900, (token) => {

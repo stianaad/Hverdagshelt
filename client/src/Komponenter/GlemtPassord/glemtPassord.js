@@ -63,7 +63,9 @@ export class GlemtPassord extends Component {
   lagre() {
     let epost = this.epost;
     if (epost) {
-      brukerService.glemtPassord({epost: epost}).catch((error) => Alert.danger(error.message));
+      brukerService.glemtPassord({epost: epost})
+      .then(() => {alert("Du har blitt tilsendt link på e-post.");this.props.history.push('/');})
+      .catch((error) => Alert.danger(error.message));
     }
   }
 }

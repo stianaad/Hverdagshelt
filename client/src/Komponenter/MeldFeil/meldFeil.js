@@ -214,7 +214,11 @@ export class MeldFeil extends Component {
         xhr.setRequestHeader("x-access-token", 'Bearer ' + token)
         xhr.onreadystatechange = () => {
           if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-            this.props.history.push('/');
+            if(global.payload.role === "privat"){
+              this.props.history.push('/minside');
+            } else if (global.payload.role === "admin"){
+              this.props.history.push('/admin/startside');
+            } 
           }
         };
         xhr.send(formData);
