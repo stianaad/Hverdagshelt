@@ -9,20 +9,21 @@ export class AbonnerKnapp extends Component {
 
     render() {
         return (
-            <button disabled={this.abonnert==null} onClick={()=>{this.klikk()}} style={{width: "90px"}} className={this.abonnert ? "btn btn-success" : "btn btn-danger"}>{this.abonnert ? "Abonnerer" : "Abonner"}</button>
+            <button disabled={this.abonnert==null} onClick={()=>{this.klikk()}} style={this.props.style} className={this.abonnert ? "btn btn-success" : "btn btn-danger"}>{this.abonnert ? "Abonnerer" : "Abonner"}</button>
         );
     }
 
     klikk() {
+        const t = () => {this.abonnert = true};
+        const f = () => {this.abonnert = false};
         if (this.props.feil_id) {
-            if (this.abonnert) feilService.ikkeAbonner(this.props.feil_id);
-            else feilService.abonner(this.props.feil_id);
-            this.mounted();
+            if (this.abonnert) {feilService.ikkeAbonner(this.props.feil_id).then(f).catch(f);}
+            else {feilService.abonner(this.props.feil_id).then(t).catch(t);}
         } else if (this.props.hendelse_id) {
-            if (this.abonnert) hendelseService.ikkeAbonner(this.props.hendelse_id);
-            else hendelseService.abonner(this.props.hendelse_id);
-            this.mounted();
+            if (this.abonnert) hendelseService.ikkeAbonner(this.props.hendelse_id).then(f).catch(f);
+            else hendelseService.abonner(this.props.hendelse_id).then(t).catch(t);
         }
+        this.abonnert = null;
     }
 
     async mounted() {

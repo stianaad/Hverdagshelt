@@ -8,7 +8,6 @@ export function markerTabell(feiltabell, popup) {
   for (let i = 0; i < feiltabell.length; i++) {
     tabell[i] = new Marker(feiltabell[i], popup);
   }
-  //console.log(tabell);
   return tabell;
 }
 
@@ -81,16 +80,18 @@ export class Marker {
     let iconName =
       feil.status == 0
         ? null
-        : feil.status == 'Ikke godkjent'
+        : feil.status == 'Godkjent'
         ? 'warningicon'
         : feil.status == 'Under behandling'
         ? 'processingicon'
-        : 'successicon';
+        : feil.status == 'Ferdig'
+        ? 'successicon'
+        : 'warningicon';
     let statusText =
       feil.status == 0 ? (
         ''
-      ) : feil.status == 'Ikke godkjent' ? (
-        <span style={{color: 'red', fontStyle: 'italic'}}>Ikke godkjent</span>
+      ) : feil.status == 'Godkjent' ? (
+        <span style={{color: 'red', fontStyle: 'italic'}}>Mottatt</span>
       ) : feil.status == 'Under behandling' ? (
         <span style={{color: 'orange', fontStyle: 'italic'}}>Under behandling</span>
       ) : (
@@ -140,11 +141,13 @@ export class Marker {
     let iconName =
       feil.status == 0
         ? null
-        : feil.status == 'Ikke godkjent'
+        : feil.status == 'Godkjent'
         ? 'warningicon'
         : feil.status == 'Under behandling'
         ? 'processingicon'
-        : 'successicon';
+        : feil.status == 'Ferdig'
+        ? 'successicon'
+        : 'warningicon';
     let statusText =
       feil.status == 0 ? (
         ''
@@ -203,7 +206,7 @@ export class Marker {
  */
 export class MarkerMap extends Component {
   map = null;
-
+  loaded = false;
   componentDidMount() {
     this.props.onRef(this);
 
@@ -211,7 +214,7 @@ export class MarkerMap extends Component {
 
     let coords, map;
 
-    fetch('https://nominatim.openstreetmap.org/?format=json&q=' + this.props.center + '&limit=1', {
+    fetch('https://nominatim.openstreetmap.org/?format=json&q=' + this.props.center + ' Norway&limit=1', {
       method: 'GET',
     })
       .then((res) => res.json())
@@ -225,7 +228,7 @@ export class MarkerMap extends Component {
         this.coords = [[this.coords[0], this.coords[1]], [this.coords[2], this.coords[3]]];
 
         this.map = L.map(this.props.id, {
-          dragging: !L.Browser.mobile,
+          /*dragging: !L.Browser.mobile,*/
           layers: [
             L.tileLayer('https://maps.tilehosting.com/styles/streets/{z}/{x}/{y}.png?key=c1RIxTIz5D0YrAY6C81A', {
               attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
@@ -233,6 +236,7 @@ export class MarkerMap extends Component {
           ],
         });
         this.map.on('load', () => {
+          this.loaded = true;
           this.props.callback();
         });
         this.map.fitBounds(this.coords).setZoom(10);
@@ -265,7 +269,7 @@ export class MarkerMap extends Component {
 }
 
 /**
- * Trenger id, width, height, og feil obkjekt
+ * Trenger id, width, height, og feil objekt
  */
 export class ShowMarkerMap extends Component {
   map = null;
@@ -273,11 +277,11 @@ export class ShowMarkerMap extends Component {
   m = null;
 
   componentDidMount() {
-    console.log(this.f);
     this.map = L.map(this.props.id, {
       center: L.latLng(this.f.breddegrad, this.f.lengdegrad),
       zoom: 13,
       dragging: !L.Browser.mobile,
+      tap: !L.Browser.mobile,
       layers: [
         L.tileLayer('https://maps.tilehosting.com/styles/streets/{z}/{x}/{y}.png?key=c1RIxTIz5D0YrAY6C81A', {
           attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
@@ -290,11 +294,11 @@ export class ShowMarkerMap extends Component {
   }
 
   updateMap(newFeil) {
-    console.log(this.f);
     this.map = L.map(this.props.id, {
       center: L.latLng(this.f.breddegrad, this.f.lengdegrad),
       zoom: 13,
       dragging: !L.Browser.mobile,
+      tap: !L.Browser.mobile,
       layers: [
         L.tileLayer('https://maps.tilehosting.com/styles/streets/{z}/{x}/{y}.png?key=c1RIxTIz5D0YrAY6C81A', {
           attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
@@ -318,8 +322,7 @@ export class ShowMarkerMap extends Component {
   }
 
   render() {
-    console.log('render');
-    return <div style={{width: this.props.width, height: this.props.height}} id={this.props.id} />;
+    return <div style={{width: this.props.width, height: this.props.height, minHeight:"100px"}} id={this.props.id} />;
   }
 }
 
@@ -335,14 +338,32 @@ export class PositionMap extends Component {
   marker = null;
 
   locateMe() {
-    this.map.locate({setView: true, maxZoom: 14});
+    navigator.geolocation.getCurrentPosition((pos) => {
+      //alert(pos.coords.latitude+":"+pos.coords.longitude);
+      if (this.marker == undefined) {
+        this.marker = L.marker({ lat: pos.coords.latitude, lng: pos.coords.longitude }, {
+          draggable: !L.Browser.mobile,
+        }).addTo(this.map);
+      } else {
+        this.marker.setLatLng({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+      }
+      this.props.position(this.marker.getLatLng());
+      this.map.setView({ lat: pos.coords.latitude, lng: pos.coords.longitude }, 14)
+    }, (err) => {
+      //alert(err.code);
+    });
+    
+    /*this.map.locate({setView: true, maxZoom: 14});
     this.map.on('locationfound', () => {
       if (this.marker == undefined) {
         this.marker = L.marker(this.map.getCenter(), {
           draggable: !L.Browser.mobile,
         }).addTo(this.map);
       }
-    });
+      else {
+        this.marker.setLatLng(this.map.getCenter());
+      }
+    });*/
   }
 
   clicked(e) {
@@ -358,7 +379,7 @@ export class PositionMap extends Component {
 
   componentDidMount() {
     let coords, map;
-    fetch('https://nominatim.openstreetmap.org/?format=json&q=' + this.props.center + '&limit=1', {
+    fetch('https://nominatim.openstreetmap.org/?format=json&q=' + this.props.center + ' Norway&limit=1', {
       method: 'GET',
     })
       .then((res) => res.json())
@@ -391,12 +412,13 @@ export class PositionMap extends Component {
       <div style={{width: this.props.width, height: this.props.height, position: 'relative'}}>
         <div style={{width: '100%', height: '100%'}} id={this.props.id} />
         <button
-          style={{position: 'absolute', top: '10px', right: '10px', zIndex: '900', height: '35px', cursor: 'pointer'}}
+          style={{position: 'absolute', top: '10px', right: '10px', zIndex: '900', height: '35px', cursor: 'pointer', backgroundColor:"white", borderRadius:"5px"}}
+          
           id="locatebtn"
-          type="button"
+          //type="button"
           onClick={this.locateMe}
           onTouchStart={this.locateMe}
-        >
+          >
           Finn Meg
         </button>
       </div>

@@ -14,13 +14,13 @@ const transporter = nodemailer.createTransport({
 });
 
 module.exports = class epost {
-  //Response på en innlagt feil med saksnummer og bekreftelse på at den er registrert
-  feilGodkjent(saksnummer, mottaker) {
+  //Melding om innsendt feil
+  innsendtFeil(feil_id, mottaker) {
     let subject = 'Melding av feil';
     let html =
       '<div style="margin-left:36px"><p>Meldt feil med saksnummer ' +
-      saksnummer +
-      ' er godkjent og registrert for behandling</p></div><div style="float:left;margin-top:45px">' +
+      feil_id +
+      ' er innsendt og avventer respons fra en kommuneansatt. Når feilen blir avslått/godkjent vil du bli varslet per mail.</p></div><div style="float:left;margin-top:45px">' +
       '<img src="http://drive.google.com/uc?export=view&id=1FTiZHS4274x2VpVfjt2jj7aIfBbvVfBg" width="280"/></div>' +
       '<div style="margin-left:15px;margin-top:80px"><p>E-post: contact@HverdagsHelt.no</p>' +
       '<p>tlf: +47 00 00 00 00</p><p>Prosjekt HverdagsHelt</p></div>';
@@ -41,6 +41,32 @@ module.exports = class epost {
     });
   }
 
+  //Response på en innlagt feil med saksnummer og bekreftelse på at den er registrert
+  feilGodkjent(saksnummer, mottaker) {
+    let subject = 'Melding av feil';
+    let html =
+      '<div style="margin-left:36px"><p>Meldt feil med saksnummer ' +
+      saksnummer +
+      ' er godkjent og registrert for behandling</p></div><div style="float:left;margin-top:45px">' +
+      '<img src="http://drive.google.com/uc?export=view&id=1FTiZHS4274x2VpVfjt2jj7aIfBbvVfBg" width="280"/></div>' +
+      '<div style="margin-left:15px;margin-top:80px"><p>E-post: contact@HverdagsHelt.no</p>' +
+      '<p>tlf: +47 00 00 00 00</p><p>Prosjekt HverdagsHelt</p></div>';
+
+    let mailOptions = {
+      from: avsender,
+      to: mottaker,
+      subject: subject,
+      html: html,
+    };
+    console.log('Hello im sending mail');
+    transporter.sendMail(mailOptions, function(err, info) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(info);
+      }
+    });
+  }
   //Melding om feil ble ikke godkjent av administrasjonen
   feilIkkeGodkjent(begrunnelse, mottaker) {
     let subject = 'Melding av feil';
@@ -100,7 +126,9 @@ module.exports = class epost {
     let subject = 'Brukerregistrering';
     let html =
       '<div style="margin-left:36px"><p>' +
-      'Velkommen til HverdagsHelt, ' + brukernavn + '!' +
+      'Velkommen til HverdagsHelt, ' +
+      brukernavn +
+      '!' +
       '</p></div><div style="float:left;margin-top:45px">' +
       '<img src="http://drive.google.com/uc?export=view&id=1FTiZHS4274x2VpVfjt2jj7aIfBbvVfBg" width="280"/></div><div style="margin-left:15px;margin-top:80px">' +
       '<p>E-post: contact@HverdagsHelt.no</p><p>tlf: +47 00 00 00 00</p><p>Prosjekt HverdagsHelt</p></div>';
@@ -207,10 +235,10 @@ module.exports = class epost {
   }
 
   //Sender ut hendelse til alle i området
-  hendelse(overskrift, tid, beskrivelse, sted, bilde, mottaker) {
+  hendelse(overskrift, tid, beskrivelse, sted, bilde, eposter) {
     let subject = overskrift;
     let html =
-      '<div style="margin-left:36px"><p>' +
+      '<div style="margin-left:36px"><p>Ny hendelse i ditt fylke!</p><p>' +
       overskrift +
       '</p><p>' +
       tid +
@@ -218,13 +246,17 @@ module.exports = class epost {
       sted +
       '</p><p>' +
       beskrivelse +
-      '</p><img src="cid:bilde"/></div><div style="float:left;margin-top:45px">' +
+      '.</p><br>' +
+      '<img src="cid:bilde"/></div><div style="float:left;margin-top:45px">' +
+      '<p>Dette er en varsel om at en hendelse skjer i ditt fylke. Dersom du ønsker å ikke få mail på dette kan du endre innstillingene dine på Min Side.</p>' +
       '<img src="http://drive.google.com/uc?export=view&id=1FTiZHS4274x2VpVfjt2jj7aIfBbvVfBg" width="280"/></div><div style="margin-left:15px;margin-top:80px">' +
       '<p>E-post: contact@HverdagsHelt.no</p><p>tlf: +47 00 00 00 00</p><p>Prosjekt HverdagsHelt</p></div>';
 
+    let mottaker = eposter.join(', ');
+
     let mailOptions = {
       from: avsender,
-      to: mottaker, //hendelser skal sendes ut til mange, dermed må strengen av mottakere være i formatet "test1@test.test, test2@test.test... osv."
+      bcc: mottaker, //hendelser skal sendes ut til mange, dermed må strengen av mottakere være i formatet "test1@test.test, test2@test.test... osv."
       subject: subject,
       html: html,
       attachments: [

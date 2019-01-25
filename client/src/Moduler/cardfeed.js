@@ -1,19 +1,18 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
 import {feilService} from '../services/feilService';
+import {AbonnerKnapp} from './abonner/abonner';
 import {
   Card,
   Feed,
   Modal,
   Grid,
-  GridColumn,
   Segment,
   Image,
   Button,
   Popup,
   Header,
   Form,
-  Dropdown,
   TextArea,
 } from 'semantic-ui-react';
 
@@ -77,10 +76,10 @@ export class FeedEvent extends Component {
       <Feed>
         <Feed.Event>
           {this.props.status !== 'Under behandling' ? (
-            this.props.status === 'Ikke godkjent' ? (
-              <Feed.Label image={'/warningicon.png'} />
-            ) : (
+            this.props.status === 'Ferdig' ? (
               <Feed.Label image={'/successicon.png'} />
+            ) : (
+              <Feed.Label image={'/warningicon.png'} />
             )
           ) : (
             <Feed.Label image={'/processingicon.png'} />
@@ -137,10 +136,11 @@ export class FeedEvent extends Component {
                         </select>
                         <br />
                         <Form>
-                          <TextArea className="tekstFeltOppdatering" autoHeight placeholder="Skriv oppdatering..." onChange={this.tekstFelt} />
+                          <TextArea className="tekstFeltOppdatering" required={true} autoHeight placeholder="Skriv oppdatering..." onChange={this.tekstFelt} />
                         </Form>
                         <br />
                         <Button
+                          disabled={this.tekstverdi=== '' || this.statusID === ''}
                           onClick={() => {
                             this.props.knapp(this.tekstverdi, this.statusID,this.props.feil_id);
                             this.lukk();
@@ -342,14 +342,14 @@ export class ModalHendelse extends Component{
           <Grid.Row columns={2}>
             <Grid.Column>
             <Modal.Description>
-              <Image src={this.props.url}/>
+              <Image src={this.props.url} className="hendelserBilde"/>
               <Button color="green" className="mt-2" floated="left" content="Kjøp billett"/>
               <Button color="red"  className="mt-2" floated="right" content="Abonner"/>
               <br />
                 <div className="mt-5">
                 <p>
                   <img src="https://image.flaticon.com/icons/svg/33/33622.svg" height="20" width="20" />
-                  {this.props.sted}, Trondheim, Norge{' '}
+                  {this.props.sted}, {this.props.kommune_navn}, Norge{' '}
                 </p>
                 <p>
                   <img
@@ -364,14 +364,7 @@ export class ModalHendelse extends Component{
             </Grid.Column>
             <Grid.Column>
             <p>
-              trykkeindustrien. Lorem Ipsum har vært bransjens standard for dummytekst helt siden
-              1500-tallet, da en ukjent boktrykker stokket en mengde bokstaver for å lage et
-              prøveeksemplar av en bok. Lorem Ipsum har tålt tidens tann usedvanlig godt, og har i
-              tillegg til å bestå gjennom fem århundrer også tålt spranget over til elektronisk
-              typografi uten vesentlige endringer. Lorem Ipsum ble gjort allment kjent i 1960-årene ved
-              lanseringen av Letraset-ark med avsnitt fra Lorem Ipsum, og senere med
-              sideombrekkingsprogrammet Aldus PageMaker som tok i bruk nettopp Lorem Ipsum for
-              dummytekst.
+              {this.props.beskrivelse}
             </p>
             </Grid.Column>
           </Grid.Row>
@@ -406,7 +399,6 @@ export class Info extends Component {
 }
 
 export class Filtrer extends Component {
-  
   render() {
     return (
       <div>
@@ -425,29 +417,130 @@ export class Filtrer extends Component {
   }
 }
 
-//For hendelse siden
-export class Hendelse extends Component {
+export class KatDropdown extends Component {
+  
   render() {
     return (
-      <Card>
-        <Image src={this.props.bilde} onClick={this.props.onClick} size="medium" />
-        <Card.Content>
-          <a onClick={this.props.onClick}>
-            <Card.Header>{this.props.overskrift}</Card.Header>
-            <Card.Meta>
-              <span className="date">
-                {this.props.sted} {this.props.tid}
-              </span>
-            </Card.Meta>
-            <Card.Description>{this.props.beskrivelse}</Card.Description>
-          </a>
-        </Card.Content>
-        <Card.Content extra>
-          <div className="ui two buttons">
-            <Button positive>Følg</Button>
-          </div>
-        </Card.Content>
-      </Card>
+      <div>
+        <select onChange={this.props.onChange} style={{height: 30, width: 120}} className="rigth floated form-control">
+          <option hidden value={this.props.valgt.kategorinavn}>{this.props.valgt.kategorinavn}</option>
+          {this.props.alleKategorier.map( filtrer => (
+            <option value={filtrer.kategorinavn} key={filtrer.kategorinavn}>
+            {' '}
+            {filtrer.kategorinavn}
+          </option>
+          ))}
+        </select>
+      </div>
     );
   }
+}
+
+
+//For hendelse siden
+export class Hendelse extends Component{
+    dato(tid){
+        let innKommendeDato = tid.substr(0,10);
+        let innKommendeKlokkeslett = tid.substr(11,16);
+        let iDag = new Date();
+        let dd = iDag.getDate();
+        let mm = iDag.getMonth()+1; //January is 0!
+        let yyyy = iDag.getFullYear();
+
+        if(dd<10) {
+            dd = '0'+dd
+        } 
+
+        if(mm<10) {
+            mm = '0'+mm
+        } 
+        //iDag = yyyy + '-' + mm + '-' + dd;
+        iDag = yyyy + '-' + mm + '-' + dd;
+        let iGaar = yyyy + '-' + mm + '-' + (dd-1);
+
+        if(innKommendeDato===iDag){
+            iDag="I dag "+innKommendeKlokkeslett;
+        } else if(iGaar === innKommendeDato){
+            iDag ="I går "+innKommendeKlokkeslett;
+        } else{
+            iDag= tid;
+        }
+        return(<Feed.Date content={iDag}/>)
+    }
+    render(){
+        return(
+          <Card className="feilCard" raised >
+          <a onClick={this.props.onClick}>
+          <Image src={this.props.bilde} className="feilCardImage" />
+          <Card.Content>
+          <Header as="h3" className="mt-1">{this.props.overskrift}</Header>
+            <Card.Description>
+              <p>
+            <img className="mr-2" src="https://image.flaticon.com/icons/svg/33/33622.svg" height="20" width="20" />
+            {this.props.sted}, {this.props.kommune_navn}
+            </p>
+            <p>
+              <img
+                className="mr-2"
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Simple_icon_time.svg/750px-Simple_icon_time.svg.png"
+                height="20"
+                width="25"
+              />
+              {this.props.tid}
+              </p>
+              
+            </Card.Description>
+          </Card.Content>
+          </a>
+          {(global.payload && global.payload.role == 'privat') ? (
+            
+            <div className="text-center "><AbonnerKnapp key={this.props.hendelse_id} hendelse_id={this.props.hendelse_id} /></div>
+          
+        ) :(global.payload && (global.payload.role === 'ansatt' || global.payload.role === 'admin')) ? (
+            <Button color="green" onClick={this.props.rediger}>Rediger</Button>
+        ) : (
+          null
+        )}
+        </Card>
+              /*<Card className="h-100" fluid>
+              <Image src={this.props.bilde} className="hendelseBilde"/>
+              <Card.Content>
+                  <Card.Header>{this.props.overskrift}</Card.Header>
+                  <Card.Meta>
+                      <div className="row justify-content-md-center">
+                          <span className="date"><img
+                      className="mr-2"
+                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Simple_icon_time.svg/750px-Simple_icon_time.svg.png"
+                      height="20"
+                      width="25"
+                    />
+                    {this.props.tid}</span>
+                          <span className="date float-rigth">{this.props.sted}</span>
+                      </div>
+                  </Card.Meta>
+              </Card.Content>
+              <Card.Content extra>
+                  <Button color="green">Endre</Button>
+              </Card.Content>
+          </Card>
+            /*<Image src={this.props.bilde} onClick={this.props.onClick} rounded />
+            <Card.Content>
+            <a onClick={this.props.onClick}>
+              <Card.Header>{this.props.overskrift}</Card.Header>
+              <Card.Meta>
+                <span className='date'>{this.props.sted} {this.dato(this.props.tid)}</span>
+              </Card.Meta>
+              <Card.Description>{this.props.beskrivelse}</Card.Description>
+              </a>
+            </Card.Content>
+            <Card.Content extra>
+             <div className='ui two buttons'>
+             <Button positive>
+                Følg
+             </Button>
+             </div>
+        </Card.Content>*/
+        );
+    }
+
 }

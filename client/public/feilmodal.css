@@ -1,0 +1,72 @@
+.feilModalBoks {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+
+.feilModalHeader {
+    flex: 0 1 auto;
+    padding: 14px;
+}
+
+.feilModalX {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    cursor: pointer;
+}
+
+.feilModalTittel {
+    margin-right:30px;
+}
+
+.feilModalOppdateringScroll {
+    overflow-y: auto;
+    height:150px;
+}
+
+.feilModalInnhold {
+    -webkit-overflow-scrolling: touch;
+    margin:0;
+    overflow-y: auto;
+}
+
+.feilModalFyll {
+    -webkit-overflow-scrolling: touch;
+    overflow-y: auto;
+}
+
+.feilModalBeskrivelse {
+    overflow-y: auto;
+    height: 300px;
+    -webkit-overflow-scrolling: touch;
+}
+
+.feilModalBilde {
+    padding:5px;
+    display: inline-block;
+}
+
+.feilModalRad {
+    height: 50% !important;
+}
+
+@media only screen and (max-width: 767px) {
+    .feilModalBeskrivelse {
+        overflow-y: visible;
+        height: inherit;
+    }
+
+    .feilModalOppdateringScroll {
+        overflow-y: visible;
+        height:inherit;
+    }
+
+    .feilModalFyll {
+        overflow-y: visible;
+    }
+
+    .feilModalRad {
+        height: inherit !important;
+    }
+}

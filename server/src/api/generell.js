@@ -15,9 +15,25 @@ router.get('/api/kommuner', (req, res) => {
   });
 });
 
+router.get('/api/kommuner/:sok', (req, res) => {
+  console.log('Fikk get-request fra klienten');
+  generelldao.sokKommune(req.params.sok, (status, data) => {
+    res.status(status);
+    res.json(data);
+  });
+});
+
 router.get('/api/filtrer/:sok', (req, res) => {
   console.log('/filtrer/:sok fikk get request fra klienten');
   generelldao.filtrerKommuner(req.params.sok, (status, data) => {
+    res.status(status);
+    res.json(data);
+  });
+});
+
+router.get('/api/fylker', (req,res)=>{
+  console.log("hahaha");
+  generelldao.hentAlleFylker((status, data)=>{
     res.status(status);
     res.json(data);
   });

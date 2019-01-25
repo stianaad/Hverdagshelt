@@ -1,0 +1,168 @@
+import * as React from 'react';
+import {Component} from 'react-simplified';
+import {PageHeader} from '../../Moduler/header/header';
+import {Card, Feed, Grid, Button, Header, Icon, Input, Image, Modal, List, CardContent, Popup} from 'semantic-ui-react';
+import {FeedEvent, Filtrer, Info, Hendelse} from '../../Moduler/cardfeed';
+import {feilService} from '../../services/feilService';
+import { hendelseService } from '../../services/hendelseService';
+import {markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
+import {NavLink} from 'react-router-dom';
+import {AnsattMeny} from './ansattMeny';
+
+export class AnsattHendelser extends Component{
+    open = false; 
+    hendelser = [];
+    kategorier = [];    
+    valgtHendelse = {
+        hendelseskategori_id: '',
+        kommune_id: '',
+        overskrift:'',
+        tid:'',
+        beskrivelse:'',
+        sted: '',
+        bilde: '',
+        lengdegrad: '',
+        breddegrad: '',
+        hendelse_id: ''
+    } 
+
+    valgtKat = '';
+    dato = '';
+    kl = '';
+
+    openHendelse(hendelse){
+        this.valgtHendelse = {...hendelse};
+        let tidHentet = this.valgtHendelse.tid; 
+        let res = tidHentet.split(" ");
+        console.log(res);
+        this.dato = res[0];
+        this.kl = res[1];
+        this.open = true;
+
+        console.log("dato: " + this.dato + " tid: " + this.kl);
+    }
+
+    render(){
+        return(
+            <div>
+                <PageHeader history={this.props.history} location={this.props.location}/>
+                <div className="container-fluid vinduansatt">
+                    <AnsattMeny/>
+                    <div className="row mt-3 mb-3 justify-content-md-center">
+                        <h1 >Hendelser</h1>
+                    </div>
+                    <div className="ansattContent">
+                        <div className="hendelseContainer">
+                            <Card.Group stackable itemsPerRow={3}>
+                            {this.hendelser.map(hendelse => (
+                                <Hendelse
+                                    bilde = {hendelse.bilde}
+                                    overskrift = {hendelse.overskrift}
+                                    sted = {hendelse.sted}
+                                    kommune_navn = {hendelse.kommune_navn}
+                                    tid = {hendelse.tid}
+                                    key={hendelse.hendelse_id}
+                                    hendelse_id={hendelse.hendelse_id}
+                                    rediger={() => this.openHendelse(hendelse)}
+                                />))}			
+                            </Card.Group>
+                        </div>
+                    </div>
+                </div>
+                <Modal open={this.open} onClose={() => (this.open = false)} >
+                    <Modal.Content scrolling>
+                        <div className="row justify-content-md-center mt-3 mb-3">
+                            <div className="col-sm-6 ansattContent">
+                                <h1 className="mt-3">Rediger hendelse</h1>
+                                <div className="form-row">
+                                    <div className="form-group col-md-4">
+                                        <label>Dato:</label>
+                                        <input type="date" className="form-control"
+                                            required={true}
+                                            onChange={(event) => (this.dato = event.target.value)}
+                                            value={this.dato}
+                                        />
+                                    </div>
+                                    <div className="form-group col-md-4">
+                                        <label>Start:</label>
+                                        <input type="time" className="form-control"
+                                            required={true}
+                                            onChange={(event) => (this.tid = event.target.value)}
+                                            value={this.kl}
+                                        />
+                                    </div>
+                                    <div className="form-group col-md-4">
+                                        <label>Kategori: </label>
+                                        <select
+                                            className="form-control"
+                                            onChange={(e) => this.handleKategori(e.target.value)}
+                                            >
+                                            <option hidden>{this.valgtHendelse.kategorinavn}</option>
+                                            {this.kategorier.map((kategori) => (
+                                                <option value={kategori.kategorinavn} key={kategori.kategorinavn}>
+                                                {' '}
+                                                {kategori.kategorinavn}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="form-group">
+                                    <label>Overskrift</label>
+                                    <input type="text" className="form-control" placeholder="Overskrift" 
+                                    required={true}
+                                    onChange={(event) => (this.valgtHendelse.overskrift = event.target.value)}
+                                    value={this.valgtHendelse.overskrift}/>
+                                </div>
+                                <div className="form-group">
+                                    <label>Beskrivelse</label>
+                                    <textarea className="form-control" rows="3" placeholder="Fortell litt om ditt"
+                                        required={true}
+                                        onChange={(event) => (this.valgtHendelse.beskrivelse = event.target.value)}
+                                        value={this.valgtHendelse.beskrivelse}
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label>Adresse</label>
+                                    <input type="text" className="form-control" placeholder="Adresse"
+                                        required={true}
+                                        onChange={(event) => (this.valgtHendelse.sted = event.target.value)}
+                                        value={this.valgtHendelse.sted}
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label>Link til billetter: </label>
+                                    <input type="text" className="form-control" placeholder="eks.billetter.com"
+                                        required={true}
+                                        onChange={(event) => (this.url = event.target.value)}
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <div>
+                                        <label >
+                                            Bilder:
+                                        </label>
+                                        <br />
+                                        <Popup 
+                                            trigger={<input type="file" id="bil" accept="image/*" name="bil"/>} 
+                                            content='Velg ett bilde som beskriver hendelsen'  onChange={(e) => this.bilde = e.target.value}/>
+                                    </div>
+                                </div>
+                                <Button onClick={this.lagre} color="green">Lagre</Button>
+                            </div>
+                        </div>
+                    </Modal.Content>
+                </Modal>
+            </div>
+        );
+    }
+
+    async mounted(){
+        let res = await hendelseService.hentAlleHendelser(); 
+        this.hendelser = await res.data; 
+        await console.log(this.hendelser);
+
+        let kat = await hendelseService.hentAlleKategorier(); 
+        this.kategorier = await kat.data; 
+    }
+}

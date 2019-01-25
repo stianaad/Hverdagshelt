@@ -4,15 +4,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta id="viewport" name="viewport" content ="width=device-width, user-scalable=0"/>
-  <title>react example with static pages</title>
-
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="HverdagsHelt">
+  <link rel="apple-touch-icon" href="https://bjornost.tihlde.org/hh-512.png">
+  <title>HverdagsHelt</title>
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.png"/>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" />
   <link rel="stylesheet" href="/semantic.min.css" />
-  <link href="http://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
-  <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="/login.css" />
+  <link rel="stylesheet" href="/info.css" />
+  <link rel="stylesheet" href="/feilmodal.css" />
+  <link rel="stylesheet" href="/hendelsemodal.css" />
   <link rel="stylesheet" href="/registrering.css" />
   <link rel='stylesheet' media='only screen and (min-width: 301px) and (max-width: 910px)' href='/headerMobil.css' />
   <link rel="stylesheet" media='only screen and (min-width: 911px) and (max-width: 9999px)' href="/header.css" />
@@ -21,10 +27,12 @@
   <link rel="stylesheet" media='only screen and (min-width: 911px) and (max-width: 9999px)' href="/forside.css" />
   <link rel='stylesheet' media='only screen and (min-width: 301px) and (max-width: 910px)' href='/forsideMobil.css' />
   <link rel="stylesheet" href="/mineOppgaver.css" />
-  <link rel="stylesheet" href="/meldFeil.css" />
+  <link rel="stylesheet" media='only screen and (min-width: 911px) and (max-width: 9999px)' href="/meldFeil.css" />
+  <link rel='stylesheet' media='only screen and (min-width: 301px) and (max-width: 910px)' href='/meldFeilMobil.css' />
   <link rel="stylesheet" href="/kommuneVelger.css" />
   <link rel="stylesheet" href="/hendelser.css" />
-  <link rel="stylesheet" href="/minside.css" />
+  <link rel="stylesheet" media='only screen and (min-width: 911px) and (max-width: 9999px)' href="/minside.css" />
+  <link rel='stylesheet' media='only screen and (min-width: 301px) and (max-width: 910px)' href='/minsideMobil.css' />
   <link rel="stylesheet" href="/bedrift.css" />
   <link rel="stylesheet" href="/statistikk.css" />
 
@@ -34,15 +42,25 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
   <script>
-    window.addEventListener("hashchange", function () {
-      if (location.hash == "#hovedHendelser") {
-        window.scrollTo(window.scrollX, window.scrollY - 20);
-      }
-      else if (true) {
-        window.scrollTo(window.scrollX, window.scrollY - 150);
-      }
+    var closedObj = {isClosed: false};
+    window.closed = closedObj;
+    window.setClosed = () => {
+      console.log("trying to set close");
+      window.removeEventListener("touchstart", func);
+      document.querySelector("#mapContainer").style.height ="0px";
+      document.querySelector("#test").style.height = "0px";
+      document.querySelector(".hovedTittel").style.marginBottom = "0px";
+      closedObj.isClosed = true;;
+    }
+    var func = () => {
+      window.setClosed();
+    }
 
-    });
+    if (window.location.pathname.slice(1, 10) == "hovedside") {
+      //window.scrollTo(0, 0);
+      //window.addEventListener("touchstart", func);
+    };
+
   </script>
   <style>body{background-color:#f9f9f9}</style>
 </head>

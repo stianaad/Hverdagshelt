@@ -4,17 +4,47 @@
 }
 
 .hovedTittel {
-    padding-top: 20px;
+    padding-top: 30px;
     text-align: center;
+    height: calc(100vh - 200px);
+    margin-bottom: 300px;
+}
+
+.hovedSideX {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    cursor: pointer;
+ }
+
+ .hovedSideFeilOverskrift {
+    width: calc(100% - 28px);
+    height: calc(1em + 6px);
+    overflow: hidden;
+ }
+
+ .hovedSideFeilBeskrivelse {
+    overflow-y: visible;
+    height: inherit;
+ }
+
+.hovedTittel h1 {
+    margin-top: 20vh;
 }
 
 .leaflet-top, .leaflet-bottom{
     z-index: 700 !important;
 }
 
+.leaflet-bottom {
+    display:none;
+}
+
 .hovedsideTabeller{
-    height: calc(100vh - 300px);
+    height: calc(75vh - 200px);
     overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
 }
 
 .hovedKort {
@@ -27,23 +57,102 @@
     height: calc(100vh - 250px);
 }
 
+.leaflet-top {
+    top: 22px !important;
+}
+
 .hovedContainer {
     width:100vw;
+    margin-left: 0 !important;
+    margin-top: 0 !important;
  }
 
-.hovedContainer > div[class*="col-"] {
+.hovedContainer > div[class*="col-"]:not(#hovedKart) {
     width: 100vw;
     max-width: 100vw !important;
     flex: 0 1 auto !important;
-    margin-bottom: 10rem;
+    margin-top:30px;
+}
+
+#hovedKart {
+    width:100vw;
+    padding: 0 !important;
+}
+/*.hovedContainer > div[class*="col-"]:not(#hovedHendelser) {
+    margin-top:20px;
+}*/
+
+
+.hovedContainer > div[class*="col-"]:not(#hovedKart):not(.feilInfo):not(.hendelseInfo) {
+    display:none;
+}
+
+.feilInfo {
+    margin-top: 20px;
+    margin-bottom: 100px;
+}
+
+.hendelseInfo {
+    width: 100vw;
+    margin-top: 30px;
+    margin-bottom: 100px;
+    display: block !important;
+}
+
+#hendelseKnapper {
+    margin-top: 15px;
+}
+
+#hendelseKnapper > button{
+    font-size: 3.5vw !important;
 }
 
 .mobileButtons {
     width:100%;
     height:70px;
     position:fixed;
+    bottom:-10px;
+    z-index:800;
+    white-space:nowrap;
+}
+
+.mobileButtons > div {
+    width: 100vw;
+    margin: 0 auto;
+}
+
+.mobActive {
+    background-color: rgb(80, 187, 230) !important;
+    color: white !important;
+}
+
+.mobileButtons > div > a > div {
+    padding: 0 10px 0 10px;
+    color: black;
+    margin: 0;
+    box-shadow: 0 0.5px 2px rgba(0,0,0,0.2);
+    text-align: center;
+    height: 60px;
+    width: 25%;
+    background-color: white;
+    font-size: 4vw;
+    display: inline-block;
+    cursor: pointer;
+    border-top: 2px solid rgb(80, 187, 230);
+}
+
+.mobileButtons > div > a > div > p {
+    position: relative;
+    top: 50%;
+    transform: translateY(-55%);
+}
+
+/*.mobileButtons {
+    width:100%;
+    height:70px;
+    position:fixed;
     bottom:0;
-    /*background-color: red;*/
+    /*background-color: red;
     z-index: 800;
     white-space: nowrap;
 }
@@ -60,14 +169,15 @@
     box-shadow: 0 0.5px 2px rgba(0,0,0,0.2);
     text-align: center;
     height: 60px;
-    width: 30vw;
+    width: 20vw;
     border-radius: 50px;
     background-color: white;
-    font-size: 5vw;
+    font-size: 3vw;
     display: inline-block;
+    cursor: pointer;
 }
 
-@media screen and (min-width: 440px) {
+@media screen and (min-width: 600px) {
     .mobileButtons > div > a > div {
         font-size: 22px;
     }
@@ -77,5 +187,13 @@
     position: relative;
     top: 50%;
     transform: translateY(-55%);
+}*/
+
+.feilInfo {
+    margin-top: 30px;
+    -webkit-overflow-scrolling: touch;
 }
 
+.feilInfo h1 {
+    font-size: 5vw;
+}

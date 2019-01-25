@@ -42,6 +42,7 @@ CREATE TABLE privat (
     bruker_id INT(11) NOT NULL,
     fornavn VARCHAR(255) NOT NULL,
     etternavn VARCHAR(255) NOT NULL,
+    hendelsevarsling BIT(1) DEFAULT 0,
     PRIMARY KEY (bruker_id),
     FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -83,7 +84,7 @@ CREATE TABLE subkategori (
     kategorinavn VARCHAR(255) NOT NULL,
     hovedkategori_id INT(11) NOT NULL,
     PRIMARY KEY (subkategori_id),
-    FOREIGN KEY (hovedkategori_id) REFERENCES hovedkategori(hovedkategori_id)
+    FOREIGN KEY (hovedkategori_id) REFERENCES hovedkategori(hovedkategori_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE status (
@@ -139,12 +140,11 @@ CREATE TABLE hendelser(
     hendelseskategori_id INT(11) NOT NULL,
     kommune_id INT(11) NOT NULL,
     overskrift VARCHAR(255) NOT NULL,
-    tid TIMESTAMP NOT NULL,
+    tid TIMESTAMP,
     beskrivelse TEXT,
     sted VARCHAR(255) NOT NULL,
     bilde VARCHAR(255),
-    lengdegrad DOUBLE,
-    breddegrad DOUBLE,
+    billett VARCHAR(255),
     PRIMARY KEY (hendelse_id),
     FOREIGN KEY (bruker_id) REFERENCES bruker(bruker_id),
     FOREIGN KEY (hendelseskategori_id) REFERENCES hendelseskategori(hendelseskategori_id),

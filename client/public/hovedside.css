@@ -51,14 +51,33 @@ nav ul{
    z-index: 700 !important;
 }
 
-.oppdateringScroll{
-   height: 25vh;
-   overflow-y: scroll;
+.hovedSideX {
+   position: absolute;
+    top: 14px;
+    right: 14px;
+    cursor: pointer;
 }
+
+.hovedSideFeilOverskrift {
+   width: calc(100% - 28px);
+   height: 36px;
+   overflow: hidden;
+}
+
+.oppdateringScroll{
+   height: 50%;
+   overflow-y: auto;
+}
+
+.bildeBoks {
+   height:50%;
+   overflow: hidden;
+}
+
 .hovedTittel {
    position: relative;
 }
-.hovedTittel a {
+.hovedTittel a button, .hovedTittel button {
    position: absolute;
    right: 1rem;
    bottom: 0px;
@@ -66,6 +85,7 @@ nav ul{
 
 .hovedKort {
    height: 100%;
+   width: 325px !important;
 }
 
 #mapContainer {
@@ -80,15 +100,37 @@ nav ul{
    height: calc(100vh - 200px);
 }
 
-.hovedContainer > div[class*="col-"] {
+/*.hovedContainer > div[class*="col-"] {
    min-width: 200px;
    margin-bottom: 1rem;
-}
+   display: default;
+}*/
 
 .mobileButtons {
    display:none;
 }
 
 .feilInfo > div {
+   height: 100%;
+}
+
+.hendelseInfo > div {
+   height: 100%;
+}
+
+.hendelseInfo > div > div {
+   overflow-y: auto;
+}
+
+#hendelseKnapper {
+   margin-top: 15px;
+}
+
+#hendelseBeskrivelse {
+   overflow-y: auto;
+}
+
+.hovedSideFeilBeskrivelse {
+   overflow-y: auto;
    height: 100%;
 }

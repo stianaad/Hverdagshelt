@@ -64,6 +64,28 @@
     
   }
 
+  .menyItem{
+      grid-area: meny; 
+  }
+
+  .toppItem{
+      grid-area: topp; 
+  }
+
+  .listeItem{
+      grid-area: liste; 
+  }
+
+  .cardItem{
+      grid-area: kort; 
+  }
+
+  .ansattGrid{
+      display: grid;
+      grid-template-areas: 
+        "meny topp topp topp topp"
+        "meny liste kort kort kort";
+  }
   .infoGrid{
       display: grid; 
       grid-template-areas: "a b c" "a b d"; 
@@ -95,8 +117,12 @@
 }
 
 .ansattScroll{
-    height: 350px;
+    height: calc(100vh - 200px);
     overflow-y: scroll; 
+}
+
+.ansattFeilVisning{
+    height: calc(100vh - 200px);
 }
 
 .bilder{
@@ -117,9 +143,41 @@
 }
 
 .ansattMenyContainer{
-    background-color: white;
+    width: 150px !important; 
+    margin-top: 60px !important;
 }
 
 .vinduansatt{
     height: calc(100vh - 60px);
+}
+
+.ansattContent{
+    margin-left: 160px; 
+    margin-right: 10px;
+    align-content: center;
+}
+
+.ansattSentrerTekst{
+    align-content: center;
+}
+
+.ansattSentrerTekst h1{
+    margin: auto;
+}
+
+.hendelseBilde{
+    max-height: 200px;
+    object-fit: cover;
+}
+
+.ansattHendelser{
+    margin-left: 160px; 
+    margin-right: 10px;
+    width: 100vw;
+  margin: 0 auto;
+  margin-top: 10px;
+}
+
+.bedrifterVindu{
+    min-height: 400px;
 }

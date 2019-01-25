@@ -1,4 +1,4 @@
-.container {
+.regContainer {
   width: 70%;
   margin: 0 auto;
   padding-top: 10px;
@@ -29,4 +29,17 @@
 
 #passordSjekk {
   color:red;
+}
+
+@media screen and (min-width: 301px) and (max-width: 910px) {
+  #regTittel {
+    margin-top: 30px;
+  }
+  .regContainer .komBoks {
+    width: 70vw;
+  }
+
+  .regContainer label {
+    white-space: nowrap;
+  }
 }

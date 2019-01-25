@@ -1,5 +1,8 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import https from 'https';
+import http from 'http';
+import fs from 'fs';
 var app = express();
 import path from 'path';
 app.use(bodyParser.json()); // for å tolke JSON
@@ -15,7 +18,7 @@ import generell from './api/generell.js';
 app.use(generell);
 import feil from './api/feil.js';
 app.use(feil);
-const hendelse = require('./api/hendelse.js');
+import hendelse from './api/hendelse.js';
 app.use(hendelse);
 import statistikk from './api/statistikk.js';
 app.use(statistikk);
@@ -44,4 +47,15 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '../../../client/public/index.html'));
 });
 
-app.listen(3000);
+https.createServer({
+  key: fs.readFileSync('server.key'),
+  cert: fs.readFileSync('server.cert')
+}, app)
+.listen(443, function () {
+  console.log('HverdagsHelt: http://localhost:3000/')
+})
+
+http.createServer(function (req, res) {
+  res.writeHead(301, { "Location": "https://" + req.headers['host'].slice(0,-5) + req.url });
+  res.end();
+}).listen(3000);

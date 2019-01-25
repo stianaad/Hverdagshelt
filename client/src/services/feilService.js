@@ -1,129 +1,269 @@
 import api from './api';
 
 class FeilService {
-  hentAlleFeil() {
-    return api.get('/api/feil');
-  }
+	hentAlleFeil() {
+		let token = sessionStorage.getItem('pollett');
+		if (token) {
+			return api.get('/api/feil', { headers: { 'x-access-token': 'Bearer ' + token } });
+		} else {
+			return [];
+		}
+	}
 
-  hentEnFeil(feil_id) {
-    return api.get('/api/feil/:feil_id', feil_id);
-  }
+	hentEnFeil(feil_id) {
+		return api.get('/api/feil/' + feil_id);
+	}
 
-  hentBilderTilFeil(feil_id) {
-    return api.get('/api/feil/' + feil_id + '/bilder');
-  }
+	hentFeilForKommune(kommune_id) {
+		let token = sessionStorage.getItem('pollett');
+		if (token) {
+			return api.get('/api/kommuner/' + kommune_id + '/feil', {
+				headers: { 'x-access-token': 'Bearer ' + token }
+			});
+		} else {
+			return [];
+		}
+	}
 
-  lagNyFeil(nyFeil) {
-    return api.post('/api/feil', nyFeil);
-  }
+	hentGodkjenteFeilForKommune(kommune_id) {
+		return api.get('/api/kommuner/' + kommune_id + '/godkjentefeil');
+	}
 
-  oppdaterFeil(oppdatertFeil) {
-    return api.put('/api/feil/:feil_id', oppdatertFeil);
-  }
+	hentBilderTilFeil(feil_id) {
+		return api.get('/api/feil/' + feil_id + '/bilder');
+	}
 
-  slettFeil(feil_id) {
-    return api.delete('/api/feil/' + feil_id);
-  }
+	oppdaterFeil(oppdatertFeil, feil_id) {
+		let token = sessionStorage.getItem('pollett');
+		if (token) {
+			return api.put('/api/feil/' + feil_id, oppdatertFeil, { headers: { 'x-access-token': 'Bearer ' + token } });
+		} else {
+			console.log('oppdatertfeil, token feil');
+			return [];
+		}
+	}
 
-  hentFeilFiltrertKategori(hk_id) {
-    return api.get('/api/feil/:kategori_id', hk_id);
-  }
+	slettFeil(feil_id) {
+		let token = sessionStorage.getItem('pollett');
+		if (token) {
+			return api.delete('/api/feil/' + feil_id, { headers: { 'x-access-token': 'Bearer ' + token } });
+		} else {
+			return [];
+			console.log('æsjebæsj, token dæsj');
+		}
+	}
 
-  lagOppdatering(nyOpp) {
-    let token = sessionStorage.getItem('pollett');
-    if (token) {
-    return api.post('/api/feil/oppdateringer/bedrift', nyOpp, {headers: {'x-access-token': 'Bearer ' + token}});
-  } else {
-    console.log('oeifjeoif');
-    return [];
-  }
-  }
+	hentFeilFiltrertKategori(hk_id) {
+		return api.get('/api/feil/' + hk_id);
+	}
 
-  hentAlleOppdateringerPaaFeil(feil_id) {
-    return api.get('/api/feil/'+feil_id+'/oppdatering');
-  }
+	lagOppdatering(nyOpp) {
+		let token = sessionStorage.getItem('pollett');
+		if (token) {
+			return api.post('/api/feil/oppdateringer/bedrift', nyOpp, {
+				headers: { 'x-access-token': 'Bearer ' + token }
+			});
+		} else {
+			console.log('oeifjeoif');
+			return [];
+		}
+	}
 
-  hentEnStatus(status_id) {
-    return api.get('/api/statuser/:status_id', status_id);
-  }
+	hentAlleOppdateringerPaaFeil(feil_id) {
+		return api.get('/api/feil/' + feil_id + '/oppdatering');
+	}
 
-  hentAlleStatuser() {
-    return api.get('/api/statuser');
-  }
+	slettOppdatering(oppdatering_id) {
+		return api.get('api/oppdateringer/' + oppdatering_id);
+	}
 
-  hentAlleHovedkategorier() {
-    return api.get('/api/hovedkategorier');
-  }
+	hentEnStatus(status_id) {
+		return api.get('/api/statuser/' + status_id);
+	}
 
-  hentAlleSubkategorierPaaHovedkategori(hk_id) {
-    return api.get('/api/hovedkategorier/' + hk_id + '/subkategorier');
-  }
+	hentAlleStatuser() {
+		return api.get('/api/statuser');
+	}
 
-  hentAlleSubkategorier() {
-    return api.get('/api/hovedkategorier/subkategorier');
-  }
+	hentAlleHovedkategorier() {
+		return api.get('/api/hovedkategorier');
+	}
 
-  slettBildeFraFeil(info) {
-    return api.delete('/api/feil/:feil_id/bilder/:bilde_id', info);
-  }
+	hentAlleSubkategorierPaaHovedkategori(hk_id) {
+		return api.get('/api/hovedkategorier/' + hk_id + '/subkategorier');
+	}
 
-  hentNyeFeilTilBedrift() {
-    let token = sessionStorage.getItem('pollett');
-    if (token) {
-      return api.get('/api/feil/bedrift/nyeOppgaver', {headers: {'x-access-token': 'Bearer ' + token}});
-    } else {
-      console.log('oeifjeoif');
-      return [];
-    }
-  }
+	hentAlleSubkategorier() {
+		return api.get('/api/hovedkategorier/subkategorier');
+	}
 
-  hentUnderBehandlingFeilTilBedrift() {
-    let token = sessionStorage.getItem('pollett');
-    if (token) {
-      return api.get('api/feil/bedrift/underBehandling', {headers: {'x-access-token': 'Bearer ' + token}});
-    } else {
-      console.log('foeifj');
-      return [];
-    }
-  }
+	slettBildeFraFeil(json) {
+		let token = sessionStorage.getItem('pollett');
+		console.log(token);
+		if (token) {
+			return api.delete('/api/feil/' + json.feil_id + '/bilder/' + json.bilde_id, {
+				headers: { 'x-access-token': 'Bearer ' + token }
+			});
+		} else {
+			return [];
+		}
+	}
 
-  hentFerdigeFeilTilBedrift() {
-    let token = sessionStorage.getItem('pollett');
-    if (token) {
-      return api.get('api/feil/bedrift/ferdig', {headers: {'x-access-token': 'Bearer ' + token}});
-    } else {
-      console.log('foeifj');
-      return [];
-    }
-  }
+	hentNyeFeilTilBedrift() {
+		let token = sessionStorage.getItem('pollett');
+		if (token) {
+			return api.get('/api/feil/bedrift/nyeOppgaver', { headers: { 'x-access-token': 'Bearer ' + token } });
+		} else {
+			console.log('oeifjeoif');
+			return [];
+		}
+	}
 
-  oppdaterStatusFeilTilBedrift(jobbSoknadObjekt) {
-    let token = sessionStorage.getItem('pollett');
-    if (token) {
-      return api.put('/api/bedrift/oppdater/feil/godta', jobbSoknadObjekt, {headers: {'x-access-token': 'Bearer ' + token}});
-    } else {
-      return [];
-    }
-  }
+	hentUnderBehandlingFeilTilBedrift() {
+		let token = sessionStorage.getItem('pollett');
+		if (token) {
+			return api.get('api/feil/bedrift/underBehandling', { headers: { 'x-access-token': 'Bearer ' + token } });
+		} else {
+			console.log('foeifj');
+			return [];
+		}
+	}
 
-  abonner(feil_id) {
-    let token = sessionStorage.getItem('pollett');
-    if (token) {
-      return api.post('/api/feil/' + feil_id + '/abonnement',null , {headers: {'x-access-token': 'Bearer ' + token}});
-    } else {
-      return null;
-    }
-  }
+	hentFerdigeFeilTilBedrift() {
+		let token = sessionStorage.getItem('pollett');
+		if (token) {
+			return api.get('/api/bedrift/feil/ferdig', { headers: { 'x-access-token': 'Bearer ' + token } });
+		} else {
+			console.log('foeifj');
+			return [];
+		}
+	}
 
-  ikkeAbonner(feil_id) {
-    let token = sessionStorage.getItem('pollett');
-    if (token) {
-      return api.delete('/api/feil/' + feil_id + '/abonnement', {headers: {'x-access-token': 'Bearer ' + token}});
-    } else {
-      return null;
-    }
-  }
+	sendFeilTilBedrift(k) {
+		let token = sessionStorage.getItem('pollett');
+		if (token) {
+			return api.post('/api/bedrift/feil', k, { headers: { 'x-access-token': 'Bearer ' + token } });
+		} else {
+			console.log('sendFeilTilBedrift failed');
+			return [];
+		}
+	}
 
+	hentFerdigeFeilForAnsatt(orgnr) {
+		let token = sessionStorage.getItem('pollett');
+		console.log(token);
+		if (token) {
+			return api.get('/api/ansatt/bedrift/' + orgnr + '/feil/ferdig', {
+				headers: { 'x-access-token': 'Bearer ' + token }
+			});
+		} else {
+			console.log('hentFerdigeFeilForAnsatt failed');
+			return [];
+		}
+	}
+
+	hentFeilUnderbehandlingForAnsatt(orgnr) {
+		let token = sessionStorage.getItem('pollett');
+		console.log(token);
+		if (token) {
+			return api.get('/api/ansatt/bedrift/' + orgnr + '/feil/underbehandling', {
+				headers: { 'x-access-token': 'Bearer ' + token }
+			});
+		} else {
+			console.log('hentFeilUnderbehandlingForAnsatt failed');
+			return [];
+		}
+	}
+
+	hentNyeFeilForAnsatt(orgnr) {
+		let token = sessionStorage.getItem('pollett');
+		console.log(token);
+		if (token) {
+			return api.get('/api/ansatt/bedrift/' + orgnr + '/feil/nyeoppgaver', {
+				headers: { 'x-access-token': 'Bearer ' + token }
+			});
+		} else {
+			console.log('hentNyeFeilForAnsatt failed');
+			return [];
+		}
+	}
+
+	oppdaterStatusFeilTilBedrift(jobbSoknadObjekt) {
+		let token = sessionStorage.getItem('pollett');
+		if (token) {
+			return api.put('/api/bedrift/oppdater/feil/godta', jobbSoknadObjekt, {
+				headers: { 'x-access-token': 'Bearer ' + token }
+			});
+		} else {
+			return [];
+		}
+	}
+
+	abonner(feil_id) {
+		let token = sessionStorage.getItem('pollett');
+		if (token) {
+			return api.post('/api/feil/' + feil_id + '/abonnement', null, {
+				headers: { 'x-access-token': 'Bearer ' + token }
+			});
+		} else {
+			return null;
+		}
+	}
+
+	ikkeAbonner(feil_id) {
+		let token = sessionStorage.getItem('pollett');
+		if (token) {
+			return api.delete('/api/feil/' + feil_id + '/abonnement', {
+				headers: { 'x-access-token': 'Bearer ' + token }
+			});
+		} else {
+			return null;
+		}
+	}
+
+	hentJobbSoknadStatus(feil_id) {
+		return api.get('/api/ansatt/bedrifter/' + feil_id);
+	}
+
+	slettHovedkategori(hk_id) {
+		let token = sessionStorage.getItem('pollett');
+		console.log('Slett hovedkategori service:');
+		if (token) {
+			return api.delete('/api/hovedkategorier/' + hk_id, { headers: { 'x-access-token': 'Bearer ' + token } });
+		} else {
+			return null;
+		}
+	}
+
+	slettSubkategori(sk_id) {
+		let token = sessionStorage.getItem('pollett');
+		console.log('Slett subkategori service:');
+		if (token) {
+			return api.delete('/api/subkategorier/' + sk_id, { headers: { 'x-access-token': 'Bearer ' + token } });
+		} else {
+			return null;
+		}
+	}
+
+	opprettHovedkategori(nyHk) {
+		let token = sessionStorage.getItem('pollett');
+		console.log('Opprett ny hovedkategori service:');
+		if (token) {
+			return api.post('/api/hovedkategorier', nyHk, { headers: { 'x-access-token': 'Bearer ' + token } });
+		} else {
+			return null;
+		}
+	}
+
+	opprettSubkategori(nySk) {
+		let token = sessionStorage.getItem('pollett');
+		console.log('Opprett ny subkategori service:');
+		if (token) {
+			return api.post('/api/subkategorier', nySk, { headers: { 'x-access-token': 'Bearer ' + token } });
+		} else {
+			return null;
+		}
+	}
 }
 
 export let feilService = new FeilService();

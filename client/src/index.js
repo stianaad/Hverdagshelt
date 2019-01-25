@@ -18,11 +18,13 @@ import {PositionMap, Marker, MarkerMap, markerTabell} from './Moduler/kart/map';
 import {Hovedside} from './Komponenter/hovedside/hovedside';
 import {Minside} from './Komponenter/MinSide/minside';
 import {PageHeader} from './Moduler/header/header';
+import {FireNullFire} from './Komponenter/firenullfire/firenullfire';
 
 import {GlemtPassord} from '../src/Komponenter/GlemtPassord/glemtPassord';
 import {ResettPassord} from '../src/Komponenter/GlemtPassord/resettPassord';
 import {Hendelser} from '../src/Komponenter/Hendelser/hendelser';
 import {Bedrift} from '../src/Komponenter/Bedrift/bedrift';
+import {RegistrerNyKategori} from '../src/Komponenter/Admin/registrerNyKategori';
 
 import createBrowserHistory from 'history/createBrowserHistory';
 const history = createBrowserHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
@@ -32,43 +34,17 @@ import {KommuneVelger} from './Moduler/KommuneVelger/kommuneVelger';
 import {KommuneInput} from './Moduler/kommuneInput/kommuneInput';
 import {enHendelse} from './Komponenter/Hendelser/enHendelse';
 
-import {NyeFeil} from './Komponenter/Ansatt/kommuneansatt';
-import {AnsattFerdig} from './Komponenter/Ansatt/ferdigeFeil';
+import {NyeFeil} from './Komponenter/Ansatt/ansattNye';
+import {AnsattFerdig} from './Komponenter/Ansatt/ansattFerdige';
 import {NyHendelse} from './Komponenter/Ansatt/nyhendelse';
-import { AbonnerKnapp } from './Moduler/abonner/abonner';
+import {AnsattOversikt} from './Komponenter/Ansatt/ansattOversikt';
+import {AnsattUnder} from './Komponenter/Ansatt/ansattUnderBehandling';
+import {AnsattHendelser } from './Komponenter/Ansatt/ansattHendelser';
+import {AnsattGodkjent} from './Komponenter/Ansatt/ansattGodkjent';
+import { AlleBedrifter } from './Komponenter/Ansatt/alleBedrifter';
 
-class Tabell extends Component {
-  render() {
-    return (
-      <div className="ml-3">
-        <h5>{this.props.hovedOverskrift}</h5>
-        <br />
-        <div className="kanter">
-          <nav>
-            <ul className="list-group">
-              <li className="kanter lister">I dag</li>
-              {this.props.tabell.map((tabell) => (
-                <li className="kanter lister">
-                  <NavLink
-                    to={'/hovedside/' + this.props.kommune}
-                    onClick={() => {
-                      this.props.metode(tabell.overskrift);
-                    }}
-                  >
-                    {tabell.overskrift}
-                    <br />
-                    <i>{this.props.tema}</i>
-                    <span className="float-right">{tabell.tid}</span>
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </div>
-      </div>
-    );
-  }
-}
+import { Administrasjon } from './Komponenter/Admin/admin';
+import 'semantic-ui-css/semantic.min.css';
 
 //<PositionMap width="100%" height="500px" id="posmap" center="Oslo" position={this.posisjon}></PositionMap>
 class Menu extends Component {
@@ -161,62 +137,6 @@ class komtest extends Component {
   }
 }
 
-class FireNullFire extends Component {
-  render() {
-    return (
-      <>
-        <h3
-          style={{
-            position: 'absolute',
-            top: '50px',
-            left: '50px',
-            margin: '0 auto',
-            width: '400px',
-            height: '300px',
-            textAlign: 'center',
-            fontFamily: "'Comic Sans MS'",
-            fontSize: '40px',
-          }}
-        >
-          404 Ingen mulighet for <span style={{color: 'green'}}>kommune-kasjon</span> på denne siden
-        </h3>
-        <div
-          style={{
-            position: 'relative',
-            width: '700px',
-            height: '100vh',
-            margin: '0 400px',
-          }}
-        >
-          <img src="/sicko.png" style={{zIndex: '-1', height: '100%'}} />
-          <span
-            style={{
-              position: 'absolute',
-              top: '250px',
-              left: '80px',
-              fontSize: '40px',
-            }}
-          >
-            your request went
-          </span>
-          <span
-            style={{
-              position: 'absolute',
-              top: '300px',
-              left: '150px',
-              fontSize: '80px',
-              fontFamily: "'Comic Sans MS'",
-              color: 'red',
-            }}
-          >
-            SICKO MODE
-          </span>
-        </div>
-      </>
-    );
-  }
-}
-
 global.sideRefresh = (hard) => {
   setTimeout(() => {
     let path = window.location.pathname;
@@ -257,38 +177,49 @@ const routes = () => {
           <Route exact path="/" component={Forside} history={history} />
           <Route exact path="/hovedside/:kommune" component={Hovedside} history={history} />
           <Route exact path="/resett-passord/:token" component={ResettPassord} />
-          <Route exact path="/hendelser" component={Hendelser} />
+          <Route exact path="/hendelser" component={Hendelser}/>
           <Route exact path="/hendelser/:id" component={enHendelse} />
 
           {/*Under ligger spesielle routes*/}
           {global.payload == null
             ? //Ikke logget inn
               [
-                <Route exact path="/registrering" component={Registrering} history={history} />,
-                <Route exact path="/glemt-passord" component={GlemtPassord} />,
-                <Redirect from="/meldfeil" to="/" />,
-                <Redirect from="/minside" to="/" />,
-                <Redirect from="/mineoppgaver" to="/" />,
+                <Route exact path="/registrering" key="registrering" component={Registrering} history={history} />,
+                <Route exact path="/glemt-passord" key="glemt-passord" component={GlemtPassord} />,
+                <Redirect from="/meldfeil" key="meldfeil" to="/" />,
+                <Redirect from="/minside" key="minside" to="/" />,
+                <Redirect from="/mineoppgaver" key="mineoppgaver" to="/" />,
               ]
             : global.payload.role == 'privat'
             ? //Privatbruker routes
               [
-                <Route exact path="/meldfeil" component={MeldFeil} history={history} />,
-                <Route exact path="/minside" component={Minside} history={history} />,
+                <Route exact path="/meldfeil" key="meldfeil" component={MeldFeil} history={history} />,
+                <Route exact path="/minside" key="minside" component={Minside} history={history} />,
               ]
             : global.payload.role == 'ansatt'
             ? //Ansatt routes
               [
-                <Route exact path="/mineoppgaver" component={MineOppgaver} history={history} />,
-                <Route exact path="/registrerBedrift" component={RegistrerBedrift} history={history} />,
-                <Route exact path="/ansattside" component={AnsattSide} history={history} />,
+                <Route exact path="/registrerBedrift" key="registrerbedrift"component={RegistrerBedrift} history={history} />,
+                <Route exact path="/ansatt/nyefeil" key="nyefeil" component={NyeFeil} history={history}/>,
+                <Route exact path="/ansatt/nyhendelse" key="nyhendelse" component={NyHendelse} history={history}/>,
+                <Route exact path="/ansatt/oversikt" key="oversikt" component={AnsattOversikt} history={history}/>,
+                <Route exact path="/ansatt/underbehandling" key="underbehandling" component={AnsattUnder} history={history}/>,
+                <Route exact path="/ansatt/ferdig" key="ferdig" component={AnsattFerdig} history={history}/>,
+                <Route exact path="/ansatt/hendelser" key="hendelser"component={AnsattHendelser} history={history}/>,
+                <Route exact path="/ansatt/godkjent" key="godkjent"component={AnsattGodkjent} history={history}/>,
+                <Route exact path='/ansatt/bedrifter' key='bedrifter' component={AlleBedrifter} history={history}/>
               ]
             : global.payload.role == 'bedrift'
             ? //Bedrift routes
-              [<Route exact path="/mineoppgaver" component={Bedrift} history={history} />]
+              [<Route exact path="/mineoppgaver" key="mineoppgaver" component={Bedrift} history={history} />]
             : global.payload.role == 'admin'
             ? //Admin routes
-              [<Route exact path="/meldfeil" component={MeldFeil} history={history} />]
+              [
+              <Route exact path="/registrerBedrift" key="registrerbedrift"component={RegistrerBedrift} history={history} />,
+              <Route exact path="/meldfeil" key="meldfeil" component={MeldFeil} history={history} />,
+              <Route exact path="/administrasjon" key="administrasjon" component={Administrasjon} history={history} />,
+              <Route exact path="/administrasjon/kategori" key="kategori" component={RegistrerNyKategori} history={history} />
+              ]
             : null}
 
           {/*legg test-routes under*/}
@@ -308,7 +239,7 @@ const routes = () => {
           <Route exact path="/statistikk" component={Statistikk} history={history} />
 
           {/*Siden eksisterer ikke/ingen tilgang*/}
-          <Route component={FireNullFire} />
+          <Route component={FireNullFire} history={history} />
         </Switch>
       </div>
     </Router>

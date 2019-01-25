@@ -1,143 +1,151 @@
 import * as React from 'react';
-import {Component} from 'react-simplified';
-import {PageHeader} from '../../Moduler/header/header';
+import { Component } from 'react-simplified';
+import { PageHeader } from '../../Moduler/header/header';
 import {
-  Menu,
-  Card,
-  Feed,
   Grid,
-  Form,
   Button,
-  Header,
-  Icon,
-  Input,
-  Image,
-  Modal,
-  List,
-  CardContent,
-  GridColumn,
-  Dropdown,
-  TextArea,
+  Popup,
 } from 'semantic-ui-react';
-import {FeedEvent, Filtrer, Info} from '../../Moduler/cardfeed';
-import {feilService} from '../../services/feilService';
-import {markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
-import {NavLink} from 'react-router-dom';
-import {brukerService} from '../../services/brukerService';
-import {AnsattMeny} from './kommuneansatt';
-import {hendelseService} from '../../services/hendelseService'
+import { AnsattMeny } from './ansattMeny';
+import { hendelseService } from '../../services/hendelseService'
 
 
-export class NyHendelse extends Component{
-    kategorier = [];
-    overskrift = "";
-    beskrivelse = ""; 
-    adresse = ""; 
-    dato = "";
-    tid = ""; 
-    kategori = ""; 
+export class NyHendelse extends Component {
+  kategorier = [];
+  overskrift = "";
+  beskrivelse = "";
+  adresse = "";
+  dato = "";
+  tid = "";
+  url = "";
+  valgtKategori = {
+    hendelseskategori_id: "",
+    kategorinavn: ""
+  };
 
-    render(){
-        return(
-            <div>
-                <PageHeader/>
-                <div className="vinduansatt">
-                    <Grid fluid>
-                        <Grid.Column width="2">
-                            <AnsattMeny/>
-                        </Grid.Column>
-                        <Grid.Column width="13">
-                            <h1 className="mt-3">Ny hendelse</h1>
-                            <div className="form-group">
-                                <label>Overskrift</label>
-                                <input type="text" className="form-control" placeholder="Overskrift" 
-                                required={true}
-                                onChange={(event) => (this.overskrift = event.target.value)}/>
-                            </div>
-                            <div className="form-group">
-                                <label>Beskrivelse</label>
-                                <textarea className="form-control" rows="3" placeholder="Fortell litt om ditt"
-                                    required={true}
-                                    onChange={(event) => (this.beskrivelse = event.target.value)}
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Adresse</label>
-                                <input type="text" className="form-control" placeholder="Adresse"
-                                    required={true}
-                                    onChange={(event) => (this.adresse = event.target.value)}
-                                />
-                            </div>
-                            <div className="form-row">
-                                <div className="form-group col-md-4">
-                                    <label>Dato:</label>
-                                    <input type="date" className="form-control"
-                                        required={true}
-                                        onChange={(event) => (this.dato = event.target.value)}
-                                    />
-                                </div>
-                                <div className="form-group col-md-4">
-                                    <label>Start:</label>
-                                    <input type="time" className="form-control"
-                                        required={true}
-                                        onChange={(event) => (this.tid = event.target.value)}
-                                    />
-                                </div>
-                                <div className="form-group col-md-4">
-                                    <label>Kategori: </label>
-                                    <select
-                                        className="form-control"
-                                        onChange={(event) => (this.kategori = event.target.value)}
-                                        >
-                                        <option hidden> Kategori</option>
-                                        {this.kategorier.map((kategori) => (
-                                            <option value={kategori.kategorinavn} key={kategori.kategorinavn}>
-                                            {' '}
-                                            {kategori.kategorinavn}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
-                            </div>
-                        </Grid.Column>
-                    </Grid>
+  handleKategori(navn) {
+    let res = this.kategorier.find(e => (e.kategorinavn === navn));
+    this.valgtKategori = res;
+  }
+
+  render() {
+    return (
+      <div>
+        <PageHeader history={this.props.history} location={this.props.location} />
+        <div className="vinduansatt">
+          <AnsattMeny />
+          <div className="row justify-content-md-center mt-3 mb-3">
+            <div className="col-sm-6 ansattContent">
+              <h1 className="mt-3">Ny hendelse</h1>
+              <div className="form-row">
+                <div className="form-group col-md-4">
+                  <label>Dato:</label>
+                  <input type="date" className="form-control"
+                    required={true}
+                    onChange={(event) => (this.dato = event.target.value)}
+                  />
                 </div>
+                <div className="form-group col-md-4">
+                  <label>Klokkeslett:</label>
+                  <input type="time" className="form-control"
+                    required={true}
+                    onChange={(event) => (this.tid = event.target.value)}
+                  />
+                </div>
+                <div className="form-group col-md-4">
+                  <label>Kategori: </label>
+                  <select
+                    className="form-control"
+                    onChange={(e) => this.handleKategori(e.target.value)}
+                  >
+                    <option hidden> Kategori</option>
+                    {this.kategorier.map((kategori) => (
+                      <option value={kategori.kategorinavn} key={kategori.kategorinavn}>
+                        {' '}
+                        {kategori.kategorinavn}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <div className="form-group">
+                <label>Overskrift</label>
+                <input type="text" className="form-control" placeholder="Overskrift"
+                  required={true}
+                  onChange={(event) => (this.overskrift = event.target.value)} />
+              </div>
+              <div className="form-group">
+                <label>Beskrivelse</label>
+                <textarea className="form-control" rows="3" placeholder="Fortell litt om ditt"
+                  required={true}
+                  onChange={(event) => (this.beskrivelse = event.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                <label>Adresse</label>
+                <input type="text" className="form-control" placeholder="Adresse"
+                  required={true}
+                  onChange={(event) => (this.adresse = event.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                <label>Link til billetter: </label>
+                <input type="text" className="form-control" placeholder="eks.billetter.com"
+                  required={true}
+                  onChange={(event) => (this.url = event.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                <div>
+                  <label >
+                    Bilde:
+                                </label>
+                  <br />
+                  <Popup
+                    trigger={<input type="file" id="bil" accept="image/*" name="bil" />}
+                    content='Velg ett bilde som beskriver hendelsen' />
+                </div>
+              </div>
+              <Button onClick={this.lagre} color="green">Lagre</Button>
             </div>
-        );
-    }
+          </div>
+        </div>
+      </div>
+    );
+  }
 
-    lagre(){
-        console.log(this.overskrift);
-        console.log(this.beskrivelse);
-        console.log(this.adresse);
-        console.log(this.dato);
-        console.log(this.tid);
-        console.log(this.kategori);
+  async lagre() {
+    let datotid = this.dato + " " + this.tid + ":00";
+    let file = document.querySelector('#bil').files[0];
 
-        let datotid = this.dato + " " + this.tid + ":00";
-        console.log(res);
+    let formData = new FormData();
+    formData.append("hendelseskategori_id", this.valgtKategori.hendelseskategori_id);
+    formData.append("overskrift", this.overskrift);
+    formData.append("tid", datotid);
+    formData.append("beskrivelse", this.beskrivelse);
+    formData.append("sted", this.adresse);
+    formData.append("billett", this.url);
+    formData.append('bilder', file, file.name);
 
-        let res = this.kategorier.filter((e) => e.kategorinavn === this.kategori);
-        kategorid = res.hendelseskategori_id;
-
-        nyhendelse = {
-            hendelseskategori_id: kategorid,
-            kommune_id: 1,
-            overskrift: this.overskrift,
-            tid: datotid,
-            beskrivelse: this.beskrivelse,
-            sted: this.adresse,
-            bilde: "lofoten.jpg",
-            lengdegrad: 0,
-            breddegrad: 0
+    let token = sessionStorage.getItem('pollett');
+    if (token) {
+      let xhr = new XMLHttpRequest();
+      xhr.open('POST', '/api/hendelser', true);
+      xhr.setRequestHeader("x-access-token", 'Bearer ' + token)
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+          this.props.history.push('/');
         }
-        
-        hendelse.lagNyHendelse(nyhendelse);
+      };
+      xhr.send(formData);
+    } else {
+      global.sidePush("/", true);
     }
+  }
 
-    async mounted(){
-        let res = await hendelseService.hentAlleHovedkategorier();
-        this.kategorier = await res.data; 
-        await console.log(this.kategorier);
-    }
+  async mounted() {
+    let kat = await hendelseService.hentAlleKategorier();
+    this.kategorier = await kat.data;
+    await console.log(kat.data);
+  }
 }
