@@ -8,6 +8,7 @@ import {GronnKnapp, StatBar} from '../../widgets.js';
 import {KommuneInput} from '../../Moduler/kommuneInput/kommuneInput';
 import * as html2canvas from 'html2canvas';
 import { PageHeader } from '../../Moduler/header/header';
+import { Input } from 'semantic-ui-react';
 
 export class Statistikk extends Component {
 
@@ -21,6 +22,10 @@ export class Statistikk extends Component {
   menyValg = [];
   divNavn =  "";
   kommune_id = 0;
+  kommune_navn = '';
+  interval = 0;
+
+  intervalDisabled = false;
 
   chunkArray(myArray, chunk_size){
     let index = 0;
@@ -50,6 +55,7 @@ export class Statistikk extends Component {
           <PageHeader history={this.props.history} location={this.props.location}/>
           <div>
             <FormGroup style={{display:"inline"}} controlId="formControlsSelect">
+            <div className="statKomBoks"><label>Statistikk:</label>
               <FormControl
                 key={this.kommune_id}
                 className="statSelect"
@@ -65,7 +71,9 @@ export class Statistikk extends Component {
                 </option>
               ))}
               </FormControl>
-              <div className="statKomBoks"><label>Kommune:</label><KommuneInput onChange={(e) => {this.mounted(e.id, e.navn)}} id="statKom"/></div>
+              </div>
+              <div className="statKomBoks"><label>Kommune:</label><KommuneInput onChange={(e) => {this.kommune_id = e.id; this.kommune_navn = e.navn; this.mounted()}} id="statKom"/></div>
+              <div className="statKomBoks"><label>Intervall (dager):</label><Input disabled={this.intervalDisabled} id="intervall" type="number" value={this.interval} onChange={(e, {value}) => {this.interval = value; this.mounted(); this.intervalDisabled=true; setTimeout(()=>{this.intervalDisabled=false;},100)}} /></div>
               <GronnKnapp onClick={() => {document.querySelector("#statMeny").style.display = "none"; setTimeout(() => {window.print(); document.querySelector("#statMeny").style.display = "inherit";},500);}}>Last ned som PDF</GronnKnapp>
             </FormGroup>
           </div>
@@ -79,7 +87,7 @@ export class Statistikk extends Component {
     );
   }
 
-  async mounted(kommune_id, kommune_navn){
+  async mounted(){
 
     this.resultat = [];
     this.total = 0;
@@ -120,12 +128,25 @@ export class Statistikk extends Component {
     let feilstatus4 = await statistikkService.hentFeilPaaStatus(4);
     this.splitt(feilstatus4, 'Feil som har status "Ferdig"');
 
-    if (kommune_id) {
-      let feilPaaKommune = await statistikkService.hentFeilPaaKommune(kommune_id);
-      this.splitt(feilPaaKommune, 'Feil i '+kommune_navn);
+    if (this.kommune_id) {
+      let feilPaaKommune = await statistikkService.hentFeilPaaKommune(this.kommune_id);
+      this.splitt(feilPaaKommune, 'Feil i '+this.kommune_navn);
+    }
 
-      this.kommune_id = kommune_id;
-    } else {this.kommune_id = 0;}
+    if (this.interval) {
+      let res1 = await statistikkService.hentRegistrerteFeilPaaIntervall(this.interval);
+      this.splitt(res1, 'Registrerte feil de siste ' + this.interval + ' dagene')
+      let res2 = await statistikkService.hentBehandledeFeilPaaIntervall(this.interval);
+      this.splitt(res2, 'Behandlede feil de siste ' + this.interval + ' dagene')
+      let res3 = await statistikkService.hentFeilPerFylkePaaIntervall(this.interval);
+      this.splitt(res3, 'Feil per fylke de siste ' + this.interval + ' dagene')
+      let res4 = await statistikkService.hentFeilPerKommunePaaIntervall(this.interval);
+      this.splitt(res4, 'Feil per kommune de siste ' + this.interval + ' dagene')
+      let res5 = await statistikkService.hentFeilPerHovedkategoriPaaIntervall(this.interval);
+      this.splitt(res5, 'Feil per hovedkategori de siste ' + this.interval + ' dagene')
+      let res6 = await statistikkService.hentFeilPerSubkategoriPaaIntervall(this.interval);
+      this.splitt(res6, 'Feil per subkategori de siste ' + this.interval + ' dagene')
+    }
 
     this.maks = this.ymse[this.menyID.value].resultat.maks;
     this.large = this.ymse[this.menyID.value].resultat.large;
