@@ -8,6 +8,7 @@ import { feilService } from '../../services/feilService';
 export class FeilVisning extends Component {
     statuser = [];
     bilderTilFeil = [];
+    visOppdater = true;
     valgtStatus = {
         status_id: '',
         status: this.props.feil.status
@@ -75,7 +76,13 @@ export class FeilVisning extends Component {
                                 <div className="form-group">
                                     
                                     <input type="text" className="form-control" placeholder="Kommentar..."
-                                        onChange={(e) => (this.kommentar = e.target.value)}
+                                        onChange={(e) => {this.kommentar = e.target.value;
+                                        if(this.kommentar.length > 0 ){
+                                            this.visOppdater = false;
+                                        } else {
+                                            this.visOppdater = true;
+                                        }
+                                        }}
                                     />
                                 </div>
                                 {(this.props.visStatus) ? (null) : ( <div className="form-group">
@@ -93,7 +100,7 @@ export class FeilVisning extends Component {
                                         ))}
                                     </select>
                                 </div>)}
-                                <Button basic color="green" onClick={() => {this.oppdatering();}}>Oppdater</Button>
+                                <Button basic color="green" disabled={this.visOppdater} onClick={() => {this.oppdatering();}}>Oppdater</Button>
                             </Grid.Column>
                         </Grid> 
                     </Card.Content>
