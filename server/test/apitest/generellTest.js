@@ -231,7 +231,7 @@ test('hent en feil', (done) => {
   function callback(status, data) {
     console.log('Test callback: status ' + status + ', data= ' + JSON.stringify(data));
     expect(data.length).toBeGreaterThanOrEqual(1);
-    expect(data[0].overskrift).toBe('Heihei');
+    expect(data[0].overskrift).toBe('HeiHei');
     done();
   }
   feildao.hentEnFeil(1, callback);
