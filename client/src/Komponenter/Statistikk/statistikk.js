@@ -88,11 +88,10 @@ export class Statistikk extends Component {
 
   render(){
     return(
-<<<<<<< HEAD
       <>
         <div id="statMeny">
           <div>
-            <GronnKnapp onClick={this.print}>Knapp</GronnKnapp>
+            <GronnKnapp onClick={this.hide}>Knapp</GronnKnapp>
           </div>
           <div>
             <progress value={this.teller} max={this.total} ></progress>
@@ -114,18 +113,13 @@ export class Statistikk extends Component {
               </FormControl>
             </FormGroup>
           </div>
-=======
-      <React.Fragment>
-        <div id="lastNedBtn">
-          <GronnKnapp onClick={this.print}>Last ned som PDF</GronnKnapp>
->>>>>>> master
         </div>
         <div id={this.divNavn} style={{display: 'block', overflowX: 'scroll', zoom: '65%', marginLeft: '15%', marginRight: '10%'}}>
         {this.resultat.map(e => (
           <StatBar maks={this.maks} text={this.menyValg[this.menyID.value].type} label="Antall feil" elementID={e.id} labels={e.navn} data={e.antall} ></StatBar>
         ))}
         </div>
-      </React.Fragment>
+      </>
     );
   }
 
@@ -134,21 +128,24 @@ export class Statistikk extends Component {
     //feil per kommune
     let info = await statistikkService.hentFeilPerKommune();
     let kom = await generellServices.hentAlleKommuner();
-    //hovedtittel kan flyttes inn til splitt metoden slik at divnavn blir satt der
+
     this.splitt(info, kom, 'Feil per kommune');
 
     this.maks = this.ymse[this.menyID.value].resultat.maks;
     this.large = this.ymse[this.menyID.value].resultat.large;
     this.resultat = this.ymse[this.menyID.value].resultat.resultat;
 
-    let streng = "Feil per kommune";
-    this.divNavn = streng.replace(/\s/g, "");
+    let feilPerAar = await statistikkService.hentFeilPerAar();
+    console.log(feilPerAar.data);
   }
 
   splitt(info, kom, grafnavn){
     let informasjon =  {
       data: []
     }
+
+    let streng = grafnavn;
+    this.divNavn = streng.replace(/\s/g, "");
 
     for(let i = 0; i < kom.data.length; i++){
       informasjon.data.push({
