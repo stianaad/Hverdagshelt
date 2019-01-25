@@ -177,6 +177,7 @@ export class Minside extends Component {
                     <Card
                       key = {'feilCard'+hendelse.hendelse_id}
                       className="feilCard"
+                      kommune_navn={hendelse.kommune_navn}
                       onClick={() => {
                         this.hendelse = hendelse;
                         this.hendelseModal = true;
@@ -473,8 +474,6 @@ export class Minside extends Component {
     await this.scrollFeil();
     //this.ikkeOppdaterteFeil = this.ikkeOppdaterteFeil.filter(e => e.feil_id != id);
     //this.oppdaterteFeil = this.oppdaterteFeil.filter(e => e.feil_id != id);
-    await console.log(this.ikkeOppdaterteFeil);
-    await console.log(this.oppdaterteFeil);
   }
 
   async mounted() {
