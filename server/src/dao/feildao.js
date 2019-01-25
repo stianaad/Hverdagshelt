@@ -1,7 +1,7 @@
 import Dao from './dao.js';
 
 //DAO som omfatter alt som innebærer feil, det vil også si oppdateringer, statuser og kategorier
-// 9 av 36 funksjoner testes
+// 18 av 36 funksjoner testes
 module.exports = class FeilDao extends Dao {
 
   /**
@@ -420,6 +420,7 @@ module.exports = class FeilDao extends Dao {
     super.query("DELETE FROM feilfolg WHERE feil_id=? AND bruker_id=?", [json.feil_id, json.bruker_id], callback);
   }
 
+  //Testes
   /**
    * Metode for å hente eposten til ansvarlig bruker ved hjelp av en feil-id. 
    * @param {json} json - Et json objekt med iden til feilen.
