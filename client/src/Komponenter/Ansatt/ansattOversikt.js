@@ -83,7 +83,7 @@ export class AnsattOversikt extends Component {
                                 tekst="Trykk på en feil for mer informasjon om den.&#10;Velg 'Godkjent' i menyen for å endre status eller sende til bedrift"/>
                             </Card.Header>
                             </Card.Content>
-                            <Card.Content className={this.classNye}>
+                            <Card.Content className={this.classGodkjent}>
                             {this.godkjente.map((feil) => (
                                 <FeedEvent
                                 onClick={() => this.openModal(feil)}

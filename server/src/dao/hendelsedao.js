@@ -87,7 +87,6 @@ module.exports = class HendelseDao extends Dao {
    */
   oppdaterHendelse(json, callback) {
     var h = [
-      json.bruker_id,
       json.hendelseskategori_id,
       json.kommune_id,
       json.overskrift,
@@ -98,8 +97,8 @@ module.exports = class HendelseDao extends Dao {
       json.hendelse_id
     ];
     super.query(
-      'UPDATE hendelser SET bruker_id = ?, hendelseskategori_id = ?, kommune_id = ?, overskrift = ?, beskrivelse = ?, sted = ?, bilde = ?, billett = ? WHERE hendelse_id = ?',
-      h,
+      'UPDATE hendelser SET hendelseskategori_id = ?, kommune_id = ?, overskrift = ?, tid = ?, beskrivelse = ?, sted = ?, bilde = ?, billett = ? WHERE hendelse_id = ?',
+      hendelse,
       callback
     );
   }

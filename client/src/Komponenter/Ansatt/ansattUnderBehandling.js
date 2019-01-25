@@ -52,7 +52,7 @@ export class AnsattUnder extends Component{
                                 <Card color="red" fluid>
                                     <Card.Content>
                                         <Card.Header>
-                                            Nye innsendinger
+                                            Under behandling
                                         </Card.Header>
                                     </Card.Content>
                                     <Card.Content className={this.className}>

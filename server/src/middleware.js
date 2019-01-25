@@ -57,6 +57,8 @@ export let createToken = (req, res, next) => {
         kommune_id: info[0].kommune_id,
       };
 
+      if (info[0].passord.startsWith("pbkdf2$")) {
+
       passord(req.body.passord).verifyAgainst(info[0].passord, (error, verified) => {
         if (error) {
           throw new Error('Error på verifisering');
@@ -86,14 +88,17 @@ export let createToken = (req, res, next) => {
             });
           });
         } else {
-          res.json({result1: false});
+          res.json({result: false});
         }
       });
     } else {
-      res.json({result2: false});
+      res.json({result: false});
     }
+  } else {
+    res.json({result: false});
+  }
   });
-};
+}
 
 /**
  * Sjekker passordet opp mot det lagrede i databasen.
