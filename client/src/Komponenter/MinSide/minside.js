@@ -392,6 +392,7 @@ export class Minside extends Component {
       let base64 = base64Url.replace('-', '+').replace('_', '/');
       global.payload = JSON.parse(window.atob(base64));
       sessionStorage.setItem('pollett', res.token);
+      global.sideRefresh();
     }
   }
 
@@ -402,6 +403,7 @@ export class Minside extends Component {
       this.brukerInfo = {...this.brukerInfoDummy};
       let res = await brukerService.oppdaterSpesifisertBruker(this.brukerInfo);
       await this.oppdaterInfo(res.data);
+
     } else {
       this.brukerInfoDummy = {...this.brukerInfo};
       this.redigerer = true;
