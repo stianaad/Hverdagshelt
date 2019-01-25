@@ -49,14 +49,10 @@ export class Hendelser extends Component {
     this.visFylke = false;
     document.getElementById("fylke").value = 0;
     document.getElementById("kategori").value = 0;
-    console.log(this.skrivKategori);
     document.getElementById("til").valueAsDate = null;
     document.getElementById("fra").valueAsDate = null;
-    //var dateControl = document.querySelector('input[type="date"]');
-    //dateControl.value = 'mm/dd/yyyy';
+    document.getElementById("kommuner").value = 0;
     this.filterAlle();
-    //this.hentData();
-    //this.mounted();
   }
 
   filterAlle() {
@@ -168,6 +164,7 @@ export class Hendelser extends Component {
               <select 
                 onChange={this.filterKommune}
                 className="ui fluid dropdown"
+                id="kommuner"
               >
                 <option hidden> {this.skrivAlleKommuner}</option>
                 <option value="0">Alle kommuner</option>
@@ -244,8 +241,9 @@ export class Hendelser extends Component {
             <div className="field">
               <label>Tilbakestill filter</label>
               <Button
+              type="button"
                 primary
-                onClick={() => { this.tilbakestill() }}>
+                onClick={() => {this.tilbakestill();}}>
                 Tilbakestill
               </Button>
             </div>
