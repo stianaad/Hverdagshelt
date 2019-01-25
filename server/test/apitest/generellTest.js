@@ -80,6 +80,7 @@ let testhendelse = {
   hendelseskategori_id: 1,
   kommune_id: 54,
   overskrift: 'testoverskrift',
+  tid: '2019-11-20',
   beskrivelse: 'testbeskrivelse',
   sted: 'teststed',
   bilde: 'https://bjornost.tihlde.org/hverdagshelt/19af4f8c745a62973e2cd615eaf329fa',

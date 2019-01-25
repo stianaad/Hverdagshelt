@@ -90,6 +90,7 @@ module.exports = class HendelseDao extends Dao {
       json.hendelseskategori_id,
       json.kommune_id,
       json.overskrift,
+      json.tid,
       json.beskrivelse,
       json.sted,
       json.bilde,
