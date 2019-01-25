@@ -6,7 +6,7 @@ import {Login} from '../../Moduler/login/login';
 import { brukerService } from '../../services/brukerService';
 
 /**
- * ignore
+ * @ignore
  */
 export class ProfileButton extends Component {
   loggetInn = null;
@@ -15,7 +15,6 @@ export class ProfileButton extends Component {
   mounted() {
     this.loggetInn = global.payload != undefined;
     this.brukerType = global.payload != undefined ? global.payload.role : null;
-    console.log(this.brukerType);
   }
 
   loggut() {
@@ -152,11 +151,13 @@ export class PageHeader extends Component {
   loggetInn = null;
 
   /**
+   * Tar verdier: privat, ansatt, bedrift, eller admin
    * @type {?string}
    */
   brukertype = null;
 
   /**
+   * Navn på hjemkommunen til brukeren hvis innlogget
    * @type {string}
    */
   kommune_navn = '';
@@ -164,7 +165,7 @@ export class PageHeader extends Component {
   async mounted() {
     this.loggetInn = global.payload != undefined;
     let brukerInfo = await brukerService.minInfo();
-    this.kommune_navn = brukerInfo.data[0].kommune_navn;
+    this.kommune_navn = brukerInfo.data ? brukerInfo.data[0].kommune_navn : '';
   }
 
   render() {

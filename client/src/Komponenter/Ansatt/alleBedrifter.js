@@ -41,14 +41,11 @@ export class AlleBedrifter extends Component{
         }else{
             this.tekst = "Denne bedriften har fullført noen oppgaver i denne kommunen."
         }
-        await console.log(this.feilHosBedrift);
-        
     }
 
     async hentOppdateringer(feil){
         let res = await feilService.hentAlleOppdateringerPaaFeil(feil.feil_id);
-        this.oppdateringer = await res.data; 
-        await console.log(this.oppdateringer);
+        this.oppdateringer = await res.data;
     }
 
     visFeil(feil){
@@ -167,7 +164,6 @@ export class AlleBedrifter extends Component{
       async mounted() {
         let bed = await brukerService.hentBedrifter();
         this.bedrifter = await bed.data; 
-        await console.log(this.bedrifter);
         
         await this.scroll();
       }

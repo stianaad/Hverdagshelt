@@ -47,7 +47,7 @@
     var closedObj = {isClosed: false};
     window.closed = closedObj;
     window.setClosed = () => {
-      console.log("trying to set close");
+
       window.removeEventListener("touchstart", func);
       document.querySelector("#mapContainer").style.height ="0px";
       document.querySelector("#test").style.height = "0px";

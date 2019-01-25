@@ -171,7 +171,7 @@ export class Minside extends Component {
             </Card>
           </div>
           <div className="col-md-auto mx-1 minSideInKolonne" id="hendelseListe">
-              <h2>Hendelser du følger</h2>
+              <h1>Hendelser du følger</h1>
               {this.folgteHendelser.length > 0 ? (
                 <Card.Group itemsPerRow={1}>
                   {this.folgteHendelser.map((hendelse) => (
@@ -212,7 +212,7 @@ export class Minside extends Component {
               )}
             </div>
           <div className="col-md-auto mx-1 minSideInKolonne" id="feilListe">
-              <h2>Feil du følger</h2>
+              <h1>Feil du følger</h1>
               {this.folgteFeil.length > 0 ? (
                 <Card.Group itemsPerRow={1}>
                   {this.folgteFeil.map((feil) => (
@@ -254,7 +254,7 @@ export class Minside extends Component {
           <div className="col minSideUtKolonne" id="sideListeH">
             <Card fluid key = {'sideListeH'}>
               <Card.Content>
-                <Card.Header>Brukerinformasjon<InfoBoks key={'brukerinfo'} tekst="Her kan du både se og redigere din personlige informasjon.&#10;Du kan også endre passord ved: 'Rediger bruker' > 'Endre passord'."/></Card.Header>
+                <Card.Header>Brukerinformasjon<InfoBoks key={'brukerinfo'} tekst="Her kan du både se og redigere din personlige informasjon.&#10;Du kan også endre hvorvidt du ønsker å bli informert om hendelser i ditt fylke.&#10;Passord kan du endre ved: 'Rediger bruker' > 'Endre passord'."/></Card.Header>
               </Card.Content>
               <Card.Content>
                 <div id="container">
@@ -427,7 +427,6 @@ export class Minside extends Component {
 
   async visRapporterteFeil() {
     this.visFeil = !this.visFeil;
-    console.log(this.oppdaterteFeil);
     if (this.visFeil) {
       if(this.alleIkkeOppdaterteFeil.length.length > 0 ){
         this.ikkeOppdaterteFeil = this.alleIkkeOppdaterteFeil;

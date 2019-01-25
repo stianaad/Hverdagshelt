@@ -9,7 +9,8 @@ import {Link} from 'react-router-dom';
  * Logg inn knapp med dropdown som viser skjema for innlogging
  */
 export class Login extends Component {
-  /** Advarsel tekst hvis bruker skriver feil email/passord osv. @type {string}*/
+  /** Advarsel tekst hvis bruker skriver feil email/passord osv. 
+   * @type {string}*/
   advarsel = '';
 
   /**
@@ -128,15 +129,12 @@ export class Login extends Component {
         }
       }
     } else {
-      console.log(res.result);
       this.advarsel = 'Feil brukernavn eller passord!';
     }
   }
   /** @ignore */
   async login() {
-    console.log(this.data);
     let res = await brukerService.loggInn(this.data);
-    //await console.log(res.data.result);
     await this.sjekkPassord(res.data);
   }
 }

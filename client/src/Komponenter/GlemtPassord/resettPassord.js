@@ -12,7 +12,6 @@ export class ResettPassord extends Component {
     return (
       <React.Fragment>
         <PageHeader history={this.props.history} location={this.props.location} />
-        <Footer/>
         <div className="container">
           <h1 className="text-center">Resett passord</h1>
           <p className="font-weight-bold" />
@@ -66,6 +65,7 @@ export class ResettPassord extends Component {
             </div>
           </div>
         </div>
+        <Footer/>
       </React.Fragment>
     );
   }

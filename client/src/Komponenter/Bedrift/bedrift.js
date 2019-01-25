@@ -38,19 +38,15 @@ export class Bedrift extends Component {
   handleOpen = (feil) => {
     this.valgtFeil = {...feil};
     this.opneFeil(feil);
-    console.log(this.valgtFeil);
     this.setState({open: true});
-    console.log(this.state);
   };
 
   async opneFeil(feil) {
     let res = await feilService.hentBilderTilFeil(feil.feil_id);
     this.bilderTilFeil = await res.data;
-    console.log('Bilder: ' + this.bilderTilFeil);
 
     let res2 = await feilService.hentAlleOppdateringerPaaFeil(feil.feil_id);
     this.oppdateringer = await res2.data;
-    await console.log("OPPDATERINGER",this.oppdateringer[0]);
   }
 
   handleClose = () => {
@@ -225,21 +221,14 @@ export class Bedrift extends Component {
   }
 
   async oppdater(tekst, statusVerdi, feil_id) {
-    console.log(tekst);
-    console.log(statusVerdi);
-    console.log(feil_id);
     let res1 = await feilService.lagOppdatering({"feil_id": feil_id,"kommentar":tekst,"status_id":statusVerdi});
-    await console.log(res1);
     await this.hentUnderBehandlingFeil();
     await this.hentFerdigeFeilBedrift();
   }
 
   async godtaJobb(feil_id) {
-    //console.log(feil_id);
-    console.log(feil_id)
     await feilService.oppdaterStatusFeilTilBedrift({feil_id: feil_id, status: 4});
     await feilService.lagOppdatering({"feil_id": feil_id,"kommentar":"Bedrift godtok jobben og begynner arbeidet straks","status_id":3});
-    //console.log(res.data);
     await this.hentNyeFeil();
     await this.hentUnderBehandlingFeil();
     this.feilModal = false;
@@ -248,7 +237,6 @@ export class Bedrift extends Component {
   async avslaJobb(feil_id) {
     await feilService.oppdaterStatusFeilTilBedrift({feil_id: feil_id, status: 1});
     await this.hentNyeFeil();
-    //console.log(feil_id);
     this.feilModal = false;
     this.handleClose();
   }
@@ -276,8 +264,6 @@ export class Bedrift extends Component {
     this.nyefeil = await hentNyeFeilTilBedrift.data;
     this.alleNyeFeil = await hentNyeFeilTilBedrift.data;
     await this.scrollNye();
-    await console.log('heiehi');
-    await console.log(this.nyefeil);
   }
 
   async hentUnderBehandlingFeil() {
@@ -285,7 +271,6 @@ export class Bedrift extends Component {
     this.underBehandling = await underBehandling.data;
     this.alleUnderBehandling = await underBehandling.data;
     await this.scrollUnderB();
-    //await console.log(this.nyefeil);
   }
 
   async hentFerdigeFeilBedrift() {
@@ -293,7 +278,6 @@ export class Bedrift extends Component {
     this.utførte = res1.data;
     this.alleUtførte = res1.data;
     await this.scrollFerdig(); 
-    await console.log(this.utførte); 
   }
 
   async mounted() {
@@ -304,58 +288,3 @@ export class Bedrift extends Component {
     this.alleKategorier = await res2.data;
   }
 }
-
-/*<Grid columns={3} divided fluid>
-                                <Grid.Row> 
-                                    <Grid.Column>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam porttitor quam eget enim pharetra faucibus. Nam porttitor commodo justo et congue. Aliquam metus ipsum, sodales in molestie nec, porttitor ac justo. Nullam lobortis vel ex at molestie. Duis ultrices at libero commodo consequat. Donec in tellus quis sem imperdiet dignissim. Nunc libero metus, volutpat id facilisis auctor, consequat eu mi. Fusce mauris nunc, blandit et nulla a, tempor venenatis est. Etiam euismod diam id quam laoreet, id elementum nisi elementum.</p>
-                                    </Grid.Column>
-                                    <Grid.Column>
-                                        <ShowMarkerMap width="100%" height="300px" id="posmap" feil={this.valgtFeil} markers={markerTabell(this.alleFeil)}/>
-                                    </Grid.Column>
-                                    <Grid.Column>
-                                        <List>
-                                            <List.Item>
-                                                <List.Content>
-                                                    <List.Header>Godkjent</List.Header>
-                                                    <List.Description>01.01.18 19:00</List.Description>
-                                                </List.Content>
-                                            </List.Item>
-                                            <List.Item>
-                                                <List.Content>
-                                                    <List.Header>Godkjent</List.Header>
-                                                    <List.Description>01.01.18 19:00</List.Description>
-                                                </List.Content>
-                                            </List.Item>
-                                            <List.Item>
-                                                <List.Content>
-                                                    <List.Header>Godkjent</List.Header>
-                                                    <List.Description>01.01.18 19:00</List.Description>
-                                                </List.Content>
-                                            </List.Item>
-                                            <List.Item>
-                                                <List.Content>
-                                                    <List.Header>Godkjent</List.Header>
-                                                    <List.Description>01.01.18 19:00</List.Description>
-                                                </List.Content>
-                                            </List.Item>
-                                            {this.oppdateringer.map(oppdatering => (
-                                                <List.Item>
-                                                    <List.Content>
-                                                        <List.Header>{oppdatering.kommentar}</List.Header>
-                                                        <List.Description>{oppdatering.tid}</List.Description>
-                                                    </List.Content>
-                                                </List.Item>
-                                            ))}
-                                        </List>
-                                        <Image.Group size='tiny'>
-                                            <Image src="lofoten.jpg" />
-                                            <Image src="lofoten.jpg" />
-                                            <Image src="lofoten.jpg" />
-                                            <Image src="lofoten.jpg" />
-                                            <Image src="lofoten.jpg" />
-                                            <Image src="lofoten.jpg" />
-                                        </Image.Group>
-                                    </Grid.Column>
-                                </Grid.Row>
-                            </Grid>*/

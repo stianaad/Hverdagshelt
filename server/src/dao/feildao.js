@@ -1,7 +1,7 @@
 import Dao from './dao.js';
 
 //DAO som omfatter alt som innebærer feil, det vil også si oppdateringer, statuser og kategorier
-// 9 av 30 funksjoner testes
+// 9 av 36 funksjoner testes
 module.exports = class FeilDao extends Dao {
 
   /**
@@ -44,12 +44,19 @@ module.exports = class FeilDao extends Dao {
    * Henter all informasjonen til en spesifisert feil fra databasen.
    * @example
    * feilDao.hentEnFeil(7, (status, data) => {dinFunksjon});
+   * @param {number} feil_id - Iden til feilen som skal hentes
+   * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
    */
   hentEnFeil(feil_id, callback) {
     super.query('SELECT * FROM feil WHERE feil_id = ?', [feil_id], callback);
   }
 
   //testes
+  /**
+   * Metode for å opprette en ny feil og legge den i databasen.
+   * @param {json} json - Json objekt med all informasjonen til den nye feilen.
+   * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
+   */
   lagNyFeil(json, callback) {
     var feil = [
       json.kommune_id,
@@ -77,7 +84,7 @@ module.exports = class FeilDao extends Dao {
    * @example
    * feilDao.leggTilBilder(1, [dineBilder], (status, data) => {dinFunksjon});
    * @param {number} feil_id - iden til feilen bildene tilhører.
-   * @param {array} bilder - en array av urlene til bildene.
+   * @param {string[]} bilder - en array av urlene til bildene.
    */
   leggTilBilder(feil_id, bilder, callback) {
     if (bilder.length > 0) {
@@ -90,7 +97,6 @@ module.exports = class FeilDao extends Dao {
       }
       query = query.slice(0, -1);
       query += ';';
-
       super.query(query, params, callback);
     }
   }
@@ -414,6 +420,11 @@ module.exports = class FeilDao extends Dao {
     super.query("DELETE FROM feilfolg WHERE feil_id=? AND bruker_id=?", [json.feil_id, json.bruker_id], callback);
   }
 
+  /**
+   * Metode for å hente eposten til ansvarlig bruker ved hjelp av en feil-id. 
+   * @param {json} json - Et json objekt med iden til feilen.
+   * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
+   */
   hentEpostFraFeilID(json, callback) {
     super.query('SELECT epost FROM bruker b INNER JOIN feil f ON b.bruker_id = f.bruker_id WHERE f.feil_id = ?', [json.feil_id], callback);
   }

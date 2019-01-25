@@ -4,25 +4,33 @@ import {generellServices} from '../../services/generellServices';
 import {Link} from 'react-router-dom';
 
 /**
- * Søkefelt for å søke etter kommuner
+ * Søkefelt for å søke etter kommuner, til bruk i <form> og lignende. For søkefelt for å komme seg til en viss kommuneside se: {@link KommuneVelger}
  * @reactProps {Object} style - CSS objekt for styling av søkefeltet
  * @reactProps {?function(kommune: Object)} onChange - Hvis ingen referanse til klassen er lagd, brukes denne funksjonen for å sende den valgte kommunen.
  * @reactProps {?number} kommune_id - Hvis søkefeltet skal starte på en viss kommune kan ID-en bli sendt som prop
  */
 export class KommuneInput extends Component {
-  /** Søketeksten @type {string} */
+  /** 
+   * Søketeksten 
+   * @type {string} */
   sok = '';
 
-  /** Om listen over kommuner skal vises @type {boolean} @default false */
+  /** 
+   * Om listen over kommuner skal vises
+   * @type {boolean} 
+   * @default false */
   listesyn = false;
 
-  /** Liste over alle kommuner @type {Kommune[]} */
+  /** Liste over alle kommuner 
+   * @type {Kommune[]} */
   kommuner = [];
 
-  /** Liste over kommuner som matcher med søketeksten @type {Kommune[]}*/
+  /** Liste over kommuner som matcher med søketeksten 
+   * @type {Kommune[]}*/
   kommuner_filtrert = [];
 
-  /** Index til kommunen som er valgt i listen @type {number} */
+  /** Index til kommunen som er valgt i listen 
+   * @type {number} */
   valgt_index = 0;
 
   /** Referanse til input boks */
@@ -31,7 +39,9 @@ export class KommuneInput extends Component {
   /** Referanse til kommunelisten */
   boks;
 
-  /** Kommunenummeret til den valgte kommunen @type {number} @default null */
+  /** Kommunenummeret til den valgte kommunen 
+   * @type {number} 
+   * @default null */
   verdi = null;
 
   constructor(props) {

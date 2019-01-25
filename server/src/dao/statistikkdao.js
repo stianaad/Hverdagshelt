@@ -1,6 +1,6 @@
 import Dao from './dao.js';
 
-//17 funksjoner
+// 0 av 17 funksjoner testes
 module.exports = class StatistikkDao extends Dao {
 
   /**

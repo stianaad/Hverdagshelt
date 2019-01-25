@@ -25,7 +25,7 @@ export class RegistrerAdmin extends Component {
       <div>
         <PageHeader history={this.props.history} location={this.props.location} />
         <div className="container">
-          <h2 className="text-center text-capitalize display-4">Registrer en administrator</h2>
+          <h1 className="text-center text-capitalize display-4">Registrer en administrator</h1>
           <div>
             <div className="row">
               <div className="col">
@@ -109,8 +109,6 @@ export class RegistrerAdmin extends Component {
       this.adminInput.telefon,
       this.adminInput.navn
     );
-
-    console.log(admin)
 
     if (!admin.kommune_id) {
       this.advarsel = 'Vennligst oppgi gyldig kommune';

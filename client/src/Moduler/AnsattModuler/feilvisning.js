@@ -18,11 +18,8 @@ export class FeilVisning extends Component {
     bildeApen = false; 
 
     handterStatuser(status){
-        console.log(status);
         let stat = this.statuser.find(e => (e.status === status));
-        console.log(stat);
         this.valgtStatus = {...stat};
-        console.log(this.valgtStatus);
     }
 
     visBilde(){
@@ -111,15 +108,12 @@ export class FeilVisning extends Component {
     }
 
     async oppdatering(){
-        console.log("Starter oppdatering");
         await feilService.lagOppdatering({
             "feil_id": this.props.feil.feil_id,
             "kommentar": this.kommentar, 
             "status_id": this.valgtStatus.status_id
         });
         this.props.lukk(this.valgtStatus.status_id);
-        //await this.props.oppdater;  
-        await console.log("Oppdatering sendt");
     }
     async mounted(){
         let res = await feilService.hentAlleStatuser();

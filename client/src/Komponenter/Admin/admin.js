@@ -52,7 +52,6 @@ export class Administrasjon extends Component {
   }
 
   async lastInnKategorier() {
-    console.log("yeet")
     let hres = await hendelseService.hentAlleKategorier();
     this.hendelseKategorier = await hres.data;
 
@@ -99,7 +98,6 @@ export class Administrasjon extends Component {
       let res = await brukerService.sokBrukere(this.brukerSok);
       this.brukere = await res.data;
       Promise.resolve(res.data).then(() => { this.brukerLaster = false })
-      await console.log(res.data);
     } else {
       this.brukere = [];
     }
@@ -113,13 +111,13 @@ export class Administrasjon extends Component {
         <h1 style={{ textAlign: "center" }}>Administrasjon</h1>
         <Grid columns={3} centered>
           <Grid.Column>
-            <h2>Kommuner</h2>
+            <h1>Kommuner</h1>
             <h3>Administrer en kommune:</h3>
             <KommuneInput style={{ display: "inline-block", marginRight: "5px" }} onChange={(e) => { this.kommune_navn = e.navn }} onInputChange={(e) => { this.kommune_navn = e.id ? e.navn : null }} />
             <Button color="blue" disabled={this.kommune_navn == null} onClick={() => this.props.history.push("/admin/" + this.kommune_navn.toLowerCase() + "/oversikt")}>Administrer</Button>
           </Grid.Column>
           <Grid.Column>
-            <h2>Brukere</h2>
+            <h1>Brukere</h1>
             <h3>Registrer en ny bruker:</h3>
             <Select style={{ display: "inline-block", marginRight: "5px", width: "calc(100% - 109px)" }} value={this.registrerBruker} onChange={(e, { value }) => { this.registrerBruker = value }} options={this.registrerOptions} />
             <Button color="blue" onClick={() => { this.props.history.push(this.registrerBruker) }}>Registrer</Button>
@@ -153,7 +151,7 @@ export class Administrasjon extends Component {
             </Card>
           </Grid.Column>
           <Grid.Column>
-            <h2>Kategorier</h2>
+            <h1>Kategorier</h1>
             <h3>Hendelseskategorier</h3>
             <h5>Ny kategori:</h5>
             <Input className="adminSendInput" value={this.nyHendelseKategori} onChange={(e,{value}) => this.nyHendelseKategori = value} placeholder="Kategorinavn" /><Button onClick={this.lagHendelseKategori} disabled={this.nyHendelseKategori==''}>Send</Button>

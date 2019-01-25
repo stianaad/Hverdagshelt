@@ -86,11 +86,10 @@ module.exports = class HendelseDao extends Dao {
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
    */
   oppdaterHendelse(json, callback) {
-    var hendelse = [
+    var h = [
       json.hendelseskategori_id,
       json.kommune_id,
       json.overskrift,
-      json.tid,
       json.beskrivelse,
       json.sted,
       json.bilde,
@@ -98,7 +97,7 @@ module.exports = class HendelseDao extends Dao {
       json.hendelse_id
     ];
     super.query(
-      'UPDATE hendelse SET hendelseskategori_id = ?, SET kommune_id = ?, SET overskrift = ?, SET tid = ?, SET beskrivelse = ?, SET sted = ?, SET bilde = ?, SET billett = ? WHERE kategori_id = ?',
+      'UPDATE hendelser SET hendelseskategori_id = ?, kommune_id = ?, overskrift = ?, tid = ?, beskrivelse = ?, sted = ?, bilde = ?, billett = ? WHERE hendelse_id = ?',
       hendelse,
       callback
     );

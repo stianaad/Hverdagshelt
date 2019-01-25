@@ -25,7 +25,6 @@ export class FeilHosBedrift extends Component{
         this.valgtfeil = {...feil};
         this.hentInfo(feil);
         this.feilApen = true; 
-        console.log(this.valgtfeil);
     }
 
     async hentInfo(feil){
@@ -88,7 +87,6 @@ export class FeilHosBedrift extends Component{
     oppdater(){
         this.feilApen = false;
         this.mounted();
-        console.log(this.feilApen);
     }
 
     scroll() {
@@ -103,7 +101,6 @@ export class FeilHosBedrift extends Component{
 
         let res1 = await feilService.hentUnderBehandlingOgVenterPaaSvarAnsatt(global.payload.user.kommune_id);
         this.underBOgGodkjenning = await res1.data;
-        await console.log(res1.data);
 
         this.underB = await feil.data.filter(e => (e.status === 'Under behandling'));
         await this.scroll();
