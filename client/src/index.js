@@ -23,7 +23,6 @@ import {PageHeader} from './Moduler/header/header';
 import {FireNullFire} from './Komponenter/firenullfire/firenullfire';
 
 import {GlemtPassord} from '../src/Komponenter/GlemtPassord/glemtPassord';
-import {ResettPassord} from '../src/Komponenter/GlemtPassord/resettPassord';
 import {Hendelser} from '../src/Komponenter/Hendelser/hendelser';
 import {Bedrift} from '../src/Komponenter/Bedrift/bedrift';
 import {RegistrerNyKategori} from '../src/Komponenter/Admin/registrerNyKategori';
@@ -178,7 +177,6 @@ const routes = () => {
           />
           <Route exact path="/" component={Forside} history={history} />
           <Route exact path="/hovedside/:kommune" component={Hovedside} history={history} />
-          <Route exact path="/resett-passord/:token" component={ResettPassord} />
           <Route exact path="/hendelser" component={Hendelser}/>
 
           {/*Under ligger spesielle routes*/}
