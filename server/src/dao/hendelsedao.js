@@ -86,11 +86,11 @@ module.exports = class HendelseDao extends Dao {
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
    */
   oppdaterHendelse(json, callback) {
-    var hendelse = [
+    var h = [
+      json.bruker_id,
       json.hendelseskategori_id,
       json.kommune_id,
       json.overskrift,
-      json.tid,
       json.beskrivelse,
       json.sted,
       json.bilde,
