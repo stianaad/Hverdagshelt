@@ -43,6 +43,10 @@
     color: yellowgreen;
 }
 
+.ingenNyeOppdateringer {
+  color: red;
+}
+
 .rapporterteFeilScroll {
     height: 50vh !important;
     overflow-y: auto;

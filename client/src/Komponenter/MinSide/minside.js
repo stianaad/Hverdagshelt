@@ -20,6 +20,7 @@ export class Minside extends Component {
   folgteFeil = [];
   folgteHendelser = [];
   komin = React.createRef();
+  dropdownPil = "https://static.thenounproject.com/png/196765-200.png";
 
   feil = {feil_id:0};
   feilModal = false;
@@ -112,13 +113,12 @@ export class Minside extends Component {
               <Card.Content>
                 <Card.Header>
                   Dine rapporterte feil<InfoBoks key = {'rapportertefeil'} tekst="Trykk på knappen under for å se dine rapporterte feil."/>
-                  <Button basic color="green" onClick={this.visRapporterteFeil}>
+                    <br/>
                     {this.alleOppdaterteFeil.length === 0 ? (
-                      <span>Ingen nye oppdateringer</span>
+                      <p className="ingenNyeOppdateringer mt-2">Ingen nye oppdateringer</p>
                     ) : (
-                      <span>{this.alleOppdaterteFeil.length} ny(e) oppdateringer</span>
+                      <p className="highlight mt-2">{this.alleOppdaterteFeil.length} ny(e) oppdateringer  <a className="float-right" basic onClick={this.visRapporterteFeil}><img src={this.dropdownPil} height="20" width="20"/> </a></p>
                     )}
-                  </Button>
                 </Card.Header>
               </Card.Content>
               {(this.visFeil) ? (
@@ -431,12 +431,14 @@ export class Minside extends Component {
       } else {
         this.finnIkkeOppdaterteFeil();
       }
+      this.dropdownPil = "https://static.thenounproject.com/png/196761-200.png";
       this.oppdaterteFeil = this.alleOppdaterteFeil;
       await this.scrollFeil();
       await brukerService.oppdaterSistInnloggetPrivat();
     } else {
       this.ikkeOppdaterteFeil = [];
       this.oppdaterteFeil = [];
+      this.dropdownPil = "https://static.thenounproject.com/png/196765-200.png";
     }
   }
 
@@ -466,7 +468,7 @@ export class Minside extends Component {
   }
 
   async fjernFeil(id) {
-    let res1 = await feilService.slettFeil(id);
+    await feilService.slettFeil(id);
     //await this.finnFeilBruker(this.props.match.params.bruker_id);
     await this.finnOppdaterteFeilBruker();
     await this.finnIkkeOppdaterteFeil();
