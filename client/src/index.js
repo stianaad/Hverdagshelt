@@ -5,36 +5,21 @@ import {Router, Route, NavLink, Redirect, Switch} from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import {MeldFeil} from './Komponenter/MeldFeil/meldFeil';
 import {Statistikk} from './Komponenter/Statistikk/statistikk';
-import Popup from 'reactjs-popup';
 import {Registrering} from './Komponenter/Registrering/registrering';
 import {RegistrerBedrift} from './Komponenter/Registrering/registrerBedrift';
 import {RegistrerAnsatt} from './Komponenter/Registrering/registrerAnsatt';
 import {RegistrerAdmin} from './Komponenter/Registrering/registrerAdmin';
 import {MineOppgaver} from './Komponenter/Ansatt/mineOppgaver';
-import {generellServices} from './services/generellServices';
-import {RodKnapp} from './widgets';
-import {Login} from './Moduler/login/login';
 import {Forside} from './Komponenter/Forside/forside';
-import {PositionMap, Marker, MarkerMap, markerTabell} from './Moduler/kart/map';
 import {Hovedside} from './Komponenter/hovedside/hovedside';
 import {Minside} from './Komponenter/MinSide/minside';
-import {PageHeader} from './Moduler/header/header';
 import {FireNullFire} from './Komponenter/firenullfire/firenullfire';
-
 import {GlemtPassord} from '../src/Komponenter/GlemtPassord/glemtPassord';
 import {ResettPassord} from '../src/Komponenter/GlemtPassord/resettPassord';
 import {Hendelser} from '../src/Komponenter/Hendelser/hendelser';
 import {Bedrift} from '../src/Komponenter/Bedrift/bedrift';
 import {RegistrerNyKategori} from '../src/Komponenter/Admin/registrerNyKategori';
-
 import createBrowserHistory from 'history/createBrowserHistory';
-const history = createBrowserHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
-
-import {relative} from 'path';
-import {KommuneVelger} from './Moduler/KommuneVelger/kommuneVelger';
-import {KommuneInput} from './Moduler/kommuneInput/kommuneInput';
-import {Footer} from './Moduler/footer/footer'
-
 import {NyeFeil} from './Komponenter/Ansatt/ansattNye';
 import {AnsattFerdig} from './Komponenter/Ansatt/ansattFerdige';
 import {NyHendelse} from './Komponenter/Ansatt/nyhendelse';
@@ -43,10 +28,9 @@ import {AnsattUnder} from './Komponenter/Ansatt/ansattUnderBehandling';
 import {AnsattHendelser } from './Komponenter/Ansatt/ansattHendelser';
 import {AnsattGodkjent} from './Komponenter/Ansatt/ansattGodkjent';
 import { AlleBedrifter } from './Komponenter/Ansatt/alleBedrifter';
-
 import { Administrasjon } from './Komponenter/Admin/admin';
-import 'semantic-ui-css/semantic.min.css';
 import { FeilHosBedrift } from './Komponenter/Ansatt/feilHosBedrift';
+const history = createBrowserHistory(); // Use history.push(...) to programmatically change path, for instance after successfully saving a student
 
 global.sideRefresh = (hard) => {
   setTimeout(() => {
@@ -156,14 +140,9 @@ const routes = () => {
             : null}
 
           {/*legg test-routes under*/}
-          <Route exact path="/kommunevalgtest" component={KommuneVelger} history={history} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/headertest" component={PageHeader} history={history} />
           <Route exact path="/ansattest" component={NyeFeil} history={history} />
           <Route exact path="/ferdigtest" component={AnsattFerdig} history={history}/>
           <Route exact path="/nyhendelsetest" component={NyHendelse} history={history}/>
-
-          <Route exact path="/headertest" component={PageHeader} history={history} />
           <Route exact path="/bedriftsoppgaver" component={Bedrift} history={history} />
 
           <Route exact path="/statistikk" component={Statistikk} history={history} />
