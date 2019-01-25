@@ -15,3 +15,21 @@
 .adminBrukerSok input {
     width:100%;
 }
+
+.adminSendInput {
+    width: calc(100% - 82px);
+    margin-right:5px;
+}
+
+.adminSendInput input {
+    width:100%;
+}
+
+.adminRedigerInput {
+    width: calc(100% - 100px);
+    margin-right:5px;
+}
+
+.adminRedigerInput input {
+    width:100%;
+}
