@@ -3,14 +3,45 @@ import {Component} from 'react-simplified';
 import {generellServices} from '../../services/generellServices';
 import {Link} from 'react-router-dom';
 
+/**
+ * Søkefelt for å søke etter kommuner
+ * @reactProps {Object} style - CSS objekt for styling av søkefeltet
+ * @reactProps {?function(kommune: Object)} onChange - Hvis ingen referanse til klassen er lagd, brukes denne funksjonen for å sende den valgte kommunen.
+ * @reactProps {?number} kommune_id - Hvis søkefeltet skal starte på en viss kommune kan ID-en bli sendt som prop
+ */
 export class KommuneInput extends Component {
+  /** 
+   * Søketeksten 
+   * @type {string} */
   sok = '';
+
+  /** 
+   * Om listen over kommuner skal vises
+   * @type {boolean} 
+   * @default false */
   listesyn = false;
+
+  /** Liste over alle kommuner 
+   * @type {Kommune[]} */
   kommuner = [];
+
+  /** Liste over kommuner som matcher med søketeksten 
+   * @type {Kommune[]}*/
   kommuner_filtrert = [];
+
+  /** Index til kommunen som er valgt i listen 
+   * @type {number} */
   valgt_index = 0;
+
+  /** Referanse til input boks */
   in;
+
+  /** Referanse til kommunelisten */
   boks;
+
+  /** Kommunenummeret til den valgte kommunen 
+   * @type {number} 
+   * @default null */
   verdi = null;
 
   constructor(props) {
@@ -52,7 +83,7 @@ export class KommuneInput extends Component {
       </div>
     );
   }
-
+  /** @ignore */
   velg(index) {
     if (this.kommuner_filtrert.length > 0) {
       this.listesyn = false;
@@ -62,7 +93,7 @@ export class KommuneInput extends Component {
       this.props.onChange && this.props.onChange({navn: this.sok, id: this.verdi});
     }
   }
-
+  /** @ignore */
   async mounted() {
     this.in.current.addEventListener('keydown', (e) => {
       this.inputup(e);
@@ -76,7 +107,7 @@ export class KommuneInput extends Component {
       await this.props.onChange && this.props.onChange({navn: this.sok, id: this.verdi});
     }
   }
-
+  /** @ignore */
   inputup(e) {
     if (e.key == 'Enter') {
       this.velg(this.valgt_index);
@@ -106,7 +137,7 @@ export class KommuneInput extends Component {
       }
     }
   }
-
+  /** @ignore */
   oppdaterSok(e) {
     this.verdi = null;
     this.sok = e.target.value;

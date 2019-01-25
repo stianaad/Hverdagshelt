@@ -4,7 +4,16 @@ import { feilService } from '../../services/feilService';
 import { hendelseService } from '../../services/hendelseService';
 import { brukerService } from '../../services/brukerService';
 
+/**
+ * Knapp som kan trykkes på for å abonnere på en feil eller hendelse
+ * @reactProps {?number} feil_id - ID på feilen som kan følges ved trykk
+ * @reactProps {?number} hendelse_id - ID på hendelsen som kan følges ved trykk
+ * @reactProps {Object} style - CSS objekt for styling av knappen
+ */
 export class AbonnerKnapp extends Component {
+    /**
+     * @type {boolean} 
+     */
     abonnert = null;
 
     render() {
@@ -34,7 +43,7 @@ export class AbonnerKnapp extends Component {
             let res = await brukerService.finnFolgteHendelserTilBruker();
             this.abonnert = await (res.data.filter((a) => a.hendelse_id == this.props.hendelse_id).length > 0);
         } else {
-            console.log("ERROR VENNLIGST GI MEG EN ID");
+          
         }
     }
 

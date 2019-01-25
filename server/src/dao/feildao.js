@@ -248,7 +248,7 @@ module.exports = class FeilDao extends Dao {
    * @param {function} callback - funksjonen som kalles når du har kjørt databasekallet.
    */
   hentAlleSubkategorier(callback) {
-    super.query('SELECT * FROM subkategori', null, callback);
+    super.query('SELECT subkategori.*, hovedkategori.kategorinavn as hovednavn FROM subkategori JOIN hovedkategori ON subkategori.hovedkategori_id = hovedkategori.hovedkategori_id', null, callback);
   }
 
   //testes

@@ -23,6 +23,7 @@ import {PageHeader} from './Moduler/header/header';
 import {FireNullFire} from './Komponenter/firenullfire/firenullfire';
 
 import {GlemtPassord} from '../src/Komponenter/GlemtPassord/glemtPassord';
+import {ResettPassord} from '../src/Komponenter/GlemtPassord/resettPassord';
 import {Hendelser} from '../src/Komponenter/Hendelser/hendelser';
 import {Bedrift} from '../src/Komponenter/Bedrift/bedrift';
 import {RegistrerNyKategori} from '../src/Komponenter/Admin/registrerNyKategori';
@@ -33,6 +34,7 @@ const history = createBrowserHistory(); // Use history.push(...) to programmatic
 import {relative} from 'path';
 import {KommuneVelger} from './Moduler/KommuneVelger/kommuneVelger';
 import {KommuneInput} from './Moduler/kommuneInput/kommuneInput';
+import {Footer} from './Moduler/footer/footer'
 
 import {NyeFeil} from './Komponenter/Ansatt/ansattNye';
 import {AnsattFerdig} from './Komponenter/Ansatt/ansattFerdige';
@@ -155,6 +157,14 @@ global.sidePush = (path, hard) => {
   }, 0);
 };
 
+setInterval(()=>{
+  if (global.payload && global.payload.exp < (new Date().getTime()/1000)) {
+    sessionStorage.removeItem('pollett');
+    global.payload = null;
+    global.sidePush("/", true);
+  }
+},60000);
+
 let token = sessionStorage.getItem('pollett');
 if (token) {
   let base64Url = token.split('.')[1];
@@ -185,6 +195,7 @@ const routes = () => {
               [
                 <Route exact path="/registrering" key="registrering" component={Registrering} history={history} />,
                 <Route exact path="/glemt-passord" key="glemt-passord" component={GlemtPassord} />,
+                <Route exact path="/resett-passord/:token" key="resett-passord" component={ResettPassord} />,
                 <Redirect from="/meldfeil" key="meldfeil" to="/" />,
                 <Redirect from="/minside" key="minside" to="/" />,
                 <Redirect from="/mineoppgaver" key="mineoppgaver" to="/" />,

@@ -74,7 +74,6 @@ import {
 
     verdiHendelse(e){
         this.hendelseVerdi = e.target.value;
-        console.log(this.hendelseVerdi);
         this.slettFeil = false;
     }
 
@@ -130,7 +129,6 @@ import {
 
       async slettHendelse(){
         this.handleClose();
-        console.log(this.hendelseVerdi);
         let res1 = await hendelseService.slettHendelseKategori(this.hendelseVerdi);
         if(res1.data.affectedRows === 1){
             alert("Du har slettet en hendelseskategori");

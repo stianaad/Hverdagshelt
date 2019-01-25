@@ -5,8 +5,20 @@ import {Component, sharedComponentData} from 'react-simplified';
 import {brukerService} from '../../services/brukerService';
 import {Link} from 'react-router-dom';
 
+/**
+ * Logg inn knapp med dropdown som viser skjema for innlogging
+ */
 export class Login extends Component {
+  /** Advarsel tekst hvis bruker skriver feil email/passord osv. 
+   * @type {string}*/
   advarsel = '';
+
+  /**
+   * Objekt som holder informasjonen som brukeren har skrevet i innloggingskjemaet
+   * @type {Object}
+   * @property {string} data.epost Teksten skrevet i epost feltet
+   * @property {string} data.passord Teksten skrevet i passord feltet
+   */
   data = {
     epost: '',
     passord: '',
@@ -62,7 +74,7 @@ export class Login extends Component {
       </div>
     );
   }
-
+  /** @ignore */
   clickDrop(event) {
     let drop = document.getElementById('drops');
     if (drop.style.display == 'none' || drop.style.display == '') {
@@ -72,7 +84,7 @@ export class Login extends Component {
       drop.style.display = 'block';
     }
   }
-
+  /** @ignore */
   hideOnClickOutside(element) {
     const isVisible = (elem) => !!elem && !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length); // source (2018-03-11): https://github.com/jquery/jquery/blob/master/src/css/hiddenVisibleSelectors.js
     const outsideClickListener = (event) => {
@@ -90,11 +102,11 @@ export class Login extends Component {
 
     document.addEventListener('click', outsideClickListener);
   }
-
+  /** @ignore */
   endre(e) {
     this.data[e.target.name] = e.target.value;
   }
-
+  /** @ignore */
   sjekkPassord(res) {
     if (res.result) {
       let base64Url = res.token.split('.')[1];
@@ -103,7 +115,7 @@ export class Login extends Component {
       sessionStorage.setItem('pollett', res.token);
       
       let p = window.location.pathname;
-      if (p.startsWith("/hovedside/") || p.startsWith("/hendelser") || p.startsWith("/resett-passord/")) {
+      if (p.startsWith("/hovedside/") || p.startsWith("/hendelser")) {
           global.sideRefresh(true);
       } else {
         if (global.payload.role == 'privat') {
@@ -117,15 +129,12 @@ export class Login extends Component {
         }
       }
     } else {
-      console.log(res.result);
       this.advarsel = 'Feil brukernavn eller passord!';
     }
   }
-
+  /** @ignore */
   async login() {
-    console.log(this.data);
     let res = await brukerService.loggInn(this.data);
-    //await console.log(res.data.result);
     await this.sjekkPassord(res.data);
   }
 }
