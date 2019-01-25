@@ -6,6 +6,7 @@ import {KommuneInput} from '../../Moduler/kommuneInput/kommuneInput';
 import {PositionMap} from '../../Moduler/kart/map';
 import {feilService} from '../../services/feilService';
 import {PageHeader} from '../../Moduler/header/header';
+import {Footer} from '../../Moduler/footer/footer';
 import queryString from 'query-string'
 
 export class MeldFeil extends Component {
@@ -139,6 +140,7 @@ export class MeldFeil extends Component {
           </div>
           <label id="advarsel">{this.advarsel}</label>
         </div>
+        <Footer/>
       </React.Fragment>
     );
   }

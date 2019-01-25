@@ -5,6 +5,7 @@ import {generellServices} from '../../services/generellServices';
 import {feilService} from '../../services/feilService';
 import {hendelseService} from '../../services/hendelseService';
 import {PageHeader} from '../../Moduler/header/header';
+import {Footer} from '../../Moduler/footer/footer';
 import {PositionMap, Marker, MarkerMap, markerTabell, ShowMarkerMap} from '../../Moduler/kart/map';
 import {Card, Feed, Grid, Button, Header, Icon, Image, Modal, GridColumn, List} from 'semantic-ui-react';
 import {FeedEvent, FeedHendelse, Filtrer, Info} from '../../Moduler/cardfeed';
@@ -559,6 +560,7 @@ f                      id="test"
                 </div>
           </div>
         )}
+        <Footer/>
       </div>
     );
   }
