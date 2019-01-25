@@ -49,8 +49,8 @@ export class AnsattOversikt extends Component {
             </div>
             <div className="ansattContent">
                 <div className="row justify-content-md-center">
-                    <div className="col-sm-3">
-                        <Card color="red" fluid>
+                    <div className="col-sm-4">
+                        <Card fluid>
                             <Card.Content>
                             <Card.Header>
                                 <h3 style={{display: 'inline'}}>Nye innsendinger</h3>
@@ -72,8 +72,8 @@ export class AnsattOversikt extends Component {
                             </Card.Content>
                         </Card>
                     </div>
-                    <div className="col-sm-3">
-                        <Card color="red" fluid>
+                    <div className="col-sm-4">
+                        <Card fluid>
                             <Card.Content>
                             <Card.Header>
                                 <h3 style={{display: 'inline'}}>Godkjente feil</h3>
@@ -95,8 +95,10 @@ export class AnsattOversikt extends Component {
                             </Card.Content>
                         </Card>
                     </div>
-                    <div className="col-sm-3">
-                        <Card color="yellow" fluid>
+                </div>
+                <div className="row justify-content-md-center mt-5">
+                    <div className="col-sm-4">
+                        <Card fluid>
                             <Card.Content>
                                 <Card.Header>
                                     <h3 style={{display: 'inline'}}>Under behandling</h3>
@@ -118,8 +120,8 @@ export class AnsattOversikt extends Component {
                             </Card.Content>
                         </Card>
                     </div>
-                    <div className="col-sm-3">
-                        <Card color="green" fluid>
+                    <div className="col-sm-4">
+                        <Card fluid>
                             <Card.Content>
                                 <Card.Header>
                                     <h3 style={{display: 'inline'}}>Avsluttede saker</h3>

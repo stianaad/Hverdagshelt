@@ -37,6 +37,8 @@ export class AnsattGodkjent extends Component{
 
     alleBedrifter = [];
 
+    sendtTilBedrift = false; 
+
     visFeil(feil){
         this.feilApen = true;
         this.valgtfeil = feil; 
@@ -130,23 +132,30 @@ export class AnsattGodkjent extends Component{
                                                             <Button basic color="green" onClick={this.oppdatering}>Lagre</Button>
                                                         </Grid.Column>
                                                         <Grid.Column>
-                                                            <h5>Send til bedrift: </h5>
-                                                            <div className="form-group">
-                                                                <select
-                                                                    className="form-control"
-                                                                    onChange={(e) => this.handterBedrift(e.target.value)}
-                                                                    >
-                                                                    <option hidden>Velg bedrift</option>
-                                                                    {this.alleBedrifter.map((bed) => (
-                                                                        <option value={bed.navn} key={bed.navn}
-                                                                        >
-                                                                        {' '}
-                                                                        {bed.navn}
-                                                                        </option>
-                                                                    ))}
-                                                                </select>
-                                                            </div>
-                                                            <Button basic color="blue" onClick={this.sendTilBed}>Send</Button>
+                                                            {(!this.sendtTilBedrift ? (
+                                                                <div>
+                                                                    <h5>Send til bedrift: </h5>
+                                                                    <div className="form-group">
+                                                                        <select
+                                                                            className="form-control"
+                                                                            onChange={(e) => this.handterBedrift(e.target.value)}
+                                                                            >
+                                                                            <option hidden>Velg bedrift</option>
+                                                                            {this.alleBedrifter.map((bed) => (
+                                                                                <option value={bed.navn} key={bed.navn}
+                                                                                >
+                                                                                {' '}
+                                                                                {bed.navn}
+                                                                                </option>
+                                                                            ))}
+                                                                        </select>
+                                                                    </div>
+                                                                    <Button basic color="blue" onClick={this.sendTilBed}>Send</Button>
+                                                                </div>
+                                                            ):(
+                                                                <p>Sendt</p>
+                                                            ))}
+                                                            
                                                         </Grid.Column>                                                
                                                     </Grid>
                                                 </div>
@@ -172,6 +181,7 @@ export class AnsattGodkjent extends Component{
         });
 
         await this.mounted(); 
+        this.feilApen = await false;
     }
 
     async sendTilBed(){
@@ -180,6 +190,8 @@ export class AnsattGodkjent extends Component{
             orgnr: this.valgtBedrift.orgnr,
             feil_id: this.valgtfeil.feil_id
         });
+
+        this.sendtTilBedrift = await true; 
     }
 
     scroll() {

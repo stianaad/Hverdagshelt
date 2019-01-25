@@ -24,6 +24,7 @@ export class AnsattUnder extends Component{
         this.valgtfeil = {...feil};
         this.hentInfo(feil);
         this.feilApen = true; 
+        console.log(this.valgtfeil);
     }
 
     async hentInfo(feil){
@@ -69,7 +70,8 @@ export class AnsattUnder extends Component{
                             <div className="col-sm-8">
                                 {this.feilApen ? (
                                     <div>
-                                        <FeilVisning feil={this.valgtfeil} bilder={this.bilder} opp={this.oppdateringer}/>
+                                        <FeilVisning feil={this.valgtfeil} bilder={this.bilder} 
+                                        opp={this.oppdateringer} oppdater={() => this.oppdater()}/>
                                     </div>
                                 ) : (
                                     <div>Trykk på feil</div>
@@ -80,6 +82,11 @@ export class AnsattUnder extends Component{
                 </div>
             </div>
         ); 
+    }
+    
+    oppdater(){
+        this.mounted();
+        this.feilApen = false;
     }
 
     scroll() {

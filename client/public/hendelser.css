@@ -35,28 +35,28 @@
 @media screen and (min-width: 0px) and (max-width: 767px) {
   .hendelseContainer .stackable {
     width: 270px;
-    margin: 0 auto;
+    margin: 0 auto !important;
   }
 }
 
 @media screen and (min-width: 768px) and (max-width: 900px) {
   .hendelseContainer .stackable {
     width: 542px;
-    margin: 0 auto;
+    margin: 0 auto !important;
   }
 }
 
 @media screen and (min-width: 901px) and (max-width: 1200px) {
   .hendelseContainer .stackable {
     width: 810px;
-    margin: 0 auto;
+    margin: 0 auto !important;
   }
 }
 
 @media screen and (min-width: 1200px) and (max-width: 4000px) {
   .hendelseContainer .stackable {
     width: 1080px;
-    margin: 0 auto;
+    margin: 0 auto !important;
   }
 }
 
@@ -82,5 +82,5 @@
 }
 
 .hendelseContainer a > .content {
-  margin: 5px;
+  margin: 10px;
 } 
