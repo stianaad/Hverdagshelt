@@ -39,7 +39,7 @@ module.exports = class StatistikkDao extends Dao {
    */
   hentFeilPaaKommune(kommune_id, callback) {
     super.query(
-      'SELECT COUNT(*) as antall FROM feil WHERE feil.kommune_id = ?', [kommune_id], callback
+      'SELECT kommuner.kommune_navn as navn, COUNT(*) as antall FROM feil INNER JOIN kommuner ON feil.kommune_id = kommuner.kommune_id WHERE feil.kommune_id = ?', [kommune_id], callback
     );
   }
 
@@ -198,7 +198,7 @@ module.exports = class StatistikkDao extends Dao {
    */
   hentFeilPaaStatus(status_id, callback) {
     super.query(
-      'SELECT COUNT(DISTINCT feil.feil_id) as antall FROM feil JOIN oppdatering ON feil.feil_id = oppdatering.feil_id WHERE oppdatering.status_id = ?', [status_id], callback
+      'SELECT status.status as navn, COUNT(DISTINCT feil.feil_id) as antall FROM feil JOIN oppdatering ON feil.feil_id = oppdatering.feil_id JOIN status ON oppdatering.status_id = status.status_id WHERE oppdatering.status_id = ?', [status_id], callback
     );
   }
 }

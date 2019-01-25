@@ -1,9 +1,20 @@
 #statMeny {
-  position: fixed;
-  top: 50%;
-  right: 1%;
+  padding:10px;
+  widows: 100%;
 }
 
 #lastNedPDFBtn {
-  float: right;
+  
+}
+
+.statSelect {
+  width:200px;
+  display:inline;
+  margin-right:10px;
+}
+
+.statKomBoks {
+  display: inline-block;
+  width: 200px;
+  margin-right: 10px;
 }

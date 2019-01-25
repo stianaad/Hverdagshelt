@@ -5,7 +5,9 @@ import {statistikkService} from '../../services/statistikkService';
 import {generellServices} from '../../services/generellServices.js';
 import {feilService} from '../../services/feilService.js';
 import {GronnKnapp, StatBar} from '../../widgets.js';
+import {KommuneInput} from '../../Moduler/kommuneInput/kommuneInput';
 import * as html2canvas from 'html2canvas';
+import { PageHeader } from '../../Moduler/header/header';
 
 export class Statistikk extends Component {
 
@@ -18,6 +20,7 @@ export class Statistikk extends Component {
   menyID = 0;
   menyValg = [];
   divNavn =  "";
+  kommune_id = 0;
 
   chunkArray(myArray, chunk_size){
     let index = 0;
@@ -44,12 +47,12 @@ export class Statistikk extends Component {
     return(
       <React.Fragment>
         <div id="statMeny">
-          <div id="lastNedPDFBtn">
-            <GronnKnapp onClick={() => {document.querySelector("#statMeny").style.display = "none"; setTimeout(() => {window.print(); document.querySelector("#statMeny").style.display = "inherit";},500);}}>Last ned som PDF</GronnKnapp>
-          </div>
+          <PageHeader history={this.props.history} location={this.props.location}/>
           <div>
-            <FormGroup controlId="formControlsSelect">
+            <FormGroup style={{display:"inline"}} controlId="formControlsSelect">
               <FormControl
+                key={this.kommune_id}
+                className="statSelect"
                 componentClass="select"
                 onChange={this.handleChange}
                 inputRef={(node) => {
@@ -62,6 +65,8 @@ export class Statistikk extends Component {
                 </option>
               ))}
               </FormControl>
+              <div className="statKomBoks"><label>Kommune:</label><KommuneInput onChange={(e) => {this.mounted(e.id, e.navn)}} id="statKom"/></div>
+              <GronnKnapp onClick={() => {document.querySelector("#statMeny").style.display = "none"; setTimeout(() => {window.print(); document.querySelector("#statMeny").style.display = "inherit";},500);}}>Last ned som PDF</GronnKnapp>
             </FormGroup>
           </div>
         </div>
@@ -74,7 +79,17 @@ export class Statistikk extends Component {
     );
   }
 
-  async mounted(){
+  async mounted(kommune_id, kommune_navn){
+
+    this.resultat = [];
+    this.total = 0;
+    this.maks = 0;
+    this.large = 0;
+    this.ymse = [];
+    this.mengde = 0;
+    this.menyID = 0;
+    this.menyValg = [];
+    this.divNavn =  "";
 
     //feil per kommune
     let kom = await generellServices.hentAlleKommuner();
@@ -92,6 +107,25 @@ export class Statistikk extends Component {
     //feil per underkategori
     let feilpersubkat = await statistikkService.hentFeilPerSubkategori();
     this.splitt(feilpersubkat, 'Feil per underkategori');
+
+    let feilstatus1 = await statistikkService.hentFeilPaaStatus(1);
+    this.splitt(feilstatus1, 'Feil som har status "Ikke Godkjent"');
+
+    let feilstatus2 = await statistikkService.hentFeilPaaStatus(2);
+    this.splitt(feilstatus2, 'Feil som har status "Godkjent"');
+
+    let feilstatus3 = await statistikkService.hentFeilPaaStatus(3);
+    this.splitt(feilstatus3, 'Feil som har status "Under Behandling"');
+
+    let feilstatus4 = await statistikkService.hentFeilPaaStatus(4);
+    this.splitt(feilstatus4, 'Feil som har status "Ferdig"');
+
+    if (kommune_id) {
+      let feilPaaKommune = await statistikkService.hentFeilPaaKommune(kommune_id);
+      this.splitt(feilPaaKommune, 'Feil i '+kommune_navn);
+
+      this.kommune_id = kommune_id;
+    } else {this.kommune_id = 0;}
 
     this.maks = this.ymse[this.menyID.value].resultat.maks;
     this.large = this.ymse[this.menyID.value].resultat.large;
