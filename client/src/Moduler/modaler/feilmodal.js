@@ -5,14 +5,43 @@ import { ShowMarkerMap } from '../kart/map';
 import { feilService } from '../../services/feilService';
 import { AbonnerKnapp } from '../abonner/abonner';
 
+/**
+ * En pop-up boks som viser informasjon om en feil
+ * @reactProps {boolean} open - Bestemmer om boksen skal være åpen eller ikke
+ * @reactProps {Object} feil - Et objekt som inneholder informasjon om en feil
+ * @reactProps {?function()} onClose - Event som kjører når boksen lukkes
+ * @reactProps {boolean} abonner - Om abonner-knapp skal vises eller ikke
+ * @reactProps {boolean} aksepter - Om Godta/Avslå knapper skal vises eller ikke
+ * @reactProps {?function(feil_id: number)} godtaJobb - Event som kjører når brukeren godtar en jobb
+ * @reactProps {?function(feil_id: number)} avslaJobb - Event som kjører når brukere avslår en jobb
+ */
 export class FeilModal extends Component {
+  /** 
+   * Om boksen skal vises eller ikke 
+   * @type {boolean} */
   open = false;
+
+  /** 
+   * Liste med url-er til bildene
+   * @type {Object[]} */
   bilderTilFeil = [];
+
+  /** 
+   * Liste med oppdateringer
+   * @type {Object[]} */
   oppTilFeil = [];
 
+  /** 
+   * Om bilde skal vises eller ikke
+   * @type {boolean} */
   bildeOpen = false;
+
+  /** 
+   * Url til bilde som skal vises
+   * @type {string} */
   bildeModal = "";
 
+  /** @ignore */
   async mounted() {
     this.open = this.props.open;
     if (this.open) {

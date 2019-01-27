@@ -6,9 +6,22 @@ import { AbonnerKnapp } from '../abonner/abonner';
 import { KommuneInput } from '../kommuneInput/kommuneInput';
 import { brukerService } from '../../services/brukerService';
 
+/**
+ * En pop-up boks som lar en administrator endre kontoinstillingene til en hvilken som helst bruker.
+ * @reactProps {boolean} open - Bestemmer om boksen skal være åpen eller ikke
+ * @reactProps {Object} bruker - Et objekt som inneholder all informasjon om en bruker
+ * @reactProps {?function()} onClose - Event som kjører når boksen lukkes
+ * @reactProps {?function()} onLagre - Event som kjører når informasjonen om brukeren oppdateres
+ */
 export class EndreBrukerModal extends Component {
+  /** 
+   * Om boksen skal vises eller ikke 
+   * @type {boolean} */
   open = false;
 
+  /** 
+   * All informasjon om brukeren
+   * @type {Object} */
   bruker = {
     admin: 0,
     adtlf: '',
@@ -30,8 +43,12 @@ export class EndreBrukerModal extends Component {
     privat: 0,
   };
 
+  /** 
+   * Om modulen jobber med å lagre eller slette
+   * @type {boolean} */
   laster = false;
-
+  
+  /** @ignore */
   async mounted() {
     this.open = this.props.open;
     this.bruker = this.props.bruker;
@@ -39,17 +56,20 @@ export class EndreBrukerModal extends Component {
     this.laster = false;
   }
 
+  /** @ignore */
   rediger(e, a) {
     if (a.type == "checkbox") this.bruker[a.name] = !a.checked;
     else this.bruker[a.name] = a.value;
   }
 
+  /** @ignore */
   async lagre() {
     this.laster = true;
     let res = await brukerService.oppdaterSpesifisertBrukerAdmin(this.bruker);
     Promise.resolve(res.data).then(() => {this.props.onLagre(); this.props.onClose(); this.laster=false;});
   }
 
+  /** @ignore */
   async slett() {
     this.laster = true;
     let res = await brukerService.slettBruker(this.bruker.bruker_id);

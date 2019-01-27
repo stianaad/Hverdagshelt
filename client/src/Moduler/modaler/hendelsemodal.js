@@ -4,9 +4,20 @@ import { Card, Grid, Modal, Input, List, Image, Button } from 'semantic-ui-react
 import { hendelseService } from '../../services/hendelseService';
 import { AbonnerKnapp } from '../abonner/abonner';
 
+/**
+ * En pop-up boks som viser informasjon om en hendelse
+ * @reactProps {boolean} open - Bestemmer om boksen skal være åpen eller ikke
+ * @reactProps {Object} hendelse - Et objekt som inneholder informasjon om en hendelse
+ * @reactProps {?function()} onClose - Event som kjører når boksen lukkes
+ * @reactProps {boolean} abonner - Om abonner-knapp skal vises eller ikke
+ */
 export class HendelseModal extends Component {
+    /** 
+     * Om boksen skal vises eller ikke 
+     * @type {boolean} */
     open = false;
 
+    /** @ignore */
     async mounted() {
         this.open = this.props.open;
       }

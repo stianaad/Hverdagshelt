@@ -3,21 +3,37 @@ import { Component } from 'react-simplified';
 import { brukerService } from '../../services/brukerService';
 import { Modal, Button } from 'semantic-ui-react';
 
+/**
+ * En pop-up boks som lar brukeren endre passord
+ * @reactProps {boolean} open - Bestemmer om boksen skal være åpen eller ikke
+ * @reactProps {?function()} onClose - Event som kjører når boksen lukkes
+ */
 export class EndrePassordModal extends Component {
+  /** 
+   * Om boksen skal vises eller ikke 
+   * @type {boolean} */
   open = false;
 
+  /** 
+   * Tekst som vises når brukeren har skrevet noe ugyldig
+   * @type {string} */
   advarsel = '';
 
+  /** 
+   * Objekt som inneholder informasjonen fra input-feltene
+   * @type {Object} */
   passord = {
     gammeltPass: '',
     nyttPass: '',
     nyttPassSjekk: '',
   }
 
+  /** @ignore */
   async mounted() {
     this.open = this.props.open;
   }
 
+  /** @ignore */
   async lagrePass() {
     if (this.passord.nyttPass.length < 8 || this.passord.nyttPass !== this.passord.nyttPassSjekk) {
       this.advarsel = 'Feil ved innsending. Nytt passord må være 8 tegn langt og passordene må være like.';
@@ -32,6 +48,7 @@ export class EndrePassordModal extends Component {
     }
   }
 
+  /** @ignore */
   endrePassVerdi(e) {
     const target = e.target;
     const value = target.type === 'checkbox' ? (target.checked ? 1 : 0) : target.value;
