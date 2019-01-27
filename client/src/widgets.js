@@ -7,6 +7,11 @@ import L from 'leaflet';
 import {FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
 import ReactDOMServer from 'react-dom/server';
 
+/**
+ * En rød knapp
+ * @reactProps {!function()} onClick - onClick funksjon må sendes som prop dersom man vil at knappen skal gjøre noe
+ * @reactProps {React.Component[]} children 
+ */
 export class RodKnapp extends Component {
   render() {
     return (
@@ -17,6 +22,11 @@ export class RodKnapp extends Component {
   }
 }
 
+/**
+ * En grønn knapp
+ * @reactProps {!function()} onClick - onClick funksjon må sendes som prop dersom man vil at knappen skal gjøre noe
+ * @reactProps {React.Component[]} children 
+ */
 export class GronnKnapp extends Component {
   render() {
     return (
