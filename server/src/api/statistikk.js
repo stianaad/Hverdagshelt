@@ -41,7 +41,7 @@ router.get('/api/statistikk/feil/fylke/:fylke_navn', (req, res) => {
     res.json(data);
   });
 });
-
+/*
 router.get('/api/statistikk/feil/hovedkategorier/:kategorinavn', (req, res) => {
   statistikkDao.hentFeilPaaHovekategori(req.params.kategorinavn, (status, data) => {
     res.status(status);
@@ -55,7 +55,7 @@ router.get('/api/statistikk/feil/subkategorier/:kategorinavn', (req, res) => {
     res.json(data);
   });
 });
-
+*/
 router.get('/api/statistikk/feil/registrert/:intervall', (req, res) => {
   statistikkDao.hentRegistrerteFeilPaaIntervall(req.params.intervall, (status, data) => {
     res.status(status);

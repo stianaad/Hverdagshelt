@@ -40,7 +40,7 @@ export class AdminMeny extends Component {
                 to={'/admin/' + (this.props.kommune && this.props.kommune.kommune_navn.toLowerCase()) + '/godkjent'}
               />
               <Menu.Item
-                name='Under arbeid'
+                name='Under behandling'
                 as={NavLink}
                 to={'/admin/' + (this.props.kommune && this.props.kommune.kommune_navn.toLowerCase()) + '/underbehandling'}
               />

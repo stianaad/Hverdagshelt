@@ -141,14 +141,6 @@ const routes = () => {
               ]
             : null}
 
-          {/*legg test-routes under*/}
-          <Route exact path="/ansattest" component={NyeFeil} history={history} />
-          <Route exact path="/ferdigtest" component={AnsattFerdig} history={history}/>
-          <Route exact path="/nyhendelsetest" component={NyHendelse} history={history}/>
-          <Route exact path="/bedriftsoppgaver" component={Bedrift} history={history} />
-
-          <Route exact path="/statistikk" component={Statistikk} history={history} />
-
           {/*Siden eksisterer ikke/ingen tilgang*/}
           <Route component={FireNullFire} history={history} />
         </Switch>

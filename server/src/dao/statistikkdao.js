@@ -39,7 +39,7 @@ module.exports = class StatistikkDao extends Dao {
    */
   hentFeilPaaKommune(kommune_id, callback) {
     super.query(
-      'SELECT COUNT(*) as antall FROM feil WHERE feil.kommune_id = ?', [kommune_id], callback
+      'SELECT kommuner.kommune_navn as navn, COUNT(*) as antall FROM feil INNER JOIN kommuner ON feil.kommune_id = kommuner.kommune_id WHERE feil.kommune_id = ?', [kommune_id], callback
     );
   }
 
@@ -85,7 +85,7 @@ module.exports = class StatistikkDao extends Dao {
    */
   hentRegistrerteFeilPaaIntervall(intervall, callback) {
     super.query(
-      'SELECT COUNT(DISTINCT feil.feil_id) as antall FROM feil JOIN oppdatering ON feil.feil_id = oppdatering.feil_id WHERE oppdatering.status_id = 1 AND oppdatering.tid > CURRENT_TIMESTAMP - INTERVAL ? day', [intervall], callback
+      "SELECT 'Antall' as navn, COUNT(DISTINCT feil.feil_id) as antall FROM feil JOIN oppdatering ON feil.feil_id = oppdatering.feil_id WHERE oppdatering.status_id = 1 AND oppdatering.tid > CURRENT_TIMESTAMP - INTERVAL ? day", [intervall, intervall], callback
     );
   }
 
@@ -96,7 +96,7 @@ module.exports = class StatistikkDao extends Dao {
    */
   hentBehandledeFeilPaaIntervall(intervall, callback) {
     super.query(
-      'SELECT COUNT(DISTINCT feil.feil_id) as antall FROM feil JOIN oppdatering ON feil.feil_id = oppdatering.feil_id WHERE oppdatering.status_id > 1 AND oppdatering.tid > CURRENT_TIMESTAMP - INTERVAL ? day', [intervall], callback
+      "SELECT 'Antall' as navn, COUNT(DISTINCT feil.feil_id) as antall FROM feil JOIN oppdatering ON feil.feil_id = oppdatering.feil_id WHERE oppdatering.status_id > 1 AND oppdatering.tid > CURRENT_TIMESTAMP - INTERVAL ? day", [intervall], callback
     );
   }
 
@@ -138,7 +138,7 @@ module.exports = class StatistikkDao extends Dao {
    */
   hentFeilPerSubkategoriPaaIntervall(intervall, callback) {
     super.query(
-      'SELECT subkategori.kategorinavn, COUNT(*) as antall FROM feil JOIN oppdatering ON feil.feil_id = oppdatering.feil_id JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id WHERE oppdatering.tid > CURRENT_TIMESTAMP - INTERVAL 1 day GROUP BY subkategori.kategorinavn ORDER BY subkategori.kategorinavn ASC', [intervall], callback
+      'SELECT subkategori.kategorinavn as navn, COUNT(*) as antall FROM feil JOIN oppdatering ON feil.feil_id = oppdatering.feil_id JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id WHERE oppdatering.tid > CURRENT_TIMESTAMP - INTERVAL 1 day GROUP BY subkategori.kategorinavn ORDER BY subkategori.kategorinavn ASC', [intervall], callback
     );
   }
 
@@ -160,7 +160,7 @@ module.exports = class StatistikkDao extends Dao {
    */
   hentFeilPerHovedkategoriPaaIntervall(intervall, callback) {
     super.query(
-      'SELECT hovedkategori.kategorinavn, COUNT(DISTINCT feil.feil_id) as antall FROM feil JOIN oppdatering ON feil.feil_id = oppdatering.feil_id JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id JOIN hovedkategori ON subkategori.hovedkategori_id = hovedkategori.hovedkategori_id WHERE oppdatering.tid > CURRENT_TIMESTAMP - INTERVAL ? day GROUP BY hovedkategori.kategorinavn ORDER BY hovedkategori.kategorinavn', [intervall], callback
+      'SELECT hovedkategori.kategorinavn as navn, COUNT(DISTINCT feil.feil_id) as antall FROM feil JOIN oppdatering ON feil.feil_id = oppdatering.feil_id JOIN subkategori ON feil.subkategori_id = subkategori.subkategori_id JOIN hovedkategori ON subkategori.hovedkategori_id = hovedkategori.hovedkategori_id WHERE oppdatering.tid > CURRENT_TIMESTAMP - INTERVAL ? day GROUP BY hovedkategori.kategorinavn ORDER BY hovedkategori.kategorinavn', [intervall], callback
     );
   }
 
@@ -173,7 +173,7 @@ module.exports = class StatistikkDao extends Dao {
    */
   hentFeilPerFylkePaaIntervall(intervall, callback) {
     super.query(
-      'SELECT kommuner.fylke_navn, COUNT(DISTINCT feil.feil_id) as antall FROM feil JOIN kommuner ON feil.kommune_id = kommuner.kommune_id JOIN oppdatering ON feil.feil_id = oppdatering.feil_id WHERE oppdatering.tid > CURRENT_TIMESTAMP - INTERVAL ? day GROUP BY kommuner.fylke_navn ORDER BY kommuner.fylke_navn ASC', [intervall], callback
+      'SELECT kommuner.fylke_navn as navn, COUNT(DISTINCT feil.feil_id) as antall FROM feil JOIN kommuner ON feil.kommune_id = kommuner.kommune_id JOIN oppdatering ON feil.feil_id = oppdatering.feil_id WHERE oppdatering.tid > CURRENT_TIMESTAMP - INTERVAL ? day GROUP BY kommuner.fylke_navn ORDER BY kommuner.fylke_navn ASC', [intervall], callback
     );
   }
 
@@ -186,7 +186,7 @@ module.exports = class StatistikkDao extends Dao {
    */
   hentFeilPerKommunePaaIntervall(intervall, callback) {
     super.query(
-      'SELECT kommuner.kommune_navn, COUNT(DISTINCT feil.feil_id) as antall FROM feil JOIN kommuner ON feil.kommune_id = kommuner.kommune_id JOIN oppdatering ON feil.feil_id = oppdatering.feil_id WHERE oppdatering.tid > CURRENT_TIMESTAMP - INTERVAL ? day GROUP BY kommuner.kommune_navn ORDER BY kommuner.kommune_navn ASC', [intervall], callback
+      'SELECT kommuner.kommune_navn as navn, COUNT(DISTINCT feil.feil_id) as antall FROM feil JOIN kommuner ON feil.kommune_id = kommuner.kommune_id JOIN oppdatering ON feil.feil_id = oppdatering.feil_id WHERE oppdatering.tid > CURRENT_TIMESTAMP - INTERVAL ? day GROUP BY kommuner.kommune_navn ORDER BY kommuner.kommune_navn ASC', [intervall], callback
     );
   }
 
@@ -198,7 +198,7 @@ module.exports = class StatistikkDao extends Dao {
    */
   hentFeilPaaStatus(status_id, callback) {
     super.query(
-      'SELECT COUNT(DISTINCT feil.feil_id) as antall FROM feil JOIN oppdatering ON feil.feil_id = oppdatering.feil_id WHERE oppdatering.status_id = ?', [status_id], callback
+      'SELECT status.status as navn, COUNT(DISTINCT feil.feil_id) as antall FROM feil JOIN oppdatering ON feil.feil_id = oppdatering.feil_id JOIN status ON oppdatering.status_id = status.status_id WHERE oppdatering.status_id = ?', [status_id], callback
     );
   }
 }
