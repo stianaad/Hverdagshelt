@@ -14,7 +14,12 @@ const transporter = nodemailer.createTransport({
 });
 
 module.exports = class epost {
-  //Melding om innsendt feil
+
+  /**
+   * Sender bekreftelse til en bruker at feilen er innsendt.
+   * @param {number} feil_id - Iden til feilen som er meldt inn.
+   * @param {string} mottaker - Eposten til brukeren som sendte inn feilen.
+   */
   innsendtFeil(feil_id, mottaker) {
     let subject = 'Melding av feil';
     let html =
@@ -41,7 +46,11 @@ module.exports = class epost {
     });
   }
 
-  //Response på en innlagt feil med saksnummer og bekreftelse på at den er registrert
+  /**
+   * Response på en innlagt feil med saksnummer og bekreftelse på at den er registrert.
+   * @param {number} saksnummer - Iden til saksnummer til feilen som er meldt inn.
+   * @param {string} mottaker - Eposten til brukeren som sendte inn feilen.
+   */
   feilGodkjent(saksnummer, mottaker) {
     let subject = 'Melding av feil';
     let html =
@@ -67,7 +76,12 @@ module.exports = class epost {
       }
     });
   }
-  //Melding om feil ble ikke godkjent av administrasjonen
+
+  /**
+   * Melding om feil ble ikke godkjent av administrasjonen.
+   * @param {string} begrunnelse - Begrunnelsen til hvorfor en meldt inn feil ikke ble godkjent.
+   * @param {string} mottaker - Eposten til brukeren som sendte inn feilen.
+   */
   feilIkkeGodkjent(begrunnelse, mottaker) {
     let subject = 'Melding av feil';
     let html =
@@ -93,7 +107,12 @@ module.exports = class epost {
     });
   }
 
-  //Oppdatering underveis av utbedring av meldt feil. Legge til bilder?
+  /**
+   * Oppdatering underveis av utbedring av meldt feil.
+   * @param {number} saksnummer - Saksnummer er iden til feilen.
+   * @param {string} status - Status sier hvor langt feilen har kommet i behandling.
+   * @param {string} mottaker - Eposten til brukeren.
+   */
   feilStatusOppdatering(saksnummer, status, mottaker) {
     let subject = 'Statusoppdatering av feil';
     let html =
@@ -121,7 +140,11 @@ module.exports = class epost {
     });
   }
 
-  //E-post om at brukerregistreringen lykkes
+  /**
+   * E-post om at brukerregistreringen lykkes.
+   * @param {string} brukernavn - Brukernavnet til brukeren som har blitt registrert.
+   * @param {string} mottaker - Eposten til brukeren.
+   */
   registreringsBekreftelse(brukernavn, mottaker) {
     let subject = 'Brukerregistrering';
     let html =
@@ -149,7 +172,11 @@ module.exports = class epost {
     });
   }
 
-  //E-post med nytt passord etter brukeren ba om nytt
+  /**
+   * E-post med nytt passord etter brukeren ba om nytt.
+   * @param {string} brukernavn - Det nye passordet.
+   * @param {string} mottaker - Eposten til brukeren.
+   */
   nyttPassord(passord, mottaker) {
     let subject = 'Endring av passord';
     let html =
@@ -176,7 +203,11 @@ module.exports = class epost {
     });
   }
 
-  //E-post med link til å lage nytt passord pga glemt passord
+  /**
+   * E-post med link til å lage nytt passord pga glemt passord.
+   * @param {string} brukerMail - Epost til bruker.
+   * @param {string} link - Lenken.
+   */
   glemtPassord(brukerMail, link) {
     let subject = 'Glemt passord';
 
@@ -205,7 +236,11 @@ module.exports = class epost {
     });
   }
 
-  // Resatt passord
+  /**
+   * E-post med link og beskjed at passordet har blit resatt.
+   * @param {string} brukerMail - Epost til bruker.
+   * @param {string} link - Lenken.
+   */
   resattPassord(brukerMail, link) {
     let subject = 'Passordet er resatt';
 
@@ -234,7 +269,15 @@ module.exports = class epost {
     });
   }
 
-  //Sender ut hendelse til alle i området
+  /**
+   *Sender ut hendelse til alle i området.
+   * @param {string} overskrift - Overskrift på hendelsen.
+   * @param {string} tid - Tidspunktet til hendelsen.
+   * @param {string} beskrivelse - Beskrivelse til hendelsen.
+   * @param {string} sted - Hvor hendelsen skjer.
+   * @param {string} bilde - Bilder relatert til hendelsen.
+   * @param {string} eposter - Epostene til alle som er i området.
+   */
   hendelse(overskrift, tid, beskrivelse, sted, bilde, eposter) {
     let subject = overskrift;
     let html =
