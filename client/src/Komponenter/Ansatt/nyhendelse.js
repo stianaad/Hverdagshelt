@@ -140,12 +140,12 @@ export class NyHendelse extends Component {
       xhr.setRequestHeader("x-access-token", 'Bearer ' + token)
       xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-          this.props.history.push('/');
+          this.props.history.push('/ansatt/hendelser');
         }
       };
       xhr.send(formData);
     } else {
-      global.sidePush("/", true);
+      global.sidePush("/ansatt/hendelser", true);
     }
   }
 

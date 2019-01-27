@@ -187,6 +187,7 @@ export class AnsattHendelser extends Component {
                 <Button onClick={this.lagre} color="green">
                   Lagre
                 </Button>
+                <Popup trigger={<Button onClick={this.slett} color="red">Slett</Button>} content="Trykk her for å slette hendelsen"/>
               </div>
             </div>
           </Modal.Content>
@@ -227,6 +228,12 @@ export class AnsattHendelser extends Component {
     } else {
       global.sidePush('/', true);
     }
+  }
+
+  async slett(){
+    let res = await hendelseService.slettHendelse(this.valgtHendelse.hendelse_id);
+    await global.sidePush('/ansatt/hendelser',true);
+    this.open = false; 
   }
 
   async mounted() {
