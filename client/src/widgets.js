@@ -10,7 +10,7 @@ import ReactDOMServer from 'react-dom/server';
 /**
  * En rød knapp
  * @reactProps {!function()} onClick - onClick funksjon må sendes som prop dersom man vil at knappen skal gjøre noe
- * @reactProps {React.Component[]} children 
+ * @reactProps {React.Component[]} children
  */
 export class RodKnapp extends Component {
   render() {
@@ -25,7 +25,7 @@ export class RodKnapp extends Component {
 /**
  * En grønn knapp
  * @reactProps {!function()} onClick - onClick funksjon må sendes som prop dersom man vil at knappen skal gjøre noe
- * @reactProps {React.Component[]} children 
+ * @reactProps {React.Component[]} children
  */
 export class GronnKnapp extends Component {
   render() {
@@ -37,6 +37,15 @@ export class GronnKnapp extends Component {
   }
 }
 
+/**
+ * En bargraf
+ * @reactProps {string} text - Overskriften til grafen.
+ * @reactProps {string} label - Tekst som kommer opp når en har pilen over en bar på grafen.
+ * @reactProps {number} maks - Største verdien på y-aksen.
+ * @reactProps {string} elemntID - Unik id for hver grafdiv.
+ * @reactProps {string} labels - Teksten som blir vist på x-aksen til grafen.
+ * @reactProps {number} data - Tallene som blir plassert på y-aksen til grafen.
+ */
 export class StatBar extends Component <{text: string, label: string, maks: number, elementID: string, labels: string, data: number}> {
 
   render() {
