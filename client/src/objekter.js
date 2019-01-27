@@ -325,6 +325,7 @@ export class Oppdatering {
   }
 }
 
+/**@ignore */
 export class Hendelseskategori {
   constructor(hendelseskategori_id, kategorinavn) {
     this.hendelseskategori_id = hendelseskategori_id;
@@ -332,7 +333,22 @@ export class Hendelseskategori {
   }
 }
 
+/**
+ * Dataobjekt for hendelser
+ */
 export class Hendelse {
+  /**
+   * @param {number} hendelse_id 
+   * @param {number} bruker_id 
+   * @param {number} hendelseskategori_id 
+   * @param {string} overskrift 
+   * @param {string} tid 
+   * @param {string} beskrivelse 
+   * @param {string} sted 
+   * @param {string} bilde 
+   * @param {?number} lengdegrad 
+   * @param {?number} breddegrad 
+   */
   constructor(
     hendelse_id,
     bruker_id,
@@ -345,15 +361,48 @@ export class Hendelse {
     lengdegrad,
     breddegrad
   ) {
+    /**
+     * @type {number}
+     */
     this.hendelse_id = hendelse_id;
+    /**
+     * @type {number}
+     */
     this.bruker_id = bruker_id;
+    /**
+     * @type {number}
+     */
     this.hendelseskategori_id = hendelseskategori_id;
+    /**
+     * @type {string}
+     */
     this.overskrift = overskrift;
+    /**
+     * @type {string}
+     */
     this.tid = tid;
+    /**
+     * @type {string}
+     */
     this.beskrivelse = beskrivelse;
+    /**
+     * @type {string}
+     */
     this.sted = sted;
+    /**
+     * URL til bilde
+     * @type {string}
+     */
     this.bilde = bilde;
+    /**
+     * Blir ikke brukt, men er her for fremtidig utvikling
+     * @type {number}
+     */
     this.lengdegrad = lengdegrad;
+    /**
+     * Blir ikke brukt, men er her for fremtidig utvikling
+     * @type {number}
+     */
     this.breddegrad = breddegrad;
   }
 }
