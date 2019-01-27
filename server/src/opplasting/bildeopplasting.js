@@ -2,7 +2,15 @@ import client from 'ssh2-sftp-client';
 import fs from 'fs';
 const EKSTERN_URL = 'https://bjornost.tihlde.org/hverdagshelt/';
 
+/**
+ * Klasse for håndtering av bildeopplasting
+ */
 module.exports = class BildeOpplasting {
+  /**
+   * 
+   * @param {Object[]} filer - Express filobjekter som lastes opp på en tihlde server
+   * @param {function(lenker: string[])} cb - Callback for å sende lenkene til de opplastede bildene
+   */
   lastOpp(filer, cb) {
     let lenker = [];
     let sftp = new client();

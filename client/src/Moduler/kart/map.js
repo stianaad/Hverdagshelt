@@ -66,15 +66,24 @@ class PopupContent extends Component {
  * myMarker.addTo(map);
  */
 export class Marker {
+  /**
+   * Selve markerobjektet
+   * @type {L.Marker}
+   */
   marker = L.marker();
+  /**@ignore */
   hoverPopup = L.popup({maxWidth: 800}).setContent('<p>Hover popup</p>');
+  /**@ignore */
   clickPopup = L.popup().setContent('<p>Click popup</p>');
+  /**@ignore */
   mouseover = (e) => {
     this.marker.bindPopup(this.hoverPopup).openPopup();
   };
+  /**@ignore */
   mouseout = (e) => {
     this.marker.closePopup().unbindPopup();
   };
+  /**@ignore */
   markerclick = (e) => {
     this.marker.closePopup().unbindPopup();
     this.marker.removeEventListener('mouseout');
@@ -85,6 +94,10 @@ export class Marker {
    * @param {!boolean} popup - Boolean verdi som bestemmer om markeren skal ha popup på hover event.
    */
   constructor(feil, popup) {
+    /**
+     * Boolean verdi som bestemmer om markeren skal ha popup dersom man trykker på den
+     * @type {boolean}
+     */
     this.popup = popup;
     let iconName =
       feil.status == 0
@@ -142,10 +155,18 @@ export class Marker {
     }
   }
 
+  /**
+   * Funksjon for å legge til en marker til et kart
+   * @param {L.Map} map 
+   */
   addTo(map) {
     this.marker.addTo(map);
   }
 
+  /**
+   * For å endre feilen en marker skal representere
+   * @param {Feil} feil 
+   */
   updateMarker(feil) {
     let iconName =
       feil.status == 0
@@ -219,13 +240,23 @@ export class Marker {
  * <MarkerMap width="1000px" height="500px" id="map3" markers={myMarkers} center="Trondheim,Trøndelag" onRef={ref => (this.kart = ref)}/>
  */
 export class MarkerMap extends Component {
+  /**
+   * Leaflet kart objekt
+   * @type {L.Map}
+   */
   map = null;
+  /**
+   * Boolean som viser om kartet er lastet inn eller ikke
+   * @type {boolean}
+   * @default false
+   */
   loaded = false;
+  /**@ignore */
   componentDidMount() {
     this.props.onRef(this);
 
     let m = this.props.markers;
-
+    /**@ignore */
     let coords, map;
 
     fetch('https://nominatim.openstreetmap.org/?format=json&q=' + this.props.center + ' Norway&limit=1', {
@@ -261,18 +292,21 @@ export class MarkerMap extends Component {
                 }*/
       });
   }
-
+  /**@ignore */
   componentWillUnmount() {
     this.props.onRef(null);
   }
-
+  /**
+   * Tar inn tabell med Marker og viser de på kartet
+   * @param {Feil[]} feil 
+   */
   addMarkers(feil) {
     let marks = markerTabell(feil, true);
     for (let m of marks) {
       m.marker.addTo(this.map);
     }
   }
-
+  /**@ignore */
   flyttKart(bredde, lengde) {
     this.map.setView(L.latLng(bredde, lengde), 15);
   }
@@ -293,10 +327,23 @@ export class MarkerMap extends Component {
  * <ShowMarkerMap width="50%" height="400px" id="visfeilkart" feil={this.feil} />
  */
 export class ShowMarkerMap extends Component {
+  /**
+   * Leaflet kart objekt
+   * @type {L.Map}
+   */
   map = null;
+  /**
+   * Feilobjekt som skal vises på kartet
+   * @type {Feil}
+   */
   f = this.props.feil;
+  /**
+   * Markerobjekt som skal representere feilen på kartet
+   * @type {L.Marker}
+   */
   m = null;
 
+  /**@ignore */
   componentDidMount() {
     this.map = L.map(this.props.id, {
       center: L.latLng(this.f.breddegrad, this.f.lengdegrad),
@@ -313,7 +360,10 @@ export class ShowMarkerMap extends Component {
     this.m = new Marker(this.f, false);
     this.m.marker.addTo(this.map);
   }
-
+  /**
+   * Oppdaterer kartet slik at en annen feil vises
+   * @param {Feil} newFeil 
+   */
   updateMap(newFeil) {
     this.map = L.map(this.props.id, {
       center: L.latLng(this.f.breddegrad, this.f.lengdegrad),
@@ -330,7 +380,7 @@ export class ShowMarkerMap extends Component {
     this.m = new Marker(this.f).removePopup();
     this.m.marker.addTo(this.map);
   }
-
+  /**@ignore */
   shouldComponentUpdate(next) {
     let center = this.map.getCenter();
     if (center.lat != next.feil.breddegrad && center.lng != next.feil.lengdegrad) {
@@ -360,9 +410,20 @@ export class ShowMarkerMap extends Component {
  * <PositionMap width="50%" height="500px" id="posmap" center="Oslo" position={this.posFunksjon}/>
  */
 export class PositionMap extends Component {
+  /**
+   * Leaflet kartobjekt
+   * @type {L.Map}
+   */
   map = null;
+  /**
+   * Marker som skal flyttes på for å hente posisjon
+   * @type {L.Marker}
+   */
   marker = null;
 
+  /**
+   * Funksjon som finner posisjonen til en bruker
+   */
   locateMe() {
     navigator.geolocation.getCurrentPosition((pos) => {
       //alert(pos.coords.latitude+":"+pos.coords.longitude);
@@ -380,6 +441,7 @@ export class PositionMap extends Component {
     });
   }
 
+  /**@ignore */
   clicked(e) {
     if (this.marker == undefined) {
       this.marker = L.marker(e.latlng, {
@@ -390,7 +452,7 @@ export class PositionMap extends Component {
     }
     this.props.position(this.marker.getLatLng());
   }
-
+  /**@ignore */
   componentDidMount() {
     let coords, map;
     fetch('https://nominatim.openstreetmap.org/?format=json&q=' + this.props.center + ' Norway&limit=1', {
