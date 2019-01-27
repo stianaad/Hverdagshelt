@@ -139,6 +139,7 @@ router.delete('/api/hendelser/:hendelse_id', checkToken, (req, res) => {
 		hendelseDao.slettHendelse(req.params.hendelse_id, (status, data) => {
 			console.log('Slettet en hendelse');
 			res.status(status);
+			res.json({result: true});
 		});
 	} else {
 		res.status(403);

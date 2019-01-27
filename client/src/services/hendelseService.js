@@ -17,8 +17,13 @@ class HendelseService {
     return api.put('/api/hendelser/:hendelse_id', oppdatertHendelse);
   }
 
-  slettHendelse(hendelse) {
-    return api.delete('/api/hendelser/:hendelse_id', hendelse);
+  slettHendelse(hendelse_id) {
+    let token = sessionStorage.getItem('pollett');
+    if(token) {
+      return api.delete('/api/hendelser/'+hendelse_id, {headers: {'x-access-token': 'Bearer ' + token}});
+    } else {
+      return null;
+    }
   }
 
   slettHendelseKategori(hendelse_id){
