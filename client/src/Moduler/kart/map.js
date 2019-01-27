@@ -66,15 +66,24 @@ class PopupContent extends Component {
  * myMarker.addTo(map);
  */
 export class Marker {
+  /**
+   * Selve markerobjektet
+   * @type {L.Marker}
+   */
   marker = L.marker();
+  /**@ignore */
   hoverPopup = L.popup({maxWidth: 800}).setContent('<p>Hover popup</p>');
+  /**@ignore */
   clickPopup = L.popup().setContent('<p>Click popup</p>');
+  /**@ignore */
   mouseover = (e) => {
     this.marker.bindPopup(this.hoverPopup).openPopup();
   };
+  /**@ignore */
   mouseout = (e) => {
     this.marker.closePopup().unbindPopup();
   };
+  /**@ignore */
   markerclick = (e) => {
     this.marker.closePopup().unbindPopup();
     this.marker.removeEventListener('mouseout');
@@ -85,6 +94,10 @@ export class Marker {
    * @param {!boolean} popup - Boolean verdi som bestemmer om markeren skal ha popup på hover event.
    */
   constructor(feil, popup) {
+    /**
+     * Boolean verdi som bestemmer om markeren skal ha popup dersom man trykker på den
+     * @type {boolean}
+     */
     this.popup = popup;
     let iconName =
       feil.status == 0
@@ -142,10 +155,18 @@ export class Marker {
     }
   }
 
+  /**
+   * Funksjon for å legge til en marker til et kart
+   * @param {L.Map} map 
+   */
   addTo(map) {
     this.marker.addTo(map);
   }
 
+  /**
+   * For å endre feilen en marker skal representere
+   * @param {Feil} feil 
+   */
   updateMarker(feil) {
     let iconName =
       feil.status == 0
