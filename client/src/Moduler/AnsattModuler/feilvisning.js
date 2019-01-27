@@ -6,33 +6,102 @@ import { feilService } from '../../services/feilService';
 import { RedigerModal } from './redigerModal';
 import { InfoBoks } from '../info/info';
 
-
+/**
+ * Card som viser informasjon om en feil. Blir brukt av ansatt for å se informasjon om feil som er 'Under behandling' eller 'Ferdig'.
+ * @reactProps {Object} feil - den feilen man ønsker å se
+ * @reactProps {Object[]} bilder - bildene som tilhører den feilen man åpner.
+ * @reactProps {function()} lukk - Det som skal gjøres når vinduet lukkes. 
+ * @reactProps {function()} opp - oppdateringer som hører til en feil. 
+ */
 export class FeilVisning extends Component {
+    /**
+     * Alle statuser en feil kan ha
+     * @type {string[]}
+     */
     statuser = [];
+
+    /**
+     * Bildene som tilhører en feil
+     * @type {Object[]}
+     */
     bilderTilFeil = [];
+
+    /**
+     * Om oppdateringsmuligheten skal vises (kan ikke gjøres om den er sendt til bedrift)
+     * @type {boolean}
+     * @default true
+     */
     visOppdater = true;
+
+    /**
+     * Statusen som velges fra dropdown menyen
+     * @type {Object}
+     * @property {number} status_id iden til statusen
+     * @property {string} status navnet på statusen
+     */
     valgtStatus = {
         status_id: '',
         status: this.props.feil.status
     }
+    /**
+     * Kommentaren som hører til oppdateringen
+     * @type {string}
+     */
     kommentar = '';
+
+    /**
+     * Linken til bildet man ønsker å åpne større
+     * @type {string}
+     */
     valgtBilde = "";
-    bildeApen = false; 
-    redigerModal = false; 
+
+    /**
+     * Om bildet er åpnet stort eller ikke. 
+     * @type {boolean}
+     * @default false
+     */
+    bildeApen = false;
+    
+    /**
+     * Om redigeringsvinduet skal være åpent
+     * @type {boolean}
+     * @default false
+     */
+    redigerModal = false;
+    
+    /**
+     * Den feilen det skal vises informasjon om
+     * @type {feil}
+     */
     valgtfeil = ''
 
+    /**
+     * Om feilen er sendt til bedrift, avgjør om statusen kan oppdateres
+     * @type {boolean}
+     * @default false
+     */
     sendtTilBedrift = false; 
 
+    /**
+     * Brukes for å få tak i status_id når en status velges fra menyen
+     * @param {string} status 
+     */
     handterStatuser(status){
         let stat = this.statuser.find(e => (e.status === status));
         this.valgtStatus = {...stat};
     }
 
+    /**
+     * Brukes for å vise et bildet i større format.
+     */
     visBilde(){
         this.valgtBilde = this.props.bilder[0].url; 
         this.visBilde = true; 
     }
 
+    /**
+     * Brukes for å åpne redigeringsvinduet
+     */
     openRedigering(){
         this.redigerModal = true; 
         this.valgtfeil = {...this.props.feil};
@@ -125,6 +194,9 @@ export class FeilVisning extends Component {
         ); 
     }
 
+    /**
+     * Brukes for å laste inn listen over feil på nytt hvis det gjøres endringer. 
+     */
     refresh(){
         this.feilApen = false;
         this.mounted();
@@ -132,6 +204,9 @@ export class FeilVisning extends Component {
         this.props.lukk(this.valgtStatus.status_id);
     }
 
+    /**
+     * Brukes for å sende inn en oppdatering på en feil. 
+     */
     async oppdatering(){
         await feilService.lagOppdatering({
             "feil_id": this.props.feil.feil_id,
@@ -141,12 +216,18 @@ export class FeilVisning extends Component {
         this.props.lukk(this.valgtStatus.status_id);
     }
 
+    /**
+     * Brukes for å slette en feil fra databasen
+     */
     async slett(){
         this.feilApen=false;
         let res = await feilService.slettFeil(this.props.feil.feil_id);
         Promise.resolve(res.data).then(this.props.lukk(this.valgtStatus.status_id));
     }
 
+    /**
+     * Henter ut alle statuser, og setter valgtStatus til feilenes nåværende status.
+     */
     async mounted(){
         let res = await feilService.hentAlleStatuser();
         let alle = await res.data; 

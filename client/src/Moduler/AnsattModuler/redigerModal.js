@@ -5,22 +5,68 @@ import { ShowMarkerMap } from '../kart/map';
 import { feilService } from '../../services/feilService';
 import { AbonnerKnapp } from '../abonner/abonner';
 
+/**
+ * Vinduet som kommer opp når man ønsker å redigere en feil
+ * @reactProps {function()} onClose - Det som skal gjøres når vinduet lukkes. 
+ * @reactProps {?function()} lukk - brukes for å laste inn informasjon på nytt når endringer lagres. 
+ * @reactProps {boolean} open - true: vinduet skal være åpent. 
+ * @reactProp {Object} feil - feilen som skal redigeres. 
+ */
 export class RedigerModal extends Component {
+
+  /**
+   * Skal vinduet være åpent eller ikke
+   * @type {boolean} 
+   * @default false */  
   open = false;
+
+    /**
+     * Bilder som hører til en feil
+     * @type {Object[]}
+     */
   bilderTilFeil = [];
+
+  /**
+   * Oppdateringer som hører til en feil
+   * @type {Object[]}
+   */
   oppTilFeil = [];
 
+  /**
+   * Om et bilde skal være åpent stort eller ikke
+   * @type {boolean}
+   * @default false
+   */
   bildeOpen = false;
+
+  /**
+   * Det bildet man ønsker å se større
+   * @property {number} bilde_id id-en som brukes for å skille bildene fra hverandre i databasen
+   * @property {string} url link til hvor bildet er lagret i serveren. 
+   */
   valgtBilde = {
       bilde_id: '',
       url: ''
   }
 
+  /**
+   * Den feilen man har valgt
+   */
   feil = "";
 
+  /**
+   * Brukes for å lagre en ny overskrift til en feil
+   * @type {string}
+   */
   overskrift = ''; 
+
+  /**
+   * Brukes for å lagre en ny beskrivelse til en feil
+   * @type {string}
+   */
   beskrivelse = '';
 
+  /** @ignore */
   async mounted() {
     this.overskrift = this.props.feil.overskrift; 
     this.beskrivelse = this.props.feil.beskrivelse;
@@ -30,17 +76,20 @@ export class RedigerModal extends Component {
     this.feil = await {...this.props.feil};
   }
 
+  /** @ignore */
   async slett(bilde){
     let res = await feilService.slettBildeFraFeil({bilde_id: bilde.bilde_id, feil_id: this.props.feil.feil_id, kommune_id: this.props.feil.kommune_id});
     await this.mounted();
     this.bildeOpen = await false;
   }
 
+  /** @ignore */
   visBilde(bilde){
     this.valgtBilde = {...bilde};
     this.bildeOpen = true; 
   }
 
+  /** @ignore */
   async lagre(){
     await feilService.oppdaterFeil({
         kommune_id : this.feil.kommune_id, 
