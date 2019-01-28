@@ -78,7 +78,7 @@ export class EndreBrukerModal extends Component {
 
   render() {
     return (
-      <>
+      <React.Fragment>
         {this.open ? (
           <Modal open={true} size="small" centered onClose={this.props.onClose}>
             <Card style={{ width: "100%", height: "100%" }}>
@@ -186,7 +186,7 @@ export class EndreBrukerModal extends Component {
         <Dimmer style={{zIndex:"10000"}} active={this.laster}>
         <Loader />
       </Dimmer>
-      </>
+      </React.Fragment>
     );
   }
 }
